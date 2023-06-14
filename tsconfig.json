@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es5", /* 指定的ECMAScript目标版本. */
+    "module": "commonjs", /* 指定模块化类型 */
+    "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+    "strict": true, /* 使用严格模式 */
+    "outDir": "./dist/", // 构建目录
+    "sourceMap": true, // 是否生成sourceMap（用于浏览器调试）
+    "noImplicitAny": false,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "declaration": true, // 是否生成声明文件
+    "declarationDir": "./dist/", // 声明文件打包的位置
+    "declarationMap": false, // 是否生成声明文件map文件（便于调试）
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "types": [
+      // "node",
+      // "jest"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "lib": [
+      "dom",
+      "es2015"
+    ],
+    "jsx": "react",
+    "allowJs": false
+  },
+  "include": [
+    "package.json",
+    "src/**/*.ts",
+    "plugins/**/*.ts"
+  ], // 要打包的文件
+  "exclude": [
+    "node_modules",
+    "*.test.ts"
+  ]
+}

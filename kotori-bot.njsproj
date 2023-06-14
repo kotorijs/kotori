@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{717413f8-fb05-4d34-95e7-999e2436086d}</ProjectGuid>
+        <ProjectHome>.</ProjectHome>
+        <ProjectView>ShowAllFiles</ProjectView>
+        <StartupFile>main.ts</StartupFile>
+        <WorkingDirectory>.</WorkingDirectory>
+        <OutputPath>.</OutputPath>
+        <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+        <EnableTypeScript>true</EnableTypeScript>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">17.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+    <ItemGroup>
+        <Content Include="jestconfig.json" />
+        <Content Include="package-lock.json" />
+        <Content Include="package.json" />
+        <None Include="tsconfig.json" />
+        <None Include="claude.ts" />
+        <None Include="main.ts" />
+        <None Include="dist\main.d.ts" />
+        <Content Include="go-cqhttp\device.json" />
+        <None Include="plugins\demo.ts" />
+        <None Include="src\app.ts" />
+        <None Include="src\function.ts" />
+        <None Include="src\index.ts" />
+        <None Include="src\plugin.ts" />
+        <None Include="src\process.ts" />
+        <Content Include="data\plugins\claude\conversationId.json" />
+        <None Include="dist\plugins\demo.d.ts" />
+        <None Include="dist\src\app.d.ts" />
+        <None Include="dist\src\function.d.ts" />
+        <None Include="dist\src\index.d.ts" />
+        <None Include="dist\src\plugin.d.ts" />
+        <None Include="dist\src\process.d.ts" />
+        <None Include="dist\plugins\bilibili\index.d.ts" />
+        <None Include="dist\plugins\mcserver\config.d.ts" />
+        <None Include="dist\plugins\mcserver\index.d.ts" />
+        <None Include="dist\plugins\mcserver\wss.d.ts" />
+        <None Include="dist\plugins\seximg\config.d.ts" />
+        <None Include="dist\plugins\seximg\index.d.ts" />
+        <None Include="dist\src\method\api.d.ts" />
+        <None Include="dist\src\method\event.d.ts" />
+        <None Include="dist\src\server\http.d.ts" />
+        <None Include="dist\src\server\index.d.ts" />
+        <None Include="dist\src\server\ws-reverse.d.ts" />
+        <None Include="dist\src\server\ws.d.ts" />
+        <None Include="plugins\bilibili\index.ts" />
+        <Content Include="plugins\claude\manifest.json" />
+        <None Include="plugins\claude\config.ts" />
+        <None Include="plugins\claude\index.ts" />
+        <Content Include="plugins\mcserver\manifest.json" />
+        <None Include="plugins\mcserver\config.ts" />
+        <None Include="plugins\mcserver\index.ts" />
+        <None Include="plugins\mcserver\wss.ts" />
+        <Content Include="plugins\seximg\manifest.json" />
+        <None Include="plugins\seximg\config.ts" />
+        <None Include="plugins\seximg\index.ts" />
+        <None Include="src\method\api.ts" />
+        <None Include="src\method\event.ts" />
+        <None Include="src\server\http.ts" />
+        <None Include="src\server\index.ts" />
+        <None Include="src\server\ws-reverse.ts" />
+        <None Include="src\server\ws.ts" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="data" />
+        <Folder Include="data\plugins" />
+        <Folder Include="data\plugins\claude" />
+        <Folder Include="data\plugins\mcserver" />
+        <Folder Include="dist" />
+        <Folder Include="dist\plugins" />
+        <Folder Include="dist\plugins\bilibili" />
+        <Folder Include="dist\plugins\mcserver" />
+        <Folder Include="dist\plugins\seximg" />
+        <Folder Include="dist\src" />
+        <Folder Include="dist\src\method" />
+        <Folder Include="dist\src\server" />
+        <Folder Include="go-cqhttp" />
+        <Folder Include="go-cqhttp\data" />
+        <Folder Include="go-cqhttp\data\cache" />
+        <Folder Include="go-cqhttp\data\images" />
+        <Folder Include="go-cqhttp\data\images\guild-images" />
+        <Folder Include="go-cqhttp\data\leveldb-v3" />
+        <Folder Include="go-cqhttp\data\versions" />
+        <Folder Include="go-cqhttp\data\videos" />
+        <Folder Include="go-cqhttp\data\voices" />
+        <Folder Include="go-cqhttp\logs" />
+        <Folder Include="kotori-bot" />
+        <Folder Include="kotori-bot\kotori-bot" />
+        <Folder Include="logs" />
+        <Folder Include="plugins" />
+        <Folder Include="plugins\bilibili" />
+        <Folder Include="plugins\claude" />
+        <Folder Include="plugins\mcserver" />
+        <Folder Include="plugins\seximg" />
+        <Folder Include="src" />
+        <Folder Include="src\method" />
+        <Folder Include="src\server" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+    <ProjectExtensions>
+        <VisualStudio>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+            <WebProjectProperties>
+              <UseIIS>False</UseIIS>
+              <AutoAssignPort>True</AutoAssignPort>
+              <DevelopmentServerPort>0</DevelopmentServerPort>
+              <DevelopmentServerVPath>/</DevelopmentServerVPath>
+              <IISUrl>http://localhost:48022/</IISUrl>
+              <NTLMAuthentication>False</NTLMAuthentication>
+              <UseCustomServer>True</UseCustomServer>
+              <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+              <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+            </WebProjectProperties>
+          </FlavorProperties>
+          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+            <WebProjectProperties>
+              <StartPageUrl>
+              </StartPageUrl>
+              <StartAction>CurrentPage</StartAction>
+              <AspNetDebugging>True</AspNetDebugging>
+              <SilverlightDebugging>False</SilverlightDebugging>
+              <NativeDebugging>False</NativeDebugging>
+              <SQLDebugging>False</SQLDebugging>
+              <ExternalProgram>
+              </ExternalProgram>
+              <StartExternalURL>
+              </StartExternalURL>
+              <StartCmdLineArguments>
+              </StartCmdLineArguments>
+              <StartWorkingDirectory>
+              </StartWorkingDirectory>
+              <EnableENC>False</EnableENC>
+              <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+            </WebProjectProperties>
+          </FlavorProperties>
+        </VisualStudio>
+    </ProjectExtensions>
+</Project>
