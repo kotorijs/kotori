@@ -1,0 +1,1 @@
+{"version":3,"file":"config.js","sourceRoot":"","sources":["../../../plugins/claude/config.ts"],"names":[],"mappings":";;AAAA,kBAAe;IACX,GAAG,EAAE;QACD,KAAK,EAAE,iFAAiF;QACxF,GAAG,EAAE,aAAa;QAClB,MAAM,EAAE,IAAI;KACf;IACD,aAAa,EAAE,GAAG;IAClB,IAAI,EAAE;QACF,MAAM,EAAE;YACJ,WAAW;YACX,WAAW;YACX,YAAY;SACf;QACD,KAAK,EAAE,EAAE;KACZ;CACJ,CAAA"}
