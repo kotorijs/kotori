@@ -1,3 +1,8 @@
+/**
+ * @param {any} Event 事件
+ * @param {any} Api 接口
+ * @param {any} Const 常量(可选)
+ */
 export default (Event: any, Api: any) => {
     /* 处理函数 */
     function handel(data: any) {
@@ -7,7 +12,7 @@ export default (Event: any, Api: any) => {
         message && Api.send_group_msg(message, data.group_id);
     }
 
-    /* 事件监听注册 */
+    /**/
     Event.listen("on_group_msg", handel);
     Event.listen("on_private_msg", (data: any) => {
         const message: string = data.message.split('print ')[1];
