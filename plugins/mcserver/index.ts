@@ -1,3 +1,8 @@
+/*
+ * @Author: Biyuehu biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-06-15 16:41:22
+ */
 import config from './config';
 import needle from 'needle';
 import fs from 'fs';

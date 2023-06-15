@@ -1,4 +1,6 @@
 {
     "name": "Claude Ai",
+    "descr": "对接ClaudeAi",
+    "version": "1.0.0",
     "author": "Hotaru"
 }

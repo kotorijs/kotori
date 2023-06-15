@@ -1,8 +1,13 @@
+/*
+ * @Author: Biyuehu biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-06-15 16:41:22
+ */
 import { loadConfig, saveConfig, stringProcess, stringSplit } from '../../src/function';
 import config from './config';
 
 const getClaude = (question: string, conversationId?: string | null) => {
-    let url = 'https://ol7t35.laf.dev/claude-api';
+    let url = config.api.url;
     url += `?toekn=${config.api.token}`;
     url += `&bot=${config.api.bot}`;
     url += `&chatId=${config.api.chatId}`;
