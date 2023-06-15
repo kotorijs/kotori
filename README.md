@@ -1,5 +1,6 @@
 ![plugins-total](https://img.shields.io/badge/Plugins-5-deepblue)
-欢迎！这里是**KotoriBot**(https://github.com/BIYUEHU/kotori-bot)的插件分支~
+
+欢迎！这里是[**KotoriBot**](https://github.com/BIYUEHU/kotori-bot)的插件分支~
 
 ### 插件列表
 
