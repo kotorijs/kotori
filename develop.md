@@ -105,6 +105,23 @@ export default (Event: any, Api: any) => {
 
 关于Event.listen监听事件与Api接口与CQ码等内容请参考[go-cqhttp文档](https://docs.go-cqhttp.org/)
 
+添加`config.ts`文件
+
+```typescript
+export default {
+    /* some configs... */
+};
+```
+
+
+
+自述文件:`README.md`
+
+```markdown
+在群聊或私聊时发送`点歌[歌名]`即可(去掉方括号[])
+> By Hotaru
+```
+
 > index.ts将作为多文件插件下默认加载的入口文件
 
 ### 构建您的插件
