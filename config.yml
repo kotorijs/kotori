@@ -1,19 +1,19 @@
 connect: 
-  # 连接模式 可选: http ws ws-reverse
+  # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
   mode: ws-reverse
-  # Go-cqhttp里设置的访问密钥 未设置则忽略
+  # Go-cqhttp里设置的访问密钥 未设置则忽略(暂未支持)
   access-token: ''
 
   # Http正反向(暂未支持)
   http:
-    url: "http://192.168.1.7" # 正向Http地址
+    url: "http://localhost" # 正向Http地址
     port: 8888 # 正向Http端口
     reverse-port: 8080 # 反向Http端口
     retry-time: 10 # 同上
-  # WebSocket正向
 
+  # WebSocket正向
   ws:
-    url: "ws://192.168.1.7" # WS地址
+    url: "ws://localhost" # WS地址
     port: 8888 # WS端口
     retry-time: 10 # 连接断开或失败时尝试重连间隔时间 单位:秒
 
@@ -21,6 +21,7 @@ connect:
   ws-reverse:
     port: 8080 # WS反向端口
 
+# 暂未实现
 bot:
   # 机器人主人QQ号(拥有调试权限)
   master: 123
