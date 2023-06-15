@@ -1,3 +1,7 @@
 {
-    "name": "MCServer"
+    "name": "MCServer",
+    "descr": "一个简易的MCBE-BDS服务器群服互通插件",
+    "version": "1.0.0",
+    "author": "Hotaru",
+    "license": "GPL-2.0"
 }
