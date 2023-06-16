@@ -10,8 +10,9 @@
 
 ## 关于go-cqhttp
 **go-cqhttp**是基于 Mirai 以及 MiraiGo 的 OneBot Golang 原生实现
+go-cqhttp官网:[https://docs.go-cqhttp.org/](https://docs.go-cqhttp.org/) 
 
-go-cqhttp官网:[https://docs.go-cqhttp.org/](https://docs.go-cqhttp.org/) gocq的安装与配置请参考网络
+下载后运行选择连接方式(推荐WSReverse反向)生成配置文件和bat，填好QQ(不用填密码)和连接地址等信息，运行bat后生成`device.json`文件，将`protocol`(登陆协议)改成`2`(手表)，即可使用手机QQ扫码登录
 
 ## 安装与使用
 **Tips**:请先安装**NodeJS**环境和**NPM**或**Git**(可选)
