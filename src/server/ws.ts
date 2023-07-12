@@ -1,11 +1,12 @@
+import { ConnectMethod, FuncListen, FuncSend } from 'src/interface';
 import WebSocket from 'ws';
 
-class Ws {
-    private wsc;
-    private url;
-    private port;
-    private retry_time;
-    private callback;
+class Ws implements ConnectMethod {
+    private wsc: WebSocket;
+    private url: string;
+    private port: number;
+    private retry_time: number;
+    private callback: Function;
     public constructor(url: string, port: number, retry_time: number = 10, callback: Function) {
         this.url = url;
         this.port = port;
@@ -16,7 +17,7 @@ class Ws {
     }
 
     private connect = () => {
-        this.wsc.on('error', (error: any) => {
+        this.wsc.on('error', (error: unknown) => {
             console.error(error)
         });
         this.wsc.on('open', () => {
@@ -33,11 +34,11 @@ class Ws {
         });
     }
 
-    public send = (action: string, params?: object) => {
+    public send: FuncSend = (action, params) => {
         this.wsc.send(JSON.stringify({ action, params }));
     }
 
-    public listen = (callback: Function) => {
+    public listen: FuncListen = callback => {
         this.wsc.on('message', (data: string) => {
             try {
                 callback(JSON.parse(data))

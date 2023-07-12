@@ -1,7 +1,0 @@
-{
-    "name": "网易云点歌",
-    "descr": "在群聊或私聊发送“点歌[歌名]”即可",
-    "version": "0.0.1",
-    "author": "hotaru",
-    "license": "MIT"
-}

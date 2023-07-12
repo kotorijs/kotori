@@ -1,9 +1,10 @@
+import { FuncListen, FuncSend, ConnectMethod } from 'src/interface';
 import WebSocket from 'ws';
 
-class WsReverse {
-    private wss;
-    private port;
-    private callback;
+class WsReverse implements ConnectMethod {
+    private wss: WebSocket.Server;
+    private port: number;
+    private callback: Function;
     public constructor(port: number, callback: Function) {
         this.port = port;
         this.wss = new WebSocket.Server({ port: this.port });
@@ -29,8 +30,8 @@ class WsReverse {
         console.info(`WebScoket server successfully established on ws://127.0.0.1:${this.port}`);
     }
 
-    public send: Function = Function;
-    public listen: Function = Function;
+    public send: FuncSend = () => {};
+    public listen: FuncListen = () => {};
 }
 
 export default WsReverse;
