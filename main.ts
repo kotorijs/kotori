@@ -6,22 +6,23 @@
 import Domain from 'domain';
 import Process from 'process';
 import { execute, exec } from './src/process';
-import * as Lib from './src/function';
+import { loadConfig, _const as __const, _console, stringProcess } from './src/function';
 import Server from './src/server';
 import ApiPrototype from './src/method/api';
-import EventPrototype from './src/method/event';
+import { Event as EventPrototype } from './src/method/event';
 import Plugin from './src/plugin';
+import { BotConfig, EventDataType, ConnectMethod, PluginAsyncList, Event, Api } from 'src/interface';
 
 export class Main {
     /* 设置全局常量 */
-    private _const = Lib._const;
-    private _config: Lib.obj = Lib.loadConfig(`${this._const._ROOT_PATH}\\config.yml`, 'yaml');
+    private _const = __const;
+    private _config = <BotConfig>loadConfig(`${this._const._ROOT_PATH}\\config.yml`, 'yaml');
 
     /* public constructor() {
         // 构造你mb的函数
     } */
 
-    public run = () => {
+    public run = (): void => {
         // this.runGocqhttp;
         this.rewriteConsole();
         this.connect();
@@ -29,21 +30,21 @@ export class Main {
 
 
     /* 启动go-cqhttp */
-    private runGocqhttp = () => {
+    private runGocqhttp = (): void => {
         exec(`./go-cqhttp/go-cqhttp.exe`, 'Go-cqhttp started sucessfully')
         execute(`./go-cqhttp/go-cqhttp.bat`)
     }
 
     /* 更改Console */
-    private _console: Lib.obj = {
+    private _console: Object = {
         log: console.log,
         info: console.info,
         warn: console.warn,
         error: console.error,
     };
-    private rewriteConsole = () => {
+    private rewriteConsole = (): void => {
         Object.keys(this._console).forEach((Key: string) => {
-            (console as Lib.obj)[Key] = (...args: any) => (Lib._console as Lib.obj)[Key]((this._console as Lib.obj)[Key], ...args);
+            (<Object>console)[Key] = (...args: unknown[]) => (<Object>_console)[Key]((<Object>this._console)[Key], ...args);
         })
         Process.on('unhandledRejection', err => {
             console.error(`[System] ${err}`)
@@ -51,15 +52,15 @@ export class Main {
     }
 
     /* Connect */
-    private modeList: Lib.obj = {
+    private modeList: Object = {
         'http': 'Http',
         'ws': 'Ws',
         'ws-reverse': 'WsReverse'
     };
-    protected connectPrototype = (Server as Lib.obj)[this.modeList[this._config.connect.mode]];
-    protected connectConfig: Lib.obj = {
+    protected connectPrototype = (<Object>Server)[this.modeList[this._config.connect.mode]];
+    protected connectConfig: Object = {
         Http: [
-            this._config.connect['http'].url, this._config.connect['http'].port, this._config.connect['http']['retry-time'], this._config.connect['http']['reverse-port']
+            (this._config.connect['http']).url, this._config.connect['http'].port, this._config.connect['http']['retry-time'], this._config.connect['http']['reverse-port']
         ],
         Ws: [
             this._config.connect['ws'].url, this._config.connect['ws'].port, this._config.connect['ws']['retry-time']
@@ -67,15 +68,15 @@ export class Main {
         WsReverse: [this._config.connect['ws-reverse'].port]
     };
     protected EventPrototype = new EventPrototype;
-    private _Api: Lib.obj = new Object;
-    private _Event: Lib.obj = new Object;
+    private _Api: object = new Object;
+    private _Event: object = new Object;
     protected connect = () => {
         const connectMode = this.modeList[this._config.connect.mode];
-        new this.connectPrototype(...this.connectConfig[connectMode], (connectDemo: Lib.obj) => {
+        new this.connectPrototype(...this.connectConfig[connectMode], (connectDemo: ConnectMethod) => {
             /* 接口实例化 */
-            this._Api = new ApiPrototype(connectDemo.send);
+            this._Api = <Api>(new ApiPrototype(connectDemo.send));
             /* 事件注册实例化 */
-            this._Event = {
+            this._Event = <Event>{
                 listen: (eventName: string, callback: Function) => this.EventPrototype.registerEvent(this._pluginEventList, eventName, callback)
             }
 
@@ -84,13 +85,22 @@ export class Main {
             this.domainDemo.run(() => this.runAllPlugin())
 
             /* 监听主进程 */
-            connectDemo.listen((data: Lib.obj) => {
-                // if (data.post_type !== 'meta_event') console.info(data.post_type);
+            connectDemo.listen((data: EventDataType) => {
+                /* 心跳记录 */
+                if (data.post_type === 'meta_event') {
+                    if (data.sub_type === 'connect') {
+                        this._const._BOT.self_id = data.self_id;
+                        this._const._BOT.connect = data.time;
+                    }
+                    this._const._BOT.heartbeat = data.time;
+                    this._const._BOT.status = data.status;
+                };
                 if (!('message' in data)) return;
+
                 // 内置操作
-                if (data.post_type === 'message' && data.user_id === this._config.superadmin && data.message_type === 'private') {
+                if (data.post_type === 'message' && data.user_id === this._config.bot.master && data.message_type === 'private') {
                     switch (true) {
-                        case Lib.stringProcess(data.message, this._config.commandlist.reload):
+                        case stringProcess(data.message, this._config.bot['command-list'].reload):
                             this._pluginEntityList.forEach(element => {
                                 // delete require.cache[require.resolve(`./plugins/test.ts`)];
                             })
@@ -111,23 +121,24 @@ export class Main {
     /* 捕获错误 */
     private domainDemo: Domain.Domain = Domain.create();
     private catchError = () => this.domainDemo.on('error', err => {
-        console.error(`[Plugin] ${err}`)
+        console.error(`[Plugin] ${err}`);
     })
 
 
     /* 插件Plugin */
     protected _pluginEventList: [string, Function][] = new Array;
-    protected runAllEvent = (data: Lib.obj) => this.EventPrototype.handleEvent(this._pluginEventList, data)
-    private _pluginEntityList: Set<[Promise<Lib.obj>, string, string, Lib.obj?]> = new Set();
-    private runAllPlugin = () => {
+    protected runAllEvent = (data: EventDataType): void => this.EventPrototype.handleEvent(this._pluginEventList, data)
+    private _pluginEntityList: PluginAsyncList = new Set();
+    private runAllPlugin = (): void => {
         this._pluginEntityList = Plugin.loadAll();
         let num: number = 0;
         this._pluginEntityList.forEach(async element => {
             const demo = await element[0];
             if (demo.default) {
-                demo.default(this._Event, this._Api, {
-                    _CONFIG_PLUGIN_PATH: `${Lib._const._CONFIG_PATH}\\plugins\\${element[1]}`,
-                    _DATA_PLUGIN_PATH: `${Lib._const._DATA_PATH}\\plugins\\${element[1]}`
+                demo.default(<Event>this._Event, <Api>this._Api, {
+                    _CONFIG_PLUGIN_PATH: `${__const._CONFIG_PATH}\\plugins\\${element[1]}`,
+                    _DATA_PLUGIN_PATH: `${__const._DATA_PATH}\\plugins\\${element[1]}`,
+                    _BOT: new Proxy(this._const._BOT, {})
                 });
                 const PLUGIN_INFO = element[3];
                 if (PLUGIN_INFO) {
@@ -136,12 +147,15 @@ export class Main {
                     if (PLUGIN_INFO.version) content += `Version: ${PLUGIN_INFO.version} `
                     if (PLUGIN_INFO.license) content += `License: ${PLUGIN_INFO.license} `
                     if (PLUGIN_INFO.author) content += `By ${PLUGIN_INFO.author}`
-                    console.info(content)
+                    console.info(content);
                 }
                 num++;
+
+                if (num === this._pluginEntityList.size) {
+                    console.info(`Successfully loaded ${num} plugins`);
+                }
             }
         });
-        console.info(`Successfully loaded ${num} plugins`)
     }
 }
 

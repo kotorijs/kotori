@@ -6,6 +6,7 @@
   "types": "./dist/src/index.d.ts",
   "scripts": {
     "start": "ts-node ./src/app.ts",
+    "dev": "nodemon ./src/app.ts",
     "test": "jest --config jestconfig.json",
     "build": "tsc",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha test/*.js - - -R spec"
@@ -17,7 +18,6 @@
   },
   "homepage": "https://github.com/biyuehu/kotori-bot#readme",
   "dependencies": {
-    "@lafjs/cloud": "^1.0.0-beta.7",
     "@types/needle": "^3.2.0",
     "@types/ws": "^8.5.4",
     "domain": "^0.0.1",

@@ -28,9 +28,9 @@ export default (Event: any, Api: any, Const: any) => {
 
     function method_group (data: any) {
         if (!stringProcess(data.group_id, config.list.groups)) return;
-        if (!stringProcess(data.message, config.groupd_prefix)) return;
+        if (!stringProcess(data.message, config.prefix)) return;
 
-        const message = stringSplit(data.message, config.groupd_prefix);
+        const message = stringSplit(data.message, config.prefix);
         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
             console.log(d, conversationIdList, message);
             if (d.code === 0) {
@@ -45,6 +45,7 @@ export default (Event: any, Api: any, Const: any) => {
 
     function method_private (data: any) {
         if (!stringProcess(data.user_id, config.list.users)) return;
+        if (!stringProcess(data.message, config.prefix)) return;
 
         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
             console.log(d, conversationIdList, data.message);

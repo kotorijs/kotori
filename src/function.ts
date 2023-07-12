@@ -1,13 +1,9 @@
 import fs from 'fs';
 import http from 'http';
-import needle from 'needle';
 import YAML from 'yaml';
+import { ConfigFileType, ConstGlobal, obj, PackageInfo, } from './interface';
 
-export interface obj {
-    [key: string]: any
-}
-
-export const _const: obj = (function () {
+export const _const: ConstGlobal = (function () {
     let _ROOT_PATH = __dirname + '\\..';
     if (!fs.existsSync(`${_ROOT_PATH}\\config.yml`)) {
         _ROOT_PATH += '\\..';
@@ -19,26 +15,62 @@ export const _const: obj = (function () {
         _CONFIG_PATH: `${_ROOT_PATH}\\config`,
         _DATA_PATH: `${_ROOT_PATH}\\data`,
         _LOGS_PATH: `${_ROOT_PATH}\\logs`,
+        _BOT: {
+            self_id: 0,
+            connect: 0,
+            heartbeat: 0,
+            status: {
+                app_initialized: false,
+                app_enabled: false,
+                plugins_good: null,
+                app_good: false,
+                online: false,
+                stat: {
+                    PacketReceived: 0,
+                    PacketSent: 0,
+                    PacketLost: 0,
+                    MessageReceived: 0,
+                    MessageSent: 0,
+                    DisconnectTimes: 0,
+                    LostTimes: 0,
+                    LastMessageTime: 0
+                }
+            }
+        }
     }
 })();
 
-export function loadConfig(filename: string, type: 'json' | 'yaml' | 'xml' | 'ini' = 'json') {
+export function loadConfig(filename: string, type: ConfigFileType = 'json'): object {
     const data: string = fs.readFileSync(filename).toString()
     try {
         if (type === 'yaml') return YAML.parse(data);
         return JSON.parse(data);
     } catch (err) {
         console.error(err);
+        return {};
     }
 }
 
-export function saveConfig(filename: string, data: obj, type: 'json' | 'yaml' | 'xml' | 'ini' = 'json') {
+export function saveConfig(filename: string, data: object, type: ConfigFileType = 'json'): void {
     let content: string = '';
     try {
         if (type === 'json') content = JSON.stringify(data);
         if (type === 'yaml') content = YAML.stringify(data);
-        return fs.writeFileSync(filename, content);
+        fs.writeFileSync(filename, content);
     } catch (err) {
+        console.error(err);
+    }
+}
+
+export function createConfig(filename: string, data?: object, type: ConfigFileType = 'json'): void {
+    let content: string = '';
+    try {
+        if (!fs.existsSync(filename)) {
+            if (type === 'json') content = JSON.stringify(data);
+            if (type === 'yaml') content = YAML.stringify(data);
+            fs.writeFileSync(filename, content);
+        }
+        } catch (err) {
         console.error(err);
     }
 }
@@ -86,7 +118,7 @@ export function stringSplit(str: string, key: string): string {
     if (index !== -1) {
         return str.slice(index + key.length)
     } else {
-        return str
+        return ''
     }
 };
 
@@ -104,7 +136,7 @@ export function formatTime(time?: Date | null, format: Number = 0): string {
 }
 
 export class _console {
-    private static colorList: obj = {
+    private static colorList = {
         'default': '\x1B[0m', // 亮色
         'bright': '\x1B[1m', // 亮色
         'grey': '\x1B[2m', // 灰色
@@ -134,7 +166,7 @@ export class _console {
 
     public static originalLog = (__console: Function, type: string, typeColor: string, textColor: string, ...args: obj[]) => {
         let message: string = '';
-        args[0].forEach((Element: any) => {
+        args[0].forEach((Element: unknown) => {
             if (typeof Element === 'object') Element = JSON.stringify(Element);
             message += Element + ' '
             // }
@@ -157,32 +189,32 @@ export class _console {
         fs.appendFileSync(logFile, content + '\n')
     };
 
-    public static log = (__console: Function, ...args: any) => {
+    public static log = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'LOG', 'cyan', '', args)
     };
-    public static info = (__console: Function, ...args: any) => {
+    public static info = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'INFO', 'green', '', args)
     };
-    /* public static info = (__console: Function, ...args: any) => {
+    /* public static info = (__console: Function, ...args: unknown[]) => {
         _console.log(__console, ...args)
     }; */
-    public static warn = (__console: Function, ...args: any) => {
+    public static warn = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'WARM', 'yellow', 'yellow', args)
     };
-    public static error = (__console: Function, ...args: any) => {
+    public static error = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'ERROR', 'red', 'red', args)
     };
 }
 
 export class request {
-    public static send = (type: 'get' | 'post', url: string, params?: obj) => {
+    public static send = (type: 'get' | 'post', url: string, params?: object) => {
         let paramsStr: string = '?';
         for (let key in params) {
             paramsStr += `${key}=${params[key]}&`;
         }
         paramsStr.substring(0, -1);
         const options = {
-            method: {get:'GET',post:"POST"}[type],
+            method: { get: 'GET', post: "POST" }[type],
             url,
             params
         }
@@ -204,12 +236,12 @@ export class request {
 
     };
 
-    public static get = (url: string, params?: obj) => request.send('get', url, params);
-    public static post = (url: string, params?: obj) => request.send('post', url, params);
+    public static get = (url: string, params?: object) => request.send('get', url, params);
+    public static post = (url: string, params?: object) => request.send('post', url, params);
 }
 
-export function getPackageInfo() {
-    return loadConfig(`${_const._ROOT_PATH}\\package.json`);
+export function getPackageInfo(): PackageInfo {
+    return <PackageInfo>loadConfig(`${_const._ROOT_PATH}\\package.json`);
 }
 
 (function () {
@@ -222,7 +254,7 @@ export function getPackageInfo() {
 ██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
 ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
 `)
-    const info: obj = getPackageInfo();
+    const info = getPackageInfo();
     _console.info(console.info, `Kotori Bot Version: ${info.version} License: ${info.license}`);
     _console.info(console.info, `Kotori Bot By Hotaru`);
     _console.info(console.info, `Copyright © 2023 Hotaru All rights reserved.`);

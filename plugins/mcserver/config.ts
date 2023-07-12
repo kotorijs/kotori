@@ -11,7 +11,7 @@ export default {
         stopex: 'stopex',
         run: 'run',
     },
-    group_id: 885228305,
+    group_id: 317691609,
     mangers: [
         3324656453,
         3030389190
@@ -23,7 +23,7 @@ export default {
     },
     mcsm: {
         address: 'http://192.168.1.7:23333',
-        uuid: '48fff9560eb847689fa90611cef559ff',
+        uuid: '57007130c0ff46e8bb09ba6379dadbc5',
         remote_uuid: '41338aab0bb447c290b888afb0c811af',
         apikey: '2f26a44c4c01425eaada6fcb870d3268'
     },
