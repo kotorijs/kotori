@@ -1,16 +1,16 @@
 import Fs from 'fs';
 import Path from 'path';
-import { obj, loadConfig, _const } from './function';
+import { loadConfig, _const } from './function';
+import { PluginAsyncList, PluginEntity, PluginInfo } from './interface';
 
-export const load = (pluginName: string) => {
-    return import(`${_const._PLUGIN_PATH}\\${pluginName}`)
-        
+export const load = (pluginName: string): Promise<PluginEntity> => {
+    return import(`${_const._PLUGIN_PATH}\\${pluginName}`);
 }
 
-export const loadAll = () => {
+export const loadAll = (): PluginAsyncList => {
     const fileList = Fs.readdirSync(_const._PLUGIN_PATH);
 
-    const entityList: Set<[Promise<obj>, string, string, obj?]> = new Set();
+    const entityList: PluginAsyncList = new Set();
     fileList.forEach(fileName => {
         const filedir = Path.join(_const._PLUGIN_PATH + '\\', fileName);
         const fileStat = Fs.statSync(filedir);
@@ -24,9 +24,9 @@ export const loadAll = () => {
             }
         } else if (fileStat.isDirectory()) {
             const Path = `${_const._PLUGIN_PATH}\\${fileName}\\`;
-            let info: obj|undefined;
+            let info: PluginInfo | undefined;
             if (Fs.existsSync(`${Path}manifest.json`)) {
-                info = loadConfig(`${Path}manifest.json`);
+                info = <PluginInfo>loadConfig(`${Path}manifest.json`);
             }
 
             if (Fs.existsSync(`${Path}index.ts`)) {
@@ -40,7 +40,6 @@ export const loadAll = () => {
     })
     return entityList;
 }
-
 
 export default {
     load,

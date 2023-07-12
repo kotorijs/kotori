@@ -1,6 +1,6 @@
 import Process from 'child_process';
 
-export const execute = (cmd: string, args?: any[]) => Process.spawn(cmd, {
+export const execute = (cmd: string, args?: unknown[]) => Process.spawn(cmd, {
     detached: true, 
     windowsHide: true,
     stdio: 'ignore'

@@ -1,6 +1,7 @@
 import { Main } from '../main';
-import { obj } from './function';
+import { api, obj } from './interface';
 import ApiPrototype from './method/api';
+import { EventDataType } from './method/event';
 
 declare interface Config {
     connect: Connect
@@ -17,7 +18,7 @@ declare interface Connect {
 
 export class Kotori extends Main {
     protected config: Config = {connect: {mode: 'Http', port: 0}};
-    private callback;
+    private callback: (Event, Api: api) => void;
 
     public constructor(connectConfig: Connect, callback: Function) {
         super();
@@ -46,9 +47,9 @@ export class Kotori extends Main {
         new this.connectPrototype(...this.connectConfig[this.config.connect.mode], (connectDemo: obj) => {
             /* 接口实例化 */
             this.Api = new ApiPrototype(connectDemo.send);
-            this.callback(this.Api, this.Event);
+            this.callback(this.Event, <api>this.Api);
             /* 监听主进程 */
-            connectDemo.listen((data: obj) => {
+            connectDemo.listen((data: EventDataType) => {
                 if (!('message' in data)) return;
                 /* 每次心跳时运行事件监听 */
                 this.runAllEvent(data);
