@@ -1,26 +1,16 @@
 import { Main } from '../main';
-import { api, obj } from './interface';
+import { Api, Event, obj, EventDataType, FuncAppCallback, ConnectConfig } from './interface';
 import ApiPrototype from './method/api';
-import { EventDataType } from './method/event';
 
-declare interface Config {
-    connect: Connect
+interface Config {
+    connect: ConnectConfig
 }
-
-declare interface Connect {
-    mode: 'Http' | 'Ws' | 'WsReverse',
-    port: number,
-    url?: string,
-    reverse_port?: number,
-    retry_time?: number
-}
-
 
 export class Kotori extends Main {
     protected config: Config = {connect: {mode: 'Http', port: 0}};
-    private callback: (Event, Api: api) => void;
+    private callback: FuncAppCallback;
 
-    public constructor(connectConfig: Connect, callback: Function) {
+    public constructor(connectConfig: ConnectConfig, callback: FuncAppCallback) {
         super();
         this.config = {
             connect: connectConfig
@@ -29,9 +19,9 @@ export class Kotori extends Main {
     }
 
     /* Connect */
-    protected connectConfig: obj = new Object;
-    public Api: obj = new Object;
-    public Event: obj = {
+    protected connectConfig: Object = new Object;
+    public Api: Object = new Object;
+    public Event: Event = {
         listen: (eventName: string, callback: Function) => this.EventPrototype.registerEvent(this._pluginEventList, eventName, callback)
     };
     protected connect = () => {
@@ -46,8 +36,8 @@ export class Kotori extends Main {
         }
         new this.connectPrototype(...this.connectConfig[this.config.connect.mode], (connectDemo: obj) => {
             /* 接口实例化 */
-            this.Api = new ApiPrototype(connectDemo.send);
-            this.callback(this.Event, <api>this.Api);
+            this.Api = <Api>new ApiPrototype(connectDemo.send);
+            this.callback(this.Event, <Api>this.Api);
             /* 监听主进程 */
             connectDemo.listen((data: EventDataType) => {
                 if (!('message' in data)) return;

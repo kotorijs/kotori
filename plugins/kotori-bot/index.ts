@@ -3,14 +3,12 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-15 16:41:22
  */
+import os from 'os';
 import { EventDataType, obj, Event, Api, Const } from 'src/interface';
 import { getPackageInfo, loadConfig, saveConfig, stringProcess, stringSplit } from '../../src/function';
 import { Res } from './interface';
+import { dealCpu, dealRam, dealTime, URL, URL2 } from './method';
 import config from './config';
-
-const URL = 'https://api.imlolicon.tk/api/';
-const URL2 = 'https://imlolicon.tk/api/';
-
 
 export default (Event: Event, Api: Api, Const: Const) => {
     Event.listen("on_group_msg", handler);
@@ -468,13 +466,28 @@ export default (Event: Event, Api: Api, Const: Const) => {
         }
         /* 关于BOT */
         else if (message === '/status') {
-            console.log(Const._BOT);
+            const cpuData = dealCpu();
+            const ramData = dealRam();
+            const BOT = Const._BOT;
+            const STAT = BOT.status.stat;
+            const info = getPackageInfo();
+            result = `服务器信息：\n系统内核：${os.type()}\n系统平台：${os.platform()}\nCPU架构：${os.arch()}\nCPU型号：`;
+            result += `${cpuData.model}\nCPU频率：${cpuData.speed.toFixed(2)}GHz\nCPU核心数：${cpuData.num}`;
+            result += `\nCPU使用率：${cpuData.rate.toFixed(2)}%\n内存总量：${ramData.total.toFixed(2)}GB\n可用内存：`;
+            result += `${ramData.used.toFixed(2)}GB\n内存使用率：${ramData.rate.toFixed(2)}%\n网卡数量：`;
+            result += `${Object.keys(os.networkInterfaces()).length}\n开机时间：${dealTime()}\n主机名字：${os.hostname()}`;
+            result += `\n系统目录：${os.homedir()}\nBOT信息：\nBOTQQ：${BOT.self_id}\n连接时间：${BOT.connect}`;
+            result += `\n接收包数量：${STAT.packet_received}\n发送包数量：${STAT.packet_sent}\n丢失包数量：${STAT.packet_lost}`;
+            result += `\n接收消息数量：${STAT.message_received}\n发送消息数量：${STAT.message_sent}`;
+            result += `\n连接丢失次数：${STAT.lost_times}\n连接断开次数：${STAT.disconnect_times}`;
+            result += `\n框架信息：\n当前BOT框架版本：${info.version}\n框架协议：${info.license}`;
+            send(result + `\n-------ByHimeno-------`);
         } else if (message === '/about') {
             const info = getPackageInfo();
             let msg = `你说得对，但是KotoriBot是一个go-cqhttp的基于NodeJS+TypeScript的SDK和QQ机器人框架实现\n`;
             msg += `开源地址：https://github.com/biyuehu/kotori-bot\n\n当前BOT框架版本：${info.version}`;
             msg += `\n框架协议：${info.license}\n[CQ:image,file=https://biyuehu.github.io/images/avatar.png]`;
-            send(msg + `-------ByHimeno-------`);
+            send(msg + `\n-------ByHimeno-------`);
         }
         /* 群管系统 */
         else if (data.message_type === 'group') {
@@ -490,7 +503,5 @@ export default (Event: Event, Api: Api, Const: Const) => {
 
             }
         }
-        console.log(data);
-        
     }
 }

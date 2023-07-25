@@ -1,0 +1,298 @@
+23/7/16 20:38:38 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:38:38 INFO Kotori Bot By Hotaru 
+23/7/16 20:38:38 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:38:38 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:38:38 INFO Current connection mode: WsReverse 
+23/7/16 20:38:38 INFO WebSocket client successfully connected 
+23/7/16 20:38:38 LOG [{},"adminserver","F:\\GCFile\\JS\\nodejs\\kotori-bot\\src\\..\\plugins\\adminserver\\index.ts",{"name":"Web With Kotori","descr":"鸟人万维网","version":"1.0.0","author":"Himeno","license":"MIT"}] 
+23/7/16 20:38:38 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:38:38 LOG [{},"chatgpt","F:\\GCFile\\JS\\nodejs\\kotori-bot\\src\\..\\plugins\\chatgpt\\index.ts",{"name":"ChatGPT","descr":"对接ChatGPT","version":"1.0.0","author":"Hotaru"}] 
+23/7/16 20:38:38 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:38:38 LOG [{},"demo.ts","F:\\GCFile\\JS\\nodejs\\kotori-bot\\src\\..\\plugins\\demo.ts"] 
+23/7/16 20:38:38 LOG [{},"kotoribot","F:\\GCFile\\JS\\nodejs\\kotori-bot\\src\\..\\plugins\\kotoribot\\index.ts",{"name":"KotoriBot Core","descr":"KotoriBot核心插件","version":"1.0.0","author":"Himeno","license":"GPL-2.0"}] 
+23/7/16 20:38:38 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:38:38 LOG [{},"mcserver","F:\\GCFile\\JS\\nodejs\\kotori-bot\\src\\..\\plugins\\mcserver\\index.ts",{"name":"MCServer","descr":"一个简易的MCBE-BDS服务器群服互通插件","version":"1.0.0","author":"Hotaru","license":"GPL-2.0"}] 
+23/7/16 20:38:38 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:38:38 INFO Successfully loaded 5 plugins 
+23/7/16 20:38:38 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:38:38 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:41:41 INFO Kotori Bot By Hotaru 
+23/7/16 20:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:41:41 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:41:41 INFO Current connection mode: WsReverse 
+23/7/16 20:41:41 INFO WebSocket client successfully connected 
+23/7/16 20:41:41 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:41:41 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:41:41 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:41:41 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:41:41 INFO Successfully loaded 5 plugins 
+23/7/16 20:41:41 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:41:41 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:41:41 INFO Kotori Bot By Hotaru 
+23/7/16 20:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:41:41 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:41:41 INFO Current connection mode: WsReverse 
+23/7/16 20:41:41 INFO WebSocket client successfully connected 
+23/7/16 20:41:41 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:41:41 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:41:41 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:41:41 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:41:41 INFO Successfully loaded 5 plugins 
+23/7/16 20:41:41 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3001 
+23/7/16 20:41:41 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:42:42 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:42:42 INFO Kotori Bot By Hotaru 
+23/7/16 20:42:42 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:42:42 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:42:42 INFO Current connection mode: WsReverse 
+23/7/16 20:42:42 INFO WebSocket client successfully connected 
+23/7/16 20:42:42 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:42:42 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:42:42 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:42:42 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:42:42 INFO Successfully loaded 5 plugins 
+23/7/16 20:42:42 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:42:42 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:43:43 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:43:43 INFO Kotori Bot By Hotaru 
+23/7/16 20:43:43 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:43:43 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:43:43 INFO Current connection mode: WsReverse 
+23/7/16 20:43:43 INFO WebSocket client successfully connected 
+23/7/16 20:43:43 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:43:43 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:43:43 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:43:43 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:43:43 INFO Successfully loaded 5 plugins 
+23/7/16 20:43:43 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:43:43 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:44:44 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:44:44 INFO Kotori Bot By Hotaru 
+23/7/16 20:44:44 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:44:44 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:44:44 INFO Current connection mode: WsReverse 
+23/7/16 20:44:44 INFO WebSocket client successfully connected 
+23/7/16 20:44:44 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:44:44 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:44:44 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:44:44 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:44:44 INFO Successfully loaded 5 plugins 
+23/7/16 20:44:44 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:44:44 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:44:44 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:44:44 INFO Kotori Bot By Hotaru 
+23/7/16 20:44:44 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:44:44 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:44:44 INFO Current connection mode: WsReverse 
+23/7/16 20:44:44 INFO WebSocket client successfully connected 
+23/7/16 20:44:44 LOG sss 
+23/7/16 20:44:44 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:44:44 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:44:44 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:44:44 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:44:44 INFO Successfully loaded 5 plugins 
+23/7/16 20:44:44 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:44:44 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:46:46 INFO Kotori Bot By Hotaru 
+23/7/16 20:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:46:46 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:46:46 INFO Current connection mode: WsReverse 
+23/7/16 20:46:46 INFO WebSocket client successfully connected 
+23/7/16 20:46:46 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:46:46 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:46:46 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:46:46 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:46:46 INFO Successfully loaded 5 plugins 
+23/7/16 20:46:46 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:46:46 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:46:46 INFO Kotori Bot By Hotaru 
+23/7/16 20:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:46:46 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:46:46 INFO Current connection mode: WsReverse 
+23/7/16 20:46:46 INFO WebSocket client successfully connected 
+23/7/16 20:46:46 LOG sss 
+23/7/16 20:46:46 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:46:46 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:46:46 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:46:46 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:46:46 INFO Successfully loaded 5 plugins 
+23/7/16 20:46:46 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:46:46 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:47:47 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:47:47 INFO Kotori Bot By Hotaru 
+23/7/16 20:47:47 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:47:47 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:47:47 INFO Current connection mode: WsReverse 
+23/7/16 20:47:47 INFO WebSocket client successfully connected 
+23/7/16 20:47:47 LOG sss 
+23/7/16 20:47:47 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:47:47 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:47:47 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:47:47 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:47:47 INFO Successfully loaded 5 plugins 
+23/7/16 20:47:47 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:47:47 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:48:48 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:48:48 INFO Kotori Bot By Hotaru 
+23/7/16 20:48:48 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:48:48 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:48:48 INFO Current connection mode: WsReverse 
+23/7/16 20:48:48 INFO WebSocket client successfully connected 
+23/7/16 20:48:48 LOG sss 
+23/7/16 20:48:48 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:48:48 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:48:48 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:48:48 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:48:48 INFO Successfully loaded 5 plugins 
+23/7/16 20:48:48 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3010 
+23/7/16 20:48:48 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:49:49 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:49:49 INFO Kotori Bot By Hotaru 
+23/7/16 20:49:49 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:49:49 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:49:49 INFO Current connection mode: WsReverse 
+23/7/16 20:49:49 INFO WebSocket client successfully connected 
+23/7/16 20:49:49 LOG sss 
+23/7/16 20:49:49 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:49:49 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:49:49 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:49:49 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:49:49 INFO Successfully loaded 5 plugins 
+23/7/16 20:49:49 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:49:49 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:50:50 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:50:50 INFO Kotori Bot By Hotaru 
+23/7/16 20:50:50 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:50:50 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:50:50 INFO Current connection mode: WsReverse 
+23/7/16 20:50:50 INFO WebSocket client successfully connected 
+23/7/16 20:50:50 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:50:50 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:50:50 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:50:50 INFO Successfully loaded 4 plugins 
+23/7/16 20:50:50 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:50:50 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:50:50 INFO Kotori Bot By Hotaru 
+23/7/16 20:50:50 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 20:50:50 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 20:50:50 INFO Current connection mode: WsReverse 
+23/7/16 20:50:50 INFO WebSocket client successfully connected 
+23/7/16 20:50:50 LOG sss 
+23/7/16 20:50:50 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 20:50:50 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 20:50:50 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 20:50:50 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 20:50:50 INFO Successfully loaded 5 plugins 
+23/7/16 20:50:50 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:3000 
+23/7/16 20:50:50 ERROR [Plugin] Error: listen EACCES: permission denied 0.0.0.0:1234 
+23/7/16 20:51:51 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 20:51:51 INFO Kotori Bot By Hotaru 
+23/7/16 20:51:51 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:1:1 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:1:1 INFO Kotori Bot By Hotaru 
+23/7/16 21:1:1 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:1:1 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:1:1 INFO Current connection mode: WsReverse 
+23/7/16 21:1:1 INFO WebSocket client successfully connected 
+23/7/16 21:1:1 LOG sss 
+23/7/16 21:1:1 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 21:1:1 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:1:1 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:1:1 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:1:1 INFO Successfully loaded 5 plugins 
+23/7/16 21:1:1 LOG [WEB] Express server listening at http://127.0.0.1:4000 
+23/7/16 21:2:2 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:2:2 INFO Kotori Bot By Hotaru 
+23/7/16 21:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:2:2 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:2:2 INFO Current connection mode: WsReverse 
+23/7/16 21:2:2 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:2:2 INFO Kotori Bot By Hotaru 
+23/7/16 21:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:2:2 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:2:2 INFO Current connection mode: WsReverse 
+23/7/16 21:2:2 INFO WebSocket client successfully connected 
+23/7/16 21:2:2 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:2:2 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:2:2 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:2:2 ERROR [Plugin] TypeError: Router.use() requires a middleware function but got a Object 
+23/7/16 21:2:2 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:2:2 INFO Kotori Bot By Hotaru 
+23/7/16 21:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:2:2 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:2:2 INFO Current connection mode: WsReverse 
+23/7/16 21:2:2 INFO WebSocket client successfully connected 
+23/7/16 21:2:2 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 21:2:2 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:2:2 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:2:2 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:2:2 INFO Successfully loaded 5 plugins 
+23/7/16 21:2:2 LOG [WEB] Express server listening at http://127.0.0.1:4000 
+23/7/16 21:3:3 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:3:3 INFO Kotori Bot By Hotaru 
+23/7/16 21:3:3 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:3:3 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:3:3 INFO Current connection mode: WsReverse 
+23/7/16 21:3:3 INFO WebSocket client successfully connected 
+23/7/16 21:3:3 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 21:3:3 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:3:3 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:3:3 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:3:3 INFO Successfully loaded 5 plugins 
+23/7/16 21:3:3 LOG [WEB] Express server listening at http://127.0.0.1:4000 
+23/7/16 21:3:3 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:3:3 INFO Kotori Bot By Hotaru 
+23/7/16 21:3:3 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:3:3 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:3:3 INFO Current connection mode: WsReverse 
+23/7/16 21:3:3 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:3:3 INFO Kotori Bot By Hotaru 
+23/7/16 21:3:3 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:3:3 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:3:3 INFO Current connection mode: WsReverse 
+23/7/16 21:3:3 INFO WebSocket client successfully connected 
+23/7/16 21:3:3 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 21:3:3 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:3:3 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:3:3 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:3:3 INFO Successfully loaded 5 plugins 
+23/7/16 21:3:3 LOG [WEB] Express server listening at http://127.0.0.1:4000 
+23/7/16 21:4:4 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:4:4 INFO Kotori Bot By Hotaru 
+23/7/16 21:4:4 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:4:4 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:4:4 INFO Current connection mode: WsReverse 
+23/7/16 21:4:4 INFO WebSocket client successfully connected 
+23/7/16 21:4:4 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 21:4:4 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:4:4 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:4:4 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:4:4 INFO Successfully loaded 5 plugins 
+23/7/16 21:4:4 LOG [WEB] Express server listening at http://127.0.0.1:4000 
+23/7/16 21:5:5 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:5:5 INFO Kotori Bot By Hotaru 
+23/7/16 21:5:5 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:5:5 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:5:5 INFO Current connection mode: WsReverse 
+23/7/16 21:5:5 INFO WebSocket client successfully connected 
+23/7/16 21:5:5 LOG adminserver 
+23/7/16 21:5:5 LOG {} 
+23/7/16 21:5:5 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/16 21:5:5 LOG chatgpt 
+23/7/16 21:5:5 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/16 21:5:5 LOG demo.ts 
+23/7/16 21:5:5 LOG kotoribot 
+23/7/16 21:5:5 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/16 21:5:5 LOG mcserver 
+23/7/16 21:5:5 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/16 21:5:5 INFO Successfully loaded 5 plugins 
+23/7/16 21:5:5 LOG [WEB] Express server listening at http://127.0.0.1:4000 
+23/7/16 21:6:6 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/16 21:6:6 INFO Kotori Bot By Hotaru 
+23/7/16 21:6:6 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/16 21:6:6 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/16 21:6:6 INFO Current connection mode: WsReverse 

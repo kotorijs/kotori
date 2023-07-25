@@ -1,0 +1,789 @@
+23/7/15 15:17:17 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:17:17 INFO Kotori Bot By Hotaru 
+23/7/15 15:17:17 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:17:17 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:17:17 INFO Current connection mode: WsReverse 
+23/7/15 15:18:18 INFO WebSocket client successfully connected 
+23/7/15 15:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:18:18 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 15:18:18 INFO Successfully loaded 5 plugins 
+23/7/15 15:18:18 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 15:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:18:18 INFO Kotori Bot By Hotaru 
+23/7/15 15:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:18:18 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:18:18 INFO Current connection mode: WsReverse 
+23/7/15 15:18:18 INFO WebSocket client successfully connected 
+23/7/15 15:18:18 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 15:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:18:18 INFO Successfully loaded 5 plugins 
+23/7/15 15:18:18 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 15:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:18:18 INFO Kotori Bot By Hotaru 
+23/7/15 15:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:18:18 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:18:18 INFO Current connection mode: WsReverse 
+23/7/15 15:18:18 INFO WebSocket client successfully connected 
+23/7/15 15:18:18 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 15:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:18:18 INFO Successfully loaded 5 plugins 
+23/7/15 15:18:18 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 15:23:23 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:23:23 INFO Kotori Bot By Hotaru 
+23/7/15 15:23:23 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:23:23 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:23:23 INFO Current connection mode: WsReverse 
+23/7/15 15:23:23 INFO WebSocket client successfully connected 
+23/7/15 15:23:23 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 15:23:23 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:23:23 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:23:23 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:23:23 INFO Successfully loaded 5 plugins 
+23/7/15 15:23:23 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 15:27:27 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:27:27 INFO Kotori Bot By Hotaru 
+23/7/15 15:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:27:27 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:27:27 INFO Current connection mode: WsReverse 
+23/7/15 15:28:28 INFO WebSocket client successfully connected 
+23/7/15 15:28:28 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 15:28:28 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:28:28 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:28:28 INFO Successfully loaded 5 plugins 
+23/7/15 15:28:28 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 15:29:29 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:29:29 INFO Kotori Bot By Hotaru 
+23/7/15 15:29:29 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:29:29 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:29:29 INFO Current connection mode: WsReverse 
+23/7/15 15:29:29 INFO WebSocket client successfully connected 
+23/7/15 15:29:29 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 15:29:29 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:29:29 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:29:29 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:29:29 INFO Successfully loaded 5 plugins 
+23/7/15 15:29:29 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 15:38:38 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:38:38 INFO Kotori Bot By Hotaru 
+23/7/15 15:38:38 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:38:38 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:38:38 INFO Current connection mode: WsReverse 
+23/7/15 15:38:38 INFO WebSocket client successfully connected 
+23/7/15 15:38:38 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:38:38 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:38:38 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:38:38 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m27[0m:[93m15[0m - [91merror[0m[90m TS2322: [0mType 'string | { 500: string; 501: string; 502: string; 503: string; }' is not assignable to type 'string'.
+  Type '{ 500: string; 501: string; 502: string; 503: string; }' is not assignable to type 'string'.
+
+[7m27[0m         code, message: message ? message : resMessageList
+[7m  [0m [91m              ~~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m14[0m:[93m5[0m
+    [7m14[0m     message: resMessageType
+    [7m  [0m [96m    ~~~~~~~[0m
+    The expected type comes from property 'message' which is declared here on type 'resData'
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:39:39 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:39:39 INFO Kotori Bot By Hotaru 
+23/7/15 15:39:39 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:39:39 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:39:39 INFO Current connection mode: WsReverse 
+23/7/15 15:39:39 INFO WebSocket client successfully connected 
+23/7/15 15:39:39 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:39:39 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:39:39 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:39:39 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:49:49 LOG [MCServer] IP发生了改变 [222.208.12.181] -> [118.118.232.228] 
+23/7/15 15:52:52 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:52:52 INFO Kotori Bot By Hotaru 
+23/7/15 15:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:52:52 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:52:52 INFO Current connection mode: WsReverse 
+23/7/15 15:52:52 INFO WebSocket client successfully connected 
+23/7/15 15:52:52 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:52:52 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:52:52 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:52:52 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:52:52 INFO Kotori Bot By Hotaru 
+23/7/15 15:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:52:52 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:52:52 INFO Current connection mode: WsReverse 
+23/7/15 15:52:52 INFO WebSocket client successfully connected 
+23/7/15 15:52:52 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:52:52 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:52:52 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:53:53 INFO Kotori Bot By Hotaru 
+23/7/15 15:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:53:53 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:53:53 INFO Current connection mode: WsReverse 
+23/7/15 15:53:53 INFO WebSocket client successfully connected 
+23/7/15 15:53:53 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:53:53 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:53:53 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:53:53 INFO Kotori Bot By Hotaru 
+23/7/15 15:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:53:53 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:53:53 INFO Current connection mode: WsReverse 
+23/7/15 15:53:53 INFO WebSocket client successfully connected 
+23/7/15 15:53:53 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:53:53 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:53:53 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:53:53 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotoribot/index.ts[0m:[93m473[0m:[93m38[0m - [91merror[0m[90m TS2304: [0mCannot find name 'os'.
+
+[7m473[0m             result = `服务器信息：\n系统内核：${os.type()}\n系统平台：${os.platform()}\nCPU架构：${os.arch()}\nCPU型号：`;
+[7m   [0m [91m                                     ~~[0m
+[96mplugins/kotoribot/index.ts[0m:[93m473[0m:[93m57[0m - [91merror[0m[90m TS2304: [0mCannot find name 'os'.
+
+[7m473[0m             result = `服务器信息：\n系统内核：${os.type()}\n系统平台：${os.platform()}\nCPU架构：${os.arch()}\nCPU型号：`;
+[7m   [0m [91m                                                        ~~[0m
+[96mplugins/kotoribot/index.ts[0m:[93m473[0m:[93m81[0m - [91merror[0m[90m TS2304: [0mCannot find name 'os'.
+
+[7m473[0m             result = `服务器信息：\n系统内核：${os.type()}\n系统平台：${os.platform()}\nCPU架构：${os.arch()}\nCPU型号：`;
+[7m   [0m [91m                                                                                ~~[0m
+[96mplugins/kotoribot/index.ts[0m:[93m477[0m:[93m38[0m - [91merror[0m[90m TS2304: [0mCannot find name 'os'.
+
+[7m477[0m             result += `${Object.keys(os.networkInterfaces()).length}\n开机时间：${dealTime()}\n主机名字：${os.hostname()}`;
+[7m   [0m [91m                                     ~~[0m
+[96mplugins/kotoribot/index.ts[0m:[93m477[0m:[93m98[0m - [91merror[0m[90m TS2304: [0mCannot find name 'os'.
+
+[7m477[0m             result += `${Object.keys(os.networkInterfaces()).length}\n开机时间：${dealTime()}\n主机名字：${os.hostname()}`;
+[7m   [0m [91m                                                                                                 ~~[0m
+[96mplugins/kotoribot/index.ts[0m:[93m478[0m:[93m33[0m - [91merror[0m[90m TS2304: [0mCannot find name 'os'.
+
+[7m478[0m             result += `\n系统目录：${os.homedir()}\nBOT信息：\nBOTQQ：${BOT.self_id}\n连接时间：${BOT.connect}`;
+[7m   [0m [91m                                ~~[0m
+ 
+23/7/15 15:54:54 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:54:54 INFO Kotori Bot By Hotaru 
+23/7/15 15:54:54 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:54:54 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:54:54 INFO Current connection mode: WsReverse 
+23/7/15 15:54:54 INFO WebSocket client successfully connected 
+23/7/15 15:54:54 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:54:54 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:54:54 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:54:54 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:55:55 INFO Kotori Bot By Hotaru 
+23/7/15 15:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:55:55 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:55:55 INFO Current connection mode: WsReverse 
+23/7/15 15:55:55 INFO WebSocket client successfully connected 
+23/7/15 15:55:55 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:55:55 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:55:55 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:55:55 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:55:55 INFO Kotori Bot By Hotaru 
+23/7/15 15:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:55:55 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:55:55 INFO Current connection mode: WsReverse 
+23/7/15 15:55:55 INFO WebSocket client successfully connected 
+23/7/15 15:55:55 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:55:55 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:55:55 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:55:55 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:55:55 INFO Kotori Bot By Hotaru 
+23/7/15 15:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:55:55 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:55:55 INFO Current connection mode: WsReverse 
+23/7/15 15:56:56 INFO WebSocket client successfully connected 
+23/7/15 15:56:56 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:56:56 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:56:56 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:56:56 INFO Kotori Bot By Hotaru 
+23/7/15 15:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:56:56 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:56:56 INFO Current connection mode: WsReverse 
+23/7/15 15:56:56 INFO WebSocket client successfully connected 
+23/7/15 15:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:56:56 INFO Kotori Bot By Hotaru 
+23/7/15 15:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:56:56 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:56:56 INFO Current connection mode: WsReverse 
+23/7/15 15:56:56 INFO WebSocket client successfully connected 
+23/7/15 15:56:56 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:56:56 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:56:56 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m47[0m:[93m26[0m - [91merror[0m[90m TS2552: [0mCannot find name 'hadnle'. Did you mean 'handle'?
+
+[7m47[0m     res.status(200).send(hadnle({
+[7m  [0m [91m                         ~~~~~~[0m
+
+  [96mplugins/adminserver/app.ts[0m:[93m25[0m:[93m7[0m
+    [7m25[0m const handle = (data: object, code: resCodeType = 500, message?: resMessageType): resData => {
+    [7m  [0m [96m      ~~~~~~[0m
+    'handle' is declared here.
+ 
+23/7/15 15:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:57:57 INFO Kotori Bot By Hotaru 
+23/7/15 15:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:57:57 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:57:57 INFO Current connection mode: WsReverse 
+23/7/15 15:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:57:57 INFO Kotori Bot By Hotaru 
+23/7/15 15:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:57:57 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:57:57 INFO Current connection mode: WsReverse 
+23/7/15 15:57:57 INFO WebSocket client successfully connected 
+23/7/15 15:57:57 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:57:57 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:57:57 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:57:57 ERROR [Plugin] Error: Cannot find module 'src/function'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 15:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:58:58 INFO Kotori Bot By Hotaru 
+23/7/15 15:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:58:58 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:58:58 INFO Current connection mode: WsReverse 
+23/7/15 15:58:58 INFO WebSocket client successfully connected 
+23/7/15 15:58:58 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:58:58 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:58:58 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:58:58 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 15:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:59:59 INFO Kotori Bot By Hotaru 
+23/7/15 15:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:59:59 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:59:59 INFO Current connection mode: WsReverse 
+23/7/15 15:59:59 INFO WebSocket client successfully connected 
+23/7/15 15:59:59 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:59:59 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:59:59 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:59:59 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 15:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:59:59 INFO Kotori Bot By Hotaru 
+23/7/15 15:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:59:59 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:59:59 INFO Current connection mode: WsReverse 
+23/7/15 15:59:59 INFO WebSocket client successfully connected 
+23/7/15 15:59:59 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:59:59 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 15:59:59 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:59:59 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 15:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 15:59:59 INFO Kotori Bot By Hotaru 
+23/7/15 15:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 15:59:59 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 15:59:59 INFO Current connection mode: WsReverse 
+23/7/15 15:59:59 INFO WebSocket client successfully connected 
+23/7/15 15:59:59 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 15:59:59 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 15:59:59 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 15:59:59 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotoribot/index.ts[0m:[93m10[0m:[93m55[0m - [91merror[0m[90m TS5097: [0mAn import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+
+[7m10[0m import { dealCpu, dealRam, dealTime, URL, URL2 } from './method.ts';
+[7m  [0m [91m                                                      ~~~~~~~~~~~~~[0m
+ 
+23/7/15 16:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:0:0 INFO Kotori Bot By Hotaru 
+23/7/15 16:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:0:0 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:0:0 INFO Current connection mode: WsReverse 
+23/7/15 16:0:0 INFO WebSocket client successfully connected 
+23/7/15 16:0:0 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:0:0 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:0:0 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:0:0 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 16:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:0:0 INFO Kotori Bot By Hotaru 
+23/7/15 16:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:0:0 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:0:0 INFO Current connection mode: WsReverse 
+23/7/15 16:0:0 INFO WebSocket client successfully connected 
+23/7/15 16:0:0 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:0:0 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:0:0 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:0:0 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 16:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:0:0 INFO Kotori Bot By Hotaru 
+23/7/15 16:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:0:0 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:0:0 INFO Current connection mode: WsReverse 
+23/7/15 16:0:0 INFO WebSocket client successfully connected 
+23/7/15 16:0:0 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:0:0 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:0:0 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:0:0 ERROR [Plugin] Error: Cannot find module 'plugins/kotoribot/method'
+Require stack:
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\app.ts
+- F:\GCFile\JS\nodejs\kotori-bot\plugins\adminserver\index.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\plugin.ts
+- F:\GCFile\JS\nodejs\kotori-bot\main.ts
+- F:\GCFile\JS\nodejs\kotori-bot\src\app.ts 
+23/7/15 16:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:0:0 INFO Kotori Bot By Hotaru 
+23/7/15 16:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:0:0 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:0:0 INFO Current connection mode: WsReverse 
+23/7/15 16:1:1 INFO WebSocket client successfully connected 
+23/7/15 16:1:1 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:1:1 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:1:1 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:1:1 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:1:1 INFO Successfully loaded 5 plugins 
+23/7/15 16:1:1 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:1:1 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:1:1 INFO Kotori Bot By Hotaru 
+23/7/15 16:1:1 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:1:1 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:1:1 INFO Current connection mode: WsReverse 
+23/7/15 16:1:1 INFO WebSocket client successfully connected 
+23/7/15 16:1:1 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:1:1 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:1:1 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:1:1 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:1:1 INFO Successfully loaded 5 plugins 
+23/7/15 16:1:1 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:1:1 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:1:1 INFO Kotori Bot By Hotaru 
+23/7/15 16:1:1 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:1:1 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:1:1 INFO Current connection mode: WsReverse 
+23/7/15 16:2:2 INFO WebSocket client successfully connected 
+23/7/15 16:2:2 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:2:2 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:2:2 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:2:2 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:2:2 INFO Successfully loaded 5 plugins 
+23/7/15 16:2:2 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:9:9 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:9:9 INFO Kotori Bot By Hotaru 
+23/7/15 16:9:9 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:9:9 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:9:9 INFO Current connection mode: WsReverse 
+23/7/15 16:9:9 INFO WebSocket client successfully connected 
+23/7/15 16:9:9 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:9:9 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:9:9 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:9:9 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:9:9 INFO Successfully loaded 5 plugins 
+23/7/15 16:9:9 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:17:17 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:17:17 INFO Kotori Bot By Hotaru 
+23/7/15 16:17:17 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:17:17 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:17:17 INFO Current connection mode: WsReverse 
+23/7/15 16:18:18 INFO WebSocket client successfully connected 
+23/7/15 16:18:18 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:18:18 INFO Successfully loaded 5 plugins 
+23/7/15 16:18:18 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:27:27 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:27:27 INFO Kotori Bot By Hotaru 
+23/7/15 16:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:27:27 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:27:27 INFO Current connection mode: WsReverse 
+23/7/15 16:27:27 INFO WebSocket client successfully connected 
+23/7/15 16:27:27 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:27:27 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:27:27 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:27:27 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:27:27 INFO Successfully loaded 5 plugins 
+23/7/15 16:27:27 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:27:27 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:27:27 INFO Kotori Bot By Hotaru 
+23/7/15 16:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:27:27 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:27:27 INFO Current connection mode: WsReverse 
+23/7/15 16:28:28 INFO WebSocket client successfully connected 
+23/7/15 16:28:28 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:28:28 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:28:28 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:28:28 INFO Successfully loaded 5 plugins 
+23/7/15 16:28:28 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:29:29 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:29:29 INFO Kotori Bot By Hotaru 
+23/7/15 16:29:29 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:29:29 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:29:29 INFO Current connection mode: WsReverse 
+23/7/15 16:30:30 INFO WebSocket client successfully connected 
+23/7/15 16:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:30:30 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:30:30 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:30:30 INFO Successfully loaded 5 plugins 
+23/7/15 16:30:30 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 16:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 16:30:30 INFO Kotori Bot By Hotaru 
+23/7/15 16:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 16:30:30 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 16:30:30 INFO Current connection mode: WsReverse 
+23/7/15 16:30:30 INFO WebSocket client successfully connected 
+23/7/15 16:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 16:30:30 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 16:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 16:30:30 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 16:30:30 INFO Successfully loaded 5 plugins 
+23/7/15 16:30:30 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 18:22:22 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:22:22 INFO Kotori Bot By Hotaru 
+23/7/15 18:22:22 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:22:22 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:22:22 INFO Current connection mode: WsReverse 
+23/7/15 18:22:22 INFO WebSocket client successfully connected 
+23/7/15 18:22:22 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:22:22 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:22:22 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:22:22 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m11[0m:[93m13[0m - [91merror[0m[90m TS2554: [0mExpected 1 arguments, but got 2.
+
+[7m11[0m router(app, <Const>(new Proxy(Status, {})));
+[7m  [0m [91m            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+ 
+23/7/15 18:22:22 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:22:22 INFO Kotori Bot By Hotaru 
+23/7/15 18:22:22 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:22:22 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:22:22 INFO Current connection mode: WsReverse 
+23/7/15 18:22:22 INFO WebSocket client successfully connected 
+23/7/15 18:22:22 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:22:22 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:22:22 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:22:22 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m17[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty '_BOT' does not exist on type 'Object'.
+
+[7m17[0m     handle(res, Status._BOT);
+[7m  [0m [91m                       ~~~~[0m
+ 
+23/7/15 18:23:23 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:23:23 INFO Kotori Bot By Hotaru 
+23/7/15 18:23:23 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:23:23 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:23:23 INFO Current connection mode: WsReverse 
+23/7/15 18:23:23 INFO WebSocket client successfully connected 
+23/7/15 18:23:23 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 18:23:23 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:23:23 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:23:23 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:23:23 INFO Successfully loaded 5 plugins 
+23/7/15 18:23:23 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 18:23:23 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:23:23 INFO Kotori Bot By Hotaru 
+23/7/15 18:23:23 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:23:23 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:23:23 INFO Current connection mode: WsReverse 
+23/7/15 18:23:23 INFO WebSocket client successfully connected 
+23/7/15 18:23:23 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:23:23 INFO Kotori Bot By Hotaru 
+23/7/15 18:23:23 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:23:23 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:23:23 INFO Current connection mode: WsReverse 
+23/7/15 18:23:23 INFO WebSocket client successfully connected 
+23/7/15 18:23:23 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:23:23 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:23:23 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:23:23 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m7[0m:[93m20[0m - [91merror[0m[90m TS2306: [0mFile 'F:/GCFile/JS/nodejs/kotori-bot/plugins/adminserver/router/index.ts' is not a module.
+
+[7m7[0m import router from "./router";
+[7m [0m [91m                   ~~~~~~~~~~[0m
+ 
+23/7/15 18:24:24 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:24:24 INFO Kotori Bot By Hotaru 
+23/7/15 18:24:24 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:24:24 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:24:24 INFO Current connection mode: WsReverse 
+23/7/15 18:24:24 INFO WebSocket client successfully connected 
+23/7/15 18:24:24 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:24:24 INFO Kotori Bot By Hotaru 
+23/7/15 18:24:24 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:24:24 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:24:24 INFO Current connection mode: WsReverse 
+23/7/15 18:24:24 INFO WebSocket client successfully connected 
+23/7/15 18:24:24 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:24:24 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:24:24 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:24:24 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m7[0m:[93m8[0m - [91merror[0m[90m TS1192: [0mModule '"F:/GCFile/JS/nodejs/kotori-bot/plugins/adminserver/router/index"' has no default export.
+
+[7m7[0m import router from "./router";
+[7m [0m [91m       ~~~~~~[0m
+
+  [96mplugins/adminserver/router/index.ts[0m:[93m1[0m:[93m1[0m
+    [7m1[0m export * from './data';
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'export *' does not re-export a default.
+ 
+23/7/15 18:31:31 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:31:31 INFO Kotori Bot By Hotaru 
+23/7/15 18:31:31 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:31:31 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:31:31 INFO Current connection mode: WsReverse 
+23/7/15 18:31:31 INFO WebSocket client successfully connected 
+23/7/15 18:31:31 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:31:31 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:31:31 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:31:31 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m7[0m:[93m8[0m - [91merror[0m[90m TS1192: [0mModule '"F:/GCFile/JS/nodejs/kotori-bot/plugins/adminserver/router/index"' has no default export.
+
+[7m7[0m import router from "./router";
+[7m [0m [91m       ~~~~~~[0m
+ 
+23/7/15 18:32:32 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:32:32 INFO Kotori Bot By Hotaru 
+23/7/15 18:32:32 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:32:32 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:32:32 INFO Current connection mode: WsReverse 
+23/7/15 18:32:32 INFO WebSocket client successfully connected 
+23/7/15 18:32:32 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:32:32 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:32:32 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:32:32 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m7[0m:[93m8[0m - [91merror[0m[90m TS1192: [0mModule '"F:/GCFile/JS/nodejs/kotori-bot/plugins/adminserver/router/index"' has no default export.
+
+[7m7[0m import router from "./router";
+[7m [0m [91m       ~~~~~~[0m
+
+  [96mplugins/adminserver/router/index.ts[0m:[93m1[0m:[93m1[0m
+    [7m1[0m export * from './data';
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'export *' does not re-export a default.
+ 
+23/7/15 18:33:33 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:33:33 INFO Kotori Bot By Hotaru 
+23/7/15 18:33:33 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:33:33 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:33:33 INFO Current connection mode: WsReverse 
+23/7/15 18:33:33 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:33:33 INFO Kotori Bot By Hotaru 
+23/7/15 18:33:33 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:33:33 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:33:33 INFO Current connection mode: WsReverse 
+23/7/15 18:33:33 INFO WebSocket client successfully connected 
+23/7/15 18:33:33 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:33:33 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:33:33 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:33:33 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/adminserver/app.ts[0m:[93m7[0m:[93m8[0m - [91merror[0m[90m TS1192: [0mModule '"F:/GCFile/JS/nodejs/kotori-bot/plugins/adminserver/router/index"' has no default export.
+
+[7m7[0m import router from "./router";
+[7m [0m [91m       ~~~~~~[0m
+
+  [96mplugins/adminserver/router/index.ts[0m:[93m1[0m:[93m1[0m
+    [7m1[0m export * from './data';
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~~~~~[0m
+    'export *' does not re-export a default.
+ 
+23/7/15 18:34:34 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:34:34 INFO Kotori Bot By Hotaru 
+23/7/15 18:34:34 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:34:34 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:34:34 INFO Current connection mode: WsReverse 
+23/7/15 18:34:34 INFO WebSocket client successfully connected 
+23/7/15 18:34:34 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 18:34:34 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:34:34 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:34:34 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:34:34 INFO Successfully loaded 5 plugins 
+23/7/15 18:34:34 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 18:34:34 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:34:34 INFO Kotori Bot By Hotaru 
+23/7/15 18:34:34 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:34:34 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:34:34 INFO Current connection mode: WsReverse 
+23/7/15 18:35:35 INFO WebSocket client successfully connected 
+23/7/15 18:35:35 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 18:35:35 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:35:35 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:35:35 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:35:35 INFO Successfully loaded 5 plugins 
+23/7/15 18:35:35 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 18:35:35 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:35:35 INFO Kotori Bot By Hotaru 
+23/7/15 18:35:35 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:35:35 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:35:35 INFO Current connection mode: WsReverse 
+23/7/15 18:35:35 INFO WebSocket client successfully connected 
+23/7/15 18:35:35 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 18:35:35 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:35:35 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:35:35 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:35:35 INFO Successfully loaded 5 plugins 
+23/7/15 18:35:35 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 18:35:35 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:35:35 INFO Kotori Bot By Hotaru 
+23/7/15 18:35:35 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:35:35 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:35:35 INFO Current connection mode: WsReverse 
+23/7/15 18:35:35 INFO WebSocket client successfully connected 
+23/7/15 18:35:35 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 18:35:35 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:35:35 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:35:35 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:35:35 INFO Successfully loaded 5 plugins 
+23/7/15 18:35:35 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/15 18:35:35 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/15 18:35:35 INFO Kotori Bot By Hotaru 
+23/7/15 18:35:35 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/15 18:35:35 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/15 18:35:35 INFO Current connection mode: WsReverse 
+23/7/15 18:35:35 INFO WebSocket client successfully connected 
+23/7/15 18:35:35 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/15 18:35:35 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/15 18:35:35 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/15 18:35:35 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/15 18:35:35 INFO Successfully loaded 5 plugins 
+23/7/15 18:35:35 LOG [WEB] Express server listening at http://127.0.0.1:3000 

@@ -25,6 +25,9 @@ module.exports = {
 
     // 用来设置引用模块
     resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src')
+        },
         extensions: [".ts", ".js"],
     },
 

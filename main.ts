@@ -11,7 +11,7 @@ import Server from './src/server';
 import ApiPrototype from './src/method/api';
 import { Event as EventPrototype } from './src/method/event';
 import Plugin from './src/plugin';
-import { BotConfig, EventDataType, ConnectMethod, PluginAsyncList, Event, Api } from 'src/interface';
+import { BotConfig, EventDataType, ConnectMethod, PluginAsyncList, Event, Api, Const } from 'src/interface';
 
 export class Main {
     /* 设置全局常量 */
@@ -132,14 +132,23 @@ export class Main {
     private runAllPlugin = (): void => {
         this._pluginEntityList = Plugin.loadAll();
         let num: number = 0;
+
         this._pluginEntityList.forEach(async element => {
             const demo = await element[0];
             if (demo.default) {
-                demo.default(<Event>this._Event, <Api>this._Api, {
-                    _CONFIG_PLUGIN_PATH: `${__const._CONFIG_PATH}\\plugins\\${element[1]}`,
-                    _DATA_PLUGIN_PATH: `${__const._DATA_PATH}\\plugins\\${element[1]}`,
-                    _BOT: new Proxy(this._const._BOT, {})
-                });
+                const params = [
+                    this._Event, this._Api, {
+                        _CONFIG_PLUGIN_PATH: `${__const._CONFIG_PATH}\\plugins\\${element[1]}`,
+                        _DATA_PLUGIN_PATH: `${__const._DATA_PATH}\\plugins\\${element[1]}`,
+                        _BOT: new Proxy(this._const._BOT, {})
+                    }
+                ]
+                if (element[1] === 'kotori-bot-admin-server') {
+                    (<Function>demo.default)(<Event>params[0], <Api>params[1], <Const>params[2], new Proxy(Array.from(this._pluginEntityList), {}));
+                } else {
+                    demo.default(<Event>params[0], <Api>params[1], <Const>params[2]);
+                }
+
                 const PLUGIN_INFO = element[3];
                 if (PLUGIN_INFO) {
                     let content: string = '';

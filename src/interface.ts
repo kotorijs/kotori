@@ -3,16 +3,26 @@ export interface obj {
     [key: string]: any
 }
 
-export type ConfigFileType = 'json' | 'yaml' | 'xml' | 'ini';
+export type ConfigFileType = 'json' | 'yaml' | 'xml' | 'ini' | 'txt';
 export type FuncSend = (action: string, params?: Object) => void;
 export type FuncListen =  (callback: FuncListenCallback) => void;
 export type FuncListenCallback = (data: EventDataType) => void;
+export type FuncAppCallback = (Event: Event, Api: Api) => void;
 export type ConnectMode = 'http' | 'ws' | 'ws-reverse';
-export type PluginAsyncList = Set<[Promise<PluginEntity>, string, string, PluginInfo?]>;
+export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?];
+export type PluginAsyncList = Set<PluginData>;
 
 export interface ConnectMethod {
     send: FuncSend,
     listen: FuncListen
+}
+
+export interface ConnectConfig {
+    mode: 'Http' | 'Ws' | 'WsReverse',
+    port: number,
+    url?: string,
+    reverse_port?: number,
+    retry_time?: number
 }
 
 export interface PackageInfo {
@@ -84,6 +94,7 @@ export interface PluginEntity {
 export interface PluginInfo {
     name?: string,
     descr?: string,
+    icon?: string,
     version?: string,
     author?: string,
     license?: string
@@ -372,14 +383,14 @@ export interface EventStatusType {
 }
 
 export interface EventStatType {
-    PacketReceived: number,
-    PacketSent: number,
-    PacketLost: number,
-    MessageReceived: number,
-    MessageSent: number,
-    DisconnectTimes: number,
-    LostTimes: number,
-    LastMessageTime: number
+    packet_received: number,
+    packet_sent: number,
+    packet_lost: number,
+    message_received: number,
+    message_sent: number,
+    disconnect_times: number,
+    lost_times: number,
+    last_message_time: number
 }
 
 export interface EventDataType {
