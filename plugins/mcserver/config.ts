@@ -28,7 +28,7 @@ export default {
         apikey: '2f26a44c4c01425eaada6fcb870d3268'
     },
     wss: {
-        port: 1234
+        port: 1000
     },
     other: {
         check_ip_time: 600

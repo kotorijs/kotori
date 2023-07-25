@@ -19,7 +19,7 @@ class WsReverse implements ConnectMethod {
                 try {
                     callback(JSON.parse(data))
                 } catch (e) {
-                    console.log(e)
+                    console.error(e)
                 }
             });
             this.send = (action: string, params?: object) => {

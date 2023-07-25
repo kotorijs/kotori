@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import http from 'http';
 import YAML from 'yaml';
 import { ConfigFileType, ConstGlobal, obj, PackageInfo, } from './interface';
@@ -26,28 +27,29 @@ export const _const: ConstGlobal = (function () {
                 app_good: false,
                 online: false,
                 stat: {
-                    PacketReceived: 0,
-                    PacketSent: 0,
-                    PacketLost: 0,
-                    MessageReceived: 0,
-                    MessageSent: 0,
-                    DisconnectTimes: 0,
-                    LostTimes: 0,
-                    LastMessageTime: 0
+                    packet_received: 0,
+                    packet_sent: 0,
+                    packet_lost: 0,
+                    message_received: 0,
+                    message_sent: 0,
+                    disconnect_times: 0,
+                    lost_times: 0,
+                    last_message_time: 0
                 }
             }
         }
     }
 })();
 
-export function loadConfig(filename: string, type: ConfigFileType = 'json'): object {
+export function loadConfig(filename: string, type: ConfigFileType = 'json'): object | string {
     const data: string = fs.readFileSync(filename).toString()
     try {
         if (type === 'yaml') return YAML.parse(data);
+        if (type === 'txt') return data;
         return JSON.parse(data);
     } catch (err) {
         console.error(err);
-        return {};
+        return new Object
     }
 }
 
@@ -56,6 +58,12 @@ export function saveConfig(filename: string, data: object, type: ConfigFileType 
     try {
         if (type === 'json') content = JSON.stringify(data);
         if (type === 'yaml') content = YAML.stringify(data);
+
+        const dirname: string = path.dirname(filename);
+        if (!fs.existsSync(dirname)) {
+            fs.mkdirSync(dirname, { recursive: true });
+        }
+
         fs.writeFileSync(filename, content);
     } catch (err) {
         console.error(err);
@@ -70,7 +78,7 @@ export function createConfig(filename: string, data?: object, type: ConfigFileTy
             if (type === 'yaml') content = YAML.stringify(data);
             fs.writeFileSync(filename, content);
         }
-        } catch (err) {
+    } catch (err) {
         console.error(err);
     }
 }
@@ -104,14 +112,14 @@ export function stringProcess(str: string | number, key: string | number | Array
         }
     }
     return false
-};
+}
 
 export function arrayProcess(arr: (string | number)[], key: string | number | Array<string | number>, mode: 0 | 1 | 2 = 0): boolean {
     for (let a = 0; a < arr.length; a++) {
         if (stringProcess(arr[a], key, mode)) return true;
     }
     return false;
-};
+}
 
 export function stringSplit(str: string, key: string): string {
     const index = str.indexOf(key)
@@ -120,7 +128,7 @@ export function stringSplit(str: string, key: string): string {
     } else {
         return ''
     }
-};
+}
 
 export function formatTime(time?: Date | null, format: Number = 0): string {
     if (!time) time = new Date();
@@ -133,6 +141,20 @@ export function formatTime(time?: Date | null, format: Number = 0): string {
         result += `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`;
     }
     return result;
+}
+
+export function getUuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+export function getRandomStr(): string {
+    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 export class _console {
