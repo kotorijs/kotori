@@ -1,0 +1,835 @@
+23/7/13 17:52:52 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 17:52:52 INFO Kotori Bot By Hotaru 
+23/7/13 17:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 17:52:52 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 17:52:52 INFO Current connection mode: WsReverse 
+23/7/13 17:52:52 INFO WebSocket client successfully connected 
+23/7/13 17:52:52 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 17:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 17:52:52 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 17:52:52 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 17:52:52 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 17:52:52 INFO Kotori Bot By Hotaru 
+23/7/13 17:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 17:52:52 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 17:52:52 INFO Current connection mode: WsReverse 
+23/7/13 17:52:52 INFO WebSocket client successfully connected 
+23/7/13 17:52:52 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 17:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 17:52:52 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 17:52:52 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 17:52:52 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 17:52:52 INFO Kotori Bot By Hotaru 
+23/7/13 17:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 17:52:52 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 17:52:52 INFO Current connection mode: WsReverse 
+23/7/13 17:52:52 INFO WebSocket client successfully connected 
+23/7/13 17:52:52 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 17:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 17:52:52 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 17:52:52 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 17:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 17:53:53 INFO Kotori Bot By Hotaru 
+23/7/13 17:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 17:53:53 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 17:53:53 INFO Current connection mode: WsReverse 
+23/7/13 17:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 17:53:53 INFO Kotori Bot By Hotaru 
+23/7/13 17:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 17:53:53 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 17:53:53 INFO Current connection mode: WsReverse 
+23/7/13 17:53:53 INFO WebSocket client successfully connected 
+23/7/13 17:53:53 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 17:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 17:53:53 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 17:53:53 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 17:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 17:53:53 INFO Kotori Bot By Hotaru 
+23/7/13 17:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 17:53:53 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 17:53:53 INFO Current connection mode: WsReverse 
+23/7/13 17:53:53 INFO WebSocket client successfully connected 
+23/7/13 17:53:53 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 17:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 17:53:53 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 17:53:53 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:2:2 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:2:2 INFO Kotori Bot By Hotaru 
+23/7/13 18:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:2:2 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:2:2 INFO Current connection mode: WsReverse 
+23/7/13 18:2:2 INFO WebSocket client successfully connected 
+23/7/13 18:2:2 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:2:2 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:2:2 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:2:2 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:3:3 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:3:3 INFO Kotori Bot By Hotaru 
+23/7/13 18:3:3 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:3:3 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:3:3 INFO Current connection mode: WsReverse 
+23/7/13 18:3:3 INFO WebSocket client successfully connected 
+23/7/13 18:3:3 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:3:3 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:3:3 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:3:3 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:3:3 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:3:3 INFO Kotori Bot By Hotaru 
+23/7/13 18:3:3 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:3:3 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:3:3 INFO Current connection mode: WsReverse 
+23/7/13 18:3:3 INFO WebSocket client successfully connected 
+23/7/13 18:3:3 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:3:3 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:3:3 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:3:3 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:3:3 ERROR [Plugin] TypeError: demo.default is not a function 
+23/7/13 18:4:4 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:4:4 INFO Kotori Bot By Hotaru 
+23/7/13 18:4:4 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:4:4 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:4:4 INFO Current connection mode: WsReverse 
+23/7/13 18:4:4 INFO WebSocket client successfully connected 
+23/7/13 18:4:4 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:4:4 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:4:4 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:4:4 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:4:4 ERROR [Plugin] TypeError: demo.default is not a function 
+23/7/13 18:4:4 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:4:4 INFO Kotori Bot By Hotaru 
+23/7/13 18:4:4 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:4:4 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:4:4 INFO Current connection mode: WsReverse 
+23/7/13 18:5:5 INFO WebSocket client successfully connected 
+23/7/13 18:5:5 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:5:5 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:5:5 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:5:5 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:5:5 ERROR [Plugin] TypeError: demo.default is not a function 
+23/7/13 18:5:5 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:5:5 INFO Kotori Bot By Hotaru 
+23/7/13 18:5:5 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:5:5 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:5:5 INFO Current connection mode: WsReverse 
+23/7/13 18:5:5 INFO WebSocket client successfully connected 
+23/7/13 18:5:5 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:5:5 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:5:5 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:5:5 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:6:6 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:6:6 INFO Kotori Bot By Hotaru 
+23/7/13 18:6:6 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:6:6 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:6:6 INFO Current connection mode: WsReverse 
+23/7/13 18:6:6 INFO WebSocket client successfully connected 
+23/7/13 18:6:6 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:6:6 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:6:6 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:6:6 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:6:6 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:6:6 ERROR [Plugin] Error: Client network socket disconnected before secure TLS connection was established 
+23/7/13 18:6:6 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:6:6 INFO Kotori Bot By Hotaru 
+23/7/13 18:6:6 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:6:6 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:6:6 INFO Current connection mode: WsReverse 
+23/7/13 18:6:6 INFO WebSocket client successfully connected 
+23/7/13 18:6:6 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:6:6 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:6:6 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:6:6 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:6:6 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:8:8 INFO Kotori Bot By Hotaru 
+23/7/13 18:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:8:8 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:8:8 INFO Current connection mode: WsReverse 
+23/7/13 18:8:8 INFO WebSocket client successfully connected 
+23/7/13 18:8:8 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:8:8 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:8:8 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:8:8 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:8:8 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:8:8 INFO Kotori Bot By Hotaru 
+23/7/13 18:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:8:8 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:8:8 INFO Current connection mode: WsReverse 
+23/7/13 18:8:8 INFO WebSocket client successfully connected 
+23/7/13 18:8:8 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:8:8 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:8:8 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:8:8 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:8:8 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:10:10 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:10:10 INFO Kotori Bot By Hotaru 
+23/7/13 18:10:10 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:10:10 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:10:10 INFO Current connection mode: WsReverse 
+23/7/13 18:11:11 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:11:11 INFO Kotori Bot By Hotaru 
+23/7/13 18:11:11 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:11:11 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:11:11 INFO Current connection mode: WsReverse 
+23/7/13 18:11:11 ERROR Error: listen EADDRINUSE: address already in use :::8080
+[90m    at Server.setupListenHandle [as _listen2] (node:net:1740:16)[39m
+[90m    at listenInCluster (node:net:1788:12)[39m
+[90m    at Server.listen (node:net:1876:7)[39m
+    at new WebSocketServer [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mws[24m\lib\websocket-server.js:97:20[90m)[39m
+    at new WsReverse [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\server\ws-reverse.ts:10:20[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:75:9[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:9:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m {
+  code: [32m'EADDRINUSE'[39m,
+  errno: [33m-4091[39m,
+  syscall: [32m'listen'[39m,
+  address: [32m'::'[39m,
+  port: [33m8080[39m
+} 
+23/7/13 18:11:11 INFO WebSocket client successfully connected 
+23/7/13 18:11:11 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:11:11 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:11:11 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:11:11 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:11:11 LOG Express server listening at http://127.0.0.1:3000 
+23/7/13 18:11:11 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:11:11 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:11:11 INFO Kotori Bot By Hotaru 
+23/7/13 18:11:11 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:11:11 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:11:11 INFO Current connection mode: WsReverse 
+23/7/13 18:11:11 INFO WebSocket client successfully connected 
+23/7/13 18:11:11 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:11:11 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:11:11 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:11:11 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:11:11 LOG Express server listening at http://127.0.0.1:3000 
+23/7/13 18:11:11 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/claude/index.ts[0m:[93m34[0m:[93m47[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m34[0m         getClaude(message, conversationIdList.groups[data.group_id]).then((d) => {
+[7m  [0m [91m                                              ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m38[0m:[93m85[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m38[0m                 if (!conversationIdList.groups[data.group_id] && conversationIdList.groups[data.group_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                    ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m39[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'groups' does not exist on type 'object'.
+
+[7m39[0m                     conversationIdList.groups[data.group_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m50[0m:[93m52[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m50[0m         getClaude(data.message, conversationIdList.users[data.user_id]).then((d) => {
+[7m  [0m [91m                                                   ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m54[0m:[93m83[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m54[0m                 if (!conversationIdList.users[data.user_id] && conversationIdList.users[data.user_id] !== d.conversationId) {
+[7m  [0m [91m                                                                                  ~~~~~[0m
+[96mplugins/claude/index.ts[0m:[93m55[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'users' does not exist on type 'object'.
+
+[7m55[0m                     conversationIdList.users[data.user_id] = d.conversationId;
+[7m  [0m [91m                                       ~~~~~[0m
+ 
+23/7/13 18:11:11 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:11:11 INFO Kotori Bot By Hotaru 
+23/7/13 18:11:11 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:11:11 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:11:11 INFO Current connection mode: WsReverse 
+23/7/13 18:11:11 INFO WebSocket client successfully connected 
+23/7/13 18:11:11 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:11:11 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:11:11 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:11:11 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:11:11 INFO Successfully loaded 5 plugins 
+23/7/13 18:11:11 LOG Express server listening at http://127.0.0.1:3000 
+23/7/13 18:13:13 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:13:13 INFO Kotori Bot By Hotaru 
+23/7/13 18:13:13 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:13:13 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:13:13 INFO Current connection mode: WsReverse 
+23/7/13 18:13:13 INFO WebSocket client successfully connected 
+23/7/13 18:13:13 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:13:13 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:13:13 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:13:13 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:13:13 INFO Successfully loaded 5 plugins 
+23/7/13 18:13:13 LOG Express server listening at http://127.0.0.1:3000 
+23/7/13 18:14:14 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:14:14 INFO Kotori Bot By Hotaru 
+23/7/13 18:14:14 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:14:14 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:14:14 INFO Current connection mode: WsReverse 
+23/7/13 18:14:14 INFO WebSocket client successfully connected 
+23/7/13 18:14:14 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:14:14 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:14:14 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:14:14 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:14:14 INFO Successfully loaded 5 plugins 
+23/7/13 18:14:14 LOG Express server listening at http://127.0.0.1:3000 
+23/7/13 18:16:16 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:16:16 INFO Kotori Bot By Hotaru 
+23/7/13 18:16:16 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:16:16 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:16:16 INFO Current connection mode: WsReverse 
+23/7/13 18:16:16 INFO WebSocket client successfully connected 
+23/7/13 18:16:16 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:16:16 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:16:16 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:16:16 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:16:16 INFO Successfully loaded 5 plugins 
+23/7/13 18:16:16 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/13 18:17:17 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:17:17 INFO Kotori Bot By Hotaru 
+23/7/13 18:17:17 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:17:17 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:17:17 INFO Current connection mode: WsReverse 
+23/7/13 18:17:17 INFO WebSocket client successfully connected 
+23/7/13 18:17:17 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/13 18:17:17 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/13 18:17:17 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/13 18:17:17 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/13 18:17:17 INFO Successfully loaded 5 plugins 
+23/7/13 18:17:17 LOG [WEB] Express server listening at http://127.0.0.1:3000 
+23/7/13 18:31:31 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/13 18:31:31 INFO Kotori Bot By Hotaru 
+23/7/13 18:31:31 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/13 18:31:31 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/13 18:31:31 INFO Current connection mode: WsReverse 
