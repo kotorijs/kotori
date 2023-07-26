@@ -1,7 +1,7 @@
+import { fetchJson, fetchText } from '@/function';
+import { FuncFetchSuper } from '@/interface';
 import os from 'os';
-
-export const URL = 'https://api.imlolicon.tk/api/';
-export const URL2 = 'https://imlolicon.tk/api/';
+import { Res } from './interface';
 
 export const dealTime = () => {
     const seconds = os.uptime() | 0;
@@ -42,4 +42,12 @@ export const dealCpu = () => {
         rate,
         ratearr
     }
+}
+
+export const fetchJ: FuncFetchSuper<Res> = async (url, params, init) => {
+    return fetchJson(url.substring(0, 4) === 'http' ? url : URL + url, params, init);
+}
+
+export const fetchT: FuncFetchSuper<string> = async (url, params, init) => {
+    return fetchText(url.substring(0, 4) === 'http' ? url : URL + url, params, init);
 }

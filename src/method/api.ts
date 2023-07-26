@@ -4,7 +4,7 @@
  * @Date: 2023-05-21 01:37:57
  */
 
-import { ApiInvitedRequest, ApiJoinRequest, Api as api, MessageForward, MessageNode, FuncSend } from "src/interface";
+import { ApiInvitedRequest, ApiJoinRequest, Api as api, MessageForward, MessageNode, FuncSend, Msg } from "src/interface";
 
 export class Api implements api {
     private send: FuncSend;
@@ -114,36 +114,36 @@ export class Api implements api {
     /* 消息 */
     /**
      * @description: 发送私聊消息
-     * @param {string} message 要发送的内容
+     * @param {Msg} message 要发送的内容
      * @param {number} user_id 对方QQ号
      * @param {boolean} auto_escape 消息内容是否作为纯文本发送(即不解析CQ码) 默认false
      * @return {*}
      */
-    public send_private_msg = (message: string, user_id: number, auto_escape: boolean = false): void => {
+    public send_private_msg = (message: Msg, user_id: number, auto_escape: boolean = false): void => {
         this.send('send_private_msg', { user_id, message, auto_escape });
     }
 
     /**
      * @description: 发送私聊消息
-     * @param {string} message 要发送的内容
+     * @param {Msg} message 要发送的内容
      * @param {group_id} group_id 群号
      * @param {boolean} auto_escape 消息内容是否作为纯文本发送(即不解析CQ码) 默认false
      * @return {*}
      */
-    public send_group_msg = (message: string, group_id: number, auto_escape: boolean = false): void => {
+    public send_group_msg = (message: Msg, group_id: number, auto_escape: boolean = false): void => {
         this.send('send_group_msg', { group_id, message, auto_escape });
     }
 
     /**
      * @description: 发送消息
-     * @param {string} message_type	消息类型,支持private、group,分别对应私聊、群组
+     * @param {Msg} message_type	消息类型,支持private、group,分别对应私聊、群组
      * @param {string} message 要发送的内容
      * @param {number} user_id 	对方QQ号(消息类型为private时需要)
      * @param {number} group_id 群号(消息类型为group时需要)
      * @param {boolean} auto_escape 消息内容是否作为纯文本发送(即不解析CQ码) 默认false
      * @return {*}
      */
-    public send_msg = (message_type: 'private' | 'group', message: string, user_id?: number, group_id?: number, auto_escape: boolean = false): void => {
+    public send_msg = (message_type: 'private' | 'group', message: Msg, user_id?: number, group_id?: number, auto_escape: boolean = false): void => {
         this.send('send_msg',
             message_type === 'private' ?
                 { message, user_id, auto_escape } :

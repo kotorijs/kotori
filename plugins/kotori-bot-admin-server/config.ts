@@ -5,6 +5,7 @@ export default {
         pwd: '2333'
     },
     bot: {
-        allowgrouptoken: true
+        allowGroupToken: true,
+        faceaAdress: 'http://192.168.1.7'
     }
 }

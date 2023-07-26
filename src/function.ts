@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import http from 'http';
 import YAML from 'yaml';
-import { ConfigFileType, ConstGlobal, FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj, PackageInfo, } from './interface';
+import { ConfigFileType, ConstGlobal, FuncFetchSuper, FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj, PackageInfo, } from './interface';
 
 export const _const: ConstGlobal = (function () {
     let _ROOT_PATH = __dirname + '\\..';
@@ -114,9 +114,9 @@ export function stringProcess(str: FuncStringProcessStr, key: FuncStringProcessK
     return false
 }
 
-export function arrayProcess(arr: FuncStringProcessStr[], key: FuncStringProcessKey, mode: FuncStringProcessMode = 0): boolean {
-    for (let a = 0; a < arr.length; a++) {
-        if (stringProcess(arr[a], key, mode)) return true;
+export function arrayProcess(str: FuncStringProcessStr, key: FuncStringProcessKey[], mode: FuncStringProcessMode = 0): boolean {
+    for (let a = 0; a < key.length; a++) {
+        if (stringProcess(str, key[a], mode)) return true;
     }
     return false;
 }
@@ -156,6 +156,25 @@ export function getUuid(): string {
 
 export function getRandomStr(): string {
     return getSpecStr('xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx');
+}
+
+export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {
+    if (params) {
+        url += '?';
+        Object.keys(params).forEach(key => {
+            url += `${key}=${params[key]}&`;
+        });
+        url = url.substring(0, url.length - 1);
+    }
+    return fetch(url, init);
+}
+
+export const fetchJson: FuncFetchSuper<any> = async (url: string, params, init) => {
+    return fetchParam(url, params, init).then(res => res.json());
+}
+
+export const fetchText: FuncFetchSuper<string> = async (url: string, params, init) => {
+    return fetchParam(url, params, init).then(res => res.text());
 }
 
 export class _console {
