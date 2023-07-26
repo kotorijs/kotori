@@ -8,6 +8,9 @@ export type FuncSend = (action: string, params?: Object) => void;
 export type FuncListen =  (callback: FuncListenCallback) => void;
 export type FuncListenCallback = (data: EventDataType) => void;
 export type FuncAppCallback = (Event: Event, Api: Api) => void;
+export type FuncStringProcessStr = string | number;
+export type FuncStringProcessKey = string | number | Array<string | number>;
+export type FuncStringProcessMode =  0 | 1 | 2;
 export type ConnectMode = 'http' | 'ws' | 'ws-reverse';
 export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?];
 export type PluginAsyncList = Set<PluginData>;
@@ -110,6 +113,7 @@ export interface ConstGlobal {
 }
 
 export interface Const {
+    _CONFIG: BotConfig,
     _CONFIG_PLUGIN_PATH: string,
     _DATA_PLUGIN_PATH: string,
     _BOT: BotInfo

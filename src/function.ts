@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import http from 'http';
 import YAML from 'yaml';
-import { ConfigFileType, ConstGlobal, obj, PackageInfo, } from './interface';
+import { ConfigFileType, ConstGlobal, FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj, PackageInfo, } from './interface';
 
 export const _const: ConstGlobal = (function () {
     let _ROOT_PATH = __dirname + '\\..';
@@ -83,7 +83,7 @@ export function createConfig(filename: string, data?: object, type: ConfigFileTy
     }
 }
 
-export function stringProcess(str: string | number, key: string | number | Array<string | number>, mode: 0 | 1 | 2 = 0): boolean {
+export function stringProcess(str: FuncStringProcessStr, key: FuncStringProcessKey, mode: FuncStringProcessMode = 0): boolean {
     if (typeof str === 'number') str = str.toString();
     if (typeof key === 'string' || typeof key === 'number') {
         key = key.toString()
@@ -114,7 +114,7 @@ export function stringProcess(str: string | number, key: string | number | Array
     return false
 }
 
-export function arrayProcess(arr: (string | number)[], key: string | number | Array<string | number>, mode: 0 | 1 | 2 = 0): boolean {
+export function arrayProcess(arr: FuncStringProcessStr[], key: FuncStringProcessKey, mode: FuncStringProcessMode = 0): boolean {
     for (let a = 0; a < arr.length; a++) {
         if (stringProcess(arr[a], key, mode)) return true;
     }
@@ -143,18 +143,19 @@ export function formatTime(time?: Date | null, format: Number = 0): string {
     return result;
 }
 
-export function getUuid(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+export function getSpecStr(template: string): string {
+    return template.replace(/[xy]/g, (c) => {
         const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
 
+export function getUuid(): string {
+    return getSpecStr('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
+}
+
 export function getRandomStr(): string {
-    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-        const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
+    return getSpecStr('xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx');
 }
 
 export class _console {

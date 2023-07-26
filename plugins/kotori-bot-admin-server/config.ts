@@ -1,7 +1,10 @@
 export default {
     port: 8000,
-    account: {
+    web: {
         user: 'himeno',
         pwd: '2333'
+    },
+    bot: {
+        allowgrouptoken: true
     }
 }
