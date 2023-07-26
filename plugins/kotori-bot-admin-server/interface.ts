@@ -23,3 +23,7 @@ export interface expressApp {
     post: expressAppRouter,
     use: (path: string, bind: object) => unknown
 }
+
+export interface Token {
+    token: string
+}
