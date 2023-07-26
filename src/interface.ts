@@ -5,12 +5,13 @@ export interface obj {
 
 export type ConfigFileType = 'json' | 'yaml' | 'xml' | 'ini' | 'txt';
 export type FuncSend = (action: string, params?: Object) => void;
-export type FuncListen =  (callback: FuncListenCallback) => void;
+export type FuncListen = (callback: FuncListenCallback) => void;
 export type FuncListenCallback = (data: EventDataType) => void;
 export type FuncAppCallback = (Event: Event, Api: Api) => void;
 export type FuncStringProcessStr = string | number;
 export type FuncStringProcessKey = string | number | Array<string | number>;
-export type FuncStringProcessMode =  0 | 1 | 2;
+export type FuncStringProcessMode = 0 | 1 | 2;
+export type FuncFetchSuper<T = Response> = (url: string, params?: { [key: string]: string | number }, init?: RequestInit) => Promise<T>;
 export type ConnectMode = 'http' | 'ws' | 'ws-reverse';
 export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?];
 export type PluginAsyncList = Set<PluginData>;
@@ -122,6 +123,7 @@ export interface Const {
 /* Api */
 /* 消息类型 */
 // 消息
+export type Msg = string | Message | Message[];
 export type MessageCqType = 'face' | 'record' | 'video' | 'at' | 'share' | 'music' | 'image' | 'reply' | 'redbag' | 'poke' | 'gift' | 'forward' | 'node' | 'xml' | 'json' | 'cardimage';
 export type MessageDataType = MessageFace | MessageRecord | MessageVideo | MessageAt | MessageShare | MessageMusic | MessageImage | MessageReply | MessageRedbag | MessagePoke | MessageGift | MessageNode | MessageXml | MessageJson | MessageCardImage;
 export interface Message {
@@ -173,12 +175,12 @@ export interface MessageMusicCustom {
 // 图片
 export interface MessageImage {
     file: string,
-    type: null | 'flash' | 'show',
-    subType: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 13,
-    url: string,
-    cache: 0 | 1,
-    id: 40000 | 40001 | 40002 | 40003 | 40004 | 40005,
-    c: 2 | 3
+    type?: null | 'flash' | 'show',
+    subType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 13,
+    url?: string,
+    cache?: 0 | 1,
+    id?: 40000 | 40001 | 40002 | 40003 | 40004 | 40005,
+    c?: 2 | 3
 }
 
 //回复
@@ -294,7 +296,7 @@ export interface Api {
     get_group_list: (no_cache: boolean) => void,
     get_group_member_info: (group_id: number, user_id: number, no_cache: boolean) => void,
     get_group_member_list: (group_id: number, no_cache: boolean) => void,
-    get_group_honor_info: (group_id: number, type: 'talkative' | 'performer' | 'legend' | 'strong_newbie' | 'emotion' | 'all' ) => void,
+    get_group_honor_info: (group_id: number, type: 'talkative' | 'performer' | 'legend' | 'strong_newbie' | 'emotion' | 'all') => void,
     get_group_system_msg: (invited_requests: ApiInvitedRequest[], join_requests: ApiJoinRequest[]) => void,
     get_essence_msg_list: (group_id: number) => void,
     get_group_at_all_remain: (group_id: number) => void,
@@ -316,7 +318,7 @@ export interface Api {
     set_group_leave: (group_id: number, is_dismiss: boolean) => void,
     upload_group_file: (group_id: number, file: string, name: string, folder: string) => void,
     delete_group_file: (group_id: number, file_id: string, busid: number) => void,
-    create_group_file_folder: (group_id: number, name: string, parent_id: '/' ) => void,
+    create_group_file_folder: (group_id: number, name: string, parent_id: '/') => void,
     delete_group_folder: (group_id: number, folder_id: string) => void,
     get_group_root_files: (group_id: number) => void,
     get_group_files_by_folder: (group_id: number, folder_id: string) => void,

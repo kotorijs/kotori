@@ -10,7 +10,7 @@ import bot from './bot';
 import { _const } from "@/function";
 import path from "path";
 
-updateToken()
+updateToken();
 const SHARE = {
     Status: <Const>{},
     PluginData: <PluginData[]>[],
