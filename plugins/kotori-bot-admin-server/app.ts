@@ -1,20 +1,24 @@
-namespace app {};
+namespace app { };
 
 import Express from "express";
-import { Api, BotConfig, Const, Event, PluginData, PluginInfo } from "@/interface";
+import { Api, Const, Event, PluginData, PluginInfo } from "@/interface";
 import config from "./config";
-import { handle, log, saveConfigP, verify } from './method';
+import { handle, log, updateToken, verify } from './method';
 import router from "./router";
 import { expressApp } from "./interface";
-import { getRandomStr } from "@/function";
+import bot from './bot';
+import { _const } from "@/function";
+import path from "path";
 
-saveConfigP('token.json', { token: getRandomStr() });
+updateToken()
 const SHARE = {
     Status: <Const>{},
     PluginData: <PluginData[]>[],
 };
 
 const app = Express();
+
+app.use(Express.static(path.join(_const._ROOT_PATH, '/web')));
 app.use(Express.json());
 
 app.all('*', (req, res, next) => {
@@ -26,13 +30,13 @@ app.all('*', (req, res, next) => {
 });
 
 app.get('/api/data/bot', (req, res) => {
-    if (verify(<string>req.query.token)) { handle(res, null, 504); return; } 
+    if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
     handle(res, SHARE.Status._BOT, 500);
 });
 
 app.get('/api/plugin/info', (req, res) => {
-    if (verify(<string>req.query.token)) { handle(res, null, 504); return; } 
-    const Plugins: {name: string, src: string, info: PluginInfo | undefined}[] = new Array;
+    if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
+    const Plugins: { name: string, src: string, info: PluginInfo | undefined }[] = new Array;
     SHARE.PluginData.forEach(element => {
         Plugins.push({
             name: element[1],
@@ -49,4 +53,5 @@ app.listen(config.port, () => log(`Express server listening at http://127.0.0.1:
 export default (Event: Event, Api: Api, Const: Const, Plugins: PluginData[]) => {
     SHARE.Status = Const;
     SHARE.PluginData = Plugins;
+    bot(Event, Api, Const);
 }

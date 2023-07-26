@@ -123,3 +123,547 @@
 23/7/25 15:33:33 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
 23/7/25 15:33:33 INFO Successfully loaded 5 plugins 
 23/7/25 15:33:33 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 17:45:45 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 17:45:45 INFO Kotori Bot By Hotaru 
+23/7/25 17:45:45 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 17:45:45 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 17:45:45 INFO Current connection mode: WsReverse 
+23/7/25 17:45:45 INFO WebSocket client successfully connected 
+23/7/25 17:45:45 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 17:45:45 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 17:45:45 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 17:45:45 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 17:45:45 INFO Successfully loaded 5 plugins 
+23/7/25 17:45:45 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 17:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 17:46:46 INFO Kotori Bot By Hotaru 
+23/7/25 17:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 17:46:46 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 17:46:46 INFO Current connection mode: WsReverse 
+23/7/25 17:46:46 INFO WebSocket client successfully connected 
+23/7/25 17:46:46 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 17:46:46 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 17:46:46 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 17:46:46 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 17:46:46 INFO Successfully loaded 5 plugins 
+23/7/25 17:46:46 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 19:21:21 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 19:21:21 INFO Kotori Bot By Hotaru 
+23/7/25 19:21:21 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 19:21:21 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 19:21:21 INFO Current connection mode: WsReverse 
+23/7/25 19:21:21 INFO WebSocket client successfully connected 
+23/7/25 19:21:21 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 19:21:21 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 19:21:21 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 19:21:21 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 19:21:21 INFO Successfully loaded 5 plugins 
+23/7/25 19:21:21 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 19:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 19:55:55 INFO Kotori Bot By Hotaru 
+23/7/25 19:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 19:55:55 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 19:55:55 INFO Current connection mode: WsReverse 
+23/7/25 19:55:55 INFO WebSocket client successfully connected 
+23/7/25 19:55:55 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 19:55:55 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 19:55:55 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 19:55:55 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 19:55:55 INFO Successfully loaded 5 plugins 
+23/7/25 19:55:55 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 19:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 19:56:56 INFO Kotori Bot By Hotaru 
+23/7/25 19:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 19:56:56 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 19:56:56 INFO Current connection mode: WsReverse 
+23/7/25 19:56:56 INFO WebSocket client successfully connected 
+23/7/25 19:56:56 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 19:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 19:56:56 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 19:56:56 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/app.ts[0m:[93m10[0m:[93m17[0m - [91merror[0m[90m TS2306: [0mFile 'F:/GCFile/JS/nodejs/kotori-bot/plugins/kotori-bot-admin-server/bot.ts' is not a module.
+
+[7m10[0m import bot from './bot';
+[7m  [0m [91m                ~~~~~~~[0m
+ 
+23/7/25 20:2:2 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:2:2 INFO Kotori Bot By Hotaru 
+23/7/25 20:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:2:2 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:2:2 INFO Current connection mode: WsReverse 
+23/7/25 20:2:2 INFO WebSocket client successfully connected 
+23/7/25 20:2:2 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:2:2 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:2:2 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:2:2 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/app.ts[0m:[93m10[0m:[93m17[0m - [91merror[0m[90m TS2306: [0mFile 'F:/GCFile/JS/nodejs/kotori-bot/plugins/kotori-bot-admin-server/bot.ts' is not a module.
+
+[7m10[0m import bot from './bot';
+[7m  [0m [91m                ~~~~~~~[0m
+ 
+23/7/25 20:7:7 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:7:7 INFO Kotori Bot By Hotaru 
+23/7/25 20:7:7 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:7:7 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:7:7 INFO Current connection mode: WsReverse 
+23/7/25 20:7:7 INFO WebSocket client successfully connected 
+23/7/25 20:7:7 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:7:7 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:7:7 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:7:7 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/app.ts[0m:[93m10[0m:[93m17[0m - [91merror[0m[90m TS2306: [0mFile 'F:/GCFile/JS/nodejs/kotori-bot/plugins/kotori-bot-admin-server/bot.ts' is not a module.
+
+[7m10[0m import bot from './bot';
+[7m  [0m [91m                ~~~~~~~[0m
+ 
+23/7/25 20:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:8:8 INFO Kotori Bot By Hotaru 
+23/7/25 20:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:8:8 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:8:8 INFO Current connection mode: WsReverse 
+23/7/25 20:8:8 INFO WebSocket client successfully connected 
+23/7/25 20:8:8 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:8:8 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:8:8 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:8:8 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/app.ts[0m:[93m10[0m:[93m17[0m - [91merror[0m[90m TS2306: [0mFile 'F:/GCFile/JS/nodejs/kotori-bot/plugins/kotori-bot-admin-server/bot.ts' is not a module.
+
+[7m10[0m import bot from './bot';
+[7m  [0m [91m                ~~~~~~~[0m
+ 
+23/7/25 20:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:8:8 INFO Kotori Bot By Hotaru 
+23/7/25 20:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:8:8 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:8:8 INFO Current connection mode: WsReverse 
+23/7/25 20:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:8:8 INFO Kotori Bot By Hotaru 
+23/7/25 20:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:8:8 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:8:8 INFO Current connection mode: WsReverse 
+23/7/25 20:8:8 INFO WebSocket client successfully connected 
+23/7/25 20:8:8 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:8:8 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:8:8 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:8:8 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:8:8 INFO Successfully loaded 5 plugins 
+23/7/25 20:8:8 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:10:10 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:10:10 INFO Kotori Bot By Hotaru 
+23/7/25 20:10:10 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:10:10 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:10:10 INFO Current connection mode: WsReverse 
+23/7/25 20:10:10 INFO WebSocket client successfully connected 
+23/7/25 20:10:10 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:10:10 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:10:10 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:10:10 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:10:10 INFO Successfully loaded 5 plugins 
+23/7/25 20:10:10 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:10:10 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:10:10 INFO Kotori Bot By Hotaru 
+23/7/25 20:10:10 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:10:10 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:10:10 INFO Current connection mode: WsReverse 
+23/7/25 20:11:11 INFO WebSocket client successfully connected 
+23/7/25 20:11:11 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:11:11 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:11:11 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:11:11 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:11:11 INFO Successfully loaded 5 plugins 
+23/7/25 20:11:11 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:18:18 INFO Kotori Bot By Hotaru 
+23/7/25 20:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:18:18 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:18:18 INFO Current connection mode: WsReverse 
+23/7/25 20:18:18 INFO WebSocket client successfully connected 
+23/7/25 20:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:18:18 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/router/account.ts[0m:[93m11[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'account' does not exist on type '{ port: number; web: { user: string; pwd: string; }; bot: {}; }'.
+
+[7m11[0m     if (user === config.account.user && pwd === config.account.pwd) {
+[7m  [0m [91m                        ~~~~~~~[0m
+[96mplugins/kotori-bot-admin-server/router/account.ts[0m:[93m11[0m:[93m56[0m - [91merror[0m[90m TS2339: [0mProperty 'account' does not exist on type '{ port: number; web: { user: string; pwd: string; }; bot: {}; }'.
+
+[7m11[0m     if (user === config.account.user && pwd === config.account.pwd) {
+[7m  [0m [91m                                                       ~~~~~~~[0m
+ 
+23/7/25 20:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:18:18 INFO Kotori Bot By Hotaru 
+23/7/25 20:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:18:18 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:18:18 INFO Current connection mode: WsReverse 
+23/7/25 20:18:18 INFO WebSocket client successfully connected 
+23/7/25 20:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:18:18 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/router/account.ts[0m:[93m11[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'account' does not exist on type '{ port: number; web: { user: string; pwd: string; }; bot: { allowgrouptoken: boolean; }; }'.
+
+[7m11[0m     if (user === config.account.user && pwd === config.account.pwd) {
+[7m  [0m [91m                        ~~~~~~~[0m
+[96mplugins/kotori-bot-admin-server/router/account.ts[0m:[93m11[0m:[93m56[0m - [91merror[0m[90m TS2339: [0mProperty 'account' does not exist on type '{ port: number; web: { user: string; pwd: string; }; bot: { allowgrouptoken: boolean; }; }'.
+
+[7m11[0m     if (user === config.account.user && pwd === config.account.pwd) {
+[7m  [0m [91m                                                       ~~~~~~~[0m
+ 
+23/7/25 20:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:18:18 INFO Kotori Bot By Hotaru 
+23/7/25 20:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:18:18 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:18:18 INFO Current connection mode: WsReverse 
+23/7/25 20:18:18 INFO WebSocket client successfully connected 
+23/7/25 20:18:18 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:18:18 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:18:18 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:18:18 INFO Successfully loaded 5 plugins 
+23/7/25 20:18:18 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:21:21 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:21:21 INFO Kotori Bot By Hotaru 
+23/7/25 20:21:21 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:21:21 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:21:21 INFO Current connection mode: WsReverse 
+23/7/25 20:21:21 INFO WebSocket client successfully connected 
+23/7/25 20:21:21 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:21:21 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:21:21 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:21:21 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:21:21 INFO Successfully loaded 5 plugins 
+23/7/25 20:21:21 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:24:24 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:24:24 INFO Kotori Bot By Hotaru 
+23/7/25 20:24:24 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:24:24 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:24:24 INFO Current connection mode: WsReverse 
+23/7/25 20:24:24 INFO WebSocket client successfully connected 
+23/7/25 20:24:24 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:24:24 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:24:24 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:24:24 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:24:24 INFO Successfully loaded 5 plugins 
+23/7/25 20:24:24 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:25:25 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:25:25 INFO Kotori Bot By Hotaru 
+23/7/25 20:25:25 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:25:25 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:25:25 INFO Current connection mode: WsReverse 
+23/7/25 20:25:25 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:25:25 INFO Kotori Bot By Hotaru 
+23/7/25 20:25:25 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:25:25 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:25:25 INFO Current connection mode: WsReverse 
+23/7/25 20:25:25 INFO WebSocket client successfully connected 
+23/7/25 20:25:25 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:25:25 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:25:25 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:25:25 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:25:25 INFO Successfully loaded 5 plugins 
+23/7/25 20:25:25 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:26:26 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:26:26 INFO Kotori Bot By Hotaru 
+23/7/25 20:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:26:26 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:26:26 INFO Current connection mode: WsReverse 
+23/7/25 20:26:26 INFO WebSocket client successfully connected 
+23/7/25 20:26:26 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:26:26 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:26:26 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:26:26 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:26:26 INFO Successfully loaded 5 plugins 
+23/7/25 20:26:26 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:26:26 ERROR Error: ENOENT: no such file or directory, open 'F:\GCFile\JS\nodejs\kotori-bot\src\..\data\kotori-bot-admin-server\token.json'
+    at Object.openSync (node:fs:601:3)
+    at Object.readFileSync (node:fs:469:35)
+    at loadConfig (F:\GCFile\JS\nodejs\kotori-bot\src\function.ts:45:29)
+    at loadConfigP (F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\method.ts:27:60)
+    at verify (F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\method.ts:21:43)
+    at F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\app.ts:30:15
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5)
+    at next (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5) 
+23/7/25 20:26:26 ERROR Error: ENOENT: no such file or directory, open 'F:\GCFile\JS\nodejs\kotori-bot\src\..\data\kotori-bot-admin-server\token.json'
+    at Object.openSync (node:fs:601:3)
+    at Object.readFileSync (node:fs:469:35)
+    at loadConfig (F:\GCFile\JS\nodejs\kotori-bot\src\function.ts:45:29)
+    at loadConfigP (F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\method.ts:27:60)
+    at verify (F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\method.ts:21:43)
+    at F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\app.ts:30:15
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5)
+    at next (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5) 
+23/7/25 20:26:26 ERROR Error: ENOENT: no such file or directory, open 'F:\GCFile\JS\nodejs\kotori-bot\src\..\data\kotori-bot-admin-server\token.json'
+    at Object.openSync (node:fs:601:3)
+    at Object.readFileSync (node:fs:469:35)
+    at loadConfig (F:\GCFile\JS\nodejs\kotori-bot\src\function.ts:45:29)
+    at loadConfigP (F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\method.ts:27:60)
+    at verify (F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\method.ts:21:43)
+    at F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\app.ts:30:15
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5)
+    at next (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5) 
+23/7/25 20:26:26 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:26:26 INFO Kotori Bot By Hotaru 
+23/7/25 20:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:26:26 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:26:26 INFO Current connection mode: WsReverse 
+23/7/25 20:26:26 INFO WebSocket client successfully connected 
+23/7/25 20:26:26 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:26:26 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:26:26 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:26:26 ERROR [Plugin] TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/bot.ts[0m:[93m16[0m:[93m38[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+
+[7m16[0m                 const token = encode((<Token>loadConfigP('token.json')).token);
+[7m  [0m [91m                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+ 
+23/7/25 20:26:26 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:26:26 INFO Kotori Bot By Hotaru 
+23/7/25 20:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:26:26 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:26:26 INFO Current connection mode: WsReverse 
+23/7/25 20:26:26 INFO WebSocket client successfully connected 
+23/7/25 20:26:26 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:26:26 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:26:26 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:26:26 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:26:26 INFO Successfully loaded 5 plugins 
+23/7/25 20:26:26 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:27:27 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:27:27 INFO Kotori Bot By Hotaru 
+23/7/25 20:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:27:27 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:27:27 INFO Current connection mode: WsReverse 
+23/7/25 20:27:27 INFO WebSocket client successfully connected 
+23/7/25 20:27:27 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:27:27 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:27:27 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:27:27 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:27:27 INFO Successfully loaded 5 plugins 
+23/7/25 20:27:27 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:28:28 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:28:28 INFO Kotori Bot By Hotaru 
+23/7/25 20:28:28 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:28:28 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:28:28 INFO Current connection mode: WsReverse 
+23/7/25 20:28:28 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:28:28 INFO Kotori Bot By Hotaru 
+23/7/25 20:28:28 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:28:28 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:28:28 INFO Current connection mode: WsReverse 
+23/7/25 20:28:28 INFO WebSocket client successfully connected 
+23/7/25 20:28:28 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:28:28 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:28:28 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:28:28 INFO Successfully loaded 5 plugins 
+23/7/25 20:28:28 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:29:29 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:29:29 INFO Kotori Bot By Hotaru 
+23/7/25 20:29:29 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:29:29 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:29:29 INFO Current connection mode: WsReverse 
+23/7/25 20:29:29 INFO WebSocket client successfully connected 
+23/7/25 20:29:29 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:29:29 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:29:29 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:29:29 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:29:29 INFO Successfully loaded 5 plugins 
+23/7/25 20:29:29 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:29:29 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:29:29 INFO Kotori Bot By Hotaru 
+23/7/25 20:29:29 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:29:29 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:29:29 INFO Current connection mode: WsReverse 
+23/7/25 20:29:29 INFO WebSocket client successfully connected 
+23/7/25 20:29:29 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:29:29 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:29:29 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:29:29 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:29:29 INFO Successfully loaded 5 plugins 
+23/7/25 20:29:29 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:30:30 INFO Kotori Bot By Hotaru 
+23/7/25 20:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:30:30 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:30:30 INFO Current connection mode: WsReverse 
+23/7/25 20:30:30 INFO WebSocket client successfully connected 
+23/7/25 20:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:30:30 INFO Kotori Bot By Hotaru 
+23/7/25 20:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:30:30 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:30:30 INFO Current connection mode: WsReverse 
+23/7/25 20:30:30 INFO WebSocket client successfully connected 
+23/7/25 20:30:30 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:30:30 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:30:30 INFO Successfully loaded 5 plugins 
+23/7/25 20:30:30 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:30:30 INFO Kotori Bot By Hotaru 
+23/7/25 20:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:30:30 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:30:30 INFO Current connection mode: WsReverse 
+23/7/25 20:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:30:30 INFO Kotori Bot By Hotaru 
+23/7/25 20:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:30:30 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:30:30 INFO Current connection mode: WsReverse 
+23/7/25 20:30:30 INFO WebSocket client successfully connected 
+23/7/25 20:30:30 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:30:30 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:30:30 INFO Successfully loaded 5 plugins 
+23/7/25 20:30:30 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:31:31 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:31:31 INFO Kotori Bot By Hotaru 
+23/7/25 20:31:31 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:31:31 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:31:31 INFO Current connection mode: WsReverse 
+23/7/25 20:31:31 INFO WebSocket client successfully connected 
+23/7/25 20:31:31 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:31:31 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:31:31 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:31:31 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:31:31 INFO Successfully loaded 5 plugins 
+23/7/25 20:31:31 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:32:32 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:32:32 INFO Kotori Bot By Hotaru 
+23/7/25 20:32:32 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:32:32 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:32:32 INFO Current connection mode: WsReverse 
+23/7/25 20:32:32 INFO WebSocket client successfully connected 
+23/7/25 20:32:32 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:32:32 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:32:32 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:32:32 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:32:32 INFO Successfully loaded 5 plugins 
+23/7/25 20:32:32 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:33:33 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:33:33 INFO Kotori Bot By Hotaru 
+23/7/25 20:33:33 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:33:33 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:33:33 INFO Current connection mode: WsReverse 
+23/7/25 20:33:33 INFO WebSocket client successfully connected 
+23/7/25 20:33:33 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:33:33 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:33:33 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:33:33 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:33:33 INFO Successfully loaded 5 plugins 
+23/7/25 20:33:33 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:44:44 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:44:44 INFO Kotori Bot By Hotaru 
+23/7/25 20:44:44 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:44:44 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:44:44 INFO Current connection mode: WsReverse 
+23/7/25 20:44:44 INFO WebSocket client successfully connected 
+23/7/25 20:45:45 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:45:45 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:45:45 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:45:45 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:45:45 INFO Successfully loaded 5 plugins 
+23/7/25 20:45:45 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:51:51 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:51:51 INFO Kotori Bot By Hotaru 
+23/7/25 20:51:51 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:51:51 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:51:51 INFO Current connection mode: WsReverse 
+23/7/25 20:51:51 INFO WebSocket client successfully connected 
+23/7/25 20:51:51 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:51:51 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:51:51 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:51:51 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:51:51 INFO Successfully loaded 5 plugins 
+23/7/25 20:51:51 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:51:51 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:51:51 INFO Kotori Bot By Hotaru 
+23/7/25 20:51:51 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:51:51 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:51:51 INFO Current connection mode: WsReverse 
+23/7/25 20:51:51 INFO WebSocket client successfully connected 
+23/7/25 20:51:51 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:51:51 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:51:51 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:51:51 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:51:51 INFO Successfully loaded 5 plugins 
+23/7/25 20:51:51 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:54:54 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:54:54 INFO Kotori Bot By Hotaru 
+23/7/25 20:54:54 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:54:54 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:54:54 INFO Current connection mode: WsReverse 
+23/7/25 20:54:54 INFO WebSocket client successfully connected 
+23/7/25 20:54:54 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:54:54 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:54:54 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:54:54 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:54:54 INFO Successfully loaded 5 plugins 
+23/7/25 20:54:54 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:56:56 INFO Kotori Bot By Hotaru 
+23/7/25 20:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:56:56 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:56:56 INFO Current connection mode: WsReverse 
+23/7/25 20:56:56 INFO WebSocket client successfully connected 
+23/7/25 20:56:56 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:56:56 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:56:56 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:56:56 INFO Successfully loaded 5 plugins 
+23/7/25 20:56:56 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:57:57 INFO Kotori Bot By Hotaru 
+23/7/25 20:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:57:57 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:57:57 INFO Current connection mode: WsReverse 
+23/7/25 20:57:57 INFO WebSocket client successfully connected 
+23/7/25 20:57:57 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:57:57 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:57:57 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:57:57 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:57:57 INFO Successfully loaded 5 plugins 
+23/7/25 20:57:57 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:58:58 INFO Kotori Bot By Hotaru 
+23/7/25 20:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:58:58 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:58:58 INFO Current connection mode: WsReverse 
+23/7/25 20:58:58 INFO WebSocket client successfully connected 
+23/7/25 20:58:58 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:58:58 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:58:58 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:58:58 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:58:58 INFO Successfully loaded 5 plugins 
+23/7/25 20:58:58 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/7/25 20:59:59 INFO Kotori Bot By Hotaru 
+23/7/25 20:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/7/25 20:59:59 INFO WebScoket server successfully established on ws://127.0.0.1:8080 
+23/7/25 20:59:59 INFO Current connection mode: WsReverse 
+23/7/25 20:59:59 INFO WebSocket client successfully connected 
+23/7/25 20:59:59 INFO ChatGPT Plugin loaded successfully Version: 1.0.0 By Hotaru 
+23/7/25 20:59:59 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/7/25 20:59:59 INFO Web With Kotori Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/7/25 20:59:59 INFO MCServer Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Hotaru 
+23/7/25 20:59:59 INFO Successfully loaded 5 plugins 
+23/7/25 20:59:59 LOG [WEB] Express server listening at http://127.0.0.1:8000 
+23/7/25 20:59:59 ERROR ForbiddenError: Forbidden
+    at createHttpError (F:\GCFile\JS\nodejs\kotori-bot\node_modules\send\index.js:979:12)
+    at SendStream.error (F:\GCFile\JS\nodejs\kotori-bot\node_modules\send\index.js:270:31)
+    at SendStream.pipe (F:\GCFile\JS\nodejs\kotori-bot\node_modules\send\index.js:549:12)
+    at sendfile (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\response.js:1130:8)
+    at ServerResponse.sendFile (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\response.js:449:3)
+    at F:\GCFile\JS\nodejs\kotori-bot\plugins\kotori-bot-admin-server\app.ts:51:9
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5)
+    at next (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (F:\GCFile\JS\nodejs\kotori-bot\node_modules\express\lib\router\layer.js:95:5) 

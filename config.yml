@@ -24,7 +24,7 @@ connect:
 # 暂未实现
 bot:
   # 机器人主人QQ号(拥有调试权限)
-  master: 123
+  master: 3324656453
   # 指令列表
   command-list:
     reload: /reload # 热重载所有插件

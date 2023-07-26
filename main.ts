@@ -138,6 +138,7 @@ export class Main {
             if (demo.default) {
                 const params = [
                     this._Event, this._Api, {
+                        _CONFIG: this._config,
                         _CONFIG_PLUGIN_PATH: `${__const._CONFIG_PATH}\\plugins\\${element[1]}`,
                         _DATA_PLUGIN_PATH: `${__const._DATA_PATH}\\plugins\\${element[1]}`,
                         _BOT: new Proxy(this._const._BOT, {})
