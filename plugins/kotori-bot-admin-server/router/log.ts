@@ -1,9 +1,16 @@
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-07-18 15:21:30
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-07-31 16:05:45
+ */
 import Express from 'express';
-import { handle, verify } from '../method';
+import { con, handle, verify } from '../method';
 import { existsSync, readFileSync, readdirSync } from 'fs';
-import { _const } from '@/function';
+import { CONST } from '@/tools';
 
-const LOG_PATH = `${_const._LOGS_PATH}\\`;
+const LOG_PATH = `${CONST.LOGS_PATH}\\`;
 const route = Express.Router();
 
 route.get('/list', (req, res) => {
@@ -30,7 +37,7 @@ route.get('/view', (req, res) => {
     try {
         handle(res, { file: list[num], content: readFileSync(path).toString() }, 500);
     } catch (error) {
-        console.error(error);
+        con.error(error);
         handle(res, null, 503);
     }
 });

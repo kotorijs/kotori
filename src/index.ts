@@ -1,6 +1,13 @@
-import { Main } from '../main';
-import { Api, Event, obj, EventDataType, FuncAppCallback, ConnectConfig } from './interface';
-import ApiPrototype from './method/api';
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-06-24 15:12:55
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-07-28 11:36:32
+ */
+import { Main } from '@/../main';
+import { Api, Event, obj, EventDataType, FuncAppCallback, ConnectConfig } from '@/tools';
+import ApiPrototype from '@/utils/class.api';
 
 interface Config {
     connect: ConnectConfig

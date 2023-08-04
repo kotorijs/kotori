@@ -1,10 +1,15 @@
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-07-15 16:09:28
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-07-30 16:06:59
+ */
 import os from 'os';
 import Express from 'express';
-import { _const, getPackageInfo } from "@/function";
-import { dealCpu, dealRam, dealTime } from "../../kotori-bot/method";
+import { CONST, getPackageInfo } from "@/tools";
+import { dealCpu, dealRam, dealTime, dealEnv } from "../../kotori-bot/method";
 import { handle, verify } from '../method';
-import { version as version_ts } from 'typescript';
-import { VERSION as version_tsnode } from "ts-node";
 import { readFileSync } from 'fs';
 
 const route = Express.Router();
@@ -37,17 +42,13 @@ route.get('/server', (req, res) => {
 
 route.get('/env', (req, res) => {
     if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
-    handle(res, {
-        node: process.versions.node,
-        typescript: version_ts,
-        tsnode: version_tsnode
-    }, 500);
+    handle(res, dealEnv(), 500);
 });
 
 route.get('/config', (req, res) => {
     if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
     handle(res, {
-        content: readFileSync(`${_const._ROOT_PATH}\\config.yml`).toString()
+        content: readFileSync(`${CONST.ROOT_PATH}\\config.yml`).toString()
     }, 500);
 })
 

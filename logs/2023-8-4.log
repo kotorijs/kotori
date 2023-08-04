@@ -1,0 +1,675 @@
+23/8/4 13:52:52 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 13:52:52 INFO Kotori Bot By Hotaru 
+23/8/4 13:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 13:52:52 WARM Run Info: Develop With Debuing... 
+23/8/4 13:52:52 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 13:52:52 INFO Current connection mode: WsReverse 
+23/8/4 13:52:52 INFO [Connect] WebSocket client successfully connected 
+23/8/4 13:52:52 INFO Successfully loaded 4 plugins 
+23/8/4 13:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 13:52:52 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 13:52:52 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 13:52:52 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 13:52:52 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 13:52:52 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26030
+今日：44
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 13:52:52 LOG [Plugin] Send group msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26030
+今日：44
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link group: 673830908 
+23/8/4 13:53:53 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 13:53:53 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26031
+今日：45
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 13:53:53 LOG [Plugin] Send private msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26031
+今日：45
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link user: 3324656453 
+23/8/4 13:53:53 INFO [Connect] WebSocket client successfully connected 
+23/8/4 13:53:53 INFO Successfully loaded 4 plugins 
+23/8/4 13:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 13:53:53 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 13:53:53 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 13:53:53 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 13:53:53 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 13:53:53 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26032
+今日：46
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 13:53:53 LOG [Plugin] Send private msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26032
+今日：46
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link user: 3324656453 
+23/8/4 13:53:53 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26033
+今日：47
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 13:53:53 LOG [Plugin] Send private msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267572
+今日：12
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125949
+今日：16
+昨日：56
+访客数据
+总计：26033
+今日：47
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link user: 3324656453 
+23/8/4 13:53:53 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 13:53:53 INFO Kotori Bot By Hotaru 
+23/8/4 13:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 13:53:53 WARM Run Info: Develop With Debuing... 
+23/8/4 13:53:53 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 13:53:53 INFO Current connection mode: WsReverse 
+23/8/4 13:53:53 INFO [Connect] WebSocket client successfully connected 
+23/8/4 13:53:53 INFO Successfully loaded 4 plugins 
+23/8/4 13:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 13:53:53 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 13:53:53 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 13:53:53 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 13:53:53 ERROR {} 
+23/8/4 13:53:53 LOG [Plugin] Send group msg: [CQ:at,qq=3324656453]今日的牛~牛长度是6cm group: 317691609 
+23/8/4 14:1:1 LOG [Plugin] Send group msg: [CQ:at,qq=2470895885]今日的牛~牛长度是19cm group: 317691609 
+23/8/4 15:15:15 LOG [Plugin] Send group msg: [CQ:at,qq=1843572349]今日的牛~牛长度是30cm group: 317691609 
+23/8/4 15:16:16 LOG [Plugin] Send group msg: [CQ:at,qq=1907976915] 欢迎加入本群，请先仔细阅读群公告，发送"/menu"或"菜单"查看更多BOT功能和信息 group: 317691609 
+23/8/4 15:16:16 LOG [Plugin] Send group msg: [CQ:at,qq=1843572349]今日的牛~牛长度是30cm group: 317691609 
+23/8/4 15:16:16 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 群管系统
+特殊功能 关于信息
+ByHimeno group: 317691609 
+23/8/4 15:16:16 LOG [Plugin] Send group msg: Kotori-Bot:
+发送指令时无需带[]
+/music [歌名*序号]: 网易云点歌,序号不填默认为1,例子:歌名*2
+/bgm [名字*序号]: 番组计划,搜索游戏/动漫/角色等
+/bgmc: 获取番组计划今日放送
+/star [星座名]: 查看今日星座运势
+/tran [内容]: 中英互译
+/lunar: 查看农历
+/story: 查看历史上的今天 group: 317691609 
+23/8/4 15:17:17 INFO GET Request url:https://api.imlolicon.tk/api/storytoday params: empty 
+23/8/4 15:17:17 INFO Response type: JSON result: {"code":500,"message":"success","data":["1821年-法国著名奢侈品品牌LV创始人路易·威登诞生","1998年-中国人首次登顶博格达峰","1996年-第26届奥运会落下帷幕","1998年-长江学者奖励计划全面启动","1966年-清末民初高级官员曹汝霖病死","1805年-爱尔兰数学家威廉·哈密顿诞生","1792年-英国最伟大的抒情诗人雪莱诞生","1941年-中国现代著名小说家许地山病逝","1935年-中共中央在毛儿盖召开沙窝会议","1875年-丹麦作家安徒生逝世"]} 
+23/8/4 15:17:17 LOG [Plugin] Send group msg: 历史上的今天
+1821年-法国著名奢侈品品牌LV创始人路易·威登诞生
+1998年-中国人首次登顶博格达峰
+1996年-第26届奥运会落下帷幕
+1998年-长江学者奖励计划全面启动
+1966年-清末民初高级官员曹汝霖病死
+1805年-爱尔兰数学家威廉·哈密顿诞生
+1792年-英国最伟大的抒情诗人雪莱诞生
+1941年-中国现代著名小说家许地山病逝
+1935年-中共中央在毛儿盖召开沙窝会议
+1875年-丹麦作家安徒生逝世 group: 317691609 
+23/8/4 15:17:17 LOG [Plugin] Send group msg: 服务器运行状态
+系统内核：Windows_NT
+系统平台：win32
+CPU架构：x64
+CPU型号：11th Gen Intel(R) Core(TM) i5-11400 @ 2.60GHz
+CPU频率：2.53GHz
+CPU核心数：12
+CPU使用率：110.73%
+内存总量：23.90GB
+可用内存：16.50GB
+内存使用率：69.05%
+网卡数量：6
+开机时间：00:04:11:16
+主机名字：BIYUEHU
+系统目录：C:\Users\BIYUEHU
+ByHimeno group: 317691609 
+23/8/4 15:32:32 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 15:32:32 INFO Kotori Bot By Hotaru 
+23/8/4 15:32:32 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 15:32:32 WARM Run Info: Develop With Debuing... 
+23/8/4 15:32:32 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 15:32:32 INFO Current connection mode: WsReverse 
+23/8/4 15:32:32 INFO [Connect] WebSocket client successfully connected 
+23/8/4 15:32:32 INFO Successfully loaded 4 plugins 
+23/8/4 15:33:33 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 15:33:33 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 15:33:33 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 15:33:33 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:2:2 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:2:2 INFO Kotori Bot By Hotaru 
+23/8/4 16:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:2:2 WARM Run Info: Develop With Debuing... 
+23/8/4 16:2:2 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:2:2 INFO Current connection mode: WsReverse 
+23/8/4 16:2:2 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:2:2 INFO Successfully loaded 4 plugins 
+23/8/4 16:2:2 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:2:2 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:2:2 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:2:2 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/4 16:2:2 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m69[0m:[93m41[0m - [91merror[0m[90m TS2662: [0mCannot find name 'Const'. Did you mean the static member 'Main.Const'?
+
+[7m69[0m         const result = data.user_id === Const._CONFIG.bot.master;
+[7m  [0m [91m                                        ~~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m100[0m:[93m13[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m100[0m             Api.send_private_msg(msg, this.data.user_id)
+[7m   [0m [91m            ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m102[0m:[93m13[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m102[0m             Api.send_group_msg(msg, <number>this.data.group_id)
+[7m   [0m [91m            ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m473[0m:[93m17[0m - [91merror[0m[90m TS2693: [0m'Const' only refers to a type, but is being used as a value here.
+
+[7m473[0m     const BOT = Const._BOT;
+[7m   [0m [91m                ~~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m517[0m:[93m9[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m517[0m         Api.set_group_ban(data.group_id!, qq, time * 60);
+[7m   [0m [91m        ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m520[0m:[93m9[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m520[0m         Api.set_group_whole_ban(data.group_id!);
+[7m   [0m [91m        ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m528[0m:[93m9[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m528[0m         Api.set_group_ban(data.group_id!, qq, 0);
+[7m   [0m [91m        ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m531[0m:[93m9[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m531[0m         Api.set_group_whole_ban(data.group_id!, false);
+[7m   [0m [91m        ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m540[0m:[93m9[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m540[0m         Api.set_group_kick(data.group_id!, qq);
+[7m   [0m [91m        ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m559[0m:[93m5[0m - [91merror[0m[90m TS2693: [0m'Api' only refers to a type, but is being used as a value here.
+
+[7m559[0m     Api._send_group_notice(data.group_id!, `From Admin~\n${target}`, image || undefined)
+[7m   [0m [91m    ~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [
+    [33m2662[39m, [33m2693[39m, [33m2693[39m,
+    [33m2693[39m, [33m2693[39m, [33m2693[39m,
+    [33m2693[39m, [33m2693[39m, [33m2693[39m,
+    [33m2693[39m
+  ]
+} 
+23/8/4 16:4:4 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:4:4 INFO Kotori Bot By Hotaru 
+23/8/4 16:4:4 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:4:4 WARM Run Info: Develop With Debuing... 
+23/8/4 16:4:4 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:4:4 INFO Current connection mode: WsReverse 
+23/8/4 16:4:4 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:4:4 INFO Successfully loaded 4 plugins 
+23/8/4 16:4:4 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:4:4 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:4:4 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:4:4 ERROR F:\GCFile\JS\nodejs\kotori-bot\main.ts:271
+            demo.default(<T.Event>params[0], <T.Api>params[1], <T.Const>params[2]);
+                        ^ 
+23/8/4 16:4:4 ERROR TypeError: Class constructor Main cannot be invoked without 'new'
+    at Main.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:271:25[90m)[39m
+    at Generator.next (<anonymous>)
+    at fulfilled [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:58[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m 
+23/8/4 16:23:23 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:23:23 INFO Kotori Bot By Hotaru 
+23/8/4 16:23:23 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:23:23 WARM Run Info: Develop With Debuing... 
+23/8/4 16:23:23 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:23:23 INFO Current connection mode: WsReverse 
+23/8/4 16:23:23 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:23:23 INFO Successfully loaded 4 plugins 
+23/8/4 16:23:23 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:23:23 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:23:23 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:23:23 ERROR F:\GCFile\JS\nodejs\kotori-bot\main.ts:271
+            demo.default(<T.Event>params[0], <T.Api>params[1], <T.Const>params[2]);
+                        ^ 
+23/8/4 16:23:23 ERROR TypeError: Class constructor Main cannot be invoked without 'new'
+    at Main.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:271:25[90m)[39m
+    at Generator.next (<anonymous>)
+    at fulfilled [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:58[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m 
+23/8/4 16:24:24 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:24:24 INFO Kotori Bot By Hotaru 
+23/8/4 16:24:24 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:24:24 WARM Run Info: Develop With Debuing... 
+23/8/4 16:24:24 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:24:24 INFO Current connection mode: WsReverse 
+23/8/4 16:24:24 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:24:24 INFO Successfully loaded 4 plugins 
+23/8/4 16:24:24 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:24:24 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:24:24 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:24:24 ERROR F:\GCFile\JS\nodejs\kotori-bot\main.ts:269
+        demo.default.prototype ? new ((demo.default as Function)(...params)) : (demo.default as Function)(...params);
+                                                                ^ 
+23/8/4 16:24:24 ERROR TypeError: Class constructor Main cannot be invoked without 'new'
+    at Main.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:269:65[90m)[39m
+    at Generator.next (<anonymous>)
+    at fulfilled [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:58[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m 
+23/8/4 16:29:29 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:29:29 INFO Kotori Bot By Hotaru 
+23/8/4 16:29:29 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:29:29 WARM Run Info: Develop With Debuing... 
+23/8/4 16:29:29 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:29:29 INFO Current connection mode: WsReverse 
+23/8/4 16:29:29 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:29:29 INFO Successfully loaded 4 plugins 
+23/8/4 16:29:29 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:29:29 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:29:29 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:29:29 ERROR F:\GCFile\JS\nodejs\kotori-bot\main.ts:269
+        demo.default.prototype ? new ((demo.default as Function)(...params)) : (demo.default as Function)(...params);
+                                                                ^ 
+23/8/4 16:29:29 ERROR TypeError: Class constructor Main cannot be invoked without 'new'
+    at Main.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:269:65[90m)[39m
+    at Generator.next (<anonymous>)
+    at fulfilled [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:58[90m)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:95:5)[39m 
+23/8/4 16:30:30 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:30:30 INFO Kotori Bot By Hotaru 
+23/8/4 16:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:30:30 WARM Run Info: Develop With Debuing... 
+23/8/4 16:30:30 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:30:30 INFO Current connection mode: WsReverse 
+23/8/4 16:30:30 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:30:30 INFO Successfully loaded 4 plugins 
+23/8/4 16:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 16:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:30:30 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:30:30 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:30:30 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:30:30 INFO Kotori Bot By Hotaru 
+23/8/4 16:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:30:30 WARM Run Info: Develop With Debuing... 
+23/8/4 16:30:30 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:30:30 INFO Current connection mode: WsReverse 
+23/8/4 16:30:30 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:30:30 INFO Successfully loaded 4 plugins 
+23/8/4 16:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 16:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:30:30 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:30:30 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:30:30 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 16:30:30 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125952
+今日：19
+昨日：56
+访客数据
+总计：26045
+今日：59
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 16:30:30 LOG [Plugin] Send group msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125952
+今日：19
+昨日：56
+访客数据
+总计：26045
+今日：59
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link group: 673830908 
+23/8/4 16:35:35 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:35:35 INFO Kotori Bot By Hotaru 
+23/8/4 16:35:35 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:35:35 WARM Run Info: Develop With Debuing... 
+23/8/4 16:35:35 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:35:35 INFO Current connection mode: WsReverse 
+23/8/4 16:35:35 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:35:35 INFO Successfully loaded 4 plugins 
+23/8/4 16:35:35 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 16:35:35 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:35:35 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:35:35 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:36:36 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:36:36 INFO Kotori Bot By Hotaru 
+23/8/4 16:36:36 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:36:36 WARM Run Info: Develop With Debuing... 
+23/8/4 16:36:36 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:36:36 INFO Current connection mode: WsReverse 
+23/8/4 16:36:36 INFO [Connect] WebSocket client successfully connected 
+23/8/4 16:36:36 INFO Successfully loaded 4 plugins 
+23/8/4 16:36:36 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 16:36:36 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 16:36:36 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 16:36:36 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 16:42:42 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 16:42:42 INFO Kotori Bot By Hotaru 
+23/8/4 16:42:42 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 16:42:42 WARM Run Info: Develop With Debuing... 
+23/8/4 16:42:42 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 16:42:42 INFO Current connection mode: WsReverse 
+23/8/4 17:24:24 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:24:24 INFO Kotori Bot By Hotaru 
+23/8/4 17:24:24 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:24:24 WARM Run Info: Develop With Debuing... 
+23/8/4 17:24:24 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:24:24 INFO Current connection mode: WsReverse 
+23/8/4 17:24:24 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:24:24 INFO Successfully loaded 4 plugins 
+23/8/4 17:24:24 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:24:24 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:24:24 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:24:24 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/KotoriGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/EnvGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/KotoriGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/ServerGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/EnvGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/ServerGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/ServerGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/ServerGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/ServerGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/BotGET 
+23/8/4 17:24:24 LOG [Web] [GET] Request path: /api/data/ServerGET 
+23/8/4 17:24:24 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:24:24 INFO Kotori Bot By Hotaru 
+23/8/4 17:24:24 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:24:24 WARM Run Info: Develop With Debuing... 
+23/8/4 17:24:24 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:24:24 INFO Current connection mode: WsReverse 
+23/8/4 17:25:25 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:25:25 INFO Successfully loaded 4 plugins 
+23/8/4 17:25:25 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:25:25 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:25:25 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:25:25 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Server 

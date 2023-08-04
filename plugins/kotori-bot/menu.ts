@@ -1,22 +1,47 @@
-export const URL = 'https://api.imlolicon.tk/api/';
-export const URL2 = 'https://imlolicon.tk/api/';
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-07-26 14:50:47
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-07-31 17:09:41
+ */
+import { comType } from "./interface";
+
+export const enum URL {
+    API = 'https://api.imlolicon.tk/api/',
+    BLOG = 'https://imlolicon.tk/api/',
+    GPT = 'http://chatgpt.imlolicon.tk/v1/chat/completions',
+    BGM = 'https://api.bgm.tv/'
+}
+
+export const enum BOT_RESULT {
+    SERVER_ERROR = '接口错误！请联系管理员',
+    ARGS_EMPTY = '参数不能为空',
+    NUM_ERROR = '序号错误！',
+    NO_ACCESS = '你无权限执行该指令！',
+    AUTHOR = 'ByHimeno'
+}
+
 export const HEADER: string = 'Kotori-Bot:';
 
-const Com: Map<string | string[] | ((str: string) => boolean), (() => void) | string> = new Map();
+const Com: comType = new Map();
 Com.set(['菜单', '/menu', '/help', 'kotori'],
     HEADER +
     '\n日常工具 查询工具' +
     '\n随机图片 随机语录' +
     '\nGPT聊天 群管系统' +
-    '\n特殊功能 关于BOT'
+    '\n特殊功能 关于信息' +
+    `\n${BOT_RESULT.AUTHOR}`
 );
 
 Com.set('日常工具',
     HEADER +
     '\n发送指令时无需带[]' +
     '\n/music [歌名*序号]: 网易云点歌,序号不填默认为1,例子:歌名*2' +
+    '\n/bgm [名字*序号]: 番组计划,搜索游戏/动漫/角色等' + 
+    '\n/bgmc: 获取番组计划今日放送' + 
     '\n/star [星座名]: 查看今日星座运势' +
-    '\n/translate [内容]: 中英互译' +
+    '\n/tran [内容]: 中英互译' +
     '\n/lunar: 查看农历' +
     '\n/story: 查看历史上的今天'
 );
@@ -72,7 +97,7 @@ Com.set('群管系统',
     HEADER +
     '\n以下功能仅群内且有权限时可用' +
     '\n发送指令时无需带[]' +
-    '\n/ban [QQ*倍率]: 禁言某人,默认10min,填2就是20min;不填QQ默认全体禁言' +
+    '\n/ban [QQ*分钟]: 禁言某人,默认10min;不填QQ默认全体禁言' +
     '\n/unban [QQ]: 解禁某人;不填QQ默认解除全体禁言' +
     '\n/kick [QQ]: 踢出某人' +
     '\n/all [内容]: 发送全体成员消息' +
@@ -84,10 +109,11 @@ Com.set('特殊功能',
     '\n/api: 查看API站点数据'
 );
 
-Com.set('关于',
+Com.set('关于信息',
     HEADER +
     '\n/help: 帮助信息' +
-    '\n/status: 查看BOT运行状态' +
+    '\n/bot: 查看BOT信息与运行状态' +
+    '\n/status: 查看服务器运行状态' +
     '\n/about: 关于机器人框架'
 );
 

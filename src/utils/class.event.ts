@@ -1,20 +1,23 @@
 /*
- * @Author: Biyuehu biyuehuya@gmail.com
+ * @Author: Hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
- * @Date: 2023-05-28 10:46:41
+ * @Date: 2023-06-24 15:12:55
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-03 20:36:02
  */
+import { EventHandle, EventList, EventDataType } from "../tools/interface";
 
-import { EventHandle, EventList, EventDataType } from "../interface";
-
-export class Event {
+export class EVENT {
     private on_private_msg: EventHandle = (data, callback) => {
         if (data.post_type === 'message' && data.message_type === 'private') {
+            // console.log(LOG_PREFIX.PLUGIN, `Send private msg: ${typeof data.message === 'string' ? data.message : JSON.stringify(data.message)} user: ${data.user_id}`);
             callback(data);
         }
     }
 
     private on_group_msg: EventHandle = (data, callback) => {
         if (data.post_type === 'message' && data.message_type === 'group') {
+            // console.log(LOG_PREFIX.PLUGIN, `Send group msg: ${typeof data.message === 'string' ? data.message : JSON.stringify(data.message)} group: ${data.group_id} user: ${data.user_id}`);
             callback(data);
         }
     }
@@ -149,9 +152,9 @@ export class Event {
 
     public handleEvent = (list: [string, Function][], eventData: EventDataType) => {
         list.forEach(element => {
-            this.handleEventList[element[0]](eventData, element[1]);
+            this.handleEventList[element[0] as keyof EventList](eventData, element[1]);
         })
     }
 }
 
-export default Event;
+export default EVENT;

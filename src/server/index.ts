@@ -1,7 +1,6 @@
-// import wsReverse from "./ws-reverse";
-import Http from "./http";
-import Ws from "./ws";
-import WsReverse from "./ws-reverse";
+import Http from "./class.http";
+import Ws from "./class.ws";
+import WsReverse from "./class.ws-reverse";
 
 export default {
     Http, Ws, WsReverse

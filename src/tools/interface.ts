@@ -1,6 +1,13 @@
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: http://imlolicon.tk
+ * @Date: 2023-07-12 15:42:18
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-03 16:44:42
+ */
 /* Function */
-export interface obj {
-    [key: string]: any
+export interface obj<T = any> {
+    [key: string]: T
 }
 
 export type ConfigFileType = 'json' | 'yaml' | 'xml' | 'ini' | 'txt';
@@ -9,20 +16,50 @@ export type FuncListen = (callback: FuncListenCallback) => void;
 export type FuncListenCallback = (data: EventDataType) => void;
 export type FuncAppCallback = (Event: Event, Api: Api) => void;
 export type FuncStringProcessStr = string | number;
-export type FuncStringProcessKey = string | number | Array<string | number>;
+export type FuncStringProcessKey = FuncStringProcessStr | Array<string | number>;
 export type FuncStringProcessMode = 0 | 1 | 2;
-export type FuncFetchSuper<T = Response> = (url: string, params?: { [key: string]: string | number }, init?: RequestInit) => Promise<T>;
-export type ConnectMode = 'http' | 'ws' | 'ws-reverse';
+export type FuncFetchSuper<T = Response> = (url: string, params?: { [key: string]: FuncStringProcessStr }, init?: RequestInit) => Promise<T>;
+export type FuncSdkCq<T = Message> = (type: MessageCqType, data: MessageDataType) => T;
 export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?];
 export type PluginAsyncList = Set<PluginData>;
+export type ConnectCallback = (arg: ConnectMethod) => void;
 
 export interface ConnectMethod {
     send: FuncSend,
     listen: FuncListen
 }
 
+export enum CONNECT_MODE {
+    http = 'Http',
+    ws = 'Ws',
+    'ws-reverse' = 'WsReverse'
+};
+
+export const enum LOG_PREFIX {
+    SYS = '[System]',
+    CONNECT = '[Connect]',
+    PLUGIN = '[Plugin]',
+    WEB = '[Web]',
+    KOTORI = '[Kotori]',
+    CMD = '[Result]'
+}
+
+export const enum PROCESS_CMD {
+    HELP = 'help',
+    STOP = 'stop',
+    BOT = 'bot',
+    PLUGIN = 'plugin',
+    PASSWORD = 'password',
+    SEND = 'send'
+}
+
+export const enum PLUGIN_GLOBAL {
+    KOTORI_PLUGIN = 'Kotori',
+    ADMIN_PLUGIN = 'kotori-bot-admin-server'
+}
+
 export interface ConnectConfig {
-    mode: 'Http' | 'Ws' | 'WsReverse',
+    mode: keyof typeof CONNECT_MODE,
     port: number,
     url?: string,
     reverse_port?: number,
@@ -40,7 +77,7 @@ export interface PackageInfo {
         dev: string,
         test: string,
         build: string,
-        cover: string
+        create: string
     },
     author: string,
     license: string,
@@ -57,6 +94,16 @@ export interface PackageInfo {
     }
 }
 
+export interface CreateData {
+    project: string,
+    style: 'class' | 'function',
+    name: string,
+    version: string,
+    description: string,
+    author: string,
+    license: string
+}
+
 export interface BotInfo {
     self_id: number,
     connect: number,
@@ -66,7 +113,7 @@ export interface BotInfo {
 
 export interface BotConfig {
     connect: {
-        mode: ConnectMode,
+        mode: keyof typeof CONNECT_MODE,
         'access-toekn': string,
         http: {
             url: string,
@@ -77,7 +124,7 @@ export interface BotConfig {
         ws: {
             url: string,
             port: number,
-            'reverse-port': number,
+            'retry-time': number
         },
         'ws-reverse': {
             port: number,
@@ -92,12 +139,12 @@ export interface BotConfig {
 }
 
 export interface PluginEntity {
-    default: (Event: Event, Api: Api, Const: Const) => void
+    default: (Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void | (new(Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void) 
 }
 
 export interface PluginInfo {
     name?: string,
-    descr?: string,
+    description?: string,
     icon?: string,
     version?: string,
     author?: string,
@@ -105,12 +152,12 @@ export interface PluginInfo {
 }
 
 export interface ConstGlobal {
-    _ROOT_PATH: string,
-    _PLUGIN_PATH: string,
-    _CONFIG_PATH: string,
-    _DATA_PATH: string,
-    _LOGS_PATH: string,
-    _BOT: BotInfo
+    ROOT_PATH: string,
+    PLUGIN_PATH: string,
+    CONFIG_PATH: string,
+    DATA_PATH: string,
+    LOGS_PATH: string,
+    BOT: BotInfo
 }
 
 export interface Const {
@@ -124,36 +171,55 @@ export interface Const {
 /* 消息类型 */
 // 消息
 export type Msg = string | Message | Message[];
-export type MessageCqType = 'face' | 'record' | 'video' | 'at' | 'share' | 'music' | 'image' | 'reply' | 'redbag' | 'poke' | 'gift' | 'forward' | 'node' | 'xml' | 'json' | 'cardimage';
-export type MessageDataType = MessageFace | MessageRecord | MessageVideo | MessageAt | MessageShare | MessageMusic | MessageImage | MessageReply | MessageRedbag | MessagePoke | MessageGift | MessageNode | MessageXml | MessageJson | MessageCardImage;
+export type MessageCqType = 'face' | 'record' | 'video' | 'at' | 'share' | 'music' | 'image' | 'reply' | 'redbag' | 'poke' | 'gift' | 'forward' | 'node' | 'xml' | 'json' | 'cardimage' | 'tts';
+export type MessageDataType = MessageFace | MessageRecord | MessageVideo | MessageAt | MessageShare | MessageMusic | MessageImage | MessageReply | MessageRedbag | MessagePoke | MessageGift | MessageForward | MessageNode | MessageXml | MessageJson | MessageCardImage | MessageTts;
 export interface Message {
     type: MessageCqType,
     data: MessageDataType
 }
 
+export type MessageFaceId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 60 | 61 | 62 | 63 | 64 | 65 | 66 | 67 | 68 | 69 | 70 | 71 | 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99 | 100 | 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 | 120 | 121 | 122 | 123 | 124 | 125 | 126 | 127 | 128 | 129 | 130 | 131 | 132 | 133 | 134 | 135 | 136 | 137 | 138 | 139 | 140 | 141 | 142 | 143 | 144 | 145 | 146 | 147 | 148 | 149 | 150 | 151 | 152 | 153 | 154 | 155 | 156 | 157 | 158 | 159 | 160 | 161 | 162 | 163 | 164 | 165 | 166 | 167 | 168 | 169 | 170 | 171 | 172 | 173 | 174 | 175 | 176 | 177 | 178 | 179 | 180 | 181 | 182 | 183 | 184 | 185 | 186 | 187 | 188 | 189 | 190 | 191 | 192 | 193 | 194 | 195 | 196 | 197 | 198 | 199 | 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207 | 208 | 209 | 210 | 211 | 212 | 213 | 214 | 215 | 216 | 217 | 218 | 219 | 220 | 221;
+
 // QQ表情
 export interface MessageFace {
-    id: string
+    id: MessageFaceId
 }
 
 // 语音
-export interface MessageRecord {
-    file: string
+export interface MessageRecordFile {
+    file: string,
+    magic?: 0 | 1
 }
 
+export interface MessageRecordUrl {
+    file: string,
+    url: string,
+    cache?: 0 | 1,
+    proxy?: 0 | 1,
+    timeout?: number
+}
+
+export type MessageRecord = MessageRecordFile | MessageRecordUrl;
+
 // 短视频
-export interface MessageVideo extends MessageRecord { }
+export interface MessageVideo {
+    file: string,
+    cover?: string,
+    c?: 1 | 2 | 3
+}
 
 // @某人
 export interface MessageAt {
-    qq: string,
-    name: string
+    qq: 'all' | string | number,
+    name?: string
 }
 
 // 链接分享
 export interface MessageShare {
     url: string,
-    title: string
+    title: string,
+    content?: string,
+    image?: string
 }
 
 // 音乐分享
@@ -168,36 +234,36 @@ export interface MessageMusicCustom {
     url: string,
     audio: string,
     title: string,
-    content: string,
-    image: string
+    content?: string,
+    image?: string
 }
 
 // 图片
 export interface MessageImage {
     file: string,
-    type?: null | 'flash' | 'show',
+    type?: 'flash' | 'show' | 'normal',
     subType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 13,
     url?: string,
     cache?: 0 | 1,
     id?: 40000 | 40001 | 40002 | 40003 | 40004 | 40005,
-    c?: 2 | 3
+    c?: 1 | 2 | 3
 }
 
 //回复
 export interface MessageReply {
     id: number,
     text: string,
-    qq: number,
-    time: number,
-    seq: number
+    qq?: number,
+    time?: number,
+    seq?: number
 }
 
-// 红包
+// 红包(收)
 export interface MessageRedbag {
     title: string
 }
 
-// 戳一戳
+// 戳一戳(发)
 export interface MessagePoke {
     qq: number
 }
@@ -214,23 +280,25 @@ export interface MessageForward {
 }
 
 // 合并转发消息节点
-export interface MessageNode {
-    id: number,
+export interface MessageNodeCustom {
     name: string,
     uin: number,
     content: Message,
     seq: Message
 }
+export type MessageNode = {
+    id: number
+} | MessageNodeCustom
 
 // XML消息
 export interface MessageXml {
     data: string,
-    resid: number | '' | null
+    resid?: number | '' | null
 }
 
 // JSON消息
 export interface MessageJson extends MessageXml {
-    resid: number | 0
+    resid?: number
 }
 
 // cardimage
@@ -241,11 +309,11 @@ export interface MessageCardImage {
     maxwidth: number,
     maxheight: number,
     source: string,
-    icon: string
+    icon?: string
 }
 
 // 文本转语音
-export interface ApiTts {
+export interface MessageTts {
     text: string
 }
 
@@ -275,9 +343,9 @@ export interface Api {
     get_unidirectional_friend_list: () => void,
     delete_friend: (user_id: number) => void,
     delete_unidirectional_friend: (user_id: number) => void,
-    send_private_msg: (message: string, user_id: number, auto_escape?: boolean) => void,
-    send_group_msg: (message: string, group_id: number, auto_escape?: boolean) => void,
-    send_msg: (message_type: 'private' | 'group', message: string, user_id?: number, group_id?: number, auto_escape?: boolean) => void
+    send_private_msg: (message: Msg, user_id: number, auto_escape?: boolean) => void,
+    send_group_msg: (message: Msg, group_id: number, auto_escape?: boolean) => void,
+    send_msg: (message_type: 'private' | 'group', message: Msg, id: number, auto_escape?: boolean) => void
     get_msg: (message_id: number) => void,
     delete_msg: (message_id: number) => void,
     mark_msg_as_read: (message_id: number) => void,
@@ -306,7 +374,7 @@ export interface Api {
     set_group_card: (group_id: number, user_id: number, card: string) => void,
     set_group_special_title: (group_id: number, user_id: number, special_title: string, duration: number) => void,
     set_group_ban: (group_id: number, user_id: number, duration: number) => void,
-    set_group_whole_ban: (group_id: number, enable: boolean) => void,
+    set_group_whole_ban: (group_id: number, enable?: boolean) => void,
     set_group_anonymous_ban: (group_id: number, flag: string, duration: number) => void,
     set_essence_msg: (message_id: number) => void,
     delete_essence_msg: (message_id: number) => void,
@@ -314,7 +382,7 @@ export interface Api {
     set_group_anonymous: (group_id: number, enable: boolean) => void,
     _send_group_notice: (group_id: number, content: string, image?: string) => void,
     _get_group_notice: (group_id: number) => void,
-    set_group_kick: (group_id: number, user_id: number, reject_add_request: boolean) => void,
+    set_group_kick: (group_id: number, user_id: number, reject_add_request?: boolean) => void,
     set_group_leave: (group_id: number, is_dismiss: boolean) => void,
     upload_group_file: (group_id: number, file: string, name: string, folder: string) => void,
     delete_group_file: (group_id: number, file_id: string, busid: number) => void,
@@ -336,7 +404,7 @@ export interface Api {
 
 /* Event */
 export type EventHandle = (data: EventDataType, callback: Function) => void;
-export type EventListName = 'on_private_msg' | 'on_group_msg' | 'on_friend_recall' | 'on_group_recall' | 'on_group_increase' | 'on_group_decrease' | 'on_group_admin' | 'on_group_upload' | 'on_group_ban' | 'on_friend_add' | 'on_notify' | 'on_group_card' | 'on_offline_file' | 'on_client_status' | 'on_essence' | 'on_friend_request' | 'on_group_request' | 'on_heartbeat' | 'on_meta_event: EventHandle';
+export type EventListName = keyof EventList;
 export type EventPostType = 'message' | 'message_sent' | 'request' | 'notice' | 'meta_event';
 export type EventMessageType = 'private' | 'group';
 export type EventSubType = 'friend' | 'normal' | 'anonymous' | 'group_self' | 'group' | 'notice' | 'connect';

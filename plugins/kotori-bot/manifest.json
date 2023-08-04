@@ -1,6 +1,6 @@
 {
     "name": "KotoriBot Core",
-    "descr": "KotoriBot核心插件",
+    "description": "KotoriBot核心插件",
     "version": "1.0.0",
     "author": "Himeno",
     "license": "GPL-2.0"

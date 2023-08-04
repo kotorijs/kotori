@@ -1,12 +1,13 @@
 /*
- * @Author: Biyuehu biyuehuya@gmail.com
+ * @Author: Hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
- * @Date: 2023-05-21 01:37:57
+ * @Date: 2023-06-24 15:12:55
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-03 18:46:04
  */
+import { ApiInvitedRequest, ApiJoinRequest, Api as api, MessageForward, MessageNode, FuncSend, Msg, LOG_PREFIX } from "@/tools/interface";
 
-import { ApiInvitedRequest, ApiJoinRequest, Api as api, MessageForward, MessageNode, FuncSend, Msg } from "src/interface";
-
-export class Api implements api {
+export class API implements api {
     private send: FuncSend;
     public constructor (send: FuncSend) {
         this.send = send;
@@ -120,6 +121,7 @@ export class Api implements api {
      * @return {*}
      */
     public send_private_msg = (message: Msg, user_id: number, auto_escape: boolean = false): void => {
+        console.log(LOG_PREFIX.PLUGIN, `Send private msg: ${typeof message === 'string' ? message : JSON.stringify(message)} user: ${user_id}`)
         this.send('send_private_msg', { user_id, message, auto_escape });
     }
 
@@ -131,6 +133,7 @@ export class Api implements api {
      * @return {*}
      */
     public send_group_msg = (message: Msg, group_id: number, auto_escape: boolean = false): void => {
+        console.log(LOG_PREFIX.PLUGIN, `Send group msg: ${typeof message === 'string' ? message : JSON.stringify(message)} group: ${group_id}`)
         this.send('send_group_msg', { group_id, message, auto_escape });
     }
 
@@ -138,16 +141,16 @@ export class Api implements api {
      * @description: 发送消息
      * @param {Msg} message_type	消息类型,支持private、group,分别对应私聊、群组
      * @param {string} message 要发送的内容
-     * @param {number} user_id 	对方QQ号(消息类型为private时需要)
-     * @param {number} group_id 群号(消息类型为group时需要)
+     * @param {number} id 	对方QQ号或群号
      * @param {boolean} auto_escape 消息内容是否作为纯文本发送(即不解析CQ码) 默认false
      * @return {*}
      */
-    public send_msg = (message_type: 'private' | 'group', message: Msg, user_id?: number, group_id?: number, auto_escape: boolean = false): void => {
+    public send_msg = (message_type: 'private' | 'group', message: Msg, id: number, auto_escape: boolean = false): void => {
+        console.log(LOG_PREFIX.PLUGIN, `Send ${message_type} msg: ${typeof message === 'string' ? message : JSON.stringify(message)} ${message_type === 'group' ? `group` : `user`}: ${id}`);
         this.send('send_msg',
-            message_type === 'private' ?
-                { message, user_id, auto_escape } :
-                { message, group_id, auto_escape });
+            message_type === 'private' ? 
+                { message, user_id: id, auto_escape } :
+                { message, group_id: id, auto_escape });
     }
 
     /**
@@ -407,7 +410,7 @@ export class Api implements api {
      * @description: 设置群名片(群备注)
      * @param {number} group_id 群号
      * @param {number} user_id 要设置的QQ号
-     * @param {string} card 群名片内容, 不填或空字符串表示删除群名片
+     * @param {string} card 群名片内容,不填或空字符串表示删除群名片
      * @return {*}
      */
     public set_group_card = (group_id: number, user_id: number, card: string): void => {
@@ -418,7 +421,7 @@ export class Api implements api {
      * @description: 设置群组专属头衔
      * @param {number} group_id 群号
      * @param {number} user_id 要设置的QQ号
-     * @param {string} special_title 	专属头衔, 不填或空字符串表示删除专属头衔
+     * @param {string} special_title 专属头衔,不填或空字符串表示删除专属头衔
      * @param {number} duration
      * @return {*}
      */
@@ -525,7 +528,7 @@ export class Api implements api {
      * @return {*}
      */
     public set_group_kick = (group_id: number, user_id: number, reject_add_request: boolean = false): void => {
-        this.send('_get_group_notice', { group_id, user_id, reject_add_request });
+        this.send('set_group_kick', { group_id, user_id, reject_add_request });
     }
 
     /**
@@ -535,7 +538,7 @@ export class Api implements api {
      * @return {*}
      */
     public set_group_leave = (group_id: number, is_dismiss: boolean = false): void => {
-        this.send('set_group_kick', { group_id, is_dismiss});
+        this.send('set_group_leave', { group_id, is_dismiss});
     }
 
 
@@ -701,4 +704,4 @@ export class Api implements api {
     }
 }
 
-export default Api;
+export default API;
