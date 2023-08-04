@@ -1,9 +1,11 @@
 /*
- * @Author: Biyuehu biyuehuya@gmail.com
+ * @Author: Hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
- * @Date: 2023-06-15 16:41:22
+ * @Date: 2023-07-11 10:31:22
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-07-31 16:03:48
  */
-import { stringProcess, stringSplit } from '../../src/function';
+import { stringProcess, stringSplit } from '@/tools';
 import config from './config';
 const url = "http://chatgpt.imlolicon.tk/v1/chat/completions";
 
@@ -40,9 +42,7 @@ export default (Event: any, Api: any) => {
             .then((response) => response.json())
             .then((res) => {
                 Api.send_group_msg(res.choices[0].message.content, data.group_id)
-                console.log(res);
-            })
-            .catch((error) => console.log(error));
+            });
     }
 
     function method_private(data: any) {
@@ -54,9 +54,7 @@ export default (Event: any, Api: any) => {
             .then((response) => response.json())
             .then((res) => {
                 Api.send_private_msg(res.choices[0].message.content, data.user_id)
-                console.log(res);
-            })
-            .catch((error) => console.log(error));
+            });
     }
 }
 

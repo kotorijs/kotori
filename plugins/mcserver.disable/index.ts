@@ -1,14 +1,15 @@
 /*
- * @Author: Biyuehu biyuehuya@gmail.com
+ * @Author: Hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
- * @Date: 2023-06-15 16:41:22
+ * @Date: 2023-07-11 10:31:22
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-07-28 11:47:19
  */
-
 import config from './config';
 import needle from 'needle';
 import fs from 'fs';
 import { wss} from './wss';
-import { stringProcess, stringSplit } from '../../src/function';
+import { stringProcess, stringSplit } from '@/tools';
 
 const log = (...args:any) => console.log('[MCServer]', ...args);
 
@@ -144,7 +145,7 @@ export default (Event: any, Api: any, Const: any) => {
     setInterval(() => {
         fs.readFile(`${Const._DATA_PLUGIN_PATH}/ip.ini`, 'utf-8', (err, data) => {
             if (err) {
-                console.error(err);
+                console.error('[MCServer]', err);
                 return;
             }
             needle('get', _get_own_ip_url).then(res => {

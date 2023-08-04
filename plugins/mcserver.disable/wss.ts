@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import config from './config'; 
-import { stringProcess, stringSplit } from '../../src/function';
+import { stringProcess, stringSplit } from '@/tools';
 
 const log = (...args:any) => console.log('[MCServer]', ...args);
 

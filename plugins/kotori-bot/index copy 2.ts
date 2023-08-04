@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-31 17:28:05
+ * @LastEditTime: 2023-07-31 19:04:49
  */
 import os from 'os';
 import type { EventDataType, obj, Event, Api, Const, Msg } from '@/tools';
@@ -40,15 +40,46 @@ const enum RES_CODE {
 }
 
 /* 公共对象 */
-let Api: Api, Const: Const, messageCache: string, target: string = '';
+let Api: Api, Const: Const;
+class Content {
+    // private target: string;
+    public constructor(private data: EventDataType) {
+        const result = Com.get(this.data.message);
+        if (result && typeof result === 'string') {
+            this.runHandlerFunc(result);
+            return;
+        }
+
+        for (let [key, handlerFunc] of Com) {
+            if ((typeof key === 'function' && key(this.data.message)) || (Array.isArray(key) && key.includes(this.data.message))) {
+                this.runHandlerFunc(handlerFunc);
+            }
+        }
+    }
+
+    private send = (msg: Msg) => {
+        if (this.data.message_type === 'private') {
+            Api.send_private_msg(msg, this.data.user_id)
+        } else {
+            Api.send_group_msg(msg, <number>this.data.group_id)
+        }
+    }
+
+    private runHandlerFunc = (handlerFunc: string | HandlerFuncType) => {
+        if (typeof handlerFunc === 'string') {
+            this.send(handlerFunc);
+        } else {
+            handlerFunc(this.data, this.target);
+        };
+    }
+}
 
 /* 插件入口 */
 export default (Event: Event, Api_: Api, Const_: Const) => {
     Api = Api_, Const = Const_;
     const run = (data: EventDataType) => {
-        messageCache = data.message;
         if (!verifyGroup(data)) return;
-        handler(data, target);
+        new Content(data);
     }
     Event.listen("on_group_msg", data => run(data));
     Event.listen("on_private_msg", data => run(data));
@@ -59,17 +90,10 @@ export default (Event: Event, Api_: Api, Const_: Const) => {
 }
 
 /* 函数定义 */
-const send = (msg: Msg, data: EventDataType) => {
-    if (data.message_type === 'private') {
-        Api.send_private_msg(msg, data.user_id)
-    } else {
-        Api.send_group_msg(msg, <number>data.group_id)
-    }
-}
 
-const verifyAcess = (data: EventDataType) => {
+const verifyAcess = (data: EventDataType, send: ) => {
     const result = data.user_id === Const._CONFIG.bot.master;
-    result || send(BOT_RESULT.NO_ACCESS, data);
+    result || send(BOT_RESULT.NO_ACCESS);
     return result;
 }
 
@@ -81,23 +105,14 @@ const verifyGroup = (data: EventDataType) => {
     return true;
 }
 
-const stringP = (str: string, key: string) => {
+const stringP = (str: string, key: string): [boolean, string] => {
     key += ' ';
     const result = stringProcess(str, key);
-    result && (target = stringSplit(str, key));
-    return result;
+    return [result, result ? stringSplit(str, key) : ''];
 }
 
-const matchFunc = (key: string): (str: string) => boolean => {
+const matchFunc = (key: string): (str: string) => [boolean, string] => {
     return (str: string) => stringP(str, key);
-}
-
-const runHandlerFunc = (handlerFunc: string | HandlerFuncType, data: EventDataType, target?: string) => {
-    if (typeof handlerFunc === 'string') {
-        send(handlerFunc, data);
-    } else {
-        handlerFunc(data!, target!);
-    };
 }
 
 interface ResAfter extends Res {
@@ -126,29 +141,13 @@ const fetchJH = (url: string, params: {} | undefined = undefined, onSuccess: (re
     })
 }
 
-const handler: HandlerFuncType = (data, target) => {
-    const result = Com.get(messageCache);
-    if (result) {
-        runHandlerFunc(result, data, target);
-        return;
-    }
-
-    for (let [key, handlerFunc] of Com) {
-        if ((typeof key === 'function' && key(messageCache)) || (Array.isArray(key) && key.includes(messageCache))) {
-            runHandlerFunc(handlerFunc);
-        }
-    }
-
-    /* 本次消息处理完成 清空消息缓存 */
-    messageCache = '';
-}
-
 /* 应用区 */
 Com.set('test', () => send(SDK.sdk_cq_j('image', {
     file: 'https://gw.alicdn.com/tfscom/tuitui/O1CN011GotpkuaCpZ0FZr_!!0-rate.jpg'
 })));
 
-Com.set(matchFunc('/music'), data => {
+Com.set(matchFunc('/music'), (data, send) => {
+    this.
     const arr = target.split('*');
     target = arr[0];
     const num = arr[1] ? parseInt(arr[1]) : 1;

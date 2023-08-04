@@ -4,19 +4,19 @@ import http from 'http';
 import YAML from 'yaml';
 import { ConfigFileType, ConstGlobal, FuncFetchSuper, FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj, PackageInfo, } from './interface';
 
-export const _const: ConstGlobal = (function () {
-    let _ROOT_PATH = __dirname + '\\..';
-    if (!fs.existsSync(`${_ROOT_PATH}\\config.yml`)) {
-        _ROOT_PATH += '\\..';
+export const CONST: ConstGlobal = (function () {
+    let ROOT_PATH = __dirname + '\\..';
+    if (!fs.existsSync(`${ROOT_PATH}\\config.yml`)) {
+        ROOT_PATH += '\\..';
     }
 
     return {
-        _ROOT_PATH,
-        _PLUGIN_PATH: `${_ROOT_PATH}\\plugins`,
-        _CONFIG_PATH: `${_ROOT_PATH}\\config`,
-        _DATA_PATH: `${_ROOT_PATH}\\data`,
-        _LOGS_PATH: `${_ROOT_PATH}\\logs`,
-        _BOT: {
+        ROOT_PATH,
+        PLUGIN_PATH: `${ROOT_PATH}\\plugins`,
+        CONFIG_PATH: `${ROOT_PATH}\\config`,
+        DATA_PATH: `${ROOT_PATH}\\data`,
+        LOGS_PATH: `${ROOT_PATH}\\logs`,
+        BOT: {
             self_id: 0,
             connect: 0,
             heartbeat: 0,
@@ -41,7 +41,15 @@ export const _const: ConstGlobal = (function () {
     }
 })();
 
+export const OPTIONS = {
+    catchError: process.argv[2] !== 'dev'
+}
+
 export function loadConfig(filename: string, type: ConfigFileType = 'json'): object | string {
+    const dirname: string = path.dirname(filename);
+    if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
+    if (!fs.existsSync(filename)) fs.writeFileSync(filename, '');
+
     const data: string = fs.readFileSync(filename).toString()
     try {
         if (type === 'yaml') return YAML.parse(data);
@@ -53,16 +61,15 @@ export function loadConfig(filename: string, type: ConfigFileType = 'json'): obj
     }
 }
 
-export function saveConfig(filename: string, data: object, type: ConfigFileType = 'json'): void {
+export function saveConfig(filename: string, data: object | string, type: ConfigFileType = 'json'): void {
     let content: string = '';
     try {
-        if (type === 'json') content = JSON.stringify(data);
-        if (type === 'yaml') content = YAML.stringify(data);
+        if (typeof data === 'object' && type === 'json') content = JSON.stringify(data);
+        else if (typeof data === 'object' && type === 'yaml') content = YAML.stringify(data);
+        else content = data as string;
 
         const dirname: string = path.dirname(filename);
-        if (!fs.existsSync(dirname)) {
-            fs.mkdirSync(dirname, { recursive: true });
-        }
+        if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
 
         fs.writeFileSync(filename, content);
     } catch (err) {
@@ -130,8 +137,18 @@ export function stringSplit(str: string, key: string): string {
     }
 }
 
+export function handleCmd(command: string): [string, string[]] {
+    const handle = command.split(' ');
+    const params: string[] = [];
+    for (let init = 0; init < handle.length; init++) {
+        if (init == 0) continue;
+        params.push(handle[init]);
+    }
+    return [handle[0], params];
+}
+
 export function formatTime(time?: Date | null, format: Number = 0): string {
-    if (!time) time = new Date();
+    time = time || new Date();
     let result: string = '';
     if (format === 0) {
         result += `${time.getFullYear().toString().substring(2)}/`;
@@ -159,6 +176,7 @@ export function getRandomStr(): string {
 }
 
 export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {
+    console.info(`${init?.method ?? 'GET'} Request url:${url} params: ${params ? JSON.stringify(params) : 'empty'}`);
     if (params) {
         url += '?';
         Object.keys(params).forEach(key => {
@@ -170,15 +188,25 @@ export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {
 }
 
 export const fetchJson: FuncFetchSuper<any> = async (url: string, params, init) => {
-    return fetchParam(url, params, init).then(res => res.json());
+    return fetchParam(url, params, init).then(async res => {
+        const result = res.json();
+        console.info(`Response type: JSON result: ${JSON.stringify(await result)}`);
+        return result;
+    }).catch(err => {
+        console.error(err);
+    });
 }
 
 export const fetchText: FuncFetchSuper<string> = async (url: string, params, init) => {
-    return fetchParam(url, params, init).then(res => res.text());
+    return fetchParam(url, params, init).then(async res => {
+        const result = res.text();
+        console.info(`Response type: TEXT result: ${await result}`);
+        return result;
+    });
 }
 
 export class _console {
-    private static colorList = {
+    private static colorList: obj<string> = {
         'default': '\x1B[0m', // 亮色
         'bright': '\x1B[1m', // 亮色
         'grey': '\x1B[2m', // 灰色
@@ -204,23 +232,23 @@ export class _console {
         'whiteBG': '\x1B[47m' // 背景色为白色
     };
     public static prefixColor: string = 'blue';
-    public static logsFilePath: string = _const._LOGS_PATH;
+    public static logsFilePath: string = CONST.LOGS_PATH;
 
     public static originalLog = (__console: Function, type: string, typeColor: string, textColor: string, ...args: obj[]) => {
         let message: string = '';
         args[0].forEach((Element: unknown) => {
+            // if (typeof Element !== '') Element = Element!.toString();
             if (typeof Element === 'object') Element = JSON.stringify(Element);
-            message += Element + ' '
-            // }
-            message.slice(0, -1)
+            message += Element + ' ';
+            message.slice(0, -1);
         })
-        // __console(args)
 
         const time = formatTime();
-        let result: string = `${this.colorList[this.prefixColor]}${time}${this.colorList.default} `
-        result += `[${this.colorList[typeColor]}${type}${this.colorList.default}] `
-        result += `${this.colorList[textColor] || ''}${message}${this.colorList.default}`;
-        __console(result);
+        __console(
+            `${this.colorList[this.prefixColor]}${time}${this.colorList.default} ` +
+            `[${this.colorList[typeColor]}${type}${this.colorList.default}] ` +
+            `${this.colorList[textColor] || ''}${message}${this.colorList.default}`
+        );
 
         // 写入日志
         let logFile: string = `${this.logsFilePath}\\${formatTime(null, 1)}.log`;
@@ -234,22 +262,22 @@ export class _console {
     public static log = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'LOG', 'cyan', '', args)
     };
+
     public static info = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'INFO', 'green', '', args)
     };
-    /* public static info = (__console: Function, ...args: unknown[]) => {
-        _console.log(__console, ...args)
-    }; */
+
     public static warn = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'WARM', 'yellow', 'yellow', args)
     };
+
     public static error = (__console: Function, ...args: unknown[]) => {
         this.originalLog(__console, 'ERROR', 'red', 'red', args)
     };
 }
 
 export class request {
-    public static send = (type: 'get' | 'post', url: string, params?: object) => {
+    public static send = (type: 'get' | 'post', url: string, params?: obj) => {
         let paramsStr: string = '?';
         for (let key in params) {
             paramsStr += `${key}=${params[key]}&`;
@@ -283,28 +311,11 @@ export class request {
 }
 
 export function getPackageInfo(): PackageInfo {
-    return <PackageInfo>loadConfig(`${_const._ROOT_PATH}\\package.json`);
+    return <PackageInfo>loadConfig(`${CONST.ROOT_PATH}\\package.json`);
 }
 
-(function () {
-    console.info('Kotori Bot is loading...')
-    console.info(`
-██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗
-██║ ██╔╝██╔═══██╗╚══██╔══╝██╔═══██╗██╔══██╗██║
-█████╔╝ ██║   ██║   ██║   ██║   ██║██████╔╝██║
-██╔═██╗ ██║   ██║   ██║   ██║   ██║██╔══██╗██║
-██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
-╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
-`)
-    const info = getPackageInfo();
-    _console.info(console.info, `Kotori Bot Version: ${info.version} License: ${info.license}`);
-    _console.info(console.info, `Kotori Bot By Hotaru`);
-    _console.info(console.info, `Copyright © 2023 Hotaru All rights reserved.`);
-})();
-
-
 export default {
-    _const,
+    CONST,
     loadConfig,
     stringProcess,
     arrayProcess,
