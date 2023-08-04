@@ -1,8 +1,8 @@
-connect: 
+connect:
   # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
   mode: ws-reverse
   # Go-cqhttp里设置的访问密钥 未设置则忽略(暂未支持)
-  access-token: ''
+  access-token: ""
 
   # Http正反向(暂未支持)
   http:

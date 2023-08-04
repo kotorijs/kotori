@@ -1,6 +1,6 @@
 export interface Config {
     host: string;
-    port: number;
+    port: number | null;
     app: {
         updatetime: number
     }
