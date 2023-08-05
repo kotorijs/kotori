@@ -1,0 +1,179 @@
+23/8/5 14:47:47 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 14:47:47 INFO Kotori Bot By Hotaru 
+23/8/5 14:47:47 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 14:47:47 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 14:47:47 INFO Current connection mode: WsReverse 
+23/8/5 14:47:47 INFO [Connect] WebSocket client successfully connected 
+23/8/5 14:47:47 INFO Successfully loaded 4 plugins 
+23/8/5 14:47:47 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 14:47:47 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 14:47:47 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 14:47:47 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/5 14:47:47 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/5 14:51:51 LOG [Plugin] Send group msg: 图片正在来的路上....你先别急 group: 673830908 
+23/8/5 14:51:51 INFO GET Request url:https://imlolicon.tk/api/seimg/v2/ params: {"tag":""} 
+23/8/5 14:51:51 INFO Response type: JSON result: {"code":500,"message":"success","time":1691218311,"version":"v2.2","by":"https://imlolicon.tk","data":[{"pid":89709879,"uid":24222104,"title":"甘雨　校則は白です","author":"HOURAKU","r18":false,"tags":["原神","Genshin Impact","甘雨(原神)","Ganyu (Genshin Impact)","足裏","脚底","制服裸足","barefoot school uniform","セーラー服","水手服","足指","脚指","お尻","臀部","原尻","Genshin Ass","ぱんつ","胖次"],"width":1044,"height":1482,"type":"jpg","url":"https://i.pixiv.re/img-original/img/2021/05/09/08/00/00/89709879_p0.jpg"}]} 
+23/8/5 14:51:51 LOG [Plugin] Send group msg: PID:89709879
+标题:甘雨　校則は白です
+作者:HOURAKU
+标签:原神、Genshin Impact、甘雨(原神)、Ganyu (Genshin Impact)、足裏、脚底、制服裸足、barefoot school uniform、セーラー服、水手服、足指、脚指、お尻、臀部、原尻、Genshin Ass、ぱんつ、胖次
+[CQ:image,file=https://i.pixiv.re/img-original/img/2021/05/09/08/00/00/89709879_p0.jpg,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1] group: 673830908 
+23/8/5 15:41:41 INFO GET Request url:https://api.imlolicon.tk/api/starluck params: {"msg":"天蝎座"} 
+23/8/5 15:41:41 INFO Response type: JSON result: {"code":500,"message":"success","data":{"name":"天蝎座","info":["健康指数：80%","商谈指数：80%","幸运颜色：银灰色","幸运数字：9","速配星座：白羊座","短评：维持固有的现状"],"index":["综合运势：整体运势平平，没有太多起伏，也没有什么大的变化。可能会遇到一些小问题，但并不会对你的生活造成太大的影响。运气方面，也没有什么特别好或特别差的情况。所以，你需要做的就是继续努力，保持积极的心态，应对各种挑战。在生活方面，注意保持良好的生活习惯，注重健康和休息，才能更好地面对各种困难。","爱情运势：单身的可能会有一些机会，但是也不要抱太大的期望，顺其自然就好。已有伴侣的，可能会有一些小争吵或不愉快的事情发生。要冷静处理，不要因为小事情而影响彼此的感情。","事业学业：表现可能一般般，可能会遇到一些小问题，需要你认真解决。不要因为一些小挫折而气馁，要坚持努力，保持积极的工作/学习态度。","财富运势：财富运势一般，不会有太大的财务收入，也不会有太大的花销。要合理规划自己的开支，不要盲目消费，保持理性消费观念，才能更好地管理自己的财务状况。","健康运势：在健康方面，要注意保持良好的生活习惯，合理饮食，适量运动，保证充足的睡眠。不要过度劳累，要合理安排自己的时间，保持身心健康，才能更好地应对各种挑战。"]}} 
+23/8/5 15:41:41 LOG [Plugin] Send group msg: 天蝎座今日运势：
+健康指数：80%
+商谈指数：80%
+幸运颜色：银灰色
+幸运数字：9
+速配星座：白羊座
+短评：维持固有的现状
+综合运势：整体运势平平，没有太多起伏，也没有什么大的变化。可能会遇到一些小问题，但并不会对你的生活造成太大的影响。运气方面，也没有什么特别好或特别差的情况。所以，你需要做的就是继续努力，保持积极的心态，应对各种挑战。在生活方面，注意保持良好的生活习惯，注重健康和休息，才能更好地面对各种困难。
+爱情运势：单身的可能会有一些机会，但是也不要抱太大的期望，顺其自然就好。已有伴侣的，可能会有一些小争吵或不愉快的事情发生。要冷静处理，不要因为小事情而影响彼此的感情。
+事业学业：表现可能一般般，可能会遇到一些小问题，需要你认真解决。不要因为一些小挫折而气馁，要坚持努力，保持积极的工作/学习态度。
+财富运势：财富运势一般，不会有太大的财务收入，也不会有太大的花销。要合理规划自己的开支，不要盲目消费，保持理性消费观念，才能更好地管理自己的财务状况。
+健康运势：在健康方面，要注意保持良好的生活习惯，合理饮食，适量运动，保证充足的睡眠。不要过度劳累，要合理安排自己的时间，保持身心健康，才能更好地应对各种挑战。 group: 317691609 
+23/8/5 15:42:42 INFO GET Request url:https://api.imlolicon.tk/api/starluck params: {"msg":"巨蟹座"} 
+23/8/5 15:42:42 INFO Response type: JSON result: {"code":500,"message":"success","data":{"name":"巨蟹座","info":["健康指数：62%","商谈指数：57%","幸运颜色：银色","幸运数字：8","速配星座：天蝎座","短评：积极行动换转机"],"index":["综合运势：整体运气稍显低迷，容易遇到一些小烦恼和阻碍。不过别灰心，这只是暂时的，只要你保持积极的态度和努力，很快就会迎来转机。生活方面，多关注家人和朋友的需求，给予他们更多的关爱和陪伴。","爱情运势：单身的可能会有些心情低落，觉得自己的爱情运气不佳。已有伴者，可能会遇到一些小摩擦和矛盾，建议你们多沟通，理解对方的需求。","事业学业：遇到一些小问题和挑战，可能需要更多的耐心和智慧来解决，建议不要急于求成，踏实地做好每一步，细心观察，总结经验，你会逐渐获得成功。","财富运势：财富运势相对平稳，不会有太大的起伏。要注意理财和节约开支，避免不必要的花费。可以适当关注一些投资机会，但要谨慎决策，不要盲目跟风。","健康运势：健康方面可能会有一些小问题，可能会感到疲劳和压力。要注意调整好作息时间，保持良好的生活习惯，多运动放松身心，注意饮食营养，这样能够更好地维护身体健康。"]}} 
+23/8/5 15:42:42 LOG [Plugin] Send group msg: 巨蟹座今日运势：
+健康指数：62%
+商谈指数：57%
+幸运颜色：银色
+幸运数字：8
+速配星座：天蝎座
+短评：积极行动换转机
+综合运势：整体运气稍显低迷，容易遇到一些小烦恼和阻碍。不过别灰心，这只是暂时的，只要你保持积极的态度和努力，很快就会迎来转机。生活方面，多关注家人和朋友的需求，给予他们更多的关爱和陪伴。
+爱情运势：单身的可能会有些心情低落，觉得自己的爱情运气不佳。已有伴者，可能会遇到一些小摩擦和矛盾，建议你们多沟通，理解对方的需求。
+事业学业：遇到一些小问题和挑战，可能需要更多的耐心和智慧来解决，建议不要急于求成，踏实地做好每一步，细心观察，总结经验，你会逐渐获得成功。
+财富运势：财富运势相对平稳，不会有太大的起伏。要注意理财和节约开支，避免不必要的花费。可以适当关注一些投资机会，但要谨慎决策，不要盲目跟风。
+健康运势：健康方面可能会有一些小问题，可能会感到疲劳和压力。要注意调整好作息时间，保持良好的生活习惯，多运动放松身心，注意饮食营养，这样能够更好地维护身体健康。 group: 317691609 
+23/8/5 17:19:19 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:19:19 INFO Kotori Bot By Hotaru 
+23/8/5 17:19:19 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:19:19 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:19:19 INFO Current connection mode: WsReverse 
+23/8/5 17:19:19 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:19:19 INFO Successfully loaded 4 plugins 
+23/8/5 17:19:19 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:19:19 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:19:19 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:19:19 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:19:19 LOG [Plugin] Send group msg: 图片正在来的路上....你先别急 group: 673830908 
+23/8/5 17:19:19 INFO GET Request url:https://imlolicon.tk/api/huimg/ params: {"tag":""} 
+23/8/5 17:19:19 INFO Response type: JSON result: {"code":500,"message":"success","time":1691227164,"version":"v1.0","by":"https://imlolicon.tk","data":{"tag":["少女","缘之空","春日野穹","白毛","妹妹"],"url":"https://pic.imgdb.cn/item/641fff76a682492fcc8fc387.jpg","type":"电脑"}} 
+23/8/5 17:19:19 LOG [Plugin] Send group msg: 接口错误！请联系管理员 group: 673830908 
+23/8/5 17:19:19 INFO GET Request url:https://api.imlolicon.tk/api/fasnyi params: {"msg":"a"} 
+23/8/5 17:19:19 ERROR {} 
+23/8/5 17:19:19 ERROR [System] {} 
+23/8/5 17:20:20 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:20:20 INFO Kotori Bot By Hotaru 
+23/8/5 17:20:20 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:20:20 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:20:20 INFO Current connection mode: WsReverse 
+23/8/5 17:20:20 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:20:20 INFO Successfully loaded 4 plugins 
+23/8/5 17:20:20 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:20:20 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:20:20 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:20:20 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:20:20 INFO GET Request url:https://api.imlolicon.tk/api/fasnyi params: {"msg":"a"} 
+23/8/5 17:20:20 ERROR {} 
+23/8/5 17:20:20 ERROR [System] TypeError: Cannot read properties of undefined (reading 'code') 
+23/8/5 17:22:22 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:22:22 INFO Kotori Bot By Hotaru 
+23/8/5 17:22:22 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:22:22 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:22:22 INFO Current connection mode: WsReverse 
+23/8/5 17:22:22 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:22:22 INFO Successfully loaded 4 plugins 
+23/8/5 17:22:22 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:22:22 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:22:22 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:22:22 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:22:22 INFO GET Request url:https://api.imlolicon.tk/api/fasnyi params: {"msg":"a"} 
+23/8/5 17:22:22 ERROR SyntaxError: Unexpected token < in JSON at position 0 
+23/8/5 17:22:22 ERROR [System] TypeError: Cannot read properties of undefined (reading 'code') 
+23/8/5 17:25:25 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:25:25 INFO Kotori Bot By Hotaru 
+23/8/5 17:25:25 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:25:25 WARM Run Info: Develop With Debuing... 
+23/8/5 17:25:25 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:25:25 INFO Current connection mode: WsReverse 
+23/8/5 17:25:25 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:25:25 INFO Successfully loaded 4 plugins 
+23/8/5 17:25:25 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:25:25 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:25:25 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:25:25 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:25:25 INFO GET Request url:https://api.imlolicon.tk/api/fasnyi params: {"msg":"a"} 
+23/8/5 17:25:25 LOG [Plugin] Send group msg: {} group: 673830908 
+23/8/5 17:25:25 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:25:25 INFO Kotori Bot By Hotaru 
+23/8/5 17:25:25 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:25:25 WARM Run Info: Develop With Debuing... 
+23/8/5 17:25:25 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:25:25 INFO Current connection mode: WsReverse 
+23/8/5 17:25:25 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:25:25 INFO Successfully loaded 4 plugins 
+23/8/5 17:25:25 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:25:25 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:25:25 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:25:25 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:25:25 INFO GET Request url:https://api.imlolicon.tk/api/fasnyi params: {"msg":"a"} 
+23/8/5 17:25:25 LOG [Plugin] Send group msg: SyntaxError: Unexpected token < in JSON at position 0 group: 673830908 
+23/8/5 17:26:26 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:26:26 INFO Kotori Bot By Hotaru 
+23/8/5 17:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:26:26 WARM Run Info: Develop With Debuing... 
+23/8/5 17:26:26 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:26:26 INFO Current connection mode: WsReverse 
+23/8/5 17:26:26 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:26:26 INFO Successfully loaded 4 plugins 
+23/8/5 17:26:26 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:26:26 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:26:26 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:26:26 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:26:26 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:26:26 INFO Kotori Bot By Hotaru 
+23/8/5 17:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:26:26 WARM Run Info: Develop With Debuing... 
+23/8/5 17:26:26 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:26:26 INFO Current connection mode: WsReverse 
+23/8/5 17:26:26 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:26:26 INFO Successfully loaded 4 plugins 
+23/8/5 17:26:26 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:26:26 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:26:26 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:26:26 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:26:26 INFO GET Request url:https://api.imlolicon.tk/api/fasnyi params: {"msg":"A"} 
+23/8/5 17:26:26 ERROR SyntaxError: Unexpected token < in JSON at position 0 
+23/8/5 17:26:26 LOG [Plugin] Send group msg: 接口错误！请联系管理员
+TypeError: Cannot read properties of undefined (reading 'code') group: 673830908 
+23/8/5 17:27:27 LOG [Plugin] Send group msg: 图片正在来的路上....你先别急 group: 673830908 
+23/8/5 17:27:27 INFO GET Request url:https://imlolicon.tk/api/huimg/ params: {"tag":"A"} 
+23/8/5 17:27:27 INFO Response type: JSON result: {"code":500,"message":"success","time":1691227628,"version":"v1.0","by":"https://imlolicon.tk","data":{"tag":["CLANNAD","家庭","三人"],"url":"https://pic.imgdb.cn/item/642006c5a682492fcc9e3caf.png","type":"通用"}} 
+23/8/5 17:27:27 LOG [Plugin] Send group msg: 标签:CLANNAD、家庭、三人
+[CQ:image,file=https://pic.imgdb.cn/item/642006c5a682492fcc9e3caf.png,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1] group: 673830908 
+23/8/5 17:27:27 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/5 17:27:27 INFO Response type: JSON result: {"code":500,"message":"success","time":1691227629,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"上了初中就好了上了高中就好了上了大学就好了毕业了就好了找到工作就好了结婚了就好了有孩子就好了孩子大了就好了孩子结婚了就好了带完孙子就好了，中国人的一生就是前面吊着根胡萝卜的驴。","from":"QQ空间","type":"俗语"}} 
+23/8/5 17:27:27 LOG [Plugin] Send group msg: 上了初中就好了上了高中就好了上了大学就好了毕业了就好了找到工作就好了结婚了就好了有孩子就好了孩子大了就好了孩子结婚了就好了带完孙子就好了，中国人的一生就是前面吊着根胡萝卜的驴。——QQ空间
+类型：俗语 group: 673830908 
+23/8/5 17:27:27 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/5 17:27:27 INFO Kotori Bot By Hotaru 
+23/8/5 17:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/5 17:27:27 WARM Run Info: Develop With Debuing... 
+23/8/5 17:27:27 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/5 17:27:27 INFO Current connection mode: WsReverse 
+23/8/5 17:27:27 INFO [Connect] WebSocket client successfully connected 
+23/8/5 17:27:27 INFO Successfully loaded 4 plugins 
+23/8/5 17:27:27 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/5 17:27:27 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/5 17:27:27 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/5 17:27:27 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/5 17:41:41 ERROR [Result] Unknown command ada, Please input 'help' to view all command 

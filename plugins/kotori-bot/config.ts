@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-31 11:49:30
+ * @LastEditTime: 2023-08-04 17:32:16
  */
 export default {
     apikey: {
@@ -19,10 +19,6 @@ export default {
                 bot: "U055UBYFQJW",
                 chatId: 'ai'
             },
-            /* 私聊开启的用户 */
-            users: [
-                "3324656453"
-            ]
         },
         bangumi: "CUISWUtzJyM0C7VMd8TakNHjtNGCQfIJWYVHAE1R"
     },
@@ -43,6 +39,9 @@ export default {
         },
         mange: {
             defaultBanTime: 10
+        },
+        list: {
+            maxNums: 10
         }
     }
 }

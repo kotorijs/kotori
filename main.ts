@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-04 16:30:42
+ * @LastEditTime: 2023-08-05 17:17:42
  */
 import Domain from 'domain';
 import Process from 'process';
@@ -168,6 +168,7 @@ export class Main {
         /* 接口实例化 */
         this._Api = <T.Api>(new ApiPrototype(connectDemo.send));
         /* 事件注册实例化 */
+        this._pluginEventList = [];
         this._Event = <T.Event>{
             listen: (eventName: T.EventListName, callback: Function) => this.EventPrototype.registerEvent(this._pluginEventList, eventName, callback)
         }
@@ -266,7 +267,7 @@ export class Main {
             }
         ]
         if (element[1] === T.PLUGIN_GLOBAL.ADMIN_PLUGIN) params.push(new Proxy(Array.from(this._pluginEntityList), {}) as Object);
-        demo.default.prototype ? new (demo.default as any)(...params) : demo.default(...params);
+        demo.default.prototype ? new (demo.default as T.PluginEntityClass)(...params) : (demo.default as T.PluginEntityFunc)(...params);
 
         const PLUGIN_INFO = element[3];
         if (PLUGIN_INFO) {

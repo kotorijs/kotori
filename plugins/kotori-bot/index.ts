@@ -3,15 +3,15 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-04 16:04:48
+ * @LastEditTime: 2023-08-05 17:25:02
  */
 import os from 'os';
-import type { EventDataType, obj, Event, Api, Const, Msg } from '@/tools';
-import { getPackageInfo, stringProcess, stringSplit } from '@/tools';
+import type { EventDataType, obj, Event, Api, Const } from '@/tools';
+import { fetchJson, getPackageInfo, isObj, isObjArr, stringProcess, stringSplit } from '@/tools';
 import { con, dealCpu, dealEnv, dealRam, dealTime, fetchBGM, fetchJ, fetchT } from './method';
 import config from './config';
 import Com, { BOT_RESULT, URL } from './menu';
-import { HandlerFuncType, Res, dataType } from './interface';
+import { HandlerFuncType, Res, ResAfter, Send } from './interface';
 import SDK from '@/utils/class.sdk';
 
 /* 枚举与常量定义 */
@@ -93,7 +93,7 @@ class Content {
         }
     }
 
-    private send = (msg: Msg) => {
+    private send: Send = msg => {
         if (this.data.message_type === 'private') {
             Main.Api.send_private_msg(msg, this.data.user_id)
         } else {
@@ -112,21 +112,17 @@ class Content {
 }
 
 /* 函数定义 */
-let target: string = '';
+let args: string[] = [];
+const CACHE: obj<ResAfter> = {};
 const stringP = (str: string, key: string) => {
     key += ' ';
     const result = stringProcess(str, key);
-    result && (target = stringSplit(str, key));
+    result && (args = stringSplit(str, key).split(' '));
     return result;
 }
 
 const matchFunc = (key: string): (str: string) => boolean => {
     return (str: string) => stringP(str, key);
-}
-
-interface ResAfter extends Res {
-    code: 500,
-    data: dataType
 }
 
 const fetchJH = (send: Function, url: string, params: {} | undefined = undefined, onSuccess: (res: ResAfter) => void, onError?: string | { condition?: RES_CODE | ((res: Res) => boolean), result?: string }) => {
@@ -137,63 +133,94 @@ const fetchJH = (send: Function, url: string, params: {} | undefined = undefined
         typeof onError !== 'object' && (onError = { result: onError });
 
         if (res.code === RES_CODE.SUCCESS && res.data) {
-            onSuccess(res as ResAfter)
+
+            onSuccess(res as ResAfter);
         } else if (onError.result && matchResult) {
             send(onError.result);
             con.warn(res)
         } else {
             send(
-                params ? (target ? BOT_RESULT.SERVER_ERROR : BOT_RESULT.ARGS_EMPTY) : BOT_RESULT.SERVER_ERROR
+                params ? (args[0] ? BOT_RESULT.SERVER_ERROR : BOT_RESULT.ARGS_EMPTY) : BOT_RESULT.SERVER_ERROR
             );
             con.error(res);
         };
+    }).catch((error: Error) => {
+        send(`${BOT_RESULT.SERVER_ERROR}\n` + error.toString());
     })
 }
 
+const isObjArrP = (send: Send, data: unknown): data is obj[] => {
+    const result = isObjArr(data);
+    result || send(BOT_RESULT.SERVER_ERROR);
+    return result;
+}
+
+const isObjP = (send: Send, data: unknown): data is obj => {
+    const result = isObj(data);
+    result || send(BOT_RESULT.SERVER_ERROR);
+    return result;
+}
+
+const isNotArr = (send: Send, data: unknown): data is string[] | number[] | obj[] => {
+    const result = Array.isArray(data);
+    result && send(BOT_RESULT.SERVER_ERROR);
+    return result;
+}
+
+
+
 /* 应用区 */
-Com.set(matchFunc('/music'), (send, data) => {
-    const arr = target.split('*');
-    target = arr[0];
-    const num = arr[1] ? parseInt(arr[1]) : 1;
-    fetchJH(send, 'netease', { name: target }, (res: obj) => {
-        const song = res.data[num - 1];
-        if (!song) {
-            send(BOT_RESULT.NUM_ERROR);
-            return;
+Com.set(matchFunc('/music'), send => {
+    const num = args[1] ? parseInt(args[1]) : 1;
+    const handle = (res: ResAfter) => {
+        if (!isObjArrP(send, res.data)) return;
+
+        let message = '';
+        if (num == 0) {
+            for (let init = 0; init < (res.data.length > config.component.list.maxNums ? config.component.list.maxNums : res.data.length); init++) {
+                const song = res.data[init];
+                message += `${init + 1}.${song.title} - ${song.author}\n`;
+            }
+            message += BOT_RESULT.NUM_CHOOSE;
+        } else {
+            const song = res.data[num - 1];
+            if (!song) {
+                send(BOT_RESULT.NUM_ERROR);
+                return;
+            }
+
+            message = (
+                `歌曲ID：${song.songid}\n歌曲标题：${song.title}\n歌曲作者 :${song.author}` +
+                `\n歌曲下载：${song.url}\n歌曲封面：${SDK.cq_image(song.pic)}`
+            );
+            send(SDK.cq_Music('163', song.songid));
         }
-        send(
-            `歌曲ID：${song.songid}\n歌曲标题：${song.title}\n歌曲作者 :${song.author}` +
-            `\n歌曲下载：${song.url}\n歌曲封面：${SDK.cq_image(song.pic)}`,
-            data
-        );
-        send(SDK.cq_Music('163', song.songid), data);
-    }, '没有找到相应歌曲');
+        send(message);
+    }
+    if (CACHE[`music${args[0]}`]) { handle(CACHE[`music${args[0]}`]); return; }
+    fetchJH(send, 'netease', { name: args[0] }, res => handle(res), '没有找到相应歌曲');
 });
 
-Com.set(matchFunc('/bgm'), (send, data) => {
-    data;
-    if (!target) {
-        send(BOT_RESULT.ARGS_EMPTY);
-        return;
-    }
-    const arr = target.split('*');
-    target = arr[0];
-    const num = arr[1] ? parseInt(arr[1]) : 1;
-    fetchBGM(`${URL.BGM}search/subject/${target}`, { token: config.apikey.bangumi }).then((res: { list?: obj[] }) => {
-        if (!res || !Array.isArray(res.list)) {
+Com.set(matchFunc('/bgm'), send => {
+    const num = args[1] ? parseInt(args[1]) : 1;
+    fetchBGM(`${URL.BGM}search/subject/${args[0]}`, { token: config.apikey.bangumi }).then(res => {
+        if (!res || isObjArr(res.list)) {
             send('未找到相应条目');
             return;
         }
+
         const data = res.list[num - 1];
         if (!data) {
             send(BOT_RESULT.NUM_ERROR);
             return;
         }
-        fetchBGM(`${URL.BGM}v0/subjects/${data.id}`, { token: config.apikey.bangumi }).then((res: obj) => {
+
+        fetchBGM(`${URL.BGM}v0/subjects/${data.id}`, { token: config.apikey.bangumi }).then(res => {
             if (!Array.isArray(res.tags)) {
                 send('未找到相应条目');
                 return;
             }
+
             let tags = '';
             res.tags.forEach((data: { name: string, count: number }) => tags += `、${data.name}`);
             send(
@@ -209,11 +236,9 @@ Com.set(matchFunc('/bgm'), (send, data) => {
 });
 
 Com.set('/bgmc', send => {
-    fetchBGM(`${URL.BGM}calendar`, { token: config.apikey.bangumi }).then((res: obj[]) => {
-        if (!Array.isArray(res)) {
-            send(BOT_RESULT.SERVER_ERROR);
-            return;
-        }
+    fetchBGM(`${URL.BGM}calendar`, { token: config.apikey.bangumi }).then(res => {
+        if (!isObjArrP(send, res)) return;
+
         const day_num = (() => {
             const day = (new Date()).getDay();
             return day === 0 ? 6 : day - 1;
@@ -233,12 +258,13 @@ Com.set('/bgmc', send => {
 })
 
 Com.set(matchFunc('/star'), send => {
-    fetchJH(send, 'starluck', { msg: target }, res => {
-        let msg = `${(res.data as obj).name}今日运势：`;
-        (res.data as obj).info.forEach((element: string) => {
+    fetchJH(send, 'starluck', { msg: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        let msg = `${res.data.name}今日运势：`;
+        res.data.info.forEach((element: string) => {
             msg += `\n${element}`;
         });
-        (res.data as obj).index.forEach((element: string) => {
+        res.data.index.forEach((element: string) => {
             msg += `\n${element}`;
         });
         send(msg);
@@ -249,7 +275,7 @@ Com.set(matchFunc('/star'), send => {
 });
 
 Com.set(matchFunc('/tran'), send => {
-    fetchJH(send, 'fanyi', { msg: target }, res => send(`原文：${target}\n译文：${res.data}`));
+    fetchJH(send, 'fanyi', { msg: args[0] }, res => send(`原文：${args[0]}\n译文：${res.data}`));
 });
 
 Com.set('/lunar', send => {
@@ -267,115 +293,134 @@ Com.set('/story', send => {
 });
 
 Com.set(matchFunc('/motd'), send => {
-    const arr = target.split(':');
-    arr[1] = arr[1] ?? 25565;
-    fetchJH(send, 'motd', { ip: arr[0], port: arr[1] }, res => send(
-        `状态：在线\nIP：${(<obj>res.data).real}\n端口：${(<obj>res.data).port}` +
-        `\n物理地址：${(<obj>res.data).location}\nMOTD：${(<obj>res.data).motd}` +
-        `\n协议版本：${(<obj>res.data).agreement}\n游戏版本：${(<obj>res.data).version}` +
-        `\n在线人数：${(<obj>res.data).online} / ${(<obj>res.data).max}\n延迟：${(<obj>res.data).ping}ms` +
-        `\n图标：${(<obj>res.data).icon ? SDK.cq_image(`base64://${(<obj>res.data).icon.substring(22)}`) : '无'}`
-    ), {
+    args[1] = args[1] ?? 25565;
+    fetchJH(send, 'motd', { ip: args[0], port: args[1] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        send(
+            `状态：在线\nIP：${res.data.real}\n端口：${res.data.port}` +
+            `\n物理地址：${res.data.location}\nMOTD：${res.data.motd}` +
+            `\n协议版本：${res.data.agreement}\n游戏版本：${res.data.version}` +
+            `\n在线人数：${res.data.online} / ${res.data.max}\n延迟：${res.data.ping}ms` +
+            `\n图标：${res.data.icon ? SDK.cq_image(`base64://${res.data.icon.substring(22)}`) : '无'}`
+        )
+    }, {
         condition: res => typeof res.code === 'number',
-        result: `状态：离线\nIP：${arr[0]}\n端口：${arr[1]}`
+        result: `状态：离线\nIP：${args[0]}\n端口：${args[1]}`
     });
 });
 
 Com.set(matchFunc('/motdpe'), send => {
-    const arr = target.split(':');
-    arr[1] = arr[1] ?? 19132;
-    fetchJH(send, 'motdpe', { ip: arr[0], port: arr[1] }, res => send(
-        `状态：在线\nIP：${(<obj>res.data).real}\n端口：${(<obj>res.data).port}` +
-        `\n物理地址：${(<obj>res.data).location}\nMOTD：${(<obj>res.data).motd}` +
-        `\n游戏模式：${(<obj>res.data).gamemode}\n协议版本：${(<obj>res.data).agreement}` +
-        `\n游戏版本：${(<obj>res.data).version}` +
-        `\n在线人数：${(<obj>res.data).online} / ${(<obj>res.data).max}` +
-        `\n延迟：${(<obj>res.data).delay}ms`
-    ), {
+    args[1] = args[1] ?? 19132;
+    fetchJH(send, 'motdpe', { ip: args[0], port: args[1] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        send(
+            `状态：在线\nIP：${res.data.real}\n端口：${res.data.port}` +
+            `\n物理地址：${res.data.location}\nMOTD：${res.data.motd}` +
+            `\n游戏模式：${res.data.gamemode}\n协议版本：${res.data.agreement}` +
+            `\n游戏版本：${res.data.version}` +
+            `\n在线人数：${res.data.online} / ${res.data.max}` +
+            `\n延迟：${res.data.delay}ms`
+        )
+    }, {
         condition: res => typeof res.code === 'number',
-        result: `状态：离线\nIP：${arr[0]}\n端口：${arr[1]}`
+        result: `状态：离线\nIP：${args[0]}\n端口：${args[1]}`
     });
 });
 
 Com.set(matchFunc('/mcskin'), send => {
-    fetchJH(send, 'mcskin', { name: target }, res => send(
-        `玩家：${target}\n皮肤：${SDK.cq_image((<obj>res.data).skin)}` +
-        `\n披风：${(<obj>res.data).cape ? SDK.cq_image((<obj>res.data).cape) : '无'}` +
-        `\n头颅：${(<obj>res.data).avatar ? SDK.cq_image(`base64://${(<obj>res.data).avatar.substring(22)}`) : '无'}`
-    ), '查无此人！');
+    fetchJH(send, 'mcskin', { name: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        send(
+            `玩家：${args[0]}\n皮肤：${SDK.cq_image(res.data.skin)}` +
+            `\n披风：${res.data.cape ? SDK.cq_image(res.data.cape) : '无'}` +
+            `\n头颅：${res.data.avatar ? SDK.cq_image(`base64://${res.data.avatar.substring(22)}`) : '无'}`
+        )
+    }, '查无此人！');
 });
 
 Com.set(matchFunc('/bili'), send => {
-    fetchJH(send, 'biligetv', { msg: target }, res => send(
-        `BV号：${(<obj>res.data).bvid}\nAV号：${(<obj>res.data).aid}` +
-        `\n视频标题：${(<obj>res.data).title}\n视频简介：${(<obj>res.data).descr}` +
-        `\n作者UID：${(<obj>res.data).owner.uid}\n视频封面：${SDK.cq_image((<obj>res.data).pic)}`
-    ), '未找到该视频');
+    fetchJH(send, 'biligetv', { msg: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        send(
+            `BV号：${res.data.bvid}\nAV号：${res.data.aid}` +
+            `\n视频标题：${res.data.title}\n视频简介：${res.data.descr}` +
+            `\n作者UID：${res.data.owner.uid}\n视频封面：${SDK.cq_image(res.data.pic)}`
+        )
+    }, '未找到该视频');
 });
 
 Com.set(matchFunc('/sed'), (send, data) => {
-    if (target === data.self_id.toString()) {
+    if (args[0] === data.self_id.toString()) {
         send('未查询到相关记录');
         return;
     }
-    fetchJH(send, 'sed', { msg: target }, res => send(
-        `查询内容：${target}\n消耗时间：${Math.floor(res.takeTime)}秒\n记录数量：${res.count}` +
-        ((res.data as obj).qq ? `\nQQ：${(res.data as obj).qq}` : '') +
-        ((res.data as obj).phone ? `\n手机号：${(res.data as obj).phone}` : '') +
-        ((res.data as obj).location ? `\n运营商：${(res.data as obj).location}` : '') +
-        ((res.data as obj).id ? `\nLOLID：${(res.data as obj).id}` : '') +
-        ((res.data as obj).area ? `\nLOL区域：${(res.data as obj).area}` : '')
-    ), {
+    fetchJH(send, 'sed', { msg: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        send(
+        `查询内容：${args[0]}\n消耗时间：${Math.floor(res.takeTime)}秒\n记录数量：${res.count}` +
+        (res.data.qq ? `\nQQ：${res.data.qq}` : '') +
+        (res.data.phone ? `\n手机号：${res.data.phone}` : '') +
+        (res.data.location ? `\n运营商：${res.data.location}` : '') +
+        (res.data.id ? `\nLOLID：${res.data.id}` : '') +
+        (res.data.area ? `\nLOL区域：${res.data.area}` : '')
+    )}, {
         condition: RES_CODE.ARGS_EMPTY,
         result: '未查询到相关记录'
     });
 });
 
 Com.set(matchFunc('/idcard'), send => {
-    fetchJH(send, 'idcard', { msg: target }, res => send(
-        `身份证号：${target}\n性别：${(<obj>res.data).gender}\n` +
-        `出生日期：${(<obj>res.data).birthday}\n年龄：${(<obj>res.data).age}` +
-        `\n省份：${(<obj>res.data).province}\n地址：${(<obj>res.data).address}` +
-        `\n${(<obj>res.data).starsign}`
-    ), {
+    fetchJH(send, 'idcard', { msg: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+        send(
+            `身份证号：${args[0]}\n性别：${res.data.gender}\n` +
+            `出生日期：${res.data.birthday}\n年龄：${res.data.age}` +
+            `\n省份：${res.data.province}\n地址：${res.data.address}` +
+            `\n${res.data.starsign}`
+        )
+    }, {
         condition: RES_CODE.ARGS_EMPTY,
         result: '身份证号错误'
     });
 });
 
 Com.set(matchFunc('/hcb'), send => {
-    fetchJH(send, 'https://hcb.imlolicon.tk/api/v3', { value: target }, res => {
-        if (<boolean>(<obj>res.data).status) {
+    fetchJH(send, 'https://hcb.imlolicon.tk/api/v3', { value: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+
+        if (<boolean>res.data.status) {
             let imgs = '';
-            if ((<obj>res.data).imgs !== null) {
-                (<string[]>(<obj>res.data).imgs).forEach(element => {
+            if (res.data.imgs !== null) {
+                (<string[]>res.data.imgs).forEach(element => {
                     imgs += SDK.cq_image(element);
                 });
             }
             send(
-                `${target}有云黑记录\nUUID：${(<obj>res.data).uuid}` +
-                `\n用户平台：${(<obj>res.data).plate}\n用户ID：${(<obj>res.data).idkey}` +
-                `\n记录描述：${(<obj>res.data).descr}\n记录等级：${(<obj>res.data).level}` +
-                `\n记录时间：${(<obj>res.data).date}\n相关图片：${imgs ? imgs : '无'}`
+                `${args[0]}有云黑记录\nUUID：${res.data.uuid}` +
+                `\n用户平台：${res.data.plate}\n用户ID：${res.data.idkey}` +
+                `\n记录描述：${res.data.descr}\n记录等级：${res.data.level}` +
+                `\n记录时间：${res.data.date}\n相关图片：${imgs ? imgs : '无'}`
             );
         } else {
-            send(`${target}无云黑记录`);
+            send(`${args[0]}无云黑记录`);
         }
     });
 });
 
 Com.set(matchFunc('/state'), send => {
-    fetchT('webtool', { op: 1, url: target }).then(res => send(res.replace(/<br>/g, '\n')));
+    fetchT('webtool', { op: 1, url: args[0] }).then(res => send(res.replace(/<br>/g, '\n')));
 });
 
 Com.set(matchFunc('/speed'), send => {
-    fetchT('webtool', { op: 3, url: target }).then(res => send(res.replace(/<br>/g, '\n')));
+    fetchT('webtool', { op: 3, url: args[0] }).then(res => send(res.replace(/<br>/g, '\n')));
 });
 
 Com.set((str: string) => str === '/sex' || stringP(str, '/sex'), send => {
     send('图片正在来的路上....你先别急');
 
-    fetchJH(send, `${URL.BLOG}seimg/v2/`, { tag: target }, (res: obj) => {
+    fetchJH(send, `${URL.BLOG}seimg/v2/`, { tag: args[0] }, res => {
+        if (!isObjArrP(send, res.data)) return;
+
         const dd = res.data[0];
         let tags = '';
         dd.tags.forEach((element: string) => {
@@ -391,8 +436,10 @@ Com.set((str: string) => str === '/sex' || stringP(str, '/sex'), send => {
 
 Com.set((str: string) => str === '/sexh' || stringP(str, '/sexh'), send => {
     send('图片正在来的路上....你先别急');
-    fetchJH(send, `${URL.BLOG}huimg/`, { tag: target }, res => {
-        const dd = <obj>res.data;
+    fetchJH(send, `${URL.BLOG}huimg/`, { tag: args[0] }, res => {
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+
+        const dd = res.data;
         let tag = '';
         (<string[]>dd.tag).forEach(element => {
             tag += `、${element}`;
@@ -422,24 +469,26 @@ Com.set('/china', send => send(SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/
 Com.set('/sister', send => send(SDK.cq_video(`${URL.API}sisters`)));
 
 Com.set(matchFunc('/qrcode'), send => send(
-    target ? SDK.cq_image(`${URL.API}qrcode?text=${target}&frame=2&size=200&e=L`) : BOT_RESULT.ARGS_EMPTY
+    args[0] ? SDK.cq_image(`${URL.API}qrcode?text=${args[0]}&frame=2&size=200&e=L`) : BOT_RESULT.ARGS_EMPTY
 ));
 
 /* 随机语录 */
 Com.set('一言', send => {
     fetchJH(send, `${URL.BLOG}hitokoto/v2/`, undefined, res => {
-        let msg = `${(<obj>res.data).msg}${(<obj>res.data).from ? `——${(<obj>res.data).from}` : ''}`;
-        send(msg + `\n类型：${(<obj>res.data).type}`);
+        if (!isObjP(send, res.data) || isNotArr(send, res.data)) return;
+
+        let msg = `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}`;
+        send(msg + `\n类型：${res.data.type}`);
     });
 });
 
 Com.set(Object.keys(hitokotoList), send => {
-    hitokotoList[target as keyof typeof hitokotoList] && fetchT('words', { msg: hitokotoList[target as keyof typeof hitokotoList], format: 'text' }).then(res => send(res));
+    hitokotoList[args[0] as keyof typeof hitokotoList] && fetchT('words', { msg: hitokotoList[args[0] as keyof typeof hitokotoList], format: 'text' }).then(res => send(res));
 });
 
 /* GPT聊天 */
 Com.set(matchFunc('/gpt'), send => {
-    target ? fetchJ(URL.GPT, undefined, {
+    args[0] ? fetchJ(URL.GPT, undefined, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -450,7 +499,7 @@ Com.set(matchFunc('/gpt'), send => {
             messages: [
                 {
                     role: "user",
-                    content: target
+                    content: args[0]
                 }
             ]
         }),
@@ -505,11 +554,25 @@ Com.set(['/about', 'kotori', '关于BOT', '关于bot'], send => {
     );
 });
 
-Com.set(str => /* !!data.group_id && */(str === '/ban' || stringP(str, '/ban')) /* && verifyAcess() */, (send, data) => {
+Com.set(['/update', '检查更新'], send => {
+    const version = getPackageInfo().version;
+    fetchJson('https://biyuehu.github.io/kotori-bot/package.json').then(res => {
+        send(
+            `当前版本：${version}` +
+            (res.version === version ? '\n当前为最新版本！' : (
+                '\n检测到有更新！' +
+                `\n最新版本：${res.version}` +
+                '\n请前往Github仓库获取最新版本：https://github.com/biyuehu/kotori-bot'
+            ))
+        )
+    })
+});
+
+Com.set(str => (str === '/ban' || stringP(str, '/ban')), (send, data) => {
+    if (!data.group_id || !Main.verifyAcess(data, send)) return;
     let qq: number | null;
-    const arr = target.split('*');
-    const time = arr[1] ? parseInt(arr[1]) : config.component.mange.defaultBanTime;
-    if (arr[0] && (qq = SDK.get_at(arr[0]))) {
+    const time = args[1] ? parseInt(args[1]) : config.component.mange.defaultBanTime;
+    if (args[0] && (qq = SDK.get_at(args[0]) ?? parseInt(args[0]))) {
         Main.Api.set_group_ban(data.group_id!, qq, time * 60);
         send(`成功禁言[${qq}]用户[${time}]分钟`);
     } else {
@@ -519,8 +582,9 @@ Com.set(str => /* !!data.group_id && */(str === '/ban' || stringP(str, '/ban')) 
 });
 
 Com.set(str => (str === '/unban' || stringP(str, '/unban')), (send, data) => {
+    if (!data.group_id || !Main.verifyAcess(data, send)) return;
     let qq: number | null;
-    if (target && (qq = SDK.get_at(target))) {
+    if (args[0] && (qq = SDK.get_at(args[0]) ?? parseInt(args[0]))) {
         Main.Api.set_group_ban(data.group_id!, qq, 0);
         send(`成功解除禁言[${qq}]用户`);
     } else {
@@ -530,30 +594,31 @@ Com.set(str => (str === '/unban' || stringP(str, '/unban')), (send, data) => {
 });
 
 Com.set(str => stringP(str, '/kick'), (send, data) => {
+    if (!data.group_id || !Main.verifyAcess(data, send)) return;
     let qq: number | null;
-    const arr = target.split('*');
-    if (arr[0] && (qq = SDK.get_at(arr[0]))) {
+    if (args[0] && (qq = SDK.get_at(args[0]) ?? parseInt(args[0]))) {
         Main.Api.set_group_kick(data.group_id!, qq);
         send(`成功踢出[${qq}]用户`);
     }
 });
 
-Com.set(str => stringP(str, '/all'), send => {
-    if (!target) {
+Com.set(str => stringP(str, '/all'), (send, data) => {
+    if (!data.group_id || !Main.verifyAcess(data, send)) return;
+    if (!args[0]) {
         send('请输入消息内容')
         return;
     }
-    send(`${SDK.cq_at('all')} 以下消息来自管理员：\n${target}`);
+    send(`${SDK.cq_at('all')} 以下消息来自管理员：\n${args[0]}`);
 });
 
 Com.set(str => stringP(str, '/notice'), (send, data) => {
-    if (!target) {
+    if (!data.group_id || !Main.verifyAcess(data, send)) return;
+    if (!args[0]) {
         send('请输入公告内容')
         return;
     }
-    const image = SDK.get_image(target);
-    Main.Api._send_group_notice(data.group_id!, `From Admin~\n${target}`, image || undefined)
+    const image = SDK.get_image(args[0]);
+    Main.Api._send_group_notice(data.group_id!, `From Admin~\n${args[0]}`, image || undefined)
 });
-
 
 export default Main;

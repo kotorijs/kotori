@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-07-31 16:57:44
  */
-import { type FuncListen, type FuncSend, type ConnectMethod, type ConnectCallback, LOG_PREFIX, OPTIONS } from '@/tools';
+import { type FuncListen, type FuncSend, type ConnectMethod, type ConnectCallback, LOG_PREFIX, OPTIONS, obj } from '@/tools';
 import WebSocket from 'ws';
 
 class WsReverse implements ConnectMethod {
@@ -25,7 +25,7 @@ class WsReverse implements ConnectMethod {
                     try {
                         callback(JSON.parse(data));
                     } catch (err) {
-                        console.error(LOG_PREFIX.CONNECT, (err as any).toString(), typeof err)
+                        console.error(LOG_PREFIX.CONNECT, (err as obj).toString(), typeof err)
                     }
                 } else {
                     callback(JSON.parse(data));

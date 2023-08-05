@@ -3,10 +3,10 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 15:52:17
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-31 16:16:32
+ * @LastEditTime: 2023-08-05 17:09:10
  */
 import { LOG_PREFIX, fetchJson, fetchText } from '@/tools';
-import type { FuncFetchSuper } from '@/tools';
+import type { FuncFetchSuper, obj } from '@/tools';
 import os from 'os';
 import { Res } from './interface';
 import { URL } from './menu';
@@ -70,7 +70,7 @@ export const fetchT: FuncFetchSuper<string> = async (url, params, init) => {
     return fetchText(url.substring(0, 4) === 'http' ? url : URL.API + url, params, init);
 }
 
-export const fetchBGM: FuncFetchSuper<any> = async (url, params) => {
+export const fetchBGM: FuncFetchSuper<obj> = async (url, params) => {
     return fetchJson(url, params, {
         headers: {
             'user-agent': 'czy0729/Bangumi/6.4.0 (Android) (http://github.com/czy0729/Bangumi)'
