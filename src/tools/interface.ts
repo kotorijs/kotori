@@ -138,8 +138,12 @@ export interface BotConfig {
     }
 }
 
+export type PluginEntityFunc = (Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void
+
+export type PluginEntityClass = new(Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void; 
+
 export interface PluginEntity {
-    default: (Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void | (new(Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void) 
+    default: PluginEntityFunc | PluginEntityClass
 }
 
 export interface PluginInfo {

@@ -1,11 +1,18 @@
-import { EventDataType, obj } from "@/tools/interface";
+import { EventDataType, Msg, obj } from "@/tools/interface";
 
 export type comType = Map<string | string[] | ((str: string) => boolean), HandlerFuncType | string>;
-export type dataType = string | number | boolean | any[] | obj;
-export type HandlerFuncType = (send: Function, data: EventDataType) => void;
+export type dataType = string | number | boolean | obj | string[] | number[] | obj[];
+export type HandlerFuncType = (send: Send, data: EventDataType) => void;
 
-export interface Res extends obj {
+export type Send = (msg: Msg) => void;
+
+export interface Res<T = dataType | null> extends obj {
     code: 500 | 501 | 502,
     message?: string,
-    data?: dataType | null
+    data?: T
+}
+
+export interface ResAfter extends Res {
+    code: 500,
+    data: dataType
 }

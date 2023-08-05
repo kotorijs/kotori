@@ -238,7 +238,9 @@ export class _console {
         let message: string = '';
         args[0].forEach((Element: unknown) => {
             // if (typeof Element !== '') Element = Element!.toString();
-            if (typeof Element === 'object') Element = JSON.stringify(Element);
+            if (Element && typeof Element === 'object') Element = (
+                JSON.stringify(Element) === '{}' ? Element.toString() : JSON.stringify(Element)
+            );
             message += Element + ' ';
             message.slice(0, -1);
         })
@@ -314,12 +316,10 @@ export function getPackageInfo(): PackageInfo {
     return <PackageInfo>loadConfig(`${CONST.ROOT_PATH}\\package.json`);
 }
 
-export default {
-    CONST,
-    loadConfig,
-    stringProcess,
-    arrayProcess,
-    stringSplit,
-    _console,
-    request
+export const isObj = (data: unknown): data is obj => {
+    return data !== null && typeof data === 'object' && !Array.isArray(data);
+}
+
+export const isObjArr = (data: unknown): data is obj[] => {
+    return Array.isArray(data) && isObj(data[0]);
 }
