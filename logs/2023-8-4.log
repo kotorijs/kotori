@@ -673,3 +673,502 @@ api.xcapi.link group: 673830908
 23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Server 
 23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Bot 
 23/8/4 17:25:25 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 17:27:27 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:27:27 INFO Kotori Bot By Hotaru 
+23/8/4 17:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:27:27 WARM Run Info: Develop With Debuing... 
+23/8/4 17:27:27 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:27:27 INFO Current connection mode: WsReverse 
+23/8/4 17:27:27 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:27:27 INFO Successfully loaded 4 plugins 
+23/8/4 17:27:27 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:27:27 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:27:27 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:27:27 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:32:32 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:32:32 INFO Kotori Bot By Hotaru 
+23/8/4 17:32:32 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:32:32 WARM Run Info: Develop With Debuing... 
+23/8/4 17:32:32 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:32:32 INFO Current connection mode: WsReverse 
+23/8/4 17:32:32 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:32:32 INFO Successfully loaded 4 plugins 
+23/8/4 17:32:32 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:32:32 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:32:32 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:32:32 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:40:40 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:40:40 INFO Kotori Bot By Hotaru 
+23/8/4 17:40:40 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:40:40 WARM Run Info: Develop With Debuing... 
+23/8/4 17:40:40 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:40:40 INFO Current connection mode: WsReverse 
+23/8/4 17:40:40 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:40:40 INFO Successfully loaded 4 plugins 
+23/8/4 17:40:40 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:40:40 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:40:40 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:40:40 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:54:54 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:54:54 INFO Kotori Bot By Hotaru 
+23/8/4 17:54:54 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:54:54 WARM Run Info: Develop With Debuing... 
+23/8/4 17:54:54 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:54:54 INFO Current connection mode: WsReverse 
+23/8/4 17:54:54 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:54:54 INFO Successfully loaded 4 plugins 
+23/8/4 17:54:54 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:54:54 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:54:54 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:54:54 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:54:54 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/4 17:54:54 INFO Kotori Bot By Hotaru 
+23/8/4 17:54:54 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:54:54 WARM Run Info: Develop With Debuing... 
+23/8/4 17:54:54 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 17:54:54 INFO Current connection mode: WsReverse 
+23/8/4 17:54:54 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:54:54 INFO Successfully loaded 4 plugins 
+23/8/4 17:54:54 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:54:54 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:54:54 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:54:54 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 17:54:54 INFO GET Request url:https://biyuehu.github.io/kotori-bot/package.json params: empty 
+23/8/4 17:54:54 INFO Response type: JSON result: {"name":"kotori-bot","version":"0.7.3","description":"Korori Bot For Go-cqhttp And Nodejs","main":"./dist/src/index.js","types":"./dist/src/index.d.ts","scripts":{"start":"ts-node -r tsconfig-paths/register ./src/app.ts","dev":"nodemon --config nodemon.json","test":"echo building","build":"tsc","create":"ts-node -r tsconfig-paths/register ./src/modules/create.ts"},"author":"hotaru","license":"GPL-3.0","bugs":{"url":"https://github.com/biyuehu/kotori-bot/issues"},"homepage":"https://github.com/biyuehu/kotori-bot#readme","dependencies":{"domain":"^0.0.1","express":"^4.18.2","fs":"^0.0.1-security","js-base64":"^3.7.5","needle":"^3.2.0","os":"^0.1.2","path":"^0.12.7","ts-node":"^10.9.1","ws":"^8.13.0","yaml":"^2.3.1"},"devDependencies":{"@types/express":"^4.17.17","@types/inquirer":"^9.0.3","@types/needle":"^3.2.0","@types/ws":"^8.5.4","inquirer":"^8.2.6","nodemon":"^3.0.1","ts-loader":"^9.4.3","tsconfig-paths":"^4.2.0","typescript":"^5.1.3"}} 
+23/8/4 17:54:54 LOG [Plugin] Send group msg: 当前版本：0.7.3
+当前为最新版本！ group: 317691609 
+23/8/4 17:54:54 INFO GET Request url:https://biyuehu.github.io/kotori-bot/package.json params: empty 
+23/8/4 17:54:54 INFO Response type: JSON result: {"name":"kotori-bot","version":"0.7.3","description":"Korori Bot For Go-cqhttp And Nodejs","main":"./dist/src/index.js","types":"./dist/src/index.d.ts","scripts":{"start":"ts-node -r tsconfig-paths/register ./src/app.ts","dev":"nodemon --config nodemon.json","test":"echo building","build":"tsc","create":"ts-node -r tsconfig-paths/register ./src/modules/create.ts"},"author":"hotaru","license":"GPL-3.0","bugs":{"url":"https://github.com/biyuehu/kotori-bot/issues"},"homepage":"https://github.com/biyuehu/kotori-bot#readme","dependencies":{"domain":"^0.0.1","express":"^4.18.2","fs":"^0.0.1-security","js-base64":"^3.7.5","needle":"^3.2.0","os":"^0.1.2","path":"^0.12.7","ts-node":"^10.9.1","ws":"^8.13.0","yaml":"^2.3.1"},"devDependencies":{"@types/express":"^4.17.17","@types/inquirer":"^9.0.3","@types/needle":"^3.2.0","@types/ws":"^8.5.4","inquirer":"^8.2.6","nodemon":"^3.0.1","ts-loader":"^9.4.3","tsconfig-paths":"^4.2.0","typescript":"^5.1.3"}} 
+23/8/4 17:54:54 LOG [Plugin] Send group msg: 当前版本：0.7.3
+当前为最新版本！ group: 673830908 
+23/8/4 17:55:55 INFO [Connect] WebSocket client successfully connected 
+23/8/4 17:55:55 INFO Successfully loaded 4 plugins 
+23/8/4 17:55:55 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 17:55:55 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 17:55:55 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 17:55:55 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 17:55:55 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 17:55:55 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26048
+今日：62
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 17:55:55 LOG [Plugin] Send group msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26048
+今日：62
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link group: 673830908 
+23/8/4 17:55:55 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26048
+今日：62
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 17:55:55 LOG [Plugin] Send group msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26048
+今日：62
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link group: 673830908 
+23/8/4 17:56:56 INFO GET Request url:https://biyuehu.github.io/kotori-bot/package.json params: empty 
+23/8/4 17:56:56 INFO GET Request url:https://biyuehu.github.io/kotori-bot/package.json params: empty 
+23/8/4 17:56:56 INFO Response type: JSON result: {"name":"kotori-bot","version":"0.7.3","description":"Korori Bot For Go-cqhttp And Nodejs","main":"./dist/src/index.js","types":"./dist/src/index.d.ts","scripts":{"start":"ts-node -r tsconfig-paths/register ./src/app.ts","dev":"nodemon --config nodemon.json","test":"echo building","build":"tsc","create":"ts-node -r tsconfig-paths/register ./src/modules/create.ts"},"author":"hotaru","license":"GPL-3.0","bugs":{"url":"https://github.com/biyuehu/kotori-bot/issues"},"homepage":"https://github.com/biyuehu/kotori-bot#readme","dependencies":{"domain":"^0.0.1","express":"^4.18.2","fs":"^0.0.1-security","js-base64":"^3.7.5","needle":"^3.2.0","os":"^0.1.2","path":"^0.12.7","ts-node":"^10.9.1","ws":"^8.13.0","yaml":"^2.3.1"},"devDependencies":{"@types/express":"^4.17.17","@types/inquirer":"^9.0.3","@types/needle":"^3.2.0","@types/ws":"^8.5.4","inquirer":"^8.2.6","nodemon":"^3.0.1","ts-loader":"^9.4.3","tsconfig-paths":"^4.2.0","typescript":"^5.1.3"}} 
+23/8/4 17:56:56 LOG [Plugin] Send group msg: 当前版本：0.7.3
+当前为最新版本！ group: 317691609 
+23/8/4 17:56:56 INFO Response type: JSON result: {"name":"kotori-bot","version":"0.7.3","description":"Korori Bot For Go-cqhttp And Nodejs","main":"./dist/src/index.js","types":"./dist/src/index.d.ts","scripts":{"start":"ts-node -r tsconfig-paths/register ./src/app.ts","dev":"nodemon --config nodemon.json","test":"echo building","build":"tsc","create":"ts-node -r tsconfig-paths/register ./src/modules/create.ts"},"author":"hotaru","license":"GPL-3.0","bugs":{"url":"https://github.com/biyuehu/kotori-bot/issues"},"homepage":"https://github.com/biyuehu/kotori-bot#readme","dependencies":{"domain":"^0.0.1","express":"^4.18.2","fs":"^0.0.1-security","js-base64":"^3.7.5","needle":"^3.2.0","os":"^0.1.2","path":"^0.12.7","ts-node":"^10.9.1","ws":"^8.13.0","yaml":"^2.3.1"},"devDependencies":{"@types/express":"^4.17.17","@types/inquirer":"^9.0.3","@types/needle":"^3.2.0","@types/ws":"^8.5.4","inquirer":"^8.2.6","nodemon":"^3.0.1","ts-loader":"^9.4.3","tsconfig-paths":"^4.2.0","typescript":"^5.1.3"}} 
+23/8/4 17:56:56 LOG [Plugin] Send group msg: 当前版本：0.7.3
+当前为最新版本！ group: 317691609 
+23/8/4 17:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/4 17:59:59 INFO Kotori Bot By Hotaru 
+23/8/4 17:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 17:59:59 WARM Run Info: Develop With Debuing... 
+23/8/4 17:59:59 INFO Current connection mode: Ws 
+23/8/4 17:59:59 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":8000} 
+23/8/4 17:59:59 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 17:59:59 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":8000} 
+23/8/4 17:59:59 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/4 18:0:0 INFO Kotori Bot By Hotaru 
+23/8/4 18:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 18:0:0 WARM Run Info: Develop With Debuing... 
+23/8/4 18:0:0 INFO Current connection mode: Ws 
+23/8/4 18:0:0 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:0:0 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:0:0 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:0:0 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:0:0 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:0:0 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:0:0 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:0:0 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:1:1 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:1:1 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:1:1 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:1:1 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:1:1 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:1:1 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:1:1 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":2444} 
+23/8/4 18:1:1 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:1:1 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/4 18:1:1 INFO Kotori Bot By Hotaru 
+23/8/4 18:1:1 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 18:1:1 WARM Run Info: Develop With Debuing... 
+23/8/4 18:1:1 INFO Current connection mode: Ws 
+23/8/4 18:1:1 INFO Successfully loaded 4 plugins 
+23/8/4 18:1:1 INFO [Connect] WebSocket server successfully connected 
+23/8/4 18:1:1 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 18:1:1 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 18:1:1 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 18:1:1 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 18:2:2 INFO GET Request url:https://biyuehu.github.io/kotori-bot/package.json params: empty 
+23/8/4 18:2:2 INFO Response type: JSON result: {"name":"kotori-bot","version":"0.7.3","description":"Korori Bot For Go-cqhttp And Nodejs","main":"./dist/src/index.js","types":"./dist/src/index.d.ts","scripts":{"start":"ts-node -r tsconfig-paths/register ./src/app.ts","dev":"nodemon --config nodemon.json","test":"echo building","build":"tsc","create":"ts-node -r tsconfig-paths/register ./src/modules/create.ts"},"author":"hotaru","license":"GPL-3.0","bugs":{"url":"https://github.com/biyuehu/kotori-bot/issues"},"homepage":"https://github.com/biyuehu/kotori-bot#readme","dependencies":{"domain":"^0.0.1","express":"^4.18.2","fs":"^0.0.1-security","js-base64":"^3.7.5","needle":"^3.2.0","os":"^0.1.2","path":"^0.12.7","ts-node":"^10.9.1","ws":"^8.13.0","yaml":"^2.3.1"},"devDependencies":{"@types/express":"^4.17.17","@types/inquirer":"^9.0.3","@types/needle":"^3.2.0","@types/ws":"^8.5.4","inquirer":"^8.2.6","nodemon":"^3.0.1","ts-loader":"^9.4.3","tsconfig-paths":"^4.2.0","typescript":"^5.1.3"}} 
+23/8/4 18:2:2 LOG [Plugin] Send group msg: 当前版本：0.7.2
+检测到有更新！
+最新版本：0.7.3
+请前往Github仓库获取最新版本：https://github.com/biyuehu/kotori-bot group: 317691609 
+23/8/4 18:3:3 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:3:3 ERROR [Connect] {"errno":-4078,"code":"ECONNREFUSED","syscall":"connect","address":"192.168.1.7","port":8000} 
+23/8/4 18:3:3 WARM [Connect] Start reconnecting in 10 seconds... 
+23/8/4 18:3:3 INFO Successfully loaded 4 plugins 
+23/8/4 18:3:3 INFO [Connect] WebSocket server successfully connected 
+23/8/4 18:3:3 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 18:3:3 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 18:3:3 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 18:3:3 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 18:3:3 INFO GET Request url:https://api.imlolicon.tk/sys/datastat params: {"format":"text"} 
+23/8/4 18:3:3 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26049
+今日：63
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 18:3:3 LOG [Plugin] Send group msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26049
+今日：63
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link group: 673830908 
+23/8/4 18:3:3 INFO Response type: TEXT result: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26050
+今日：64
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link 
+23/8/4 18:3:3 LOG [Plugin] Send group msg: 接口数据
+总计：53
+正常：47
+维护：5
+外链：3
+隐藏：1
+调用数据
+总计：267574
+今日：14
+昨日：43
+平均调用数据
+每月：164
+每周：95
+每日：13
+每时：0
+访问数据
+总计：125955
+今日：22
+昨日：56
+访客数据
+总计：26050
+今日：64
+昨日：115
+子站信息
+数量：7
+列表：
+localhost
+test.imlolicon.tk
+api.mooncc.cn
+54.i-kun.link
+http://qingsu/
+api.bhsr922.cn
+api.xcapi.link group: 673830908 
+23/8/4 18:5:5 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/4 18:5:5 INFO Kotori Bot By Hotaru 
+23/8/4 18:5:5 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/4 18:5:5 WARM Run Info: Develop With Debuing... 
+23/8/4 18:5:5 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/4 18:5:5 INFO Current connection mode: WsReverse 
+23/8/4 18:6:6 INFO [Connect] WebSocket client successfully connected 
+23/8/4 18:6:6 INFO Successfully loaded 4 plugins 
+23/8/4 18:6:6 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 18:6:6 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 18:6:6 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 18:6:6 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/account/login 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:6:6 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 INFO [Connect] WebSocket client successfully connected 
+23/8/4 18:7:7 INFO Successfully loaded 4 plugins 
+23/8/4 18:7:7 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/4 18:7:7 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/4 18:7:7 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/log/list 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/log/view 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Kotori 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Env 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 INFO GET Request url:https://biyuehu.github.io/kotori-bot/package.json params: empty 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 INFO Response type: JSON result: {"name":"kotori-bot","version":"0.7.3","description":"Korori Bot For Go-cqhttp And Nodejs","main":"./dist/src/index.js","types":"./dist/src/index.d.ts","scripts":{"start":"ts-node -r tsconfig-paths/register ./src/app.ts","dev":"nodemon --config nodemon.json","test":"echo building","build":"tsc","create":"ts-node -r tsconfig-paths/register ./src/modules/create.ts"},"author":"hotaru","license":"GPL-3.0","bugs":{"url":"https://github.com/biyuehu/kotori-bot/issues"},"homepage":"https://github.com/biyuehu/kotori-bot#readme","dependencies":{"domain":"^0.0.1","express":"^4.18.2","fs":"^0.0.1-security","js-base64":"^3.7.5","needle":"^3.2.0","os":"^0.1.2","path":"^0.12.7","ts-node":"^10.9.1","ws":"^8.13.0","yaml":"^2.3.1"},"devDependencies":{"@types/express":"^4.17.17","@types/inquirer":"^9.0.3","@types/needle":"^3.2.0","@types/ws":"^8.5.4","inquirer":"^8.2.6","nodemon":"^3.0.1","ts-loader":"^9.4.3","tsconfig-paths":"^4.2.0","typescript":"^5.1.3"}} 
+23/8/4 18:7:7 LOG [Plugin] Send group msg: 当前版本：0.7.2
+检测到有更新！
+最新版本：0.7.3
+请前往Github仓库获取最新版本：https://github.com/biyuehu/kotori-bot group: 673830908 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Bot 
+23/8/4 18:7:7 LOG [Web] [GET] Request path: /api/data/Server 
+23/8/4 20:40:40 LOG [Plugin] Send group msg: [CQ:video,file=https://api.imlolicon.tk/api/sisters,cover=undefined,c=1] group: 317691609 

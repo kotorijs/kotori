@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-26 14:50:47
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-31 17:09:41
+ * @LastEditTime: 2023-08-05 15:55:40
  */
 import { comType } from "./interface";
 
@@ -18,6 +18,7 @@ export const enum BOT_RESULT {
     SERVER_ERROR = '接口错误！请联系管理员',
     ARGS_EMPTY = '参数不能为空',
     NUM_ERROR = '序号错误！',
+    NUM_CHOOSE = '再次发送指令并传入参数[序号]以选择对应内容',
     NO_ACCESS = '你无权限执行该指令！',
     AUTHOR = 'ByHimeno'
 }
@@ -37,8 +38,8 @@ Com.set(['菜单', '/menu', '/help', 'kotori'],
 Com.set('日常工具',
     HEADER +
     '\n发送指令时无需带[]' +
-    '\n/music [歌名*序号]: 网易云点歌,序号不填默认为1,例子:歌名*2' +
-    '\n/bgm [名字*序号]: 番组计划,搜索游戏/动漫/角色等' + 
+    '\n/music [歌名] [序号=1]: 网易云点歌,序号不填默认为1,填0显示歌曲列表,例子:歌名 2' +
+    '\n/bgm [名字] [序号=1]: 番组计划,搜索游戏/动漫/角色等' + 
     '\n/bgmc: 获取番组计划今日放送' + 
     '\n/star [星座名]: 查看今日星座运势' +
     '\n/tran [内容]: 中英互译' +
@@ -48,9 +49,8 @@ Com.set('日常工具',
 
 Com.set('查询工具',
     HEADER +
-    '\n发送指令时无需带[]' +
-    '\n/motd [IP:端口]: MCJE服务器信息查询' +
-    '\n/motdpe [IP:端口]: MCBE服务器信息查询' +
+    '\n/motd [IP] [端口=25565]: MCJE服务器信息查询' +
+    '\n/motdpe [IP] [端口=19132]: MCBE服务器信息查询' +
     '\n/mcskin [游戏ID]: MC正版账号皮肤查询' +
     '\n/bili [BV号]: B站视频信息查询' +
     '\n/sed [QQ/手机号]: 社工信息查询' +
@@ -62,8 +62,8 @@ Com.set('查询工具',
 
 Com.set('随机图片',
     HEADER +
-    '\n/sex [TAG]: 来自pixiv,TAG可选' +
-    '\n/sexh [TAG]: 来自huliimg,TAG可选' +
+    '\n/sex [TAG?]: 来自pixiv,TAG可选' +
+    '\n/sexh [TAG?]: 来自huliimg' +
     '\n/seller: 卖家秀图片' +
     '\n/sedimg: 诱惑图' +
     '\n/bing: 必应每日图' +
@@ -88,7 +88,6 @@ Com.set('随机语录',
 
 Com.set('GPT聊天',
     HEADER +
-    '\n发送指令时无需带[]' +
     '\n/gpt [内容]: ChatGPT聊天' +
     '\n/cl [内容]: Claude聊天'
 );
@@ -96,10 +95,9 @@ Com.set('GPT聊天',
 Com.set('群管系统',
     HEADER +
     '\n以下功能仅群内且有权限时可用' +
-    '\n发送指令时无需带[]' +
-    '\n/ban [QQ*分钟]: 禁言某人,默认10min;不填QQ默认全体禁言' +
-    '\n/unban [QQ]: 解禁某人;不填QQ默认解除全体禁言' +
-    '\n/kick [QQ]: 踢出某人' +
+    '\n/ban [QQ/At] [分钟]: 禁言某人,默认10min;不填QQ默认全体禁言' +
+    '\n/unban [QQ/At]: 解禁某人;不填QQ默认解除全体禁言' +
+    '\n/kick [QQ/At]: 踢出某人' +
     '\n/all [内容]: 发送全体成员消息' +
     '\n/notice [内容]: 发送群公告'
 );
@@ -114,7 +112,8 @@ Com.set('关于信息',
     '\n/help: 帮助信息' +
     '\n/bot: 查看BOT信息与运行状态' +
     '\n/status: 查看服务器运行状态' +
-    '\n/about: 关于机器人框架'
+    '\n/about: 关于机器人框架' +
+    '\n/update: 检查更新'
 );
 
 export default Com;
