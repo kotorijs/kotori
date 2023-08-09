@@ -6,7 +6,7 @@ export default {
     port: null,
     /* 应用设置 */
     app: {
-        /* 数据中心数据更新间隔数据（单位：s/秒） */
+        /* 数据中心数据更新间隔数据（单位:s/秒） */
         updatetime: 5000
     }
 }
