@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 10:31:22
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-28 11:47:19
+ * @LastEditTime: 2023-08-06 17:58:28
  */
 import config from './config';
 import needle from 'needle';
@@ -34,7 +34,7 @@ export default (Event: any, Api: any, Const: any) => {
     // 基础
     let ip: string;
     needle('get', _get_own_ip_url).then(data => {
-        ip = data.body.split('：')[1];
+        ip = data.body.split(':')[1];
         ip = ip.split(' ')[0];
     });
 
@@ -143,19 +143,19 @@ export default (Event: any, Api: any, Const: any) => {
 
     // Timer
     setInterval(() => {
-        fs.readFile(`${Const._DATA_PLUGIN_PATH}/ip.ini`, 'utf-8', (err, data) => {
+        fs.readFile(`${Const.DATA_PLUGIN_PATH}/ip.ini`, 'utf-8', (err, data) => {
             if (err) {
                 console.error('[MCServer]', err);
                 return;
             }
             needle('get', _get_own_ip_url).then(res => {
-                let temp = res.body.split('：')[1];
+                let temp = res.body.split(':')[1];
                 temp = temp.split(' ')[0];
                 if (data !== temp) {
                     log(`IP发生了改变 [${data}] -> [${temp}]`);
                     send(`检测提醒:服务器IP已发生改变!\n[${data}] -> [${temp}]\n请及时更改游戏内IP`);
                     ip = temp;
-                    fs.writeFile(`${Const._DATA_PLUGIN_PATH}/ip.ini`, temp, () => { });
+                    fs.writeFile(`${Const.DATA_PLUGIN_PATH}/ip.ini`, temp, () => { });
                 }
             })
         });

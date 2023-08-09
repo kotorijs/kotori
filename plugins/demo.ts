@@ -11,7 +11,7 @@ export default (Event: Event, Api: Api, Const: Const) => {
     Event.listen("on_group_msg", (eventData: EventDataType) => handel(eventData));
     Event.listen("on_private_msg", (data: EventDataType) => {
         if (data.message !== "print") return;
-        Api.send_private_msg(Const._DATA_PLUGIN_PATH , data.user_id);
+        Api.send_private_msg(Const.DATA_PLUGIN_PATH , data.user_id);
     });
 
     /* 处理函数 */
