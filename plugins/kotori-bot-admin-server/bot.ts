@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-25 19:55:02
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-27 16:30:55
+ * @LastEditTime: 2023-08-06 18:22:52
  */
 import { fetchText } from "@/tools";
 import type { Api, Const, Event, EventDataType } from "@/tools/interface";
@@ -24,7 +24,7 @@ export default (Event: Event, Api: Api, Const: Const) => {
 
         if (data.message !== '/login') return;
 
-        if (data.user_id !== Const._CONFIG.bot.master) {
+        if (data.user_id !== Const.CONFIG.bot.master) {
             send('您无权限执行该指令')
             return;
         }
@@ -35,7 +35,7 @@ export default (Event: Event, Api: Api, Const: Const) => {
         fetchText(GlobalVar.GET_OWN_IP_ADDRESS)
             .then(realIp => {
                 let message = (
-                    `以下是您的BOT后台管理的一键登录地址：` +
+                    `以下是您的BOT后台管理的一键登录地址:` +
                     `\nhttp://127.0.0.1${URL}` +
                     // `\n${config.bot.faceaAdress}${URL}` +
                     `\nhttp://${realIp.substring(0, realIp.length - 1)}${URL}` +

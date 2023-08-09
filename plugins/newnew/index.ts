@@ -26,7 +26,7 @@ export default (Event: Event, Api: Api, Const: Const) => {
     Event.listen('on_group_msg', data => handle(data));
     Event.listen('on_private_msg', data => handle(data));
     const handle = (eventData: EventDataType) => {
-        const DATA_PATH = `${Const._DATA_PLUGIN_PATH}\\${getTime()}.json`;
+        const DATA_PATH = `${Const.DATA_PLUGIN_PATH}\\${getTime()}.json`;
         const send = (message: string) => {
             eventData.message_type === 'private' ? Api.send_private_msg(message, eventData.user_id) : Api.send_group_msg(SDK.cq_at(eventData.user_id) + message, eventData.group_id!);
         }

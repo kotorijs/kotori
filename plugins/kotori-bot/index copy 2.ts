@@ -9,7 +9,7 @@ import os from 'os';
 import type { EventDataType, obj, Event, Api, Const, Msg } from '@/tools';
 import { getPackageInfo, stringProcess, stringSplit } from '@/tools';
 import { con, dealCpu, dealEnv, dealRam, dealTime, fetchBGM, fetchJ, fetchT } from './method';
-import config from './config';
+import config from './config/config';
 import Com, { BOT_RESULT, URL } from './menu';
 import { HandlerFuncType, Res, dataType } from './interface';
 import SDK from '@/utils/class.sdk';
@@ -92,7 +92,7 @@ export default (Event: Event, Api_: Api, Const_: Const) => {
 /* 函数定义 */
 
 const verifyAcess = (data: EventDataType, send: ) => {
-    const result = data.user_id === Const._CONFIG.bot.master;
+    const result = data.user_id === Const.CONFIG.bot.master;
     result || send(BOT_RESULT.NO_ACCESS);
     return result;
 }

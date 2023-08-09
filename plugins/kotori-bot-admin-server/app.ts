@@ -31,7 +31,7 @@ app.all('*', (req, res, next) => {
 
 app.get('/api/data/bot', (req, res) => {
     if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
-    handle(res, SHARE.Status._BOT, 500);
+    handle(res, SHARE.Status.BOT, 500);
 });
 
 app.get('/api/plugin/info', (req, res) => {

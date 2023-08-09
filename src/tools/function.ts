@@ -45,19 +45,19 @@ export const OPTIONS = {
     catchError: process.argv[2] !== 'dev'
 }
 
-export function loadConfig(filename: string, type: ConfigFileType = 'json'): object | string {
+export function loadConfig(filename: string, type: ConfigFileType = 'json', init: object | string = {}): object | null | Array<any> | string {
     const dirname: string = path.dirname(filename);
     if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
-    if (!fs.existsSync(filename)) fs.writeFileSync(filename, '');
+    if (!fs.existsSync(filename)) fs.writeFileSync(filename, typeof init === 'string' ? init : JSON.stringify(init));
 
-    const data: string = fs.readFileSync(filename).toString()
+    const data: string = fs.readFileSync(filename).toString();
     try {
         if (type === 'yaml') return YAML.parse(data);
         if (type === 'txt') return data;
         return JSON.parse(data);
     } catch (err) {
         console.error(err);
-        return new Object
+        return null
     }
 }
 
@@ -137,6 +137,14 @@ export function stringSplit(str: string, key: string): string {
     }
 }
 
+export function stringTemp(template: string, args: obj<string | number>) {
+    for (let param in args) {
+        typeof args[param] === 'string' || (args[param] = args[param].toString());
+        template = template.replace(new RegExp(`%${param}%`, 'g'), args[param] as string);
+    }
+    return template;
+}
+
 export function handleCmd(command: string): [string, string[]] {
     const handle = command.split(' ');
     const params: string[] = [];
@@ -176,7 +184,7 @@ export function getRandomStr(): string {
 }
 
 export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {
-    console.info(`${init?.method ?? 'GET'} Request url:${url} params: ${params ? JSON.stringify(params) : 'empty'}`);
+    console.info(`${init?.method || 'GET'} Request url:${url} params: ${params ? JSON.stringify(params) : 'empty'}`);
     if (params) {
         url += '?';
         Object.keys(params).forEach(key => {

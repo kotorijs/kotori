@@ -39,7 +39,7 @@ class Create {
             '\n        this.Event.listen(\'on_group_msg\', (eventData: EventDataType) => this.handel(eventData));' +
             '\n        this.Event.listen(\'on_private_msg\', (data: obj) => {' +
             '\n            if (data.message !== \'print\') return;' +
-            '\n            this.Api.send_private_msg(this.Const._DATA_PLUGIN_PATH, data.user_id);' +
+            '\n            this.Api.send_private_msg(this.Const.DATA_PLUGIN_PATH, data.user_id);' +
             '\n        });' +
             '\n    }' +
             '\n' +
@@ -65,7 +65,7 @@ class Create {
             '\n    Event.listen(\'on_group_msg\', (eventData: EventDataType) => handel(eventData));' +
             '\n    Event.listen(\'on_private_msg\', (data: obj) => {' +
             '\n        if (data.message !== \'print\') return;' +
-            '\n        Api.send_private_msg(Const._DATA_PLUGIN_PATH, data.user_id);' +
+            '\n        Api.send_private_msg(Const.DATA_PLUGIN_PATH, data.user_id);' +
             '\n    });' +
             '\n' +
             '\n    /* 处理函数 */' +

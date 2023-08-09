@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-05 17:17:42
+ * @LastEditTime: 2023-08-06 15:56:07
  */
 import Domain from 'domain';
 import Process from 'process';
@@ -195,6 +195,11 @@ export class Main {
             this.const.BOT.status = data.status;
         }
 
+        /* 上报消息数据类型兼容 */
+        if (data.message) {
+            typeof data.message !== 'string' || (data.message = data.raw_message);
+        }
+
         /* 每次心跳时运行事件监听 */
         this.runAllEvent(data);
 
@@ -260,10 +265,10 @@ export class Main {
         if (!demo.default) return;
         const params: [T.Event, T.Api, T.Const, Object?] = [
             this._Event as T.Event, this._Api as T.Api, {
-                _CONFIG: this._config,
-                _CONFIG_PLUGIN_PATH: `${T.CONST.CONFIG_PATH}\\plugins\\${element[1]}`,
-                _DATA_PLUGIN_PATH: `${T.CONST.DATA_PATH}\\plugins\\${element[1]}`,
-                _BOT: new Proxy(this.const.BOT, {})
+                CONFIG: this._config,
+                CONFIG_PLUGIN_PATH: `${T.CONST.CONFIG_PATH}\\plugins\\${element[1]}`,
+                DATA_PLUGIN_PATH: `${T.CONST.DATA_PATH}\\plugins\\${element[1]}`,
+                BOT: new Proxy(this.const.BOT, {})
             }
         ]
         if (element[1] === T.PLUGIN_GLOBAL.ADMIN_PLUGIN) params.push(new Proxy(Array.from(this._pluginEntityList), {}) as Object);

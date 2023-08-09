@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-03 16:44:42
+ * @LastEditTime: 2023-08-06 15:45:27
  */
 /* Function */
 export interface obj<T = any> {
@@ -165,10 +165,10 @@ export interface ConstGlobal {
 }
 
 export interface Const {
-    _CONFIG: BotConfig,
-    _CONFIG_PLUGIN_PATH: string,
-    _DATA_PLUGIN_PATH: string,
-    _BOT: BotInfo
+    CONFIG: BotConfig,
+    CONFIG_PLUGIN_PATH: string,
+    DATA_PLUGIN_PATH: string,
+    BOT: BotInfo
 }
 
 /* Api */
