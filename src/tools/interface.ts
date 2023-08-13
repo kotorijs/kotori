@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-06 15:45:27
+ * @LastEditTime: 2023-08-13 14:49:51
  */
 /* Function */
 export interface obj<T = any> {
@@ -41,7 +41,8 @@ export const enum LOG_PREFIX {
     PLUGIN = '[Plugin]',
     WEB = '[Web]',
     KOTORI = '[Kotori]',
-    CMD = '[Result]'
+    CMD = '[Result]',
+    GCQ = '[Gocq]'
 }
 
 export const enum PROCESS_CMD {
@@ -129,17 +130,43 @@ export interface BotConfig {
         'ws-reverse': {
             port: number,
         }
-    }
+    },
+    control: {
+        program: string,
+        params: string[],
+        signserver: string
+    },
     bot: {
         master: number,
         'command-list': {
             reload: string
+        },
+        users: {
+            type: BotConfigFilter,
+            list: number[]
+        },
+        groups: {
+            type: BotConfigFilter,
+            list: number[]
         }
     }
 }
 
-export type PluginEntityFunc = (Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void
+export enum BotConfigFilter {
+    CLOSE,
+    BLACK,
+    WHITE
+}
 
+export const enum ProcessStatus {
+    UNKNOWN,
+    START,
+    STOP
+};
+
+export type ProcessCallback = (data: Buffer) => void;
+
+export type PluginEntityFunc = (Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void
 export type PluginEntityClass = new(Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void; 
 
 export interface PluginEntity {

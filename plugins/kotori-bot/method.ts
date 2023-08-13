@@ -3,17 +3,18 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 15:52:17
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-09 17:22:31
+ * @LastEditTime: 2023-08-12 20:29:29
  */
 import { LOG_PREFIX, fetchJson, fetchText, isObj, isObjArr, loadConfig, saveConfig, stringTemp } from '@/tools';
-import type { FuncFetchSuper, obj } from '@/tools';
+import type { FuncFetchSuper, FuncStringProcessStr, obj } from '@/tools';
 import os from 'os';
 import { CONTROL_PARAMS, Res, Send } from './interface';
-import { BOT_RESULT, URL } from './menu';
+import { URL } from './menu';
 import { version as version_ts } from 'typescript';
 import { VERSION as version_tsnode } from 'ts-node';
 import { existsSync } from 'fs';
 import SDK from '@/utils/class.sdk';
+import { BOT_RESULT, GLOBAL } from './lang/zh_cn';
 
 export const dealTime = () => {
     const seconds = os.uptime() | 0;
@@ -139,10 +140,19 @@ export const saveConfigP = (filename: string, content: object) => {
     const PATH = `${CONFIG_PLUGIN_PATH}\\${filename}`;
     return saveConfig(PATH, content);
 }
-export const controlParams = (path: string, msg: [string, string, string]) => {
+
+export const temp = (msg: string, params: obj<string | number>) => {
+    msg = stringTemp(msg, GLOBAL);
+    msg = stringTemp(msg, BOT_RESULT);
+    return stringTemp(msg, params);
+};
+
+export const controlParams = (path: string, msg: [string, string, string, string], isString: boolean = false) => {
     let message = '';
-    let list = loadConfigP(path) as number[];
-    const target = args[2] ? parseInt(args[2]) || SDK.get_at(args[2]) : null;
+    let list = loadConfigP(path) as FuncStringProcessStr[];
+    const target = isString ? args[2] : (
+        args[2] ? parseInt(args[2]) || SDK.get_at(args[2]) : null
+    );
     const check = () => {
         if (!args[2]) { message = BOT_RESULT.ARGS_EMPTY; return false; }
         if (!target) { message = BOT_RESULT.ARGS_ERROR; return false; }
@@ -152,23 +162,26 @@ export const controlParams = (path: string, msg: [string, string, string]) => {
     switch (args[1]) {
         case CONTROL_PARAMS.QUERY:
             let listRaw = '';
-            list.forEach(user => {
-                listRaw += `${user}, `;
+            list.forEach(content => {
+                listRaw += temp(msg[3], {
+                    content
+                });
             });
-            listRaw = listRaw.substring(0, listRaw.length - 2);
-            message = `${msg[0]}\n` + (listRaw ? listRaw : '无内容');
+            message = temp(msg[0], {
+                content: listRaw ? listRaw : BOT_RESULT.EMPTY
+            });
             break;
         case CONTROL_PARAMS.ADD:
             if(!check()) break;
             if (list.includes(target!)) { message = BOT_RESULT.EXIST; break; }
             list.push(target!);
-            message = stringTemp(msg[1], { target: target! });
+            message = temp(msg[1], { target: target! });
             break;
         case CONTROL_PARAMS.DEL:
             if(!check()) break;
             if (!list.includes(target!)) { message = BOT_RESULT.NO_EXIST; break; }
             list = list.filter(item => item !== target);
-            message = stringTemp(msg[2], { target: target! });
+            message = temp(msg[2], { target: target! });
             break;
         default:
             message = BOT_RESULT.ARGS_ERROR;
@@ -176,4 +189,8 @@ export const controlParams = (path: string, msg: [string, string, string]) => {
     }
     saveConfigP(path, list);
     return message;
+}
+
+export const formatOption = (option: boolean) => {
+    return option ? BOT_RESULT.OPTION_ON : BOT_RESULT.OPTION_OFF 
 }

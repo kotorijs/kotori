@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-06 16:13:31
+ * @LastEditTime: 2023-08-12 19:07:41
  */
 export default {
     apikey: {
@@ -23,9 +23,9 @@ export default {
         bangumi: "CUISWUtzJyM0C7VMd8TakNHjtNGCQfIJWYVHAE1R"
     },
     group: {
-        /* 群聊白名单功能 */
+        /* 群聊白名单开关 */
         enable: true,
-        /* (state为true可用)群聊开启列表 */
+        /* 群聊白名单列表 */
         list: [
             673830908,
             317691609,
@@ -33,13 +33,11 @@ export default {
         ]
     },
     component: {
-        auto: {
-            joinGroupWelcome: true,
-            joinGroupWelcomeMsg: `欢迎加入本群，请先仔细阅读群公告，发送"/menu"或"菜单"查看更多BOT功能和信息`,
-            exitGroupAddBlacklist: true
-        },
+        mainMenu: true,
         mange: {
             enable: true,
+            joinGroupWelcome: true,
+            exitGroupAddBlack: true,
             banTime: 600,
             banwordBanTime: 600,
             repeatBanTime: 600,

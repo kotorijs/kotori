@@ -3,26 +3,50 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-31 16:09:39
+ * @LastEditTime: 2023-08-13 15:58:37
  */
-import Process from 'child_process';
-import { LOG_PREFIX } from './interface';
+import { spawn, ChildProcess } from 'child_process';
+import { LOG_PREFIX, ProcessCallback, ProcessStatus } from './interface';
 
-export const execute = (cmd: string) => Process.spawn(cmd, {
-    detached: true, 
-    windowsHide: true,
-    stdio: 'ignore'
-});
+export class ProcessController {
+    private program: string;
+    private child?: ChildProcess;
+    private path?: string;
+    private params?: string[];
+    private stdout?: ProcessCallback;
+    private stderr: ProcessCallback;
+    public status: ProcessStatus = ProcessStatus.UNKNOWN;
 
-export const exec = (file: string, info?: string) => Process.exec(file , (error) => {
-    if (error) {
-        console.error(LOG_PREFIX.SYS, error);
-    } else if (info) {
-        console.log(LOG_PREFIX.SYS, info);
+    public constructor (program: string, path?: string, params?: string[], stdout?: ProcessCallback, stderr?: ProcessCallback) {
+        this.program = program;
+        this.path = path;
+        this.params = params;
+        this.stdout = stdout;
+        this.stderr = stderr || (data => {
+            console.error(LOG_PREFIX.SYS, data.toString('utf-8'));
+        });
     }
-});
 
-export default {
-    execute,
-    exec
+    public start = () => {
+        this.status = ProcessStatus.START;
+        this.child = spawn(this.program, this.params, {
+            cwd: this.path
+        });
+        this.child.stderr!.on('data', data => this.stderr(data));
+        if (typeof this.stdout !== 'function') return;
+        this.child.stdout!.on('data', data => this.stdout!(data));
+    }
+
+    public stop = () => {
+        this.status = ProcessStatus.STOP;
+        if (!(this.child instanceof ChildProcess)) return;
+        this.child.kill();
+    }
+
+    public restart = () => {
+        this.stop();
+        this.start();
+    }
 }
+
+export default ProcessController;

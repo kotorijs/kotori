@@ -9,46 +9,43 @@ import Fs from 'fs';
 import Path from 'path';
 import { loadConfig, CONST, PluginAsyncList, PluginEntity, PluginInfo } from '@/tools';
 
-export const load = (pluginName: string): Promise<PluginEntity> => {
-    return import(`${CONST.PLUGIN_PATH}\\${pluginName}`);
+export class Plugin {
+    private static load = (pluginName: string): Promise<PluginEntity> => {
+        return import(Path.join(CONST.PLUGIN_PATH, pluginName));
+    }
+
+    public static loadAll = (): PluginAsyncList => {
+        const fileList = Fs.readdirSync(CONST.PLUGIN_PATH);
+    
+        const entityList: PluginAsyncList = new Set();
+        fileList.forEach(fileName => {
+            if (fileName.includes('.disable')) return;
+            const filedir = Path.join(CONST.PLUGIN_PATH, fileName);
+            const fileStat = Fs.statSync(filedir);
+            
+            if (fileStat.isFile() && fileName !== 'index.ts' && fileName !== 'index.js') {
+                const tempArr = fileName.split('.');
+                const fileType = tempArr[tempArr.length - 1];
+                if (fileType === 'ts' || fileType === 'js') {
+                    const entity = this.load(fileName);
+                    entity && entityList.add([entity, fileName, Path.join(CONST.ROOT_PATH, 'plugins', fileName)]);
+                }
+            } else if (fileStat.isDirectory()) {
+                const path = Path.join(CONST.PLUGIN_PATH, fileName);
+                let info: PluginInfo | undefined;
+                const manifestPath = Path.join(path, 'manifest');
+                const indexPath = Path.join(fileName, 'index.ts');
+                const indexPath2 = Path.join(path, 'index.ts');
+                if (Fs.existsSync(manifestPath)) info = <PluginInfo>loadConfig(manifestPath);
+
+                if (Fs.existsSync(indexPath2)) {
+                    const entity = this.load(indexPath);
+                    entity && entityList.add([entity, fileName, indexPath2, info]);
+                }
+            }
+        })
+        return entityList;
+    }
 }
 
-export const loadAll = (): PluginAsyncList => {
-    const fileList = Fs.readdirSync(CONST.PLUGIN_PATH);
-
-    const entityList: PluginAsyncList = new Set();
-    fileList.forEach(fileName => {
-        if (fileName.includes('.disable')) return;
-        const filedir = Path.join(CONST.PLUGIN_PATH + '\\', fileName);
-        const fileStat = Fs.statSync(filedir);
-        
-        if (fileStat.isFile() && fileName !== 'index.ts' && fileName !== 'index.js') {
-            const tempArr = fileName.split('.');
-            const fileType = tempArr[tempArr.length - 1];
-            if (fileType === 'ts' || fileType === 'js') {
-                const entity = load(fileName);
-                entity && entityList.add([entity, fileName, `${CONST.ROOT_PATH}\\plugins\\${fileName}`]);
-            }
-        } else if (fileStat.isDirectory()) {
-            const Path = `${CONST.PLUGIN_PATH}\\${fileName}\\`;
-            let info: PluginInfo | undefined;
-            if (Fs.existsSync(`${Path}manifest.json`)) {
-                info = <PluginInfo>loadConfig(`${Path}manifest.json`);
-            }
-
-            if (Fs.existsSync(`${Path}index.ts`)) {
-                const entity = load(`${fileName}\\index.ts`);
-                entity && entityList.add([entity, fileName, `${Path}index.ts`, info]);
-            } else if (Fs.existsSync(`${Path}index.js`)) {
-                const entity = load(`${fileName}\\index.js`);
-                entity && entityList.add([entity, fileName, `${Path}index.js`, info]);
-            }
-        }
-    })
-    return entityList;
-}
-
-export default {
-    load,
-    loadAll
-}
+export default Plugin;

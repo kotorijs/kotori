@@ -21,10 +21,23 @@ connect:
   ws-reverse:
     port: 8080 # WS反向端口
 
+control:
+  program: './go-cqhttp/go-cqhttp.exe'
+  params: [] # '-update-protocol'
+  signserver: './signserver/start.bat'
+
 # 暂未实现
 bot:
   # 机器人主人QQ号(拥有调试权限)
   master: 3324656453
   # 指令列表
-  command-list:
-    reload: /reload # 热重载所有插件
+  # command-list:
+    # reload: /reload # 热重载所有插件
+  # 好友事件过滤设置(权重最高的开启/关闭好友)
+  users:
+    type: 1 # 0不过滤 1黑名单 2白名单
+    list: [] # 过滤的QQ
+  # 同上 过滤群
+  groups:
+    type: 2
+    list: [317691609, 673830908]

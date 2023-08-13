@@ -3,9 +3,10 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-04 18:05:20
+ * @LastEditTime: 2023-08-13 11:27:47
  */
-import { EventHandle, EventList, EventDataType } from "../tools/interface";
+import { BOTCONFIG } from "@/tools";
+import { EventHandle, EventList, EventDataType, LOG_PREFIX, BotConfigFilter } from "../tools/interface";
 
 export class EVENT {
     private on_private_msg: EventHandle = (data, callback) => {
@@ -146,14 +147,40 @@ export class EVENT {
         on_meta_event: this.on_meta_event
     }
 
+    private recordLog = (event: EventDataType) => {
+        if (event.post_type !== 'message') return;
+        const type = event.message_type === 'group' ? 'group' : 'private';
+        console.log(LOG_PREFIX.CONNECT, `Receive ${type} msg ${event.message} user: ${event.user_id}${event.group_id ? ` group: ${event.group_id}` : ''}`)
+    }
+
+    private eventFilter = (event: EventDataType) => {
+        const config = BOTCONFIG.value
+        if (event.group_id) {
+            const type = config.bot.groups.type;
+            const result = config.bot.groups.list.includes(event.group_id);
+            if (type === BotConfigFilter.CLOSE) return true;
+            if (!result && type === BotConfigFilter.BLACK) return true;
+            if (result && type === BotConfigFilter.WHITE) return true;
+            return false;
+        }
+        const type = config.bot.users.type;
+        const result = config.bot.users.list.includes(event.user_id);
+        if (type === BotConfigFilter.CLOSE) return true;
+        if (!result && type === BotConfigFilter.BLACK) return true;
+        if (result && type === BotConfigFilter.WHITE) return true;
+        return false;
+    }
+
     public registerEvent = (list: [string, Function][], eventName: string, callback: Function) => {
         list.push([eventName, callback])
     }
 
     public handleEvent = (list: [string, Function][], eventData: EventDataType) => {
+        if (!this.eventFilter(eventData)) return;
+        this.recordLog(eventData);
         list.forEach(element => {
             this.handleEventList[element[0] as keyof EventList](eventData, element[1]);
-        })
+        });
     }
 }
 

@@ -1,0 +1,1277 @@
+23/8/13 10:17:17 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:17:17 INFO Kotori Bot By Hotaru 
+23/8/13 10:17:17 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:17:17 WARM Run Info: Develop With Debuing... 
+23/8/13 10:17:17 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:17:17 INFO Current connection mode: WsReverse 
+23/8/13 10:17:17 ERROR [Result] Unknown command plugin, Please input 'help' to view all command 
+23/8/13 10:17:17 ERROR [Result] Unknown command plugin, Please input 'help' to view all command 
+23/8/13 10:17:17 ERROR [Result] Unknown command plugins, Please input 'help' to view all command 
+23/8/13 10:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:18:18 INFO Kotori Bot By Hotaru 
+23/8/13 10:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:18:18 WARM Run Info: Develop With Debuing... 
+23/8/13 10:18:18 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:18:18 INFO Current connection mode: WsReverse 
+23/8/13 10:18:18 ERROR [Result] Unknown command plugins, Please input 'help' to view all command 
+23/8/13 10:18:18 INFO [Result] Command List:
+Stop kotori-bot application: stop
+Get bot status information: bot
+View all or some plugins manifest information: plugin <PluginId>
+View username and password of admin website: password
+Send a message to bot's a friend and group: send <Message> <Type:private/friend> <FriendId/GroupId>
+Get command help information: help 
+23/8/13 10:18:18 ERROR [Result] Cannot find plugin 'undefined' 
+23/8/13 10:18:18 ERROR [Result] Cannot find plugin 'undefined' 
+23/8/13 10:18:18 ERROR [Result] Cannot find plugin 'undefined' 
+23/8/13 10:18:18 ERROR [Result] Cannot find plugin 'kotori-bot' 
+23/8/13 10:19:19 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:19:19 INFO Kotori Bot By Hotaru 
+23/8/13 10:19:19 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:19:19 WARM Run Info: Develop With Debuing... 
+23/8/13 10:19:19 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:19:19 INFO Current connection mode: WsReverse 
+23/8/13 10:19:19 ERROR [Result] Cannot find plugin 'kotori-bot' 
+23/8/13 10:19:19 INFO [Result] ConnectTime: 0 HeatbeatTime: 0 BotId: 0 AppEnabled: false AppGood: false AppInitialized: false Online: false PluginsGood: null Packet: 0 0 0 Message: 0 0 LostTimes: 0 DisconnectTimes: 0 LastMessageTime: 0 
+23/8/13 10:20:20 INFO [Result] User: himeno Password: 2333 
+23/8/13 10:20:20 WARM [Result] Currently offline 
+23/8/13 10:22:22 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:22:22 INFO Kotori Bot By Hotaru 
+23/8/13 10:22:22 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:22:22 WARM Run Info: Develop With Debuing... 
+23/8/13 10:22:22 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:22:22 INFO Current connection mode: WsReverse 
+23/8/13 10:22:22 WARM [Result] Currently offline 
+23/8/13 10:22:22 WARM [Result] Currently offline 
+23/8/13 10:22:22 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:22:22 INFO Kotori Bot By Hotaru 
+23/8/13 10:22:22 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:22:22 WARM Run Info: Develop With Debuing... 
+23/8/13 10:22:22 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:22:22 INFO Current connection mode: WsReverse 
+23/8/13 10:23:23 INFO [Connect] WebSocket client successfully connected 
+23/8/13 10:23:23 INFO Successfully loaded 5 plugins 
+23/8/13 10:23:23 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 10:23:23 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 10:23:23 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 10:23:23 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 10:23:23 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 10:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:41:41 INFO Kotori Bot By Hotaru 
+23/8/13 10:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:41:41 WARM Run Info: Develop With Debuing... 
+23/8/13 10:41:41 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:41:41 INFO Current connection mode: WsReverse 
+23/8/13 10:41:41 INFO [Connect] WebSocket client successfully connected 
+23/8/13 10:41:41 INFO Successfully loaded 5 plugins 
+23/8/13 10:41:41 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 10:41:41 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 10:41:41 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 10:41:41 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 10:41:41 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 10:56:56 INFO [Result] Id: demo.ts Name: undefined Version: undefinedDescription: undefined Author: undefined License: undefined Id: kotori-bot Name: KotoriBot Core Version: 1.0.0Description: KotoriBot核心插件 Author: Himeno License: GPL-2.0 Id: kotori-bot-admin-server Name: Web With Kotori Version: 1.0.1Description: 鸟人万维网 Author: Himeno License: MIT Id: newnew Name: 今日牛牛长度 Version: undefinedDescription: undefined Author: undefined License: MIT Id: run-js Name: run-js Version: 1.0.0Description: This is a kotori-bot of plugin Author:  License: undefined  
+23/8/13 10:56:56 INFO [Result] Id: newnew Name: 今日牛牛长度 Version: undefinedDescription: undefined Author: undefined License: MIT  
+23/8/13 10:56:56 ERROR [Result] Cannot find plugin 'runjs' 
+23/8/13 10:56:56 INFO [Result] Id: run-js Name: run-js Version: 1.0.0Description: This is a kotori-bot of plugin Author:  License: undefined  
+23/8/13 10:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 10:59:59 INFO Kotori Bot By Hotaru 
+23/8/13 10:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 10:59:59 WARM Run Info: Develop With Debuing... 
+23/8/13 10:59:59 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 10:59:59 INFO Current connection mode: WsReverse 
+23/8/13 10:59:59 WARM [Result] Currently offline 
+23/8/13 10:59:59 WARM [Result] Currently offline 
+23/8/13 10:59:59 INFO [Connect] WebSocket client successfully connected 
+23/8/13 10:59:59 INFO Successfully loaded 5 plugins 
+23/8/13 10:59:59 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 10:59:59 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 10:59:59 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 10:59:59 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 10:59:59 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 10:59:59 INFO [Result] Id: demo.ts Name:  Version: Description:  Author:  License:  Id: kotori-bot Name: KotoriBot Core Version: 1.0.0Description: KotoriBot核心插件 Author: Himeno License: GPL-2.0 Id: kotori-bot-admin-server Name: Web With Kotori Version: 1.0.1Description: 鸟人万维网 Author: Himeno License: MIT Id: newnew Name: 今日牛牛长度 Version: Description:  Author:  License: MIT Id: run-js Name: run-js Version: 1.0.0Description: This is a kotori-bot of plugin Author:  License:   
+23/8/13 10:59:59 INFO [Result] Id: newnew Name: 今日牛牛长度 Version: Description:  Author:  License: MIT  
+23/8/13 10:59:59 INFO [Result] Id: run-js Name: run-js Version: 1.0.0Description: This is a kotori-bot of plugin Author:  License:   
+23/8/13 11:1:1 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:1:1 INFO Kotori Bot By Hotaru 
+23/8/13 11:1:1 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:1:1 WARM Run Info: Develop With Debuing... 
+23/8/13 11:1:1 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:1:1 INFO Current connection mode: WsReverse 
+23/8/13 11:1:1 ERROR [Result] Unknown command help\, Please input 'help' to view all command 
+23/8/13 11:1:1 INFO [Result] Command List:
+stop : Stop kotori-bot application
+bot : Get bot status information
+plugin <PluginId> : View all or some plugins manifest information
+password : View username and password of admin website
+send <Message> <Type:private/group> <GroupId/UserId> : Send a message to bot's a friend and group
+help : Get command help information 
+23/8/13 11:1:1 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:1:1 INFO Successfully loaded 5 plugins 
+23/8/13 11:1:1 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:1:1 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:1:1 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:1:1 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:1:1 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:1:1 ERROR [Result] Required parameter missing 
+23/8/13 11:1:1 LOG [Plugin] Send private msg: test user: 1 
+23/8/13 11:1:1 INFO [Result] Message sent successfully 
+23/8/13 11:1:1 LOG [Plugin] Send private msg: test user: 3324656453 
+23/8/13 11:1:1 INFO [Result] Message sent successfully 
+23/8/13 11:1:1 LOG [Plugin] Send private msg: 你好 user: 3324656453 
+23/8/13 11:1:1 INFO [Result] Message sent successfully 
+23/8/13 11:10:10 LOG [Plugin] Send group msg: 你好 group: 673830908 
+23/8/13 11:10:10 INFO [Result] Message sent successfully 
+23/8/13 11:11:11 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:11:11 INFO Kotori Bot By Hotaru 
+23/8/13 11:11:11 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:11:11 WARM Run Info: Develop With Debuing... 
+23/8/13 11:11:11 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:11:11 INFO Current connection mode: WsReverse 
+23/8/13 11:11:11 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:11:11 INFO Successfully loaded 5 plugins 
+23/8/13 11:11:11 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:11:11 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:11:11 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:11:11 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:11:11 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:12:12 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:12:12 INFO Kotori Bot By Hotaru 
+23/8/13 11:12:12 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:12:12 WARM Run Info: Develop With Debuing... 
+23/8/13 11:12:12 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:12:12 INFO Current connection mode: WsReverse 
+23/8/13 11:12:12 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:12:12 INFO Successfully loaded 5 plugins 
+23/8/13 11:12:12 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:12:12 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:12:12 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:12:12 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:12:12 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:12:12 LOG [Connect] Receive group msg 啊 user: 3324656453  group: 673830908 
+23/8/13 11:12:12 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:12:12 INFO Kotori Bot By Hotaru 
+23/8/13 11:12:12 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:12:12 WARM Run Info: Develop With Debuing... 
+23/8/13 11:12:12 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:12:12 INFO Current connection mode: WsReverse 
+23/8/13 11:12:12 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:12:12 INFO Successfully loaded 5 plugins 
+23/8/13 11:12:12 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:12:12 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:12:12 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:12:12 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:12:12 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:12:12 LOG [Connect] Receive group msg /menu user: 3324656453 group: 673830908 
+23/8/13 11:12:12 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno group: 673830908 
+23/8/13 11:12:12 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/13 11:12:12 LOG [Connect] Receive private msg  A user: 3324656453 
+23/8/13 11:18:18 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:18:18 INFO Kotori Bot By Hotaru 
+23/8/13 11:18:18 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:18:18 WARM Run Info: Develop With Debuing... 
+23/8/13 11:18:18 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:18:18 INFO Current connection mode: WsReverse 
+23/8/13 11:18:18 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:18:18 INFO Successfully loaded 5 plugins 
+23/8/13 11:18:18 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:18:18 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:18:18 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:18:18 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:18:18 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:20:20 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:20:20 INFO Kotori Bot By Hotaru 
+23/8/13 11:20:20 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:20:20 WARM Run Info: Develop With Debuing... 
+23/8/13 11:20:20 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:20:20 INFO Current connection mode: WsReverse 
+23/8/13 11:20:20 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:20:20 INFO Successfully loaded 5 plugins 
+23/8/13 11:20:20 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:20:20 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:20:20 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:20:20 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:20:20 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:23:23 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:23:23 INFO Kotori Bot By Hotaru 
+23/8/13 11:23:23 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:23:23 WARM Run Info: Develop With Debuing... 
+23/8/13 11:23:23 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:23:23 INFO Current connection mode: WsReverse 
+23/8/13 11:23:23 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:23:23 INFO Successfully loaded 5 plugins 
+23/8/13 11:23:23 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:23:23 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:23:23 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:23:23 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:23:23 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:27:27 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:27:27 INFO Kotori Bot By Hotaru 
+23/8/13 11:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:27:27 WARM Run Info: Develop With Debuing... 
+23/8/13 11:27:27 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:27:27 INFO Current connection mode: WsReverse 
+23/8/13 11:27:27 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:27:27 INFO Successfully loaded 5 plugins 
+23/8/13 11:27:27 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:27:27 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:27:27 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:27:27 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:27:27 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:28:28 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:28:28 INFO Kotori Bot By Hotaru 
+23/8/13 11:28:28 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:28:28 WARM Run Info: Develop With Debuing... 
+23/8/13 11:28:28 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:28:28 INFO Current connection mode: WsReverse 
+23/8/13 11:28:28 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:28:28 INFO Successfully loaded 5 plugins 
+23/8/13 11:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:28:28 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:28:28 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:28:28 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:28:28 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:28:28 LOG [Connect] Receive group msg /menu user: 3324656453 group: 317691609 
+23/8/13 11:28:28 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno group: 317691609 
+23/8/13 11:28:28 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/13 11:28:28 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:28:28 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:32:32 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:32:32 INFO Kotori Bot By Hotaru 
+23/8/13 11:32:32 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:32:32 WARM Run Info: Develop With Debuing... 
+23/8/13 11:32:32 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:32:32 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:32:32 INFO Kotori Bot By Hotaru 
+23/8/13 11:32:32 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:32:32 WARM Run Info: Develop With Debuing... 
+23/8/13 11:32:32 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:33:33 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:33:33 INFO Kotori Bot By Hotaru 
+23/8/13 11:33:33 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:33:33 WARM Run Info: Develop With Debuing... 
+23/8/13 11:33:33 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:33:33 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:33:33 INFO Kotori Bot By Hotaru 
+23/8/13 11:33:33 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:33:33 WARM Run Info: Develop With Debuing... 
+23/8/13 11:33:33 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:34:34 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:34:34 INFO Kotori Bot By Hotaru 
+23/8/13 11:34:34 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:34:34 WARM Run Info: Develop With Debuing... 
+23/8/13 11:34:34 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:34:34 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:34:34 INFO Kotori Bot By Hotaru 
+23/8/13 11:34:34 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:34:34 WARM Run Info: Develop With Debuing... 
+23/8/13 11:34:34 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:35:35 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:35:35 INFO Kotori Bot By Hotaru 
+23/8/13 11:35:35 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:35:35 WARM Run Info: Develop With Debuing... 
+23/8/13 11:35:35 LOG undefined undefined 
+23/8/13 11:35:35 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:35:35 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:35:35 INFO Kotori Bot By Hotaru 
+23/8/13 11:35:35 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:35:35 WARM Run Info: Develop With Debuing... 
+23/8/13 11:35:35 LOG undefined {"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}} 
+23/8/13 11:35:35 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:36:36 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:36:36 INFO Kotori Bot By Hotaru 
+23/8/13 11:36:36 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:36:36 WARM Run Info: Develop With Debuing... 
+23/8/13 11:36:36 LOG undefined {"connect":{"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}},"bot":{"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}}} 
+23/8/13 11:36:36 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:36:36 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:36:36 INFO Kotori Bot By Hotaru 
+23/8/13 11:36:36 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:36:36 WARM Run Info: Develop With Debuing... 
+23/8/13 11:36:36 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:254
+        args[0].forEach((Element: unknown) => {
+                ^ 
+23/8/13 11:36:36 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:257:60
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:254:17[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:280:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:38:38 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:38:38 INFO Kotori Bot By Hotaru 
+23/8/13 11:38:38 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:38:38 WARM Run Info: Develop With Debuing... 
+23/8/13 11:38:38 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:255
+        args[0].forEach((Element: unknown) => {
+                ^ 
+23/8/13 11:38:38 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:258:60
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:255:17[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:281:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:39:39 INFO ["Kotori Bot Version: 0.7.2 License: GPL-3.0"] 
+23/8/13 11:39:39 INFO ["Kotori Bot By Hotaru"] 
+23/8/13 11:39:39 INFO ["Copyright © 2023 Hotaru All rights reserved."] 
+23/8/13 11:39:39 WARM ["Run Info: Develop With Debuing..."] 
+23/8/13 11:39:39 LOG [null,{}] 
+23/8/13 11:39:39 ERROR ["Config.yml error, unknown connection mode!"] 
+23/8/13 11:40:40 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:40:40 INFO Kotori Bot By Hotaru 
+23/8/13 11:40:40 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:40:40 WARM Run Info: Develop With Debuing... 
+23/8/13 11:40:40 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:255
+        args[0].forEach((Element: unknown) => {
+                ^ 
+23/8/13 11:40:40 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:258:80
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:255:17[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:281:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:41:41 INFO Kotori Bot By Hotaru 
+23/8/13 11:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:41:41 WARM Run Info: Develop With Debuing... 
+23/8/13 11:41:41 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:255
+        typeof args[0] === 'object' && args[0].forEach((Element: unknown) => {
+                                               ^ 
+23/8/13 11:41:41 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:258:80
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:255:48[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:281:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:41:41 INFO Kotori Bot By Hotaru 
+23/8/13 11:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:41:41 WARM Run Info: Develop With Debuing... 
+23/8/13 11:41:41 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:255
+        Array.isArray(args[0]) && args[0].forEach((Element: unknown) => {
+                                          ^ 
+23/8/13 11:41:41 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:258:80
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:255:43[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:281:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:41:41 INFO Kotori Bot By Hotaru 
+23/8/13 11:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:41:41 WARM Run Info: Develop With Debuing... 
+23/8/13 11:41:41 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:255
+        args[0].forEach && args[0].forEach((Element: unknown) => {
+                                   ^ 
+23/8/13 11:41:41 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:258:80
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:255:36[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:281:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:41:41 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:41:41 INFO Kotori Bot By Hotaru 
+23/8/13 11:41:41 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:41:41 WARM Run Info: Develop With Debuing... 
+23/8/13 11:41:41 ERROR F:\GCFile\JS\nodejs\kotori-bot\src\tools\function.ts:255
+        args[0].forEach && args[0].forEach((Element: unknown) => {
+                                   ^ 
+23/8/13 11:41:41 ERROR TypeError: Element.toString is not a function
+    at [90mF:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:258:80
+    at Array.forEach (<anonymous>)
+    at Function._console.originalLog [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:255:36[90m)[39m
+    at Function._console.log [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\tools\function.ts:281:14[90m)[39m
+    at console.<computed> [as log] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:48:62[90m)[39m
+    at Main.connect [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:232:25[90m)[39m
+    at Main.run [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mmain.ts:28:14[90m)[39m
+    at Object.<anonymous> [90m(F:\GCFile\JS\nodejs\kotori-bot\[39msrc\app.ts:11:18[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1254:14)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1618:23[90m)[39m 
+23/8/13 11:42:42 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:42:42 INFO Kotori Bot By Hotaru 
+23/8/13 11:42:42 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:42:42 WARM Run Info: Develop With Debuing... 
+23/8/13 11:42:42 LOG undefined {"connect":{"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}},"bot":{"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}}} 
+23/8/13 11:42:42 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:46:46 INFO Kotori Bot By Hotaru 
+23/8/13 11:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:46:46 WARM Run Info: Develop With Debuing... 
+23/8/13 11:46:46 LOG undefined {"connect":{"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}},"bot":{"connect":{"mode":"ws-reverse","access-token":"","http":{"url":"http://localhost","port":8888,"reverse-port":8080,"retry-time":10},"ws":{"url":"ws://localhost","port":8888,"retry-time":10},"ws-reverse":{"port":8080}},"bot":{"master":3324656453,"command-list":{"reload":"/reload"},"users":{"type":0,"list":[]},"groups":{"type":0,"list":[]}}}} 
+23/8/13 11:46:46 ERROR Config.yml error, unknown connection mode! 
+23/8/13 11:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:46:46 INFO Kotori Bot By Hotaru 
+23/8/13 11:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:46:46 INFO Kotori Bot By Hotaru 
+23/8/13 11:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:46:46 INFO Kotori Bot By Hotaru 
+23/8/13 11:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:46:46 INFO Kotori Bot By Hotaru 
+23/8/13 11:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:47:47 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:47:47 INFO Kotori Bot By Hotaru 
+23/8/13 11:47:47 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:47:47 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:47:47 INFO Kotori Bot By Hotaru 
+23/8/13 11:47:47 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:55:55 INFO Kotori Bot By Hotaru 
+23/8/13 11:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:55:55 WARM Run Info: Develop With Debuing... 
+23/8/13 11:55:55 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:55:55 INFO Current connection mode: WsReverse 
+23/8/13 11:55:55 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:55:55 INFO Successfully loaded 5 plugins 
+23/8/13 11:55:55 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:55:55 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:55:55 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:55:55 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:55:55 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:55:55 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:55:55 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:56:56 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:56:56 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:56:56 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:56:56 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:56:56 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:56:56 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:56:56 INFO Kotori Bot By Hotaru 
+23/8/13 11:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:56:56 WARM Run Info: Develop With Debuing... 
+23/8/13 11:56:56 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:56:56 INFO Current connection mode: WsReverse 
+23/8/13 11:56:56 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:56:56 INFO Successfully loaded 5 plugins 
+23/8/13 11:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:56:56 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:56:56 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:56:56 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:56:56 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:57:57 INFO Kotori Bot By Hotaru 
+23/8/13 11:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:57:57 WARM Run Info: Develop With Debuing... 
+23/8/13 11:57:57 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:57:57 INFO Current connection mode: WsReverse 
+23/8/13 11:57:57 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:57:57 INFO Successfully loaded 5 plugins 
+23/8/13 11:57:57 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:57:57 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:57:57 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:57:57 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:57:57 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:57:57 INFO Kotori Bot By Hotaru 
+23/8/13 11:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:57:57 WARM Run Info: Develop With Debuing... 
+23/8/13 11:57:57 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:57:57 INFO Current connection mode: WsReverse 
+23/8/13 11:57:57 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:57:57 INFO Successfully loaded 5 plugins 
+23/8/13 11:57:57 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:57:57 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:57:57 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:57:57 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:57:57 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 11:58:58 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:58:58 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:58:58 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 11:58:58 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 11:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:58:58 INFO Kotori Bot By Hotaru 
+23/8/13 11:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:59:59 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 11:59:59 INFO Kotori Bot By Hotaru 
+23/8/13 11:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 11:59:59 WARM Run Info: Develop With Debuing... 
+23/8/13 11:59:59 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 11:59:59 INFO Current connection mode: WsReverse 
+23/8/13 11:59:59 INFO [Connect] WebSocket client successfully connected 
+23/8/13 11:59:59 INFO Successfully loaded 5 plugins 
+23/8/13 11:59:59 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 11:59:59 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 11:59:59 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 11:59:59 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 11:59:59 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:0:0 INFO Kotori Bot By Hotaru 
+23/8/13 12:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:0:0 INFO Kotori Bot By Hotaru 
+23/8/13 12:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:0:0 INFO Kotori Bot By Hotaru 
+23/8/13 12:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:0:0 WARM Run Info: Develop With Debuing... 
+23/8/13 12:0:0 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:0:0 INFO Current connection mode: WsReverse 
+23/8/13 12:0:0 INFO [Connect] WebSocket client successfully connected 
+23/8/13 12:0:0 INFO Successfully loaded 5 plugins 
+23/8/13 12:0:0 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 12:0:0 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 12:0:0 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 12:0:0 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 12:0:0 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:0:0 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 12:0:0 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 12:1:1 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/13 12:1:1 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/13 12:1:1 LOG [Connect] Receive group msg /menu user: 3324656453 group: 673830908 
+23/8/13 12:1:1 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno group: 673830908 
+23/8/13 12:1:1 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/13 12:2:2 LOG [Connect] Receive group msg /menu user: 3324656453 group: 673830908 
+23/8/13 12:2:2 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno group: 673830908 
+23/8/13 12:2:2 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/13 12:2:2 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:2:2 INFO Kotori Bot By Hotaru 
+23/8/13 12:2:2 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:2:2 WARM Run Info: Develop With Debuing... 
+23/8/13 12:2:2 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:2:2 INFO Current connection mode: WsReverse 
+23/8/13 12:2:2 INFO [Connect] WebSocket client successfully connected 
+23/8/13 12:2:2 INFO Successfully loaded 5 plugins 
+23/8/13 12:2:2 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 12:2:2 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 12:2:2 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 12:2:2 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 12:2:2 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:5:5 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:5:5 INFO Kotori Bot By Hotaru 
+23/8/13 12:5:5 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:5:5 WARM Run Info: Develop With Debuing... 
+23/8/13 12:5:5 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:5:5 INFO Current connection mode: WsReverse 
+23/8/13 12:5:5 INFO [Connect] WebSocket client successfully connected 
+23/8/13 12:5:5 INFO Successfully loaded 5 plugins 
+23/8/13 12:5:5 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 12:5:5 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 12:5:5 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 12:5:5 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 12:5:5 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:7:7 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:7:7 INFO Kotori Bot By Hotaru 
+23/8/13 12:7:7 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:7:7 WARM Run Info: Develop With Debuing... 
+23/8/13 12:7:7 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:7:7 INFO Current connection mode: WsReverse 
+23/8/13 12:7:7 ERROR [System] {"code":1,"killed":false,"signal":null,"cmd":"./go-cqhttp/go-cqhttp.exe -update-protocol"} 
+23/8/13 12:7:7 ERROR [Result] Unknown command , Please input 'help' to view all command 
+23/8/13 12:7:7 INFO [Connect] WebSocket client successfully connected 
+23/8/13 12:7:7 INFO Successfully loaded 5 plugins 
+23/8/13 12:7:7 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 12:7:7 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 12:7:7 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 12:7:7 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 12:7:7 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:8:8 INFO Kotori Bot By Hotaru 
+23/8/13 12:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:8:8 WARM Run Info: Develop With Debuing... 
+23/8/13 12:8:8 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:8:8 INFO Current connection mode: WsReverse 
+23/8/13 12:8:8 ERROR Error: spawn ./go-cqhttp/go-cqhttp.exe -update-protocol ENOENT
+[90m    at Process.ChildProcess._handle.onexit (node:internal/child_process:283:19)[39m
+[90m    at onErrorNT (node:internal/child_process:476:16)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:82:21)[39m {
+  errno: [33m-4058[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'spawn ./go-cqhttp/go-cqhttp.exe -update-protocol'[39m,
+  path: [32m'./go-cqhttp/go-cqhttp.exe -update-protocol'[39m,
+  spawnargs: []
+} 
+23/8/13 12:9:9 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:9:9 INFO Kotori Bot By Hotaru 
+23/8/13 12:9:9 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:9:9 WARM Run Info: Develop With Debuing... 
+23/8/13 12:9:9 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:9:9 INFO Current connection mode: WsReverse 
+23/8/13 12:9:9 ERROR Error: spawn ./go-cqhttp/go-cqhttp.exe -update-protocol ENOENT
+[90m    at Process.ChildProcess._handle.onexit (node:internal/child_process:283:19)[39m
+[90m    at onErrorNT (node:internal/child_process:476:16)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:82:21)[39m {
+  errno: [33m-4058[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'spawn ./go-cqhttp/go-cqhttp.exe -update-protocol'[39m,
+  path: [32m'./go-cqhttp/go-cqhttp.exe -update-protocol'[39m,
+  spawnargs: []
+} 
+23/8/13 12:9:9 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:9:9 INFO Kotori Bot By Hotaru 
+23/8/13 12:9:9 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:9:9 WARM Run Info: Develop With Debuing... 
+23/8/13 12:9:9 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:9:9 INFO Current connection mode: WsReverse 
+23/8/13 12:9:9 INFO [Connect] WebSocket client successfully connected 
+23/8/13 12:9:9 INFO Successfully loaded 5 plugins 
+23/8/13 12:9:9 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 12:9:9 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 12:9:9 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 12:9:9 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 12:9:9 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:40:40 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 12:40:40 INFO Kotori Bot By Hotaru 
+23/8/13 12:40:40 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 12:40:40 WARM Run Info: Develop With Debuing... 
+23/8/13 12:40:40 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 12:40:40 INFO Current connection mode: WsReverse 
+23/8/13 12:40:40 INFO [Connect] WebSocket client successfully connected 
+23/8/13 12:40:40 INFO Successfully loaded 5 plugins 
+23/8/13 12:40:40 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 12:40:40 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 12:40:40 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 12:40:40 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 12:40:40 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 12:40:40 LOG [Connect] Receive group msg [CQ:image,file=14bdd6105b2304920c930366d197f717.image,subType=0,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-2919434034-14BDD6105B2304920C930366D197F717/0?term=2&amp;is_origin=1]用这玩意读代码比自己读好使多了 user: 3324656453 group: 317691609 
+23/8/13 12:40:40 LOG [Connect] Receive group msg &#91;吐舌&#93; user: 3324656453 group: 317691609 
+23/8/13 12:40:40 LOG [Connect] Receive group msg [CQ:image,file=d2d0cae0df96e1d94ab26129b5905b04.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/1799411368/3807691609-2605494040-D2D0CAE0DF96E1D94AB26129B5905B04/0?term=2&amp;is_origin=0] user: 1799411368 group: 317691609 
+23/8/13 12:40:40 LOG [Connect] Receive group msg 随机语录 user: 1825241202 group: 317691609 
+23/8/13 12:40:40 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/13 12:40:40 LOG [Plugin] Send group msg: [CQ:poke,qq=1825241202] group: 317691609 
+23/8/13 12:40:40 LOG [Connect] Receive group msg 一言 user: 1825241202 group: 317691609 
+23/8/13 12:40:40 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/13 12:41:41 LOG [Connect] Receive group msg [CQ:at,qq=2142124427]  user: 1825241202 group: 317691609 
+23/8/13 12:41:41 LOG [Connect] Receive group msg 一言 user: 1825241202 group: 317691609 
+23/8/13 12:41:41 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/13 12:41:41 LOG [Connect] Receive group msg 草 user: 1825241202 group: 317691609 
+23/8/13 12:41:41 INFO Response type: JSON result: {"code":500,"message":"success","time":1691901661,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"在自称善意之时，即存恶意。","from":"《罪恶王冠》","type":"ACG"}} 
+23/8/13 12:41:41 LOG [Plugin] Send group msg: 在自称善意之时，即存恶意。——《罪恶王冠》
+类型: ACG group: 317691609 
+23/8/13 12:41:41 LOG [Plugin] Send group msg: [CQ:poke,qq=1825241202] group: 317691609 
+23/8/13 12:41:41 INFO Response type: JSON result: {"code":500,"message":"success","time":1691901661,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"想要一直向前，永不停步。无论天涯，还是海角，在这条绵延的坡道上，两人一起。","from":"冈崎朋也《Clannad》","type":"ACG"}} 
+23/8/13 12:41:41 LOG [Plugin] Send group msg: 想要一直向前，永不停步。无论天涯，还是海角，在这条绵延的坡道上，两人一起。——冈崎朋也《Clannad》
+类型: ACG group: 317691609 
+23/8/13 12:41:41 LOG [Plugin] Send group msg: [CQ:poke,qq=1825241202] group: 317691609 
+23/8/13 12:41:41 LOG [Connect] Receive group msg 一言 user: 3324656453 group: 317691609 
+23/8/13 12:41:41 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/13 12:41:41 INFO Response type: JSON result: {"code":500,"message":"success","time":1691901697,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"铅华尽洗，磨难遍历。不觉间娇妻飘然归来，笑靥如花，云开日现 伊人消散，幻梦空留，长椅上青年蓦然清醒，残樱似雪，风卷漫天 我的世界里，只有星空，和你。","from":"《想要传达给你的爱恋》","type":"ACG"}} 
+23/8/13 12:41:41 LOG [Plugin] Send group msg: 铅华尽洗，磨难遍历。不觉间娇妻飘然归来，笑靥如花，云开日现 伊人消散，幻梦空留，长椅上青年蓦然清醒，残樱似雪，风卷漫天 我的世界里，只有星空，和你。——《想要传达给你的爱恋》
+类型: ACG group: 317691609 
+23/8/13 12:41:41 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/13 12:46:46 LOG [Connect] Receive group msg 今日长度 user: 2567434593 group: 317691609 
+23/8/13 12:46:46 LOG [Plugin] Send group msg: [CQ:at,qq=2567434593]今日的牛~牛长度是15cm group: 317691609 
+23/8/13 12:46:46 LOG [Connect] Receive group msg 一言 user: 2567434593 group: 317691609 
+23/8/13 12:46:46 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/13 12:46:46 INFO Response type: JSON result: {"code":500,"message":"success","time":1691901988,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"永远不要活在过去的回忆里；昨天的太阳，晒不干今天的衣裳！","from":"B友评论","type":"俗语"}} 
+23/8/13 12:46:46 LOG [Plugin] Send group msg: 永远不要活在过去的回忆里；昨天的太阳，晒不干今天的衣裳！——B友评论
+类型: 俗语 group: 317691609 
+23/8/13 12:46:46 LOG [Plugin] Send group msg: [CQ:poke,qq=2567434593] group: 317691609 
+23/8/13 15:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 15:56:56 INFO Kotori Bot By Hotaru 
+23/8/13 15:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 15:56:56 WARM Run Info: Develop With Debuing... 
+23/8/13 15:56:56 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 15:56:56 INFO Current connection mode: WsReverse 
+23/8/13 15:56:56 INFO [Connect] WebSocket client successfully connected 
+23/8/13 15:56:56 INFO Successfully loaded 5 plugins 
+23/8/13 15:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 15:56:56 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 15:56:56 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 15:56:56 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 15:56:56 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 15:56:56 LOG [Gocq] {"type":"Buffer","data":[27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,49,93,32,91,73,78,70,79,93,58,32,229,189,147,229,137,141,231,137,136,230,156,172,58,50,57,48,49,102,100,49,32,10,27,91,48,109,27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,49,93,32,91,73,78,70,79,93,58,32,229,176,134,228,189,191,231,148,168,32,100,101,118,105,99,101,46,106,115,111,110,32,229,134,133,231,154,132,232,174,190,229,164,135,228,191,161,230,129,175,232,191,144,232,161,140,66,111,116,46,32,10,27,91,48,109,27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,49,93,32,91,73,78,70,79,93,58,32,228,189,191,231,148,168,230,156,141,229,138,161,229,153,168,32,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,32,232,191,155,232,161,140,230,149,176,230,141,174,229,140,133,231,173,190,229,144,141,32,10,27,91,48,109]} 
+23/8/13 15:56:56 LOG [Gocq] {"type":"Buffer","data":[27,91,51,51,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,51,93,32,91,87,65,82,78,73,78,71,93,58,32,230,179,168,229,134,140,81,81,229,174,158,228,190,139,230,151,182,229,135,186,231,142,176,233,148,153,232,175,175,58,32,71,101,116,32,34,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,47,114,101,103,105,115,116,101,114,63,117,105,110,61,50,49,52,50,49,50,52,52,50,55,38,97,110,100,114,111,105,100,95,105,100,61,54,54,51,57,51,52,54,52,51,53,54,49,54,52,51,57,54,54,54,49,54,53,54,53,51,48,51,49,54,54,51,56,38,103,117,105,100,61,102,49,101,50,52,55,49,48,101,55,55,99,55,102,49,100,99,50,54,97,49,97,51,101,48,51,51,54,101,54,50,101,38,113,105,109,101,105,51,54,61,98,54,101,56,55,54,97,102,57,101,51,100,102,102,102,49,99,48,98,102,57,98,102,51,49,48,48,48,49,53,57,49,55,51,48,100,38,107,101,121,61,49,49,52,53,49,52,34,58,32,100,105,97,108,32,116,99,112,32,49,50,55,46,48,46,48,46,49,58,54,54,54,54,58,32,99,111,110,110,101,99,116,101,120,58,32,78,111,32,99,111,110,110,101,99,116,105,111,110,32,99,111,117,108,100,32,98,101,32,109,97,100,101,32,98,101,99,97,117,115,101,32,116,104,101,32,116,97,114,103,101,116,32,109,97,99,104,105,110,101,32,97,99,116,105,118,101,108,121,32,114,101,102,117,115,101,100,32,105,116,46,32,115,101,114,118,101,114,58,32,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,47,32,10,27,91,48,109,27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,51,93,32,91,73,78,70,79,93,58,32,66,111,116,229,176,134,229,156,168,53,231,167,146,229,144,142,231,153,187,229,189,149,229,185,182,229,188,128,229,167,139,228,191,161,230,129,175,229,164,132,231,144,134,44,32,230,140,137,32,67,116,114,108,43,67,32,229,143,150,230,182,136,46,32,10,27,91,48,109]} 
+23/8/13 15:56:56 LOG [Gocq] {"type":"Buffer","data":[27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,56,93,32,91,73,78,70,79,93,58,32,229,188,128,229,167,139,229,176,157,232,175,149,231,153,187,229,189,149,229,185,182,229,144,140,230,173,165,230,182,136,230,129,175,46,46,46,32,10,27,91,48,109,27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,56,93,32,91,73,78,70,79,93,58,32,228,189,191,231,148,168,229,141,143,232,174,174,58,32,65,110,100,114,111,105,100,32,80,97,100,32,56,46,57,46,54,51,46,49,49,51,57,48,32,10,27,91,48,109]} 
+23/8/13 15:56:56 LOG [Gocq] {"type":"Buffer","data":[27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,54,58,53,56,93,32,91,73,78,70,79,93,58,32,230,173,163,229,156,168,230,163,128,230,159,165,229,141,143,232,174,174,230,155,180,230,150,176,46,46,46,32,10,27,91,48,109]} 
+23/8/13 15:57:57 LOG [Gocq] {"type":"Buffer","data":[27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,55,58,48,55,93,32,91,73,78,70,79,93,58,32,80,114,111,116,111,99,111,108,32,45,62,32,99,111,110,110,101,99,116,32,116,111,32,115,101,114,118,101,114,58,32,52,50,46,56,49,46,49,56,52,46,56,50,58,56,48,56,48,32,10,27,91,48,109]} 
+23/8/13 15:57:57 LOG [Gocq] {"type":"Buffer","data":[27,91,51,51,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,55,58,48,57,93,32,91,87,65,82,78,73,78,71,93,58,32,232,142,183,229,143,150,84,53,52,52,32,115,105,103,110,230,151,182,229,135,186,231,142,176,233,148,153,232,175,175,58,32,71,101,116,32,34,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,47,99,117,115,116,111,109,95,101,110,101,114,103,121,63,100,97,116,97,61,56,49,48,95,57,38,115,97,108,116,61,48,48,48,48,48,48,48,48,48,48,49,48,102,49,101,50,52,55,49,48,101,55,55,99,55,102,49,100,99,50,54,97,49,97,51,101,48,51,51,54,101,54,50,101,48,48,48,97,51,54,50,101,51,48,50,101,51,48,50,101,51,50,51,53,51,52,51,54,48,48,48,48,48,48,48,57,48,48,48,48,48,48,48,48,38,117,105,110,61,50,49,52,50,49,50,52,52,50,55,34,58,32,100,105,97,108,32,116,99,112,32,49,50,55,46,48,46,48,46,49,58,54,54,54,54,58,32,99,111,110,110,101,99,116,101,120,58,32,78,111,32,99,111,110,110,101,99,116,105,111,110,32,99,111,117,108,100,32,98,101,32,109,97,100,101,32,98,101,99,97,117,115,101,32,116,104,101,32,116,97,114,103,101,116,32,109,97,99,104,105,110,101,32,97,99,116,105,118,101,108,121,32,114,101,102,117,115,101,100,32,105,116,46,32,115,101,114,118,101,114,58,32,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,47,32,10,27,91,48,109]} 
+23/8/13 15:57:57 LOG [Gocq] {"type":"Buffer","data":[27,91,51,51,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,55,58,49,49,93,32,91,87,65,82,78,73,78,71,93,58,32,232,142,183,229,143,150,115,115,111,32,115,105,103,110,230,151,182,229,135,186,231,142,176,233,148,153,232,175,175,58,32,80,111,115,116,32,34,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,47,115,105,103,110,34,58,32,100,105,97,108,32,116,99,112,32,49,50,55,46,48,46,48,46,49,58,54,54,54,54,58,32,99,111,110,110,101,99,116,101,120,58,32,78,111,32,99,111,110,110,101,99,116,105,111,110,32,99,111,117,108,100,32,98,101,32,109,97,100,101,32,98,101,99,97,117,115,101,32,116,104,101,32,116,97,114,103,101,116,32,109,97,99,104,105,110,101,32,97,99,116,105,118,101,108,121,32,114,101,102,117,115,101,100,32,105,116,46,32,115,101,114,118,101,114,58,32,104,116,116,112,58,47,47,49,50,55,46,48,46,48,46,49,58,54,54,54,54,47,32,10,27,91,48,109]} 
+23/8/13 15:57:57 LOG [Gocq] {"type":"Buffer","data":[27,91,51,51,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,55,58,49,49,93,32,91,87,65,82,78,73,78,71,93,58,32,231,153,187,229,189,149,229,164,177,232,180,165,58,32,231,153,187,229,189,149,229,164,177,232,180,165,239,188,140,232,175,183,229,137,141,229,190,128,81,81,229,174,152,231,189,145,105,109,46,113,113,46,99,111,109,228,184,139,232,189,189,230,156,128,230,150,176,231,137,136,81,81,229,144,142,233,135,141,232,175,149,239,188,140,230,136,150,233,128,154,232,191,135,233,151,174,233,162,152,229,143,141,233,166,136,228,184,142,230,136,145,228,187,172,232,129,148,231,179,187,227,128,130,32,67,111,100,101,58,32,52,53,32,10,27,91,48,109]} 
+23/8/13 15:57:57 LOG [Gocq] {"type":"Buffer","data":[27,91,51,51,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,55,58,49,49,93,32,91,87,65,82,78,73,78,71,93,58,32,228,189,160,231,154,132,232,180,166,229,143,183,232,162,171,233,153,144,229,136,182,231,153,187,229,189,149,44,32,232,175,183,233,133,141,231,189,174,32,83,105,103,110,83,101,114,118,101,114,32,229,144,142,233,135,141,232,175,149,32,10,27,91,48,109,27,91,51,55,109,91,50,48,50,51,45,48,56,45,49,51,32,49,53,58,53,55,58,49,49,93,32,91,73,78,70,79,93,58,32,230,140,137,32,69,110,116,101,114,32,231,187,167,231,187,173,46,46,46,46,32,10,27,91,48,109]} 
+23/8/13 15:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 15:58:58 INFO Kotori Bot By Hotaru 
+23/8/13 15:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 15:58:58 WARM Run Info: Develop With Debuing... 
+23/8/13 15:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 15:58:58 INFO Current connection mode: WsReverse 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:41] [INFO]: 当前版本:2901fd1 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:41] [INFO]: 将使用 device.json 内的设备信息运行Bot. 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:41] [INFO]: 使用服务器 http://127.0.0.1:6666 进行数据包签名 
+[0m 
+23/8/13 15:58:58 INFO [Connect] WebSocket client successfully connected 
+23/8/13 15:58:58 INFO Successfully loaded 5 plugins 
+23/8/13 15:58:58 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/13 15:58:58 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/13 15:58:58 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/13 15:58:58 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/13 15:58:58 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 15:58:58 LOG [Gocq] [33m[2023-08-13 15:58:43] [WARNING]: 注册QQ实例时出现错误: Get "http://127.0.0.1:6666/register?uin=2142124427&android_id=66393464356164396661656530316638&guid=f1e24710e77c7f1dc26a1a3e0336e62e&qimei36=b6e876af9e3dfff1c0bf9bf310001591730d&key=114514": dial tcp 127.0.0.1:6666: connectex: No connection could be made because the target machine actively refused it. server: http://127.0.0.1:6666/ 
+[0m[37m[2023-08-13 15:58:43] [INFO]: Bot将在5秒后登录并开始信息处理, 按 Ctrl+C 取消. 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:48] [INFO]: 开始尝试登录并同步消息... 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:48] [INFO]: 使用协议: Android Pad 8.9.63.11390 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:48] [INFO]: 正在检查协议更新... 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [37m[2023-08-13 15:58:51] [INFO]: Protocol -> connect to server: 42.81.184.82:8080 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [33m[2023-08-13 15:58:53] [WARNING]: 获取T544 sign时出现错误: Get "http://127.0.0.1:6666/custom_energy?data=810_9&salt=000000000010f1e24710e77c7f1dc26a1a3e0336e62e000a362e302e302e323534360000000900000000&uin=2142124427": dial tcp 127.0.0.1:6666: connectex: No connection could be made because the target machine actively refused it. server: http://127.0.0.1:6666/ 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [33m[2023-08-13 15:58:55] [WARNING]: 获取sso sign时出现错误: Post "http://127.0.0.1:6666/sign": dial tcp 127.0.0.1:6666: connectex: No connection could be made because the target machine actively refused it. server: http://127.0.0.1:6666/ 
+[0m 
+23/8/13 15:58:58 LOG [Gocq] [33m[2023-08-13 15:58:55] [WARNING]: 登录失败: 登录失败，请前往QQ官网im.qq.com下载最新版QQ后重试，或通过问题反馈与我们联系。 Code: 45 
+[0m[33m[2023-08-13 15:58:55] [WARNING]: 你的账号被限制登录, 请配置 SignServer 后重试 
+[0m[37m[2023-08-13 15:58:55] [INFO]: 按 Enter 继续.... 
+[0m 
+23/8/13 15:58:58 ERROR [Result] Unknown command , Please input 'help' to view all command 
+23/8/13 15:58:58 ERROR [Result] Unknown command , Please input 'help' to view all command 
+23/8/13 16:44:44 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:44:44 INFO Kotori Bot By Hotaru 
+23/8/13 16:44:44 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:44:44 WARM Run Info: Develop With Debuing... 
+23/8/13 16:44:44 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:44:44 INFO Current connection mode: WsReverse 
+23/8/13 16:45:45 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:45:45 INFO Kotori Bot By Hotaru 
+23/8/13 16:45:45 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:45:45 WARM Run Info: Develop With Debuing... 
+23/8/13 16:45:45 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:45:45 INFO Current connection mode: WsReverse 
+23/8/13 16:46:46 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:46:46 INFO Kotori Bot By Hotaru 
+23/8/13 16:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:46:46 WARM Run Info: Develop With Debuing... 
+23/8/13 16:46:46 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:46:46 INFO Current connection mode: WsReverse 
+23/8/13 16:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:55:55 INFO Kotori Bot By Hotaru 
+23/8/13 16:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:55:55 WARM Run Info: Develop With Debuing... 
+23/8/13 16:55:55 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:55:55 INFO Current connection mode: WsReverse 
+23/8/13 16:55:55 LOG [Gocq] Signserver startup completed! 
+23/8/13 16:55:55 INFO [System] Starting Go-cqhttp... 
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x0, mode=0
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/999
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/128
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/10
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/11
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/12
+���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/13
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/14
+���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/15
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/16
+���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/17
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/18
+���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/19
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/20
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler fstatat64
+����: fstatat64 dirfd=-100, pathname=F:/data/user/0/com.tencent.mobileqq/files/.android_lq, statbuf=RW@0x40dff928, flags=0
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib/libhoudini.so
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib64/libhoudini.so
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:31 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x241, mode=1b6
+ 
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:38 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/meminfo
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:38 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/meminfo, oflags=0x0, mode=0
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:38 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/cpuinfo
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:38 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/cpuinfo, oflags=0x0, mode=0
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:38 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/sys/kernel/random/boot_id
+ 
+23/8/13 16:55:55 ERROR [Gocq] ���� 13, 2023 4:55:38 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/sys/kernel/random/boot_id, oflags=0x0, mode=0
+ 
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:55:55 LOG [Gocq]  
+23/8/13 16:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:56:56 INFO Kotori Bot By Hotaru 
+23/8/13 16:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:56:56 WARM Run Info: Develop With Debuing... 
+23/8/13 16:56:56 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:56:56 INFO Current connection mode: WsReverse 
+23/8/13 16:56:56 LOG [Gocq] Signserver startup completed! 
+23/8/13 16:56:56 INFO [System] Starting Go-cqhttp... 
+23/8/13 16:56:56 LOG [Gocq]  
+23/8/13 16:56:56 LOG [Gocq]  
+23/8/13 16:56:56 LOG [Gocq]  
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x0, mode=0
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/999
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/128
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/10
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/11
+���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/12
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/13
+���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/14
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/15
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/16
+���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/17
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/18
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/19
+���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/20
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler fstatat64
+����: fstatat64 dirfd=-100, pathname=F:/data/user/0/com.tencent.mobileqq/files/.android_lq, statbuf=RW@0x40dff928, flags=0
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib/libhoudini.so
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib64/libhoudini.so
+ 
+23/8/13 16:56:56 ERROR [Gocq] ���� 13, 2023 4:56:35 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x241, mode=1b6
+ 
+23/8/13 16:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:57:57 INFO Kotori Bot By Hotaru 
+23/8/13 16:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:57:57 WARM Run Info: Develop With Debuing... 
+23/8/13 16:57:57 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:57:57 INFO Current connection mode: WsReverse 
+23/8/13 16:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:58:58 INFO Kotori Bot By Hotaru 
+23/8/13 16:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:58:58 WARM Run Info: Develop With Debuing... 
+23/8/13 16:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:58:58 INFO Current connection mode: WsReverse 
+23/8/13 16:58:58 INFO [Gocq] Signserver startup completed! 
+23/8/13 16:58:58 INFO [System] Starting Go-cqhttp... 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:13] [INFO]: 当前版本:2901fd1 
+[0m[37m[2023-08-13 16:58:13] [INFO]: 将使用 device.json 内的设备信息运行Bot. 
+[0m 
+23/8/13 16:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 16:58:58 INFO Kotori Bot By Hotaru 
+23/8/13 16:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 16:58:58 WARM Run Info: Develop With Debuing... 
+23/8/13 16:58:58 INFO [Gocq] Starting Signserver... 
+23/8/13 16:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 16:58:58 INFO Current connection mode: WsReverse 
+23/8/13 16:58:58 INFO [Gocq] Signserver startup completed! 
+23/8/13 16:58:58 INFO [System] Starting Go-cqhttp... 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:22] [INFO]: 当前版本:2901fd1 
+[0m[37m[2023-08-13 16:58:22] [INFO]: 将使用 device.json 内的设备信息运行Bot. 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:23] [INFO]: 使用服务器 http://127.0.0.1:6666 进行数据包签名 
+[0m 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x0, mode=0
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/999
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/128
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/10
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/11
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/12
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/13
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/14
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/15
+���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/16
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/17
+���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/18
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/19
+���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/20
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler fstatat64
+����: fstatat64 dirfd=-100, pathname=F:/data/user/0/com.tencent.mobileqq/files/.android_lq, statbuf=RW@0x40dff928, flags=0
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib/libhoudini.so
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib64/libhoudini.so
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:25 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x241, mode=1b6
+ 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:26] [INFO]: 注册QQ实例 2142124427 成功: Instance loaded successfully. 
+[0m[37m[2023-08-13 16:58:26] [INFO]: Bot将在5秒后登录并开始信息处理, 按 Ctrl+C 取消. 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:32] [INFO]: 开始尝试登录并同步消息... 
+[0m[37m[2023-08-13 16:58:32] [INFO]: 使用协议: Android Pad 8.9.63.11390 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:32] [INFO]: Protocol -> connect to server: 42.81.184.82:8080 
+[0m 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:32 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/meminfo
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:32 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/meminfo, oflags=0x0, mode=0
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:32 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/cpuinfo
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:32 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/cpuinfo, oflags=0x0, mode=0
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:32 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/sys/kernel/random/boot_id
+ 
+23/8/13 16:58:58 ERROR [Gocq] ���� 13, 2023 4:58:32 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/sys/kernel/random/boot_id, oflags=0x0, mode=0
+ 
+23/8/13 16:58:58 LOG [Gocq] [33m[2023-08-13 16:58:33] [WARNING]: Protocol -> device lock is disable. http api may fail. 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:36] [INFO]: 正在检查协议更新... 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:38] [INFO]: 登录成功 欢迎使用: Kanbe Kotori 
+[0m[37m[2023-08-13 16:58:38] [INFO]: 开始加载好友列表... 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:38] [INFO]: 共加载 8 个好友. 
+[0m[37m[2023-08-13 16:58:38] [INFO]: 开始加载群列表... 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:39] [INFO]: 共加载 4 个群. 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:39] [INFO]: 资源初始化完成, 开始处理信息. 
+[0m[37m[2023-08-13 16:58:39] [INFO]: アトリは、高性能ですから! 
+[0m 
+23/8/13 16:58:58 LOG [Gocq] [37m[2023-08-13 16:58:39] [INFO]: 正在检查更新. 
+[0m[37m[2023-08-13 16:58:39] [INFO]: 开始尝试连接到反向WebSocket Universal服务器: ws://192.168.1.2:8080 
+[0m 
+23/8/13 16:58:58 INFO [Gocq] Go-cqhttp startup completed! 
+23/8/13 16:58:58 INFO [Connect] WebSocket client successfully connected 
+23/8/13 16:58:58 INFO Successfully loaded 5 plugins 
+23/8/13 16:58:58 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 16:59:59 ERROR [Result] Unknown command , Please input 'help' to view all command 
+23/8/13 17:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 17:0:0 INFO Kotori Bot By Hotaru 
+23/8/13 17:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 17:0:0 INFO [Gocq] Starting Signserver... 
+23/8/13 17:0:0 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 17:0:0 INFO Current connection mode: WsReverse 
+23/8/13 17:0:0 INFO [Gocq] Signserver startup completed! 
+23/8/13 17:0:0 INFO [System] Starting Go-cqhttp... 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:27] [INFO]: 当前版本:2901fd1 
+[0m[37m[2023-08-13 17:00:27] [INFO]: 将使用 device.json 内的设备信息运行Bot. 
+[0m 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:27] [INFO]: 使用服务器 http://127.0.0.1:6666 进行数据包签名 
+[0m 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x0, mode=0
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/999
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/128
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/10
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/11
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/12
+���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/13
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/14
+���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/15
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/16
+���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/17
+���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/18
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/19
+���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/data/user/20
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler fstatat64
+����: fstatat64 dirfd=-100, pathname=F:/data/user/0/com.tencent.mobileqq/files/.android_lq, statbuf=RW@0x40dff928, flags=0
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib/libhoudini.so
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler stat64
+��Ϣ: stat64 pathname=/system/lib64/libhoudini.so
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:29 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/data/user/0/com.tencent.mobileqq/files/5463306EE50FE3AA/6FAcBa17D93747A4, oflags=0x241, mode=1b6
+ 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:31] [INFO]: 注册QQ实例 2142124427 成功: Instance loaded successfully. 
+[0m[37m[2023-08-13 17:00:31] [INFO]: Bot将在5秒后登录并开始信息处理, 按 Ctrl+C 取消. 
+[0m 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:36] [INFO]: 开始尝试登录并同步消息... 
+[0m[37m[2023-08-13 17:00:36] [INFO]: 使用协议: Android Pad 8.9.63.11390 
+[0m 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:36] [INFO]: Protocol -> connect to server: 42.81.193.250:8080 
+[0m 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:37 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/meminfo
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:37 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/meminfo, oflags=0x0, mode=0
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:37 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/cpuinfo
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:37 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/cpuinfo, oflags=0x0, mode=0
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:37 ���� moe.fuqiuluo.unidbg.env.FileResolver resolve
+����: Couldn't find file: /proc/sys/kernel/random/boot_id
+ 
+23/8/13 17:0:0 ERROR [Gocq] ���� 13, 2023 5:00:37 ���� com.github.unidbg.linux.ARM64SyscallHandler openat
+��Ϣ: openat dirfd=-100, pathname=/proc/sys/kernel/random/boot_id, oflags=0x0, mode=0
+ 
+23/8/13 17:0:0 LOG [Gocq] [33m[2023-08-13 17:00:37] [WARNING]: Protocol -> device lock is disable. http api may fail. 
+[0m 
+23/8/13 17:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/13 17:0:0 INFO Kotori Bot By Hotaru 
+23/8/13 17:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/13 17:0:0 INFO [Gocq] Starting Signserver... 
+23/8/13 17:0:0 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/13 17:0:0 INFO Current connection mode: WsReverse 
+23/8/13 17:0:0 INFO [Gocq] Signserver startup completed! 
+23/8/13 17:0:0 INFO [System] Starting Go-cqhttp... 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:46] [INFO]: 当前版本:2901fd1 
+[0m[37m[2023-08-13 17:00:46] [INFO]: 将使用 device.json 内的设备信息运行Bot. 
+[0m 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:46] [INFO]: 使用服务器 http://127.0.0.1:6666 进行数据包签名 
+[0m 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:50] [INFO]: 注册QQ实例 2142124427 成功: Instance loaded successfully. 
+[0m[37m[2023-08-13 17:00:50] [INFO]: Bot将在5秒后登录并开始信息处理, 按 Ctrl+C 取消. 
+[0m 
+23/8/13 17:0:0 LOG [Gocq] [37m[2023-08-13 17:00:55] [INFO]: 开始尝试登录并同步消息... 
+[0m[37m[2023-08-13 17:00:55] [INFO]: 使用协议: Android Pad 8.9.63.11390 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:00] [INFO]: Protocol -> connect to server: 42.81.193.250:8080 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [33m[2023-08-13 17:01:01] [WARNING]: Protocol -> device lock is disable. http api may fail. 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:04] [INFO]: 正在检查协议更新... 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:07] [INFO]: 登录成功 欢迎使用: Kanbe Kotori 
+[0m[37m[2023-08-13 17:01:07] [INFO]: 开始加载好友列表... 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:07] [INFO]: 共加载 8 个好友. 
+[0m[37m[2023-08-13 17:01:07] [INFO]: 开始加载群列表... 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:08] [INFO]: 共加载 4 个群. 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:08] [INFO]: 资源初始化完成, 开始处理信息. 
+[0m[37m[2023-08-13 17:01:08] [INFO]: アトリは、高性能ですから! 
+[0m 
+23/8/13 17:1:1 LOG [Gocq] [37m[2023-08-13 17:01:08] [INFO]: 正在检查更新. 
+[0m[37m[2023-08-13 17:01:08] [INFO]: 开始尝试连接到反向WebSocket Universal服务器: ws://192.168.1.2:8080 
+[0m 
+23/8/13 17:1:1 INFO [Gocq] Go-cqhttp startup completed! 
+23/8/13 17:1:1 INFO [Connect] WebSocket client successfully connected 
+23/8/13 17:1:1 INFO Successfully loaded 5 plugins 
+23/8/13 17:1:1 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/13 17:2:2 ERROR [Result] Unknown command , Please input 'help' to view all command 
+23/8/13 17:2:2 INFO [Result] Command List:
+stop : Stop kotori-bot application
+bot : Get bot status information
+plugin <PluginId> : View all or some plugins manifest information
+password : View username and password of admin website
+send <Message> <Type:private/group> <GroupId/UserId> : Send a message to bot's a friend and group
+help : Get command help information 
+23/8/13 17:2:2 INFO [Result] ConnectTime: 1691917268 HeatbeatTime: 1691917333 BotId: 2142124427 AppEnabled: true AppGood: true AppInitialized: true Online: true PluginsGood: null Packet: 43 51 0 Message: 0 0 LostTimes: 0 DisconnectTimes: 0 LastMessageTime: 0 
+23/8/13 17:2:2 INFO [Result] The program is stopping... 
