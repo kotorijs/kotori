@@ -1,0 +1,1518 @@
+23/8/11 15:49:49 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:49:49 INFO Kotori Bot By Hotaru 
+23/8/11 15:49:49 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:49:49 WARM Run Info: Develop With Debuing... 
+23/8/11 15:49:49 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:49:49 INFO Current connection mode: WsReverse 
+23/8/11 15:49:49 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:49:49 INFO Successfully loaded 4 plugins 
+23/8/11 15:49:49 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 15:49:49 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:49:49 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:49:49 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:50:50 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:50:50 INFO Kotori Bot By Hotaru 
+23/8/11 15:50:50 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:50:50 WARM Run Info: Develop With Debuing... 
+23/8/11 15:50:50 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:50:50 INFO Current connection mode: WsReverse 
+23/8/11 15:50:50 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:50:50 INFO Kotori Bot By Hotaru 
+23/8/11 15:50:50 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:50:50 WARM Run Info: Develop With Debuing... 
+23/8/11 15:50:50 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:50:50 INFO Current connection mode: WsReverse 
+23/8/11 15:50:50 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:50:50 INFO Successfully loaded 4 plugins 
+23/8/11 15:50:50 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:50:50 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:50:50 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:50:50 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 15:50:50 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m10[0m:[93m54[0m - [91merror[0m[90m TS6133: [0m'stringTemp' is declared but its value is never read.
+
+[7m10[0m import { fetchJson, getPackageInfo, isObj, isObjArr, stringTemp } from '@/tools';
+[7m  [0m [91m                                                     ~~~~~~~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m152[0m:[93m28[0m - [91merror[0m[90m TS2339: [0mProperty 'temp' does not exist on type 'typeof import("F:/GCFile/JS/nodejs/kotori-bot/plugins/kotori-bot/method")'.
+
+[7m152[0m         params && (msg = M.temp(msg, params));
+[7m   [0m [91m                           ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m255[0m:[93m21[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m255[0m             list += temp(lang.com.music.list, {
+[7m   [0m [91m                    ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m297[0m:[93m21[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m297[0m             list += temp(lang.com.bgm.list, {
+[7m   [0m [91m                    ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m342[0m:[93m17[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m342[0m         list += temp(lang.com.bgmc.list, {
+[7m   [0m [91m                ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m363[0m:[93m17[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m363[0m         list += temp(lang.com.star.list, {
+[7m   [0m [91m                ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m368[0m:[93m17[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m368[0m         list += temp(lang.com.star.list, {
+[7m   [0m [91m                ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m381[0m:[93m74[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m381[0m     send(res.code === RES_CODE.SUCCESS && typeof res.data === 'string' ? temp(lang.com.tran, {
+[7m   [0m [91m                                                                         ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m390[0m:[93m16[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m390[0m     send(res ? temp(lang.com.lunar, {
+[7m   [0m [91m               ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m403[0m:[93m55[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m403[0m     (res.data as string[]).forEach(content => list += temp(lang.com.story.list, {
+[7m   [0m [91m                                                      ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m504[0m:[93m28[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m504[0m             (res.data.qq ? temp(lang.com.sed.list, {
+[7m   [0m [91m                           ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m507[0m:[93m31[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m507[0m             (res.data.phone ? temp(lang.com.sed.list, {
+[7m   [0m [91m                              ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m510[0m:[93m34[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m510[0m             (res.data.location ? temp(lang.com.sed.list, {
+[7m   [0m [91m                                 ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m513[0m:[93m28[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m513[0m             (res.data.id ? temp(lang.com.sed.list, {
+[7m   [0m [91m                           ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m516[0m:[93m30[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m516[0m             (res.data.area ? temp(lang.com.sed.list, {
+[7m   [0m [91m                             ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m572[0m:[93m16[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m572[0m     send(res ? temp(lang.com.state, {
+[7m   [0m [91m               ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m581[0m:[93m16[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m581[0m     send(res ? temp(lang.com.status, {
+[7m   [0m [91m               ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m649[0m:[93m27[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m649[0m     send(APIKEY.api.day ? temp(lang.com.day, {
+[7m   [0m [91m                          ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m687[0m:[93m41[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m687[0m         .then(content => send(content ? temp(lang.com.hitokotoList, {
+[7m   [0m [91m                                        ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m726[0m:[93m20[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m726[0m     send(content ? temp(lang.com.api, {
+[7m   [0m [91m                   ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m763[0m:[93m69[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m763[0m     const content = res.version === version ? lang.com.update.yes : temp(lang.com.update.no, {
+[7m   [0m [91m                                                                    ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m767[0m:[93m9[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m767[0m         temp(lang.com.update.info, {
+[7m   [0m [91m        ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m855[0m:[93m49[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m855[0m     Main.Api._send_group_notice(data.group_id!, temp(lang.com.notice, {
+[7m   [0m [91m                                                ~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [
+    [33m6133[39m, [33m2339[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m
+  ]
+} 
+23/8/11 15:54:54 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:54:54 INFO Kotori Bot By Hotaru 
+23/8/11 15:54:54 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:54:54 WARM Run Info: Develop With Debuing... 
+23/8/11 15:54:54 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:54:54 INFO Current connection mode: WsReverse 
+23/8/11 15:54:54 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:54:54 INFO Successfully loaded 4 plugins 
+23/8/11 15:54:54 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:54:54 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:54:54 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:54:54 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 15:54:54 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m10[0m:[93m54[0m - [91merror[0m[90m TS6133: [0m'stringTemp' is declared but its value is never read.
+
+[7m10[0m import { fetchJson, getPackageInfo, isObj, isObjArr, stringTemp } from '@/tools';
+[7m  [0m [91m                                                     ~~~~~~~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m152[0m:[93m33[0m - [91merror[0m[90m TS2345: [0mArgument of type 'Msg' is not assignable to parameter of type 'string'.
+  Type 'Message' is not assignable to type 'string'.
+
+[7m152[0m         params && (msg = M.temp(msg, params));
+[7m   [0m [91m                                ~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m255[0m:[93m21[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m255[0m             list += temp(lang.com.music.list, {
+[7m   [0m [91m                    ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m297[0m:[93m21[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m297[0m             list += temp(lang.com.bgm.list, {
+[7m   [0m [91m                    ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m342[0m:[93m17[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m342[0m         list += temp(lang.com.bgmc.list, {
+[7m   [0m [91m                ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m363[0m:[93m17[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m363[0m         list += temp(lang.com.star.list, {
+[7m   [0m [91m                ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m368[0m:[93m17[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m368[0m         list += temp(lang.com.star.list, {
+[7m   [0m [91m                ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m381[0m:[93m74[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m381[0m     send(res.code === RES_CODE.SUCCESS && typeof res.data === 'string' ? temp(lang.com.tran, {
+[7m   [0m [91m                                                                         ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m390[0m:[93m16[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m390[0m     send(res ? temp(lang.com.lunar, {
+[7m   [0m [91m               ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m403[0m:[93m55[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m403[0m     (res.data as string[]).forEach(content => list += temp(lang.com.story.list, {
+[7m   [0m [91m                                                      ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m504[0m:[93m28[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m504[0m             (res.data.qq ? temp(lang.com.sed.list, {
+[7m   [0m [91m                           ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m507[0m:[93m31[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m507[0m             (res.data.phone ? temp(lang.com.sed.list, {
+[7m   [0m [91m                              ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m510[0m:[93m34[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m510[0m             (res.data.location ? temp(lang.com.sed.list, {
+[7m   [0m [91m                                 ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m513[0m:[93m28[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m513[0m             (res.data.id ? temp(lang.com.sed.list, {
+[7m   [0m [91m                           ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m516[0m:[93m30[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m516[0m             (res.data.area ? temp(lang.com.sed.list, {
+[7m   [0m [91m                             ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m572[0m:[93m16[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m572[0m     send(res ? temp(lang.com.state, {
+[7m   [0m [91m               ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m581[0m:[93m16[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m581[0m     send(res ? temp(lang.com.status, {
+[7m   [0m [91m               ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m649[0m:[93m27[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m649[0m     send(APIKEY.api.day ? temp(lang.com.day, {
+[7m   [0m [91m                          ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m687[0m:[93m41[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m687[0m         .then(content => send(content ? temp(lang.com.hitokotoList, {
+[7m   [0m [91m                                        ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m726[0m:[93m20[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m726[0m     send(content ? temp(lang.com.api, {
+[7m   [0m [91m                   ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m763[0m:[93m69[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m763[0m     const content = res.version === version ? lang.com.update.yes : temp(lang.com.update.no, {
+[7m   [0m [91m                                                                    ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m767[0m:[93m9[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m767[0m         temp(lang.com.update.info, {
+[7m   [0m [91m        ~~~~[0m
+[96mplugins/kotori-bot/index.ts[0m:[93m855[0m:[93m49[0m - [91merror[0m[90m TS2304: [0mCannot find name 'temp'.
+
+[7m855[0m     Main.Api._send_group_notice(data.group_id!, temp(lang.com.notice, {
+[7m   [0m [91m                                                ~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [
+    [33m6133[39m, [33m2345[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m, [33m2304[39m,
+    [33m2304[39m, [33m2304[39m, [33m2304[39m
+  ]
+} 
+23/8/11 15:55:55 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:55:55 INFO Kotori Bot By Hotaru 
+23/8/11 15:55:55 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:55:55 WARM Run Info: Develop With Debuing... 
+23/8/11 15:55:55 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:55:55 INFO Current connection mode: WsReverse 
+23/8/11 15:55:55 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:55:55 INFO Successfully loaded 4 plugins 
+23/8/11 15:55:55 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 15:55:55 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:55:55 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:55:55 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:56:56 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:56:56 INFO Kotori Bot By Hotaru 
+23/8/11 15:56:56 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:56:56 WARM Run Info: Develop With Debuing... 
+23/8/11 15:56:56 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:56:56 INFO Current connection mode: WsReverse 
+23/8/11 15:56:56 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:56:56 INFO Successfully loaded 4 plugins 
+23/8/11 15:56:56 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 15:56:56 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:56:56 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:56:56 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:58:58 INFO Kotori Bot By Hotaru 
+23/8/11 15:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:58:58 WARM Run Info: Develop With Debuing... 
+23/8/11 15:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:58:58 INFO Current connection mode: WsReverse 
+23/8/11 15:58:58 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:58:58 INFO Successfully loaded 4 plugins 
+23/8/11 15:58:58 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 15:58:58 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:58:58 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:58:58 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 15:58:58 INFO Kotori Bot By Hotaru 
+23/8/11 15:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 15:58:58 WARM Run Info: Develop With Debuing... 
+23/8/11 15:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 15:58:58 INFO Current connection mode: WsReverse 
+23/8/11 15:59:59 INFO [Connect] WebSocket client successfully connected 
+23/8/11 15:59:59 INFO Successfully loaded 4 plugins 
+23/8/11 15:59:59 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 15:59:59 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 15:59:59 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 15:59:59 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 15:59:59 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/menu.ts[0m:[93m9[0m:[93m1[0m - [91merror[0m[90m TS6133: [0m'lang' is declared but its value is never read.
+
+[7m9[0m import lang from './lang/zh_cn';
+[7m [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m6133[39m ]
+} 
+23/8/11 16:6:6 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:6:6 INFO Kotori Bot By Hotaru 
+23/8/11 16:6:6 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:6:6 WARM Run Info: Develop With Debuing... 
+23/8/11 16:6:6 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:6:6 INFO Current connection mode: WsReverse 
+23/8/11 16:6:6 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:6:6 INFO Successfully loaded 4 plugins 
+23/8/11 16:6:6 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:6:6 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:6:6 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:6:6 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 16:6:6 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/menu.ts[0m:[93m9[0m:[93m1[0m - [91merror[0m[90m TS6133: [0m'lang' is declared but its value is never read.
+
+[7m9[0m import lang from './lang/zh_cn';
+[7m [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m6133[39m ]
+} 
+23/8/11 16:6:6 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:6:6 INFO Kotori Bot By Hotaru 
+23/8/11 16:6:6 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:6:6 WARM Run Info: Develop With Debuing... 
+23/8/11 16:6:6 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:6:6 INFO Current connection mode: WsReverse 
+23/8/11 16:6:6 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:6:6 INFO Successfully loaded 4 plugins 
+23/8/11 16:6:6 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:6:6 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 16:6:6 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m13[0m:[93m15[0m - [91merror[0m[90m TS2614: [0mModule '"./menu"' has no exported member 'BOT_RESULT'. Did you mean to use 'import BOT_RESULT from "./menu"' instead?
+
+[7m13[0m import Com, { BOT_RESULT, URL, CmdInfo, HEADER } from './menu';
+[7m  [0m [91m              ~~~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2614[39m ]
+} 
+23/8/11 16:7:7 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:7:7 INFO Kotori Bot By Hotaru 
+23/8/11 16:7:7 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:7:7 WARM Run Info: Develop With Debuing... 
+23/8/11 16:7:7 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:7:7 INFO Current connection mode: WsReverse 
+23/8/11 16:7:7 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:7:7 INFO Successfully loaded 4 plugins 
+23/8/11 16:7:7 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:7:7 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:7:7 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:7:7 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 16:7:7 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m13[0m:[93m15[0m - [91merror[0m[90m TS2614: [0mModule '"./menu"' has no exported member 'BOT_RESULT'. Did you mean to use 'import BOT_RESULT from "./menu"' instead?
+
+[7m13[0m import Com, { BOT_RESULT, URL, CmdInfo, HEADER } from './menu';
+[7m  [0m [91m              ~~~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2614[39m ]
+} 
+23/8/11 16:7:7 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:7:7 INFO Kotori Bot By Hotaru 
+23/8/11 16:7:7 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:7:7 WARM Run Info: Develop With Debuing... 
+23/8/11 16:7:7 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:7:7 INFO Current connection mode: WsReverse 
+23/8/11 16:7:7 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:7:7 INFO Successfully loaded 4 plugins 
+23/8/11 16:7:7 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:7:7 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:7:7 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:7:7 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:8:8 INFO Kotori Bot By Hotaru 
+23/8/11 16:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:8:8 WARM Run Info: Develop With Debuing... 
+23/8/11 16:8:8 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:8:8 INFO Current connection mode: WsReverse 
+23/8/11 16:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:8:8 INFO Kotori Bot By Hotaru 
+23/8/11 16:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:8:8 WARM Run Info: Develop With Debuing... 
+23/8/11 16:8:8 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:8:8 INFO Current connection mode: WsReverse 
+23/8/11 16:8:8 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:8:8 INFO Successfully loaded 4 plugins 
+23/8/11 16:8:8 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:8:8 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:8:8 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:8:8 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:9:9 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:9:9 INFO Kotori Bot By Hotaru 
+23/8/11 16:9:9 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:9:9 WARM Run Info: Develop With Debuing... 
+23/8/11 16:9:9 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:9:9 INFO Current connection mode: WsReverse 
+23/8/11 16:9:9 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:9:9 INFO Successfully loaded 4 plugins 
+23/8/11 16:9:9 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:9:9 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:9:9 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:9:9 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:12:12 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:12:12 INFO Kotori Bot By Hotaru 
+23/8/11 16:12:12 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:12:12 WARM Run Info: Develop With Debuing... 
+23/8/11 16:12:12 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:12:12 INFO Current connection mode: WsReverse 
+23/8/11 16:12:12 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:12:12 INFO Successfully loaded 4 plugins 
+23/8/11 16:12:12 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:12:12 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:12:12 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:12:12 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:22:22 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:22:22 INFO Kotori Bot By Hotaru 
+23/8/11 16:22:22 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:22:22 WARM Run Info: Develop With Debuing... 
+23/8/11 16:22:22 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:22:22 INFO Current connection mode: WsReverse 
+23/8/11 16:22:22 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:22:22 INFO Successfully loaded 4 plugins 
+23/8/11 16:22:22 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:22:22 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:22:22 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:22:22 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:29:29 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno group: 673830908 
+23/8/11 16:29:29 LOG [Plugin] Send group msg: 图片正在来的路上....你先别急 group: 673830908 
+23/8/11 16:29:29 INFO GET Request url:https://imlolicon.tk/api/seimg/v2/ params: {} 
+23/8/11 16:29:29 INFO Response type: JSON result: {"code":500,"message":"success","time":1691742578,"version":"v2.2","by":"https://imlolicon.tk","data":[{"pid":57841895,"uid":70822,"title":"【水着】封獣ぬえ","author":"祭唄","r18":false,"tags":["東方","东方","封獣ぬえ","封兽鵺","水着","泳装","ツインテぬえ","東方Project","东方Project","黒ビキニ","黑色比基尼","東方星蓮船","Undefined Fantastic Object","あざとかわいい","おへそ","肚脐"],"width":740,"height":1091,"type":"jpg","url":"https://i.pixiv.re/img-original/img/2016/07/10/21/00/01/57841895_p0.jpg"}]} 
+23/8/11 16:29:29 LOG [Plugin] Send group msg: PID:57841895
+标题:【水着】封獣ぬえ
+作者:祭唄
+标签:東方、东方、封獣ぬえ、封兽鵺、水着、泳装、ツインテぬえ、東方Project、东方Project、黒ビキニ、黑色比基尼、東方星蓮船、Undefined Fantastic Object、あざとかわいい、おへそ、肚脐
+[CQ:image,file=https://i.pixiv.re/img-original/img/2016/07/10/21/00/01/57841895_p0.jpg,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1] group: 673830908 
+23/8/11 16:30:30 LOG [Plugin] Send private msg: 你说得对, 但是KotoriBot是一个go-cqhttp的基于NodeJS+TypeScript的SDK和QQ机器人框架实现
+开源地址: https://github.com/biyuehu/kotori-bot
+
+当前BOT框架版本: 0.7.2
+框架协议: GPL-3.0
+[CQ:image,file=https://biyuehu.github.io/images/avatar.png,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1]
+ByHimeno user: 3324656453 
+23/8/11 16:35:35 INFO GET Request url:https://api.imlolicon.tk/api/storytoday params: empty 
+23/8/11 16:35:35 INFO Response type: JSON result: {"code":500,"message":"success","data":["1937年-美国作家伊迪丝·华顿逝世","1909年-中国近代历史学家吴晗出生","1858年-克里斯蒂安·艾克曼出生","1566年-欧洲历史上著名的“破坏圣像运动”","1912年-国民党成立","1952年-约旦王侯赛因·宾·塔拉勒继位","1956年-美国画家杰克逊·波洛克逝世","1891年-抗日名将张自忠出生","1984年-中共早期领导人李维汉逝世","1919年-美国钢铁大王安德鲁卡内基逝世"]} 
+23/8/11 16:35:35 LOG [Plugin] Send group msg: 历史上的今天
+1937年-美国作家伊迪丝·华顿逝世
+1909年-中国近代历史学家吴晗出生
+1858年-克里斯蒂安·艾克曼出生
+1566年-欧洲历史上著名的“破坏圣像运动”
+1912年-国民党成立
+1952年-约旦王侯赛因·宾·塔拉勒继位
+1956年-美国画家杰克逊·波洛克逝世
+1891年-抗日名将张自忠出生
+1984年-中共早期领导人李维汉逝世
+1919年-美国钢铁大王安德鲁卡内基逝世 group: 673830908 
+23/8/11 16:36:36 INFO GET Request url:https://api.imlolicon.tk/api/netease params: {"name":"コトダマ紬ぐ未来"} 
+23/8/11 16:36:36 INFO Response type: JSON result: {"code":500,"message":"success","data":[{"type":"netease","link":"http://music.163.com/#/song?id=427419618","songid":427419618,"title":"コトダマ紬ぐ未来(Off Vocal)","author":"橋本みゆき","lrc":"","url":"http://music.163.com/song/media/outer/url?id=427419618.mp3","pic":"http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=427419615","songid":427419615,"title":"コトダマ紬ぐ未来","author":"山崎もえ","lrc":"[00:00.000] 作词 : 石川　泰\n[00:01.000] 作曲 : 田辺トシノ\n[00:02.000] 编曲 : 田辺トシノ\n[00:24.000]遥か遠く続く\n[00:32.000]果てなき道\n[00:36.000]それでも いつか辿り着くと信じて\n[00:49.000]たとえ今は辛くきびしくても\n[01:00.000]小さな笑顔守る全て捧げて\n[01:14.000]心重なる言葉より強い絆 に\n[01:26.000]染上げていく一 つになることで\n[01:40.000]記憶を辿る追憶の旅続けて\n[01:53.000]あらゆることを受け止めるから\n[02:00.000]言葉はいらないの\n[02:06.000]それは永遠に\n[02:24.000]いつも近くそばで居ていたけど\n[02:36.000]気づかずいても今は遠く感じる\n[02:49.000]後を追いかけ絆から愛に変われば\n[03:01.000]染め上げていく  二人だけの秘密\n[03:16.000]思いを込めた言葉の強さ信じてる\n[03:29.000]口にしたとき  覚悟していた\n[03:35.000]未来を紬(つむ)ぐために\n[04:05.000]気が付けばほら 心に宿る灯火（ともしび）\n[04:18.000]小さな光  寄り添い合えば\n[04:24.000]そう  未来を指して\n[04:30.000]青く広がる  晴れ渡る空見上げる\n[04:43.000]もう 言葉すらいらないから\n[04:49.000]ただ  抱きしめていて\n[04:55.000]時(とき) は  永遠に\n","url":"http://music.163.com/song/media/outer/url?id=427419615.mp3","pic":"http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=2056538412","songid":2056538412,"title":"コトダマ紬ぐ未来 翻唱","author":"Yutsuki悠月","lrc":"[00:10.100]ti:コトダマ紬ぐ未来]\n[00:17:100][原唱：橋本みゆき]\n[00:24.527]遥か遠く続く果てなき道\n[00:36.844]それでもいつか辿り着くと信じて\n[00:49.219]たとえ今は辛くきびしくても\n[01:01.330]小さな笑顔守る全て捧げて\n[01:14.673]心重なる言葉より強い絆に\n[01:26.835]染め上げていく一つになることで\n[01:41.773]記憶を辿る追憶の旅\n[01:49.168]続けて\n[01:54.210]あらゆることを受け止めるから\n[02:00.374]言葉はいらないの\n[02:06.485]それは永遠に\n[02:24.612]いつも近く傍で居ていたけど\n[02:36.679]気づかずいても今は遠く感じる\n[02:49.897]後を追いかけ\n[02:55.655]絆から愛に変われば\n[03:02.218]染め上げていく\n[03:07.972]二人だけの秘密\n[03:17.269]思いを込めた言葉の強さ\n[03:24.589]信じてる\n[03:29.584]口にしたとき覚悟していた\n[03:35.682]未来を紬（つむ）ぐために\n[04:06.558]気がづけばほら心に宿る灯火（ともしび）\n[04:18.827]小さな光寄り添い合えば\n[04:24.843]そう未来を指して\n[04:31.51]青く広がる晴れ渡る空見上げる\n[04:43.422]もう言葉すらいらないから\n[04:49.574]ただ抱きしめていて\n[04:55.611]時は永遠に\n","url":"http://music.163.com/song/media/outer/url?id=2056538412.mp3","pic":"http://p2.music.126.net/HCF4R2Tpo50HPmowr_WbwA==/109951168683636225.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=28223744","songid":28223744,"title":"桜の歌","author":"藤澤ノリマサ","lrc":"[00:00.000] 作词 : 春和文\n[00:01.000] 作曲 : チャイコフスキー/中野雄太\n[00:16.670]今 僕らは 別々の道\n[00:24.82]歩いてゆく 新しい明日へと\n[00:31.396]苦しくても 共に過ごした日と\n[00:38.706]この歌を ずっと忘れないで\n[00:47.50]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[00:54.527]果てしないこの道 夢へと続いてゆく\n[01:01.941]変わらない 想いよ 変わらない 仲間よ\n[01:09.305]迷うことなく ただまっすぐ信じつづけて\n[01:18.593]今 この時 さぁ 一歩踏み出そう\n[01:27.825]笑い合った 傷つけ合った\n[01:35.137]振り返れば いつも一緒だった\n[01:42.494]出逢った日も 今日というこの日も\n[01:49.710]青空に 花びら舞い散って\n[01:58.178]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[02:05.588]果てしないこの道 夢へと続いてゆく\n[02:13.50]変わらない 想いよ 変わらない 仲間よ\n[02:20.367]迷うことなく ただまっすぐ信じつづけて\n[02:29.243]今 この時 さぁ 一歩踏み出そう\n[02:38.883]旅立ちはそう さよならじゃないから\n[02:46.199]こぼれてゆく 涙を拭いたら\n[02:51.594]また逢う時には いつものあの笑顔で\n[03:00.971]咲き誇れ 桜よ 咲き誇れ 笑顔よ>\n[03:08.31]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[03:15.793]果てしないこの道 夢へと続いてゆく\n[03:23.204]変わらない 想いよ 変わらない 仲間よ\n[03:30.518]迷うことなく ただまっすぐ信じつづけて\n[03:37.882]未来で夢を咲かせるため 一歩踏み出そう\n","url":"http://music.163.com/song/media/outer/url?id=28223744.mp3","pic":"http://p2.music.126.net/cCvnxmcGbEQo6ZIwD9fxjw==/109951164122314082.jpg?param=300x300"}]} 
+23/8/11 16:36:36 LOG [Plugin] Send group msg: 1.コトダマ紬ぐ未来(Off Vocal) - 橋本みゆき
+2.コトダマ紬ぐ未来 - 山崎もえ
+3.コトダマ紬ぐ未来 翻唱 - Yutsuki悠月
+4.桜の歌 - 藤澤ノリマサ
+序号错误！ group: 673830908 
+23/8/11 16:37:37 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:37:37 INFO Kotori Bot By Hotaru 
+23/8/11 16:37:37 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:37:37 WARM Run Info: Develop With Debuing... 
+23/8/11 16:37:37 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:37:37 INFO Current connection mode: WsReverse 
+23/8/11 16:37:37 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:37:37 INFO Successfully loaded 4 plugins 
+23/8/11 16:37:37 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:37:37 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:37:37 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:37:37 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:37:37 INFO GET Request url:https://api.imlolicon.tk/api/netease params: {"name":"コトダマ紬ぐ未来"} 
+23/8/11 16:37:37 INFO Response type: JSON result: {"code":500,"message":"success","data":[{"type":"netease","link":"http://music.163.com/#/song?id=427419618","songid":427419618,"title":"コトダマ紬ぐ未来(Off Vocal)","author":"橋本みゆき","lrc":"","url":"http://music.163.com/song/media/outer/url?id=427419618.mp3","pic":"http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=427419615","songid":427419615,"title":"コトダマ紬ぐ未来","author":"山崎もえ","lrc":"[00:00.000] 作词 : 石川　泰\n[00:01.000] 作曲 : 田辺トシノ\n[00:02.000] 编曲 : 田辺トシノ\n[00:24.000]遥か遠く続く\n[00:32.000]果てなき道\n[00:36.000]それでも いつか辿り着くと信じて\n[00:49.000]たとえ今は辛くきびしくても\n[01:00.000]小さな笑顔守る全て捧げて\n[01:14.000]心重なる言葉より強い絆 に\n[01:26.000]染上げていく一 つになることで\n[01:40.000]記憶を辿る追憶の旅続けて\n[01:53.000]あらゆることを受け止めるから\n[02:00.000]言葉はいらないの\n[02:06.000]それは永遠に\n[02:24.000]いつも近くそばで居ていたけど\n[02:36.000]気づかずいても今は遠く感じる\n[02:49.000]後を追いかけ絆から愛に変われば\n[03:01.000]染め上げていく  二人だけの秘密\n[03:16.000]思いを込めた言葉の強さ信じてる\n[03:29.000]口にしたとき  覚悟していた\n[03:35.000]未来を紬(つむ)ぐために\n[04:05.000]気が付けばほら 心に宿る灯火（ともしび）\n[04:18.000]小さな光  寄り添い合えば\n[04:24.000]そう  未来を指して\n[04:30.000]青く広がる  晴れ渡る空見上げる\n[04:43.000]もう 言葉すらいらないから\n[04:49.000]ただ  抱きしめていて\n[04:55.000]時(とき) は  永遠に\n","url":"http://music.163.com/song/media/outer/url?id=427419615.mp3","pic":"http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=2056538412","songid":2056538412,"title":"コトダマ紬ぐ未来 翻唱","author":"Yutsuki悠月","lrc":"[00:10.100]ti:コトダマ紬ぐ未来]\n[00:17:100][原唱：橋本みゆき]\n[00:24.527]遥か遠く続く果てなき道\n[00:36.844]それでもいつか辿り着くと信じて\n[00:49.219]たとえ今は辛くきびしくても\n[01:01.330]小さな笑顔守る全て捧げて\n[01:14.673]心重なる言葉より強い絆に\n[01:26.835]染め上げていく一つになることで\n[01:41.773]記憶を辿る追憶の旅\n[01:49.168]続けて\n[01:54.210]あらゆることを受け止めるから\n[02:00.374]言葉はいらないの\n[02:06.485]それは永遠に\n[02:24.612]いつも近く傍で居ていたけど\n[02:36.679]気づかずいても今は遠く感じる\n[02:49.897]後を追いかけ\n[02:55.655]絆から愛に変われば\n[03:02.218]染め上げていく\n[03:07.972]二人だけの秘密\n[03:17.269]思いを込めた言葉の強さ\n[03:24.589]信じてる\n[03:29.584]口にしたとき覚悟していた\n[03:35.682]未来を紬（つむ）ぐために\n[04:06.558]気がづけばほら心に宿る灯火（ともしび）\n[04:18.827]小さな光寄り添い合えば\n[04:24.843]そう未来を指して\n[04:31.51]青く広がる晴れ渡る空見上げる\n[04:43.422]もう言葉すらいらないから\n[04:49.574]ただ抱きしめていて\n[04:55.611]時は永遠に\n","url":"http://music.163.com/song/media/outer/url?id=2056538412.mp3","pic":"http://p2.music.126.net/HCF4R2Tpo50HPmowr_WbwA==/109951168683636225.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=28223744","songid":28223744,"title":"桜の歌","author":"藤澤ノリマサ","lrc":"[00:00.000] 作词 : 春和文\n[00:01.000] 作曲 : チャイコフスキー/中野雄太\n[00:16.670]今 僕らは 別々の道\n[00:24.82]歩いてゆく 新しい明日へと\n[00:31.396]苦しくても 共に過ごした日と\n[00:38.706]この歌を ずっと忘れないで\n[00:47.50]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[00:54.527]果てしないこの道 夢へと続いてゆく\n[01:01.941]変わらない 想いよ 変わらない 仲間よ\n[01:09.305]迷うことなく ただまっすぐ信じつづけて\n[01:18.593]今 この時 さぁ 一歩踏み出そう\n[01:27.825]笑い合った 傷つけ合った\n[01:35.137]振り返れば いつも一緒だった\n[01:42.494]出逢った日も 今日というこの日も\n[01:49.710]青空に 花びら舞い散って\n[01:58.178]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[02:05.588]果てしないこの道 夢へと続いてゆく\n[02:13.50]変わらない 想いよ 変わらない 仲間よ\n[02:20.367]迷うことなく ただまっすぐ信じつづけて\n[02:29.243]今 この時 さぁ 一歩踏み出そう\n[02:38.883]旅立ちはそう さよならじゃないから\n[02:46.199]こぼれてゆく 涙を拭いたら\n[02:51.594]また逢う時には いつものあの笑顔で\n[03:00.971]咲き誇れ 桜よ 咲き誇れ 笑顔よ>\n[03:08.31]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[03:15.793]果てしないこの道 夢へと続いてゆく\n[03:23.204]変わらない 想いよ 変わらない 仲間よ\n[03:30.518]迷うことなく ただまっすぐ信じつづけて\n[03:37.882]未来で夢を咲かせるため 一歩踏み出そう\n","url":"http://music.163.com/song/media/outer/url?id=28223744.mp3","pic":"http://p2.music.126.net/cCvnxmcGbEQo6ZIwD9fxjw==/109951164122314082.jpg?param=300x300"}]} 
+23/8/11 16:37:37 LOG [Plugin] Send group msg: 歌曲ID: 427419618
+歌曲标题: コトダマ紬ぐ未来(Off Vocal)
+歌曲作者: 橋本みゆき
+歌曲下载: http://music.163.com/song/media/outer/url?id=427419618.mp3
+歌曲封面: [CQ:image,file=http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1] group: 673830908 
+23/8/11 16:37:37 LOG [Plugin] Send group msg: [CQ:music,type=163,id=427419618] group: 673830908 
+23/8/11 16:38:38 INFO GET Request url:https://api.imlolicon.tk/api/netease params: {"name":"コトダマ紬ぐ未来"} 
+23/8/11 16:38:38 INFO Response type: JSON result: {"code":500,"message":"success","data":[{"type":"netease","link":"http://music.163.com/#/song?id=427419618","songid":427419618,"title":"コトダマ紬ぐ未来(Off Vocal)","author":"橋本みゆき","lrc":"","url":"http://music.163.com/song/media/outer/url?id=427419618.mp3","pic":"http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=427419615","songid":427419615,"title":"コトダマ紬ぐ未来","author":"山崎もえ","lrc":"[00:00.000] 作词 : 石川　泰\n[00:01.000] 作曲 : 田辺トシノ\n[00:02.000] 编曲 : 田辺トシノ\n[00:24.000]遥か遠く続く\n[00:32.000]果てなき道\n[00:36.000]それでも いつか辿り着くと信じて\n[00:49.000]たとえ今は辛くきびしくても\n[01:00.000]小さな笑顔守る全て捧げて\n[01:14.000]心重なる言葉より強い絆 に\n[01:26.000]染上げていく一 つになることで\n[01:40.000]記憶を辿る追憶の旅続けて\n[01:53.000]あらゆることを受け止めるから\n[02:00.000]言葉はいらないの\n[02:06.000]それは永遠に\n[02:24.000]いつも近くそばで居ていたけど\n[02:36.000]気づかずいても今は遠く感じる\n[02:49.000]後を追いかけ絆から愛に変われば\n[03:01.000]染め上げていく  二人だけの秘密\n[03:16.000]思いを込めた言葉の強さ信じてる\n[03:29.000]口にしたとき  覚悟していた\n[03:35.000]未来を紬(つむ)ぐために\n[04:05.000]気が付けばほら 心に宿る灯火（ともしび）\n[04:18.000]小さな光  寄り添い合えば\n[04:24.000]そう  未来を指して\n[04:30.000]青く広がる  晴れ渡る空見上げる\n[04:43.000]もう 言葉すらいらないから\n[04:49.000]ただ  抱きしめていて\n[04:55.000]時(とき) は  永遠に\n","url":"http://music.163.com/song/media/outer/url?id=427419615.mp3","pic":"http://p2.music.126.net/yWCEGRrdrNlZMHZJ5ZFrBg==/1366692968105602.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=2056538412","songid":2056538412,"title":"コトダマ紬ぐ未来 翻唱","author":"Yutsuki悠月","lrc":"[00:10.100]ti:コトダマ紬ぐ未来]\n[00:17:100][原唱：橋本みゆき]\n[00:24.527]遥か遠く続く果てなき道\n[00:36.844]それでもいつか辿り着くと信じて\n[00:49.219]たとえ今は辛くきびしくても\n[01:01.330]小さな笑顔守る全て捧げて\n[01:14.673]心重なる言葉より強い絆に\n[01:26.835]染め上げていく一つになることで\n[01:41.773]記憶を辿る追憶の旅\n[01:49.168]続けて\n[01:54.210]あらゆることを受け止めるから\n[02:00.374]言葉はいらないの\n[02:06.485]それは永遠に\n[02:24.612]いつも近く傍で居ていたけど\n[02:36.679]気づかずいても今は遠く感じる\n[02:49.897]後を追いかけ\n[02:55.655]絆から愛に変われば\n[03:02.218]染め上げていく\n[03:07.972]二人だけの秘密\n[03:17.269]思いを込めた言葉の強さ\n[03:24.589]信じてる\n[03:29.584]口にしたとき覚悟していた\n[03:35.682]未来を紬（つむ）ぐために\n[04:06.558]気がづけばほら心に宿る灯火（ともしび）\n[04:18.827]小さな光寄り添い合えば\n[04:24.843]そう未来を指して\n[04:31.51]青く広がる晴れ渡る空見上げる\n[04:43.422]もう言葉すらいらないから\n[04:49.574]ただ抱きしめていて\n[04:55.611]時は永遠に\n","url":"http://music.163.com/song/media/outer/url?id=2056538412.mp3","pic":"http://p2.music.126.net/HCF4R2Tpo50HPmowr_WbwA==/109951168683636225.jpg?param=300x300"},{"type":"netease","link":"http://music.163.com/#/song?id=28223744","songid":28223744,"title":"桜の歌","author":"藤澤ノリマサ","lrc":"[00:00.000] 作词 : 春和文\n[00:01.000] 作曲 : チャイコフスキー/中野雄太\n[00:16.670]今 僕らは 別々の道\n[00:24.82]歩いてゆく 新しい明日へと\n[00:31.396]苦しくても 共に過ごした日と\n[00:38.706]この歌を ずっと忘れないで\n[00:47.50]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[00:54.527]果てしないこの道 夢へと続いてゆく\n[01:01.941]変わらない 想いよ 変わらない 仲間よ\n[01:09.305]迷うことなく ただまっすぐ信じつづけて\n[01:18.593]今 この時 さぁ 一歩踏み出そう\n[01:27.825]笑い合った 傷つけ合った\n[01:35.137]振り返れば いつも一緒だった\n[01:42.494]出逢った日も 今日というこの日も\n[01:49.710]青空に 花びら舞い散って\n[01:58.178]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[02:05.588]果てしないこの道 夢へと続いてゆく\n[02:13.50]変わらない 想いよ 変わらない 仲間よ\n[02:20.367]迷うことなく ただまっすぐ信じつづけて\n[02:29.243]今 この時 さぁ 一歩踏み出そう\n[02:38.883]旅立ちはそう さよならじゃないから\n[02:46.199]こぼれてゆく 涙を拭いたら\n[02:51.594]また逢う時には いつものあの笑顔で\n[03:00.971]咲き誇れ 桜よ 咲き誇れ 笑顔よ>\n[03:08.31]咲き誇れ 桜よ 咲き誇れ 笑顔よ\n[03:15.793]果てしないこの道 夢へと続いてゆく\n[03:23.204]変わらない 想いよ 変わらない 仲間よ\n[03:30.518]迷うことなく ただまっすぐ信じつづけて\n[03:37.882]未来で夢を咲かせるため 一歩踏み出そう\n","url":"http://music.163.com/song/media/outer/url?id=28223744.mp3","pic":"http://p2.music.126.net/cCvnxmcGbEQo6ZIwD9fxjw==/109951164122314082.jpg?param=300x300"}]} 
+23/8/11 16:38:38 LOG [Plugin] Send group msg: 1.コトダマ紬ぐ未来(Off Vocal) - 橋本みゆき
+2.コトダマ紬ぐ未来 - 山崎もえ
+3.コトダマ紬ぐ未来 翻唱 - Yutsuki悠月
+4.桜の歌 - 藤澤ノリマサ
+再次发送指令并传入参数[序号]以选择对应内容 group: 673830908 
+23/8/11 16:40:40 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:40:40 INFO Kotori Bot By Hotaru 
+23/8/11 16:40:40 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:40:40 WARM Run Info: Develop With Debuing... 
+23/8/11 16:40:40 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:40:40 INFO Current connection mode: WsReverse 
+23/8/11 16:40:40 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:40:40 INFO Successfully loaded 4 plugins 
+23/8/11 16:40:40 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:40:40 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:40:40 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:40:40 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 16:42:42 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 16:42:42 INFO Kotori Bot By Hotaru 
+23/8/11 16:42:42 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 16:42:42 WARM Run Info: Develop With Debuing... 
+23/8/11 16:42:42 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 16:42:42 INFO Current connection mode: WsReverse 
+23/8/11 16:42:42 INFO [Connect] WebSocket client successfully connected 
+23/8/11 16:42:42 INFO Successfully loaded 4 plugins 
+23/8/11 16:42:42 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 16:42:42 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 16:42:42 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 16:42:42 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:8:8 INFO Kotori Bot By Hotaru 
+23/8/11 17:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:8:8 WARM Run Info: Develop With Debuing... 
+23/8/11 17:8:8 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:8:8 INFO Current connection mode: WsReverse 
+23/8/11 17:8:8 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:8:8 INFO Successfully loaded 4 plugins 
+23/8/11 17:8:8 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 17:8:8 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:8:8 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:8:8 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:10:10 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:10:10 INFO Kotori Bot By Hotaru 
+23/8/11 17:10:10 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:10:10 WARM Run Info: Develop With Debuing... 
+23/8/11 17:10:10 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:10:10 INFO Current connection mode: WsReverse 
+23/8/11 17:10:10 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:10:10 INFO Successfully loaded 4 plugins 
+23/8/11 17:10:10 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:10:10 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:10:10 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:10:10 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 17:10:10 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m433[0m:[93m23[0m - [91merror[0m[90m TS2551: [0mProperty 'motdbe' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'. Did you mean 'motd'?
+
+[7m433[0m         send(lang.com.motdbe.fail, {
+[7m   [0m [91m                      ~~~~~~[0m
+
+  [96mplugins/kotori-bot/lang/zh_cn.ts[0m:[93m60[0m:[93m5[0m
+    [7m 60[0m     motd: {
+    [7m   [0m [96m    ~~~~~~~[0m
+    [7m 61[0m         info: (
+    [7m   [0m [96m~~~~~~~~~~~~~~~[0m
+    [7m...[0m 
+    [7m 65[0m         fail: '状态: 离线\nIP: %ip%\n端口: %port%'
+    [7m   [0m [96m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    [7m 66[0m     },
+    [7m   [0m [96m~~~~~[0m
+    'motd' is declared here.
+[96mplugins/kotori-bot/index.ts[0m:[93m440[0m:[93m19[0m - [91merror[0m[90m TS2551: [0mProperty 'motdbe' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'. Did you mean 'motd'?
+
+[7m440[0m     send(lang.com.motdbe.info, {
+[7m   [0m [91m                  ~~~~~~[0m
+
+  [96mplugins/kotori-bot/lang/zh_cn.ts[0m:[93m60[0m:[93m5[0m
+    [7m 60[0m     motd: {
+    [7m   [0m [96m    ~~~~~~~[0m
+    [7m 61[0m         info: (
+    [7m   [0m [96m~~~~~~~~~~~~~~~[0m
+    [7m...[0m 
+    [7m 65[0m         fail: '状态: 离线\nIP: %ip%\n端口: %port%'
+    [7m   [0m [96m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    [7m 66[0m     },
+    [7m   [0m [96m~~~~~[0m
+    'motd' is declared here.
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2551[39m, [33m2551[39m ]
+} 
+23/8/11 17:20:20 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:20:20 INFO Kotori Bot By Hotaru 
+23/8/11 17:20:20 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:20:20 WARM Run Info: Develop With Debuing... 
+23/8/11 17:20:20 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:20:20 INFO Current connection mode: WsReverse 
+23/8/11 17:20:20 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:20:20 INFO Successfully loaded 4 plugins 
+23/8/11 17:20:20 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:20:20 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:20:20 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:20:20 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 17:20:20 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m433[0m:[93m23[0m - [91merror[0m[90m TS2551: [0mProperty 'motdbe' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'. Did you mean 'motd'?
+
+[7m433[0m         send(lang.com.motdbe.fail, {
+[7m   [0m [91m                      ~~~~~~[0m
+
+  [96mplugins/kotori-bot/lang/zh_cn.ts[0m:[93m60[0m:[93m5[0m
+    [7m 60[0m     motd: {
+    [7m   [0m [96m    ~~~~~~~[0m
+    [7m 61[0m         info: (
+    [7m   [0m [96m~~~~~~~~~~~~~~~[0m
+    [7m...[0m 
+    [7m 65[0m         fail: '状态: 离线\nIP: %ip%\n端口: %port%'
+    [7m   [0m [96m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    [7m 66[0m     },
+    [7m   [0m [96m~~~~~[0m
+    'motd' is declared here.
+[96mplugins/kotori-bot/index.ts[0m:[93m440[0m:[93m19[0m - [91merror[0m[90m TS2551: [0mProperty 'motdbe' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'. Did you mean 'motd'?
+
+[7m440[0m     send(lang.com.motdbe.info, {
+[7m   [0m [91m                  ~~~~~~[0m
+
+  [96mplugins/kotori-bot/lang/zh_cn.ts[0m:[93m60[0m:[93m5[0m
+    [7m 60[0m     motd: {
+    [7m   [0m [96m    ~~~~~~~[0m
+    [7m 61[0m         info: (
+    [7m   [0m [96m~~~~~~~~~~~~~~~[0m
+    [7m...[0m 
+    [7m 65[0m         fail: '状态: 离线\nIP: %ip%\n端口: %port%'
+    [7m   [0m [96m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    [7m 66[0m     },
+    [7m   [0m [96m~~~~~[0m
+    'motd' is declared here.
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2551[39m, [33m2551[39m ]
+} 
+23/8/11 17:28:28 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:28:28 INFO Kotori Bot By Hotaru 
+23/8/11 17:28:28 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:28:28 WARM Run Info: Develop With Debuing... 
+23/8/11 17:28:28 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:28:28 INFO Current connection mode: WsReverse 
+23/8/11 17:28:28 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:28:28 INFO Successfully loaded 4 plugins 
+23/8/11 17:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 17:28:28 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:28:28 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:28:28 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:53:53 INFO Kotori Bot By Hotaru 
+23/8/11 17:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:53:53 WARM Run Info: Develop With Debuing... 
+23/8/11 17:53:53 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:53:53 INFO Current connection mode: WsReverse 
+23/8/11 17:53:53 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:53:53 INFO Successfully loaded 4 plugins 
+23/8/11 17:53:53 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:53:53 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:53:53 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:53:53 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 17:53:53 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m108[0m:[93m30[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ params: paramInfo[] | undefined; description: string | undefined; menuId: string | undefined; }' is not assignable to parameter of type '{ params?: paramInfo[] | undefined; description?: string | undefined; menuId?: string | undefined; scope: any; access: any; }'.
+  Type '{ params: paramInfo[] | undefined; description: string | undefined; menuId: string | undefined; }' is missing the following properties from type '{ params?: paramInfo[] | undefined; description?: string | undefined; menuId?: string | undefined; scope: any; access: any; }': scope, access
+
+[7m108[0m         CmdInfo.set(keyword, { params, description, menuId });
+[7m   [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2345[39m ]
+} 
+23/8/11 17:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:58:58 INFO Kotori Bot By Hotaru 
+23/8/11 17:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:58:58 WARM Run Info: Develop With Debuing... 
+23/8/11 17:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:58:58 INFO Current connection mode: WsReverse 
+23/8/11 17:58:58 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:58:58 INFO Successfully loaded 4 plugins 
+23/8/11 17:58:58 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:58:58 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:58:58 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 17:58:58 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 17:58:58 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/interface.ts[0m:[93m25[0m:[93m66[0m - [91merror[0m[90m TS7008: [0mMember 'scope' implicitly has an 'any' type.
+
+[7m25[0m     params?: paramInfo[], description?: string, menuId?: string, scope, access:
+[7m  [0m [91m                                                                 ~~~~~[0m
+[96mplugins/kotori-bot/interface.ts[0m:[93m26[0m:[93m1[0m - [91merror[0m[90m TS1110: [0mType expected.
+
+[7m26[0m }>;
+[7m  [0m [91m~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m7008[39m, [33m1110[39m ]
+} 
+23/8/11 17:58:58 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 17:58:58 INFO Kotori Bot By Hotaru 
+23/8/11 17:58:58 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 17:58:58 WARM Run Info: Develop With Debuing... 
+23/8/11 17:58:58 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 17:58:58 INFO Current connection mode: WsReverse 
+23/8/11 17:58:58 INFO [Connect] WebSocket client successfully connected 
+23/8/11 17:58:58 INFO Successfully loaded 4 plugins 
+23/8/11 17:58:58 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 17:58:58 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 17:58:58 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 17:58:58 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:8:8 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:8:8 INFO Kotori Bot By Hotaru 
+23/8/11 18:8:8 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:9:9 WARM Run Info: Develop With Debuing... 
+23/8/11 18:9:9 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:9:9 INFO Current connection mode: WsReverse 
+23/8/11 18:9:9 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:9:9 INFO Successfully loaded 4 plugins 
+23/8/11 18:9:9 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:9:9 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:9:9 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:9:9 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:19:19 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:19:19 INFO Kotori Bot By Hotaru 
+23/8/11 18:19:19 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:19:19 WARM Run Info: Develop With Debuing... 
+23/8/11 18:19:19 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:19:19 INFO Current connection mode: WsReverse 
+23/8/11 18:19:19 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:19:19 INFO Successfully loaded 4 plugins 
+23/8/11 18:19:19 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:19:19 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:19:19 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:19:19 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:20:20 LOG [Plugin] Send group msg: [CQ:at,qq=842254264] 欢迎加入本群，请先仔细阅读群公告，发送"/menu"或"菜单"查看更多BOT功能和信息 group: 317691609 
+23/8/11 18:21:21 LOG [Plugin] Send group msg: 你无权限执行该指令！ group: 673830908 
+23/8/11 18:21:21 LOG [Plugin] Send group msg: 你无权限执行该指令！ group: 673830908 
+23/8/11 18:21:21 LOG [Plugin] Send group msg: 你无权限执行该指令！ group: 673830908 
+23/8/11 18:21:21 LOG [Plugin] Send group msg: 你无权限执行该指令！ group: 673830908 
+23/8/11 18:21:21 LOG [Plugin] Send group msg: 参数不能为空 group: 673830908 
+23/8/11 18:22:22 LOG [Plugin] Send group msg: 当前群管理员列表:
+无内容 group: 673830908 
+23/8/11 18:22:22 LOG [Plugin] Send group msg: 已添加[111]至当前群管理员 group: 673830908 
+23/8/11 18:22:22 LOG [Plugin] Send group msg: 已添加[1980067595]至当前群管理员 group: 673830908 
+23/8/11 18:22:22 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:22:22 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿发送违禁词[傻逼]！ group: 673830908 
+23/8/11 18:22:22 LOG [Plugin] Send group msg: 成功解除禁言[1980067595]用户 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:23:23 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:24:24 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:24:24 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿发送违禁词[傻逼]！ group: 673830908 
+23/8/11 18:24:24 LOG [Plugin] Send group msg: 成功解除禁言[1980067595]用户 group: 673830908 
+23/8/11 18:26:26 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:26:26 INFO Kotori Bot By Hotaru 
+23/8/11 18:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:26:26 WARM Run Info: Develop With Debuing... 
+23/8/11 18:26:26 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:26:26 INFO Current connection mode: WsReverse 
+23/8/11 18:26:26 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:26:26 INFO Successfully loaded 4 plugins 
+23/8/11 18:26:26 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:26:26 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:26:26 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:26:26 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:26:26 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:30:30 LOG [Plugin] Send group msg: [CQ:at,qq=3324656453] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:30:30 INFO Kotori Bot By Hotaru 
+23/8/11 18:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:30:30 WARM Run Info: Develop With Debuing... 
+23/8/11 18:30:30 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:30:30 INFO Current connection mode: WsReverse 
+23/8/11 18:30:30 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:30:30 INFO Successfully loaded 4 plugins 
+23/8/11 18:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:30:30 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:30:30 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:30:30 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:30:30 INFO Kotori Bot By Hotaru 
+23/8/11 18:30:30 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:30:30 WARM Run Info: Develop With Debuing... 
+23/8/11 18:30:30 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:30:30 INFO Current connection mode: WsReverse 
+23/8/11 18:30:30 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:30:30 INFO Successfully loaded 4 plugins 
+23/8/11 18:30:30 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:30:30 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:30:30 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:30:30 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:30:30 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:30:30 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:31:31 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:31:31 INFO Kotori Bot By Hotaru 
+23/8/11 18:31:31 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:31:31 WARM Run Info: Develop With Debuing... 
+23/8/11 18:31:31 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:31:31 INFO Current connection mode: WsReverse 
+23/8/11 18:31:31 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:31:31 INFO Successfully loaded 4 plugins 
+23/8/11 18:31:31 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:31:31 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:31:31 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:31:31 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:32:32 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:32:32 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:32:32 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:32:32 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:32:32 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:32:32 LOG [Plugin] Send group msg: 检测到用户[1980067595]存在于当前群黑名单 group: 673830908 
+23/8/11 18:33:33 LOG [Plugin] Send group msg: 已删除[1980067595]从当前群黑名单 group: 673830908 
+23/8/11 18:33:33 LOG [Plugin] Send group msg: 当前群黑名单列表:
+1, null, 222, 2142124427 group: 673830908 
+23/8/11 18:33:33 LOG [Plugin] Send group msg: 当前群白名单列表:
+无内容 group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: 全局白名单列表:
+3324656453 group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: 目标参数不存在 group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: 已删除[3324656453]从全局白名单 group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: 全体禁言成功 group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: 解除全体禁言成功 group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: [CQ:at,qq=3324656453] 请勿发送违禁词[傻逼]！ group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:34:34 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿在短时间内多次刷屏！ group: 673830908 
+23/8/11 18:36:36 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:36:36 INFO Kotori Bot By Hotaru 
+23/8/11 18:36:36 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:36:36 WARM Run Info: Develop With Debuing... 
+23/8/11 18:36:36 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:36:36 INFO Current connection mode: WsReverse 
+23/8/11 18:36:36 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:36:36 INFO Successfully loaded 4 plugins 
+23/8/11 18:36:36 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:36:36 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:36:36 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:36:36 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:36:36 LOG [Plugin] Send private msg: 你无权限执行该指令！ user: 1980067595 
+23/8/11 18:36:36 LOG [Plugin] Send private msg: 该功能仅在群聊/私聊下可用 user: 1980067595 
+23/8/11 18:36:36 LOG [Plugin] Send private msg: 该功能仅在群聊/私聊下可用 user: 3324656453 
+23/8/11 18:37:37 LOG [Plugin] Send group msg: 已删除[1980067595]从当前群管理员 group: 673830908 
+23/8/11 18:37:37 LOG [Plugin] Send group msg: 你无权限执行该指令！ group: 673830908 
+23/8/11 18:38:38 LOG [Plugin] Send group msg: 你无权限执行该指令！ group: 673830908 
+23/8/11 18:38:38 LOG [Plugin] Send group msg: [CQ:at,qq=1980067595] 请勿发送违禁词[傻逼]！ group: 673830908 
+23/8/11 18:38:38 LOG [Plugin] Send group msg: 成功解除禁言[1980067595]用户 group: 673830908 
+23/8/11 18:38:38 LOG [Plugin] Send group msg: 参数错误！ group: 673830908 
+23/8/11 18:38:38 LOG [Plugin] Send group msg: 成功踢出[10001]用户 group: 673830908 
+23/8/11 18:40:40 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:40:40 INFO Kotori Bot By Hotaru 
+23/8/11 18:40:40 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:40:40 WARM Run Info: Develop With Debuing... 
+23/8/11 18:40:40 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:40:40 INFO Current connection mode: WsReverse 
+23/8/11 18:40:40 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:40:40 INFO Successfully loaded 4 plugins 
+23/8/11 18:40:40 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:40:40 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:40:40 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:40:40 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:45:45 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:45:45 INFO Kotori Bot By Hotaru 
+23/8/11 18:45:45 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:45:45 WARM Run Info: Develop With Debuing... 
+23/8/11 18:45:45 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:45:45 INFO Current connection mode: WsReverse 
+23/8/11 18:45:45 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:45:45 INFO Successfully loaded 4 plugins 
+23/8/11 18:45:45 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:45:45 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:45:45 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:45:45 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:51:51 LOG [Plugin] Send group msg: [CQ:at,qq=1290059895]今日的牛~牛长度是....今天你是女孩子(-7cm) group: 317691609 
+23/8/11 18:52:52 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:52:52 INFO Kotori Bot By Hotaru 
+23/8/11 18:52:52 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:52:52 WARM Run Info: Develop With Debuing... 
+23/8/11 18:52:52 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:52:52 INFO Current connection mode: WsReverse 
+23/8/11 18:52:52 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:52:52 INFO Successfully loaded 4 plugins 
+23/8/11 18:52:52 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:52:52 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:52:52 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:52:52 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:53:53 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:53:53 INFO Kotori Bot By Hotaru 
+23/8/11 18:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:53:53 WARM Run Info: Develop With Debuing... 
+23/8/11 18:53:53 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:53:53 INFO Current connection mode: WsReverse 
+23/8/11 18:53:53 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:53:53 INFO Successfully loaded 4 plugins 
+23/8/11 18:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 18:53:53 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:53:53 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:53:53 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:55:55 LOG [Plugin] Send group msg: [CQ:at,qq=3208536020]今日的牛~牛长度是7cm group: 317691609 
+23/8/11 18:56:56 LOG [Plugin] Send group msg: [CQ:at,qq=3254664041] 欢迎加入本群，请先仔细阅读群公告，发送"/menu"或"菜单"查看更多BOT功能和信息 group: 317691609 
+23/8/11 18:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:57:57 INFO Kotori Bot By Hotaru 
+23/8/11 18:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:57:57 WARM Run Info: Develop With Debuing... 
+23/8/11 18:57:57 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:57:57 INFO Current connection mode: WsReverse 
+23/8/11 18:57:57 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:57:57 INFO Successfully loaded 4 plugins 
+23/8/11 18:57:57 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:57:57 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:57:57 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:57:57 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 18:57:57 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m242[0m:[93m125[0m - [91merror[0m[90m TS2339: [0mProperty 'mainMenu' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'.
+
+[7m242[0m COMPONENT.mainMenu && Cmd.register(['菜单', '/menu', '/help', 'kotori'], undefined, undefined, 'all', ACCESS.NORMAL, lang.com.mainMenu);
+[7m   [0m [91m                                                                                                                            ~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2339[39m ]
+} 
+23/8/11 18:57:57 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 18:57:57 INFO Kotori Bot By Hotaru 
+23/8/11 18:57:57 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 18:57:57 WARM Run Info: Develop With Debuing... 
+23/8/11 18:57:57 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 18:57:57 INFO Current connection mode: WsReverse 
+23/8/11 18:57:57 INFO [Connect] WebSocket client successfully connected 
+23/8/11 18:57:57 INFO Successfully loaded 4 plugins 
+23/8/11 18:57:57 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 18:57:57 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 18:57:57 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 18:57:57 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 18:57:57 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m242[0m:[93m125[0m - [91merror[0m[90m TS2339: [0mProperty 'mainMenu' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'.
+
+[7m242[0m COMPONENT.mainMenu && Cmd.register(['菜单', '/menu', '/help', 'kotori'], undefined, undefined, 'all', ACCESS.NORMAL, lang.com.mainMenu);
+[7m   [0m [91m                                                                                                                            ~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2339[39m ]
+} 
+23/8/11 19:0:0 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:0:0 INFO Kotori Bot By Hotaru 
+23/8/11 19:0:0 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:0:0 WARM Run Info: Develop With Debuing... 
+23/8/11 19:0:0 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:0:0 INFO Current connection mode: WsReverse 
+23/8/11 19:0:0 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:0:0 INFO Successfully loaded 4 plugins 
+23/8/11 19:0:0 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:0:0 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:0:0 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:0:0 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 19:0:0 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m242[0m:[93m125[0m - [91merror[0m[90m TS2339: [0mProperty 'mainMenu' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'.
+
+[7m242[0m COMPONENT.mainMenu && Cmd.register(['菜单', '/menu', '/help', 'kotori'], undefined, undefined, 'all', ACCESS.NORMAL, lang.com.mainMenu);
+[7m   [0m [91m                                                                                                                            ~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2339[39m ]
+} 
+23/8/11 19:1:1 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:1:1 INFO Kotori Bot By Hotaru 
+23/8/11 19:1:1 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:1:1 WARM Run Info: Develop With Debuing... 
+23/8/11 19:1:1 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:1:1 INFO Current connection mode: WsReverse 
+23/8/11 19:1:1 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:1:1 INFO Successfully loaded 4 plugins 
+23/8/11 19:1:1 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:1:1 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:1:1 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:1:1 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 19:1:1 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m242[0m:[93m125[0m - [91merror[0m[90m TS2339: [0mProperty 'mainMenu' does not exist on type '{ music: { info: string; list: string; listInfo: string; fail: string; }; bgm: { info: string; list: string; listInfo: string; fail: string; }; bgmc: { info: string; list: string; }; star: { info: string; list: string; fail: string; }; ... 41 more ...; manger: { ...; }; }'.
+
+[7m242[0m COMPONENT.mainMenu && Cmd.register(['菜单', '/menu', '/help', 'kotori'], undefined, undefined, 'all', ACCESS.NORMAL, lang.com.mainMenu);
+[7m   [0m [91m                                                                                                                            ~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m2339[39m ]
+} 
+23/8/11 19:9:9 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:9:9 INFO Kotori Bot By Hotaru 
+23/8/11 19:9:9 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:9:9 WARM Run Info: Develop With Debuing... 
+23/8/11 19:9:9 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:9:9 INFO Current connection mode: WsReverse 
+23/8/11 19:9:9 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:9:9 INFO Successfully loaded 4 plugins 
+23/8/11 19:9:9 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:9:9 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:9:9 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:9:9 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:9:9 LOG [Plugin] Send group msg: %HEAD%
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:9:9 LOG [Plugin] Send group msg: [CQ:at,qq=2470895885]今日的牛~牛长度是12cm group: 317691609 
+23/8/11 19:9:9 LOG [Plugin] Send group msg: %HEAD%
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:9:9 LOG [Plugin] Send group msg: %HEAD%
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:9:9 LOG [Plugin] Send group msg: [CQ:at,qq=3324656453]今日的牛~牛长度是18cm group: 317691609 
+23/8/11 19:12:12 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:12:12 INFO Kotori Bot By Hotaru 
+23/8/11 19:12:12 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:12:12 WARM Run Info: Develop With Debuing... 
+23/8/11 19:12:12 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:12:12 INFO Current connection mode: WsReverse 
+23/8/11 19:12:12 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:12:12 INFO Successfully loaded 4 plugins 
+23/8/11 19:12:12 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:12:12 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:12:12 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:12:12 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:12:12 LOG [Plugin] Send private msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno user: 3324656453 
+23/8/11 19:12:12 LOG [Plugin] Send private msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 user: 3324656453 
+23/8/11 19:12:12 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:12:12 INFO Kotori Bot By Hotaru 
+23/8/11 19:12:12 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:12:12 WARM Run Info: Develop With Debuing... 
+23/8/11 19:12:12 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:12:12 INFO Current connection mode: WsReverse 
+23/8/11 19:12:12 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:12:12 INFO Successfully loaded 4 plugins 
+23/8/11 19:12:12 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:12:12 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:12:12 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:12:12 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:12:12 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:12:12 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/11 19:12:12 INFO Response type: JSON result: {"code":500,"message":"success","time":1691752379,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"既然没人是错的，那错的就应该是世界。","from":"《青空的卡缪》","type":"ACG"}} 
+23/8/11 19:12:12 LOG [Plugin] Send group msg: 既然没人是错的，那错的就应该是世界。——《青空的卡缪》
+类型: ACG group: 317691609 
+23/8/11 19:13:13 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:13:13 INFO Kotori Bot By Hotaru 
+23/8/11 19:13:13 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:13:13 WARM Run Info: Develop With Debuing... 
+23/8/11 19:13:13 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:13:13 INFO Current connection mode: WsReverse 
+23/8/11 19:13:13 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:13:13 INFO Successfully loaded 4 plugins 
+23/8/11 19:13:13 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:13:13 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:13:13 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:13:13 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:13:13 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:13:13 INFO Kotori Bot By Hotaru 
+23/8/11 19:13:13 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:13:13 WARM Run Info: Develop With Debuing... 
+23/8/11 19:13:13 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:13:13 INFO Current connection mode: WsReverse 
+23/8/11 19:13:13 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:13:13 INFO Successfully loaded 4 plugins 
+23/8/11 19:13:13 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:13:13 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:13:13 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:13:13 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:13:13 LOG [Plugin] Send group msg: BOT信息
+BOTQQ: 2142124427
+连接时间: 1691752412
+接收包数量: 988
+发送包数量: 691
+丢失包数量: 0
+接收消息数量: 188
+发送消息数量: 97
+连接丢失次数: 0
+连接断开次数: 0
+框架信息
+当前BOT框架版本: 0.7.2
+框架协议: GPL-3.0
+环境信息
+Node版本: 18.16.0
+TypeScript版本: 5.1.3
+TsNode版本: 10.9.1
+ByHimeno group: 673830908 
+23/8/11 19:13:13 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:13:13 LOG [Plugin] Send group msg: Kotori-Bot:
+日常工具 查询工具
+随机图片 随机语录
+GPT聊天 其它功能
+群管系统 超管系统
+特殊功能 关于信息
+ByHimeno group: 673830908 
+23/8/11 19:13:13 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:14:14 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/11 19:14:14 INFO Response type: JSON result: {"code":500,"message":"success","time":1691752444,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"每一个人，只要活着，就会不停的失去。","from":"冈崎汐《Clannad》","type":"ACG"}} 
+23/8/11 19:14:14 LOG [Plugin] Send group msg: 每一个人，只要活着，就会不停的失去。——冈崎汐《Clannad》
+类型: ACG group: 317691609 
+23/8/11 19:14:14 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 317691609 
+23/8/11 19:14:14 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 673830908 
+23/8/11 19:14:14 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 673830908 
+23/8/11 19:14:14 LOG [Plugin] Send group msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 group: 673830908 
+23/8/11 19:14:14 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:14:14 INFO Kotori Bot By Hotaru 
+23/8/11 19:14:14 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:14:14 WARM Run Info: Develop With Debuing... 
+23/8/11 19:14:14 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:14:14 INFO Current connection mode: WsReverse 
+23/8/11 19:15:15 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:15:15 INFO Kotori Bot By Hotaru 
+23/8/11 19:15:15 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:15:15 WARM Run Info: Develop With Debuing... 
+23/8/11 19:15:15 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:15:15 INFO Current connection mode: WsReverse 
+23/8/11 19:15:15 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:15:15 INFO Successfully loaded 4 plugins 
+23/8/11 19:15:15 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:15:15 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:15:15 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:15:15 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:15:15 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/11 19:15:15 INFO Response type: JSON result: {"code":500,"message":"success","time":1691752511,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"再回到这里，一切都变了，我依旧。 没能说出口，只是默默离去，为伙伴沥尽一生。 不愿倾诉，因有负于你。 不愿倚靠，因已伤过你。 远离着彼此，直到星空下的再会。 戒指，家，承诺，未能承其重。 怎能用已经毁掉的人生，来寄生于你的幸福。 依旧没能说出口，但已是永别。","from":"《想要传达给你的爱恋》","type":"ACG"}} 
+23/8/11 19:15:15 LOG [Plugin] Send private msg: 再回到这里，一切都变了，我依旧。 没能说出口，只是默默离去，为伙伴沥尽一生。 不愿倾诉，因有负于你。 不愿倚靠，因已伤过你。 远离着彼此，直到星空下的再会。 戒指，家，承诺，未能承其重。 怎能用已经毁掉的人生，来寄生于你的幸福。 依旧没能说出口，但已是永别。——《想要传达给你的爱恋》
+类型: ACG user: 3324656453 
+23/8/11 19:20:20 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:20:20 INFO Kotori Bot By Hotaru 
+23/8/11 19:20:20 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:20:20 WARM Run Info: Develop With Debuing... 
+23/8/11 19:20:20 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:20:20 INFO Current connection mode: WsReverse 
+23/8/11 19:20:20 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:20:20 INFO Successfully loaded 4 plugins 
+23/8/11 19:20:20 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:20:20 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:20:20 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:20:20 ERROR F:\GCFile\JS\nodejs\kotori-bot\node_modules\ts-node\src\index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^ 
+23/8/11 19:20:20 ERROR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot/index.ts[0m:[93m19[0m:[93m6[0m - [91merror[0m[90m TS6196: [0m'hitokotoList' is declared but never used.
+
+[7m19[0m enum hitokotoList {
+[7m  [0m [91m     ~~~~~~~~~~~~[0m
+
+    at createTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:859:12[90m)[39m
+    at reportTSError [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:863:19[90m)[39m
+    at getOutput [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1077:36[90m)[39m
+    at Object.compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1433:41[90m)[39m
+    at Module.m._compile [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1617:30[90m)[39m
+[90m    at Module._extensions..js (node:internal/modules/cjs/loader:1308:10)[39m
+    at Object.require.extensions.<computed> [as .ts] [90m(F:\GCFile\JS\nodejs\kotori-bot\[39mnode_modules\[4mts-node[24m\src\index.ts:1621:12[90m)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1117:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:958:12)[39m
+[90m    at Module.require (node:internal/modules/cjs/loader:1141:19)[39m {
+  diagnosticCodes: [ [33m6196[39m ]
+} 
+23/8/11 19:21:21 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 19:21:21 INFO Kotori Bot By Hotaru 
+23/8/11 19:21:21 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 19:21:21 WARM Run Info: Develop With Debuing... 
+23/8/11 19:21:21 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 19:21:21 INFO Current connection mode: WsReverse 
+23/8/11 19:21:21 INFO [Connect] WebSocket client successfully connected 
+23/8/11 19:21:21 INFO Successfully loaded 4 plugins 
+23/8/11 19:21:21 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 19:21:21 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 19:21:21 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 19:21:21 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 19:21:21 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":1,"format":"text"} 
+23/8/11 19:21:21 INFO Response type: TEXT result: 考试的时候，清晰地记得老师讲过，也清晰地记得我当时在玩。 
+23/8/11 19:21:21 LOG [Plugin] Send group msg: 考试的时候，清晰地记得老师讲过，也清晰地记得我当时在玩。 group: 673830908 
+23/8/11 19:21:21 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":2,"format":"text"} 
+23/8/11 19:21:21 INFO Response type: TEXT result: “你知道你喝星星有什么区别吗” “星星在天上” “你在我心里”  
+23/8/11 19:21:21 LOG [Plugin] Send group msg: “你知道你喝星星有什么区别吗” “星星在天上” “你在我心里”  group: 673830908 
+23/8/11 19:21:21 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":1,"format":"text"} 
+23/8/11 19:21:21 INFO Response type: TEXT result: 把性格交给星座，把努力交给鸡汤，把考试交给锦鲤。 
+23/8/11 19:21:21 LOG [Plugin] Send group msg: 把性格交给星座，把努力交给鸡汤，把考试交给锦鲤。 group: 317691609 
+23/8/11 19:22:22 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":10,"format":"text"} 
+23/8/11 19:22:22 INFO Response type: TEXT result: 你跟他已经醒了吧?我今天捡垃圾挣了一百多明天给你打过去你快点休息吧我明天叫你起床给你点外卖买烟给你点你最喜欢的奶茶晚上我会继续去摆地摊的你不用担心我烦你床只有那么大睡不下三个你要好好照顾好自己不要让他抢你被子我永远爱你 
+23/8/11 19:22:22 LOG [Plugin] Send group msg: 你跟他已经醒了吧?我今天捡垃圾挣了一百多明天给你打过去你快点休息吧我明天叫你起床给你点外卖买烟给你点你最喜欢的奶茶晚上我会继续去摆地摊的你不用担心我烦你床只有那么大睡不下三个你要好好照顾好自己不要让他抢你被子我永远爱你 group: 317691609 
+23/8/11 20:38:38 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":6,"format":"text"} 
+23/8/11 20:38:38 INFO Response type: TEXT result: 我的目标是三十岁有套房子，现在实现一半，已经三十岁了。 
+23/8/11 20:38:38 LOG [Plugin] Send group msg: 我的目标是三十岁有套房子，现在实现一半，已经三十岁了。 group: 317691609 
+23/8/11 20:39:39 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":14,"format":"text"} 
+23/8/11 20:39:39 INFO Response type: TEXT result: 一件事没做好，一件又没做好。一件事还没有做，还有一堆事没有做。压力就这么接踵而来，好不挫败，烦躁不安。很想逃，又无处可逃。情绪就这么被堆积着，一触即发。--《心想事成，努力，但允许自己不够好》 
+23/8/11 20:39:39 LOG [Plugin] Send group msg: 一件事没做好，一件又没做好。一件事还没有做，还有一堆事没有做。压力就这么接踵而来，好不挫败，烦躁不安。很想逃，又无处可逃。情绪就这么被堆积着，一触即发。--《心想事成，努力，但允许自己不够好》 group: 317691609 
+23/8/11 20:39:39 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":6,"format":"text"} 
+23/8/11 20:39:39 INFO Response type: TEXT result: 能从上到下摸遍你全身的，也就只有，车站安检员了。 
+23/8/11 20:39:39 LOG [Plugin] Send group msg: 能从上到下摸遍你全身的，也就只有，车站安检员了。 group: 317691609 
+23/8/11 20:39:39 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":12,"format":"text"} 
+23/8/11 20:39:39 INFO Response type: TEXT result:  
+23/8/11 20:39:39 LOG [Plugin] Send group msg: 接口错误！请联系管理员 group: 317691609 
+23/8/11 20:39:39 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":3,"format":"text"} 
+23/8/11 20:39:39 INFO Response type: TEXT result: 男人把幼稚的女人看作单纯，女人把单纯的男人看作幼稚；事业是男人的姿色，姿色是女人的事业；男人用智商掌控女人，女人用情商拴住男人；男人喜欢长得漂亮的女人，女人喜欢对她好的男人；忠孝才是真正的男人味，柔顺才是真正的女人味；男人忠孝令女人有安全感，女人柔顺令男人有幸福感。 
+23/8/11 20:39:39 LOG [Plugin] Send group msg: 男人把幼稚的女人看作单纯，女人把单纯的男人看作幼稚；事业是男人的姿色，姿色是女人的事业；男人用智商掌控女人，女人用情商拴住男人；男人喜欢长得漂亮的女人，女人喜欢对她好的男人；忠孝才是真正的男人味，柔顺才是真正的女人味；男人忠孝令女人有安全感，女人柔顺令男人有幸福感。 group: 317691609 
+23/8/11 20:40:40 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":8,"format":"text"} 
+23/8/11 20:40:40 INFO Response type: TEXT result: 有人说，相见亦是有缘，我也曾深信不疑。然而，红尘千年，你会是我今生最美的缘吗？这场意外的相见，这般揪心的留恋，都折煞在了擦肩而过的瞬间。纵有钟情千万种，却未能令你动容，再回眸，望你倩影匆匆。 
+23/8/11 20:40:40 LOG [Plugin] Send group msg: 有人说，相见亦是有缘，我也曾深信不疑。然而，红尘千年，你会是我今生最美的缘吗？这场意外的相见，这般揪心的留恋，都折煞在了擦肩而过的瞬间。纵有钟情千万种，却未能令你动容，再回眸，望你倩影匆匆。 group: 317691609 
+23/8/11 20:40:40 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":3,"format":"text"} 
+23/8/11 20:40:40 INFO Response type: TEXT result: 你不开心的时候，我陪你，你哭泣的时候，我陪你，你心情很不爽的时候，我陪你，你不想回家的时候，我陪你，无论怎样，我都陪你，只因为你是我最爱的人，你就是我的音乐，你给我带来好听的音符。你是我的全部，你给我生命带来了色彩。 
+23/8/11 20:40:40 LOG [Plugin] Send group msg: 你不开心的时候，我陪你，你哭泣的时候，我陪你，你心情很不爽的时候，我陪你，你不想回家的时候，我陪你，无论怎样，我都陪你，只因为你是我最爱的人，你就是我的音乐，你给我带来好听的音符。你是我的全部，你给我生命带来了色彩。 group: 317691609 
+23/8/11 20:41:41 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":9,"format":"text"} 
+23/8/11 20:41:41 INFO Response type: TEXT result: 女孩的眼应该藏下星辰大海和万丈光芒. 
+23/8/11 20:41:41 LOG [Plugin] Send group msg: 女孩的眼应该藏下星辰大海和万丈光芒. group: 317691609 
+23/8/11 20:41:41 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":15,"format":"text"} 
+23/8/11 20:41:41 INFO Response type: TEXT result: 人生在世，最重要的，莫过于此时此刻陪伴你的人。 
+23/8/11 20:41:41 LOG [Plugin] Send group msg: 人生在世，最重要的，莫过于此时此刻陪伴你的人。 group: 317691609 
+23/8/11 20:41:41 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":9,"format":"text"} 
+23/8/11 20:41:41 INFO Response type: TEXT result: 浪漫至死不渝，温柔绝对屈服. 
+23/8/11 20:41:41 LOG [Plugin] Send group msg: 浪漫至死不渝，温柔绝对屈服. group: 317691609 
+23/8/11 20:41:41 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":9,"format":"text"} 
+23/8/11 20:41:41 INFO Response type: TEXT result: 你是往日的情书，是日落的余情未了，是路人脚下不停生长的风，也是我喜欢的人. 
+23/8/11 20:41:41 LOG [Plugin] Send group msg: 你是往日的情书，是日落的余情未了，是路人脚下不停生长的风，也是我喜欢的人. group: 317691609 
+23/8/11 20:41:41 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":15,"format":"text"} 
+23/8/11 20:41:41 INFO Response type: TEXT result: 如果你不出去走走，你就会以为这就是全世界。 
+23/8/11 20:41:41 LOG [Plugin] Send group msg: 如果你不出去走走，你就会以为这就是全世界。 group: 317691609 
+23/8/11 20:44:44 LOG [Plugin] Send group msg: [CQ:at,qq=154517297]今日的牛~牛长度是3cm group: 317691609 
+23/8/11 20:44:44 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 20:44:44 INFO Kotori Bot By Hotaru 
+23/8/11 20:44:44 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 20:44:44 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 20:44:44 INFO Current connection mode: WsReverse 
+23/8/11 20:44:44 INFO [Connect] WebSocket client successfully connected 
+23/8/11 20:44:44 INFO Successfully loaded 4 plugins 
+23/8/11 20:44:44 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 20:44:44 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 20:44:44 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 20:44:44 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 20:49:49 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 20:49:49 INFO Kotori Bot By Hotaru 
+23/8/11 20:49:49 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 20:49:49 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 20:49:49 INFO Current connection mode: WsReverse 
+23/8/11 20:49:49 INFO [Connect] WebSocket client successfully connected 
+23/8/11 20:49:49 INFO Successfully loaded 5 plugins 
+23/8/11 20:49:49 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 20:49:49 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 20:49:49 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 20:49:49 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 20:49:49 ERROR [Plugin] {"diagnosticCodes":[6138]} 
+23/8/11 20:50:50 INFO Kotori Bot Version: 0.7.2 License: GPL-3.0 
+23/8/11 20:50:50 INFO Kotori Bot By Hotaru 
+23/8/11 20:50:50 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/11 20:50:50 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/11 20:50:50 INFO Current connection mode: WsReverse 
+23/8/11 20:50:50 INFO [Connect] WebSocket client successfully connected 
+23/8/11 20:50:50 INFO Successfully loaded 5 plugins 
+23/8/11 20:50:50 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/11 20:50:50 INFO Web With Kotori Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/11 20:50:50 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/11 20:50:50 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/11 20:50:50 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/11 20:50:50 LOG [Plugin] Send group msg: 1
+ group: 673830908 
+23/8/11 20:51:51 LOG [Plugin] Send group msg: [CQ:at,qq=594623562]今日的牛~牛长度是....今天你是女孩子(-21cm) group: 317691609 
