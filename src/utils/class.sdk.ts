@@ -3,14 +3,14 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-26 18:47:45
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-08 19:06:30
+ * @LastEditTime: 2023-08-11 19:01:25
  */
 import * as M from "@/tools/interface";
 
 export class SDK {
     public static sdk_cq_t = (cq: M.Message): string => {
         let data: string = '';
-        Object.keys(cq.data).forEach((key) => {
+        Object.keys(cq.data).forEach(key => {
             let val = (cq.data as M.obj)[key];
             if (typeof val === 'string') {
                 val = val.replace(/&/, '&amp;');

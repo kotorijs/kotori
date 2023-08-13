@@ -2,13 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import http from 'http';
 import YAML from 'yaml';
-import { ConfigFileType, ConstGlobal, FuncFetchSuper, FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj, PackageInfo, } from './interface';
+import { BotConfig, ConfigFileType, ConstGlobal, FuncFetchSuper, FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj, PackageInfo, } from './interface';
 
 export const CONST: ConstGlobal = (function () {
-    let ROOT_PATH = __dirname + '\\..';
-    if (!fs.existsSync(`${ROOT_PATH}\\config.yml`)) {
-        ROOT_PATH += '\\..';
-    }
+    let ROOT_PATH = path.resolve(__dirname, '..');
+    if (!fs.existsSync(`${ROOT_PATH}\\config.yml`)) ROOT_PATH = path.join(ROOT_PATH, '..');
 
     return {
         ROOT_PATH,
@@ -40,6 +38,12 @@ export const CONST: ConstGlobal = (function () {
         }
     }
 })();
+
+export const BOTCONFIG = new Proxy({ value: {} } as { value: BotConfig }, {
+    get: () => {
+        return loadConfig(`${CONST.ROOT_PATH}\\config.yml`, 'yaml');
+    }
+});
 
 export const OPTIONS = {
     catchError: process.argv[2] !== 'dev'
@@ -139,6 +143,7 @@ export function stringSplit(str: string, key: string): string {
 
 export function stringTemp(template: string, args: obj<string | number>) {
     for (let param in args) {
+        args[param] || (args[param] = '');
         typeof args[param] === 'string' || (args[param] = args[param].toString());
         template = template.replace(new RegExp(`%${param}%`, 'g'), args[param] as string);
     }
@@ -247,7 +252,7 @@ export class _console {
         args[0].forEach((Element: unknown) => {
             // if (typeof Element !== '') Element = Element!.toString();
             if (Element && typeof Element === 'object') Element = (
-                JSON.stringify(Element) === '{}' ? Element.toString() : JSON.stringify(Element)
+                JSON.stringify(Element) === '{}' && Element.toString ? Element.toString() : JSON.stringify(Element)
             );
             message += Element + ' ';
             message.slice(0, -1);

@@ -3,38 +3,21 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-09 18:37:22
+ * @LastEditTime: 2023-08-12 20:30:56
  */
 import os from 'os';
-import type { EventDataType, Event, Api, Const } from '@/tools';
+import type { EventDataType, Event, Api, Const, PackageInfo } from '@/tools';
 import { fetchJson, getPackageInfo, isObj, isObjArr } from '@/tools';
 import * as M from './method';
 import config from './config';
-import Com, { BOT_RESULT, URL, CmdInfo } from './menu';
-import { HandlerFuncType, RES_CODE, Send, mapIndex, paramInfo } from './interface';
+import Com, { URL, CmdInfo } from './menu';
+import { ACCESS, HandlerFuncType, RES_CODE, Send, customMenu, mapIndex, paramInfo, scopeType } from './interface';
 import SDK from '@/utils/class.sdk';
+import lang, { BOT_RESULT } from './lang/zh_cn';
 
-/* 枚举与常量定义 */
-enum hitokotoList {
-    一言2 = 1,
-    骚话,
-    情话,
-    人生语录,
-    社会语录,
-    毒鸡汤,
-    笑话,
-    网抑云,
-    温柔语录,
-    舔狗语录,
-    爱情语录,
-    英汉语录,
-    经典语录 = 14,
-    个性签名,
-    诗词,
-}
-
-const { apikey: APIKEY } = config;
-const { auto: AUTO, mange: MANGE, format: FORMAT } = config.component;
+const { apikey: CAPIKEY, group: CGROUP, component: CCOM } = config;
+const { mange: CMANGE, format: CFORMAT } = CCOM;
+const { cmd: LCMD, menu: LMENU, auto: LAUTO, com: LCOM } = lang;
 
 /* 插件入口 */
 export class Main {
@@ -46,61 +29,61 @@ export class Main {
     }
 
     private registerEvent = () => {
-        this.Event.listen("on_group_msg", data => this.run(data));
-        this.Event.listen("on_private_msg", data => this.run(data));
-        AUTO.joinGroupWelcome && this.Event.listen("on_group_increase", data => {
-            if (!Main.verifyFrom(data)) return;
-            Main.Api.send_group_msg(`${SDK.cq_at(data.user_id)} ${AUTO.joinGroupWelcomeMsg}`, data.group_id!)
-        });
-        AUTO.exitGroupAddBlacklist && this.Event.listen("on_group_decrease", data => {
-            if (!Main.verifyFrom(data)) return;
-            const list = M.loadConfigP(`${data.group_id}\\blackList.json`) as number[];
-            list.push(data.user_id)
-            M.saveConfigP(`${data.group_id}\\blackList.json`, list);
-            Main.Api.send_group_msg(`检测到用户[${data.user_id}]退群已自动添加至当前群黑名单内`, data.group_id!);
-        });
+        this.Event.listen("on_group_msg", data => this.onMsg(data));
+        this.Event.listen("on_private_msg", data => this.onMsg(data));
+        this.Event.listen("on_group_increase", data => this.onGroupIncrease(data));
+        this.Event.listen("on_group_decrease", data => this.onGroupDecrease(data));
     }
 
-    private run = (data: EventDataType) => {
+    private onMsg = (data: EventDataType) => {
         if (!Main.verifyFrom(data)) return;
         new Content(data);
+    }
+
+    private onGroupIncrease = (data: EventDataType) => {
+        if (!CMANGE.joinGroupWelcome || !Main.verifyFrom(data)) return;
+        Main.Api.send_group_msg(M.temp(LAUTO.joinGroupWelcome, {
+            at: SDK.cq_at(data.user_id)
+        }), data.group_id!)
+    }
+
+    private onGroupDecrease = (data: EventDataType) => {
+        if (!CMANGE.exitGroupAddBlack || !Main.verifyFrom(data)) return;
+        const list = M.loadConfigP(`${data.group_id}\\blackList.json`) as number[];
+        list.push(data.user_id);
+        M.saveConfigP(`${data.group_id}\\blackList.json`, list);
+        Main.Api.send_group_msg(M.temp(LAUTO.exitGroupAddBlack, {
+            target: data.user_id
+        }), data.group_id!);
     }
 
     public static Api: Api;
     public static Const: Const;
 
     public static verifyEnable = (send: Send) => {
-        const result = MANGE.enable;
+        const result = CMANGE.enable;
         result || send(BOT_RESULT.DISABLE);
         return result;
     }
 
-    public static verifyAcess = (data: EventDataType, send: Send, access: 1 | 2 = 2): false | 1 | 2 => {
-        if (data.user_id === Main.Const.CONFIG.bot.master) return 1;
-        const mangerList = M.loadConfigP(`${data.group_id}\\mangerList.json`) as number[];
-        const result = mangerList.includes(data.user_id);
-        if (!result || access === 1) send(BOT_RESULT.NO_ACCESS);
-        return result ? 2 : false;
-    }
-
     public static verifyFrom = (data: EventDataType) => {
-        if (data.message_type === 'group' && config.group.enable === true) {
-            if (!config.group.list.includes(data.group_id!)) return false;
+        if (data.message_type === 'group' && CGROUP.enable === true) {
+            if (!CGROUP.list.includes(data.group_id!)) return false;
         }
         if (data.user_id == data.self_id) return false;
         return true;
     }
-}
 
-export class Cmd {
-    public static register = (keyword: string | string[], description: string | undefined, callback: HandlerFuncType, params?: paramInfo[]) => {
-        Com.set(keyword, callback);
-        CmdInfo.set(keyword, { params, description });
+    public static verifyAccess = (data: EventDataType) => {
+        if (data.user_id === Main.Const.CONFIG.bot.master) return ACCESS.ADMIN;
+        const mangerList = M.loadConfigP(`${data.group_id}\\mangerList.json`) as number[];
+        return mangerList.includes(data.user_id) ? ACCESS.MANGER : ACCESS.NORMAL;
     }
 }
 
 class Content {
     public constructor(private data: EventDataType) {
+        if (this.data.message_type === 'group' && CMANGE.enable) this.runOtherFunc();
         M.setArgs(this.data.message.split(' '));
         const result = Com.get(M.args[0]);
         if (result) {
@@ -109,21 +92,21 @@ class Content {
         }
 
         for (let [key, handlerFunc] of Com) {
-            if ((typeof key === 'function' && key(this.data.message)) || (Array.isArray(key) && key.includes(this.data.message))) {
-                this.runHandlerFunc(handlerFunc, key);
-                return;
-            }
+            if (typeof key === 'string') return;
+            // if (typeof key === 'function' && !key(this.data.message)) return;
+            if (Array.isArray(key) && !key.includes(this.data.message)) continue;
+            this.runHandlerFunc(handlerFunc, key);
+            return;
         }
-
-        if (this.data.message_type === 'private' || !MANGE.enable) return;
-        this.runOtherFunc();
     }
 
-    private send: Send = msg => {
+    private send: Send = (content, params = {}) => {
+        typeof content === 'string' && (content = M.temp(content, params));
         if (this.data.message_type === 'private') {
-            Main.Api.send_private_msg(msg, this.data.user_id);
+            Main.Api.send_private_msg(content, this.data.user_id);
         } else {
-            Main.Api.send_group_msg(msg, <number>this.data.group_id);
+            Main.Api.send_group_msg(content, this.data.group_id!);
+            Main.Api.send_group_msg(SDK.cq_poke(this.data.user_id), this.data.group_id!);
         }
     }
 
@@ -143,7 +126,23 @@ class Content {
         return true;
     }
 
+    private checkScope = (scope: scopeType) => {
+        if (scope === 'all' || scope === this.data.message_type) return true;
+        this.send(BOT_RESULT.MESSAGE_TYPE);
+        return false;
+    }
+
+    private checkAccess = (access: ACCESS) => {
+        const result = Main.verifyAccess(this.data) >= access
+        result || this.send(BOT_RESULT.NO_ACCESS);
+        return result;
+    }
+
     private runHandlerFunc = (handlerFunc: string | HandlerFuncType, key: mapIndex) => {
+        const cmdInfo = CmdInfo.get(key);
+        if (!cmdInfo) return;
+        if (!this.checkScope(cmdInfo.scope)) return;
+        if (!this.checkAccess(cmdInfo.access)) return;
         if (!this.checkParams(key)) return;
 
         if (typeof handlerFunc === 'string') {
@@ -151,11 +150,15 @@ class Content {
             return;
         }
 
-        handlerFunc(this.send, this.data);
+        const result = handlerFunc(this.send, this.data);
+        if (typeof result === 'string') this.send(result);
     }
 
     private runOtherFunc = () => {
+        if (Main.verifyAccess(this.data) >= ACCESS.MANGER) return;
         this.blackList();
+        const user = this.data.user_id;
+        if ((M.loadConfigP(`whiteList.json`) as number[]).includes(user) || (M.loadConfigP(`${this.data.group_id}\\whiteList.json`) as number[]).includes(user)) return;
         this.banword();
         this.msgTimes();
     }
@@ -163,57 +166,140 @@ class Content {
     private blackList = () => {
         const user = this.data.user_id;
         const result = (M.loadConfigP(`blackList.json`) as number[]).includes(user);
-        if (!result && !(M.loadConfigP(`${this.data.group_id}\\blackList.json`) as number[]).includes(user)) return;
-        Main.Api.send_group_msg(`检测到用户[${user}]存在于${result ? '全局' : '当前群'}黑名单`, this.data.group_id!);
+        if (!result && !(M.loadConfigP(`${this.data.group_id}\\blackList.json`) as number[]).includes(user)) return true;
+        Main.Api.send_group_msg(M.temp(LAUTO.existsOnBlack.info, {
+            target: this.data.user_id,
+            type: result ? LAUTO.existsOnBlack.type.global : LAUTO.existsOnBlack.type.local
+        }), this.data.group_id!);
+        return false;
     }
 
     private banword = () => {
-        const user = this.data.user_id;
-        if ((M.loadConfigP(`whiteList.json`) as number[]).includes(user) || (M.loadConfigP(`${this.data.group_id}\\whiteList.json`) as number[]).includes(user)) return;
-
         const banwordList = M.loadConfigP(`banword.json`) as string[];
-        for (let word of banwordList) {
-            if (!this.data.message.includes(word)) continue;
-            Main.Api.set_group_ban(this.data.group_id!, user, MANGE.banwordBanTime);
-            Main.Api.send_group_msg(`${SDK.cq_at(this.data.user_id)} 请勿发送违禁词[${word}]！`, this.data.group_id!);
+        for (let content of banwordList) {
+            if (!this.data.message.includes(content)) continue;
+            Main.Api.send_group_msg(M.temp(LAUTO.bacnWord, {
+                at: SDK.cq_at(this.data.user_id), content
+            }), this.data.group_id!);
+            Main.Api.set_group_ban(this.data.group_id!, this.data.user_id, CMANGE.banwordBanTime);
+            Main.Api.delete_msg(this.data.message_id);
         }
     }
 
     private msgTimes = () => {
         const user = this.data.group_id! + this.data.user_id;
-        if (!M.CACHE_MSG_TIMES[user] || M.CACHE_MSG_TIMES[user].time + (MANGE.repeatRule.cycleTime * 1000) < new Date().getTime()) {
+        if (!M.CACHE_MSG_TIMES[user] || M.CACHE_MSG_TIMES[user].time + (CMANGE.repeatRule.cycleTime * 1000) < new Date().getTime()) {
             M.CACHE_MSG_TIMES[user] = {
                 time: new Date().getTime(),
                 times: 1
             }
             return;
         }
-        if (M.CACHE_MSG_TIMES[user].times > MANGE.repeatRule.maxTimes) {
-            Main.Api.set_group_ban(this.data.group_id!, user, MANGE.repeatBanTime);
-            Main.Api.send_group_msg(`${SDK.cq_at(this.data.user_id)} 请勿在短时间内多次刷屏！`, this.data.group_id!);
+        if (M.CACHE_MSG_TIMES[user].times > CMANGE.repeatRule.maxTimes) {
+            Main.Api.set_group_ban(this.data.group_id!, this.data.user_id, CMANGE.repeatBanTime);
+            Main.Api.send_group_msg(M.temp(LAUTO.msgTimes, {
+                at: SDK.cq_at(this.data.user_id)
+            }), this.data.group_id!);
             return;
         }
         M.CACHE_MSG_TIMES[user].times++;
     }
 }
 
-Cmd.register('/music', '网易云点歌,序号默认为1,填0显示歌曲列表', async send => {
+export class Cmd {
+    private static initialize = () => {
+        this.isInitialize = true;
+        CCOM.mainMenu && Cmd.register(LMENU.mainMenu.cmd, undefined, undefined, 'all', ACCESS.NORMAL, LMENU.mainMenu.content);
+        for (let key of Object.keys(LMENU.customMenu)) {
+            const menu = (LMENU.customMenu as customMenu)[key];
+            if (!menu.cmd || !menu.content) continue;
+            this.register(menu.cmd, undefined, undefined, menu.scope ?? 'all', menu.access ?? ACCESS.NORMAL, menu.content);
+        }
+    }
+
+    public static menu = (keyword: string | string[], menuId: string, scope: scopeType = 'all', access: ACCESS = ACCESS.NORMAL) => {
+        const callback = () => this.menuHandleFunc(menuId);
+        this.register(keyword, undefined, undefined, scope, access, callback);
+    }
+
+    public static register = (keyword: string | string[], description: string | undefined, menuId: string | undefined, scope: scopeType, access: ACCESS, callback: HandlerFuncType | string, params?: paramInfo[]) => {
+        this.isInitialize || this.initialize();
+        Com.set(keyword, callback);
+        CmdInfo.set(keyword, { menuId, description, scope, access, params });
+    }
+
+    private static isInitialize: boolean = false;
+
+    private static menuHandleFunc = (menuId: string) => {
+        let list = '';
+        for (let key of CmdInfo) {
+            const { 0: cmdKey, 1: value } = key;
+
+            if (value.menuId !== menuId) continue;
+            let handleParams = '';
+            value.params?.forEach(element => {
+                const paramName = element.name ?? LMENU.sonMenu.paramNameDefault;
+                const modifier = element.must === true ? '' : (
+                    element.must === false ? LMENU.sonMenu.modifierOptional : M.temp(LMENU.sonMenu.modifierDefault, {
+                        content: element.must
+                    })
+                );
+                handleParams += M.temp(LMENU.sonMenu.param, {
+                    param_name: paramName, modifier
+                });
+            })
+            const descr = value.description ? M.temp(LMENU.sonMenu.descr, {
+                content: value.description
+            }) : '';
+            const scope = value.scope === 'all' ? '' : (
+                value.scope === 'group' ? LMENU.sonMenu.scopeGroup : LMENU.sonMenu.scopePrivate
+            );
+            list += M.temp(LMENU.sonMenu.list, {
+                name: Array.isArray(cmdKey) ? cmdKey[0] : cmdKey,
+                param: handleParams,
+                descr,
+                scope
+            });
+        }
+        list = M.temp(LMENU.sonMenu.info, {
+            list
+        });
+        return list;
+    }
+}
+
+Cmd.menu('日常工具', 'dayTool');
+Cmd.menu('查询工具', 'queryTool');
+Cmd.menu('随机图片', 'randomImg');
+Cmd.menu('GPT聊天', 'gpt');
+Cmd.menu('其它功能', 'other');
+CMANGE.enable && Cmd.menu('群管系统', 'groupMange', 'group');
+Cmd.menu('超管系统', 'superMange', 'all');
+Cmd.menu('特殊功能', 'special');
+Cmd.menu('关于信息', 'aboutInfo');
+
+Cmd.register(LCMD.music.cmd, LCMD.music.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('netease', { name: M.args[1] });
     if (res.code === RES_CODE.ARGS_ERROR) {
-        send('未找到相关歌曲');
+        send(LCOM.music.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjArrP(send, res.data)) return;
 
     const num = parseInt(M.args[2]);
     if (num == 0) {
-        let message = '';
-        for (let init = 0; init < (res.data.length > FORMAT.maxListNums ? FORMAT.maxListNums : res.data.length); init++) {
+        let list = '';
+        for (let init = 0; init < (res.data.length > CFORMAT.maxListNums ? CFORMAT.maxListNums : res.data.length); init++) {
             const song = res.data[init];
-            message += `${init + 1}.${song.title} - ${song.author}\n`;
+            list += M.temp(LCOM.music.list, {
+                num: init + 1, title: song.title, author: song.author
+            });
         }
-        message += BOT_RESULT.NUM_CHOOSE;
-        send(message);
+        send(LCOM.music.listInfo, {
+            list
+        });
         return;
     }
 
@@ -223,35 +309,39 @@ Cmd.register('/music', '网易云点歌,序号默认为1,填0显示歌曲列表'
         return;
     }
 
-    send(
-        `歌曲ID: ${song.songid}\n歌曲标题: ${song.title}\n歌曲作者 :${song.author}` +
-        `\n歌曲下载: ${song.url}\n歌曲封面: ${SDK.cq_image(song.pic)}`
-    );
+    send(LCOM.music.info, {
+        ...song, image: SDK.cq_image(song.pic)
+    });
     send(SDK.cq_Music('163', song.songid));
 }, [{
-    must: true, name: '歌名'
+    must: true, name: LCMD.music.args[0]
 }, {
-    must: '1', name: '序号'
+    must: '1', name: LCMD.music.args[0]
 }]);
 
-Cmd.register('/bgm', '番组计划,搜索游戏/动漫/角色等', async send => {
+Cmd.register(LCMD.bgm.cmd, LCMD.bgm.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
     const num = parseInt(M.args[2]), cache = `bgm${M.args[1]}`;
-    const res = M.cacheGet(cache) || await M.fetchBGM(`search/subject/${M.args[1]}`, { token: APIKEY.bangumi });
+    const res = M.cacheGet(cache) || await M.fetchBGM(`search/subject/${M.args[1]}`, { token: CAPIKEY.bangumi });
     M.cacheSet(cache, res);
 
     if (!res || !isObjArr(res.list)) {
-        send('未找到相应条目');
+        send(LCOM.bgm.fail, {
+            input: M.args[1]
+        });
         return;
     }
 
     if (num == 0) {
-        let message = '';
-        for (let init = 0; init < (res.list.length > FORMAT.maxListNums ? FORMAT.maxListNums : res.list.length); init++) {
+        let list = '';
+        for (let init = 0; init < (res.list.length > CFORMAT.maxListNums ? CFORMAT.maxListNums : res.list.length); init++) {
             const data = res.list[init];
-            message += `${init + 1}.${data.name}${data.name_cn ? ` - ${data.name_cn}` : ''}\n`;
+            list += M.temp(LCOM.bgm.list, {
+                ...data, num: init + 1
+            });
         }
-        message += BOT_RESULT.NUM_CHOOSE;
-        send(message);
+        send(LCOM.bgm.listInfo, {
+            list
+        });
         return;
     }
 
@@ -261,30 +351,25 @@ Cmd.register('/bgm', '番组计划,搜索游戏/动漫/角色等', async send =>
         return;
     }
 
-    const res2 = await M.fetchBGM(`v0/subjects/${data.id}`, { token: APIKEY.bangumi });
+    const res2 = await M.fetchBGM(`v0/subjects/${data.id}`, { token: CAPIKEY.bangumi });
     if (!Array.isArray(res2.tags)) {
-        send('未找到相应条目');
+        send(LCOM.bgm.fail);
         return;
     }
 
     let tags = '';
     res2.tags.forEach((data: { name: string, count: number }) => tags += `、${data.name}`);
-    send(
-        `原名: ${res2.name}` +
-        `\n中文名: ${res2.name_cn}` +
-        `\n介绍: ${res2.summary}` +
-        `\n标签: ${tags.substring(1)}` +
-        `\n详情: https://bgm.tv/subject/${data.id}` +
-        `\n${SDK.cq_image(res2.images.large)}`
-    )
+    send(LCOM.bgm.info, {
+        ...res2, tags: tags.substring(1), url: `https://bgm.tv/subject/${data.id}`, image: SDK.cq_image(res2.images.large)
+    });
 }, [{
-    must: true, name: '名字'
+    must: true, name: LCMD.bgm.args[0]
 }, {
-    must: '1', name: '序号'
+    must: '1', name: LCMD.bgm.args[0]
 }]);
 
-Cmd.register('/bgmc', '获取番组计划今日放送', async send => {
-    const res = await M.fetchBGM(`calendar`, { token: APIKEY.bangumi });
+Cmd.register(LCMD.bgmc.cmd, LCMD.bgmc.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
+    const res = await M.fetchBGM(`calendar`, { token: CAPIKEY.bangumi });
     if (!M.isObjArrP(send, res)) return;
 
     const day_num = (() => {
@@ -292,185 +377,210 @@ Cmd.register('/bgmc', '获取番组计划今日放送', async send => {
         return day === 0 ? 6 : day - 1;
     })();
     const items = res[day_num].items;
-    let result = '';
+    let list = '';
     for (let init = 0; init < 3; init++) {
         const item = items[init];
-        result += (
-            `\n原名: ${item.name}` +
-            `\n中文名: ${item.name_cn}` +
-            `\n开播时间: ${item.air_date}` +
-            `\n${SDK.cq_image(item.images.large)}`
-        );
+        list += M.temp(LCOM.bgmc.list, {
+            ...item, image: SDK.cq_image(item.images.large)
+        });
     }
-    send(`日期: ${res[day_num].weekday.ja}~${result}`)
+    send(LCOM.bgmc.info, {
+        weekday: res[day_num].weekday.ja, list
+    });
 });
 
-Cmd.register('/star', '查看今日星座运势', async send => {
+Cmd.register(LCMD.star.cmd, LCMD.star.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('starluck', { msg: M.args[1] });
     if (res.code === RES_CODE.ARGS_EMPTY) {
-        send('星座错误');
+        send(LCOM.star.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    let msg = `${res.data.name}今日运势: `;
-    res.data.info.forEach((element: string) => {
-        msg += `\n${element}`;
+    let list = '';
+    res.data.info.forEach((content: string) => {
+        list += M.temp(LCOM.star.list, {
+            content
+        });
     });
-    res.data.index.forEach((element: string) => {
-        msg += `\n${element}`;
+    res.data.index.forEach((content: string) => {
+        list += M.temp(LCOM.star.list, {
+            content
+        });
     });
-    send(msg);
+    send(LCOM.star.info, {
+        input: res.data.name, list
+    });
 }, [{
-    must: true, name: '星座名'
+    must: true, name: LCMD.star.args[0]
 }]);
 
-Cmd.register('/tran', '中外互译', async send => {
+Cmd.register(LCMD.tran.cmd, LCMD.tran.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('fanyi', { msg: M.args[1] });
-    send(res.code === RES_CODE.SUCCESS ? `原文: ${M.args[1]}\n译文: ${res.data}` : BOT_RESULT.SERVER_ERROR);
+    send(res.code === RES_CODE.SUCCESS && typeof res.data === 'string' ? M.temp(LCOM.tran, {
+        input: M.args[1], content: res.data
+    }) : BOT_RESULT.SERVER_ERROR);
 }, [{
-    must: true, name: '内容'
+    must: true, name: LCMD.tran.args[0]
 }]);
 
-Cmd.register('/lunar', '查看农历', async send => {
+Cmd.register(LCMD.lunar.cmd, LCMD.lunar.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchT('lunar');
-    send(res ? res : BOT_RESULT.SERVER_ERROR);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
 });
 
-Cmd.register('/story', '查看历史上的今天', async send => {
+Cmd.register(LCMD.story.cmd, LCMD.story.descr, 'dayTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('storytoday');
-    if (res.code !== RES_CODE.SUCCESS || !isObjArr(res.data)) {
+    if (res.code !== RES_CODE.SUCCESS || !Array.isArray(res.data)) {
         send(BOT_RESULT.SERVER_ERROR);
         return;
     }
 
-    let result = '';
-    res.data.forEach(str => result += `\n${str}`);
-    send(`历史上的今天${result}`);
+    let list = '';
+    (res.data as string[]).forEach(content => list += M.temp(LCOM.story.list, {
+        content
+    }));
+    send(LCOM.story.info, {
+        list
+    });
 });
 
-Cmd.register('/motd', 'MCJE服务器信息查询', async send => {
+Cmd.register(LCMD.motd.cmd, LCMD.motd.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('motd', { ip: M.args[1], port: M.args[2] });
     if (res.code !== RES_CODE.SUCCESS && typeof res.code === 'number') {
-        send(`状态: 离线\nIP: ${M.args[1]}\n端口: ${M.args[2]}`);
+        send(LCOM.motd.fail, {
+            ip: M.args[1], port: M.args[2]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    send(
-        `状态: 在线\nIP: ${res.data.real}\n端口: ${res.data.port}` +
-        `\n物理地址: ${res.data.location}\nMOTD: ${res.data.motd}` +
-        `\n协议版本: ${res.data.agreement}\n游戏版本: ${res.data.version}` +
-        `\n在线人数: ${res.data.online} / ${res.data.max}\n延迟: ${res.data.ping}ms` +
-        `\n图标: ${res.data.icon ? SDK.cq_image(`base64://${res.data.icon.substring(22)}`) : '无'}`
-    );
+    send(LCOM.motd.info, {
+        ...res.data, image: res.data.icon ? SDK.cq_image(`base64://${res.data.icon.substring(22)}`) : BOT_RESULT.EMPTY
+    });
 }, [{
-    must: true, name: 'IP'
+    must: true, name: LCMD.motd.args[0]
 }, {
-    must: '25565', name: '端口'
+    must: '25565', name: LCMD.motd.args[1]
 }]);
 
-Cmd.register('/motdpe', 'MCBE服务器信息查询', async send => {
+Cmd.register(LCMD.motdbe.cmd, LCMD.motdbe.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('motdpe', { ip: M.args[1], port: M.args[2] });
     if (res.code !== RES_CODE.SUCCESS && typeof res.code === 'number') {
-        send(`状态: 离线\nIP: ${M.args[1]}\n端口: ${M.args[2]}`);
+        send(LCOM.motdbe.fail, {
+            ip: M.args[1], port: M.args[2]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    send(
-        `状态: 在线\nIP: ${res.data.real}\n端口: ${res.data.port}` +
-        `\n物理地址: ${res.data.location}\nMOTD: ${res.data.motd}` +
-        `\n游戏模式: ${res.data.gamemode}\n协议版本: ${res.data.agreement}` +
-        `\n游戏版本: ${res.data.version}` +
-        `\n在线人数: ${res.data.online} / ${res.data.max}` +
-        `\n延迟: ${res.data.delay}ms`
-    )
+    send(LCOM.motdbe.info, {
+        ...res.data
+    });
 }, [{
-    must: true, name: 'IP'
+    must: true, name: LCMD.motdbe.args[0]
 }, {
-    must: '19132', name: '端口'
+    must: '19132', name: LCMD.motdbe.args[1]
 }]);
 
-Cmd.register('/mcskin', 'MC正版账号皮肤查询', async send => {
+Cmd.register(LCMD.mcskin.cmd, LCMD.mcskin.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('mcskin', { name: M.args[1] });
     if (res.code === RES_CODE.ARGS_ERROR) {
-        send(`查无此人！`);
+        send(LCOM.mcskin.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    send(
-        `玩家: ${M.args[1]}\n皮肤: ${SDK.cq_image(res.data.skin)}` +
-        `\n披风: ${res.data.cape ? SDK.cq_image(res.data.cape) : '无'}` +
-        `\n头颅: ${res.data.avatar ? SDK.cq_image(`base64://${res.data.avatar.substring(22)}`) : '无'}`
-    )
+    send(LCOM.mcskin.info, {
+        name: M.args[1],
+        skin: SDK.cq_image(res.data.skin),
+        cape: res.data.cape ? SDK.cq_image(res.data.cape) : BOT_RESULT.EMPTY,
+        avatar: res.data.avatar ? SDK.cq_image(`base64://${res.data.avatar.substring(22)}`) : BOT_RESULT.EMPTY
+    });
 }, [{
     must: true,
-    name: '游戏ID'
+    name: LCMD.mcskin.args[0]
 }]);
 
-Cmd.register('/bili', 'B站视频信息查询', async send => {
+Cmd.register(LCMD.bili.cmd, LCMD.bili.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('biligetv', { msg: M.args[1] });
     if (res.code !== RES_CODE.SUCCESS && typeof res.code === 'number') {
-        send(`未找到该视频`);
+        send(LCOM.bili.fail);
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    send(
-        `BV号: ${res.data.bvid}\nAV号: ${res.data.aid}` +
-        `\n视频标题: ${res.data.title}\n视频简介: ${res.data.descr}` +
-        `\n作者UID: ${res.data.owner.uid}\n视频封面: ${SDK.cq_image(res.data.pic)}`
-    )
+    send(LCOM.bili.info, {
+        ...res.data, owner: res.data.owner.uid, image: SDK.cq_image(res.data.pic)
+    });
 }, [{
-    must: true, name: 'BV号'
+    must: true, name: LCMD.bili.args[0]
 }]);
 
-Cmd.register('/sed', '社工信息查询', async (send, data) => {
+Cmd.register(LCMD.sed.cmd, LCMD.sed.descr, 'queryTool', 'all', ACCESS.NORMAL, async (send, data) => {
     if (M.args[1] === data.self_id.toString()) {
-        send('未查询到相关记录');
+        send(LCOM.sed.fail, {
+            input: M.args[1]
+        });
         return;
     }
 
     const res = await M.fetchJ('sed', { msg: M.args[1] });
     if (res.code === RES_CODE.ARGS_EMPTY) {
-        send('未查询带相关记录');
+        send(LCOM.sed.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    send(
-        `查询内容: ${M.args[1]}\n消耗时间: ${Math.floor(res.takeTime)}秒\n记录数量: ${res.count}` +
-        (res.data.qq ? `\nQQ: ${res.data.qq}` : '') +
-        (res.data.phone ? `\n手机号: ${res.data.phone}` : '') +
-        (res.data.location ? `\n运营商: ${res.data.location}` : '') +
-        (res.data.id ? `\nLOLID: ${res.data.id}` : '') +
-        (res.data.area ? `\nLOL区域: ${res.data.area}` : '')
-    )
+    send(LCOM.sed.info, {
+        input: M.args[1], time: Math.floor(res.takeTime), count: res.count, list: (
+            (res.data.qq ? M.temp(LCOM.sed.list, {
+                key: LCOM.sed.key.qq, content: res.data.data.qq
+            }) : '') +
+            (res.data.phone ? M.temp(LCOM.sed.list, {
+                key: LCOM.sed.key.phone, content: res.data.data.phone
+            }) : '') +
+            (res.data.location ? M.temp(LCOM.sed.list, {
+                key: LCOM.sed.key.location, content: res.data.data.location
+            }) : '') +
+            (res.data.id ? M.temp(LCOM.sed.list, {
+                key: LCOM.sed.key.id, content: res.data.data.id
+            }) : '') +
+            (res.data.area ? M.temp(LCOM.sed.list, {
+                key: LCOM.sed.key.area, content: res.data.data.area
+            }) : '')
+        )
+    });
 }, [{
-    must: true, name: 'QQ/手机号'
+    must: true, name: LCMD.sed.args[0]
 }]);
 
-Cmd.register('/idcard', '身份证信息查询', async send => {
+Cmd.register(LCMD.idcard.cmd, LCMD.idcard.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('idcard', { msg: M.args[1] })
     if (res.code === RES_CODE.ARGS_EMPTY) {
-        send('身份证错误');
+        send(LCOM.idcard.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    send(
-        `身份证号: ${M.args[1]}\n性别: ${res.data.gender}\n` +
-        `出生日期: ${res.data.birthday}\n年龄: ${res.data.age}` +
-        `\n省份: ${res.data.province}\n地址: ${res.data.address}` +
-        `\n${res.data.starsign}`
-    )
+    send(LCOM.idcard.info, {
+        input: M.args[1], ...res.data
+    });
 }, [{
-    must: true, name: '身份证号'
+    must: true, name: LCMD.idcard.args[0]
 }]);
 
-Cmd.register('/hcb', '韦一云黑信息查询', async send => {
+Cmd.register(LCMD.hcb.cmd, LCMD.hcb.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ('https://hcb.imlolicon.tk/api/v3', { value: M.args[1] });
     if (res.code !== RES_CODE.SUCCESS || !isObj(res.data) || Array.isArray(res.data)) {
         send(BOT_RESULT.SERVER_ERROR);
@@ -478,7 +588,9 @@ Cmd.register('/hcb', '韦一云黑信息查询', async send => {
     }
 
     if (!<boolean>res.data.status) {
-        send(`${M.args[1]}无云黑记录`);
+        send(LCOM.hcb.fail, {
+            input: M.args[1]
+        });
         return;
     }
 
@@ -488,38 +600,41 @@ Cmd.register('/hcb', '韦一云黑信息查询', async send => {
             imgs += SDK.cq_image(element);
         });
     }
-    send(
-        `${M.args[1]}有云黑记录\nUUID: ${res.data.uuid}` +
-        `\n用户平台: ${res.data.plate}\n用户ID: ${res.data.idkey}` +
-        `\n记录描述: ${res.data.descr}\n记录等级: ${res.data.level}` +
-        `\n记录时间: ${res.data.date}\n相关图片: ${imgs ? imgs : '无'}`
-    );
+    send(LCOM.hcb.info, {
+        input: M.args[1], ...res.data, images: imgs ? imgs : BOT_RESULT.EMPTY
+    });
 }, [{
-    must: true, name: 'ID'
+    must: true, name: LCMD.hcb.args[0]
 }]);
 
 
-Cmd.register('/state', '网站状态查询', async send => {
+Cmd.register(LCMD.state.cmd, LCMD.state.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchT('webtool', { op: 1, url: M.args[1] });
-    send(res ? res.replace(/<br>/g, '\n') : BOT_RESULT.SERVER_ERROR);
+    send(res ? M.temp(LCOM.state, {
+        content: res.replace(/<br>/g, '\n')
+    }) : BOT_RESULT.SERVER_ERROR);
 }, [{
-    must: true, name: 'URL'
+    must: true, name: LCMD.state.args[0]
 }]);
 
-Cmd.register('/speed', '网站速度测试', async send => {
+Cmd.register(LCMD.speed.cmd, LCMD.speed.descr, 'queryTool', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchT('webtool', { op: 3, url: M.args[1] });
-    send(res ? res.replace(/<br>/g, '\n') : BOT_RESULT.SERVER_ERROR);
+    send(res ? M.temp(LCOM.status, {
+        content: res.replace(/<br>/g, '\n')
+    }) : BOT_RESULT.SERVER_ERROR);
 }, [{
-    must: true, name: 'URL'
+    must: true, name: LCMD.speed.args[0]
 }]);
 
 /* 随机图片 */
-Cmd.register('/sex', 'Pixiv图片', async send => {
-    send('图片正在来的路上....你先别急');
+Cmd.register(LCMD.sex.cmd, LCMD.sex.descr, 'randomImg', 'all', ACCESS.NORMAL, async send => {
+    send(LCOM.sex.tips);
 
     const res = await M.fetchJ(`${URL.BLOG}seimg/v2/`, { tag: M.args[1] });
     if (res.code === RES_CODE.ARGS_EMPTY) {
-        send('未找到相应图片')
+        send(LCOM.sex.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjArrP(send, res.data)) return;
@@ -529,79 +644,202 @@ Cmd.register('/sex', 'Pixiv图片', async send => {
     dd.tags.forEach((element: string) => {
         tags += `、${element}`;
     });
-    let msg = `PID:${dd.pid}\n标题:${dd.title}\n作者:${dd.author}\n标签:${tags.substring(1)}`;
-    send(`${msg}\n${SDK.cq_image(dd.url)}`);
+    send(LCOM.sex.info, {
+        ...dd, tags: tags.substring(1), image: SDK.cq_image(dd.url)
+    });
 }, [{
-    must: false, name: 'TAG'
+    must: false, name: LCMD.sex.args[0]
 }]);
 
-Cmd.register('/sexh', 'HuliImg图片', async send => {
-    send('图片正在来的路上....你先别急');
+Cmd.register(LCMD.sexh.cmd, LCMD.sexh.descr, 'randomImg', 'all', ACCESS.NORMAL, async send => {
+    send(LCOM.sexh.tips);
     const res = await M.fetchJ(`${URL.BLOG}huimg/`, { tag: M.args[1] });
     if (res.code === RES_CODE.ARGS_EMPTY) {
-        send('未找到相应图片')
+        send(LCOM.sexh.fail, {
+            input: M.args[1]
+        });
         return;
     }
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
     const dd = res.data;
-    let tag = '';
+    let tags = '';
     (<string[]>dd.tag).forEach(element => {
-        tag += `、${element}`;
+        tags += `、${element}`;
     });
-    send(`标签:${tag.substring(1)}\n${SDK.cq_image(dd.url)}`);
+    send(LCOM.sexh.info, {
+        tags: tags.substring(1), image: SDK.cq_image(dd.url)
+    });
 }, [{
-    must: false, name: 'TAG'
+    must: false, name: LCMD.sexh.args[0]
 }]);
 
-Cmd.register('/seller', '卖家秀图片', send => send(SDK.cq_image(`${URL.API}sellerimg`)));
+Cmd.register(LCMD.seller.cmd, LCMD.seller.descr, 'randomImg', 'all', ACCESS.NORMAL, () => M.temp(LCOM.seller, {
+    image: SDK.cq_image(`${URL.API}sellerimg`)
+}));
 
-Cmd.register('/sedimg', '诱惑图', send => send(SDK.cq_image(`${URL.API}sedimg`)));
+Cmd.register(LCMD.sedimg.cmd, LCMD.sedimg.descr, 'randomImg', 'all', ACCESS.NORMAL, () => M.temp(LCOM.sedimg, {
+    image: SDK.cq_image(`${URL.API}sedimg`)
+}));
 
-Cmd.register('/bing', '必应每日图', send => send(SDK.cq_image(`${URL.API}bing`)));
+Cmd.register(LCMD.bing.cmd, LCMD.bing.descr, 'randomImg', 'all', ACCESS.NORMAL, () => M.temp(LCOM.bing, {
+    image: SDK.cq_image(`${URL.API}bing`)
+}));
 
-Cmd.register('/day', '每日看世界', send => {
-    send(APIKEY.api.day ? SDK.cq_image(`${URL.API}60s?apikey=${APIKEY.api.day}`) : '请先配置APIKEY！');
+Cmd.register(LCMD.day.cmd, LCMD.day.descr, 'randomImg', 'all', ACCESS.NORMAL, () => {
+    return CAPIKEY.api.day ? M.temp(LCOM.day, {
+        image: SDK.cq_image(`${URL.API}60s?apikey=${CAPIKEY.api.day}`)
+    }) : BOT_RESULT.APIKEY_EMPTY;
 });
 
-Cmd.register('/earth', '实时地球', send => send(SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg')));
+Cmd.register(LCMD.earth.cmd, LCMD.earth.descr, 'randomImg', 'all', ACCESS.NORMAL, () => M.temp(LCOM.earth, {
+    image: SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg')
+}));
 
-Cmd.register('/china', '实时中国', send => send(SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg')));
+Cmd.register(LCMD.china.cmd, LCMD.china.descr, 'randomImg', 'all', ACCESS.NORMAL, () => M.temp(LCOM.china, {
+    image: SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg')
+}));
 
-Cmd.register('/sister', undefined, send => send(SDK.cq_video(`${URL.API}sisters`)));
+Cmd.register(LCMD.sister.cmd, LCMD.sister.descr, undefined, 'all', ACCESS.NORMAL, () => M.temp(LCOM.sister, {
+    video: SDK.cq_video(`${URL.API}sisters`)
+}));
 
-Cmd.register('/qrcode', '二维码 生成', send => {
+Cmd.register(LCMD.qrcode.cmd, LCMD.qrcode.descr, 'randomImg', 'all', ACCESS.NORMAL, () => {
     const frame = [
         'L', 'M', 'Q', 'H'
     ][parseInt(M.args[2])] || 'H';
-    send(SDK.cq_image(`${URL.API}qrcode?text=${M.args[1]}&frame=2&size=200&e=${frame}`));
+    return M.temp(LCOM.qrcode, {
+        image: SDK.cq_image(`${URL.API}qrcode?text=${M.args[1]}&frame=2&size=200&e=${frame}`)
+    });
 }, [{
-    must: true, name: '内容'
+    must: true, name: LCMD.qrcode.args[0]
 }, {
-    must: '3', name: '容错级别,范围0~3'
+    must: '3', name: LCMD.qrcode.args[1]
 }]);
 
 /* 随机语录 */
-Cmd.register('一言', undefined, async send => {
+Cmd.register('一言', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ(`${URL.BLOG}hitokoto/v2/`, undefined);
     if (!M.isObjP(send, res.data) || M.isNotArr(send, res.data)) return;
 
-    let msg = `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}`;
-    send(msg + `\n类型: ${res.data.type}`);
+    send(LCOM.hitokoto, {
+        ...res.data, from: res.data.from ? `——${res.data.from}` : ''
+    });
 });
 
-Cmd.register(Object.keys(hitokotoList), undefined, async send => {
-    hitokotoList[M.args[1] as keyof typeof hitokotoList] && M.fetchT('words', { msg: hitokotoList[M.args[1] as keyof typeof hitokotoList], format: 'text' })
-        .then(res => send(res ? res : BOT_RESULT.SERVER_ERROR));
+const hitokotoT = (msg: number) => M.fetchT('words', { msg, format: 'text' });
+Cmd.register('一言2', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(1);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('骚话', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(2);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('情话', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(3);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('人生语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(4);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('社会语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(5);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('毒鸡汤', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(6);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('笑话', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(7);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('网抑云', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(8);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('温柔语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(9);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('舔狗语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(10);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('爱情语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(11);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('英汉语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(12);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('经典语录', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(14);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('个性签名', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(15);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
+});
+
+Cmd.register('诗词', undefined, undefined, 'all', ACCESS.NORMAL, async send => {
+    const res = await hitokotoT(16);
+    send(res ? M.temp(LCOM.lunar, {
+        content: res
+    }) : BOT_RESULT.SERVER_ERROR);
 });
 
 /* GPT聊天 */
-Cmd.register('/gpt', 'ChatGPTV3.5聊天', async send => {
+Cmd.register(LCMD.gpt.cmd, LCMD.gpt.descr, 'gpt', 'all', ACCESS.NORMAL, async send => {
     const res = await M.fetchJ(URL.GPT, undefined, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${APIKEY.bot.chatgpt}`,
+            Authorization: `Bearer ${CAPIKEY.bot.chatgpt}`,
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
@@ -614,188 +852,227 @@ Cmd.register('/gpt', 'ChatGPTV3.5聊天', async send => {
         }),
     });
 
-    send(
-        !res.choices || !res.choices[0] || !res.choices[0].message || !res.choices[0].message.content ? BOT_RESULT.SERVER_ERROR : res.choices[0].message.content
-    );
+    send(LCOM.gpt, {
+        content: !res.choices || !res.choices[0] || !res.choices[0].message || !res.choices[0].message.content ? BOT_RESULT.SERVER_ERROR : res.choices[0].message.content
+    });
 }, [{
-    must: true, name: '内容'
+    must: true, name: LCMD.gpt.args[0]
 }]);
 
-Cmd.register('/cl', 'Claude聊天', send => {
-    send('该功能维修中');
+Cmd.register(LCMD.cl.cmd, LCMD.cl.descr, 'gpt', 'all', ACCESS.NORMAL, () => {
+    return BOT_RESULT.REPAIRING;
 }, [{
-    must: true, name: '内容'
+    must: true, name: LCMD.cl.args[0]
 }]);
 
-Cmd.register('/api', '查看API站点数据', async send => {
-    const res = await M.fetchT('https://api.imlolicon.tk/sys/datastat', { format: 'text' });
-    send(res ? res : BOT_RESULT.SERVER_ERROR);
+Cmd.register(LCMD.api.cmd, LCMD.api.descr, 'spec', 'all', ACCESS.NORMAL, async send => {
+    const content = await M.fetchT('https://api.imlolicon.tk/sys/datastat', { format: 'text' });
+    send(content ? M.temp(LCOM.api, {
+        content
+    }) : BOT_RESULT.SERVER_ERROR);
 });
 
-Cmd.register('/bot', '查看BOT信息与运行状态', send => {
-    const BOT = Main.Const.BOT;
-    const STAT = BOT.status.stat;
-    const info = getPackageInfo();
+Cmd.register(LCMD.bot.cmd, LCMD.bot.descr, 'aboutInfo', 'all', ACCESS.NORMAL, () => {
+    const { self_id, connect, status } = Main.Const.BOT;
+    const STAT = status.stat;
+    const { version, license } = getPackageInfo();
     const ENV = M.dealEnv();
-    send(
-        `BOT信息\nBOTQQ: ${BOT.self_id}\n连接时间: ${BOT.connect}` +
-        `\n接收包数量: ${STAT.packet_received}\n发送包数量: ${STAT.packet_sent}\n丢失包数量: ${STAT.packet_lost}` +
-        `\n接收消息数量: ${STAT.message_received}\n发送消息数量: ${STAT.message_sent}` +
-        `\n连接丢失次数: ${STAT.lost_times}\n连接断开次数: ${STAT.disconnect_times}` +
-        `\n框架信息\n当前BOT框架版本: ${info.version}\n框架协议: ${info.license}` +
-        `\n环境信息\nNode版本: ${ENV.node}\nTypeScript版本: ${ENV.typescript}\nTsNode版本: ${ENV.tsnode}` +
-        `\n${BOT_RESULT.AUTHOR}`
-    )
+    return M.temp(LCOM.bot, {
+        self_id, connect, version, license, ...STAT, ...ENV
+    });
 });
 
-Cmd.register('/status', '查看服务器运行状态', send => {
-    const cpuData = M.dealCpu();
-    const ramData = M.dealRam();
-    send(
-        `服务器运行状态\n系统内核: ${os.type()}\n系统平台: ${os.platform()}\nCPU架构: ${os.arch()}\nCPU型号: ` +
-        `${cpuData.model}\nCPU频率: ${cpuData.speed.toFixed(2)}GHz\nCPU核心数: ${cpuData.num}` +
-        `\nCPU使用率: ${cpuData.rate.toFixed(2)}%\n内存总量: ${ramData.total.toFixed(2)}GB\n可用内存: ` +
-        `${ramData.used.toFixed(2)}GB\n内存使用率: ${ramData.rate.toFixed(2)}%\n网卡数量: ` +
-        `${Object.keys(os.networkInterfaces()).length}\n开机时间: ${M.dealTime()}\n主机名字: ${os.hostname()}` +
-        `\n系统目录: ${os.homedir()}` +
-        `\n${BOT_RESULT.AUTHOR}`
-    );
+Cmd.register(LCMD.status.cmd, LCMD.status.descr, 'aboutInfo', 'all', ACCESS.NORMAL, () => {
+    const { model, speed, num, rate: cpu_rate } = M.dealCpu();
+    const { total, used, rate: ram_rate } = M.dealRam();
+    return M.temp(
+        LCOM.status, {
+        type: os.type(), platform: os.platform(), arch: os.arch(),
+        model, speed: speed.toFixed(2), num, cpu_rate: cpu_rate.toFixed(2),
+        total: total.toFixed(2), used: used.toFixed(2), ram_rate: ram_rate.toFixed(2),
+        network: Object.keys(os.networkInterfaces()).length, time: M.dealTime(), hostname: os.hostname(), homedir: os.homedir()
+    });
 });
 
-Cmd.register(['/about', 'kotori', '关于BOT', '关于bot'], '帮助新兴', send => {
-    const info = getPackageInfo();
-    send(
-        `你说得对，但是KotoriBot是一个go-cqhttp的基于NodeJS+TypeScript的SDK和QQ机器人框架实现\n` +
-        `开源地址: https://github.com/biyuehu/kotori-bot\n\n当前BOT框架版本: ${info.version}` +
-        `\n框架协议: ${info.license}\n${SDK.cq_image('https://biyuehu.github.io/images/avatar.png')}` +
-        `\n${BOT_RESULT.AUTHOR}`
-    );
+Cmd.register(LCMD.about.cmd, LCMD.about.descr, 'aboutInfo', 'all', ACCESS.NORMAL, () => {
+    const { version, license } = getPackageInfo();
+    return M.temp(LCOM.about, {
+        version, license
+    });
 });
 
-Cmd.register(['/update', '检查更新'], '检查更新', async send => {
+Cmd.register(LCMD.update.cmd, LCMD.update.descr, 'aboutInfo', 'all', ACCESS.NORMAL, async send => {
     const version = getPackageInfo().version;
-    const res = await fetchJson('https://biyuehu.github.io/kotori-bot/package.json')
-    send(res ?
-        `当前版本: ${version}` +
-        (res.version === version ? '\n当前为最新版本！' : (
-            '\n检测到有更新！' +
-            `\n最新版本: ${res.version}` +
-            '\n请前往Github仓库获取最新版本: https://github.com/biyuehu/kotori-bot'
-        )) : BOT_RESULT.SERVER_ERROR
+    const res = await fetchJson('https://biyuehu.github.io/kotori-bot/package.json') as PackageInfo;
+    const content = res.version === version ? LCOM.update.yes : M.temp(LCOM.update.no, {
+        version: res.version
+    });
+    send(res && res.version ?
+        M.temp(LCOM.update.info, {
+            version, content
+        }) : BOT_RESULT.SERVER_ERROR
     );
 });
 
-Cmd.register('/ban', '禁言某人', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
-    const qq = M.args[1] ? SDK.get_at(M.args[1]) || parseInt(M.args[1]) : null;
+Cmd.register(LCMD.ban.cmd, LCMD.ban.descr, 'groupMange', 'group', ACCESS.MANGER, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
+    const target = M.args[1] ? SDK.get_at(M.args[1]) || parseInt(M.args[1]) : null;
     const time = parseInt(M.args[2]) * 60;
-    if (qq) {
-        Main.Api.set_group_ban(data.group_id!, qq, time);
-        send(`成功禁言[${qq}]用户[${time}]分钟`);
+    if (target) {
+        Main.Api.set_group_ban(data.group_id!, target, time);
+        send(LCOM.ban.user, {
+            target, time
+        });
         return;
     }
     Main.Api.set_group_whole_ban(data.group_id!);
-    send('全体禁言成功')
+    send(LCOM.ban.all);
 }, [{
-    must: false, name: 'QQ/At'
+    must: false, name: LCMD.ban.args[0]
 }, {
-    must: (MANGE.banTime / 60).toString(), name: '分钟'
+    must: (CMANGE.banTime / 60).toString(), name: LCMD.ban.args[1]
 }]);
 
-Cmd.register('/unban', '解禁某人', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
-    const qq = M.args[1] ? SDK.get_at(M.args[1]) || parseInt(M.args[1]) : null;
-    if (qq) {
-        Main.Api.set_group_ban(data.group_id!, qq, 0);
-        send(`成功解除禁言[${qq}]用户`);
+Cmd.register(LCMD.unban.cmd, LCMD.unban.descr, 'groupMange', 'group', ACCESS.MANGER, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
+    const target = M.args[1] ? SDK.get_at(M.args[1]) || parseInt(M.args[1]) : null;
+    if (target) {
+        Main.Api.set_group_ban(data.group_id!, target, 0);
+        send(LCOM.unban.user, {
+            target
+        });
         return;
     }
     Main.Api.set_group_whole_ban(data.group_id!, false);
-    send('解除全体禁言成功')
+    send(LCOM.unban.all);
 }, [{
-    must: true, name: 'QQ/At'
+    must: false, name: LCMD.unban.args[0]
 }]);
 
-Cmd.register('/black', '查询/添加/删除群黑名单', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
-    const message = M.controlParams(`${data.group_id}\\blackList.json`, ['当前群黑名单列表:', '已添加[%target%]至当前群黑名单', '已删除[%target%]从当前群黑名单'])
+Cmd.register(LCMD.black.cmd, LCMD.black.descr, 'groupMange', 'group', ACCESS.MANGER, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
+    const message = M.controlParams(`${data.group_id}\\blackList.json`, [LCOM.black.query, LCOM.black.add, LCOM.black.del, LCOM.white.list]);
     send(message);
 }, [{
-    must: true, name: 'query/add/del'
+    must: true, name: LCMD.black.args[0]
 }, {
-    must: false, name: 'QQ/At'
+    must: false, name: LCMD.black.args[1]
 }]);
 
-Cmd.register('/white', '查询/添加/删除群白名单', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
-    const message = M.controlParams(`${data.group_id}\\whiteList.json`, ['当前群白名单列表:', '已添加[%target%]至当前群白名单', '已删除[%target%]从当前群白名单'])
+Cmd.register(LCMD.white.cmd, LCMD.white.descr, 'groupMange', 'group', ACCESS.MANGER, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
+    const message = M.controlParams(`${data.group_id}\\whiteList.json`, [LCOM.white.query, LCOM.white.add, LCOM.white.del, LCOM.white.list]);
     send(message);
 }, [{
-    must: true, name: 'query/add/del'
+    must: true, name: LCMD.white.args[0]
 }, {
-    must: false, name: 'QQ/At'
+    must: false, name: LCMD.white.args[1]
 }]);
 
-Cmd.register('/kick', '踢出某人', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
-    const qq = M.args[1] ? SDK.get_at(M.args[1]) || parseInt(M.args[1]) : null;
-    if (qq) {
-        Main.Api.set_group_kick(data.group_id!, qq);
-        send(`成功踢出[${qq}]用户`);
+Cmd.register(LCMD.kick.cmd, LCMD.kick.descr, 'groupMange', 'group', ACCESS.MANGER, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
+    const target = M.args[1] ? SDK.get_at(M.args[1]) || parseInt(M.args[1]) : null;
+    if (target) {
+        Main.Api.set_group_kick(data.group_id!, target);
+        send(LCOM.kick, {
+            target
+        });
         return;
     }
     send(BOT_RESULT.ARGS_ERROR);
 }, [{
-    must: true, name: 'QQ/At'
+    must: true, name: LCMD.kick.args[0]
 }]);
 
-Cmd.register('/all', '发送全体成员消息', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
-    send(`${SDK.cq_at('all')} 以下消息来自管理员:\n${M.args[1]}`);
+Cmd.register(LCMD.all.cmd, LCMD.all.descr, 'groupMange', 'group', ACCESS.MANGER, send => {
+    if (!Main.verifyEnable(send)) return;
+    send(LCOM.all, {
+        all: SDK.cq_at('all'), input: M.args[1]
+    });
 }, [{
-    must: true, name: '内容'
+    must: true, name: LCMD.all.args[0]
 }]);
 
-Cmd.register('/notice', '发送群公告', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || !Main.verifyAcess(data, send)) return;
+Cmd.register(LCMD.notice.cmd, LCMD.notice.descr, 'groupMange', 'group', ACCESS.MANGER, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
     const image = SDK.get_image(M.args[1]);
-    Main.Api._send_group_notice(data.group_id!, `From Admin~\n${M.args[1]}`, image || undefined)
+    Main.Api._send_group_notice(data.group_id!, M.temp(LCOM.notice, {
+        input: M.args[1]
+    }), image || undefined)
 }, [{
-    must: true, name: '内容'
+    must: true, name: LCMD.notice.args[0]
 }]);
 
-Cmd.register('/config', '查看配置', (send, data) => {
-    if (!Main.verifyEnable(send) || Main.verifyAcess(data, send) !== 1) return;
+Cmd.register(LCMD.config.cmd, LCMD.config.descr, 'superMange', 'all', ACCESS.ADMIN, () => {
+    let white_content = ''
+    if (CGROUP.enable) {
+        let group_list = '';
+        for (let content of CGROUP.list) {
+            group_list += M.temp(LCOM.config.list, {
+                content
+            });
+        }
+        white_content = M.temp(LCOM.config.white, {
+            group_list
+        });
+    }
+    const mange_content = CMANGE.enable ? M.temp(LCOM.config.mange, {
+        join_group_welcome: M.formatOption(CMANGE.joinGroupWelcome),
+        exit_group_add_black: M.formatOption(CMANGE.exitGroupAddBlack),
+        ban_time: CMANGE.banTime,
+        banword_ban_time: CMANGE.banwordBanTime,
+        repeat_ban_time: CMANGE.repeatBanTime,
+        cycle_time: CMANGE.repeatRule.cycleTime,
+        max_times: CMANGE.repeatRule.maxTimes,
+        max_list_nums: CFORMAT.maxListNums
+    }) : '';
+    return M.temp(LCOM.config.info, {
+        group_enable: M.formatOption(CGROUP.enable),
+        white_content,
+        main_menu: M.formatOption(CCOM.mainMenu),
+        mange_enable: M.formatOption(CMANGE.enable),
+        mange_content
+    });
 });
 
-Cmd.register('/blackg', '查询/添加/删除全局黑名单', (send, data) => {
-    if (!Main.verifyEnable(send) || Main.verifyAcess(data, send) !== 1) return;
-    const message = M.controlParams(`blackList.json`, ['全局黑名单列表:', '已添加[%target%]至全局黑名单', '已删除[%target%]从全局黑名单'])
+Cmd.register(LCMD.blackg.cmd, LCMD.blackg.descr, 'superMange', 'all', ACCESS.ADMIN, send => {
+    if (!Main.verifyEnable(send)) return;
+    const message = M.controlParams(`blackList.json`, [LCOM.blackg.query, LCOM.blackg.add, LCOM.blackg.del, LCOM.blackg.list]);
     send(message);
 }, [{
-    must: true, name: 'query/add/del'
+    must: true, name: LCMD.blackg.args[0]
 }, {
-    must: false, name: 'QQ/At'
+    must: false, name: LCMD.blackg.args[1]
 }]);
 
-Cmd.register('/whiteg', '查询/添加/删除全局白名单', (send, data) => {
-    if (!Main.verifyEnable(send) || Main.verifyAcess(data, send) !== 1) return;
-    const message = M.controlParams(`whiteList.json`, ['全局白名单列表:', '已添加[%target%]至全局白名单', '已删除[%target%]从全局白名单'])
+Cmd.register(LCMD.whiteg.cmd, LCMD.whiteg.descr, 'superMange', 'all', ACCESS.ADMIN, send => {
+    if (!Main.verifyEnable(send)) return;
+    const message = M.controlParams(`whiteList.json`, [LCOM.whiteg.query, LCOM.whiteg.add, LCOM.whiteg.del, LCOM.whiteg.list]);
     send(message);
 }, [{
-    must: true, name: 'query/add/del'
+    must: true, name: LCMD.whiteg.args[0]
 }, {
-    must: false, name: 'QQ/At'
+    must: false, name: LCMD.whiteg.args[1]
 }]);
 
-Cmd.register('/manger', '查询/添加/删除群BOT管理员', (send, data) => {
-    if (!data.group_id || !Main.verifyEnable(send) || Main.verifyAcess(data, send) !== 1) return;
-    const message = M.controlParams(`${data.group_id}\\mangerList.json`, ['当前群管理员列表:', '已添加[%target%]至当前群管理员', '已删除[%target%]从当前群管理员'])
+Cmd.register(LCMD.manger.cmd, LCMD.manger.descr, 'superMange', 'group', ACCESS.ADMIN, (send, data) => {
+    if (!Main.verifyEnable(send)) return;
+    const message = M.controlParams(`${data.group_id}\\mangerList.json`, [LCOM.manger.query, LCOM.manger.add, LCOM.manger.del, LCOM.manger.list]);
     send(message);
 }, [{
-    must: true, name: 'query/add/del'
+    must: true, name: LCMD.manger.args[0]
 }, {
-    must: false, name: 'QQ/At'
+    must: false, name: LCMD.manger.args[1]
+}]);
+
+Cmd.register(LCMD.banword.cmd, LCMD.banword.descr, 'superMange', 'all', ACCESS.ADMIN, send => {
+    if (!Main.verifyEnable(send)) return;
+    const message = M.controlParams(`banword.json`, [LCOM.banword.query, LCOM.banword.add, LCOM.banword.del, LCOM.banword.list], true);
+    send(message);
+}, [{
+    must: true, name: LCMD.banword.args[0]
+}, {
+    must: false, name: LCMD.banword.args[1]
 }]);
 
 export default Main;
