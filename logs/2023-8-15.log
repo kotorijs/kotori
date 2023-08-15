@@ -3944,3 +3944,135 @@ https://github.com/biyuehu/kotori-bot user: 3324656453
 插件作者: 
 插件协议: 无
 插件状态: √ group: 673830908 
+23/8/15 20:46:46 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/15 20:46:46 INFO Kotori Bot By Hotaru 
+23/8/15 20:46:46 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/15 20:46:46 WARM Cannot find Signserver 
+23/8/15 20:46:46 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/15 20:46:46 INFO Current connection mode: WsReverse 
+23/8/15 20:47:47 INFO [Connect] WebSocket client successfully connected 
+23/8/15 20:47:47 INFO ChatGPT Plugin loaded successfully Version: 1.1.0 By Hotaru 
+23/8/15 20:47:47 INFO  
+23/8/15 20:47:47 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/15 20:47:47 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/15 20:47:47 INFO MCServer Plugin loaded successfully Version: 1.0.1 License: GPL-2.0 By Hotaru 
+23/8/15 20:47:47 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/15 20:47:47 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/15 20:47:47 INFO Successfully loaded 7 plugins 
+23/8/15 20:48:48 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/15 20:48:48 INFO Kotori Bot By Hotaru 
+23/8/15 20:48:48 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/15 20:48:48 WARM Cannot find Signserver 
+23/8/15 20:48:48 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/15 20:48:48 INFO Current connection mode: WsReverse 
+23/8/15 20:48:48 WARM [Result] Currently offline 
+23/8/15 20:48:48 INFO [Connect] WebSocket client successfully connected 
+23/8/15 20:48:48 INFO ChatGPT Plugin loaded successfully Version: 1.1.0 By Hotaru 
+23/8/15 20:48:48 INFO MCServer Plugin loaded successfully Version: 1.0.1 License: GPL-2.0 By Hotaru 
+23/8/15 20:48:48 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/15 20:48:48 WARM [Result] Currently offline 
+23/8/15 20:48:48 ERROR [Plugin] TypeError: Cannot read properties of undefined (reading 'split') 
+23/8/15 20:48:48 WARM [Result] Currently offline 
+23/8/15 20:48:48 WARM [Result] Currently offline 
+23/8/15 20:48:48 WARM [Result] Currently offline 
+23/8/15 20:49:49 LOG [Connect] Receive group msg /plugin query user: 3324656453 group: 673830908 
+23/8/15 20:49:49 LOG [Connect] Receive group msg /plugin user: 3324656453 group: 673830908 
+23/8/15 20:51:51 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/15 20:51:51 INFO Kotori Bot By Hotaru 
+23/8/15 20:51:51 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/15 20:51:51 WARM Cannot find Signserver 
+23/8/15 20:51:51 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/15 20:51:51 INFO Current connection mode: WsReverse 
+23/8/15 20:51:51 INFO [Connect] WebSocket client successfully connected 
+23/8/15 20:51:51 INFO  
+23/8/15 20:51:51 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/15 20:51:51 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/15 20:51:51 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/15 20:51:51 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/15 20:51:51 LOG [Plugin] Send group msg: 重启完成! group: NaN 
+23/8/15 20:51:51 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/15 20:51:51 WARM The current version of Kotori-bot is 0.7.3, and the latest version is 0.7.2. Please go to https://github.com/biyuehu/kotori-bot to update 
+23/8/15 20:51:51 LOG [Plugin] Send private msg: 当前版本: 0.7.3
+检测到有更新!
+最新版本: 0.7.2
+请前往Github仓库获取最新版本:
+https://github.com/biyuehu/kotori-bot user: 3324656453 
+23/8/15 20:51:51 LOG [Connect] Receive group msg /plugin query user: 3324656453 group: 673830908 
+23/8/15 20:51:51 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/15 20:51:51 LOG [Plugin] Send group msg: 插件信息:
+------
+插件Id: chatgpt
+插件名字: ChatGPT
+插件版本: 1.1.0
+插件描述: 对接ChatGPT
+插件作者: Hotaru
+插件协议: 无
+插件状态: X
+------
+插件Id: demo.ts
+插件名字: 无
+插件版本: 无
+插件描述: 无
+插件作者: 无
+插件协议: 无
+插件状态: √
+------
+插件Id: kotori-bot-admin-server
+插件名字: Kotori With Web Admin
+插件版本: 1.0.1
+插件描述: 鸟人万维网
+插件作者: Himeno
+插件协议: MIT
+插件状态: √
+------
+插件Id: kotori-core
+插件名字: KotoriBot Core
+插件版本: 1.0.0
+插件描述: KotoriBot核心插件
+插件作者: Himeno
+插件协议: GPL-2.0
+插件状态: √
+------
+插件Id: mcserver
+插件名字: MCServer
+插件版本: 1.0.1
+插件描述: 一个简易的MCBE-BDS服务器群服互通插件
+插件作者: Hotaru
+插件协议: GPL-2.0
+插件状态: X
+------
+插件Id: newnew
+插件名字: 今日牛牛长度
+插件版本: 无
+插件描述: 无
+插件作者: 无
+插件协议: MIT
+插件状态: √
+------
+插件Id: run-js
+插件名字: run-js
+插件版本: 1.0.0
+插件描述: This is a kotori-bot of plugin
+插件作者: 
+插件协议: 无
+插件状态: √ group: 673830908 
+23/8/15 20:53:53 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/15 20:53:53 INFO Kotori Bot By Hotaru 
+23/8/15 20:53:53 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/15 20:53:53 WARM Cannot find Signserver 
+23/8/15 20:53:53 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/15 20:53:53 INFO Current connection mode: WsReverse 
+23/8/15 20:53:53 INFO [Connect] WebSocket client successfully connected 
+23/8/15 20:53:53 INFO  
+23/8/15 20:53:53 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/15 20:53:53 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-2.0 By Himeno 
+23/8/15 20:53:53 INFO 今日牛牛长度 Plugin loaded successfully License: MIT  
+23/8/15 20:53:53 INFO run-js Plugin loaded successfully Version: 1.0.0  
+23/8/15 20:53:53 LOG [Plugin] Send group msg: 重启完成! group: NaN 
+23/8/15 20:53:53 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/15 20:53:53 WARM The current version of Kotori-bot is 0.7.3, and the latest version is 0.7.2. Please go to https://github.com/biyuehu/kotori-bot to update 
+23/8/15 20:53:53 LOG [Plugin] Send private msg: 当前版本: 0.7.3
+检测到有更新!
+最新版本: 0.7.2
+请前往Github仓库获取最新版本:
+https://github.com/biyuehu/kotori-bot user: 3324656453 

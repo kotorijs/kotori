@@ -57,6 +57,7 @@ class Command {
     }
 
     private isOnline = (Api: object = this.Api): Api is API => {
+        console.log(Api)
         if (Api instanceof API) return true;
         this.result.msg = 'Currently offline';
         this.result.type = 2;
