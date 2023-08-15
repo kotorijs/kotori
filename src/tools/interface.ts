@@ -3,14 +3,17 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-13 14:49:51
+ * @LastEditTime: 2023-08-15 14:37:14
  */
+
+import ProcessController from "./process";
+
 /* Function */
 export interface obj<T = any> {
     [key: string]: T
 }
 
-export type ConfigFileType = 'json' | 'yaml' | 'xml' | 'ini' | 'txt';
+export type ConfigFileType = 'json' | 'yaml' /* | 'xml' | 'ini'  */| 'txt';
 export type FuncSend = (action: string, params?: Object) => void;
 export type FuncListen = (callback: FuncListenCallback) => void;
 export type FuncListenCallback = (data: EventDataType) => void;
@@ -36,11 +39,10 @@ export enum CONNECT_MODE {
 };
 
 export const enum LOG_PREFIX {
-    SYS = '[System]',
     CONNECT = '[Connect]',
     PLUGIN = '[Plugin]',
     WEB = '[Web]',
-    KOTORI = '[Kotori]',
+    CORE = '[Kotori]',
     CMD = '[Result]',
     GCQ = '[Gocq]'
 }
@@ -51,11 +53,12 @@ export const enum PROCESS_CMD {
     BOT = 'bot',
     PLUGIN = 'plugin',
     PASSWORD = 'password',
-    SEND = 'send'
+    SEND = 'send',
+    SYS = 'system'
 }
 
 export const enum PLUGIN_GLOBAL {
-    KOTORI_PLUGIN = 'Kotori',
+    CORE_PLUGIN = 'kotori-core',
     ADMIN_PLUGIN = 'kotori-bot-admin-server'
 }
 
@@ -166,8 +169,8 @@ export const enum ProcessStatus {
 
 export type ProcessCallback = (data: Buffer) => void;
 
-export type PluginEntityFunc = (Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void
-export type PluginEntityClass = new(Event: Event, Api: Api, Const?: Const, Proxy?: Object) => void; 
+export type PluginEntityFunc = (Event: Event, Api: Api, Const?: Const, extend?: Object, Process?: [ProcessController, ProcessController]) => void
+export type PluginEntityClass = new(Event: Event, Api: Api, Const?: Const, Proxy?: Object, Process?: [ProcessController, ProcessController]) => void; 
 
 export interface PluginEntity {
     default: PluginEntityFunc | PluginEntityClass
@@ -193,6 +196,7 @@ export interface ConstGlobal {
 
 export interface Const {
     CONFIG: BotConfig,
+    ROOT_PATH: string,
     CONFIG_PLUGIN_PATH: string,
     DATA_PLUGIN_PATH: string,
     BOT: BotInfo
@@ -470,12 +474,19 @@ export interface EventList {
     on_meta_event: EventHandle
 }
 
+export type EvenetSenderRoleType = 'owner' | 'admin' | 'member';
+
 export interface EventSenderType {
     user_id: number,
     nickname: string,
     sex: 'male' | 'female' | 'unknown',
-    age: number
-    /* ...待支持 */
+    age: number,
+    group_id?: number,
+    card?: string,
+    area?: string,
+    level?: string,
+    role?: EvenetSenderRoleType,
+    title?: string
 }
 
 export interface EventStatusType {

@@ -7,7 +7,7 @@
  */
 import { ApiInvitedRequest, ApiJoinRequest, Api as api, MessageForward, MessageNode, FuncSend, Msg, LOG_PREFIX } from "@/tools/interface";
 
-export class API implements api {
+class API implements api {
     private send: FuncSend;
     public constructor (send: FuncSend) {
         this.send = send;

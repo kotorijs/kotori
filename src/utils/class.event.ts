@@ -3,12 +3,12 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-13 11:27:47
+ * @LastEditTime: 2023-08-15 19:16:36
  */
 import { BOTCONFIG } from "@/tools";
 import { EventHandle, EventList, EventDataType, LOG_PREFIX, BotConfigFilter } from "../tools/interface";
 
-export class EVENT {
+class EVENT {
     private on_private_msg: EventHandle = (data, callback) => {
         if (data.post_type === 'message' && data.message_type === 'private') {
             // console.log(LOG_PREFIX.PLUGIN, `Send private msg: ${typeof data.message === 'string' ? data.message : JSON.stringify(data.message)} user: ${data.user_id}`);
@@ -154,11 +154,12 @@ export class EVENT {
     }
 
     private eventFilter = (event: EventDataType) => {
-        const config = BOTCONFIG.value
+        const config = BOTCONFIG;
+
         if (event.group_id) {
             const type = config.bot.groups.type;
-            const result = config.bot.groups.list.includes(event.group_id);
             if (type === BotConfigFilter.CLOSE) return true;
+            const result = config.bot.groups.list.includes(event.group_id);
             if (!result && type === BotConfigFilter.BLACK) return true;
             if (result && type === BotConfigFilter.WHITE) return true;
             return false;

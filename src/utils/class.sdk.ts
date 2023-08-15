@@ -7,7 +7,7 @@
  */
 import * as M from "@/tools/interface";
 
-export class SDK {
+class SDK {
     public static sdk_cq_t = (cq: M.Message): string => {
         let data: string = '';
         Object.keys(cq.data).forEach(key => {

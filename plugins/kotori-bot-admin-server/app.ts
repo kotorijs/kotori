@@ -4,9 +4,9 @@ import config from "./config";
 import { handle, con, updateToken, verify, log } from './method';
 import router from "./router";
 import { expressApp } from "./interface";
-import bot from './bot';
 import { CONST } from "@/tools";
 import path from "path";
+import './bot';
 
 updateToken();
 const SHARE = {
@@ -53,5 +53,5 @@ app.listen(config.port, () => con.log(`Express server listening at http://127.0.
 export default (Event: Event, Api: Api, Const: Const, Plugins: PluginData[]) => {
     SHARE.Status = Const;
     SHARE.PluginData = Plugins;
-    bot(Event, Api, Const);
+    Event; Api;
 }

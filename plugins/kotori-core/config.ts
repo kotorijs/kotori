@@ -3,34 +3,33 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-12 19:07:41
+ * @LastEditTime: 2023-08-15 10:34:45
  */
 export default {
     apikey: {
+        /* Apikey获取:https://api.imlolicon.tk/user/register */
         api: {
             day: "1c42abefdb5f7cc463dbc88e82d561b1"
         },
         bot: {
-            chatgpt: "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",
+            chatgpt: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            /* ClaudeApi搭建参考:https://juejin.cn/post/7238917620849672247 */
             claude: {
-                /* 搭建参考:https://juejin.cn/post/7238917620849672247 */
-                url: "https://ol7t35.laf.dev/claude-api",
-                token: "xoxp-5198247082403-5198378930930-5469415846343-b81ffc4fd41e508fb35e54910b849231",
-                bot: "U055UBYFQJW",
-                chatId: 'ai'
+                url: "",
+                token: "",
+                bot: "",
+                chatId: ""
             },
         },
+        /* Bangumi说明:https://bangumi.github.io/api */
         bangumi: "CUISWUtzJyM0C7VMd8TakNHjtNGCQfIJWYVHAE1R"
     },
     group: {
         /* 群聊白名单开关 */
-        enable: true,
+        /* 建议关闭,使用kotori-bot自带的过滤功能 */
+        enable: false,
         /* 群聊白名单列表 */
-        list: [
-            673830908,
-            317691609,
-            // "564988727"
-        ]
+        list: []
     },
     component: {
         mainMenu: true,
