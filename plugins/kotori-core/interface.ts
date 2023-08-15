@@ -12,7 +12,13 @@ export const enum CONTROL_PARAMS {
     DEL = 'del'
 }
 
-export enum ACCESS {
+export const enum  SCOPE {
+    ALL, 
+    PRIVATE,
+    GROUP
+}
+
+export const enum ACCESS {
     NORMAL,
     MANGER,
     ADMIN
@@ -21,18 +27,18 @@ export enum ACCESS {
 export type customMenu = obj<{
     cmd: string,
     content: string,
-    scope?: scopeType,
+    scope?: SCOPE,
     access?: ACCESS
 }>;
-export type scopeType = 'all' | 'private' | 'group';
-export type mapIndex = string | string[]/*  | ((str: string) => boolean) */;
-export type comType<T = HandlerFuncType | string> = Map<mapIndex, T>;
+
+export type mapIndex = string | string[];
+export type mapMatchIndex = (str: string) => boolean;
+export type comType<T = HandlerFuncType | string> = Map<mapIndex | mapMatchIndex, T>;
 export type cmdType = comType<{
-    params?: paramInfo[], description?: string, menuId?: string, scope: scopeType, access: ACCESS 
+    params?: paramInfo[], description?: string, menuId?: string, scope: SCOPE, access: ACCESS 
 }>;
 export type dataType = string | number | boolean | obj | string[] | number[] | obj[];
 export type HandlerFuncType = (send: Send, data: EventDataType) => void | Promise<void> | string;
-
 export type Send = (msg: Msg, params?: obj<string | number>) => void;
 
 export interface paramInfo {

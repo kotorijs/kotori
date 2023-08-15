@@ -9,13 +9,13 @@ connect:
     url: "http://localhost" # 正向Http地址
     port: 8888 # 正向Http端口
     reverse-port: 8080 # 反向Http端口
-    retry-time: 10 # 同上
+    retry-time: 10 # 连接断开或失败时尝试重连间隔时间 单位:秒
 
   # WebSocket正向
   ws:
     url: "ws://localhost" # WS地址
     port: 8888 # WS端口
-    retry-time: 10 # 连接断开或失败时尝试重连间隔时间 单位:秒
+    retry-time: 10 # 同上
 
   # WebSocket反向(相对于Gocqhttp)
   ws-reverse:
@@ -33,11 +33,11 @@ bot:
   # 指令列表
   # command-list:
     # reload: /reload # 热重载所有插件
-  # 好友事件过滤设置(权重最高的开启/关闭好友)
+  # 私聊事件过滤设置(权重最高的开启/关闭好友)
   users:
-    type: 1 # 0不过滤 1黑名单 2白名单
+    type: 0 # 0不过滤 1黑名单 2白名单
     list: [] # 过滤的QQ
   # 同上 过滤群
   groups:
-    type: 2
-    list: [317691609, 673830908]
+    type: 0
+    list: []

@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-31 16:57:44
+ * @LastEditTime: 2023-08-15 16:58:22
  */
 import { type FuncListen, type FuncSend, type ConnectMethod, type ConnectCallback, LOG_PREFIX, OPTIONS, obj } from '@/tools';
 import WebSocket from 'ws';
@@ -38,12 +38,16 @@ class WsReverse implements ConnectMethod {
                 send: this.send,
                 listen: this.listen
             });
+
+            ws.on('close', () => {
+                console.warn('Client disconnected');
+            });
         });
         console.info(LOG_PREFIX.CONNECT, `WebScoket server successfully established on ws://127.0.0.1:${this.port}`);
     }
 
-    public send: FuncSend = () => {};
-    public listen: FuncListen = () => {};
+    public send: FuncSend = () => { };
+    public listen: FuncListen = () => { };
 }
 
 export default WsReverse;

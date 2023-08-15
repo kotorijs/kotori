@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 15:52:17
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-12 20:29:29
+ * @LastEditTime: 2023-08-15 11:16:44
  */
 import { LOG_PREFIX, fetchJson, fetchText, isObj, isObjArr, loadConfig, saveConfig, stringTemp } from '@/tools';
 import type { FuncFetchSuper, FuncStringProcessStr, obj } from '@/tools';
@@ -82,9 +82,9 @@ export const fetchBGM: FuncFetchSuper<obj> = async (url, params) => {
 }
 
 export const con = {
-    log: (...args: unknown[]) => console.log(LOG_PREFIX.KOTORI, ...args),
-    warn: (...args: unknown[]) => console.warn(LOG_PREFIX.KOTORI, ...args),
-    error: (...args: unknown[]) => console.error(LOG_PREFIX.KOTORI, ...args),
+    log: (...args: unknown[]) => console.log(LOG_PREFIX.CORE, ...args),
+    warn: (...args: unknown[]) => console.warn(LOG_PREFIX.CORE, ...args),
+    error: (...args: unknown[]) => console.error(LOG_PREFIX.CORE, ...args),
 }
 
 export const initConfig = (path: string) => {
@@ -114,11 +114,25 @@ export const isNotArr = (send: Send, data: unknown): data is string[] | number[]
 const CACHE: obj = {};
 export const CACHE_MSG_TIMES: obj<{ time: number, times: number }> = {};
 export const cacheSet = (key: string, data: obj) => {
-    if (!CACHE[key]) CACHE[key] = data;
+    CACHE[key] = data;
 }
 
 export const cacheGet = (key: string): obj | null => {
     return CACHE[key];
+}
+
+export const temp = (msg: string, params: obj<string | number>) => {
+    msg = stringTemp(msg, GLOBAL);
+    msg = stringTemp(msg, BOT_RESULT);
+    return stringTemp(msg, params);
+};
+
+export const getQq = (msg: string) => {
+    return msg ? SDK.get_at(msg) || parseInt(msg) : null;
+}
+
+export const formatOption = (option: boolean) => {
+    return option ? BOT_RESULT.OPTION_ON : BOT_RESULT.OPTION_OFF 
 }
 
 export let args: string[] = [];
@@ -141,18 +155,10 @@ export const saveConfigP = (filename: string, content: object) => {
     return saveConfig(PATH, content);
 }
 
-export const temp = (msg: string, params: obj<string | number>) => {
-    msg = stringTemp(msg, GLOBAL);
-    msg = stringTemp(msg, BOT_RESULT);
-    return stringTemp(msg, params);
-};
-
 export const controlParams = (path: string, msg: [string, string, string, string], isString: boolean = false) => {
     let message = '';
     let list = loadConfigP(path) as FuncStringProcessStr[];
-    const target = isString ? args[2] : (
-        args[2] ? parseInt(args[2]) || SDK.get_at(args[2]) : null
-    );
+    const target = isString ? args[2] : getQq(args[2]);
     const check = () => {
         if (!args[2]) { message = BOT_RESULT.ARGS_EMPTY; return false; }
         if (!target) { message = BOT_RESULT.ARGS_ERROR; return false; }
@@ -189,8 +195,4 @@ export const controlParams = (path: string, msg: [string, string, string, string
     }
     saveConfigP(path, list);
     return message;
-}
-
-export const formatOption = (option: boolean) => {
-    return option ? BOT_RESULT.OPTION_ON : BOT_RESULT.OPTION_OFF 
 }

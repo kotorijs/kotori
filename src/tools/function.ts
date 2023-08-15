@@ -39,11 +39,18 @@ export const CONST: ConstGlobal = (function () {
     }
 })();
 
-export const BOTCONFIG = new Proxy({ value: {} } as { value: BotConfig }, {
-    get: () => {
-        return loadConfig(`${CONST.ROOT_PATH}\\config.yml`, 'yaml');
-    }
-});
+export function createProxy<T extends object>(val: T | (() => T)) {
+    return new Proxy({} as T, {
+        get: (target, property) => {
+            target;
+            let value = val;
+            if (typeof val === 'function') value = val();
+            return value[property as keyof typeof val];
+        }
+    });
+};
+
+export const BOTCONFIG = createProxy(() => loadConfig(`${CONST.ROOT_PATH}\\config.yml`, 'yaml') as BotConfig);
 
 export const OPTIONS = {
     catchError: process.argv[2] !== 'dev'
@@ -143,21 +150,46 @@ export function stringSplit(str: string, key: string): string {
 
 export function stringTemp(template: string, args: obj<string | number>) {
     for (let param in args) {
-        args[param] || (args[param] = '');
+        typeof args[param] === 'string' || typeof args[param] === 'number' || (args[param] = '');
         typeof args[param] === 'string' || (args[param] = args[param].toString());
         template = template.replace(new RegExp(`%${param}%`, 'g'), args[param] as string);
     }
     return template;
 }
 
-export function handleCmd(command: string): [string, string[]] {
-    const handle = command.split(' ');
-    const params: string[] = [];
-    for (let init = 0; init < handle.length; init++) {
-        if (init == 0) continue;
-        params.push(handle[init]);
+export function parseCommand(command: string) {
+    let args = [];
+    let current = '';
+    let inQuote = false;
+
+    for (let char of command) {
+        if (char === ' ' && !inQuote) {
+            args.push(current.trim());
+            current = '';
+        } else if (char === '"' || char === "'") {
+            inQuote = !inQuote;
+        } else {
+            current += char;
+        }
     }
-    return [handle[0], params];
+
+    args.push(current.trim());
+
+    return args.map(arg => {
+        if (arg[0] === '"' || arg[0] === "'") {
+            return arg.substring(1, arg.length - 1);
+        } else {
+            return arg;
+        }
+    });
+}
+
+export function restCommand(commandArr: string[], index: number = 0) {
+    if (commandArr.length <= index) return commandArr;
+    for (index; index >= 0; index--) {
+        commandArr.shift();
+    }
+    return commandArr;
 }
 
 export function formatTime(time?: Date | null, format: Number = 0): string {
@@ -210,13 +242,17 @@ export const fetchJson: FuncFetchSuper<any> = async (url: string, params, init) 
     });
 }
 
-export const fetchText: FuncFetchSuper<string> = async (url: string, params, init) => {
+export const fetchText: FuncFetchSuper<string | void> = async (url: string, params, init) => {
     return fetchParam(url, params, init).then(async res => {
         const result = res.text();
         console.info(`Response type: TEXT result: ${await result}`);
         return result;
+    }).catch(err => {
+        console.error(err);
     });
 }
+
+export const consoleOrigin = console.log;
 
 export class _console {
     private static colorList: obj<string> = {
