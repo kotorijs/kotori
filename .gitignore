@@ -2,4 +2,5 @@ node_modules
 go-cqhttp
 signserver
 signserver2
+signserver2/
 dist
