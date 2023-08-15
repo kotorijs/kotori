@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-15 11:54:10
+ * @LastEditTime: 2023-08-15 20:51:13
  */
 import Fs from 'fs';
 import Path from 'path';
@@ -19,7 +19,6 @@ class Plugin {
 
     private static handleFile = (fileName: string) => {
         if (fileName.includes('.disable')) return;
-        if (this.disableList.includes(fileName)) return;
         const filedir = Path.join(CONST.PLUGIN_PATH, fileName);
         const fileStat = Fs.statSync(filedir);
 
@@ -29,7 +28,7 @@ class Plugin {
 
             if (fileType !== 'ts' && fileType !== 'js') return;
             const entity = this.load(fileName);
-            entity && this.entityList.add([entity, fileName, Path.join(CONST.ROOT_PATH, 'plugins', fileName)]);
+            entity && this.entityList.add([entity, fileName, Path.join(CONST.ROOT_PATH, 'plugins', fileName), {}, !this.disableList.includes(fileName)]);
             return;
         }
         if (!fileStat.isDirectory()) return
@@ -42,7 +41,7 @@ class Plugin {
 
         if (!Fs.existsSync(indexPath2)) return;
         const entity = this.load(indexPath);
-        entity && this.entityList.add([entity, fileName, indexPath2, info]);
+        entity && this.entityList.add([entity, fileName, indexPath2, info, !this.disableList.includes(fileName)]);
     }
 
     public static loadAll = (): PluginAsyncList => {

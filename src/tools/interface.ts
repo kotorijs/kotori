@@ -23,7 +23,7 @@ export type FuncStringProcessKey = FuncStringProcessStr | Array<string | number>
 export type FuncStringProcessMode = 0 | 1 | 2;
 export type FuncFetchSuper<T = Response> = (url: string, params?: { [key: string]: FuncStringProcessStr }, init?: RequestInit) => Promise<T>;
 export type FuncSdkCq<T = Message> = (type: MessageCqType, data: MessageDataType) => T;
-export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?];
+export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?, boolean?];
 export type PluginAsyncList = Set<PluginData>;
 export type ConnectCallback = (arg: ConnectMethod) => void;
 

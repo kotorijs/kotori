@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-15 20:43:52
+ * @LastEditTime: 2023-08-15 20:53:57
  */
 import Domain from 'domain';
 import Process from 'process';
@@ -211,12 +211,16 @@ export class Main {
 
     private runAllPlugin = (): void => {
         this._pluginEntityList = Plugin.loadAll();
-        let num = 0;
+        let num = 0, useful = 0;
+        for (let element of this._pluginEntityList) {
+            if (element) useful++;
+        }
 
         this._pluginEntityList.forEach(async element => {
+            if (!element[4]) return;
             this.handlePluginData(element);
             num++;
-            if (num !== this._pluginEntityList.size) return;
+            if (num !== useful) return;
             console.info(`Successfully loaded ${num} plugins`);
         });
     }
@@ -224,12 +228,12 @@ export class Main {
     private handlePluginData = async (element: T.PluginData) => {
         const PLUGIN_INFO = element[3];
         if (PLUGIN_INFO) {
-            let content: string = '';
+            let content = '';
             if (PLUGIN_INFO.name) content += `${PLUGIN_INFO.name} Plugin loaded successfully `
             if (PLUGIN_INFO.version) content += `Version: ${PLUGIN_INFO.version} `
             if (PLUGIN_INFO.license) content += `License: ${PLUGIN_INFO.license} `
             if (PLUGIN_INFO.author) content += `By ${PLUGIN_INFO.author}`
-            console.info(content);
+            content && console.info(content);
         }
 
         const demo = await element[0];
