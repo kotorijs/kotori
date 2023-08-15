@@ -3,14 +3,15 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 16:09:28
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-07-30 16:06:59
+ * @LastEditTime: 2023-08-15 11:10:31
  */
 import os from 'os';
 import Express from 'express';
 import { CONST, getPackageInfo } from "@/tools";
-import { dealCpu, dealRam, dealTime, dealEnv } from "../../kotori-bot/method";
+import { dealCpu, dealRam, dealTime, dealEnv } from "../../kotori-core/method";
 import { handle, verify } from '../method';
 import { readFileSync } from 'fs';
+import path from 'path';
 
 const route = Express.Router();
 
@@ -48,7 +49,7 @@ route.get('/env', (req, res) => {
 route.get('/config', (req, res) => {
     if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
     handle(res, {
-        content: readFileSync(`${CONST.ROOT_PATH}\\config.yml`).toString()
+        content: readFileSync(path.join(CONST.ROOT_PATH, 'config.yml')).toString()
     }, 500);
 })
 

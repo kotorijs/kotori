@@ -22,4 +22,4 @@ export default (Event: Event, Api: Api, Const: Const) => {
         /* 发送 */
         message && Api.send_group_msg(message, data.group_id!);
     }
-};
+}

@@ -6,9 +6,9 @@
  * @LastEditTime: 2023-08-13 15:58:37
  */
 import { spawn, ChildProcess } from 'child_process';
-import { LOG_PREFIX, ProcessCallback, ProcessStatus } from './interface';
+import { ProcessCallback, ProcessStatus } from './interface';
 
-export class ProcessController {
+class ProcessController {
     private program: string;
     private child?: ChildProcess;
     private path?: string;
@@ -23,7 +23,7 @@ export class ProcessController {
         this.params = params;
         this.stdout = stdout;
         this.stderr = stderr || (data => {
-            console.error(LOG_PREFIX.SYS, data.toString('utf-8'));
+            console.error(data.toString('utf-8'));
         });
     }
 

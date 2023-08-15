@@ -9,20 +9,21 @@ import Express from 'express';
 import { con, handle, verify } from '../method';
 import { existsSync, readFileSync } from 'fs';
 import { CONST } from '@/tools';
+import path from 'path';
 
 const route = Express.Router();
 
 route.get('/file', (req, res) => {
     if (verify(<string>req.query.token)) { handle(res, null, 504); return; }
-    let { path, op } = req.query;
-    if (!path || !op) { handle(res, null, 501); return; }
-    if ((<string>path).includes('..')) { handle(res, null, 504); return; };
-    path = `${CONST.PLUGIN_PATH}\\${path}`;
-    if (!existsSync(path)) { handle(res, null, 502); return;
+    let { path: paths, op } = req.query;
+    if (!paths || typeof paths !== 'string' || !op) { handle(res, null, 501); return; }
+    if (paths.includes('..')) { handle(res, null, 504); return; };
+    paths = path.join(CONST.PLUGIN_PATH, paths);
+    if (!existsSync(paths)) { handle(res, null, 502); return;
     }
 
     try {
-        handle(res, { content: readFileSync(path).toString() });
+        handle(res, { content: readFileSync(paths).toString() });
     } catch (error) {
         con.error(error);
         handle(res, null, 503);
