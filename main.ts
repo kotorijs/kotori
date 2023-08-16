@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-15 20:53:57
+ * @LastEditTime: 2023-08-16 10:18:35
  */
 import Domain from 'domain';
 import Process from 'process';
@@ -111,7 +111,7 @@ export class Main {
     /* Registe Command */
     private setProcess = () => {
         process.stdin.setEncoding('utf8');
-        const commandDemo = new Command(T.createProxy(() => this._Api), T.createProxy(() => this._pluginEntityList), this.signserverDemo, this.gocqDemo);
+        const commandDemo = new Command({value: this._Api}, { value: this._pluginEntityList }, this.signserverDemo, this.gocqDemo);
         process.stdin.on('data', chunk => commandDemo.registerCmd(chunk));
     }
 
@@ -119,12 +119,16 @@ export class Main {
     protected connectMode = T.CONNECT_MODE[this._config.connect.mode];
     protected connectPrototype = Server[this.connectMode];
     protected EventPrototype = new EventPrototype;
-    private _Api = new Object;
+    private _Api: T.obj = new Object;
     private _Event = new Object;
 
     protected connectCallback = (connectDemo: T.ConnectMethod) => {
         /* Constructor Api Interface*/
-        this._Api = <T.Api>(new ApiPrototype(connectDemo.send));
+        const source = <T.Api>(new ApiPrototype(connectDemo.send));
+        Object.keys(source).forEach(key => {
+            this._Api[key] = source[key as keyof typeof source];
+        });
+
         /* Constructor Event Listener */
         this._pluginEventList = [];
         this._Event = <T.Event>{
@@ -144,6 +148,7 @@ export class Main {
     }
 
     protected listenCallback = (data: T.EventDataType) => {
+        if (!('post_type' in data)) console.log(data);
         /* Record Heatbeat */
         if (data.post_type === 'meta_event') {
             if (data.sub_type === 'connect') {
@@ -210,10 +215,11 @@ export class Main {
     private _pluginEntityList: T.PluginAsyncList = new Set();
 
     private runAllPlugin = (): void => {
-        this._pluginEntityList = Plugin.loadAll();
+        const source = Plugin.loadAll();
+        source.forEach(value => this._pluginEntityList.add(value)); 
         let num = 0, useful = 0;
         for (let element of this._pluginEntityList) {
-            if (element) useful++;
+            if (element[4]) useful++;
         }
 
         this._pluginEntityList.forEach(async element => {

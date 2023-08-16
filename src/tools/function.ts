@@ -287,9 +287,10 @@ export class _console {
         let message: string = '';
         args[0].forEach((Element: unknown) => {
             // if (typeof Element !== '') Element = Element!.toString();
-            if (Element && typeof Element === 'object') Element = (
-                JSON.stringify(Element) === '{}' && Element.toString ? Element.toString() : JSON.stringify(Element)
-            );
+            if (Element && typeof Element === 'object') {
+                const ElementTemp = Element.toString();
+                Element = ElementTemp.includes('object') ? JSON.stringify(Element) : ElementTemp;
+            };
             message += Element + ' ';
             message.slice(0, -1);
         })
