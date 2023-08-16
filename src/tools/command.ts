@@ -6,8 +6,8 @@ import { existsSync } from "fs";
 import ProcessController from "./process";
 
 class Command {
-    private Api: object;
-    private pluginEntityList: PluginAsyncList;
+    private Api: { value: object };
+    private pluginEntityList: { value: PluginAsyncList };
     private signserverDemo: ProcessController;
     private gocqDemo: ProcessController;
     private params: string[] = [];
@@ -18,7 +18,7 @@ class Command {
     };
     private argsError = 'Required parameter missing'
 
-    public constructor(Api: object, pluginEntityList: PluginAsyncList, signserverDemo: ProcessController, gocqDemo: ProcessController) {
+    public constructor(Api: { value: object }, pluginEntityList: { value: PluginAsyncList }, signserverDemo: ProcessController, gocqDemo: ProcessController) {
         this.Api = Api;
         this.pluginEntityList = pluginEntityList;
         this.signserverDemo = signserverDemo;
@@ -56,9 +56,9 @@ class Command {
         this.result.callback();
     }
 
-    private isOnline = (Api: object = this.Api): Api is API => {
-        console.log(Api)
-        if (Api instanceof API) return true;
+    private isOnline = (Api: object = this.Api.value): Api is API => {
+        // if (Api instanceof API) return true;
+        if (Object.keys(Api).length > 0) return true;
         this.result.msg = 'Currently offline';
         this.result.type = 2;
         return false;
@@ -88,13 +88,14 @@ class Command {
         const pluginsJson = path.join(CONST.ROOT_PATH, 'plugins.json');
         const data = loadConfig(pluginsJson) as string[];
         if (this.params[1] === 'query') {
-            for (let element of this.pluginEntityList) {
+            this.params[2] = this.params[2] ?? '';
+            for (let element of this.pluginEntityList.value) {
                 if (this.params[2] && element[1] !== this.params[2]) continue;
                 const res = element[3];
                 this.result.msg += (
                     `\nId: ${element[1]}${res?.name ? ` Name: ${res.name}` : ''}${res?.version ? ` Version: ${res.version}` : ''}` +
                     `${res?.description ? ` Description: ${res.description}` : ''}${res?.author ? ` Author: ${res.author}` : ''}` +
-                    `${res?.license ? ` License: ${res.license}` : ''} State: ${data.includes(element[1]) ? 'Off' : 'On'}`
+                    `${res?.license ? ` License: ${res.license}` : ''} State: ${!element[4] ? 'Off' : 'On'}`
                 )
             }
             this.result.msg || (this.result.msg = `Cannot find plugin '${this.params[2]}'`, this.result.type = 3)
@@ -137,13 +138,13 @@ class Command {
     private c_help = () => {
         this.result.msg = (
             `Command List:` +
-            `\n${PROCESS_CMD.STOP} : Stop kotori-bot application` +
-            `\n${PROCESS_CMD.BOT} : Get bot status information` +
-            `\n${PROCESS_CMD.PLUGIN} <Op:query/ban/unban> <PluginId> : View all or some plugins manifest information and ban or unban a plugin` +
-            `\n${PROCESS_CMD.PASSWORD} : View username and password of admin website` +
-            `\n${PROCESS_CMD.SEND} <Message> <Type:private/group> <GroupId/UserId> : Send a message to bot's a friend and group` +
-            `\n${PROCESS_CMD.SYS} <Mode:0/1> : Input 0 to restart only Go-cqhttp,1 to Signserver and Go-cqhttp` +
-            `\n${PROCESS_CMD.HELP} : Get command help information`
+            `\n${PROCESS_CMD.STOP} - Stop kotori-bot application` +
+            `\n${PROCESS_CMD.BOT} - Get bot status information` +
+            `\n${PROCESS_CMD.PLUGIN} <Op:query/ban/unban> <PluginId> - View all or some plugins manifest information and ban or unban a plugin` +
+            `\n${PROCESS_CMD.PASSWORD} - View username and password of admin website` +
+            `\n${PROCESS_CMD.SEND} <Message> <Type:private/group> <GroupId/UserId> - Send a message to bot's a friend and group` +
+            `\n${PROCESS_CMD.SYS} <Mode:0/1> - Input 0 to restart only Go-cqhttp,1 to Signserver and Go-cqhttp` +
+            `\n${PROCESS_CMD.HELP} - Get command help information`
         );
     }
 
@@ -154,7 +155,7 @@ class Command {
             this.result.type = 3;
             return;
         }
-        (this.Api as API).send_msg(this.params[2], this.params[1], parseInt(this.params[3]));
+        (this.Api.value as API).send_msg(this.params[2], this.params[1], parseInt(this.params[3]));
         this.result.msg = 'Message sent successfully';
     }
 
