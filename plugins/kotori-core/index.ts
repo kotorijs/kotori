@@ -3,13 +3,13 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-15 19:24:27
+ * @LastEditTime: 2023-08-16 14:49:08
  */
 import os from 'os';
 import cheerio from 'cheerio';
 import path from 'path';
 import type { EventDataType, Event, Api, Const, PackageInfo, PluginData } from '@/tools';
-import { BotConfigFilter, CONNECT_MODE, fetchJson, fetchText, formatTime, getPackageInfo, isObj, isObjArr, loadConfig, saveConfig, stringProcess } from '@/tools';
+import { BotConfigFilter, CONNECT_MODE, fetchJson, fetchText, formatTime, getPackageInfo, isObj, isObjArr, loadConfig, parseCommand, saveConfig, stringProcess } from '@/tools';
 import SDK from '@/utils/class.sdk';
 import * as M from './method';
 import * as I from './interface';
@@ -91,6 +91,7 @@ export class Main {
     public static verifyAccess = (data: EventDataType) => {
         if (data.user_id === Main.Const.CONFIG.bot.master) return I.ACCESS.ADMIN;
         if (!data.group_id) return I.ACCESS.NORMAL;
+        if (data.sender.role === 'admin' || data.sender.role === 'member') return I.ACCESS.MANGER;
         const mangerList = M.loadConfigP(path.join(data.group_id.toString(), 'mangerList.json')) as number[];
         return mangerList.includes(data.user_id) ? I.ACCESS.MANGER : I.ACCESS.NORMAL;
     }
@@ -99,7 +100,7 @@ export class Main {
 class Content {
     public constructor(private data: EventDataType) {
         if (this.data.message_type === 'group' && CMANGE.enable) this.runOtherFunc();
-        M.setArgs(this.data.message.split(' '));
+        M.setArgs(parseCommand(this.data.message));
         args = M.args;
         const result = Com.get(M.args[0]);
         if (result) {
@@ -129,14 +130,41 @@ class Content {
         const params = CmdInfo.get(key)?.params;
 
         if (!params) return true;
+        if (Array.isArray(params)) return this.checkParamsArr(params);
+        return this.checkParamsObj(params);
+    }
+
+    private checkParamsArr = (params: I.paramInfo[], num: number = 1) => {
         for (let index in params) {
-            if (M.args[parseInt(index) + 1]) continue;
-            if (params[index].must !== true) {
-                params[index].must !== false && (M.args[parseInt(index) + 1] = params[index].must as string);
-                continue;
+            const indexNum = parseInt(index) + num;
+            if (params[index].rest) {
+                for (let init = 0; init < M.args.length; init++) {
+                    init > indexNum && M.args[init] && (M.args[indexNum] += ` ${M.args[init]}`);
+                }
+            }
+
+            if (!M.args[indexNum] && params[index].must === true) {
+                this.send(BOT_RESULT.ARGS_EMPTY);
+                return false;
             };
-            this.send(BOT_RESULT.ARGS_EMPTY);
+
+            !M.args[indexNum] && typeof params[index].must === 'string' && (M.args[indexNum] = params[index].must as string);
+            if (params[index].rest) return true;
+        }
+        return true;
+    }
+
+    private checkParamsObj = (params: I.paramInfoEx, num: number = 1) => {
+        if (!M.args[num]) {
+            this.send(BOT_RESULT.ARGS_ERROR);
             return false;
+        }
+        const result = params[M.args[num]];
+        if (result === undefined) {
+            this.send(BOT_RESULT.ARGS_ERROR);
+            return false;
+        } else if (Array.isArray(result.args)) {
+            return this.checkParamsArr(result.args, ++num);
         }
         return true;
     }
@@ -238,11 +266,11 @@ export class Cmd {
     }
 
     public static menu = (keyword: string | string[], menuId: string, scope: I.SCOPE = I.SCOPE.ALL, access: I.ACCESS = I.ACCESS.NORMAL) => {
-        const callback = () => this.menuHandleFunc(menuId);
+        const callback = () => this.menuHandle(menuId);
         this.register(keyword, undefined, undefined, scope, access, callback);
     }
 
-    public static register = (keyword: string | string[], description: string | undefined, menuId: string | undefined, scope: I.SCOPE, access: I.ACCESS, callback: I.HandlerFuncType | string, params?: I.paramInfo[]) => {
+    public static register = (keyword: string | string[], description: string | undefined, menuId: string | undefined, scope: I.SCOPE, access: I.ACCESS, callback: I.HandlerFuncType | string, params?: I.paramInfo[] | I.paramInfoEx) => {
         this.isInitialize || this.initialize();
         Com.set(keyword, callback);
         CmdInfo.set(keyword, { menuId, description, scope, access, params });
@@ -261,41 +289,71 @@ export class Cmd {
 
     private static isInitialize: boolean = false;
 
-    private static menuHandleFunc = (menuId: string) => {
+    private static menuHandle = (menuId: string) => {
         let list = '';
         for (let key of CmdInfo) {
             const { 0: cmdKey, 1: value } = key;
-
-            if (value.menuId !== menuId || typeof cmdKey === 'function') continue;
-            let handleParams = '';
-            value.params?.forEach(element => {
-                const paramName = element.name ?? LMENU.sonMenu.paramNameDefault;
-                const modifier = element.must === true ? '' : (
-                    element.must === false ? LMENU.sonMenu.modifierOptional : M.temp(LMENU.sonMenu.modifierDefault, {
-                        content: element.must
-                    })
-                );
-                handleParams += M.temp(LMENU.sonMenu.param, {
-                    param_name: paramName, modifier
-                });
-            })
-            const descr = value.description ? M.temp(LMENU.sonMenu.descr, {
-                content: value.description
-            }) : '';
-            const scope = value.scope === I.SCOPE.ALL ? '' : (
-                value.scope === I.SCOPE.GROUP ? LMENU.sonMenu.scopeGroup : LMENU.sonMenu.scopePrivate
-            );
-            list += M.temp(LMENU.sonMenu.list, {
-                name: Array.isArray(cmdKey) ? cmdKey[0] : cmdKey,
-                param: handleParams,
-                descr,
-                scope
-            });
+            if (value.menuId !== menuId || typeof cmdKey === 'function' || !value.params) continue;
+            list += this.menuHandleParams(cmdKey, value);
         }
         list = M.temp(LMENU.sonMenu.info, {
             list
         });
         return list;
+    }
+
+    private static menuHandleParams = (key: I.mapIndex, value: I.cmdVal) => {
+        const cmdName = Array.isArray(key) ? key[0] : key;
+        const scope = value.scope === I.SCOPE.ALL ? '' : (
+            value.scope === I.SCOPE.GROUP ? LMENU.sonMenu.scopeGroup : LMENU.sonMenu.scopePrivate
+        );
+        let list = '', handleParams = '';
+
+        /* type = paramInfo[] */
+        if (Array.isArray(value.params)) {
+            handleParams += this.menuHandleParamsArr(value.params);
+            return M.temp(LMENU.sonMenu.list, {
+                name: cmdName,
+                param: handleParams,
+                descr: value.description ? M.temp(LMENU.sonMenu.descr, {
+                    content: value.description
+                }) : '',
+                scope
+            });
+        }
+
+        /* type = paramInfoEx */
+        for (let param of Object.keys(value.params!)) {
+            handleParams = '';
+            const val = (value.params as I.paramInfoEx)[param];
+            if (Array.isArray(val.args)) handleParams += this.menuHandleParamsArr(val.args);
+            list += M.temp(LMENU.sonMenu.list, {
+                name: cmdName + ` ${param}`,
+                param: handleParams,
+                descr: val.descr ? M.temp(LMENU.sonMenu.descr, {
+                    content: val.descr
+                }) : '',
+                scope
+            });
+        }
+        return list;
+    }
+
+    private static menuHandleParamsArr = (params: I.paramInfo[]) => {
+        let handleParams = '';
+        params.forEach(element => {
+            const paramName = element.name ?? LMENU.sonMenu.paramNameDefault;
+            const prefix = element.rest ? '...' : '';
+            const suffix = element.must === true ? '' : (
+                element.must === false ? LMENU.sonMenu.suffixOptional : M.temp(LMENU.sonMenu.suffixDefault, {
+                    content: element.must
+                })
+            );
+            handleParams += M.temp(LMENU.sonMenu.param, {
+                param_name: paramName, prefix, suffix
+            });
+        });
+        return handleParams
     }
 }
 
@@ -464,7 +522,7 @@ Cmd.register(LCOM.tran.cmd, LCOM.tran.descr, 'dayTool', I.SCOPE.ALL, I.ACCESS.NO
         input: M.args[1], content: res.data
     }) : BOT_RESULT.SERVER_ERROR);
 }, [{
-    must: true, name: LCOM.tran.args[0]
+    must: true, name: LCOM.tran.args[0], rest: true
 }]);
 
 Cmd.register(LCOM.lunar.cmd, LCOM.lunar.descr, 'dayTool', I.SCOPE.ALL, I.ACCESS.NORMAL, async send => {
@@ -549,8 +607,7 @@ Cmd.register(LCOM.waste.cmd, LCOM.waste.descr, 'dayTool', I.SCOPE.ALL, I.ACCESS.
         send(BOT_RESULT.SERVER_ERROR);
         return;
     }
-    const typeList = ['未知垃圾', '可回收垃圾', '有害垃圾', '湿垃圾', '干垃圾', '装修垃圾'];
-    const type = typeList[res.data[0].type ? parseInt(res.data[0].type) : 0];
+    const type = LCOM.waste.key[res.data[0].type ? parseInt(res.data[0].type) : 0];
     send(LCOM.waste.info, {
         input: M.args[1], type
     })
@@ -614,8 +671,7 @@ Cmd.register(LCOM.mcskin.cmd, LCOM.mcskin.descr, 'queryTool', I.SCOPE.ALL, I.ACC
         avatar: res.data.avatar ? SDK.cq_image(`base64://${res.data.avatar.substring(22)}`) : BOT_RESULT.EMPTY
     });
 }, [{
-    must: true,
-    name: LCOM.mcskin.args[0]
+    must: true, name: LCOM.mcskin.args[0]
 }]);
 
 Cmd.register(LCOM.bili.cmd, LCOM.bili.descr, 'queryTool', I.SCOPE.ALL, I.ACCESS.NORMAL, async send => {
@@ -844,7 +900,10 @@ Cmd.register(LCOM.sister.cmd, LCOM.sister.descr, undefined, I.SCOPE.ALL, I.ACCES
 Cmd.register(LCOM.qrcode.cmd, LCOM.qrcode.descr, 'randomImg', I.SCOPE.ALL, I.ACCESS.NORMAL, () => {
     const frame = [
         'L', 'M', 'Q', 'H'
-    ][parseInt(M.args[2])] || 'H';
+    ][parseInt(M.args[2])];
+    if (!frame) {
+        return BOT_RESULT.ARGS_ERROR;
+    }
     return M.temp(LCOM.qrcode.info, {
         image: SDK.cq_image(`${URL.API}qrcode?text=${M.args[1]}&frame=2&size=200&e=${frame}`)
     });
@@ -1029,13 +1088,13 @@ Cmd.register(LCOM.gpt.cmd, LCOM.gpt.descr, 'gptChat', I.SCOPE.ALL, I.ACCESS.NORM
         content: !res.choices || !res.choices[0] || !res.choices[0].message || !res.choices[0].message.content ? BOT_RESULT.SERVER_ERROR : res.choices[0].message.content
     });
 }, [{
-    must: true, name: LCOM.gpt.args[0]
+    must: true, name: LCOM.gpt.args[0], rest: true
 }]);
 
 Cmd.register(LCOM.cl.cmd, LCOM.cl.descr, 'gptChat', I.SCOPE.ALL, I.ACCESS.NORMAL, () => {
     return BOT_RESULT.REPAIRING;
 }, [{
-    must: true, name: LCOM.cl.args[0]
+    must: true, name: LCOM.cl.args[0], rest: true
 }]);
 
 /* specialCom */
@@ -1098,7 +1157,7 @@ Cmd.register(LCOM.ban.cmd, LCOM.ban.descr, 'groupMange', I.SCOPE.GROUP, I.ACCESS
     if (target) {
         Main.Api.set_group_ban(data.group_id!, target, time);
         send(LCOM.ban.user, {
-            target, time
+            target, time: time / 60
         });
         return;
     }
@@ -1134,25 +1193,55 @@ Cmd.register(LCOM.unban.cmd, LCOM.unban.descr, 'groupMange', I.SCOPE.GROUP, I.AC
     must: false, name: LCOM.unban.args[0]
 }]);
 
-Cmd.register(LCOM.black.cmd, LCOM.black.descr, 'groupMange', I.SCOPE.GROUP, I.ACCESS.MANGER, (send, data) => {
+Cmd.register(LCOM.black.cmd, undefined, 'groupMange', I.SCOPE.GROUP, I.ACCESS.MANGER, (send, data) => {
     if (!Main.verifyEnable(send)) return;
     const message = M.controlParams(`${data.group_id}\\blackList.json`, [LCOM.black.query, LCOM.black.add, LCOM.black.del, LCOM.white.list]);
     send(message);
-}, [{
-    must: true, name: LCOM.black.args[0]
 }, {
-    must: false, name: LCOM.black.args[1]
-}]);
+    query: {
+        descr: LCOM.black.descr[0],
+        args: [{
+            must: false, name: LCOM.black.args[0]
+        }]
+    },
+    add: {
+        descr: LCOM.black.descr[1],
+        args: [{
+            must: false, name: LCOM.black.args[0]
+        }]
+    },
+    del: {
+        descr: LCOM.black.descr[2],
+        args: [{
+            must: false, name: LCOM.black.args[0]
+        }]
+    }
+});
 
-Cmd.register(LCOM.white.cmd, LCOM.white.descr, 'groupMange', I.SCOPE.GROUP, I.ACCESS.MANGER, (send, data) => {
+Cmd.register(LCOM.white.cmd, undefined, 'groupMange', I.SCOPE.GROUP, I.ACCESS.MANGER, (send, data) => {
     if (!Main.verifyEnable(send)) return;
     const message = M.controlParams(`${data.group_id}\\whiteList.json`, [LCOM.white.query, LCOM.white.add, LCOM.white.del, LCOM.white.list]);
     send(message);
-}, [{
-    must: true, name: LCOM.white.args[0]
 }, {
-    must: false, name: LCOM.white.args[1]
-}]);
+    query: {
+        descr: LCOM.white.descr[0],
+        args: [{
+            must: false, name: LCOM.white.args[0]
+        }]
+    },
+    add: {
+        descr: LCOM.white.descr[1],
+        args: [{
+            must: false, name: LCOM.white.args[0]
+        }]
+    },
+    del: {
+        descr: LCOM.white.descr[2],
+        args: [{
+            must: false, name: LCOM.white.args[0]
+        }]
+    }
+});
 
 Cmd.register(LCOM.kick.cmd, LCOM.kick.descr, 'groupMange', I.SCOPE.GROUP, I.ACCESS.MANGER, (send, data) => {
     if (!Main.verifyEnable(send)) return;
@@ -1226,13 +1315,13 @@ Cmd.register(LCOM.view.cmd, LCOM.view.descr, 'superMange', I.SCOPE.ALL, I.ACCESS
     const { mode, http, ws, "ws-reverse": wsReverse } = connect;
     let mode_content = '', user_list = '', group_list = '';
     switch (mode) {
-        case 'http': mode_content = temp(LCOM.view.mode_content_http, {
+        case 'http': mode_content = temp(LCOM.view.modeContentHttp, {
             ...http, reverse_port: http['reverse-port'], retry_time: http['retry-time']
         }); break;
-        case 'ws': mode_content = temp(LCOM.view.mode_content_ws, {
+        case 'ws': mode_content = temp(LCOM.view.modeContentWs, {
             ...ws, retry_time: ws['retry-time']
         }); break;
-        case 'ws-reverse': mode_content = temp(LCOM.view.mode_content_ws_reverse, {
+        case 'ws-reverse': mode_content = temp(LCOM.view.modeContentWsReverse, {
             ...wsReverse
         }); break;
     }
@@ -1240,18 +1329,18 @@ Cmd.register(LCOM.view.cmd, LCOM.view.descr, 'superMange', I.SCOPE.ALL, I.ACCESS
     bot.users.list.forEach(content => user_list += temp(LCOM.view.list, { content }));
     bot.groups.list.forEach(content => group_list += temp(LCOM.view.list, { content }));
     switch (bot.users.type) {
-        case BotConfigFilter.BLACK: user_list = temp(LCOM.view.user_list_black, {
+        case BotConfigFilter.BLACK: user_list = temp(LCOM.view.userListBlack, {
             list: bot.users.type
         });
-        case BotConfigFilter.WHITE: user_list = temp(LCOM.view.user_list_white, {
+        case BotConfigFilter.WHITE: user_list = temp(LCOM.view.userListWhite, {
             list: user_list
         });
     }
     switch (bot.groups.type) {
-        case BotConfigFilter.BLACK: group_list = temp(LCOM.view.group_list_black, {
+        case BotConfigFilter.BLACK: group_list = temp(LCOM.view.groupListBlack, {
             list: group_list
         });
-        case BotConfigFilter.WHITE: group_list = temp(LCOM.view.group_list_white, {
+        case BotConfigFilter.WHITE: group_list = temp(LCOM.view.groupListWhite, {
             list: group_list
         });
     }
@@ -1263,7 +1352,7 @@ Cmd.register(LCOM.view.cmd, LCOM.view.descr, 'superMange', I.SCOPE.ALL, I.ACCESS
     });
 });
 
-Cmd.register(LCOM.plugin.cmd, LCOM.plugin.descr, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
+Cmd.register(LCOM.plugin.cmd, undefined, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
     const pluginsJson = path.join(Main.Const.ROOT_PATH, 'plugins.json');
     const data = loadConfig(pluginsJson) as string[];
     if (M.args[1] === 'query') {
@@ -1317,13 +1406,28 @@ Cmd.register(LCOM.plugin.cmd, LCOM.plugin.descr, 'superMange', I.SCOPE.ALL, I.AC
         return;
     }
     send(BOT_RESULT.ARGS_ERROR)
-}, [{
-    must: true, name: LCOM.plugin.args[0]
 }, {
-    must: false, name: LCOM.plugin.args[1]
-}]);
+    'query': {
+        descr: LCOM.plugin.descr[0],
+        args: [{
+            must: false, name: LCOM.plugin.args[0]
+        }]
+    },
+    'ban': {
+        descr: LCOM.plugin.descr[0],
+        args: [{
+            must: true, name: LCOM.plugin.args[0]
+        }]
+    },
+    'unban': {
+        descr: LCOM.plugin.descr[0],
+        args: [{
+            must: true, name: LCOM.plugin.args[0]
+        }]
+    }
+});
 
-Cmd.register(LCOM.system.cmd, LCOM.system.descr, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, (send, data) => {
+Cmd.register(LCOM.system.cmd, undefined, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, (send, data) => {
     const num = parseInt(M.args[1]);
     const save = () => {
         saveConfig(path.join(Main.Const.DATA_PLUGIN_PATH, 'system.ini'), data.group_id ? data.group_id.toString() : 'private', 'txt');
@@ -1345,49 +1449,114 @@ Cmd.register(LCOM.system.cmd, LCOM.system.descr, 'superMange', I.SCOPE.ALL, I.AC
         return;
     }
     send(BOT_RESULT.ARGS_ERROR);
-}, [{
-    must: '0', name: LCOM.system.args[0]
-}]);
+}, {
+    '0': {
+        descr: LCOM.system.descr[0],
+    },
+    '1': {
+        descr: LCOM.system.descr[1],
+    }
+});
 
-Cmd.register(LCOM.blackg.cmd, LCOM.blackg.descr, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
+Cmd.register(LCOM.blackg.cmd, undefined, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
     if (!Main.verifyEnable(send)) return;
     const message = M.controlParams(`blackList.json`, [LCOM.blackg.query, LCOM.blackg.add, LCOM.blackg.del, LCOM.blackg.list]);
     send(message);
-}, [{
-    must: true, name: LCOM.blackg.args[0]
 }, {
-    must: false, name: LCOM.blackg.args[1]
-}]);
+    query: {
+        descr: LCOM.blackg.descr[0],
+        args: [{
+            must: false, name: LCOM.blackg.args[0]
+        }]
+    },
+    add: {
+        descr: LCOM.blackg.descr[1],
+        args: [{
+            must: false, name: LCOM.blackg.args[0]
+        }]
+    },
+    del: {
+        descr: LCOM.blackg.descr[2],
+        args: [{
+            must: false, name: LCOM.blackg.args[0]
+        }]
+    }
+});
 
-Cmd.register(LCOM.whiteg.cmd, LCOM.whiteg.descr, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
+Cmd.register(LCOM.whiteg.cmd, undefined, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
     if (!Main.verifyEnable(send)) return;
     const message = M.controlParams(`whiteList.json`, [LCOM.whiteg.query, LCOM.whiteg.add, LCOM.whiteg.del, LCOM.whiteg.list]);
     send(message);
-}, [{
-    must: true, name: LCOM.whiteg.args[0]
 }, {
-    must: false, name: LCOM.whiteg.args[1]
-}]);
+    query: {
+        descr: LCOM.white.descr[0],
+        args: [{
+            must: false, name: LCOM.white.args[0]
+        }]
+    },
+    add: {
+        descr: LCOM.white.descr[1],
+        args: [{
+            must: false, name: LCOM.white.args[0]
+        }]
+    },
+    del: {
+        descr: LCOM.white.descr[2],
+        args: [{
+            must: false, name: LCOM.white.args[0]
+        }]
+    }
+});
 
-Cmd.register(LCOM.manger.cmd, LCOM.manger.descr, 'superMange', I.SCOPE.GROUP, I.ACCESS.ADMIN, (send, data) => {
+Cmd.register(LCOM.manger.cmd, undefined, 'superMange', I.SCOPE.GROUP, I.ACCESS.ADMIN, (send, data) => {
     if (!Main.verifyEnable(send)) return;
     const message = M.controlParams(`${data.group_id}\\mangerList.json`, [LCOM.manger.query, LCOM.manger.add, LCOM.manger.del, LCOM.manger.list]);
     send(message);
-}, [{
-    must: true, name: LCOM.manger.args[0]
 }, {
-    must: false, name: LCOM.manger.args[1]
-}]);
+    query: {
+        descr: LCOM.manger.descr[0],
+        args: [{
+            must: false, name: LCOM.manger.args[0]
+        }]
+    },
+    add: {
+        descr: LCOM.manger.descr[1],
+        args: [{
+            must: false, name: LCOM.manger.args[0]
+        }]
+    },
+    del: {
+        descr: LCOM.manger.descr[2],
+        args: [{
+            must: false, name: LCOM.manger.args[0]
+        }]
+    }
+});
 
-Cmd.register(LCOM.banword.cmd, LCOM.banword.descr, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
+Cmd.register(LCOM.banword.cmd, undefined, 'superMange', I.SCOPE.ALL, I.ACCESS.ADMIN, send => {
     if (!Main.verifyEnable(send)) return;
     const message = M.controlParams(`banword.json`, [LCOM.banword.query, LCOM.banword.add, LCOM.banword.del, LCOM.banword.list], true);
     send(message);
-}, [{
-    must: true, name: LCOM.banword.args[0]
 }, {
-    must: false, name: LCOM.banword.args[1]
-}]);
+    query: {
+        descr: LCOM.banword.descr[0],
+        args: [{
+            must: false, name: LCOM.banword.args[0]
+        }]
+    },
+    add: {
+        descr: LCOM.banword.descr[1],
+        args: [{
+            must: false, name: LCOM.banword.args[0]
+        }]
+    },
+    del: {
+        descr: LCOM.banword.descr[2],
+        args: [{
+            must: false, name: LCOM.banword.args[0]
+        }]
+    }
+});
 
 Cmd.auto(async () => {
     const version = getPackageInfo().version;
@@ -1397,7 +1566,7 @@ Cmd.auto(async () => {
         return;
     }
     if (res.version === version) {
-        console.info('Kotori-bot is currently the latest version');
+        console.log('Kotori-bot is currently the latest version');
         return;
     }
     console.warn(`The current version of Kotori-bot is ${version}, and the latest version is ${res.version}. Please go to ${GLOBAL.REPO} to update`);
@@ -1413,7 +1582,7 @@ Cmd.auto(() => {
     const result = loadConfig(path.join(Main.Const.DATA_PLUGIN_PATH, 'system.ini'), 'txt') as string;
     const isPrivate = result === 'private';
     const id = isPrivate ? Main.Const.CONFIG.bot.master : parseInt(result)
-    Main.Api.send_msg(isPrivate ? 'private' : 'group', LCOM.system.info, id);
+    id && Main.Api.send_msg(isPrivate ? 'private' : 'group', LCOM.system.info, id);
     saveConfig(path.join(Main.Const.DATA_PLUGIN_PATH, 'system.ini'), '', 'txt');
 })
 

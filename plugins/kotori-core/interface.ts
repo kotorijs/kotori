@@ -12,8 +12,8 @@ export const enum CONTROL_PARAMS {
     DEL = 'del'
 }
 
-export const enum  SCOPE {
-    ALL, 
+export const enum SCOPE {
+    ALL,
     PRIVATE,
     GROUP
 }
@@ -34,15 +34,28 @@ export type customMenu = obj<{
 export type mapIndex = string | string[];
 export type mapMatchIndex = (str: string) => boolean;
 export type comType<T = HandlerFuncType | string> = Map<mapIndex | mapMatchIndex, T>;
-export type cmdType = comType<{
-    params?: paramInfo[], description?: string, menuId?: string, scope: SCOPE, access: ACCESS 
-}>;
+export type cmdType = comType<cmdVal>;
 export type dataType = string | number | boolean | obj | string[] | number[] | obj[];
 export type HandlerFuncType = (send: Send, data: EventDataType) => void | Promise<void> | string;
 export type Send = (msg: Msg, params?: obj<string | number>) => void;
 
+export interface cmdVal {
+    params?: paramInfo[] | paramInfoEx,
+    description?: string,
+    menuId?: string,
+    scope: SCOPE,
+    access: ACCESS
+}
+
 export interface paramInfo {
-    must: boolean | string, name?: string,
+    must: boolean | string, name?: string, rest?: boolean
+}
+
+export interface paramInfoEx {
+    [key: string]: {
+        descr?: string
+        args?: paramInfo[]/*  | paramInfoEx */ | null
+    }
 }
 
 export interface Res<T = dataType | null> extends obj {

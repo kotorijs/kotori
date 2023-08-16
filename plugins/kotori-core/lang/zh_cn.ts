@@ -7,7 +7,7 @@ export const GLOBAL = {
 }
 
 export enum BOT_RESULT {
-    GUIDE = '[名字]代表参数,带"?"表示非必填,带"=xx"表示非必填有默认值,"*"为仅群聊可用,"#"为仅私聊可用',
+    GUIDE = '<名字>代表参数,"?"表示可选参数,"=xx"表示可选有默认值,"..."表示剩余参数,"*"为仅群聊可用,"#"为仅私聊可用',
     SERVER_ERROR = '接口错误!请联系管理员',
     ARGS_EMPTY = '参数不能为空',
     ARGS_ERROR = '参数错误!',
@@ -32,7 +32,7 @@ export const COM = {
         cmd: '/music',
         descr: '网易云点歌,序号默认为1,填0显示歌曲列表',
         args: [
-            '歌名', '序号'
+            'music', '序号'
         ],
         info: '歌曲ID: %songid%\n歌曲标题: %title%\n歌曲作者: %author%\n歌曲下载: %url%\n歌曲封面: %image%',
         list: '%num%.%title% - %author%\n',
@@ -43,7 +43,7 @@ export const COM = {
         cmd: '/bgm',
         descr: '翻组计划搜索游戏/动漫',
         args: [
-            '名字', '序号'
+            'content', '序号'
         ],
         info: '原名: %name%\n中文名: %name_cn%\n介绍: %summary%\n标签: %tags%\n详情: %url%\n%image%',
         list: '%num%.%name%%name_cn%\n',
@@ -60,7 +60,7 @@ export const COM = {
         cmd: '/star',
         descr: '查看今日星座运势',
         args: [
-            '星座名'
+            'star'
         ],
         info: '%input%今日运势: %list%',
         list: '\n%content%',
@@ -70,7 +70,7 @@ export const COM = {
         cmd: '/tran',
         descr: '中外互译',
         args: [
-            '内容'
+            'content'
         ],
         info: '原文: %input%\n译文: %content%'
     },
@@ -89,7 +89,7 @@ export const COM = {
         cmd: '/luck',
         descr: '查看QQ凶吉',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: 'QQ: %input%\n运势: %luck%\n性格类型: %character%\n性格系数: %character_score%'
     },
@@ -97,7 +97,7 @@ export const COM = {
         cmd: '/value',
         descr: '查看QQ估价',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: '%image%'
     },
@@ -105,7 +105,7 @@ export const COM = {
         cmd: '/weather',
         descr: '查看天气',
         args: [
-            '城市名'
+            'area'
         ],
         info: '%content%'
     },
@@ -113,16 +113,17 @@ export const COM = {
         cmd: '/waste',
         descr: '查看垃圾分类',
         args: [
-            '物品名'
+            'item'
         ],
-        info: '物品: %input%\n类型: %type%'
+        info: '物品: %input%\n类型: %type%',
+        key: ['未知垃圾', '可回收垃圾', '有害垃圾', '湿垃圾', '干垃圾', '装修垃圾']
     },
     /* queryTool */
     motd: {
         cmd: '/motd',
         descr: 'MCJE服务器信息查询',
         args: [
-            'IP', '端口'
+            'ip', 'port'
         ],
         info: (
             '状态: 在线\nIP: %real%\n端口: %port%\n物理地址: %location%\nMOTD: %motd%\n协议版本: %agreement%' +
@@ -134,7 +135,7 @@ export const COM = {
         cmd: '/motdbe',
         descr: 'MCBE服务器信息查询',
         args: [
-            'IP', '端口'
+            'ip', 'port'
         ],
         info: (
             '状态: 在线\nIP: %real%\n端口: %port%\n物理地址: %location%\nMOTD: %motd%\n游戏模式: %gamemode%' +
@@ -146,7 +147,7 @@ export const COM = {
         cmd: '/mcskin',
         descr: 'MC正版账号皮肤查询',
         args: [
-            '游戏ID'
+            'id'
         ],
         info: '玩家: %input%\n皮肤: %skin%\n披风: %cape%\n头颅: %avatar%',
         fail: '%input%查无此人!'
@@ -155,7 +156,7 @@ export const COM = {
         cmd: '/bili',
         descr: 'B站视频信息查询',
         args: [
-            'BV号'
+            'bvid'
         ],
         info: 'BV号: %bvid%\nAV号: %aid%\n视频标题: %title%\n视频简介: %descr%\n作者UID: %owner%\n视频封面: %image%',
         fail: '未找到该视频: %input%'
@@ -164,7 +165,7 @@ export const COM = {
         cmd: '/sed',
         descr: '社工信息查询',
         args: [
-            'QQ/手机号'
+            'qq/phone'
         ],
         info: '查询内容: %input%\n消耗时间: %time%秒\n记录数量: %count%%list%',
         list: '\n%key%: %content%',
@@ -181,7 +182,7 @@ export const COM = {
         cmd: '/idcard',
         descr: '身份证信息查询',
         args: [
-            '身份证号'
+            'id'
         ],
         info: (
             '身份证号: %input%\n性别: %gender%\n出生日期: %birthday%' +
@@ -193,7 +194,7 @@ export const COM = {
         cmd: '/hcb',
         descr: '韦一云黑信息查询',
         args: [
-            'ID'
+            'id'
         ],
         info: (
             '%input%有云黑记录\nUUID: %uuid%\n用户平台: %plate%\n用户ID: %idkey%' +
@@ -205,14 +206,14 @@ export const COM = {
         cmd: '/ping',
         descr: '网站PING',
         args: [
-            'URL'
+            'url'
         ]
     },
     header: {
         cmd: '/header',
         descr: '获取网站图标与标题',
         args: [
-            'URL'
+            'url'
         ],
         info: '网站: %input%\n标题: %title%\n关键词: %keywords%\n描述: %description%\n图标: %image%'
     },
@@ -220,7 +221,7 @@ export const COM = {
         cmd: '/state',
         descr: '网站状态查询',
         args: [
-            'URL'
+            'domain'
         ],
         info: '%content%'
     },
@@ -228,7 +229,7 @@ export const COM = {
         cmd: '/speed',
         descr: '网站速度测试',
         args: [
-            'URL'
+            'domain'
         ],
         info: '%content%'
     },
@@ -237,7 +238,7 @@ export const COM = {
         cmd: '/sex',
         descr: 'Pixiv图片',
         args: [
-            'TAG'
+            'tags'
         ],
         tips: '图片正在来的路上....你先别急',
         info: 'PID:%pid%\n标题:%title%\n作者:%author%\n标签:%tags%\n%image%',
@@ -247,7 +248,7 @@ export const COM = {
         cmd: '/sexh',
         descr: 'HuliImg图片',
         args: [
-            'TAG'
+            'tags'
         ],
         tips: '图片正在来的路上....你先别急',
         info: '标签:%tags%\n%image%',
@@ -292,7 +293,7 @@ export const COM = {
         cmd: '/qrcode',
         descr: '二维码生成',
         args: [
-            '内容', '容错级别,范围0~3'
+            'content', 'level:0~3'
         ],
         info: '%image%'
     },
@@ -326,7 +327,7 @@ export const COM = {
         cmd: '摸',
         descr: '生成表情包-摸一摸',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: '%image%'
     },
@@ -334,7 +335,7 @@ export const COM = {
         cmd: '爬',
         descr: '生成表情包-爬',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: '%image%'
     },
@@ -342,7 +343,7 @@ export const COM = {
         cmd: '威胁',
         descr: '生成表情包-威胁',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: '%image%'
     },
@@ -350,7 +351,7 @@ export const COM = {
         cmd: '牵着',
         descr: '生成表情包-牵着',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: '%image%'
     },
@@ -359,7 +360,7 @@ export const COM = {
         cmd: '/gpt',
         descr: 'ChatGPTV3.5聊天',
         args: [
-            '内容'
+            'content'
         ],
         info: '%content%'
     },
@@ -367,7 +368,7 @@ export const COM = {
         cmd: '/cl',
         descr: 'Claude聊天',
         args: [
-            '内容'
+            'content'
         ],
         info: '%content%'
     },
@@ -420,7 +421,7 @@ export const COM = {
         cmd: '/ban',
         descr: '禁言某人',
         args: [
-            'QQ/At', '分钟'
+            'qq/at', 'time(minutes)'
         ],
         user: '成功禁言[%target%]用户[%time%]分钟',
         all: '全体禁言成功'
@@ -429,16 +430,20 @@ export const COM = {
         cmd: '/unban',
         descr: '解禁某人',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         user: '成功解除禁言[%target%]用户',
         all: '解除全体禁言成功'
     },
     black: {
         cmd: '/black',
-        descr: '查询/添加/删除群黑名单',
+        descr: [
+            '查询群黑名单',
+            '添加群黑名单',
+            '删除群黑名单'
+        ],
         args: [
-            'query/add/del', 'QQ/At'
+            'qq/at'
         ],
         query: '当前群黑名单列表:\n%content%',
         list: '%content% ',
@@ -447,9 +452,13 @@ export const COM = {
     },
     white: {
         cmd: '/white',
-        descr: '查询/添加/删除群白名单',
+        descr: [
+            '查询群白名单',
+            '添加群白名单',
+            '删除群白名单'
+        ],
         args: [
-            'query/add/del', 'QQ/At'
+            'qq/at'
         ],
         query: '当前群白名单列表:\n%content%',
         list: '%content% ',
@@ -460,7 +469,7 @@ export const COM = {
         cmd: '/kick',
         descr: '踢出某人',
         args: [
-            'QQ/At'
+            'qq/at'
         ],
         info: '成功踢出[%target%]用户'
     },
@@ -468,7 +477,7 @@ export const COM = {
         cmd: '/all',
         descr: '发生全体成员消息',
         args: [
-            '内容'
+            'content'
         ],
         info: '%all% 以下消息来自管理员:\n%input%'
     },
@@ -476,7 +485,7 @@ export const COM = {
         cmd: '/notice',
         descr: '发送群公告',
         args: [
-            '内容'
+            'content'
         ],
         info: 'From Admin~\n%input%'
     },
@@ -503,32 +512,35 @@ export const COM = {
         cmd: '/view',
         descr: '查看Kotori-bot配置',
         info: (
-            '连接模式: %mode%\n%mode_content%\n------\nGo-cqHttp路径:%program%\n启动参数:%params%\n签名服务器路径:%signserver%' +
+            '连接模式: %mode%\n%mode_content%\n------\nGo-cqHttp路径: %program%\n启动参数: %params%\n签名服务器路径: %signserver%' +
             '\n------\nMaster: %master%\n私聊过滤: %user%%user_list%\n群聊过滤: %group%%group_list%'
         ),
-        mode_content_http: (
+        modeContentHttp: (
             '正向Http地址: %url%\n正向Http端口: %port%\n' +
             '反向Http端口: %reverse_port%\n重连间隔时间: %retry_time%秒'
         ),
-        mode_content_ws: 'WebSocket地址: %url%\nWebSocket端口: %port%\n重连间隔时间: %retry_time%秒',
-        mode_content_ws_reverse: 'WebSocket反向端口: %port%',
-        user_list_white: '\n私聊白名单:\n%list%',
-        user_list_black: '\n私聊黑名单:\n%list%',
-        group_list_white: '\n群聊白名单:\n%list%',
-        group_list_black: '\n群聊黑名单:\n%list%',
+        modeContentWs: 'WebSocket地址: %url%\nWebSocket端口: %port%\n重连间隔时间: %retry_time%秒',
+        modeContentWsReverse: 'WebSocket反向端口: %port%',
+        userListWhite: '\n私聊白名单:\n%list%',
+        userListBlack: '\n私聊黑名单:\n%list%',
+        groupListWhite: '\n群聊白名单:\n%list%',
+        groupListBlack: '\n群聊黑名单:\n%list%',
         list: '%content% '
     },
     plugin: {
         cmd: '/plugin',
-        descr: '查看/禁用/启用一个或全部插件信息',
+        descr: [
+            '查看一个或全部插件信息',
+            '禁用指定插件',
+            '启用指定插件',
+        ],
         args: [
-            'query/ban/unban',
-            '插件ID'
+            'pluginId'
         ],
         query: `插件信息:%list%`,
         fail: '未找到[%target%]插件',
         list: (
-            '\n------\n插件Id: %id%\n插件名字: %name%\n插件版本: %version%\n插件描述: %description%' + 
+            '\n------\n插件Id: %id%\n插件名字: %name%\n插件版本: %version%\n插件描述: %description%' +
             '\n插件作者: %author%\n插件协议: %license%\n插件状态: %state%'
         ),
         ban: '成功禁用[%id%]插件,重启以查看效果',
@@ -536,9 +548,9 @@ export const COM = {
     },
     system: {
         cmd: '/system',
-        descr: '重启Go-cqHttp或签名服务器',
-        args: [
-            '0仅重启Gocq,1重启签名服务器与Gocq'
+        descr: [
+            '重启Go-cqHttp',
+            '重启签名服务器与Go-cqHttp'
         ],
         info: '重启完成!',
         info_0: '即将重启Go-cqHttp...',
@@ -546,9 +558,13 @@ export const COM = {
     },
     blackg: {
         cmd: '/blackg',
-        descr: '查询/添加/删除全局黑名单',
+        descr: [
+            '查询全局黑名单',
+            '添加全局黑名单',
+            '删除全局黑名单'
+        ],
         args: [
-            'query/add/del', 'QQ/At'
+            'qq/at'
         ],
         query: '全局黑名单列表:\n%content%',
         list: '%content% ',
@@ -557,9 +573,13 @@ export const COM = {
     },
     whiteg: {
         cmd: '/whiteg',
-        descr: '查询/添加/删除全局白名单',
+        descr: [
+            '查询全局白名单',
+            '添加全局白名单',
+            '删除全局白名单'
+        ],
         args: [
-            'query/add/del', 'QQ/At'
+            'qq/at'
         ],
         query: '全局白名单列表:\n%content%',
         list: '%content% ',
@@ -568,9 +588,13 @@ export const COM = {
     },
     manger: {
         cmd: '/manger',
-        descr: '查询/添加/删除群BOT管理员',
+        descr: [
+            '查询群BOT管理员',
+            '添加群BOT管理员',
+            '删除群BOT管理员'
+        ],
         args: [
-            'query/add/del', 'QQ/At'
+            'qq/at'
         ],
         query: '当前群管理员列表:\n%content%',
         list: '%content% ',
@@ -579,9 +603,13 @@ export const COM = {
     },
     banword: {
         cmd: '/banword',
-        descr: '查询/添加/删除屏蔽词',
+        descr: [
+            '查询屏蔽词',
+            '添加屏蔽词',
+            '删除屏蔽词'
+        ],
         args: [
-            'query/add/del', '内容/正则表达式'
+            'content/RegExp'
         ],
         query: '屏蔽词列表:\n%content%',
         list: '%content% ',
@@ -623,11 +651,11 @@ export const MENU = {
             '%list%' +
             '\n%GUIDE%'
         ),
-        list: '\n%name%%param%\n%descr%%scope%',
-        param: ' [%param_name%%modifier%]',
+        list: '\n%name%%param% - %descr%%scope%',
+        param: ' <%prefix%%param_name%%suffix%>',
         paramNameDefault: 'arg',
-        modifierOptional: '?',
-        modifierDefault: '=%content%',
+        suffixOptional: '?',
+        suffixDefault: '=%content%',
         descr: '%content%',
         scopePrivate: '#',
         scopeGroup: '*',
