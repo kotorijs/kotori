@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 17:03:53
+ * @LastEditTime: 2023-08-18 20:27:59
  */
 import { BOTCONFIG } from '@/tools';
 import { EventList, EventDataType, LOG_PREFIX, BotConfigFilter, FuncListenCallback } from '../tools/interface';
@@ -186,9 +186,9 @@ class EVENT {
 	};
 
 	public handleEvent = (eventData: EventDataType) => {
+		this.event = eventData;
 		if (!this.eventFilter()) return;
 		this.recordLog();
-		this.event = eventData;
 		this.registerEventList.forEach(element => {
 			const { 1: callback } = element;
 			this.callback = callback;
