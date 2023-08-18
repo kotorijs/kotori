@@ -213,3 +213,143 @@ https://afdian.net/@teahouse user: 2314163511 group: 317691609
 23/8/18 7:24:24 LOG [Plugin] Send group msg: [CQ:poke,qq=3458259951] group: 317691609 
 23/8/18 7:24:24 LOG [Plugin] Send group msg: [CQ:at,qq=3458259951] 今日的牛~牛长度是20cm group: 317691609 
 23/8/18 9:19:19 LOG [Connect] Receive group msg [CQ:reply,id=-1695911833][CQ:at,qq=3324656453] [CQ:at,qq=3324656453] 链接 user: 390829220 group: 691498216 
+23/8/18 20:26:26 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/18 20:26:26 INFO Kotori Bot By Hotaru 
+23/8/18 20:26:26 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/18 20:26:26 WARM Run Info: Develop With Debuing... 
+23/8/18 20:26:26 WARM Cannot find Signserver 
+23/8/18 20:26:26 INFO Starting Signserver... 
+23/8/18 20:26:26 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/18 20:26:26 INFO Current connection mode: WsReverse 
+23/8/18 20:26:26 ERROR UCE: Error: spawn start.bat ENOENT 
+23/8/18 20:26:26 ERROR Error: spawn start.bat ENOENT
+[90m    at Process.ChildProcess._handle.onexit (node:internal/child_process:283:19)[39m
+[90m    at onErrorNT (node:internal/child_process:476:16)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:82:21)[39m {
+  errno: [33m-4058[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'spawn start.bat'[39m,
+  path: [32m'start.bat'[39m,
+  spawnargs: []
+} 
+23/8/18 20:27:27 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/18 20:27:27 INFO Kotori Bot By Hotaru 
+23/8/18 20:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/18 20:27:27 WARM Run Info: Develop With Debuing... 
+23/8/18 20:27:27 WARM Cannot find Signserver 
+23/8/18 20:27:27 INFO Starting Signserver... 
+23/8/18 20:27:27 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/18 20:27:27 INFO Current connection mode: WsReverse 
+23/8/18 20:27:27 ERROR UCE: Error: spawn start.bat ENOENT 
+23/8/18 20:27:27 ERROR Error: spawn start.bat ENOENT
+[90m    at Process.ChildProcess._handle.onexit (node:internal/child_process:283:19)[39m
+[90m    at onErrorNT (node:internal/child_process:476:16)[39m
+[90m    at processTicksAndRejections (node:internal/process/task_queues:82:21)[39m {
+  errno: [33m-4058[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'spawn start.bat'[39m,
+  path: [32m'start.bat'[39m,
+  spawnargs: []
+} 
+23/8/18 20:27:27 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/18 20:27:27 INFO Kotori Bot By Hotaru 
+23/8/18 20:27:27 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/18 20:27:27 WARM Run Info: Develop With Debuing... 
+23/8/18 20:27:27 WARM Cannot find Signserver 
+23/8/18 20:27:27 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/18 20:27:27 INFO Current connection mode: WsReverse 
+23/8/18 20:27:27 INFO [Connect] WebSocket client successfully connected 
+23/8/18 20:27:27 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:27:27 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/18 20:27:27 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/18 20:27:27 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:27:27 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:27:27 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/18 20:27:27 INFO Successfully loaded 7 plugins 
+23/8/18 20:27:27 ERROR UHR {"diagnosticCodes":[2554]} 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:27:27 LOG Kotori-bot is currently the latest version 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:27:27 ERROR [Connect] TypeError: Cannot read properties of null (reading 'group_id') 
+23/8/18 20:28:28 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/18 20:28:28 INFO Kotori Bot By Hotaru 
+23/8/18 20:28:28 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/18 20:28:28 WARM Run Info: Develop With Debuing... 
+23/8/18 20:28:28 WARM Cannot find Signserver 
+23/8/18 20:28:28 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/18 20:28:28 INFO Current connection mode: WsReverse 
+23/8/18 20:28:28 INFO [Connect] WebSocket client successfully connected 
+23/8/18 20:28:28 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:28:28 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/18 20:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/18 20:28:28 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:28:28 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:28:28 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/18 20:28:28 INFO Successfully loaded 7 plugins 
+23/8/18 20:28:28 ERROR UHR {"diagnosticCodes":[2554]} 
+23/8/18 20:28:28 LOG Kotori-bot is currently the latest version 
+23/8/18 20:28:28 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/18 20:28:28 INFO Kotori Bot By Hotaru 
+23/8/18 20:28:28 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/18 20:28:28 WARM Run Info: Develop With Debuing... 
+23/8/18 20:28:28 WARM Cannot find Signserver 
+23/8/18 20:28:28 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/18 20:28:28 INFO Current connection mode: WsReverse 
+23/8/18 20:28:28 INFO [Connect] WebSocket client successfully connected 
+23/8/18 20:28:28 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:28:28 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/18 20:28:28 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/18 20:28:28 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:28:28 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:28:28 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/18 20:28:28 INFO Successfully loaded 7 plugins 
+23/8/18 20:28:28 ERROR UHR TSError: ⨯ Unable to compile TypeScript:
+[96mplugins/kotori-bot-admin-server/method.ts[0m:[93m23[0m:[93m38[0m - [91merror[0m[90m TS2538: [0mType 'undefined' cannot be used as an index type.
+
+[7m23[0m   message: message || resMessageList[code],
+[7m  [0m [91m                                     ~~~~[0m
+ 
+23/8/18 20:28:28 LOG Kotori-bot is currently the latest version 
+23/8/18 20:29:29 INFO Kotori Bot Version: 0.7.3 License: GPL-3.0 
+23/8/18 20:29:29 INFO Kotori Bot By Hotaru 
+23/8/18 20:29:29 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/18 20:29:29 WARM Run Info: Develop With Debuing... 
+23/8/18 20:29:29 WARM Cannot find Signserver 
+23/8/18 20:29:29 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/18 20:29:29 INFO Current connection mode: WsReverse 
+23/8/18 20:29:29 INFO [Connect] WebSocket client successfully connected 
+23/8/18 20:29:29 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:29:29 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/18 20:29:29 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/18 20:29:29 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:29:29 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/18 20:29:29 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/18 20:29:29 INFO Successfully loaded 7 plugins 
+23/8/18 20:29:29 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/18 20:29:29 LOG Kotori-bot is currently the latest version 
+23/8/18 20:29:29 LOG [Connect] Receive group msg /menu user: 3324656453 group: 673830908 
+23/8/18 20:29:29 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/18 20:29:29 LOG [Plugin] Send group msg: KotoriBot是一个go-cqhttp的基于NodeJS+TypeScript的SDK和QQ机器人框架实现
+开源地址: https://github.com/biyuehu/kotori-bot
+来给可怜的🦊点一个star吧
+
+当前BOT框架版本: 0.7.3
+框架协议: GPL-3.0
+[CQ:image,file=https://biyuehu.github.io/images/avatar.png,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1]
+ByHimeno group: 673830908 
+23/8/18 20:29:29 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/18 20:29:29 LOG {"data":{"message_id":-1278134794},"message":"","retcode":0,"status":"ok"} 
+23/8/18 20:29:29 LOG [Connect] Receive private msg /print 1 user: 3324656453 
+23/8/18 20:29:29 LOG [Plugin] Send private msg: Result: 1 user: 3324656453 
+23/8/18 20:29:29 LOG {"data":{"message_id":1654813656},"message":"","retcode":0,"status":"ok"} 
+23/8/18 20:29:29 LOG [Connect] Receive private msg /echo 1 user: 3324656453 
+23/8/18 20:29:29 LOG [Plugin] Send private msg: 该功能仅在群聊或私聊下可用 user: 3324656453 
+23/8/18 20:29:29 LOG {"data":{"message_id":363152206},"message":"","retcode":0,"status":"ok"} 
+23/8/18 20:29:29 LOG [Connect] Receive private msg /nmsl sfsdfsdf user: 3324656453 
+23/8/18 20:29:29 LOG [Plugin] Send private msg: 翻译🎀果👇
+sfsdfsdf user: 3324656453 
+23/8/18 20:29:29 LOG {"data":{"message_id":-1950230803},"message":"","retcode":0,"status":"ok"} 
