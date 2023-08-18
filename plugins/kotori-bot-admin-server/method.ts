@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 15:55:57
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 19:06:34
+ * @LastEditTime: 2023-08-18 20:28:31
  */
 import type { obj } from '@/tools';
 import { resCodeType, resMessageType, resData, Token } from './interface';
@@ -17,10 +17,10 @@ export const resMessageList = {
 	504: 'fail:server reject',
 };
 
-export const handle = (res: obj, data: object | null, code: resCodeType, message?: resMessageType): void => {
+export const handle = (res: obj, data: object | null, code?: resCodeType, message?: resMessageType): void => {
 	const response: resData = {
 		code: code || 500,
-		message: message || resMessageList[code],
+		message: message || resMessageList[code || 500],
 		data,
 	};
 	res.status(200).send(response);

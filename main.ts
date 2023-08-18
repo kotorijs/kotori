@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 17:08:39
+ * @LastEditTime: 2023-08-18 20:27:24
  */
 // import Domain from 'domain';
 import { existsSync } from 'fs';
@@ -55,6 +55,7 @@ export class Main {
 		const { signserver } = this.config.control;
 		if (!existsSync(path.resolve(signserver))) {
 			if (signserver) console.warn('Cannot find Signserver');
+			return;
 		}
 		console.info('Starting Signserver...');
 		this.signserverDemo.start();
