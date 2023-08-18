@@ -1,4 +1,7 @@
 {
-    "name": "今日牛牛长度",
-    "license": "MIT"
+	"name": "今日牛牛长度",
+	"description": "查看牛牛的长度和排行",
+	"version": "1.0.0",
+	"author": "Hotaru",
+	"license": "MIT"
 }

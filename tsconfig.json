@@ -1,52 +1,43 @@
 {
-    "compilerOptions": {
-        "target": "es2015", // 指定的ECMAScript目标版本
-        "module": "commonjs", // 指定模块化类型
-        "esModuleInterop": true, // 启用从CommonJS模块导入时的兼容性处理。这可以简化从CommonJS模块导入时的类型兼容性处理
-        "forceConsistentCasingInFileNames": true, // 强制文件名的字母大小写与导入语句的字母大小写一致
-        "strict": true, // 使用严格模式
-        "outDir": "./dist/", // 构建目录
-        "sourceMap": false, // 是否生成sourceMap（用于浏览器调试）
-        "noImplicitAny": true, // 禁止隐式any
-        "noUnusedLocals": true, // 禁止未使用的局部变量
-        "noUnusedParameters": true, // 禁止未使用的参数
-        "declaration": true, // 是否生成声明文件
-        "declarationDir": "./dist/", // 声明文件打包的位置
-        "declarationMap": false, // 是否生成声明文件map文件（便于调试）
-        "moduleResolution": "node", // 导入模块时的模块解析策略
-        "baseUrl": "./", // 设置导入模块时的基准目录
-        /* 用来设置模块导入时的路径映射,可以将自定义模块名映射到相应的文件路径。 */
-        "paths": {
-            "@/*": [
-                "src/*"
-            ]
-        },
-        /* 用来设置需要引入的类型声明文件路径,通常用于声明第三方库的类型 */
-        "types": [
-            "node",
-            // "jest"
-        ],
-        "typeRoots": [
-            "./src/types",
-            "./node_modules/@types"
-        ],
-        "lib": [
-            "dom",
-            "es2015"
-        ],
-        // "jsx": "react",
-        "allowJs": false // 允许编译js文件
-    },
-    /* 包含文件 */
-    "include": [
-        "main.ts",
-        "go-cqhttp/test.ts",
-        "src/**/*.ts",
-        "plugins/**/*.ts"
-    ],
-    /* 排除文件 */
-    "exclude": [
-        "node_modules",
-        "*.test.ts"
-    ]
+	"compilerOptions": {
+		"target": "ESNext", // Specify ECMAScript target version
+		"module": "CommonJS" /* CommonJS */, // Specify module code generation
+		"moduleResolution": "node" /* Optional */, // Module resolution strategy for imports
+		"strict": true, // Enable strict mode
+		"jsx": "preserve",
+		"sourceMap": false, // Generate sourceMap for debug in browser
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true, // Enable compatibility handling for imports from CommonJS modules
+		/* List of library files to be included in compilation */
+		"lib": ["ESNext", "DOM" /* "DOM.Iterable"  */ /* Optional */],
+		/* Paths to declare type definition files to include */
+		"types": [/* "vite/client", */ /* Optional(If exists) */ "node"],
+		"skipLibCheck": true,
+		"noEmit": true,
+		"forceConsistentCasingInFileNames": true, // Force consistent casing with imports
+		"baseUrl": ".", // Base directory for imports
+		/* Path mapping for module imports */
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"outDir": "./dist/", // Output directory
+		"noImplicitAny": true, // Disallow implicit any
+		"noUnusedLocals": true, // Disallow unused locals
+		"noUnusedParameters": true, // Disallow unused params
+		"declaration": true /* Optional */, // Generate .d.ts files
+		"declarationDir": "./dist/" /* Optional */, // Output directory for declarations
+		"declarationMap": false /* Optional */ // Generate sourcemaps for declarations
+	},
+	/* Included files */
+	"include": [
+		"src/**/*.ts",
+		// "src/**/*.d.ts" /* Optional */,
+		// "src/**/*.tsx" /* Optional */,
+		// "src/**/*.vue" /* Optional */
+		"main.ts",
+		"plugins/**/*.ts"
+	],
+	/* Excluded files */
+	"exclude": ["node_modules", "*.test.ts"] /* Optional */
 }

@@ -1,45 +1,57 @@
 {
-    "name": "kotori-bot",
-    "version": "0.7.3",
-    "description": "Korori Bot For Go-cqhttp And Nodejs",
-    "main": "./dist/src/index.js",
-    "types": "./dist/src/index.d.ts",
-    "scripts": {
-        "start": "ts-node -r tsconfig-paths/register ./src/app.ts",
-        "dev": "nodemon --config nodemon.json",
-        "test": "echo building",
-        "build": "tsc",
-        "create": "ts-node -r tsconfig-paths/register ./src/modules/create.ts"
-    },
-    "author": "hotaru",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/biyuehu/kotori-bot/issues"
-    },
-    "homepage": "https://github.com/biyuehu/kotori-bot#readme",
-    "dependencies": {
-        "cheerio": "^1.0.0-rc.12",
-        "domain": "^0.0.1",
-        "express": "^4.18.2",
-        "fs": "^0.0.1-security",
-        "js-base64": "^3.7.5",
-        "needle": "^3.2.0",
-        "os": "^0.1.2",
-        "path": "^0.12.7",
-        "ts-node": "^10.9.1",
-        "vm": "^0.1.0",
-        "ws": "^8.13.0",
-        "yaml": "^2.3.1"
-    },
-    "devDependencies": {
-        "@types/express": "^4.17.17",
-        "@types/inquirer": "^9.0.3",
-        "@types/needle": "^3.2.0",
-        "@types/ws": "^8.5.4",
-        "inquirer": "^8.2.6",
-        "nodemon": "^3.0.1",
-        "ts-loader": "^9.4.3",
-        "tsconfig-paths": "^4.2.0",
-        "typescript": "^5.1.3"
-    }
+	"name": "kotori-bot",
+	"version": "0.7.3",
+	"description": "Korori Bot For Go-cqhttp And Nodejs",
+	"main": "./dist/src/index.js",
+	"types": "./dist/src/index.d.ts",
+	"scripts": {
+		"start": "ts-node -r tsconfig-paths/register ./src/app.ts --no-signale",
+		"serve": "ts-node -r tsconfig-paths/register ./src/app.ts dev --no-signale",
+		"dev": "nodemon --config nodemon.json",
+		"test": "echo building",
+		"build": "tsc",
+		"create": "ts-node -r tsconfig-paths/register ./src/modules/create.ts",
+		"lint": "eslint \"src/**/*.{js,vue,ts}\" --fix && eslint \"plugins/**/*.{js,vue,ts}\" --fix",
+		"prettier": "prettier --config .prettierrc \"src/**/*.{vue,js,ts,json}\" --write && prettier --config .prettierrc \"plugins/**/*.{ts,json}\" --write",
+		"prepare": "husky install"
+	},
+	"author": "hotaru",
+	"license": "GPL-3.0",
+	"bugs": {
+		"url": "https://github.com/biyuehu/kotori-bot/issues"
+	},
+	"homepage": "https://github.com/biyuehu/kotori-bot#readme",
+	"dependencies": {
+		"cheerio": "^1.0.0-rc.12",
+		"domain": "^0.0.1",
+		"express": "^4.18.2",
+		"fs": "^0.0.1-security",
+		"js-base64": "^3.7.5",
+		"needle": "^3.2.0",
+		"os": "^0.1.2",
+		"path": "^0.12.7",
+		"ts-node": "^10.9.1",
+		"vm": "^0.1.0",
+		"ws": "^8.13.0",
+		"inquirer": "^8.2.6",
+		"yaml": "^2.3.1"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.17",
+		"@types/inquirer": "^9.0.3",
+		"@types/needle": "^3.2.0",
+		"@types/ws": "^8.5.4",
+		"@typescript-eslint/eslint-plugin": "^6.4.0",
+		"@typescript-eslint/parser": "^6.4.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-import-resolver-alias": "^1.1.2",
+		"eslint-plugin-import": "^2.28.0",
+		"eslint-plugin-prettier": "^5.0.0",
+		"nodemon": "^3.0.1",
+		"prettier": "^3.0.2",
+		"ts-loader": "^9.4.3",
+		"tsconfig-paths": "^4.2.0",
+		"typescript": "^5.1.3"
+	}
 }
