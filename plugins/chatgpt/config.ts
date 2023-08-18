@@ -6,15 +6,13 @@
  * @LastEditTime: 2023-08-15 10:38:05
  */
 export default {
-    apikey: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    /* 聊天前缀 */
-    prefix: "/gpt",
-    list: {
-        /* 开启的群列表 一行一个 */
-        groups: [
-        ],
-        /* 开启的QQ列表 一行一个 */
-        users: [
-        ]
-    }
-}
+	apikey: 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+	/* 聊天前缀 */
+	prefix: '/gpt',
+	list: {
+		/* 开启的群列表 一行一个 */
+		groups: [],
+		/* 开启的QQ列表 一行一个 */
+		users: [],
+	},
+};

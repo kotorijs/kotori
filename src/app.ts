@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-07-28 11:47:12
  */
-import kotori_bot from '@/../main';
+import KotoriBot from '@/../main';
 
 /* Run Application */
-(new kotori_bot).run();
+new KotoriBot().run();

@@ -1,0 +1,17 @@
+dist
+config
+data
+logs
+build
+coverage
+public
+node_modules
+web
+
+.local
+.output.js
+src/.DS_Store
+
+**/*.svg
+**/*.sh
+components.d.ts
