@@ -8,8 +8,8 @@
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import Express from 'express';
-import { con, handle, verify } from '../method';
 import { CONST } from '@/tools';
+import { con, handle, verify } from '../method';
 
 const route = Express.Router();
 
