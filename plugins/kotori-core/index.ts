@@ -24,12 +24,12 @@ import {
 	stringProcess,
 } from '@/tools';
 import SDK from '@/utils/class.sdk';
+import ProcessController from '@/tools/class/class.process';
 import * as M from './method';
 import * as I from './interface';
 import config from './config';
 import lang, { BOT_RESULT, GLOBAL } from './lang/zh_cn';
 import Com, { URL, CmdInfo } from './menu';
-import ProcessController from '@/tools/class/class.process';
 
 const { apikey: CAPIKEY, group: CGROUP, component: CCOM } = config;
 const { mange: CMANGE, format: CFORMAT } = CCOM;

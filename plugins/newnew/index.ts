@@ -9,8 +9,8 @@ import path from 'path';
 import { Cmd, temp } from 'plugins/kotori-core';
 import { ACCESS, SCOPE } from 'plugins/kotori-core/interface';
 import { Api, Const, loadConfig, saveConfig } from '@/tools';
-import config from './config';
 import SDK from '@/utils/class.sdk';
+import config from './config';
 import { arrData } from './interface';
 
 export default (_Event: Event, _Api: Api, Consts: Const) => {

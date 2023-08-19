@@ -1,11 +1,11 @@
 import path from 'path';
 import Express from 'express';
 import type { Api, Const, Event, PluginData, PluginInfo } from '@/tools';
+import { CONST } from '@/tools';
 import config from './config';
 import { handle, con, updateToken, verify, log } from './method';
 import router from './router';
 import { expressApp } from './interface';
-import { CONST } from '@/tools';
 import './bot';
 
 updateToken();

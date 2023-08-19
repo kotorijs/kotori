@@ -12,9 +12,9 @@ import { version as versionTs } from 'typescript';
 import { VERSION as versionTsnode } from 'ts-node';
 import { LOG_PREFIX, fetchJson, fetchText, isObj, isObjArr, loadConfig, saveConfig, stringTemp } from '@/tools';
 import type { FuncFetchSuper, FuncStringProcessStr, obj } from '@/tools';
+import SDK from '@/utils/class.sdk';
 import { CONTROL_PARAMS, Res, Send } from './interface';
 import { URL } from './menu';
-import SDK from '@/utils/class.sdk';
 import { BOT_RESULT, GLOBAL } from './lang/zh_cn';
 
 export const dealTime = () => {

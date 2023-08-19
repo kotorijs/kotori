@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
-import config from './config';
 import { Event, EventDataType, obj, stringProcess, stringSplit } from '@/tools';
+import config from './config';
 
 const log = (...args: unknown[]) => console.log('[MCServer]', ...args);
 
