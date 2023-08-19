@@ -7,8 +7,8 @@
  */
 import { existsSync, readFileSync, readdirSync } from 'fs';
 import Express from 'express';
-import { con, handle, verify } from '../method';
 import { CONST } from '@/tools';
+import { con, handle, verify } from '../method';
 
 const LOG_PATH = `${CONST.LOGS_PATH}\\`;
 const route = Express.Router();

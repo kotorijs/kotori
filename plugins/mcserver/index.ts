@@ -7,9 +7,9 @@
  */
 import fs from 'fs';
 import needle from 'needle';
+import { Api, Const, Event, EventDataType, stringProcess, stringSplit } from '@/tools';
 import config from './config';
 import { wss } from './wss';
-import { Api, Const, Event, EventDataType, stringProcess, stringSplit } from '@/tools';
 
 const log = (...args: any) => console.log('[MCServer]', ...args);
 

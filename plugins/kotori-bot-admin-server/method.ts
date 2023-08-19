@@ -6,8 +6,8 @@
  * @LastEditTime: 2023-08-18 20:28:31
  */
 import type { obj } from '@/tools';
-import { resCodeType, resMessageType, resData, Token } from './interface';
 import { LOG_PREFIX, CONST, getRandomStr, loadConfig, saveConfig } from '@/tools';
+import { resCodeType, resMessageType, resData, Token } from './interface';
 
 export const resMessageList = {
 	500: 'success',
