@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 19:00:39
+ * @LastEditTime: 2023-08-19 11:03:02
  */
 import os from 'os';
 import path from 'path';
@@ -2010,14 +2010,17 @@ Cmd.register(
 					state: formatOption(!data.includes(element[1])),
 				});
 			}
-			return result
-				? temp(LCOM.plugin.query, {
-						num: Main.Proxy.length,
-						list: result,
-				  })
-				: temp(LCOM.plugin.fail, {
-						target: M.args[2],
-				  });
+			return temp(
+				result ? LCOM.plugin.query : LCOM.plugin.fail,
+				result
+					? {
+							num: Main.Proxy.length,
+							list: result,
+					  }
+					: {
+							target: M.args[2],
+					  },
+			);
 		}
 		if (M.args[1] === 'ban') {
 			if (data.includes(M.args[2])) return BOT_RESULT.EXIST;
