@@ -1,6 +1,6 @@
 {
 	"name": "kotori-bot",
-	"version": "0.7.3",
+	"version": "0.7.4",
 	"description": "Korori Bot For Go-cqhttp And Nodejs",
 	"main": "./dist/src/index.js",
 	"types": "./dist/src/index.d.ts",
