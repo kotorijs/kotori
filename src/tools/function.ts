@@ -11,13 +11,14 @@ import {
 	FuncStringProcessStr,
 	PackageInfo,
 	obj,
-} from './interface';
+} from './type';
+import { Locale } from './class';
 
 export function loadConfig(
 	filename: string,
 	type: ConfigFileType = 'json',
 	init: object | string = {},
-): object | null | string[] | number[] | string {
+): object | null | unknown[] | string {
 	const dirname: string = path.dirname(filename);
 	if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
 	if (!fs.existsSync(filename)) fs.writeFileSync(filename, typeof init === 'string' ? init : JSON.stringify(init));
@@ -122,12 +123,18 @@ export function stringSplit(str: string, key: string): string {
 export function stringTemp(template: string, args: obj<string | number>) {
 	const params = args;
 	let templateString = template;
+	if (!params || typeof params !== 'object') return templateString;
 	Object.keys(params).forEach(param => {
 		if (typeof params[param] !== 'string' && typeof args[param] !== 'number') params[param] = '';
 		if (typeof params[param] !== 'string') params[param] = params[param].toString();
 		templateString = templateString.replace(new RegExp(`%${param}%`, 'g'), params[param] as string);
 	});
 	return templateString;
+}
+
+export function stringTempRaw(template: string, args: obj<string | number>) {
+	const newTemplate = Locale.locale(template);
+	return stringTemp(newTemplate, args);
 }
 
 export function parseCommand(cmd: string) {
@@ -251,9 +258,14 @@ export function createProxy<T extends object>(val: T | (() => T)) {
 	});
 }
 
-export const isObj = (data: unknown): data is obj => data !== null && typeof data === 'object' && !Array.isArray(data);
-
-export const isObjArr = (data: unknown): data is obj[] => Array.isArray(data) && isObj(data[0]);
+export const isObj = <T = any>(data: unknown, _val?: T): data is obj<T> => {
+	const result = data && typeof data === 'object' && !Array.isArray(data);
+	if (!result) return false;
+	for (const element of Object.keys(result)) {
+		if (!element as T) return false;
+	}
+	return true;
+};
 
 export const CONST: ConstGlobal = (() => {
 	let ROOT_PATH = path.resolve(__dirname, '..');

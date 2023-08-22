@@ -2,7 +2,7 @@ import consoleS from './class/class.logger';
 import { getPackageInfo } from './function';
 
 export * from './function';
-export * from './interface';
+export * from './type';
 export * from './class';
 
 (() => {

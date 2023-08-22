@@ -1,27 +1,22 @@
-import { Cmd, args } from 'plugins/kotori-core';
-import { ACCESS, SCOPE } from 'plugins/kotori-core/interface';
-import config from './config';
-import SandboxJs from './class.sandbox';
+import path from 'path';
+import { Core } from 'plugins/kotori-core';
+import { Locale } from '@/tools';
+import SandboxJs from './class/class.sandbox';
 
-Cmd.register(
-	config.cmd,
-	config.descr,
-	'queryTool',
-	SCOPE.ALL,
-	ACCESS.NORMAL,
-	send => {
-		const Entity = new SandboxJs(args[1]);
-		Entity.run();
-		const content = Entity.results;
-		send(config.info, {
-			content,
-		});
-	},
-	[
+Locale.register(path.resolve(__dirname));
+
+Core.cmd('runjs', () => {
+	const Entity = new SandboxJs(Core.args[1]);
+	Entity.run();
+	const content = Entity.results;
+	return ['runjs.cmd.runjs.info', { content }];
+})
+	.descr('runjs.cmd.runjs.descr')
+	.menuId('queryTool')
+	.params([
 		{
 			must: true,
-			name: config.args[0],
+			name: 'code',
 			rest: true,
 		},
-	],
-);
+	]);

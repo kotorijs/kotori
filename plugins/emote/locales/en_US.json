@@ -1,0 +1,10 @@
+{
+	"emote.cmd.feel.descr": "Generate emote - pat",
+	"emote.cmd.feel.info": "%image%",
+	"emote.cmd.climb.descr": "Generate emote - climb",
+	"emote.cmd.climb.info": "%image%",
+	"emote.cmd.threaten.descr": "Generate emote - threaten",
+	"emote.cmd.threaten.info": "%image%",
+	"emote.cmd.hold.descr": "Generate emote - hold hands",
+	"emote.cmd.hold.info": "%image%"
+}

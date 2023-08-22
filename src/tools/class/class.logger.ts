@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { CONST, formatTime } from '../function';
-import { Console, obj } from '../interface';
+import { Console, obj } from '../type';
 
 export class Logger {
 	private static colorList: obj<string> = {
@@ -30,11 +30,11 @@ export class Logger {
 		whiteBG: '\x1B[47m', // 背景色为白色
 	};
 
-	public static prefixColor = 'blue';
+	private static prefixColor = 'blue';
 
-	public static logsFilePath = CONST.LOGS_PATH;
+	private static logsFilePath = CONST.LOGS_PATH;
 
-	public static originalLog = (
+	private static originalLog = (
 		__console: Console,
 		type: string,
 		typeColor: keyof typeof this.colorList,
@@ -43,11 +43,9 @@ export class Logger {
 	) => {
 		let message: string = '';
 		args.forEach(value => {
-			// if (typeof Element !== '') Element = Element!.toString();
 			let Element = value;
 			if (Element && typeof Element === 'object') {
-				const ElementTemp = Element.toString();
-				Element = ElementTemp.includes('object') ? JSON.stringify(Element) : ElementTemp;
+				Element = Element instanceof Error ? Element.toString() : JSON.stringify(Element);
 			}
 			message += `${Element} `;
 			message.slice(0, -1);

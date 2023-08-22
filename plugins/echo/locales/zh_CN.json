@@ -1,0 +1,6 @@
+{
+	"echo.cmd.echo.descr": "在群聊中输出消息",
+	"echo.cmd.echo.info": "%content%",
+	"echo.cmd.print.descr": "在私聊下打印消息",
+	"echo.cmd.print.info": "Result: %content%"
+}

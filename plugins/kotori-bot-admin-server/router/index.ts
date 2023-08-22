@@ -1,4 +1,4 @@
-import { expressApp } from '../interface';
+import { expressApp } from '../type';
 import account from './account';
 import data from './data';
 import log from './log';

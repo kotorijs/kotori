@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-08-18 16:15:05
  */
 import { spawn, ChildProcess } from 'child_process';
-import { ProcessCallback, ProcessStatus } from '../interface';
+import { ProcessCallback, ProcessStatus } from '../type';
 
 export class ProcessController {
 	private program: string;
