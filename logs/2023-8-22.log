@@ -1719,3 +1719,100 @@ querytool.cmd.sed.key.location: 陕西省榆林市电信 group: 691498216
 /notice <content> - 发送群公告*^ group: 673830908 
 23/8/22 15:57:57 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
 23/8/22 15:57:57 LOG {"data":{"message_id":-863759569},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:12:12 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 16:12:12 INFO Kotori Bot By Hotaru 
+23/8/22 16:12:12 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/22 16:12:12 WARM Run Info: Develop With Debuing... 
+23/8/22 16:12:12 WARM Cannot find Signserver 
+23/8/22 16:12:12 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/22 16:12:12 INFO Current connection mode: WsReverse 
+23/8/22 16:12:12 INFO [Connect] WebSocket client successfully connected 
+23/8/22 16:12:12 INFO DayTool Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/8/22 16:12:12 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:12:12 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/22 16:12:12 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/22 16:12:12 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:12:12 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:12:12 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/22 16:12:12 INFO Successfully loaded 14 plugins 
+23/8/22 16:12:12 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/22 16:12:12 LOG [Connect] Receive group msg [CQ:reply,id=-976681315][CQ:at,qq=3324656453] [CQ:at,qq=3324656453] 我看看 user: 1825241202 group: 317691609 
+23/8/22 16:12:12 LOG [Connect] Receive group msg 马 user: 1825241202 group: 317691609 
+23/8/22 16:12:12 LOG [Connect] Receive group msg 🤔 user: 1825241202 group: 317691609 
+23/8/22 16:12:12 LOG [Connect] Receive group msg 你发单字有啥用 user: 3324656453 group: 317691609 
+23/8/22 16:12:12 LOG [Connect] Receive group msg /white query user: 3324656453 group: 317691609 
+23/8/22 16:12:12 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:12:12 LOG [Plugin] Send group msg: 当前群白名单列表:
+无内容  group: 317691609 
+23/8/22 16:12:12 LOG [Connect] Receive group msg /manger query user: 3324656453 group: 317691609 
+23/8/22 16:12:12 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:12:12 LOG [Plugin] Send group msg: 当前群管理员列表:
+3458259951,2606249268,  group: 317691609 
+23/8/22 16:13:13 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 LOG {"data":{"message_id":853300976},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 LOG {"data":{"message_id":1172006502},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 WARM The current version of Kotori-bot is 0.7.4, and the latest version is 0.7.3. Please go to https://github.com/biyuehu/kotori-bot to update 
+23/8/22 16:13:13 LOG [Plugin] Send private msg: 当前版本: 0.7.4
+检测到有更新!
+最新版本: 0.7.3
+请前往Github仓库获取最新版本:
+https://github.com/biyuehu/kotori-bot user: 3324656453 
+23/8/22 16:13:13 LOG {"data":{"message_id":-912441120},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 LOG [Connect] Receive group msg [CQ:at,qq=2142124427] 你个死母野种 user: 1825241202 group: 317691609 
+23/8/22 16:13:13 LOG [Plugin] Send group msg: [CQ:at,qq=1825241202] 请勿辱骂BOT,已自动添加至全局黑名单 group: 317691609 
+23/8/22 16:13:13 LOG {"data":null,"message":"消息不存在","msg":"MESSAGE_NOT_FOUND","retcode":100,"status":"failed","wording":"消息不存在"} 
+23/8/22 16:13:13 LOG {"data":null,"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 LOG {"data":{"message_id":-1412102326},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:13:13 LOG [Connect] Receive group msg /unban [CQ:at,qq=1825241202]  user: 3324656453 group: 317691609 
+23/8/22 16:13:13 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:13:13 LOG [Plugin] Send group msg: 成功解除禁言[1825241202]用户 group: 317691609 
+23/8/22 16:13:13 LOG {"data":null,"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG {"data":{"message_id":1282222669},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG [Connect] Receive group msg 🐵 user: 1825241202 group: 317691609 
+23/8/22 16:14:14 LOG [Plugin] Send group msg: 检测到用户[1825241202]存在于全局黑名单 group: 317691609 
+23/8/22 16:14:14 LOG {"data":null,"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG {"data":{"message_id":234304696},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG [Connect] Receive group msg 顺带一提，如果带脏字还艾特bot，会被bot识别为辱骂自己 user: 3324656453 group: 317691609 
+23/8/22 16:14:14 LOG [Connect] Receive group msg [CQ:image,file=3e6a9e5d4a9e84c876bb20444503db5c.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-3145714092-3E6A9E5D4A9E84C876BB20444503DB5C/0?term=2&amp;is_origin=1] user: 3324656453 group: 317691609 
+23/8/22 16:14:14 LOG [Connect] Receive group msg /unban [CQ:at,qq=1825241202]  user: 3324656453 group: 317691609 
+23/8/22 16:14:14 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:14:14 LOG [Plugin] Send group msg: 成功解除禁言[1825241202]用户 group: 317691609 
+23/8/22 16:14:14 LOG {"data":null,"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:14:14 LOG {"data":{"message_id":177926305},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG [Connect] Receive group msg [CQ:reply,id=-1795267326][CQ:at,qq=3324656453] 普通脏字只会禁言十分钟，如果骂bot直接三十分钟还会自动加到全局黑名单 user: 3324656453 group: 317691609 
+23/8/22 16:15:15 LOG [Connect] Receive group msg 白名单——— user: 1825241202 group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: 检测到用户[1825241202]存在于全局黑名单 group: 317691609 
+23/8/22 16:15:15 LOG {"data":null,"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":1949010972},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG [Connect] Receive group msg /white add [CQ:at,qq=1825241202]  user: 3324656453 group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: 已添加[1825241202]至当前群白名单 group: 317691609 
+23/8/22 16:15:15 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":1676359023},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG [Connect] Receive group msg /unban [CQ:at,qq=2142124427]  user: 3324656453 group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: 成功解除禁言[2142124427]用户 group: 317691609 
+23/8/22 16:15:15 LOG {"data":null,"message":"机器人权限不足","msg":"NOT_MANAGEABLE","retcode":100,"status":"failed","wording":"机器人权限不足"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":-1914350525},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG [Connect] Receive group msg /unban [CQ:at,qq=1825241202]  user: 3324656453 group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: 成功解除禁言[1825241202]用户 group: 317691609 
+23/8/22 16:15:15 LOG {"data":null,"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":1686565238},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG [Connect] Receive group msg 😭 user: 1825241202 group: 317691609 
+23/8/22 16:15:15 LOG [Connect] Receive group msg /blackg del [CQ:at,qq=1825241202]  user: 3324656453 group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 16:15:15 LOG [Plugin] Send group msg: 已删除[1825241202]从全局黑名单 group: 317691609 
+23/8/22 16:15:15 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:15:15 LOG {"data":{"message_id":-40918836},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:16:16 LOG [Connect] Receive group msg 这bot比我都暴君 user: 1825241202 group: 317691609 
+23/8/22 16:17:17 LOG [Connect] Receive group msg 你还知道啊 user: 3324656453 group: 317691609 
+23/8/22 16:17:17 LOG [Connect] Receive group msg [CQ:image,file=13685f9c93701e93a872da3c99d9a948.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-2204202790-13685F9C93701E93A872DA3C99D9A948/0?term=2&amp;is_origin=1] user: 3324656453 group: 317691609 
+23/8/22 16:17:17 LOG [Connect] Receive group msg 即使是bot也得有人权（） user: 3324656453 group: 317691609 
+23/8/22 16:17:17 LOG [Connect] Receive group msg bot的责任在开发者 user: 1825241202 group: 317691609 
+23/8/22 16:17:17 LOG [Connect] Receive group msg [CQ:at,qq=3324656453] 你全责） user: 1825241202 group: 317691609 

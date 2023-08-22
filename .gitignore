@@ -4,3 +4,9 @@ signserver
 signserver2
 dist
 web
+config/plugins/**/*
+!config/plugins/.gitkeep
+data/**/*
+!data/.gitkeep
+!data/plugins/.gitkeep
+logs/*.log
