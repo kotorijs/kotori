@@ -1,0 +1,4 @@
+{
+	"kotori_bot_admin_server.cmd.login.descr": "Get Kotori-Amdin login url",
+	"kotori_bot_admin_server.cmd.login.info": "Here are your login url:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\nLogin url will expire after[%expire_time%Second], dont give others"
+}

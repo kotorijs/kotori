@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-08-18 20:27:59
  */
 import { BOTCONFIG } from '@/tools';
-import { EventList, EventDataType, LOG_PREFIX, BotConfigFilter, FuncListenCallback } from '../tools/interface';
+import { EventList, EventDataType, LOG_PREFIX, BotConfigFilter, FuncListenCallback } from '../tools/type';
 
 class EVENT {
 	private on_private_msg = () => {

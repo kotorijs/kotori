@@ -2,7 +2,7 @@ import path from 'path';
 import { existsSync } from 'fs';
 import API from '@/utils/class.api';
 import { CONST, loadConfig, parseCommand, saveConfig } from '../function';
-import { LOG_PREFIX, PLUGIN_GLOBAL, PROCESS_CMD, PluginAsyncList } from '../interface';
+import { LOG_PREFIX, PLUGIN_GLOBAL, PROCESS_CMD, PluginAsyncList } from '../type';
 import ProcessController from './class.process';
 
 export class Command {
@@ -127,7 +127,7 @@ export class Command {
 
 	private c_plugin = () => {
 		if (!this.isOnline()) return;
-		const pluginsJson = path.join(CONST.ROOT_PATH, 'plugins.json');
+		const pluginsJson = path.join(CONST.CONFIG_PATH, 'plugins.json');
 		const data = loadConfig(pluginsJson) as string[];
 		if (this.params[1] === 'query') {
 			this.params[2] = this.params[2] ?? '';

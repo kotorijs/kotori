@@ -3,15 +3,16 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 19:06:05
+ * @LastEditTime: 2023-08-21 17:11:10
  */
 import path from 'path';
-import { Cmd, temp } from 'plugins/kotori-core';
-import { ACCESS, SCOPE } from 'plugins/kotori-core/interface';
-import { Api, Const, loadConfig, saveConfig } from '@/tools';
+import { Core, temp } from 'plugins/kotori-core';
+import { Api, Const, Locale, loadConfig, saveConfig } from '@/tools';
 import SDK from '@/utils/class.sdk';
 import config from './config';
-import { arrData } from './interface';
+import { arrData } from './type';
+
+Locale.register(path.resolve(__dirname));
 
 export default (_Event: Event, _Api: Api, Consts: Const) => {
 	CONST = Consts;
@@ -47,7 +48,7 @@ const saveStatData = (data: arrData) => {
 	saveConfig(PATH, data);
 };
 
-Cmd.register(config.todayLength.cmd, config.todayLength.descr, 'funSys', SCOPE.GROUP, ACCESS.NORMAL, (send, data) => {
+Core.alias('今日长度', (send, data) => {
 	/* 加载数据 */
 	const today = loadTodayData();
 	const todayLength = typeof today[data.user_id] === 'number' ? today[data.user_id] : getNewLength();
@@ -58,9 +59,9 @@ Cmd.register(config.todayLength.cmd, config.todayLength.descr, 'funSys', SCOPE.G
 		at: SDK.cq_at(data.user_id),
 		length: todayLength,
 	};
-	if (todayLength <= 0) message = temp(config.todayLength.info[2], params);
-	else if (todayLength > 0 && todayLength <= config.joke) message = temp(config.todayLength.info[1], params);
-	else message = temp(config.todayLength.info[0], params);
+	if (todayLength <= 0) message = temp('newnew.cmd.today_length.info.2', params);
+	else if (todayLength > 0 && todayLength <= config.joke) message = temp('newnew.cmd.today_length.info.1', params);
+	else message = temp('newnew.cmd.today_length.info.0', params);
 	send(message);
 
 	/* 如果数据中不存在则更新数据 */
@@ -80,41 +81,33 @@ Cmd.register(config.todayLength.cmd, config.todayLength.descr, 'funSys', SCOPE.G
 		stat[data.user_id] = [todayLength, todayLength, 1, todayLength, data.sender.nickname];
 	}
 	saveStatData(stat);
-});
+})
+	.descr('newnew.cmd.today_length.descr')
+	.menuId('funSys');
 
-Cmd.register(
-	/* config.myLength.cmd */ '我的长度',
-	config.myLength.descr,
-	'funSys',
-	SCOPE.GROUP,
-	ACCESS.NORMAL,
-	(send, data) => {
-		const stat = loadStatData();
-		const person = stat[data.user_id];
-		if (!person || person.length <= 0) {
-			send(config.myLength.fail, {
-				at: SDK.cq_at(data.user_id),
-			});
-			return;
-		}
-		send(config.myLength.info, {
+Core.alias('我的长度', (_send, data) => {
+	const stat = loadStatData();
+	const person = stat[data.user_id];
+	if (!person || person.length <= 0) return ['newnew.cmd.my_length.fail', { at: SDK.cq_at(data.user_id) }];
+	return [
+		'newnew.cmd.my_length.info',
+		{
 			at: SDK.cq_at(data.user_id),
 			max_length: person[1],
 			min_length: person[0],
 			total_length: person[3],
 			avg_length: (person[3] / person[2]).toFixed(1),
 			nums: person[2],
-		});
-	},
-);
+		},
+	];
+})
+	.descr('newnew.cmd.my_length.descr')
+	.menuId('funSys');
 
-Cmd.register(config.avgRanking.cmd, config.avgRanking.descr, 'funSys', SCOPE.GROUP, ACCESS.NORMAL, send => {
+Core.alias('平均排行', () => {
 	const stat = loadStatData();
 	const statOrigin = loadStatData();
-	if (stat.length <= 0) {
-		send(config.avgRanking.fail);
-		return;
-	}
+	if (stat.length <= 0) return 'newnew.cmd.avg_ranking.fail';
 	Object.keys(stat).forEach(key => {
 		const item = stat[key as unknown as number];
 		item[3] /= item[2];
@@ -125,27 +118,26 @@ Cmd.register(config.avgRanking.cmd, config.avgRanking.descr, 'funSys', SCOPE.GRO
 	let list = '';
 	let num = 1;
 	entries.forEach(entry => {
-		list += temp(config.avgRanking.list, {
+		const nums = entry[1][2];
+		if (nums < config.avgMinNum) return;
+		list += temp('newnew.cmd.avg_ranking.list', {
 			num,
 			name: entry[1][4],
-			nums: entry[1][2],
+			nums,
 			avg_length: entry[1][3].toFixed(1),
 			total_length: statOrigin[entry[0] as unknown as number][3],
 		});
 		num += 1;
 	});
-	send(config.avgRanking.info, {
-		list,
-	});
-});
+	return ['newnew.cmd.avg_ranking.info', { list }];
+})
+	.descr('newnew.cmd.avg_ranking.descr')
+	.menuId('funSys');
 
-Cmd.register(config.todayRanking.cmd, config.todayRanking.descr, 'funSys', SCOPE.GROUP, ACCESS.NORMAL, send => {
+Core.alias('今日排行', () => {
 	const stat = loadStatData();
 	const today = loadTodayData();
-	if (today.length <= 0) {
-		send(config.todayRanking.fail);
-		return;
-	}
+	if (today.length <= 0) return 'newnew.cmd.today_ranking.fail';
 
 	const newEntries = Object.entries(today);
 	newEntries.sort((a, b) => b[1] - a[1]);
@@ -154,14 +146,14 @@ Cmd.register(config.todayRanking.cmd, config.todayRanking.descr, 'funSys', SCOPE
 	let num = 1;
 	newEntries.forEach(entry => {
 		const data = stat[entry[0] as unknown as number];
-		list += temp(config.todayRanking.list, {
+		list += temp('newnew.cmd.today_ranking.list', {
 			num,
 			name: data[4],
 			length: entry[1],
 		});
 		num += 1;
 	});
-	send(config.todayRanking.info, {
-		list,
-	});
-});
+	return ['newnew.cmd.today_ranking.info', { list }];
+})
+	.descr('newnew.cmd.today_ranking.descr')
+	.menuId('funSys');

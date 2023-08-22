@@ -5,7 +5,7 @@ import { CONST } from '@/tools';
 import config from './config';
 import { handle, con, updateToken, verify, log } from './method';
 import router from './router';
-import { expressApp } from './interface';
+import { expressApp } from './type';
 import './bot';
 
 updateToken();

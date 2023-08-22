@@ -8,17 +8,22 @@
 		"start": "ts-node -r tsconfig-paths/register ./src/app.ts --no-signale",
 		"serve": "ts-node -r tsconfig-paths/register ./src/app.ts dev --no-signale",
 		"dev": "nodemon --config nodemon.json",
-		"test": "echo building",
+		"test": "echo testing",
 		"build": "tsc",
 		"create": "ts-node -r tsconfig-paths/register ./src/modules/create.ts",
 		"lint": "eslint \"src/**/*.{js,vue,ts}\" --fix && eslint \"plugins/**/*.{js,vue,ts}\" --fix",
 		"prettier": "prettier --config .prettierrc \"src/**/*.{vue,js,ts,json}\" --write && prettier --config .prettierrc \"plugins/**/*.{ts,json}\" --write",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"release": "standard-version"
 	},
 	"author": "hotaru",
 	"license": "GPL-3.0",
 	"bugs": {
 		"url": "https://github.com/biyuehu/kotori-bot/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:BIYUEHU/kotori-bot.git"
 	},
 	"homepage": "https://github.com/biyuehu/kotori-bot#readme",
 	"dependencies": {
@@ -54,6 +59,7 @@
 		"lint-staged": "^14.0.0",
 		"nodemon": "^3.0.1",
 		"prettier": "^3.0.2",
+		"standard-version": "^9.5.0",
 		"ts-loader": "^9.4.3",
 		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5.1.3"
