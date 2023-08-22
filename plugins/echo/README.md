@@ -1,9 +1,19 @@
-# 抽象话翻译
+# ECHO
 
-👁️孙笑川在线帮你翻译成抽象话
+Send a message
 
-> 人人都说抽象话，无人识得李老八
+**Version:** 1.0.0
+**Author:** Hotaru
+**License:** GPL-3.0
 
-👏输入`/nmsl <...抽象话>`翻译成抽象话,`/config.ts`内可自定义指令与模板
+## List of command
 
-> 数据来源: [https://github.com/gaowanliang/NMSL/](https://github.com/gaowanliang/NMSL/)
+-   /print <...content> - send a message on privates#^^
+-   /echo <...message> - send a message on group\*^^
+
+## Lang Support
+
+-   ja_JP
+-   en_US
+-   zh_TW
+-   zh_CN

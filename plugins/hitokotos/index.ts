@@ -6,6 +6,21 @@ import { Locale, isObj } from '@/tools';
 
 Locale.register(path.resolve(__dirname));
 
+Core.cmd(
+	'hitokotos',
+	'%HEAD%' +
+		'\n一言 一言2' +
+		'\n诗词 情话' +
+		'\n骚话 笑话' +
+		'\n人生语录 社会语录' +
+		'\n网抑云 毒鸡汤' +
+		'\n舔狗语录 爱情语录' +
+		'\n温柔语录 个性签名' +
+		'\n经典语录 英汉语录',
+)
+	.descr('hitokotos.menu.hitokotos.descr')
+	.menuId('main');
+
 Core.alias('一言', async () => {
 	const res = await fetchJ('https://imlolicon.tk/api/hitokoto/v2/');
 	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];

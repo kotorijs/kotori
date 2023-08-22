@@ -1816,3 +1816,360 @@ https://github.com/biyuehu/kotori-bot user: 3324656453
 23/8/22 16:17:17 LOG [Connect] Receive group msg 即使是bot也得有人权（） user: 3324656453 group: 317691609 
 23/8/22 16:17:17 LOG [Connect] Receive group msg bot的责任在开发者 user: 1825241202 group: 317691609 
 23/8/22 16:17:17 LOG [Connect] Receive group msg [CQ:at,qq=3324656453] 你全责） user: 1825241202 group: 317691609 
+23/8/22 16:24:24 LOG [Connect] Receive group msg [CQ:reply,id=1556109095][CQ:at,qq=3324656453] [CQ:at,qq=3324656453] 管道符隔汉字是啥作用 user: 2606249268 group: 317691609 
+23/8/22 16:25:25 LOG [Connect] Receive group msg 或 user: 3324656453 group: 317691609 
+23/8/22 16:25:25 LOG [Connect] Receive group msg 不懂 user: 2606249268 group: 317691609 
+23/8/22 16:25:25 LOG [Connect] Receive group msg 字符或要用管道吗 user: 2606249268 group: 317691609 
+23/8/22 16:25:25 LOG [Connect] Receive group msg 与或非的那个或，跟||在编程作用一样 user: 3324656453 group: 317691609 
+23/8/22 16:25:25 LOG [Connect] Receive group msg [CQ:image,file=d148066b213767e0ca607e4a22f23409.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-2514837036-D148066B213767E0CA607E4A22F23409/0?term=2&amp;is_origin=1] user: 3324656453 group: 317691609 
+23/8/22 16:26:26 LOG [Connect] Receive group msg 位操作符用不来 user: 2606249268 group: 317691609 
+23/8/22 16:26:26 LOG [Connect] Receive group msg 算二进制的 user: 2606249268 group: 317691609 
+23/8/22 16:27:27 LOG [Connect] Receive group msg 关微操作和二进制啥事啊 user: 3324656453 group: 317691609 
+23/8/22 16:27:27 LOG [Connect] Receive group msg 这个我只在专升本c语言课程里面做过 user: 2606249268 group: 317691609 
+23/8/22 16:27:27 LOG [Connect] Receive group msg 这是正则表达式 user: 3324656453 group: 317691609 
+23/8/22 16:27:27 LOG [Connect] Receive group msg [CQ:image,file=d148066b213767e0ca607e4a22f23409.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-2990672118-D148066B213767E0CA607E4A22F23409/0?term=2&amp;is_origin=1] user: 3324656453 group: 317691609 
+23/8/22 16:29:29 LOG [Connect] Receive group msg [CQ:image,file=a663715c621cf9c603cec1162e1fc9f8.image,subType=7,url=https://gchat.qpic.cn/gchatpic_new/2606249268/3807691609-2825981138-A663715C621CF9C603CEC1162E1FC9F8/0?term=2&amp;is_origin=1] user: 2606249268 group: 317691609 
+23/8/22 16:35:35 LOG [Connect] Receive group msg /locale set en_US user: 3324656453 group: 673830908 
+23/8/22 16:35:35 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:35:35 LOG [Plugin] Send group msg: Succeeded in switching to locale en_US
+Total number of switching Locales: 12
+Number of valid Locales: 12 group: 673830908 
+23/8/22 16:35:35 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:35:35 LOG {"data":{"message_id":635942426},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:35:35 LOG [Connect] Receive group msg /days user: 3324656453 group: 673830908 
+23/8/22 16:35:35 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:35:35 ERROR (node:5408) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unhandledRejection listeners added to [process]. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created) 
+23/8/22 16:35:35 LOG [Plugin] Send group msg: Kotori-Bot:
+/music <music> <num=1> - NetEase Cloud music, default song no. is 1, enter 0 to show song list
+/bili <bvid> - Bilibili video info query
+/bgm <content> <num=1> - Search games/anime on Bangumi
+/bgmc - Get today's Bangumi schedule
+/star <starName> - Check today's horoscope
+/tran <...content> - Translate between Chinese and other languages
+/lunar - Check lunar calendar
+/story - Today in history
+/luck <qq/at?> - Check QQ luck
+/value <qq/at?> - Check QQ valuation
+/weather <area> - Check weather
+/waste <item> - Garbage classification group: 673830908 
+23/8/22 16:35:35 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:35:35 LOG {"data":{"message_id":-873867466},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:35:35 LOG [Connect] Receive group msg /menu user: 3324656453 group: 673830908 
+23/8/22 16:35:35 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:35:35 LOG [Plugin] Send group msg: Kotori-Bot:
+/cores - Core functions
+/days - Daily tools
+/querys - Query tools
+/funs - Entertainment system
+/imgs - Random images
+/other - Other functions
+/gpts - GPT Chats
+/mange - Group manager system*^
+/admin - Super admin system^^ group: 673830908 
+23/8/22 16:35:35 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:35:35 LOG {"data":{"message_id":743569969},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:37:37 LOG [Connect] Receive group msg /funs user: 3324656453 group: 673830908 
+23/8/22 16:37:37 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:37:37 LOG [Plugin] Send group msg: Kotori-Bot:
+/feel <QQ/At?> - Generate emote - pat
+/climb <QQ/At?> - Generate emote - climb
+/threaten <QQ/At?> - Generate emote - threaten
+/hold <QQ/At> - Generate emote - hold hands
+今日长度 - Get today's penis length
+我的长度 - Get your own penis info
+平均排行 - Get average penis ranking
+今日排行 - Get today's penis ranking
+/nmsl <...抽🐘话?> - 孙🐶在🧵帮你翻译成抽🐘话 group: 673830908 
+23/8/22 16:37:37 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:37:37 LOG {"data":{"message_id":999375682},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:39:39 LOG [Connect] Receive group msg /gpts user: 3324656453 group: 673830908 
+23/8/22 16:39:39 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:39:39 LOG [Plugin] Send group msg: Kotori-Bot:
+/gpt <...content> - ChatGPTV3.5
+/cl <...content> - Claude group: 673830908 
+23/8/22 16:39:39 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:39:39 LOG {"data":{"message_id":-710991250},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:43:43 LOG [Connect] Receive group msg /cores user: 3324656453 group: 673830908 
+23/8/22 16:43:43 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:43:43 LOG [Plugin] Send group msg: Kotori-Bot:
+/alias query - Query all command aliases^
+/alias add <alias> <...command> - Add command alias, supports parameters, no need for slash^
+/alias del <alias> - Delete command alias^
+/system 0 - Restart Go-cqHttp^^
+/system 1 - Restart Signature Server and Go-cqHttp^^
+/locale list - View bot's list of support languages^
+/locale set <locales> - Switching Bot Language^
+/core - View kotori-core core plugin statistics
+/help <command=menu> - View command help information, no need for slash/
+/view - View Kotori-bot configuration
+/plugin query <pluginId?> - View specified or all plugin information
+/plugin ban <pluginId> - Disable specified plugin
+/plugin unban <pluginId> - Enable specified plugin
+/bot - View BOT information and running status
+/status - View server running status
+/about - Help information
+/update - Check for updates
+/print <...content> - send a message on privates#^^
+/echo <...message> - send a message on group*^^
+//login - Get Kotori-Amdin login url^^ group: 673830908 
+23/8/22 16:43:43 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:43:43 LOG {"data":{"message_id":1023182683},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:52:52 LOG [Connect] Receive group msg /about user: 3324656453 group: 673830908 
+23/8/22 16:52:52 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 16:52:52 LOG [Plugin] Send group msg: KotoriBot is a NodeJS+TypeScript SDK and bot framework implementation for go-cqhttp
+Source code: https://github.com/biyuehu/kotori-bot
+Leave the poor 🦊 a star
+
+Current bot framework version: 0.7.4
+Framework license: GPL-3.0
+[CQ:image,file=https://biyuehu.github.io/images/avatar.png,type=normal,subType=undefined,url=undefined,cache=1,id=40000,c=1]
+Byhotaru group: 673830908 
+23/8/22 16:52:52 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:52:52 LOG {"data":{"message_id":-755833225},"message":"","retcode":0,"status":"ok"} 
+23/8/22 16:59:59 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 16:59:59 INFO Kotori Bot By Hotaru 
+23/8/22 16:59:59 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/22 16:59:59 WARM Run Info: Develop With Debuing... 
+23/8/22 16:59:59 WARM Cannot find Signserver 
+23/8/22 16:59:59 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/22 16:59:59 INFO Current connection mode: WsReverse 
+23/8/22 16:59:59 INFO [Connect] WebSocket client successfully connected 
+23/8/22 16:59:59 INFO DayTool Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/8/22 16:59:59 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:59:59 INFO Emote Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/8/22 16:59:59 INFO Gpt Chat Plugin loaded successfully Version: 1.0.0 License: MIT By Himeno 
+23/8/22 16:59:59 INFO Hitokotos Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:59:59 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.0.1 License: MIT By Himeno 
+23/8/22 16:59:59 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/22 16:59:59 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:59:59 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: MIT By Hotaru 
+23/8/22 16:59:59 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/22 16:59:59 INFO Successfully loaded 14 plugins 
+23/8/22 16:59:59 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/22 16:59:59 LOG Kotori-bot is currently the latest version 
+23/8/22 17:0:0 LOG [Connect] Receive group msg /banword query user: 3324656453 group: 317691609 
+23/8/22 17:0:0 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 17:0:0 LOG [Plugin] Send group msg: Banned words:
+傻逼, 草拟吗, cnm, 死妈,   group: 317691609 
+23/8/22 17:0:0 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:0:0 LOG {"data":{"message_id":1594286047},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:0:0 LOG [Connect] Receive group msg /banword query user: 3458259951 group: 317691609 
+23/8/22 17:0:0 LOG [Plugin] Send group msg: This command can only be executed by BOT super admin! group: 317691609 
+23/8/22 17:0:0 LOG {"data":{"message_id":-700101854},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:0:0 LOG [Connect] Receive group msg /banword query user: 3324656453 group: 317691609 
+23/8/22 17:0:0 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 317691609 
+23/8/22 17:0:0 LOG [Plugin] Send group msg: Banned words:
+傻逼, 草拟吗, cnm, 死妈, 户籍|孝子|野种|傻逼|脑残|闹腾|你妈|尼玛|教养|家教|道德|挂狗|开纪|开挂|户口|爷爬|玛德|给爬|伞兵|轮奸|屠杀, (纪|死|挂|日|瓜|母|野|傻|舔|杀|打|滚|上|操|日|淦|干|草|插|cao|射|癌|脑|fuck|fuc|uck)((x|.|。|，|/|,|'|"|;|u|o|“|”|；|:|：|`|·|~){0,7})?(鸡|jing|精Dog|瘫|癌|dog|狗|种|B|逼|狗|母|爹|妈|娘|马|嘛|ma|m|全|祖|You|你|他|妈|you|mom|mother),   group: 317691609 
+23/8/22 17:0:0 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:0:0 LOG {"data":{"message_id":944450062},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:1:1 LOG [Connect] Receive group msg [CQ:image,file=9af9cc86260c333fed95a1d782977053.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/2470895885/3807691609-2807029530-9AF9CC86260C333FED95A1D782977053/0?term=2&amp;is_origin=0] user: 2470895885 group: 317691609 
+23/8/22 17:1:1 LOG [Connect] Receive group msg 这么多匹配规则应该够了 user: 3324656453 group: 317691609 
+23/8/22 17:2:2 LOG [Connect] Receive group msg [CQ:image,file=cff7628fac54a789bbbb3b882f980c00.image,subType=0,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-2269237778-CFF7628FAC54A789BBBB3B882F980C00/0?term=2&amp;is_origin=1] user: 3324656453 group: 317691609 
+23/8/22 17:3:3 LOG [Connect] Receive group msg 绿色我还以为是注释 user: 2470895885 group: 317691609 
+23/8/22 17:3:3 LOG [Connect] Receive group msg [CQ:image,file=9af9cc86260c333fed95a1d782977053.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/2470895885/3807691609-2766075246-9AF9CC86260C333FED95A1D782977053/0?term=2&amp;is_origin=0] user: 2470895885 group: 317691609 
+23/8/22 17:3:3 LOG [Connect] Receive group msg 咱这注释灰色 user: 3324656453 group: 317691609 
+23/8/22 17:3:3 LOG [Connect] Receive group msg 这玩意是两年前看了十分钟的正则表达式教程然后速写的一个（） user: 3324656453 group: 317691609 
+23/8/22 17:10:10 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/22 17:10:10 LOG [Plugin] Send private msg: Kotori-Bot:
+/cores - Core functions
+/days - Daily tools
+/querys - Query tools
+/funs - Entertainment system
+/imgs - Random images
+/other - Other functions
+/gpts - GPT Chats
+/hitokotos - Random Quotations
+/mange - Group manager system*^
+/admin - Super admin system^^
+Byhotaru user: 3324656453 
+23/8/22 17:10:10 LOG {"data":{"message_id":1351881050},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:10:10 LOG [Connect] Receive private msg /hitkotos user: 3324656453 
+23/8/22 17:10:10 LOG [Connect] Receive private msg /hitokotos user: 3324656453 
+23/8/22 17:10:10 LOG [Plugin] Send private msg: Kotori-Bot:
+一言 一言2
+诗词 情话
+骚话 笑话
+人生语录 社会语录
+网抑云 毒鸡汤
+舔狗语录 爱情语录
+温柔语录 个性签名
+经典语录 英汉语录 user: 3324656453 
+23/8/22 17:10:10 LOG {"data":{"message_id":663953868},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:10:10 LOG [Connect] Receive private msg 诗词 user: 3324656453 
+23/8/22 17:10:10 INFO GET Request url:https://api.imlolicon.tk/api/words params: {"msg":16,"format":"text"} 
+23/8/22 17:10:10 INFO Response type: TEXT result: 闻道梅花坼晓风，雪堆遍满四山中。  ──陆游《梅花绝句》 
+23/8/22 17:10:10 LOG [Plugin] Send private msg: 闻道梅花坼晓风，雪堆遍满四山中。  ──陆游《梅花绝句》 user: 3324656453 
+23/8/22 17:10:10 LOG {"data":{"message_id":-1174948753},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:10:10 LOG [Connect] Receive private msg 一言 user: 3324656453 
+23/8/22 17:10:10 INFO GET Request url:https://imlolicon.tk/api/hitokoto/v2/ params: empty 
+23/8/22 17:10:10 INFO Response type: JSON result: {"code":500,"message":"success","time":1692695424,"version":"v2.2","by":"https://imlolicon.tk","data":{"msg":"比起不做而后悔，不如做了再后悔。","from":"空白《游戏人生》","type":"ACG"}} 
+23/8/22 17:10:10 LOG [Plugin] Send private msg: 比起不做而后悔，不如做了再后悔。——空白《游戏人生》
+Type: ACG user: 3324656453 
+23/8/22 17:10:10 LOG {"data":{"message_id":-823098119},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:14:14 LOG [Connect] Receive private msg /cores user: 3324656453 
+23/8/22 17:14:14 LOG [Plugin] Send private msg: Kotori-Bot:
+/alias query - Query all command aliases^
+/alias add <alias> <...command> - Add command alias, supports parameters, no need for slash^
+/alias del <alias> - Delete command alias^
+/system 0 - Restart Go-cqHttp^^
+/system 1 - Restart Signature Server and Go-cqHttp^^
+/locale list - View bot's list of support languages^
+/locale set <locales> - Switching Bot Language^
+/core - View kotori-core core plugin statistics
+/help <command=menu> - View command help information, no need for slash/
+/view - View Kotori-bot configuration
+/plugin query <pluginId?> - View specified or all plugin information
+/plugin ban <pluginId> - Disable specified plugin
+/plugin unban <pluginId> - Enable specified plugin
+/bot - View BOT information and running status
+/status - View server running status
+/about - Help information
+/update - Check for updates
+/print <...content> - send a message on privates#^^
+/echo <...message> - send a message on group*^^
+//login - Get Kotori-Amdin login url^^
+Byhotaru user: 3324656453 
+23/8/22 17:14:14 LOG {"data":{"message_id":1475990851},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:25:25 LOG [Connect] Receive group msg [CQ:reply,id=1336585854][CQ:at,qq=1214754725] [CQ:at,qq=1214754725] 还好 user: 2682026828 group: 691498216 
+23/8/22 17:25:25 LOG [Connect] Receive group msg 也就比满分快了33秒 user: 2682026828 group: 691498216 
+23/8/22 17:25:25 LOG [Connect] Receive group msg 樂 user: 1825241202 group: 691498216 
+23/8/22 17:25:25 LOG [Connect] Receive group msg [CQ:face,id=277] user: 2682026828 group: 691498216 
+23/8/22 17:33:33 LOG [Connect] Receive private msg /help user: 3324656453 
+23/8/22 17:33:33 LOG [Plugin] Send private msg: Help: 
+/menu - Main menu
+<name> represents a parameter, do not include "<>" when sending, use space to separate parameters
+"?" indicates an optional parameter, "=xx" means an optional parameter with default value, "..." means remaining parameters, meaning spaces in parameters will not affect command, "*" only available in group chat, "#" only available in private chat, "^" requires level 1 permission (group BOT admin and group admin), "^^" requires level 2 permission (BOT super admin)
+For detailed BOT usage documentation please check:
+http://??????????.com user: 3324656453 
+23/8/22 17:33:33 LOG {"data":{"message_id":553575893},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:35:35 LOG [Connect] Receive private msg /mange user: 3324656453 
+23/8/22 17:35:35 LOG [Plugin] Send private msg: This function is only available in group chat or private chat user: 3324656453 
+23/8/22 17:35:35 LOG {"data":{"message_id":-1337853884},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:35:35 LOG [Connect] Receive group msg /admin user: 3324656453 group: 673830908 
+23/8/22 17:35:35 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 17:35:35 LOG [Plugin] Send group msg: Kotori-Bot:
+/blackg query - Query global blacklist^^
+/blackg add <qq/at> - Add to global blacklist^^
+/blackg del <qq/at> - Remove from global blacklist^^
+/whiteg query - Query global whitelist^^
+/whiteg add <qq/at> - Add to global whitelist^^
+/whiteg del <qq/at> - Remove from global whitelist^^
+/manger query - Query group bot admins^^
+/manger add <qq/at> - Add group bot admin^^
+/manger del <qq/at> - Remove group bot admin^^
+/banword query - Query banned words^^
+/banword add <msg/RegExp> - Add banned word^^
+/banword del <msg/RegExp> - Remove banned word^^
+Byhotaru group: 673830908 
+23/8/22 17:35:35 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:35:35 LOG {"data":{"message_id":894094192},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:35:35 LOG [Connect] Receive group msg /mange user: 3324656453 group: 673830908 
+23/8/22 17:35:35 LOG [Plugin] Send group msg: [CQ:poke,qq=3324656453] group: 673830908 
+23/8/22 17:35:35 LOG [Plugin] Send group msg: Kotori-Bot:
+/ban <qq/at?> <time(minutes)=10> - Mute someone*^
+/unban <qq/at?> - Unmute someone*^
+/black query - Query group blacklist*^
+/black add <qq/at> - Add to group blacklist*^
+/black del <qq/at> - Remove from group blacklist*^
+/white query - Query group whitelist*^
+/white add <qq/at> - Add to group whitelist*^
+/white del <qq/at> - Remove from group whitelist*^
+/kick <qq/at> - Kick someone out*^
+/all <content> - Send message to all members*^
+/notice <content> - Send group announcement*^
+Byhotaru group: 673830908 
+23/8/22 17:35:35 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:35:35 LOG {"data":{"message_id":280760449},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:37:37 LOG [Connect] Receive group msg 整挺好 user: 1214754725 group: 691498216 
+23/8/22 17:37:37 LOG [Connect] Receive group msg 游泳好像是200米 user: 1214754725 group: 691498216 
+23/8/22 17:38:38 LOG [Connect] Receive group msg 还是往返400 user: 1214754725 group: 691498216 
+23/8/22 17:38:38 LOG [Connect] Receive group msg 我们市也不是没场地   但就是不让考 user: 1214754725 group: 691498216 
+23/8/22 17:38:38 LOG [Connect] Receive group msg 强制1000/800米 user: 1214754725 group: 691498216 
+23/8/22 17:42:42 LOG [Connect] Receive group msg [CQ:image,file=193a5c385b4e9c4ee099a7844aaffe8d.image,subType=0,url=https://gchat.qpic.cn/gchatpic_new/3324656453/3807691609-2282101670-193A5C385B4E9C4EE099A7844AAFFE8D/0?term=2&amp;is_origin=1]我去，这玩意下载数怎么这么多 user: 3324656453 group: 317691609 
+23/8/22 17:47:47 LOG [Connect] Receive group msg 1000米我也满了 user: 2682026828 group: 691498216 
+23/8/22 17:48:48 LOG [Connect] Receive group msg 不是游泳1000m只记一个嘛 user: 1214754725 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 都记 user: 2682026828 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 反正浙江是这样的 user: 2682026828 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 浙江 user: 1214754725 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 那没事了 user: 1214754725 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 而且游泳是100 user: 2682026828 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg ？ user: 2682026828 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg [CQ:reply,id=-779327669][CQ:at,qq=1214754725] [CQ:at,qq=1214754725] 100 user: 2682026828 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 浙江正常 user: 1214754725 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 毕竟还考科学 user: 1214754725 group: 691498216 
+23/8/22 17:49:49 LOG [Connect] Receive group msg 其他都是理化生拆开了 user: 1214754725 group: 691498216 
+23/8/22 17:50:50 LOG [Connect] Receive group msg [CQ:image,file=9eb857706ba13a3891934253b6eaefc4.image,subType=1,url=https://gchat.qpic.cn/gchatpic_new/1214754725/691498216-3014136914-9EB857706BA13A3891934253B6EAEFC4/0?term=2&amp;is_origin=0] user: 1214754725 group: 691498216 
+23/8/22 17:51:51 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/22 17:51:51 ERROR (node:6268) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unhandledRejection listeners added to [process]. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created) 
+23/8/22 17:51:51 LOG [Plugin] Send private msg: Kotori-Bot:
+/cores - Core functions
+/days - Daily tools
+/querys - Query tools
+/funs - Entertainment system
+/imgs - Random images
+/other - Other functions
+/gpts - GPT Chats
+/hitokotos - Random Quotations
+/mange - Group manager system*^
+/admin - Super admin system^^
+Byhotaru user: 3324656453 
+23/8/22 17:51:51 LOG {"data":{"message_id":-951662382},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:52:52 LOG [Connect] Receive private msg /funs user: 3324656453 
+23/8/22 17:52:52 LOG [Plugin] Send private msg: Kotori-Bot:
+/feel <QQ/At?> - Generate emote - pat
+/climb <QQ/At?> - Generate emote - climb
+/threaten <QQ/At?> - Generate emote - threaten
+/hold <QQ/At> - Generate emote - hold hands
+今日长度 - Get today's penis length
+我的长度 - Get your own penis info
+平均排行 - Get average penis ranking
+今日排行 - Get today's penis ranking
+/nmsl <...抽🐘话?> - 孙🐶在🧵帮你翻译成抽🐘话
+Byhotaru user: 3324656453 
+23/8/22 17:52:52 LOG {"data":{"message_id":-237246799},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:54:54 LOG [Connect] Receive group msg az user: 2682026828 group: 691498216 
+23/8/22 17:55:55 LOG [Connect] Receive private msg /querys user: 3324656453 
+23/8/22 17:55:55 LOG [Plugin] Send private msg: Kotori-Bot:
+/github <repository> - Query Github repository info
+/motd <ip> <port=25565> - MCJE server info query
+/motdbe <ip> <port=19132> - MCBE server info query
+/mcskin <id> - MC legit account skin query
+/sed <qq/phone> - Social engineering info query
+/idcard <idcard> - ID card info query
+/hcb <id> - Weiyi Yun blacklist query
+/header <url> - Get website icon and title
+/state <url> - Website status query
+/speed <url> - Website speed test
+/runjs <...code> - Run JavaScript code
+Byhotaru user: 3324656453 
+23/8/22 17:55:55 LOG {"data":{"message_id":-2032347609},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:56:56 LOG [Connect] Receive private msg /imgs user: 3324656453 
+23/8/22 17:56:56 LOG [Plugin] Send private msg: Kotori-Bot:
+/sex <tags=> - Pixiv images
+/sexh <tags?> - HuliImg images
+/seller - Seller show images
+/sedimg - Temptation images
+/bing - Bing daily image
+/day - See the world daily
+/earth - Real-time Earth
+/china - Real-time China
+/sister - Random girl video
+/qrcode <content> <level=3> - QR code generator
+Byhotaru user: 3324656453 
+23/8/22 17:56:56 LOG {"data":{"message_id":534087581},"message":"","retcode":0,"status":"ok"} 
+23/8/22 17:56:56 LOG [Connect] Receive private msg /menu user: 3324656453 
+23/8/22 17:56:56 LOG [Plugin] Send private msg: Kotori-Bot:
+/cores - Core functions
+/days - Daily tools
+/querys - Query tools
+/funs - Entertainment system
+/imgs - Random images
+/other - Other functions
+/gpts - GPT Chats
+/hitokotos - Random Quotations
+/mange - Group manager system*^
+/admin - Super admin system^^
+Byhotaru user: 3324656453 
+23/8/22 17:56:56 LOG {"data":{"message_id":1758639883},"message":"","retcode":0,"status":"ok"} 

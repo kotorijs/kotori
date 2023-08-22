@@ -1,4 +1,5 @@
 {
+	"hitokotos.menu.hitokotos.descr": "Random Quotations",
 	"hitokotos.cmd.hitokoto.info": "%msg%%from%\nType: %type%",
 	"hitokotos.cmd.list.info": "%content%"
 }

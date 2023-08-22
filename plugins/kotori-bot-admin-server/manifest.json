@@ -1,7 +1,7 @@
 {
 	"name": "Kotori With Web Admin",
-	"description": "鸟人万维网",
-	"version": "1.0.1",
-	"author": "Himeno",
-	"license": "MIT"
+	"description": "This is a website management system specifically designed for the kotori-bot project",
+	"version": "1.1.0",
+	"author": "Hotaru",
+	"license": "GPL-3.0"
 }
