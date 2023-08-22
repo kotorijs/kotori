@@ -1,0 +1,7 @@
+{
+	"gpt_chat.menu.gpt_chat.descr": "GPTチャット",
+	"gpt_chat.cmd.gpt.descr": "ChatGPT V3.5でチャット",
+	"gpt_chat.cmd.gpt.info": "%content%",
+	"gpt_chat.cmd.cl.descr": "Claudeでチャット",
+	"gpt_chat.cmd.cl.info": "%content%"
+}

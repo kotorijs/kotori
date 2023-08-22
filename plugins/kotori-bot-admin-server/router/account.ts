@@ -1,7 +1,7 @@
 import Express from 'express';
 import { handle, loadConfigP, updateToken } from '../method';
 import config from '../config';
-import { Token } from '../interface';
+import { Token } from '../type';
 
 const route = Express.Router();
 

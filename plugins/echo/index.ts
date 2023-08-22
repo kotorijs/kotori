@@ -1,41 +1,41 @@
-import { Cmd, args, temp } from 'plugins/kotori-core';
-import { ACCESS, SCOPE } from 'plugins/kotori-core/interface';
-import config from './config';
+import path from 'path';
+import { Core } from 'plugins/kotori-core';
+import { ACCESS, SCOPE } from 'plugins/kotori-core/type';
+import { Locale } from '@/tools';
 
-Cmd.register(
-	config.print.cmd,
-	config.print.descr,
-	'aboutInfo',
-	SCOPE.PRIVATE,
-	ACCESS.ADMIN,
-	() =>
-		temp(config.print.info, {
-			content: args[1],
-		}),
-	[
+Locale.register(path.resolve(__dirname));
+
+Core.cmd('print', () => [
+	'echo.cmd.print.info',
+	{
+		content: Core.args[1],
+	},
+])
+	.descr('echo.cmd.print.descr')
+	.menuId('coreCom')
+	.scope(SCOPE.PRIVATE)
+	.access(ACCESS.ADMIN)
+	.params([
 		{
-			must: false,
-			name: config.echo.args[0],
+			must: true,
 			rest: true,
 		},
-	],
-);
+	]);
 
-Cmd.register(
-	config.echo.cmd,
-	config.echo.descr,
-	'aboutInfo',
-	SCOPE.GROUP,
-	ACCESS.MANGER,
-	() =>
-		temp(config.echo.info, {
-			content: args[1],
-		}),
-	[
+Core.cmd('echo', () => [
+	'echo.cmd.echo.info',
+	{
+		content: Core.args[1],
+	},
+])
+	.descr('echo.cmd.echo.descr')
+	.menuId('coreCom')
+	.scope(SCOPE.GROUP)
+	.access(ACCESS.ADMIN)
+	.params([
 		{
-			must: false,
-			name: config.echo.args[0],
+			must: true,
+			name: 'message',
 			rest: true,
 		},
-	],
-);
+	]);

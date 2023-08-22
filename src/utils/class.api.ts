@@ -14,7 +14,7 @@ import {
 	FuncSend,
 	Msg,
 	LOG_PREFIX,
-} from '@/tools/interface';
+} from '@/tools/type';
 
 class API implements api {
 	private send: FuncSend;

@@ -1,7 +1,7 @@
 import { existsSync } from 'fs';
 import { createPromptModule } from 'inquirer';
 import { CONST, saveConfig } from '@/tools/function';
-import type { CreateData } from '@/tools/interface';
+import type { CreateData } from '@/tools/type';
 
 class Create {
 	private result: CreateData;
@@ -156,7 +156,7 @@ class Create {
 		saveConfig(`${PATH}\\manifest.json`, this.manifestJson());
 		saveConfig(`${PATH}\\index.ts`, mode ? this.indexTs() : this.coreIndexTs());
 		saveConfig(`${PATH}\\config.ts`, mode ? this.configTs : this.CoreConfigTs);
-		saveConfig(`${PATH}\\interface.ts`, this.interfaceTs);
+		saveConfig(`${PATH}\\type.ts`, this.interfaceTs);
 		saveConfig(`${PATH}\\method.ts`, this.methodTs());
 		console.info('Successfully created package.json!');
 	};

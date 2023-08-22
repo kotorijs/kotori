@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-18 15:31:12
  */
-import * as M from '@/tools/interface';
+import * as M from '@/tools/type';
 
 class SDK {
 	public static sdk_cq_t = (cq: M.Message): string => {

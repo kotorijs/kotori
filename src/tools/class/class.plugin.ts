@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 15:50:45
+ * @LastEditTime: 2023-08-21 18:31:32
  */
 import Fs from 'fs';
 import Path from 'path';
@@ -52,9 +52,10 @@ export class Plugin {
 	};
 
 	public static loadAll = (): PluginAsyncList => {
-		this.entityList = new Set(); // Clear Plugins Import Cache
+		/* Clear Plugins Import Cache */
+		this.entityList = new Set();
 		const fileList = Fs.readdirSync(CONST.PLUGIN_PATH);
-		this.disableList = loadConfig(Path.join(CONST.ROOT_PATH, 'plugins.json')) as string[];
+		this.disableList = loadConfig(Path.join(CONST.CONFIG_PATH, 'plugins.json')) as string[];
 		fileList.forEach(fileName => this.handleFile(fileName));
 		return this.entityList;
 	};

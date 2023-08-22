@@ -1,0 +1,4 @@
+{
+	"runjs.cmd.runjs.descr": "Run JavaScript code",
+	"runjs.cmd.runjs.info": "Console Output:\n%content%"
+}

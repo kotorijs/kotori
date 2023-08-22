@@ -3,19 +3,17 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 15:52:17
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 17:43:13
+ * @LastEditTime: 2023-08-21 18:39:27
  */
 import os from 'os';
 import { existsSync } from 'fs';
 import path from 'path';
 import { version as versionTs } from 'typescript';
 import { VERSION as versionTsnode } from 'ts-node';
-import { LOG_PREFIX, fetchJson, fetchText, isObj, isObjArr, loadConfig, saveConfig, stringTemp } from '@/tools';
+import { Locale, fetchJson, fetchText, loadConfig, saveConfig, stringTemp } from '@/tools';
 import type { FuncFetchSuper, FuncStringProcessStr, obj } from '@/tools';
 import SDK from '@/utils/class.sdk';
-import { CONTROL_PARAMS, Res, Send } from './interface';
-import { URL } from './menu';
-import { BOT_RESULT, GLOBAL } from './lang/zh_cn';
+import { BOT_RESULT, GLOBAL, URL } from './type';
 
 export const dealTime = () => {
 	const seconds = Math.floor(os.uptime());
@@ -81,71 +79,10 @@ export const dealEnv = () => ({
 	tsnode: versionTsnode,
 });
 
-export const fetchJ: FuncFetchSuper<Res> = async (url, params, init) =>
-	fetchJson(url.substring(0, 4) === 'http' ? url : URL.API + url, params, init) as unknown as Res;
-
-export const fetchT: FuncFetchSuper<string | void> = async (url, params, init) =>
-	fetchText(url.substring(0, 4) === 'http' ? url : URL.API + url, params, init);
-
-export const fetchBGM: FuncFetchSuper<obj> = async (url, params) =>
-	fetchJson(`${URL.BGM}${url}`, params, {
-		headers: {
-			'user-agent': 'czy0729/Bangumi/6.4.0 (Android) (http://github.com/czy0729/Bangumi)',
-		},
-	});
-
-export const con = {
-	log: (...args: unknown[]) => console.log(LOG_PREFIX.CORE, ...args),
-	warn: (...args: unknown[]) => console.warn(LOG_PREFIX.CORE, ...args),
-	error: (...args: unknown[]) => console.error(LOG_PREFIX.CORE, ...args),
-};
-
 export const initConfig = (filePath: string) => {
 	const banword = path.join(filePath, 'banword.json');
 	const banwordDefault = ['傻逼', '草拟吗', 'cnm', '死妈'];
 	if (!existsSync(banword)) saveConfig(banword, banwordDefault);
-};
-
-export const isObjArrP = (send: Send, data: unknown): data is obj[] => {
-	const result = isObjArr(data);
-	if (!result) send(BOT_RESULT.SERVER_ERROR);
-	return result;
-};
-
-export const isObjP = (send: Send, data: unknown): data is obj => {
-	const result = isObj(data);
-	if (!result) send(BOT_RESULT.SERVER_ERROR);
-	return result;
-};
-
-export const isNotArr = (send: Send, data: unknown): data is string[] | number[] | obj[] => {
-	const result = Array.isArray(data);
-	if (!result) send(BOT_RESULT.SERVER_ERROR);
-	return result;
-};
-
-const CACHE: obj = {};
-export const CACHE_MSG_TIMES: obj<{ time: number; times: number }> = {};
-export const cacheSet = (key: string, data: obj) => {
-	CACHE[key] = data;
-};
-
-export const cacheGet = (key: string): obj | null => CACHE[key];
-
-export const temp = (message: string, params: obj<string | number>) => {
-	let msg = message;
-	msg = stringTemp(msg, GLOBAL);
-	msg = stringTemp(msg, BOT_RESULT);
-	return stringTemp(msg, params);
-};
-
-export const getQq = (msg: string) => (msg ? SDK.get_at(msg) || parseInt(msg, 10) : null);
-
-export const formatOption = (option: boolean) => (option ? BOT_RESULT.OPTION_ON : BOT_RESULT.OPTION_OFF);
-
-export let args: string[] = [];
-export const setArgs = (value: string[]) => {
-	args = value;
 };
 
 let CONFIG_PLUGIN_PATH: string;
@@ -163,55 +100,23 @@ export const saveConfigP = (filename: string, content: object) => {
 	return saveConfig(PATH, content);
 };
 
-export const controlParams = (filePath: string, msg: [string, string, string, string], isString: boolean = false) => {
-	let message = '';
-	let list = loadConfigP(filePath) as FuncStringProcessStr[];
-	const target = isString ? args[2] : getQq(args[2]);
-	const check = () => {
-		if (!args[2]) {
-			message = BOT_RESULT.ARGS_EMPTY;
-			return false;
-		}
-		if (!target) {
-			message = BOT_RESULT.ARGS_ERROR;
-			return false;
-		}
-		return true;
-	};
-
-	let listRaw = '';
-	switch (args[1]) {
-		case CONTROL_PARAMS.QUERY:
-			list.forEach(content => {
-				listRaw += temp(msg[3], {
-					content,
-				});
-			});
-			message = temp(msg[0], {
-				content: listRaw || BOT_RESULT.EMPTY,
-			});
-			break;
-		case CONTROL_PARAMS.ADD:
-			if (!check()) break;
-			if (list.includes(target!)) {
-				message = BOT_RESULT.EXIST;
-				break;
-			}
-			list.push(target!);
-			message = temp(msg[1], { target: target! });
-			break;
-		case CONTROL_PARAMS.DEL:
-			if (!check()) break;
-			if (!list.includes(target!)) {
-				message = BOT_RESULT.NO_EXIST;
-				break;
-			}
-			list = list.filter(item => item !== target);
-			message = temp(msg[2], { target: target! });
-			break;
-		default:
-			saveConfigP(filePath, list);
-			break;
-	}
-	return message;
+export const fetchJ: FuncFetchSuper<obj> = async (url, params, init) => {
+	const result = fetchJson(url.substring(0, 4) === 'http' ? url : URL.API + url, params, init);
+	return result;
 };
+
+export const fetchT: FuncFetchSuper<string | void> = async (url, params, init) => {
+	const result = fetchText(url.substring(0, 4) === 'http' ? url : URL.API + url, params, init);
+	return result;
+};
+
+export const temp = (message: string, params: obj<string | number>) => {
+	let msg = Locale.locale(message);
+	msg = stringTemp(msg, GLOBAL);
+	msg = stringTemp(msg, BOT_RESULT);
+	return stringTemp(msg, params);
+};
+
+export const getQq = (msg: string) => (msg ? SDK.get_at(msg) || parseInt(msg, 10) : null);
+
+export const formatOption = (option: boolean) => (option ? BOT_RESULT.OPTION_ON : BOT_RESULT.OPTION_OFF);
