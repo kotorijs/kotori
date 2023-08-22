@@ -3,5 +3,5 @@
 	"description": "一个简易的MCBE-BDS服务器群服互通插件",
 	"version": "1.0.1",
 	"author": "Hotaru",
-	"license": "GPL-2.0"
+	"license": "GPL-3.0"
 }

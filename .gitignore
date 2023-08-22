@@ -4,9 +4,18 @@ signserver
 signserver2
 dist
 web
-config/plugins/**/*
+config/plugins/*
 !config/plugins/.gitkeep
-data/**/*
+data/*
 !data/.gitkeep
 !data/plugins/.gitkeep
 logs/*.log
+# plugins/*
+!plugins/kotori-core
+!plugins/kotori-bot-admin-server
+!plugins/daytool
+!plugins/querytool
+!plugins/emote
+!plugins/echo
+!plugins/random-img
+!plugins/requester

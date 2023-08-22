@@ -38,7 +38,7 @@ Cmd('sex', async send => {
 	.descr('random_img.cmd.sex.descr')
 	.params([
 		{
-			must: '',
+			must: false,
 			name: 'tags',
 		},
 	]);

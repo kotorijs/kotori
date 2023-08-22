@@ -6,7 +6,7 @@ export default {
 		expireTime: 300,
 	},
 	bot: {
-		cmd: '/login',
+		cmd: 'login',
 		allowGroup: true,
 		faceaAddress: 'http://c.huoshen80.cn',
 	},

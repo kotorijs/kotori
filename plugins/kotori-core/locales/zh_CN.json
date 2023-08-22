@@ -17,7 +17,7 @@
 	"core.temp.result.message_type": "该功能仅在群聊或私聊下可用",
 	"core.temp.result.option.on": "√",
 	"core.temp.result.option.off": "X",
-	"core.temp.menu.info": "%HEAD%%list%",
+	"core.temp.menu.info": "%HEAD%%list%\n%AUTHOR%",
 	"core.temp.menu.list": "\n%name%%param% - %descr%%scope%%access%",
 	"core.temp.menu.param": " <%prefix%%param_name%%suffix%>",
 	"core.temp.menu.param_name_default": "content",
