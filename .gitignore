@@ -19,3 +19,5 @@ plugins/*
 !plugins/echo/
 !plugins/random-img/
 !plugins/requester/
+!plugins/manger/
+!plugins/hitokotos/
