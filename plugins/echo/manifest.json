@@ -1,0 +1,7 @@
+{
+	"name": "ECHO",
+	"description": "Send a message",
+	"version": "1.0.0",
+	"author": "hotaru",
+	"license": "GPL-3.0"
+}

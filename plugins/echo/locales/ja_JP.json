@@ -1,0 +1,6 @@
+{
+	"echo.cmd.echo.descr": "グループチャットでメッセージを出力する",
+	"echo.cmd.echo.info": "%content%",
+	"echo.cmd.print.descr": "個人チャットでメッセージを印刷する",
+	"echo.cmd.print.info": "結果: %content%"
+}

@@ -1,0 +1,10 @@
+{
+	"emote.cmd.feel.descr": "生成表情包-摸一摸",
+	"emote.cmd.feel.info": "%image%",
+	"emote.cmd.climb.descr": "生成表情包-爬",
+	"emote.cmd.climb.info": "%image%",
+	"emote.cmd.threaten.descr": "生成表情包-威脅",
+	"emote.cmd.threaten.info": "%image%",
+	"emote.cmd.hold.descr": "生成表情包-牽著",
+	"emote.cmd.hold.info": "%image%"
+}
