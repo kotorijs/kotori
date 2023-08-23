@@ -1,4 +1,0 @@
-{
-	"runjs.cmd.runjs.descr": "JavaScriptコードの実行",
-	"runjs.cmd.runjs.info": "Console Output:\n%content%"
-}

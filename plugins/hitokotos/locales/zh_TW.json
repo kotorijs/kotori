@@ -1,5 +1,0 @@
-{
-	"hitokotos.menu.hitokotos.descr": "隨機語錄",
-	"hitokotos.cmd.hitokoto.info": "%msg%%from%\n類型: %type%",
-	"hitokotos.cmd.list.info": "%content%"
-}
