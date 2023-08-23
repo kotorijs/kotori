@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-21 17:11:10
+ * @LastEditTime: 2023-08-23 10:49:48
  */
 import path from 'path';
 import { Core, temp } from 'plugins/kotori-core';
