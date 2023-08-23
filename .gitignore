@@ -10,7 +10,7 @@ data/*
 !data/.gitkeep
 !data/plugins/.gitkeep
 logs/*.log
-plugins/
+plugins/*
 !plugins/kotori-core/
 !plugins/kotori-bot-admin-server/
 !plugins/daytool/
