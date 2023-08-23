@@ -1,7 +1,8 @@
 import { existsSync } from 'fs';
+import path from 'path';
 import { createPromptModule } from 'inquirer';
-import { CONST, saveConfig } from '@/tools/function';
-import type { CreateData } from '@/tools/type';
+import { CONST, saveConfig } from '@/tools';
+import type { CreateData } from '@/tools';
 
 class Create {
 	private result: CreateData;
@@ -12,7 +13,7 @@ class Create {
 		`\n    "version": "${this.result.version}",` +
 		`\n    "description": "${this.result.description}",` +
 		`\n    "author": "${this.result.author}",` +
-		`\n    "lisense": "${this.result.license}"` +
+		`\n    "license": "${this.result.license}"` +
 		`\n}`;
 
 	private indexTs = () =>
@@ -79,55 +80,96 @@ class Create {
 		}`;
 
 	private coreIndexTs = () =>
-		`\nimport { Cmd, args, temp } from 'plugins/kotori-core';` +
-		`\nimport { ACCESS, SCOPE } from 'plugins/kotori-core/interface';` +
-		`\nimport config from './config';` +
-		`\nimport { Api, Const } from '@/tools';` +
-		`\n\nCmd.register(config.echo.cmd, config.echo.descr, 'aboutInfo', SCOPE.GROUP, ACCESS.NORMAL, () => {` +
-		`\n    return temp(config.echo.info, {` +
-		`\n        content: args[1]` +
-		`\n    });` +
-		`\n}, [{` +
-		`\n    must: false, name: config.echo.args[0], rest: true` +
-		`\n}]);` +
-		`\n\nCmd.register(config.echo.cmd, config.echo.descr, 'aboutInfo', SCOPE.PRIVATE, ACCESS.NORMAL, () => {` +
-		`\n    return temp(config.echo.info, {` +
-		`\n        content: args[1]` +
-		`\n    });` +
-		`\n}, [{` +
-		`\n    must: false, name: config.echo.args[0], rest: true` +
-		`\n}]);` +
+		`import path from 'path';
+import { Core } from 'plugins/kotori-core';
+import { ACCESS, SCOPE } from 'plugins/kotori-core/type';
+import { Event, Api, Const, Locale } from '@/tools';
+
+Locale.register(path.resolve(__dirname));
+
+Core.cmd('print', () => [
+	'echo.cmd.print.info',
+	{
+		content: Core.args[1],
+	},
+])
+	.descr('echo.cmd.print.descr')
+	.menuId('coreCom')
+	.scope(SCOPE.PRIVATE)
+	.access(ACCESS.ADMIN)
+	.params([
+		{
+			must: true,
+			rest: true,
+		},
+	]);
+
+Core.cmd('echo', () => [
+	'echo.cmd.echo.info',
+	{
+		content: Core.args[1],
+	},
+])
+	.descr('echo.cmd.echo.descr')
+	.menuId('coreCom')
+	.scope(SCOPE.GROUP)
+	.access(ACCESS.ADMIN)
+	.params([
+		{
+			must: true,
+			name: 'message',
+			rest: true,
+		},
+	]);` +
 		`\n${
-			this.result.style === 'class'
-				? '\nexport default (Event: Event, Api: Api, Const_: Const) => {\n    Event; Api; Const_;\n}'
+			this.result.style !== 'class'
+				? '\nexport default (Event: Event, Api: Api, Consts: Const) => {\n    Event; Api; Consts;\n}'
 				: '\nexport default class {' +
-				  '\n    public constructor(private Event: Event, private Api: Api, private _Const__: Const) {' +
-				  '\n        this.Event; this.Api; this.Const_;' +
+				  '\nprivate Event: Event;' +
+				  '\n' +
+				  '\nprivate Api: Api;' +
+				  '\n' +
+				  '\nprivtae Consts: Const;' +
+				  '\n' +
+				  '\n    public constructor(event: Event, api: Api, consts: Const) {' +
+				  '\n        this.Event = event;' +
+				  '\n        this.Api = api;' +
+				  '\n        this.Consts = consts;' +
 				  '\n    }' +
 				  '\n}'
 		}`;
 
 	private configTs = 'export default {\n    cmd: "echo "\n}';
 
-	private CoreConfigTs =
-		'\nexport default {' +
-		'\n    echo: {' +
-		"\n        cmd: '/echo'," +
-		"\n        descr: 'send a message on groups'," +
-		'\n        args: [' +
-		"\n            'content'" +
-		'\n        ],' +
-		"\n        info: '%content%'" +
-		'\n    },' +
-		'\n    print: {' +
-		"\n        cmd: '/print'," +
-		"\n        descr: 'send a message on privates'," +
-		'\n        args: [' +
-		"\n            'message'" +
-		'\n        ],' +
-		"\n        info: 'Result: %content%'" +
-		'\n    },' +
-		'\n}';
+	private CoreConfigTs = 'export default {\n}';
+
+	private localeJson = `{
+    "echo.cmd.echo.descr": "send a message on group",
+    "echo.cmd.echo.info": "%content%",
+    "echo.cmd.print.descr": "send a message on privates",
+    "echo.cmd.print.info": "Result: %content%"
+}`;
+
+	private readmeMd = `# ECHO
+
+Send a message
+
+**Version:** 1.0.0
+**Author:** hotaru
+**License:** GPL-3.0
+
+## List of command
+
+-   /print <...content> - send a message on privates#^^
+-   /echo <...message> - send a message on group\\*^^
+
+## Lang Support
+
+-   ja_JP
+-   en_US
+-   zh_TW
+-   zh_CN
+`;
 
 	private interfaceTs =
 		'export type normal = string | number;' +
@@ -139,10 +181,11 @@ class Create {
 	private methodTs = () =>
 		`export const log = (...arg: string[]) => {\n    console.log('[${this.result.project}]', ...arg)\n}`;
 
-	private PATH = () => `${CONST.PLUGIN_PATH}\\${this.result.project}`;
+	private PATH = () => path.join(CONST.PLUGIN_PATH, this.result.project);
 
 	public constructor(data: CreateData) {
 		this.result = data;
+		this.result.license = 'GPL-3.0';
 	}
 
 	public init = () => {
@@ -153,12 +196,16 @@ class Create {
 		}
 
 		const mode = this.result.mode === 'vanilla';
-		saveConfig(`${PATH}\\manifest.json`, this.manifestJson());
-		saveConfig(`${PATH}\\index.ts`, mode ? this.indexTs() : this.coreIndexTs());
-		saveConfig(`${PATH}\\config.ts`, mode ? this.configTs : this.CoreConfigTs);
-		saveConfig(`${PATH}\\type.ts`, this.interfaceTs);
-		saveConfig(`${PATH}\\method.ts`, this.methodTs());
-		console.info('Successfully created package.json!');
+		saveConfig(path.join(PATH, 'manifest.json'), this.manifestJson());
+		saveConfig(path.join(PATH, 'index.ts'), mode ? this.indexTs() : this.coreIndexTs());
+		saveConfig(path.join(PATH, 'config.ts'), mode ? this.configTs : this.CoreConfigTs);
+		saveConfig(path.join(PATH, 'type.ts'), this.interfaceTs);
+		saveConfig(path.join(PATH, 'method.ts'), this.methodTs());
+		if (!mode) {
+			saveConfig(path.join(PATH, 'locales', 'en_US.json'), this.localeJson);
+			saveConfig(path.join(PATH, 'README.md'), this.readmeMd);
+		}
+		console.info(`Successfully created ${this.result.project}!`);
 	};
 }
 
@@ -211,12 +258,6 @@ const DATA = [
 		type: 'input',
 		name: 'author',
 		message: 'Author:',
-	},
-	{
-		type: 'input',
-		name: 'license',
-		message: 'License:',
-		default: 'MIT',
 	},
 ];
 (async () => {

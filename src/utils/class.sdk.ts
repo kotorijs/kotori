@@ -1,8 +1,8 @@
 /*
- * @Author: Hotaru biyuehuya@gmail.com
+ * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-26 18:47:45
- * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditors: hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-18 15:31:12
  */
 import * as M from '@/tools/type';

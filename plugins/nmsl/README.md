@@ -9,7 +9,7 @@
 > 数据来源: [https://github.com/gaowanliang/NMSL/](https://github.com/gaowanliang/NMSL/)
 
 **Version:** 1.0.0
-**Author:** Hotaru
+**Author:** hotaru
 **License:** GPL-3.0
 
 ## List of command

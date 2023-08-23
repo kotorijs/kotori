@@ -1,9 +1,9 @@
 /*
- * @Author: Hotaru biyuehuya@gmail.com
+ * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-21 21:10:23
+ * @LastEditTime: 2023-08-22 20:57:08
  */
 
 import ProcessController from './class/class.process';
@@ -77,10 +77,10 @@ export interface ConnectConfig {
 }
 
 export enum LocaleIdentifier {
-	en_US,
-	zh_CN,
-	zh_TW,
 	ja_JP,
+	en_US,
+	zh_TW,
+	zh_CN,
 }
 
 export interface PackageInfo {
@@ -155,9 +155,6 @@ export interface BotConfig {
 	};
 	bot: {
 		master: number;
-		'command-list': {
-			reload: string;
-		};
 		users: {
 			type: BotConfigFilter;
 			list: number[];
@@ -727,7 +724,24 @@ export type EventHandle = () => void;
 export type EventListName = keyof EventList;
 export type EventPostType = 'message' | 'message_sent' | 'request' | 'notice' | 'meta_event';
 export type EventMessageType = 'private' | 'group';
-export type EventSubType = 'friend' | 'normal' | 'anonymous' | 'group_self' | 'group' | 'notice' | 'connect';
+export type EventSubType =
+	| 'friend'
+	| 'normal'
+	| 'anonymous'
+	| 'group_self'
+	| 'group'
+	| 'notice'
+	| 'connect'
+	| 'approve'
+	| 'add'
+	| 'invite'
+	| 'leave'
+	| 'kick'
+	| 'kick_me'
+	| 'set'
+	| 'unset'
+	| 'ban'
+	| 'lift_ban';
 export type EventRequestType = 'friend' | 'group';
 export type EventNoticeType =
 	| 'group_upload'
@@ -823,6 +837,8 @@ export interface EventDataType {
 	raw_message: string;
 	user_id: number;
 	group_id?: number;
+	operator_id?: number;
+	duration?: number;
 	sender: EventSenderType;
 	status: EventStatusType;
 	font: number | 0;

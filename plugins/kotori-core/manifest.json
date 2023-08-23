@@ -2,6 +2,6 @@
 	"name": "KotoriBot Core",
 	"description": "KotoriBot's Core Plugin,provide handle message event to normative command",
 	"version": "1.0.0",
-	"author": "Himeno",
+	"author": "himeno",
 	"license": "GPL-3.0"
 }

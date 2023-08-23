@@ -1,8 +1,8 @@
 /*
- * @Author: Hotaru biyuehuya@gmail.com
+ * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
- * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditors: hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-18 16:15:05
  */
 import { spawn, ChildProcess } from 'child_process';

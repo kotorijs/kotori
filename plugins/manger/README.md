@@ -3,7 +3,7 @@
 Groups Mange tools base for Core
 
 **Version:** 1.0.0
-**Author:** Hotaru
+**Author:** hotaru
 **License:** GPL-3.0
 
 ## List of command

@@ -4,7 +4,7 @@ This is a website management system specifically designed for the kotori-bot pro
 Web repository: [https://github.com/BIYUEHU/kotori-bot-admin-web](https://github.com/BIYUEHU/kotori-bot-admin-web)
 
 **Version:** 1.1.0
-**Author:** Hotaru
+**Author:** hotaru
 **License:** GPL-3.0
 
 ## List of command

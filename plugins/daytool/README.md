@@ -3,7 +3,7 @@
 Day Tools Base For Core
 
 **Version:** 1.0.0
-**Author:** Himeno
+**Author:** himeno
 **License:** GPL-3.0
 
 ## List of command

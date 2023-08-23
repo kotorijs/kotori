@@ -3,7 +3,7 @@
 查看牛牛的长度和排行
 
 **Version:** 1.0.0
-**Author:** Hotaru
+**Author:** hotaru
 **License:** GPL-3.0
 
 ## List of command
