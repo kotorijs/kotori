@@ -2173,3 +2173,143 @@ Byhotaru user: 3324656453
 /admin - Super admin system^^
 Byhotaru user: 3324656453 
 23/8/22 17:56:56 LOG {"data":{"message_id":1758639883},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:17:17 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 18:17:17 INFO Kotori Bot By Hotaru 
+23/8/22 18:17:17 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/22 18:25:25 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 18:25:25 INFO Kotori Bot By Hotaru 
+23/8/22 18:25:25 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/22 18:31:31 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 18:31:31 INFO Kotori Bot By Hotaru 
+23/8/22 18:31:31 INFO Copyright © 2023 Hotaru All rights reserved. 
+23/8/22 18:39:39 LOG [Connect] Receive group msg [CQ:reply,id=-775013411][CQ:at,qq=1214754725] [CQ:at,qq=1214754725] 飞过去啊 user: 390829220 group: 691498216 
+23/8/22 18:39:39 LOG [Connect] Receive group msg 今日长度 user: 390829220 group: 691498216 
+23/8/22 18:39:39 LOG [Plugin] Send group msg: [CQ:poke,qq=390829220] group: 691498216 
+23/8/22 18:39:39 LOG [Plugin] Send group msg: [CQ:at,qq=390829220] Today's penis length is 4cm...worse than nothing 🤣👆 group: 691498216 
+23/8/22 18:39:39 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:39:39 LOG {"data":{"message_id":-2015969075},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:40:40 LOG [Connect] Receive group msg [CQ:reply,id=-2015969075][CQ:at,qq=2142124427] [CQ:at,qq=2142124427] 语法错误 user: 390829220 group: 691498216 
+23/8/22 18:40:40 LOG [Connect] Receive group msg 今日长度 user: 2682026828 group: 691498216 
+23/8/22 18:40:40 LOG [Plugin] Send group msg: [CQ:poke,qq=2682026828] group: 691498216 
+23/8/22 18:40:40 LOG [Plugin] Send group msg: [CQ:at,qq=2682026828] Today's penis length is....you're a girl today (-24cm) 😀 group: 691498216 
+23/8/22 18:40:40 LOG {"data":{"message_id":0},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:40:40 LOG {"data":{"message_id":-418297560},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:41:41 LOG [Connect] Receive group msg /locale set zh_CN user: 2682026828 group: 691498216 
+23/8/22 18:41:41 LOG [Plugin] Send group msg: This command can only be executed by group admin and BOT group admin! group: 691498216 
+23/8/22 18:41:41 LOG {"data":{"message_id":153036804},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:41:41 LOG [Connect] Receive group msg 你们谁来换个中午 user: 2682026828 group: 691498216 
+23/8/22 18:41:41 LOG [Connect] Receive group msg 文 user: 2682026828 group: 691498216 
+23/8/22 18:42:42 LOG [Connect] Receive private msg /locale set zh_CN user: 3324656453 
+23/8/22 18:42:42 LOG [Plugin] Send private msg: 切换至zh_CN
+切换Locale总数: 12
+有效Locale数量: 12 user: 3324656453 
+23/8/22 18:42:42 LOG {"data":{"message_id":-155835736},"message":"","retcode":0,"status":"ok"} 
+23/8/22 18:51:51 LOG [Connect] Receive group msg [CQ:json,data={
+  "config" : {
+    "height" : 0&#44;
+    "forward" : 1&#44;
+    "ctime" : 1692701514&#44;
+    "width" : 0&#44;
+    "type" : "normal"&#44;
+    "token" : "a6ba5b053a5d99343e34d91a77bf324f"&#44;
+    "autoSize" : 0
+  }&#44;
+  "prompt" : "&#91;QQ小程序&#93;一小学毕业生为爱豆打call被骗35.8万！"&#44;
+  "app" : "com.tencent.miniapp_01"&#44;
+  "ver" : "0.0.0.1"&#44;
+  "appID" : "100951776"&#44;
+  "view" : "view_8C8E89B49BE609866298ADDFF2DBABA4"&#44;
+  "meta" : {
+    "detail_1" : {
+      "appid" : "1109937557"&#44;
+      "preview" : "https:\/\/pic.ugcimg.cn\/ed62e8a790ad61ecdaa82d8f2dd539ef\/jpg1"&#44;
+      "shareTemplateData" : {
+
+      }&#44;
+      "gamePointsUrl" : ""&#44;
+      "gamePoints" : ""&#44;
+      "url" : "m.q.qq.com\/a\/s\/0a9e1007e6513792f2d9012f6040b905"&#44;
+      "appType" : 0&#44;
+      "desc" : "一小学毕业生为爱豆打call被骗35.8万！"&#44;
+      "title" : "哔哩哔哩"&#44;
+      "scene" : 1036&#44;
+      "host" : {
+        "uin" : 390829220&#44;
+        "nick" : "pan.homobot.ga"
+      }&#44;
+      "icon" : "https:\/\/open.gtimg.cn\/open\/app_icon\/00\/95\/17\/76\/100951776_100_m.png?t=1692330989"&#44;
+      "shareTemplateId" : "8C8E89B49BE609866298ADDFF2DBABA4"&#44;
+      "qqdocurl" : "https:\/\/b23.tv\/ePoSnJD"&#44;
+      "showLittleTail" : ""
+    }
+  }&#44;
+  "bthirdappforward" : true&#44;
+  "bthirdappforwardforbackendswitch" : true&#44;
+  "desc" : ""
+}] user: 390829220 group: 691498216 
+23/8/22 18:51:51 LOG [Connect] Receive group msg 难崩 user: 390829220 group: 691498216 
+23/8/22 18:52:52 LOG [Connect] Receive group msg 小孩这么有钱吗 user: 390829220 group: 691498216 
+23/8/22 18:53:53 LOG [Connect] Receive group msg 不是小孩有钱 user: 2587906308 group: 691498216 
+23/8/22 18:53:53 LOG [Connect] Receive group msg 把爸妈卡刷爆了吧 user: 2682026828 group: 691498216 
+23/8/22 18:54:54 LOG [Connect] Receive group msg [CQ:image,file=1f1776b179e295d557f626820aba2f2b.image,subType=0,url=https://gchat.qpic.cn/gchatpic_new/1825241202/691498216-2813888398-1F1776B179E295D557F626820ABA2F2B/0?term=2&amp;is_origin=0] user: 1825241202 group: 691498216 
+23/8/22 19:39:39 LOG [Connect] Receive group msg 突然就变得治愈了[CQ:image,file=126eac1f35f78ea2a770d9d27ae760d9.image,subType=0,url=https://gchat.qpic.cn/gchatpic_new/3324656453/691498216-3154580064-126EAC1F35F78EA2A770D9D27AE760D9/0?term=2&amp;is_origin=1][CQ:image,file=40fcbef7ff8667f86f1e4bd25514a26a.image,subType=0,url=https://gchat.qpic.cn/gchatpic_new/3324656453/691498216-2278189344-40FCBEF7FF8667F86F1E4BD25514A26A/0?term=2&amp;is_origin=1] user: 3324656453 group: 691498216 
+23/8/22 21:1:1 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 21:1:1 INFO Kotori Bot By hotaru 
+23/8/22 21:1:1 INFO Copyright © 2023 hotaru All rights reserved. 
+23/8/22 21:1:1 WARM Run Info: Develop With Debuing... 
+23/8/22 21:1:1 WARM Cannot find Signserver 
+23/8/22 21:1:1 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/22 21:1:1 INFO Current connection mode: WsReverse 
+23/8/22 21:1:1 INFO [Connect] WebSocket client successfully connected 
+23/8/22 21:1:1 INFO DayTool Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:1:1 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:1:1 INFO Emote Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:1:1 INFO Gpt Chat Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Himeno 
+23/8/22 21:1:1 INFO Hitokotos Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Hotaru 
+23/8/22 21:1:1 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.1.0 License: GPL-3.0 By hotaru 
+23/8/22 21:1:1 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:1:1 INFO Manger Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Hotaru 
+23/8/22 21:1:1 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Hotaru 
+23/8/22 21:1:1 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By Hotaru 
+23/8/22 21:1:1 INFO QueryTool Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:1:1 INFO RandomImg Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:1:1 INFO Requester Plugin loaded successfully Version: 1.0.0 By himeno 
+23/8/22 21:1:1 INFO run-js Plugin loaded successfully Version: 1.0.0 By Himeno 
+23/8/22 21:1:1 INFO Successfully loaded 15 plugins 
+23/8/22 21:1:1 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/22 21:1:1 LOG Kotori-bot is currently the latest version 
+23/8/22 21:13:13 INFO Kotori Bot Version: 0.7.4 License: GPL-3.0 
+23/8/22 21:13:13 INFO Kotori Bot By hotaru 
+23/8/22 21:13:13 INFO Copyright © 2023 hotaru All rights reserved. 
+23/8/22 21:13:13 WARM Run Info: Develop With Debuing... 
+23/8/22 21:13:13 WARM Cannot find Signserver 
+23/8/22 21:13:13 INFO [Connect] WebScoket server successfully established on ws://127.0.0.1:8080 
+23/8/22 21:13:13 INFO Current connection mode: WsReverse 
+23/8/22 21:13:13 INFO [Connect] WebSocket client successfully connected 
+23/8/22 21:13:13 INFO DayTool Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:13:13 INFO ECHO Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO Emote Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:13:13 INFO Gpt Chat Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:13:13 INFO Hitokotos Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO Kotori With Web Admin Plugin loaded successfully Version: 1.1.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO KotoriBot Core Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:13:13 INFO Manger Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO 今日牛牛长度 Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO NMSL-抽象话翻译 Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO QueryTool Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO RandomImg Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By hotaru 
+23/8/22 21:13:13 INFO Requester Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:13:13 INFO run-js Plugin loaded successfully Version: 1.0.0 License: GPL-3.0 By himeno 
+23/8/22 21:13:13 INFO Successfully loaded 15 plugins 
+23/8/22 21:13:13 LOG [Web] Express server listening at http://127.0.0.1:8000 
+23/8/22 21:13:13 LOG Kotori-bot is currently the latest version 
+23/8/22 21:13:13 LOG [Connect] Receive private msg /runlua print('hi') user: 3324656453 
+23/8/22 21:13:13 LOG hi 
+23/8/22 21:13:13 LOG [Plugin] Send private msg: Console Output:
+ user: 3324656453 
+23/8/22 21:13:13 LOG {"data":{"message_id":-2119101890},"message":"","retcode":0,"status":"ok"} 
+23/8/22 21:13:13 LOG [Connect] Receive private msg /runlua print("'hi'") user: 3324656453 
+23/8/22 21:13:13 LOG 'hi' 
+23/8/22 21:13:13 LOG [Plugin] Send private msg: Console Output:
+ user: 3324656453 
+23/8/22 21:13:13 LOG {"data":{"message_id":414729092},"message":"","retcode":0,"status":"ok"} 

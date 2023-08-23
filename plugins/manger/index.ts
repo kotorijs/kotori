@@ -30,6 +30,7 @@ export class Main {
 	public static Const: Const;
 
 	public static checkWhiteList = (user: number, group?: number) => {
+		if (user === this.Const.CONFIG.bot.master) return false;
 		const result =
 			(loadConfigP('whiteList.json') as number[]).includes(user) ||
 			(group &&

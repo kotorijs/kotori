@@ -12,12 +12,12 @@
 
 ```json
 {
-    // 所有参数均为可选，包括该文件，将在插件加载时在控制台输出信息
-    "name": "网易云点歌", // 插件名字
-    "description": "在群聊或私聊发送“点歌[歌名]”即可", // 插件描述
-    "version": "0.0.1", // 插件版本
-    "author": "hotaru", // 插件作者
-    "license": "MIT" // 插件开源协议
+	// 所有参数均为可选，包括该文件，将在插件加载时在控制台输出信息
+	"name": "网易云点歌", // 插件名字
+	"description": "在群聊或私聊发送“点歌[歌名]”即可", // 插件描述
+	"version": "0.0.1", // 插件版本
+	"author": "hotaru", // 插件作者
+	"license": "MIT" // 插件开源协议
 }
 ```
 
@@ -25,9 +25,9 @@
 
 ```json
 {
-    "dependencies": {
-        "needle": "^3.2.0"
-    }
+	"dependencies": {
+		"needle": "^3.2.0"
+	}
 }
 ```
 
@@ -48,59 +48,58 @@ import { stringProcess, stringSplit } from '../../src/function';
  * @param {any} Const 常量(可选)
  */
 export default (Event: any, Api: any) => {
-    /**
-     * Event对象只有Event.listen一个方法 负责注册监听事件
-     * @param {string} EventName 事件名
-     * @param {Function} callback 回调函数 会为其传入data参数,该参数包含了触发事件的相关信息
-     */
-    Event.listen("on_group_msg", handel); // 注册群消息监听事件
-    Event.listen("on_private_msg", handel); // 注册私聊消息监听事件
+	/**
+	 * Event对象只有Event.listen一个方法 负责注册监听事件
+	 * @param {string} EventName 事件名
+	 * @param {Function} callback 回调函数 会为其传入data参数,该参数包含了触发事件的相关信息
+	 */
+	Event.listen('on_group_msg', handel); // 注册群消息监听事件
+	Event.listen('on_private_msg', handel); // 注册私聊消息监听事件
 
-    /* 处理函数 */
-    async function handel(data: any) {
-        /* 处理消息 */
-        let message: string = data.message;
-        /* 使用stringProcess函数检测消息开头是否为'点歌' 否则return停止函数执行 */
-        if (!stringProcess(message, '点歌')) return;
-        /* 使用stringSplit函数切割'点歌'右边的字符串 */
-        message = stringSplit(message, '点歌');
-        /* 切割后的message不能为空 */
-        if (!message) return;
-        /* 获取音乐数据 */
-        const req = await getMusicInfo(message);
-        const reqData = req.body.data;
-        let content: string = '';
-        /* 判断是否请求成功且有数据 */
-        if (req.body.code === 500 && reqData.id !== null) {
-            // 别问为什么是500,问就是看接口文档
-            // https://api.imlolicon.tk/iluh/nemusic
-            content += `歌曲ID:${reqData.id}`;
-            content += `歌曲名字:${reqData.name}`;
-            content += `歌手名字:${reqData.singer}`;
-            content += `歌曲链接:${reqData.url}`;
-            // [CQ:XXX,...]为CQ码 此处用于发送图片
-            content += `歌曲封面:[CQ:image,url=${reqData.url}]`;
-        } else {
-            content += '呜呜呜┭┮﹏┭┮\n接口获取失败';
-        }
-        /* 判断消息类型以发送相应类型消息 */
-        if (data.message_type === 'group') {
-            // 发送群消息: 消息内容 群号
-            Api.send_group_msg(content, data.group_id);
-        }
-        if (data.message_type === 'private') {
-            // 发送私聊消息: 消息内容 QQ号
-            Api.send_private_msg(content, data.private_id);
-        }
-    }
+	/* 处理函数 */
+	async function handel(data: any) {
+		/* 处理消息 */
+		let message: string = data.message;
+		/* 使用stringProcess函数检测消息开头是否为'点歌' 否则return停止函数执行 */
+		if (!stringProcess(message, '点歌')) return;
+		/* 使用stringSplit函数切割'点歌'右边的字符串 */
+		message = stringSplit(message, '点歌');
+		/* 切割后的message不能为空 */
+		if (!message) return;
+		/* 获取音乐数据 */
+		const req = await getMusicInfo(message);
+		const reqData = req.body.data;
+		let content: string = '';
+		/* 判断是否请求成功且有数据 */
+		if (req.body.code === 500 && reqData.id !== null) {
+			// 别问为什么是500,问就是看接口文档
+			// https://api.imlolicon.tk/iluh/nemusic
+			content += `歌曲ID:${reqData.id}`;
+			content += `歌曲名字:${reqData.name}`;
+			content += `歌手名字:${reqData.singer}`;
+			content += `歌曲链接:${reqData.url}`;
+			// [CQ:XXX,...]为CQ码 此处用于发送图片
+			content += `歌曲封面:[CQ:image,url=${reqData.url}]`;
+		} else {
+			content += '呜呜呜┭┮﹏┭┮\n接口获取失败';
+		}
+		/* 判断消息类型以发送相应类型消息 */
+		if (data.message_type === 'group') {
+			// 发送群消息: 消息内容 群号
+			Api.send_group_msg(content, data.group_id);
+		}
+		if (data.message_type === 'private') {
+			// 发送私聊消息: 消息内容 QQ号
+			Api.send_private_msg(content, data.private_id);
+		}
+	}
 
-    /* 获取音乐信息 */
-    function getMusicInfo(musicName: string) {
-        // 此处可不引入needle,使用原生的fetch()方法
-        return needle('get', `https://api.imlolicon.tk/api/nemusic?msg=${musicName}&line=1`);
-    }
+	/* 获取音乐信息 */
+	function getMusicInfo(musicName: string) {
+		// 此处可不引入needle,使用原生的fetch()方法
+		return needle('get', `https://api.imlolicon.tk/api/nemusic?msg=${musicName}&line=1`);
+	}
 };
-
 ```
 
 关于Event.listen监听事件与Api接口与CQ码等内容请参考[go-cqhttp文档](https://docs.go-cqhttp.org/)
@@ -109,17 +108,16 @@ export default (Event: any, Api: any) => {
 
 ```typescript
 export default {
-    /* some configs... */
+	/* some configs... */
 };
 ```
-
-
 
 自述文件:`README.md`
 
 ```markdown
 在群聊或私聊时发送`点歌[歌名]`即可(去掉方括号[])
-> By Hotaru
+
+> By hotaru
 ```
 
 > index.ts将作为多文件插件下默认加载的入口文件
@@ -131,7 +129,6 @@ export default {
 ```bash
 npm run build
 ```
-
 
 ## 基于KotoriBot开发您自己的BOT
 
@@ -146,37 +143,35 @@ import kotori from 'kotori-bot';
  * 具体配置参数含义参考前文
  */
 const config = {
-    mode: 'WsReverse' as 'WsReverse',// 这傻逼TS这都要报错
-    port: 8080
-    /* 如果为Ws */
-    /**
-     * mode: 'Ws',
-     * url: 'ws://localhost',
-     * port: 8888,
-     * retry_time: 10
-    */
-   /* 如果为Http */
-    /**
-     * mode: 'Http',
-     * url: 'ws://localhost',
-     * port: 8888,
-     * reverse_port: 8080,
-     * retry_time: 10
-    */
-}
+	mode: 'WsReverse' as 'WsReverse', // 这傻逼TS这都要报错
+	port: 8080,
+	/* 如果为Ws */
+	/**
+	 * mode: 'Ws',
+	 * url: 'ws://localhost',
+	 * port: 8888,
+	 * retry_time: 10
+	 */
+	/* 如果为Http */
+	/**
+	 * mode: 'Http',
+	 * url: 'ws://localhost',
+	 * port: 8888,
+	 * reverse_port: 8080,
+	 * retry_time: 10
+	 */
+};
 
 /**
  * 类似于插件里的export default传参，但该处不会传入Const
  */
 const func = (Event: any, Api: any) => {
-    /* ...参考前文... */
-}
+	/* ...参考前文... */
+};
 
 /* 实例化 */
 const MyBot = new kotori(config, func);
 
 /* 创建并运行 */
 MyBot.create();
-
 ```
-

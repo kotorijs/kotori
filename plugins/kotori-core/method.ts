@@ -1,8 +1,8 @@
 /*
- * @Author: Hotaru biyuehuya@gmail.com
+ * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-15 15:52:17
- * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditors: hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-21 18:39:27
  */
 import os from 'os';

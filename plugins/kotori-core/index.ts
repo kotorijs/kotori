@@ -1,9 +1,9 @@
 /*
- * @Author: Hotaru biyuehuya@gmail.com
+ * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-22 14:34:43
+ * @LastEditTime: 2023-08-23 10:04:15
  */
 import os from 'os';
 import path from 'path';
@@ -522,7 +522,7 @@ Core.auto(async () => {
 	const { version } = getPackageInfo();
 	const res = (await fetch('https://biyuehu.github.io/kotori-bot/package.json')
 		.then(res => res.json())
-		.catch()) as PackageInfo;
+		.catch(() => console.error('Get update failed, please check your network'))) as PackageInfo;
 	if (!res) {
 		console.error(`Detection update failed`);
 		return;

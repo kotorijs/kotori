@@ -1,4 +1,5 @@
 import vm from 'vm';
+import { createEnv } from 'lua-in-js';
 import Dir from './class.dir';
 
 class Sandbox {
@@ -27,6 +28,7 @@ class Sandbox {
 			error: this.record,
 			warn: this.record,
 		},
+		lua: (code: string) => createEnv().parse(code).exec(),
 	};
 
 	public constructor(code: string) {

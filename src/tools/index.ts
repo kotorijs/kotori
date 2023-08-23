@@ -17,6 +17,6 @@ export * from './class';
 `);
 	const info = getPackageInfo();
 	consoleS.info(console.info, `Kotori Bot Version: ${info.version} License: ${info.license}`);
-	consoleS.info(console.info, `Kotori Bot By Hotaru`);
-	consoleS.info(console.info, `Copyright © 2023 Hotaru All rights reserved.`);
+	consoleS.info(console.info, `Kotori Bot By hotaru`);
+	consoleS.info(console.info, `Copyright © 2023 hotaru All rights reserved.`);
 })();

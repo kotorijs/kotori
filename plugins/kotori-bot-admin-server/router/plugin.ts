@@ -1,8 +1,8 @@
 /*
- * @Author: Hotaru biyuehuya@gmail.com
+ * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-18 14:16:10
- * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditors: hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-07-31 16:53:32
  */
 import { existsSync, readFileSync } from 'fs';
