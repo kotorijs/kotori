@@ -1,7 +1,0 @@
-{
-	"gpt_chat.menu.gpt_chat.descr": "GPT Chats",
-	"gpt_chat.cmd.gpt.descr": "ChatGPTV3.5",
-	"gpt_chat.cmd.gpt.info": "%content%",
-	"gpt_chat.cmd.cl.descr": "Claude",
-	"gpt_chat.cmd.cl.info": "%content%"
-}

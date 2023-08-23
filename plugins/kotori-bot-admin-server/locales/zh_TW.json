@@ -1,4 +1,0 @@
-{
-	"kotori_bot_admin_server.cmd.login.descr": "獲取Kotori-Amdin後臺一鍵登錄地址",
-	"kotori_bot_admin_server.cmd.login.info": "以下是您的BOT後臺管理的一鍵登錄地址:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\n登錄地址將在[%expire_time%秒]後過期，請勿泄露給他人"
-}
