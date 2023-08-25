@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-23 16:52:10
+ * @LastEditTime: 2023-08-25 15:35:27
  */
 // import Domain from 'domain';
 import { existsSync } from 'fs';
@@ -139,6 +139,38 @@ export class Main {
 
 	private Event = {};
 
+	protected connect = () => {
+		switch (this.connectMode) {
+			case 'Ws':
+				return new Server[this.connectMode](
+					...[
+						this.config.connect.ws.url,
+						this.config.connect.ws.port,
+						this.config.connect.http['retry-time'],
+					],
+					this.connectCallback,
+				);
+			case 'WsReverse':
+				return new Server[this.connectMode](this.config.connect['ws-reverse'].port, (data: T.ConnectMethod) =>
+					this.connectCallback(data),
+				);
+			case 'Http':
+				return new Server[this.connectMode](
+					...[
+						this.config.connect.http.url,
+						this.config.connect.http.port,
+						this.config.connect.http['retry-time'],
+						this.config.connect.http['reverse-port'],
+					],
+					this.connectCallback,
+				);
+			default:
+				console.log(this.connectMode, this.config);
+				console.error('Config.yml error, unknown connection mode!');
+				return process.exit();
+		}
+	};
+
 	protected connectCallback: T.ConnectCallback = connectDemo => {
 		/* Constructor Api Interface */
 		const source = <T.Api>new ApiPrototype(connectDemo.send!);
@@ -146,7 +178,8 @@ export class Main {
 			this.Api[key] = source[key as keyof typeof source];
 		});
 
-		/* Constructor Event Listener */
+		/* Clear Event and Constructor Event Listener */
+		this.EventPrototype.clearEvent();
 		this.Event = <T.Event>{
 			listen: (eventName: T.EventListName, callback: T.FuncListenCallback) =>
 				this.EventPrototype.registerEvent(eventName, callback),
@@ -193,38 +226,6 @@ export class Main {
         } */
 	};
 
-	protected connect = () => {
-		switch (this.connectMode) {
-			case 'Ws':
-				return new Server[this.connectMode](
-					...[
-						this.config.connect.ws.url,
-						this.config.connect.ws.port,
-						this.config.connect.http['retry-time'],
-					],
-					this.connectCallback,
-				);
-			case 'WsReverse':
-				return new Server[this.connectMode](this.config.connect['ws-reverse'].port, (data: T.ConnectMethod) =>
-					this.connectCallback(data),
-				);
-			case 'Http':
-				return new Server[this.connectMode](
-					...[
-						this.config.connect.http.url,
-						this.config.connect.http.port,
-						this.config.connect.http['retry-time'],
-						this.config.connect.http['reverse-port'],
-					],
-					this.connectCallback,
-				);
-			default:
-				console.log(this.connectMode, this.config);
-				console.error('Config.yml error, unknown connection mode!');
-				return process.exit();
-		}
-	};
-
 	/* Catch Error */
 	/*     private domainDemo: Domain.Domain = Domain.create();
         private catchError = () => this.domainDemo.on('error', err => {
@@ -233,8 +234,6 @@ export class Main {
      */
 
 	/* Plugin Methods */
-	protected pluginEventList: [string, T.FuncListenCallback][] = [];
-
 	private pluginEntityList: T.PluginAsyncList = new Set();
 
 	private runAllPlugin = (): void => {
@@ -268,15 +267,15 @@ export class Main {
 		}
 
 		const demo = await element[0];
-		if (!demo.default) return;
+		if (!('default' in demo)) return;
 		const params: [T.Event, T.Api, T.Const, object?, [ProcessController, ProcessController]?] = [
 			this.Event as T.Event,
 			this.Api as unknown as T.Api,
 			{
 				CONFIG: T.BOTCONFIG,
 				ROOT_PATH: T.CONST.ROOT_PATH,
-				CONFIG_PLUGIN_PATH: `${T.CONST.CONFIG_PATH}\\plugins\\${element[1]}`,
-				DATA_PLUGIN_PATH: `${T.CONST.DATA_PATH}\\plugins\\${element[1]}`,
+				CONFIG_PLUGIN_PATH: path.join(T.CONST.CONFIG_PATH, 'plugins', element[1]),
+				DATA_PLUGIN_PATH: path.join(T.CONST.DATA_PATH, 'plugins', element[1]),
 				BOT: new Proxy(this.const.BOT, {}),
 			},
 		];

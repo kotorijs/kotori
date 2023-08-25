@@ -2,8 +2,8 @@
  * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
- * @LastEditors: hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 20:27:59
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-25 15:22:31
  */
 import { BOTCONFIG } from '@/tools';
 import { EventList, EventDataType, LOG_PREFIX, BotConfigFilter, FuncListenCallback } from '../tools/type';
@@ -183,6 +183,12 @@ class EVENT {
 
 	public registerEvent = (eventName: string, callback: FuncListenCallback) => {
 		this.registerEventList.push([eventName, callback]);
+	};
+
+	public clearEvent = () => {
+		while (this.registerEventList.length > 0) {
+			this.registerEventList.shift();
+		}
 	};
 
 	public handleEvent = (eventData: EventDataType) => {

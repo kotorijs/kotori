@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-22 20:57:08
+ * @LastEditTime: 2023-08-25 15:29:46
  */
 
 import ProcessController from './class/class.process';
@@ -27,7 +27,7 @@ export type FuncFetchSuper<T = Response> = (
 	init?: RequestInit,
 ) => Promise<T>;
 export type FuncSdkCq<T = Message> = (type: MessageCqType, data: MessageDataType) => T;
-export type PluginData = [Promise<PluginEntity>, string, string, PluginInfo?, boolean?];
+export type PluginData = [Promise<PluginEntity> | object, string, string, PluginInfo?, boolean?];
 export type PluginAsyncList = Set<PluginData>;
 export type ConnectCallback = (arg: ConnectMethod) => void;
 export type Console = (...args: unknown[]) => void;

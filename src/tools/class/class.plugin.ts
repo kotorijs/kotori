@@ -2,8 +2,8 @@
  * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
- * @LastEditors: hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-21 18:31:32
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-25 15:51:14
  */
 import Fs from 'fs';
 import Path from 'path';
@@ -14,48 +14,47 @@ export class Plugin {
 
 	private static entityList: PluginAsyncList = new Set();
 
-	private static load = (pluginName: string): Promise<PluginEntity> =>
-		import(Path.join(CONST.PLUGIN_PATH, pluginName));
+	private static load = (pluginName: string): Promise<PluginEntity> => {
+		const promise = import(Path.join(CONST.PLUGIN_PATH, pluginName));
+		return promise;
+	};
 
 	private static handleFile = (fileName: string) => {
 		if (fileName.includes('.disable')) return;
-		const filedir = Path.join(CONST.PLUGIN_PATH, fileName);
-		const fileStat = Fs.statSync(filedir);
+		const fileStat = Fs.statSync(Path.join(CONST.PLUGIN_PATH, fileName));
+		const state = !this.disableList.includes(fileName);
+		let importPath: string = '';
+		let indexPath: string = '';
+		let infoData: PluginInfo = {};
 
-		if (fileStat.isFile() && fileName !== 'index.ts' && fileName !== 'index.js') {
-			const tempArr = fileName.split('.');
-			const fileType = tempArr[tempArr.length - 1];
+		if (fileStat.isFile() && fileName !== 'index.ts' && fileName.includes('.ts')) {
+			/* Only File */
+			importPath = fileName;
+			indexPath = Path.join(CONST.PLUGIN_PATH, fileName);
+		} else if (fileStat.isDirectory()) {
+			/* Dir */
+			const path = Path.join(CONST.PLUGIN_PATH, fileName);
+			const manifestPath = Path.join(path, 'manifest.json');
+			indexPath = Path.join(path, 'index.ts');
 
-			if (fileType !== 'ts' && fileType !== 'js') return;
-			const entity = this.load(fileName);
-			if (entity)
-				this.entityList.add([
-					entity,
-					fileName,
-					Path.join(CONST.ROOT_PATH, 'plugins', fileName),
-					{},
-					!this.disableList.includes(fileName),
-				]);
-			return;
+			if (Fs.existsSync(manifestPath)) {
+				const data = loadConfig(manifestPath);
+				if (data && typeof data === 'object' && 'name' in data) infoData = data as PluginInfo;
+			}
+
+			if (!Fs.existsSync(indexPath)) return;
+			importPath = Path.join(fileName, 'index.ts');
 		}
-		if (!fileStat.isDirectory()) return;
-		const path = Path.join(CONST.PLUGIN_PATH, fileName);
-		let info: PluginInfo | undefined;
-		const manifestPath = Path.join(path, 'manifest.json');
-		const indexPath = Path.join(fileName, 'index.ts');
-		const indexPath2 = Path.join(path, 'index.ts');
-		if (Fs.existsSync(manifestPath)) info = <PluginInfo>loadConfig(manifestPath);
 
-		if (!Fs.existsSync(indexPath2)) return;
-		const entity = this.load(indexPath);
-		if (entity) this.entityList.add([entity, fileName, indexPath2, info, !this.disableList.includes(fileName)]);
+		const entity = state ? this.load(importPath) : {};
+		if (entity) this.entityList.add([entity, fileName, indexPath, infoData, state]);
 	};
 
 	public static loadAll = (): PluginAsyncList => {
 		/* Clear Plugins Import Cache */
 		this.entityList = new Set();
-		const fileList = Fs.readdirSync(CONST.PLUGIN_PATH);
 		this.disableList = loadConfig(Path.join(CONST.CONFIG_PATH, 'plugins.json')) as string[];
+		const fileList = Fs.readdirSync(CONST.PLUGIN_PATH);
 		fileList.forEach(fileName => this.handleFile(fileName));
 		return this.entityList;
 	};
