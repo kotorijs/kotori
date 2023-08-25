@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.6](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.5...v0.7.6) (2023-08-25)
+
+
+### ✨ Features
+
+* **many plugins:** many plugins ([9e7464a](https://github.com/BIYUEHU/kotori-bot/commit/9e7464ad6c0bc3e10a673063d762eb469b8cf74c))
+
 ### [0.7.5](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.4...v0.7.5) (2023-08-25)
 
 
