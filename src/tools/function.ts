@@ -229,7 +229,7 @@ export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {
 	if (params) {
 		urlRaw += '?';
 		Object.keys(params).forEach(key => {
-			urlRaw += `${key}=${params[key]}&`;
+			urlRaw += `${key}=${encodeURIComponent(params[key])}&`;
 		});
 		urlRaw = urlRaw.substring(0, urlRaw.length - 1);
 	}
