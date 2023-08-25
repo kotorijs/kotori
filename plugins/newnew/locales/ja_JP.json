@@ -1,0 +1,17 @@
+{
+	"newnew.cmd.today_length.descr": "今日のペニスの長さを取得",
+	"newnew.cmd.today_length.info.0": "%at%今日のペニスの長さは%length%cmです",
+	"newnew.cmd.today_length.info.1": "%at%今日のペニスの長さは%length%cm...ない方がましだ🤣👆",
+	"newnew.cmd.today_length.info.2": "%at%今日のペニスの長さは...。今日は女の子です(%length%cm)😀",
+	"newnew.cmd.my_length.descr": "自分のペニス情報を取得",
+	"newnew.cmd.my_length.info": "%at%\n最大の長さ:%max_length%cm 最深の長さ:%min_length%cm\n%nums%回使用されました 合計の長さ:%total_length%cm\n平均の長さ:%avg_length%cm",
+	"newnew.cmd.my_length.fail": "%at%あなたのペニスが見つかりませんでした...ペニスのデータがみつかりません😭 申し訳ありません",
+	"newnew.cmd.avg_ranking.descr": "平均ペニスランキングを取得",
+	"newnew.cmd.avg_ranking.info": "平均の長さランキング:%list%",
+	"newnew.cmd.avg_ranking.list": "\n%num%.%name% %avg_length%cm (%nums%回 使用、合計%total_length%cm)",
+	"newnew.cmd.avg_ranking.fail": "ペニスランキングデータがありません😅",
+	"newnew.cmd.today_ranking.descr": "今日のペニスランキングを取得",
+	"newnew.cmd.today_ranking.info": "今日の長さランキング:%list",
+	"newnew.cmd.today_ranking.list": "\n%num%.%name% %length%cm",
+	"newnew.cmd.today_ranking.fail": "ペニスランキングデータがありません😅"
+}

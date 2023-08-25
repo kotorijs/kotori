@@ -1,0 +1,6 @@
+{
+	"echo.cmd.echo.descr": "send a message on group",
+	"echo.cmd.echo.info": "%content%",
+	"echo.cmd.print.descr": "send a message on privates",
+	"echo.cmd.print.info": "Result: %content%"
+}

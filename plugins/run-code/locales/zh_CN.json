@@ -1,0 +1,6 @@
+{
+	"runcode.cmd.runjs.descr": "运行JavaScript代码",
+	"runcode.cmd.runjs.info": "Console Output:\n%content%",
+	"runcode.cmd.runlua.descr": "运行Lua代码",
+	"runcode.cmd.runlua.info": "Print Output:\n%content%"
+}
