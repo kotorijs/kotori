@@ -1,0 +1,19 @@
+{
+	"goodnight.cmd.morning.male": "少年",
+	"goodnight.cmd.morning.female": "少女",
+	"goodnight.cmd.morning.already": "%at%今日はもう一度起きたじゃないですか(╬ ̄皿 ̄)",
+	"goodnight.cmd.morning.morning": "%at%おはようございます!あなたは今日%count%人目の%sex%として起きました( ̄▽ ̄)~*",
+	"goodnight.cmd.afternoon.afternoon": "%at%もう午後ですね!今日%count%人目に起きた%sex%です~",
+	"goodnight.cmd.morning.early": "%at%十分な睡眠をとるように。少なくとも%hour%:00まで起きないように(╬ ̄皿 ̄)=○",
+	"goodnight.cmd.morning.late": "%at%今から起きても起きない方がマシです!今日%count%人目の%sex%として起きました",
+	"goodnight.cmd.night.already": "%at%もうおやすみの挨拶をしました。早く休んでください~",
+	"goodnight.cmd.night.not": "%at%起きないで寝るなんて、死んでしまえ!(▼ヘ▼#)",
+	"goodnight.cmd.night.less": "%at%起きたてなのにすぐ寝るなんて、我慢の限界だ! (#`皿′)",
+	"goodnight.cmd.night.later": "%at%もう遅い時間ですね。今日の起きている時間は%time%です。自分の健康は自分で責任をとってください。あなたのことを本当に心配しています(;′⌒`)",
+	"goodnight.cmd.night.late": "%at%おやすみなさい~遅くまで起きているのはやめてください。今日の起きている時間は%time%です(*^▽^*)",
+	"goodnight.cmd.night.normal": "%at%おやすみなさい。今日の起きている時間は%time%です(*^▽^*)",
+	"goodnight.cmd.night.early": "%at%あなたは早すぎる時間に寝ています。今日の起きている時間は%time%ですψ(*`ー′)ψ",
+	"goodnight.cmd.night.hours": "時間",
+	"goodnight.cmd.night.minutes": "分",
+	"goodnight.cmd.night.seconds": "秒"
+}

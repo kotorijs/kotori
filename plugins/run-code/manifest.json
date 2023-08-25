@@ -1,0 +1,7 @@
+{
+	"name": "run-code",
+	"version": "1.1.0",
+	"description": "Run code with javascript and lua",
+	"author": "himeno",
+	"license": "GPL-3.0"
+}
