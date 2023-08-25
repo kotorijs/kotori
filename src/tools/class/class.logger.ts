@@ -47,6 +47,7 @@ export class Logger {
 			if (Element && typeof Element === 'object') {
 				Element = Element instanceof Error ? Element.toString() : JSON.stringify(Element);
 			}
+			if (typeof Element === 'string' && Element.length > 1000) Element = `${Element.substring(0, 999)}...`;
 			message += `${Element} `;
 			message.slice(0, -1);
 		});

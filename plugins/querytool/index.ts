@@ -3,7 +3,8 @@ import { Core, fetchT, temp } from 'plugins/kotori-core';
 import { fetchJ } from 'plugins/kotori-core/method';
 import { CoreVal, CoreKeyword, BOT_RESULT } from 'plugins/kotori-core/type';
 import cheerio from 'cheerio';
-import { Locale, isObj } from '@/tools';
+import puppeteer from 'puppeteer';
+import { Locale, getUuid, isObj } from '@/tools';
 import SDK from '@/utils/class.sdk';
 
 Locale.register(path.resolve(__dirname));
@@ -240,6 +241,60 @@ Cmd('hcb', async () => {
 			name: 'id',
 		},
 	]);
+
+Cmd('uuid', () => ['querytool.cmd.uuid.info', { uuid: getUuid() }]).descr('querytool.cmd.uuid.descr');
+
+Cmd('color', async () => {
+	let r = Math.floor(Math.random() * 256);
+	let g = Math.floor(Math.random() * 256);
+	let b = Math.floor(Math.random() * 256);
+	const componentToHex = (c: number) => {
+		const hex = c.toString(16);
+		return hex.length === 1 ? `0${hex}` : hex;
+	};
+	const hex = `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+	const rgb = `rgb(${r}, ${g}, ${b})`;
+
+	r /= 255;
+	g /= 255;
+	b /= 255;
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	const l = (max + min) / 2;
+	let h = 0;
+	let s;
+
+	if (max === min) {
+		h = 0;
+		s = 0;
+	} else {
+		const d = max - min;
+		s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+		switch (max) {
+			case r:
+				h = (g - b) / d + (g < b ? 6 : 0);
+				break;
+			case g:
+				h = (b - r) / d + 2;
+				break;
+			case b:
+				h = (r - g) / d + 4;
+				break;
+		}
+		h *= 60;
+	}
+	const hsl = `hsl(${Math.floor(h)}, ${Math.floor(s * 100)}%, ${Math.floor(l * 100)}%)`;
+
+	const browser = await puppeteer.launch({ headless: 'new' });
+	const page = await browser.newPage();
+	await page.setViewport({ width: 500, height: 500 });
+	await page.evaluate(color => {
+		document.body.style.backgroundColor = color;
+	}, hex);
+	const buffer = await page.screenshot({ encoding: 'base64' });
+	await browser.close();
+	return ['querytool.cmd.color.info', { hex, rgb, hsl, image: SDK.cq_image(`base64://${buffer}`) }];
+}).descr('querytool.cmd.color.descr');
 
 Cmd('header', async send => {
 	const res = await fetchT(Core.args[1]);

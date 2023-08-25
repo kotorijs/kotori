@@ -10,12 +10,9 @@ export default class {
 
 	private Consts: Const;
 
-	private selfId: number;
-
 	public constructor(event: Event, api: Api, Consts: Const) {
 		this.Api = api;
 		this.Consts = Consts;
-		this.selfId = Consts.BOT.self_id;
 		if (config.onGroupIncrease) event.listen('on_group_increase', data => this.onGroupIncrease(data));
 		if (config.onGroupDecrease) event.listen('on_group_decrease', data => this.onGroupDecrease(data));
 		if (config.onGroupAdmin) event.listen('on_group_admin', data => this.onGroupAdmin(data));
@@ -35,7 +32,7 @@ export default class {
 	};
 
 	private onGroupIncrease = (data: EventDataType) => {
-		if (data.user_id !== this.selfId) return;
+		if (data.user_id !== this.Consts.BOT.self_id) return;
 		this.send(`requester.cmd.increase.${data.sub_type === 'approve' ? 'approve' : 'invite'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
@@ -43,7 +40,7 @@ export default class {
 	};
 
 	private onGroupDecrease = (data: EventDataType) => {
-		if (data.user_id !== this.selfId) return;
+		if (data.user_id !== this.Consts.BOT.self_id) return;
 		this.send(`requester.cmd.decrease.${data.operator_id === data.user_id ? 'leave' : 'kick'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
@@ -51,7 +48,7 @@ export default class {
 	};
 
 	private onGroupAdmin = (data: EventDataType) => {
-		if (data.user_id !== this.selfId) return;
+		if (data.user_id !== this.Consts.BOT.self_id) return;
 		this.send(`requester.cmd.admin.${data.user_id ? 'set' : 'unset'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
@@ -59,7 +56,7 @@ export default class {
 	};
 
 	private onGroupBan = (data: EventDataType) => {
-		if (data.user_id !== this.selfId) return;
+		if (data.user_id !== this.Consts.BOT.self_id) return;
 		this.send(`requester.cmd.ban.${data.duration && data.duration > 0 ? 'ban' : 'lift_ban'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
@@ -68,7 +65,7 @@ export default class {
 	};
 
 	private onGroupRecall = (data: EventDataType) => {
-		if (data.user_id === this.selfId || data.operator_id === this.selfId) return;
+		if (data.user_id === this.Consts.BOT.self_id || data.operator_id === this.Consts.BOT.self_id) return;
 		this.send(`requester.cmd.recall.group.${data.operator_id === data.user_id ? 'self' : 'other'}`, {
 			user: data.user_id,
 			operator: data.operator_id!,
@@ -78,7 +75,7 @@ export default class {
 	};
 
 	private onFriendRecall = (data: EventDataType) => {
-		if (data.user_id === this.selfId) return;
+		if (data.user_id === this.Consts.BOT.self_id) return;
 		this.send(`requester.cmd.recall.private`, {
 			user: data.user_id,
 			message: this.messageData[data.message_id],
@@ -102,7 +99,8 @@ export default class {
 
 	private onGroupMsg = (data: EventDataType) => {
 		this.messageData[data.message_id] = data.message;
-		if (data.user_id === this.selfId || !data.message.includes(this.selfId.toString())) return;
+		if (data.user_id === this.Consts.BOT.self_id || !data.message.includes(this.Consts.BOT.self_id.toString()))
+			return;
 		this.send(`requester.cmd.msg.group`, {
 			user: data.user_id,
 			group: data.group_id!,
@@ -113,7 +111,7 @@ export default class {
 	private onPrivateMsg = (data: EventDataType) => {
 		this.messageData[data.message_id] = data.message;
 		if (
-			data.user_id === this.selfId ||
+			data.user_id === this.Consts.BOT.self_id ||
 			data.message.includes('/') ||
 			data.user_id === this.Consts.CONFIG.bot.master
 		)

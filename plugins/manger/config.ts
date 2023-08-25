@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-08-22 15:28:56
  */
 export default {
-	joinGroupWelcome: true,
+	joinGroupWelcome: false,
 	exitGroupAddBlack: true,
 	banTime: 600,
 	banwordBanTime: 600,

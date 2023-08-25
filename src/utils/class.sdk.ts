@@ -2,8 +2,8 @@
  * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-26 18:47:45
- * @LastEditors: hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 15:31:12
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-23 19:25:47
  */
 import * as M from '@/tools/type';
 
@@ -13,12 +13,7 @@ class SDK {
 		Object.keys(cq.data).forEach(key => {
 			if (typeof key === 'symbol') return;
 			let val = (cq.data as M.obj)[key];
-			if (typeof val === 'string') {
-				val = val.replace(/&/, '&amp;');
-				val = val.replace(/\[/, '&#91;');
-				val = val.replace(/]/, '&#93;');
-				val = val.replace(/,/, '&#44;');
-			}
+			if (typeof val === 'string') val = this.sdk_decode(val);
 			data += `,${key}=${val as string}`;
 		});
 		const result = `[CQ:${cq.type}${data}]`;
@@ -29,6 +24,24 @@ class SDK {
 		type,
 		data,
 	});
+
+	public static sdk_encode = (str: string) => {
+		let val = str;
+		val = val.replace(/&/g, '&amp;');
+		val = val.replace(/\[/g, '&#91;');
+		val = val.replace(/]/g, '&#93;');
+		val = val.replace(/,/g, '&#44;');
+		return val;
+	};
+
+	public static sdk_decode = (str: string) => {
+		let val = str;
+		val = val.replace(/&amp;/g, '&');
+		val = val.replace(/&#91;/g, '[');
+		val = val.replace(/&#93;/g, ']');
+		val = val.replace(/&#93;/g, ',');
+		return val;
+	};
 
 	private static sdk_cq: M.FuncSdkCq<string> = (type, data) => {
 		const result: M.Message = this.sdk_cq_j(type, data);
