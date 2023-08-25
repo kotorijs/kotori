@@ -82,7 +82,8 @@ export class Core extends Data {
 	};
 
 	protected static menuHandleParams = (key: CoreKeyword, value: InfoVal) => {
-		const cmdName = Array.isArray(key) ? key[0] : key;
+		let cmdName = Array.isArray(key) ? key[0] : key;
+		if (Array.isArray(key)) cmdName = `${cmdName} (${key.filter(val => val !== key[0]).join('|')})`;
 		let scope = '';
 		if (value.scope !== SCOPE.ALL) {
 			scope = value.scope === SCOPE.GROUP ? 'core.temp.menu.scope.group' : 'core.temp.menu.scope.private';

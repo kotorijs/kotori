@@ -31,7 +31,7 @@ Core.cmd('echo', () => [
 	.descr('echo.cmd.echo.descr')
 	.menuId('coreCom')
 	.scope(SCOPE.GROUP)
-	.access(ACCESS.ADMIN)
+	.access(ACCESS.MANGER)
 	.params([
 		{
 			must: true,

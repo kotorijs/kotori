@@ -1,7 +1,7 @@
 import path from 'path';
 import { existsSync } from 'fs';
 import API from '@/utils/class.api';
-import { CONST, loadConfig, parseCommand, saveConfig } from '../function';
+import { BOTCONFIG, CONST, loadConfig, parseCommand, saveConfig } from '../function';
 import { LOG_PREFIX, PLUGIN_GLOBAL, PROCESS_CMD, PluginAsyncList } from '../type';
 import ProcessController from './class.process';
 
@@ -214,6 +214,15 @@ export class Command {
 
 	private c_sys = () => {
 		if (!this.isOnline()) return;
+
+		if (
+			!existsSync(path.join(CONST.ROOT_PATH, BOTCONFIG.control.signserver)) ||
+			!existsSync(path.join(CONST.ROOT_PATH, BOTCONFIG.control.program))
+		) {
+			this.result.msg = 'Cannot find signserver or gocq';
+			this.result.type = 3;
+			return;
+		}
 		const num = parseInt(this.params[1], 10);
 		if (!num) {
 			this.result.callback = () => this.gocqDemo.restart();

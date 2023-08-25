@@ -188,6 +188,13 @@ export function formatTime(date?: Date | null, format: number = 0) {
 	return result;
 }
 
+export function getDate() {
+	const TIME = new Date();
+	const date = TIME.getDate();
+	const time = `${TIME.getFullYear()}-${TIME.getMonth() + 1}-${date}`;
+	return time;
+}
+
 export function getSpecStr(_template_: string) {
 	return _template_.replace(/[xy]/g, _c_ => {
 		const r = Math.random() * 16;
@@ -207,6 +214,13 @@ export function getUuid(): string {
 
 export function getRandomStr(): string {
 	return getSpecStr('xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx');
+}
+
+export function getRandomInt(max: number, min: number = 0): number {
+	const range = max - min + 1;
+	const index = Math.floor(Math.random() * range);
+	const result = min + index;
+	return result;
 }
 
 export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {

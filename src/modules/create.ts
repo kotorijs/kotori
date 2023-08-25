@@ -125,11 +125,11 @@ Core.cmd('echo', () => [
 			this.result.style !== 'class'
 				? '\nexport default (Event: Event, Api: Api, Consts: Const) => {\n    Event; Api; Consts;\n}'
 				: '\nexport default class {' +
-				  '\nprivate Event: Event;' +
+				  '\n    private Event: Event;' +
 				  '\n' +
-				  '\nprivate Api: Api;' +
+				  '\n    private Api: Api;' +
 				  '\n' +
-				  '\nprivtae Consts: Const;' +
+				  '\n    private Consts: Const;' +
 				  '\n' +
 				  '\n    public constructor(event: Event, api: Api, consts: Const) {' +
 				  '\n        this.Event = event;' +
@@ -150,13 +150,13 @@ Core.cmd('echo', () => [
     "echo.cmd.print.info": "Result: %content%"
 }`;
 
-	private readmeMd = `# ECHO
+	private readmeMd = () => `# ${this.result.name}
 
-Send a message
+${this.result.description}
 
-**Version:** 1.0.0
-**Author:** hotaru
-**License:** GPL-3.0
+**Version:** ${this.result.version}
+**Author:** ${this.result.author}
+**License:** ${this.result.license}
 
 ## List of command
 
@@ -201,9 +201,9 @@ Send a message
 		saveConfig(path.join(PATH, 'config.ts'), mode ? this.configTs : this.CoreConfigTs);
 		saveConfig(path.join(PATH, 'type.ts'), this.interfaceTs);
 		saveConfig(path.join(PATH, 'method.ts'), this.methodTs());
+		saveConfig(path.join(PATH, 'README.md'), this.readmeMd());
 		if (!mode) {
 			saveConfig(path.join(PATH, 'locales', 'en_US.json'), this.localeJson);
-			saveConfig(path.join(PATH, 'README.md'), this.readmeMd);
 		}
 		console.info(`Successfully created ${this.result.project}!`);
 	};

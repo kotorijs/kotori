@@ -84,11 +84,13 @@ Core.hook((data, send) => {
 			const result =
 				getQq(data.message) === Main.Const.BOT.self_id ||
 				data.message.includes(Main.Const.BOT.self_id.toString());
-			send(result || !group ? 'manger.auto.ban_word_bot' : 'manger.auto.ban_word', {
-				at: SDK.cq_at(data.user_id),
-			});
+			if (result || !group) {
+				send('manger.auto.ban_word_bot' /*  : 'manger.auto.ban_word' */, {
+					at: SDK.cq_at(data.user_id),
+				});
+			}
 			if (group) {
-				Main.Api.set_group_ban(group, data.user_id, result ? config.banwordBanTime * 3 : config.banwordBanTime);
+				// Main.Api.set_group_ban(group, data.user_id, result ? config.banwordBanTime * 3 : config.banwordBanTime);
 				Main.Api.delete_msg(data.message_id);
 			}
 			if (!result) return false;

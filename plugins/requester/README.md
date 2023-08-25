@@ -6,7 +6,7 @@ Listen delete message and request event call to master
 **Author:** himeno
 **License:** GPL-3.0
 
-## Events of command
+## List of event
 
 -   onGroupIncrease
 -   onGroupDecrease

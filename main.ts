@@ -2,8 +2,8 @@
  * @Author: hotaru biyuehuya@gmail.com
  * @Blog: http://imlolicon.tk
  * @Date: 2023-06-24 15:12:55
- * @LastEditors: hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-18 20:27:24
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2023-08-23 16:52:10
  */
 // import Domain from 'domain';
 import { existsSync } from 'fs';
@@ -13,6 +13,7 @@ import * as T from '@/tools';
 import Server from '@/services';
 import ApiPrototype from '@/utils/class.api';
 import EventPrototype from '@/utils/class.event';
+import SDK from '@/utils/class.sdk';
 
 export class Main {
 	/* global */
@@ -173,6 +174,7 @@ export class Main {
 		/* Handle Receive Message newData Type */
 		if (newData.message) {
 			if (typeof newData.message !== 'string') newData.message = newData.raw_message;
+			newData.message = SDK.sdk_decode(newData.message);
 		}
 
 		/* Run Events Handler On Heatbeat */
