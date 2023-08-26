@@ -1,14 +1,14 @@
 {
-    "mediawiki.cmd.wiki.descr": "Search MediaWiki, specify target Wiki with num",
-    "mediawiki.cmd.wiki.empty": "Wiki list is empty, use \"/wikio add\" to add a new MediaWiki",
-    "mediawiki.cmd.wiki.error": "Wiki with that number does not exist, use \"/wikil\" to see current MediaWiki list",
-    "mediawiki.cmd.wiki.fail": "No relevant content found: %input%",
-    "mediawiki.cmd.wiki.info": "Title: %title%\nContent: %extract%\nPage ID: %pageid%\nSource: %name%",
-    "mediawiki.cmd.wikil.descr": "View MediaWiki list",
-    "mediawiki.cmd.wikil.info": "MediaWiki list: %list%",
-    "mediawiki.cmd.wikil.list": "\n%num%.%name% - %api%",
-    "mediawiki.cmd.wikio.descr.del": "Delete MediaWiki",
-    "mediawiki.cmd.wikio.descr.add": "Add MediaWiki",
-    "mediawiki.cmd.wikio.del": "Deleted MediaWiki: %input%",
-    "mediawiki.cmd.wikio.add": "Added MediaWiki: %input%"
+	"mediawiki.cmd.wiki.descr": "Search MediaWiki, specify target Wiki with num",
+	"mediawiki.cmd.wiki.empty": "Wiki list is empty, use \"/wikio add\" to add a new MediaWiki",
+	"mediawiki.cmd.wiki.error": "Wiki with that number does not exist, use \"/wikil\" to see current MediaWiki list",
+	"mediawiki.cmd.wiki.fail": "No relevant content found: %input%",
+	"mediawiki.cmd.wiki.info": "Title: %title%\nContent: %extract%\nPage ID: %pageid%\nSource: %name%",
+	"mediawiki.cmd.wikil.descr": "View MediaWiki list",
+	"mediawiki.cmd.wikil.info": "MediaWiki list: %list%",
+	"mediawiki.cmd.wikil.list": "\n%num%.%name% - %api%",
+	"mediawiki.cmd.wikio.descr.del": "Delete MediaWiki",
+	"mediawiki.cmd.wikio.descr.add": "Add MediaWiki",
+	"mediawiki.cmd.wikio.del": "Deleted MediaWiki: %input%",
+	"mediawiki.cmd.wikio.add": "Added MediaWiki: %input%"
 }
