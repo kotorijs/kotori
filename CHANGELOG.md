@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.7](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.6...v0.7.7) (2023-08-26)
+
+
+### ✨ Features
+
+* grouper plugin and favicon ([6756cee](https://github.com/BIYUEHU/kotori-bot/commit/6756cee88a5bf1e1b9e88a2becef1023ca401b3a))
+
 ### [0.7.6](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.5...v0.7.6) (2023-08-25)
 
 
