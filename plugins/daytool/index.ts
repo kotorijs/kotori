@@ -3,7 +3,7 @@ import { Cache, Core, fetchT, getQq, temp } from 'plugins/kotori-core';
 import { fetchJ } from 'plugins/kotori-core/method';
 import { BOT_RESULT, CoreVal } from 'plugins/kotori-core/type';
 import cheerio from 'cheerio';
-import { Locale, isObj, obj } from '@/tools';
+import { Locale, formatTime, isObj, obj } from '@/tools';
 import SDK from '@/utils/class.sdk';
 import { fetchBGM } from './method';
 import config from './config';
@@ -64,16 +64,16 @@ Cmd('music', async send => {
 	]);
 
 Cmd('bili', async () => {
-	const res = await fetchJ('biligetv', { msg: Core.args[1] });
+	const res = await fetchJ('https://tenapi.cn/bv/', { id: Core.args[1] });
 	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code !== 500 && typeof res.code === 'number') return ['daytool.cmd.bili.fail', { input: Core.args[1] }];
+	if (res.code !== 200 && typeof res.code === 'number') return ['daytool.cmd.bili.fail', { input: Core.args[1] }];
 
 	return [
 		'daytool.cmd.bili.info',
 		{
 			...res.data,
-			owner: res.data.owner.uid,
-			image: SDK.cq_image(res.data.pic),
+			time: formatTime(new Date(res.data.time)),
+			image: SDK.cq_image(res.data.cover),
 		},
 	];
 })
@@ -82,6 +82,29 @@ Cmd('bili', async () => {
 		{
 			must: true,
 			name: 'bvid',
+		},
+	]);
+
+Cmd('bilier', async () => {
+	const res = await fetchJ('https://tenapi.cn/bilibili/', { uid: Core.args[1] });
+	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];
+	if (!res.data.uid || !res.data.name) return ['daytool.cmd.bilier.fail', { input: Core.args[1] }];
+	const res2 = await fetchJ('https://tenapi.cn/bilibilifo/', { uid: Core.args[1] });
+
+	return [
+		'daytool.cmd.bilier.info',
+		{
+			...res2.data,
+			...res.data,
+			image: SDK.cq_image(res.data.avatar),
+		},
+	];
+})
+	.descr('daytool.cmd.bilier.descr')
+	.params([
+		{
+			must: true,
+			name: 'uid',
 		},
 	]);
 

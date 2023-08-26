@@ -11,6 +11,7 @@ Day Tools Base For Core
 -   /days - Daily tools
 -   /music <music> <num=1> - NetEase Cloud music, default song no. is 1, enter 0 to show song list
 -   /bili <bvid> - Bilibili video info query
+-   /bilier <uid> - Bilibili User Information Query
 -   /bgm <content> <num=1> - Search games/anime on Bangumi
 -   /bgmc - Get today's Bangumi schedule
 -   /star <starName> - Check today's horoscope
@@ -21,6 +22,17 @@ Day Tools Base For Core
 -   /value <qq/at?> - Check QQ valuation
 -   /weather <area> - Check weather
 -   /waste <item> - Garbage classification
+
+## Config
+
+```ts
+export default {
+	bangumi: {
+		apiKey: '',
+	},
+	maxList: 10,
+};
+```
 
 ## Lang Support
 

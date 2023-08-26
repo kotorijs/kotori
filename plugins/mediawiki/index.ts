@@ -27,14 +27,14 @@ const loadWikiData = () => {
 
 Core.cmd('wiki', async () => {
 	const dataList = loadWikiData();
-	if (dataList.length <= 0) return '暂时还没有wiki列表，使用"/wikio add"以添加新的MediaWiki';
+	if (dataList.length <= 0) return 'mediawiki.cmd.wiki.empty';
 
 	let res: obj | null = null;
 	let wiki: wikiData | null = null;
 	const num = parseInt(Core.args[2], 10);
 	if (num) {
 		wiki = dataList[num - 1];
-		if (!wiki || !wiki.api) return '错误的序号不存在该WIKI，使用"/wikil"查看当前MediaWiki列表';
+		if (!wiki || !wiki.api) return 'mediawiki.cmd.wiki.error';
 		res = await wikiSearch(wiki.api, Core.args[1]);
 	} else {
 		// let resPromise = null;
@@ -48,10 +48,10 @@ Core.cmd('wiki', async () => {
 		};
 		res = await query();
 	}
-	if (!res) return ['未查询到相关内容: %input%', { input: Core.args[1] }];
-	return ['标题: %title%\n内容: %extract%\n页面ID: %pageid%\n来源: %name%', { ...res, name: wiki!.name }];
+	if (!res) return ['mediawiki.cmd.wiki.fail', { input: Core.args[1] }];
+	return ['mediawiki.cmd.wiki.info', { ...res, name: wiki!.name }];
 })
-	.descr('搜索MediaWiki,num指定搜索目标Wiki')
+	.descr('mediawiki.cmd.wiki.descr')
 	.menuId('queryTool')
 	.params([
 		{
@@ -68,12 +68,12 @@ Core.cmd('wikil', () => {
 	let list = '';
 	let init = 1;
 	dataList.forEach(Element => {
-		list += temp('\n%num%.%name% - %api%', { num: init, ...Element });
+		list += temp('mediawiki.cmd.wikil.list', { num: init, ...Element });
 		init += 1;
 	});
-	return ['MediaWiki列表:%list%', { list }];
+	return ['mediawiki.cmd.wikil.info', { list }];
 })
-	.descr('查看MediaWiki列表')
+	.descr('mediawiki.cmd.wikil.descr')
 	.menuId('queryTool');
 
 Core.cmd('wikio', () => {
@@ -83,14 +83,14 @@ Core.cmd('wikio', () => {
 	if (Core.args[1] === 'del') {
 		if (result) return BOT_RESULT.NO_EXIST;
 		saveConfig(getPath(), newData);
-		return ['成功删除MediaWiki: %input%', { input: Core.args[2] }];
+		return ['mediawiki.cmd.wikio.del', { input: Core.args[2] }];
 	}
 	if (Core.args[1] === 'add') {
 		if (!Core.args[3].includes('//') || !Core.args[3].includes('api.php')) return BOT_RESULT.ARGS_ERROR;
 		if (!result) return BOT_RESULT.EXIST;
 		oldData.push({ name: Core.args[2], api: Core.args[3] });
 		saveConfig(getPath(), oldData);
-		return ['成功添加MediaWiki: %input%', { input: Core.args[2] }];
+		return ['mediawiki.cmd.wikio.add', { input: Core.args[2] }];
 	}
 	return BOT_RESULT.ARGS_ERROR;
 })
@@ -98,7 +98,7 @@ Core.cmd('wikio', () => {
 	.access(ACCESS.MANGER)
 	.params({
 		add: {
-			descr: '添加MediaWiki',
+			descr: 'mediawiki.cmd.wikio.descr.add',
 			args: [
 				{
 					must: true,
@@ -111,7 +111,7 @@ Core.cmd('wikio', () => {
 			],
 		},
 		del: {
-			descr: '删除MediaWiki',
+			descr: 'mediawiki.cmd.wikio.descr.del',
 			args: [
 				{
 					must: true,

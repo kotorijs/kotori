@@ -6,14 +6,11 @@ groups activity ranking and simple games!
 **Author:** hotaru
 **License:** GPL-3.0
 
-## List of command
+## List of alias
 
--   /print <...content> - send a message on privates#^^
--   /echo <...message> - send a message on group\*^^
+-   资料卡 - \*
+-   签到 (打卡) - \*
 
 ## Lang Support
 
--   ja_JP
--   en_US
--   zh_TW
 -   zh_CN

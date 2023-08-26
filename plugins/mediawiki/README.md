@@ -8,8 +8,10 @@ mediawiki searcher
 
 ## List of command
 
--   /print <...content> - send a message on privates#^^
--   /echo <...message> - send a message on group\*^^
+-   /wiki <content> <num?> - Search MediaWiki, specify target Wiki with num
+-   /wikil - View MediaWiki list
+-   /wikio add <name> <url> - Add MediaWiki^
+-   /wikio del <name> - Delete MediaWiki^
 
 ## Lang Support
 
