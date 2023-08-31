@@ -1,16 +1,20 @@
-<img  align="center" src="./favicon.ico" width="200px" height="200px"/>
-<h1 align="center">小鳥 · KotoriBot</h1>
+<div align="center">
+<img src="./favicon.ico" width="200px" height="200px"/>
+<h1>小鳥 · KotoriBot</h1>
+
+<a href="./docs/CREATE.md">快速搭建</a>
 
 <p align="center">
-<a href="./docs/CREATE.md">快速搭建</a>
 <a href="./docs/GUIDE.md">使用指南</a>
 <a href="./docs/DEVELOP.md">开发教程</a>
 <a href="./docs/INTERFACE.md">接口文档</a>
 </p>
 
+</div>
+
 [![Build Status](https://app.travis-ci.com/BIYUEHU/kotori-bot.svg?branch=master)](https://app.travis-ci.com/BIYUEHU/kotori-bot) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/BIYUEHU/kotori-bot/master) ![npm collaborators](https://img.shields.io/npm/collaborators/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
 
-----
+---
 
 基于**NodeJS**+**TypeScript**的**go-cqhttp**的SDK和QQ机器人框架实现,相比于其它的go-cqhttp的NodeJS实现，Kotori-Bot的最大特点便是完全由纯**TypeScript**语言开发
 
@@ -18,19 +22,20 @@
 
 > [Blog](https://imlolicon.tk)
 
-------
+---
 
 ## 概要
+
 kotori是一个**快捷,轻便,跨平台**的BOT框架,去繁化简只为打造一个**重工具,轻娱乐**的工具性BOT
 
 > [变更日志](CHANGELOG.md)
 
 ## kotori支持的连接模式
-- [x] 正向 WebSocket
-- [x] 反向 WebSocket
+
+-   [x] 正向 WebSocket
+-   [x] 反向 WebSocket
 
 kotori目前现已支持go-cqhttp提供的67种`Api`,19种`Event`,18种`CQ Code`
-
 
 ## 关于插件
 
