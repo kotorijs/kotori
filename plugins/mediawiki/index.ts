@@ -37,7 +37,6 @@ Core.cmd('wiki', async () => {
 		if (!wiki || !wiki.api) return 'mediawiki.cmd.wiki.error';
 		res = await wikiSearch(wiki.api, Core.args[1]);
 	} else {
-		// let resPromise = null;
 		let init = 0;
 		const query = async (): Promise<obj | null> => {
 			wiki = dataList[init];
@@ -49,7 +48,10 @@ Core.cmd('wiki', async () => {
 		res = await query();
 	}
 	if (!res) return ['mediawiki.cmd.wiki.fail', { input: Core.args[1] }];
-	return ['mediawiki.cmd.wiki.info', { ...res, name: wiki!.name }];
+	return [
+		'mediawiki.cmd.wiki.info',
+		{ ...res, url: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name },
+	];
 })
 	.descr('mediawiki.cmd.wiki.descr')
 	.menuId('queryTool')

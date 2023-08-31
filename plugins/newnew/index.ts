@@ -3,7 +3,7 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-25 09:46:09
+ * @LastEditTime: 2023-08-30 17:56:26
  */
 import path from 'path';
 import { Core, temp } from 'plugins/kotori-core';
@@ -114,6 +114,7 @@ Core.alias('平均排行', () => {
 	let list = '';
 	let num = 1;
 	entries.forEach(entry => {
+		if (num > 20) return;
 		const nums = entry[1][2];
 		if (nums < config.avgMinNum) return;
 		list += temp('newnew.cmd.avg_ranking.list', {
@@ -141,6 +142,7 @@ Core.alias('今日排行', () => {
 	let list = '';
 	let num = 1;
 	newEntries.forEach(entry => {
+		if (num > 20) return;
 		const data = stat[entry[0] as unknown as number];
 		list += temp('newnew.cmd.today_ranking.list', {
 			num,

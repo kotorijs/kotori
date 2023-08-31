@@ -1,4 +1,4 @@
-import { Locale, getPackageInfo } from '@/tools';
+import { CONST, Locale, getPackageInfo } from '@/tools';
 import { Api, EventDataType, Msg, obj } from '@/tools/type';
 import SDK from '@/utils/class.sdk';
 
@@ -51,7 +51,7 @@ export const BOT_RESULT = new Proxy(
 export const GLOBAL = {
 	HEAD: 'Kotori-Bot:',
 	REPO: 'https://github.com/biyuehu/kotori-bot',
-	AVATAR: SDK.cq_image('https://biyuehu.github.io/images/avatar.png'),
+	AVATAR: SDK.cq_image(`https://q.qlogo.cn/headimg_dl?spec=640&dst_uin=${CONST.BOT.self_id}`),
 	DOC: 'http://??????????.com',
 	AUTHOR: `By${getPackageInfo().author}`,
 };

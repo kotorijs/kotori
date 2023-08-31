@@ -3,7 +3,7 @@
 	"mediawiki.cmd.wiki.empty": "暂时还没有wiki列表，使用\"/wikio add\"以添加新的MediaWiki",
 	"mediawiki.cmd.wiki.error": "错误的序号不存在该WIKI，使用\"/wikil\"查看当前MediaWiki列表",
 	"mediawiki.cmd.wiki.fail": "未查询到相关内容: %input%",
-	"mediawiki.cmd.wiki.info": "标题: %title%\n内容: %extract%\n页面ID: %pageid%\n来源: %name%",
+	"mediawiki.cmd.wiki.info": "标题: %title%\n内容: %extract%\n%url%\n来源: %name%",
 	"mediawiki.cmd.wikil.descr": "查看MediaWiki列表",
 	"mediawiki.cmd.wikil.info": "MediaWiki列表:%list%",
 	"mediawiki.cmd.wikil.list": "\n%num%.%name% - %api%",

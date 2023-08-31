@@ -4,7 +4,7 @@ import { fetchJ } from 'plugins/kotori-core/method';
 import { CoreVal, CoreKeyword, BOT_RESULT } from 'plugins/kotori-core/type';
 import cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
-import { Locale, getUuid, isObj } from '@/tools';
+import { Locale, formatTime, getUuid, isObj } from '@/tools';
 import SDK from '@/utils/class.sdk';
 
 Locale.register(path.resolve(__dirname));
@@ -134,6 +134,45 @@ Cmd('mcskin', async () => {
 		},
 	]);
 
+Cmd('mcv', async () => {
+	const res = await fetchJ('https://piston-meta.mojang.com/mc/game/version_manifest.json');
+	if (!res || !res.latest || !Array.isArray(res.versions)) return BOT_RESULT.SERVER_ERROR;
+	const res2 = await fetchJ('https://bugs.mojang.com/rest/api/2/project/10200/versions');
+	if (!res2 || !Array.isArray(res2)) return BOT_RESULT.SERVER_ERROR;
+	const date = {
+		releaseDate: '',
+		snapshotDate: '',
+		mcbe: '',
+		mcbeDate: '',
+	};
+	let count = 0;
+	for (const element of res.versions) {
+		count += 1;
+		if (count > 100) break;
+		if (date.releaseDate && date.snapshotDate) break;
+		if (element.id === res.latest.release) {
+			date.releaseDate = formatTime(new Date(element.releaseTime));
+			continue;
+		}
+		if (element.id === res.latest.snapshot) date.snapshotDate = formatTime(new Date(element.releaseTime));
+	}
+	for (const element of res2) {
+		if (count > 100) break;
+		if (!element.releaseDate) continue;
+		date.mcbe = element.name;
+		date.mcbeDate = formatTime(new Date(element.releaseDate));
+		break;
+	}
+
+	return [
+		`MinecraftJava:\n最新版: %release%\n发布时间: %releaseDate%\n最新快照: %snapshot%\n发布时间: %snapshotDate%\nMinecraftBedrock:\n最新版: %mcbe%\n发布时间: %mcbeDate%`,
+		{
+			...res.latest,
+			...date,
+		},
+	];
+}).descr('查询Minecraft版本信息');
+
 Cmd('sed', async (_send, data) => {
 	if (Core.args[1] === data.self_id.toString()) return ['querytool.cmd.sed.fail', { input: Core.args[1] }];
 
@@ -143,31 +182,31 @@ Cmd('sed', async (_send, data) => {
 	let list = '';
 	list += res.data.qq
 		? temp('querytool.cmd.sed.list', {
-				key: 'querytool.cmd.sed.key.qq',
+				key: Locale.locale('querytool.cmd.sed.key.qq'),
 				content: res.data.qq,
 		  })
 		: '';
 	list += res.data.phone
 		? temp('querytool.cmd.sed.list', {
-				key: 'querytool.cmd.sed.key.phone',
+				key: Locale.locale('querytool.cmd.sed.key.phone'),
 				content: res.data.phone,
 		  })
 		: '';
 	list += res.data.location
 		? temp('querytool.cmd.sed.list', {
-				key: 'querytool.cmd.sed.key.location',
+				key: Locale.locale('querytool.cmd.sed.key.location'),
 				content: res.data.location,
 		  })
 		: '';
 	list += res.data.id
 		? temp('querytool.cmd.sed.list', {
-				key: 'querytool.cmd.sed.key.id',
+				key: Locale.locale('querytool.cmd.sed.key.id'),
 				content: res.data.id,
 		  })
 		: '';
 	list += res.data.area
 		? temp('querytool.cmd.sed.list', {
-				key: 'querytool.cmd.sed.key.area',
+				key: Locale.locale('querytool.cmd.sed.key.area'),
 				content: res.data.area,
 		  })
 		: '';

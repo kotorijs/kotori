@@ -1,7 +1,7 @@
 import path from 'path';
 import { readdirSync } from 'fs';
 import { Core, temp } from 'plugins/kotori-core';
-import { SCOPE } from 'plugins/kotori-core/type';
+import { CoreKeyword, CoreVal, SCOPE } from 'plugins/kotori-core/type';
 import { Event, Api, Const, Locale, loadConfig, saveConfig, obj, getRandomInt, getDate, isObj } from '@/tools';
 import SDK from '@/utils/class.sdk';
 import Profile from './class/class.profile';
@@ -28,37 +28,43 @@ const saveData = (data: object, group: number) => {
 	saveConfig(getPath(group), data);
 };
 
-export const queryUser = (group: number, user: number): [userData, obj<userData>] => {
+export const queryUser = (group: number, user: number, userName?: string): [userData, obj<userData>] => {
 	const data = loadData(group);
 	if (!(user in data)) {
 		data[user as keyof typeof data] = defaultData;
-		saveData(data, group);
 	}
+
+	if (userName) data[user as keyof typeof data].name = userName;
+	saveData(data, group);
 	return [data[user as keyof typeof data], data];
 };
 
-export const addExp = (group: number, user: number, exp: number, tips: boolean = true) => {
+export const addExp = (group: number, user: number, exp: number, userName?: string, tips: boolean = true) => {
 	if (exp === 0) return;
 	const data = loadData(group);
 
 	if (!(user in data)) data[user as keyof typeof data] = defaultData;
 	data.group.exp += exp;
 	data[user as keyof typeof data].exp += exp;
+	if (userName) data[user as keyof typeof data].name = userName;
 	saveData(data, group);
 	if (tips) Main.Api.send_group_msg(`${SDK.cq_at(user)}经验+${exp}`, group);
 };
 
-Core.alias('资料卡', async (_send, data) => {
-	const userData = queryUser(data.group_id!, data.user_id)[0];
+const Alias = (keyword: CoreKeyword, callback: CoreVal) => {
+	const entity = Core.alias(keyword, callback).menuId('funSys').scope(SCOPE.GROUP);
+	return entity;
+};
+
+Alias('资料卡', async (_send, data) => {
+	const userData = queryUser(data.group_id!, data.user_id, data.sender.nickname)[0];
 	const image = new Profile(data, parseInt(Core.args[1], 10) || userData.exp).render();
 	return SDK.cq_image((await image).replace('data:image/png;base64,', 'base64://'));
-})
-	.menuId('funSys')
-	.scope(SCOPE.GROUP);
+});
 
-Core.alias(['签到', '打卡'], (_send, data) => {
+Alias(['签到', '打卡'], (_send, data) => {
 	const time = getDate();
-	const groupData = queryUser(data.group_id!, data.user_id)[1];
+	const groupData = queryUser(data.group_id!, data.user_id, data.sender.nickname)[1];
 	const at = SDK.cq_at(data.user_id);
 	if (!(data.user_id in groupData)) groupData[data.user_id] = defaultData;
 	if (groupData[data.user_id].sign.includes(time)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
@@ -69,11 +75,9 @@ Core.alias(['签到', '打卡'], (_send, data) => {
 		'%at%签到成功！奖励已发放~%image%',
 		{ at, image: SDK.cq_image('https://tenapi.cn/acg', undefined, undefined, 'normal', 0) },
 	];
-})
-	.menuId('funSys')
-	.scope(SCOPE.GROUP);
+});
 
-Core.alias('群排行', () => {
+Alias('群排行', () => {
 	const files = readdirSync(Main.Consts.DATA_PLUGIN_PATH);
 	const groupData: userData[] = [];
 	files.forEach(filename => {
@@ -91,6 +95,7 @@ Core.alias('群排行', () => {
 	let rank = 1;
 	let list = '';
 	groupData.forEach(oldItem => {
+		if (rank > 20) return;
 		const item = oldItem as obj;
 		item.sign = '';
 		list += temp('\n%rank%.群:%name% - 经验: %exp% (发言: %msg%次)', { rank, ...item });
@@ -99,17 +104,87 @@ Core.alias('群排行', () => {
 	return ['群排行:%list%', { list }];
 });
 
-Core.alias('猜数字', (_send, data) => {
+Alias('等级排行', (_send, data) => {
+	const result = loadData(data.group_id!);
+	const arr: userData[] = [];
+	Object.keys(result).forEach(Element => {
+		if (Element === 'group') return;
+		arr.push(result[Element]);
+	});
+
+	arr.sort((a, b) => b.exp - a.exp);
+
+	let rank = 1;
+	let list = '';
+	arr.forEach(oldItem => {
+		if (rank > 20) return;
+		const item = oldItem as obj;
+		item.sign = '';
+		list += temp('\n%rank%.%name% - LV%level% 经验: %exp%', {
+			rank,
+			level: Profile.getLevel(item.exp)[0],
+			name: '',
+			...item,
+		});
+		rank += 1;
+	});
+	return ['本群等级排行:%list%', { list }];
+});
+
+Alias('发言排行', (_send, data) => {
+	const result = loadData(data.group_id!);
+	const arr: userData[] = [];
+	Object.keys(result).forEach(Element => {
+		if (Element === 'group') return;
+		arr.push(result[Element]);
+	});
+
+	arr.sort((a, b) => b.msg - a.msg);
+
+	let rank = 1;
+	let list = '';
+	arr.forEach(oldItem => {
+		if (rank > 20) return;
+		const item = oldItem as obj;
+		item.sign = '';
+		list += temp('\n%rank%.%name% - %msg%次', { rank, name: '', ...item });
+		rank += 1;
+	});
+	return ['本群发言排行:%list%', { list }];
+});
+
+Alias('签到排行', (_send, data) => {
+	const result = loadData(data.group_id!);
+	const arr: userData[] = [];
+	Object.keys(result).forEach(Element => {
+		if (Element === 'group') return;
+		arr.push(result[Element]);
+	});
+
+	arr.sort((a, b) => b.sign.length - a.sign.length);
+
+	let rank = 1;
+	let list = '';
+	arr.forEach(oldItem => {
+		if (rank > 20) return;
+		const count = oldItem.sign.length;
+		const item = oldItem as obj;
+		item.sign = '';
+		list += temp('\n%rank%.%name% - %count%次', { rank, count, name: '', ...item });
+		rank += 1;
+	});
+	return ['本群签到排行:%list%', { list }];
+});
+
+Alias('猜数字', (_send, data) => {
 	const result = Guess.start(data.user_id);
 	return [
 		'%at%这是一个%min%到%max%之间的神秘数字哦( •̀ ω •́ )✧,发送"猜 <number>"猜数字~',
 		{ at: SDK.cq_at(data.user_id), ...result },
 	];
-})
-	.menuId('funSys')
-	.scope(SCOPE.GROUP);
+});
 
-Core.alias('猜', (_send, data) => {
+Alias('猜', (_send, data) => {
 	const at = SDK.cq_at(data.user_id);
 	if (!Guess.guessData[data.user_id]) return ['%at%哎呀~你还有没有开始游戏哦<(＿　＿)>,发送"猜数字"开始游戏', { at }];
 	const guess = parseInt(Core.args[1], 10);
@@ -117,7 +192,7 @@ Core.alias('猜', (_send, data) => {
 	const result = Guess.guess(data.user_id, guess);
 
 	if (!result) {
-		if (count > 5)
+		if (count > 10)
 			return ['%at%啊哈哈,这次你没有猜对我的数字哦(。・∀・)ノ,不行的话可以发送"放弃"结束本次游戏', { at }];
 		if (guess > answer) {
 			if (guess - answer > 20) return ['%at%哎呀,你猜的数字太大啦~再想想是一个更小的数字吧(。・∀・)ノ', { at }];
@@ -130,17 +205,14 @@ Core.alias('猜', (_send, data) => {
 	if (count > 5 && count <= 10) addExp(data.group_id!, data.user_id, getRandomInt(5, 1));
 
 	return ['%at%耶~你猜对啦!真厉害!总共猜了%num%次,太棒了Ψ(≧ω≦)Ψ', { at, num: result }];
-})
-	.menuId('funSys')
-	.scope(SCOPE.GROUP)
-	.params([{ must: true, name: 'number' }]);
+}).params([{ must: true, name: 'number' }]);
 
-Core.alias('放弃', (_send, data) => {
+Alias('放弃', (_send, data) => {
 	Guess.giveup(data.user_id);
 	return ['%at%放弃也没关系的,一起开心地玩游戏才最重要~(∩_∩)', { at: SDK.cq_at(data.user_id) }];
 });
 
-Core.alias('猜拳', (_send, data) => {
+Alias('猜拳', (_send, data) => {
 	const at = SDK.cq_at(data.user_id);
 	if (!['石头', '剪刀', '布'].includes(Core.args[1])) {
 		return ['%at%错啦错啦(╬▔皿▔)╯大错特错！要输入石头剪刀布中的一个才行哦~', { at }];
@@ -156,10 +228,7 @@ Core.alias('猜拳', (_send, data) => {
 		return ['%at%哎呀,我们果然默契无比,同时出了%input%,结局是平局啦 Σ(▼□▼〃)', params];
 	}
 	return ['%at%哈哈,这次我的%output%打败你的%input%了!不过不要灰心,再接再厉哦 (•ө•)♡', params];
-})
-	.menuId('funSys')
-	.scope(SCOPE.GROUP)
-	.params([{ must: true, name: '石头/剪刀/布' }]);
+}).params([{ must: true, name: '石头/剪刀/布' }]);
 
 Core.hook(data => {
 	if (!data.group_id) return true;
@@ -169,8 +238,10 @@ Core.hook(data => {
 	groupData.group.msg += 1;
 	saveData(groupData, data.group_id);
 	if (data.message.toUpperCase().includes('CQ')) return true;
-	if (data.message.length <= 100) addExp(data.group_id, data.user_id, Math.floor(data.message.length / 10), false);
-	if (data.message.length > 100) addExp(data.group_id, data.user_id, Math.floor(data.message.length / 20), false);
+	if (data.message.length <= 100)
+		addExp(data.group_id, data.user_id, Math.floor(data.message.length / 10), data.sender.nickname, false);
+	if (data.message.length > 100)
+		addExp(data.group_id, data.user_id, Math.floor(data.message.length / 20), data.sender.nickname, false);
 	return true;
 });
 

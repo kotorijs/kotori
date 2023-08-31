@@ -1,28 +1,25 @@
-## 插件开发
+# DEVELOP
 
-**KotoriBot**提供了一个简约的插件扩展机制，目前已支持go-cqhttp提供的67种**接口(API)**和?种监听**事件(Event)**
+插件主要分为单文件插件与多文件插件，前者代码量相对少仅需一个TS脚本文件放入`plugins/`即可，不需要`标识文件`与依赖库，后者则需要一个文件夹包裹放入，但无论如何，更推荐使用后方案，kotori将在不久后彻底弃除
+单文件
+> 注意：单文件插件的名字和多文件插件的文件夹名字将作为该插件的唯一标识符
 
-插件主要分为单文件插件与多文件插件，前者代码量相对少仅需一个TS脚本文件放入`plugins/`即可，不需要`标识文件`与依赖库，后者则需要一个文件夹包裹放入，但无论如何，更推荐使用后方案
+1.新建文件夹`plugins/nemusic/`
 
-> 注意:单文件插件的名字和多文件插件的文件夹名字将作为该插件的唯一标识符
-
-新建文件夹`plugins/nemusic/`
-
-标识文件:`@/manifest.json`,该文件在一定程度上参考了某个游戏
+2.标识文件：`@/manifest.json`，~~该文件在一定程度上参考了某个游戏~~
 
 ```json
 {
-	// 所有参数均为可选，包括该文件，将在插件加载时在控制台输出信息
 	"name": "网易云点歌", // 插件名字
 	"description": "在群聊或私聊发送“点歌[歌名]”即可", // 插件描述
 	"version": "0.0.1", // 插件版本
 	"author": "hotaru", // 插件作者
-	"license": "MIT" // 插件开源协议
+	"license": "GPL-3.0" // 插件开源协议
 }
 ```
+所有参数均为可选，包括该文件，但是建议无论何时都务必完整填写所有信息，协议在原则上所有**kotori-bot**的插件都应同样遵循**GPL-3.0**协议，因此非必要请勿更改。将在插件启用并加载时在控制台打印信息
 
-依赖项文件:`@/dependencies`,源自于nodejs,当编写插件时也不免会引入一些别的库,而该文件也在于此,相对于简化版的`package.json`
-
+3.(非必要)依赖项文件：`@/package.json`，源自于nodejs，在该插件目录下使用包管理器安装该插件所需要的包将会自动生成
 ```json
 {
 	"dependencies": {
@@ -31,21 +28,21 @@
 }
 ```
 
-入口文件:`@/index.ts`
+4.入口文件：`@/index.ts`
 
 ```typescript
 import config from './config';
 // 可导入各种东西
 import needle from 'needle';
 // 一个简易的http请求库
-import { stringProcess, stringSplit } from '../../src/function';
+import { stringProcess, stringSplit } from '@/tool';
 // 该文件为Kotori-Bot提供的工具库，提供了一些简单的方法
-// 具体内容参考后文
+// 请参考接口文档
 
 /**
- * @param {any} Event 事件
- * @param {any} Api 接口
- * @param {any} Const 常量(可选)
+ * @param {Event} Event 事件
+ * @param {Api} Api 接口
+ * @param Const} Consts 常量(可选)
  */
 export default (Event: any, Api: any) => {
 	/**
