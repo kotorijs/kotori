@@ -1,7 +1,7 @@
 {
-    "name": "grouper",
-    "version": "1.1.0",
-    "description": "groups activity ranking and simple games!",
-    "author": "hotaru",
-    "license": "GPL-3.0"
+	"name": "grouper",
+	"version": "1.1.0",
+	"description": "groups activity ranking and simple games!",
+	"author": "hotaru",
+	"license": "GPL-3.0"
 }
