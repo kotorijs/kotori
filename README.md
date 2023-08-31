@@ -1,10 +1,10 @@
 <div align="center">
 <img src="./favicon.ico" width="200px" height="200px"/>
-<h1>小鳥 · KotoriBot</h1>
 
-<a href="./docs/CREATE.md">快速搭建</a>
+# 小鳥 · KotoriBot
 
-<p align="center">
+<p>
+[快速搭建](./docs/CREATE.md)
 <a href="./docs/GUIDE.md">使用指南</a>
 <a href="./docs/DEVELOP.md">开发教程</a>
 <a href="./docs/INTERFACE.md">接口文档</a>
