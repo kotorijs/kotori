@@ -3,14 +3,11 @@
 
 # 小鳥 · KotoriBot
 
-<p>
-
 [快速搭建](./docs/CREATE.md)
 [使用指南](./docs/GUIDE.md)
 [开发教程](./docs/DEVELOP.md)  
 [接口文档](./docs/INTERFACE.md)
 
-</p>
 </div>
 
 [![Build Status](https://app.travis-ci.com/BIYUEHU/kotori-bot.svg?branch=master)](https://app.travis-ci.com/BIYUEHU/kotori-bot) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/BIYUEHU/kotori-bot/master) ![npm collaborators](https://img.shields.io/npm/collaborators/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
