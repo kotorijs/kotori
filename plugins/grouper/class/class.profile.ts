@@ -35,22 +35,22 @@ export class Profile {
 			if (role === 'member') titleRaw[1] = 'BlueViolet';
 		}
 
-		const { 0: level, 1: totalExp, 2: avg } = this.getLevel();
+		const { 0: level, 1: totalExp, 2: avg } = Profile.getLevel(this.exp);
 		const progress = Profile.renderProgress(level >= config.maxLevel ? 100 : avg);
 		return { titleRaw, nickname, sexColor, level, totalExp: level >= config.maxLevel ? '~' : totalExp, progress };
 	};
 
-	private getLevel = () => {
-		if (this.exp < 0) return [-1, 0, 0];
+	public static getLevel = (exp: number) => {
+		if (exp < 0) return [-1, 0, 0];
 		let totalExp = config.baseExp;
 		let totalExpLast = 0;
 		let level = 1;
-		while (this.exp >= totalExp && level < config.maxLevel) {
+		while (exp >= totalExp && level < config.maxLevel) {
 			level += 1;
 			totalExpLast = totalExp;
 			totalExp = level * config.baseExp + totalExp;
 		}
-		const alreadyExp = this.exp - totalExpLast;
+		const alreadyExp = exp - totalExpLast;
 		const needExp = level * config.baseExp;
 		const avg = parseInt(((alreadyExp / needExp) * 100).toFixed(), 10);
 		return [level, totalExp, avg];

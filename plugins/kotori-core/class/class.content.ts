@@ -159,6 +159,7 @@ export class Content extends Data {
 		}
 
 		const listenr = (error: unknown) => {
+			process.removeListener('unhandledRejection', listenr);
 			Content.isErroring = false;
 			this.send(BOT_RESULT.UNKNOWN_ERROR, {
 				error: error instanceof Error ? error.toString() : JSON.stringify(error),
@@ -166,15 +167,14 @@ export class Content extends Data {
 		};
 		if (!Content.isErroring) {
 			Content.isErroring = true;
-			setTimeout(() => {
-				Content.isErroring = false;
-			}, 5000);
-			process.removeAllListeners('unhandledRejection');
-			process.on('unhandledRejection', data => listenr(data));
-			// process.removeListener('unhandledRejection', listenr);
+			console.info('1');
+			// process.removeAllListeners('unhandledRejection');
+			process.on('unhandledRejection', listenr);
 		}
 
 		const result = await handlerFunc(this.send, this.data);
+		process.removeListener('unhandledRejection', listenr);
+		Content.isErroring = false;
 		if (!result) return;
 		if (typeof result === 'string') {
 			this.send(result);
