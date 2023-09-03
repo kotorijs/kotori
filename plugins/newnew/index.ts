@@ -3,11 +3,11 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-30 17:56:26
+ * @LastEditTime: 2023-09-03 15:34:29
  */
 import path from 'path';
 import { Core, temp } from 'plugins/kotori-core';
-import { addExp } from 'plugins/grouper';
+import { addExp, queryUserInfo } from 'plugins/grouper';
 import { Api, Const, Locale, loadConfig, saveConfig } from '@/tools';
 import SDK from '@/utils/class.sdk';
 import config from './config';
@@ -53,9 +53,9 @@ Core.alias('今日长度', (send, data) => {
 		at: SDK.cq_at(data.user_id),
 		length: todayLength,
 	};
-	if (todayLength <= 0) message = temp('newnew.cmd.today_length.info.2', params);
-	else if (todayLength > 0 && todayLength <= config.joke) message = temp('newnew.cmd.today_length.info.1', params);
-	else message = temp('newnew.cmd.today_length.info.0', params);
+	if (todayLength <= 0) message = temp('newnew.msg.today_length.info.2', params);
+	else if (todayLength > 0 && todayLength <= config.joke) message = temp('newnew.msg.today_length.info.1', params);
+	else message = temp('newnew.msg.today_length.info.0', params);
 	send(message);
 
 	/* 如果数据中不存在则更新数据 */
@@ -72,21 +72,20 @@ Core.alias('今日长度', (send, data) => {
 		if (todayLength >= person[1]) person[1] = todayLength;
 		person[2] += 1;
 		person[3] += todayLength;
-		person[4] = data.sender.nickname;
 	} else {
-		stat[data.user_id] = [todayLength, todayLength, 1, todayLength, data.sender.nickname];
+		stat[data.user_id] = [todayLength, todayLength, 1, todayLength];
 	}
 	saveStatData(stat);
 })
-	.descr('newnew.cmd.today_length.descr')
+	.help('newnew.help.today_length')
 	.menuId('funSys');
 
 Core.alias('我的长度', (_send, data) => {
 	const stat = loadStatData();
 	const person = stat[data.user_id];
-	if (!person || person.length <= 0) return ['newnew.cmd.my_length.fail', { at: SDK.cq_at(data.user_id) }];
+	if (!person || person.length <= 0) return ['newnew.msg.my_length.fail', { at: SDK.cq_at(data.user_id) }];
 	return [
-		'newnew.cmd.my_length.info',
+		'newnew.msg.my_length.info',
 		{
 			at: SDK.cq_at(data.user_id),
 			max_length: person[1],
@@ -97,13 +96,13 @@ Core.alias('我的长度', (_send, data) => {
 		},
 	];
 })
-	.descr('newnew.cmd.my_length.descr')
+	.help('newnew.help.my_length')
 	.menuId('funSys');
 
 Core.alias('平均排行', () => {
 	const stat = loadStatData();
 	const statOrigin = loadStatData();
-	if (stat.length <= 0) return 'newnew.cmd.avg_ranking.fail';
+	if (stat.length <= 0) return 'newnew.msg.avg_ranking.fail';
 	Object.keys(stat).forEach(key => {
 		const item = stat[key as unknown as number];
 		item[3] /= item[2];
@@ -117,24 +116,23 @@ Core.alias('平均排行', () => {
 		if (num > 20) return;
 		const nums = entry[1][2];
 		if (nums < config.avgMinNum) return;
-		list += temp('newnew.cmd.avg_ranking.list', {
+		list += temp('newnew.msg.avg_ranking.list', {
 			num,
-			name: entry[1][4],
+			name: queryUserInfo(parseInt(entry[0], 10)).nickname,
 			nums,
 			avg_length: entry[1][3].toFixed(1),
 			total_length: statOrigin[entry[0] as unknown as number][3],
 		});
 		num += 1;
 	});
-	return ['newnew.cmd.avg_ranking.info', { list }];
+	return ['newnew.msg.avg_ranking.info', { list }];
 })
-	.descr('newnew.cmd.avg_ranking.descr')
+	.help('newnew.help.avg_ranking')
 	.menuId('funSys');
 
 Core.alias('今日排行', () => {
-	const stat = loadStatData();
 	const today = loadTodayData();
-	if (today.length <= 0) return 'newnew.cmd.today_ranking.fail';
+	if (today.length <= 0) return 'newnew.msg.today_ranking.fail';
 
 	const newEntries = Object.entries(today);
 	newEntries.sort((a, b) => b[1] - a[1]);
@@ -143,15 +141,14 @@ Core.alias('今日排行', () => {
 	let num = 1;
 	newEntries.forEach(entry => {
 		if (num > 20) return;
-		const data = stat[entry[0] as unknown as number];
-		list += temp('newnew.cmd.today_ranking.list', {
+		list += temp('newnew.msg.today_ranking.list', {
 			num,
-			name: data[4],
+			name: queryUserInfo(parseInt(entry[0], 10)).nickname,
 			length: entry[1],
 		});
 		num += 1;
 	});
-	return ['newnew.cmd.today_ranking.info', { list }];
+	return ['newnew.msg.today_ranking.info', { list }];
 })
-	.descr('newnew.cmd.today_ranking.descr')
+	.help('newnew.help.today_ranking')
 	.menuId('funSys');

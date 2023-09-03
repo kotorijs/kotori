@@ -1,1 +1,1 @@
-export type arrData = [number, number, number, number, string][];
+export type arrData = [number, number, number, number][];

@@ -27,14 +27,14 @@ const loadWikiData = () => {
 
 Core.cmd('wiki', async () => {
 	const dataList = loadWikiData();
-	if (dataList.length <= 0) return 'mediawiki.cmd.wiki.empty';
+	if (dataList.length <= 0) return 'mediawiki.msg.wiki.empty';
 
 	let res: obj | null = null;
 	let wiki: wikiData | null = null;
 	const num = parseInt(Core.args[2], 10);
 	if (num) {
 		wiki = dataList[num - 1];
-		if (!wiki || !wiki.api) return 'mediawiki.cmd.wiki.error';
+		if (!wiki || !wiki.api) return 'mediawiki.msg.wiki.error';
 		res = await wikiSearch(wiki.api, Core.args[1]);
 	} else {
 		let init = 0;
@@ -47,13 +47,13 @@ Core.cmd('wiki', async () => {
 		};
 		res = await query();
 	}
-	if (!res) return ['mediawiki.cmd.wiki.fail', { input: Core.args[1] }];
+	if (!res) return ['mediawiki.msg.wiki.fail', { input: Core.args[1] }];
 	return [
-		'mediawiki.cmd.wiki.info',
+		'mediawiki.msg.wiki.info',
 		{ ...res, url: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name },
 	];
 })
-	.descr('mediawiki.cmd.wiki.descr')
+	.help('mediawiki.help.wiki')
 	.menuId('queryTool')
 	.params([
 		{
@@ -70,12 +70,12 @@ Core.cmd('wikil', () => {
 	let list = '';
 	let init = 1;
 	dataList.forEach(Element => {
-		list += temp('mediawiki.cmd.wikil.list', { num: init, ...Element });
+		list += temp('mediawiki.msg.wikil.list', { num: init, ...Element });
 		init += 1;
 	});
-	return ['mediawiki.cmd.wikil.info', { list }];
+	return ['mediawiki.msg.wikil.info', { list }];
 })
-	.descr('mediawiki.cmd.wikil.descr')
+	.help('mediawiki.help.wikil')
 	.menuId('queryTool');
 
 Core.cmd('wikio', () => {
@@ -85,14 +85,14 @@ Core.cmd('wikio', () => {
 	if (Core.args[1] === 'del') {
 		if (result) return BOT_RESULT.NO_EXIST;
 		saveConfig(getPath(), newData);
-		return ['mediawiki.cmd.wikio.del', { input: Core.args[2] }];
+		return ['mediawiki.msg.wikio.del', { input: Core.args[2] }];
 	}
 	if (Core.args[1] === 'add') {
 		if (!Core.args[3].includes('//') || !Core.args[3].includes('api.php')) return BOT_RESULT.ARGS_ERROR;
 		if (!result) return BOT_RESULT.EXIST;
 		oldData.push({ name: Core.args[2], api: Core.args[3] });
 		saveConfig(getPath(), oldData);
-		return ['mediawiki.cmd.wikio.add', { input: Core.args[2] }];
+		return ['mediawiki.msg.wikio.add', { input: Core.args[2] }];
 	}
 	return BOT_RESULT.ARGS_ERROR;
 })
@@ -100,7 +100,7 @@ Core.cmd('wikio', () => {
 	.access(ACCESS.MANGER)
 	.params({
 		add: {
-			descr: 'mediawiki.cmd.wikio.descr.add',
+			help: 'mediawiki.help.wikio.add',
 			args: [
 				{
 					must: true,
@@ -113,7 +113,7 @@ Core.cmd('wikio', () => {
 			],
 		},
 		del: {
-			descr: 'mediawiki.cmd.wikio.descr.del',
+			help: 'mediawiki.help.wikio.del',
 			args: [
 				{
 					must: true,

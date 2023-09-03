@@ -29,7 +29,7 @@ const getZero = () => {
 
 Core.cmd('throw', (_send, eventData) => {
 	const at = SDK.cq_at(eventData.user_id);
-	if (!Core.args[1]) return ['drift_bottle.cmd.throw.empty', { at }];
+	if (!Core.args[1]) return ['drift_bottle.msg.throw.empty', { at }];
 
 	const data = getBottle();
 	const zero = getZero();
@@ -40,12 +40,12 @@ Core.cmd('throw', (_send, eventData) => {
 		if (Element[2] < zero) return;
 		num += 1;
 	});
-	if (num > config.maxNum) return ['drift_bottle.cmd.throw.fail', { num: config.maxNum, at }];
+	if (num > config.maxNum) return ['drift_bottle.msg.throw.fail', { num: config.maxNum, at }];
 	data.push([Core.args[1], new Date().getTime(), eventData.group_id!, eventData.user_id]);
 	saveConfig(getPath(), data);
-	return ['drift_bottle.cmd.throw.info', { at }];
+	return ['drift_bottle.msg.throw.info', { at }];
 })
-	.descr('drift_bottle.cmd.throw.descr')
+	.help('drift_bottle.help.throw')
 	.menuId('funSys')
 	.scope(SCOPE.GROUP)
 	.params([
@@ -57,10 +57,10 @@ Core.cmd('throw', (_send, eventData) => {
 
 Core.cmd('pick', () => {
 	const data = getBottle();
-	if (!data || data.length < 0) return 'drift_bottle.cmd.pick.none';
+	if (!data || data.length < 0) return 'drift_bottle.msg.pick.none';
 	const bottle = data[getRandomInt(data.length - 1)];
 	return [
-		'drift_bottle.cmd.pick.info',
+		'drift_bottle.msg.pick.info',
 		{
 			message: bottle[0],
 			time: formatTime(new Date(bottle[1])),
@@ -68,7 +68,7 @@ Core.cmd('pick', () => {
 		},
 	];
 })
-	.descr('drift_bottle.cmd.pick.descr')
+	.help('drift_bottle.help.pick')
 	.menuId('funSys')
 	.scope(SCOPE.GROUP);
 

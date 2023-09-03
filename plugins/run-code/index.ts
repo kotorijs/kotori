@@ -10,9 +10,9 @@ Core.cmd('runjs', () => {
 	const Entity = new JsBox(Core.args[1]);
 	Entity.run();
 	const content = Entity.results;
-	return ['runcode.cmd.runjs.info', { content }];
+	return ['runcode.msg.runjs.info', { content }];
 })
-	.descr('runcode.cmd.runjs.descr')
+	.help('runcode.help.runjs')
 	.menuId('queryTool')
 	.params([
 		{
@@ -26,9 +26,9 @@ Core.cmd('runlua', () => {
 	const Entity = new LuaBox(Core.args[1]);
 	Entity.run();
 	const content = Entity.results;
-	return ['runcode.cmd.runlua.info', { content }];
+	return ['runcode.msg.runlua.info', { content }];
 })
-	.descr('runcode.cmd.runlua.descr')
+	.help('runcode.help.runlua')
 	.menuId('queryTool')
 	.params([
 		{

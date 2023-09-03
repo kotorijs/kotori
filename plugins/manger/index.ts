@@ -133,17 +133,17 @@ Core.hook((data, send) => {
 	return false;
 });
 
-Core.menu('mange', 'groupMange').descr('manger.menu.group_mange.descr').scope(SCOPE.GROUP).access(ACCESS.MANGER);
-Core.menu('admin', 'adminMange').descr('manger.menu.admin_mange.descr').access(ACCESS.ADMIN);
+Core.menu('mange', 'groupMange').help('manger.menu.group_mange.help').scope(SCOPE.GROUP).access(ACCESS.MANGER);
+Core.menu('admin', 'adminMange').help('manger.menu.admin_mange.help').access(ACCESS.ADMIN);
 
 Core.cmd('ban', (_send, data) => {
 	const target = getQq(Core.args[1]);
 	const time = parseInt(Core.args[2], 10) * 60;
 	if (target) {
-		if (Main.checkWhiteList(target, data.group_id)) return 'manger.cmd.ban.fail';
+		if (Main.checkWhiteList(target, data.group_id)) return 'manger.msg.ban.fail';
 		Main.Api.set_group_ban(data.group_id!, target, time);
 		return [
-			'manger.cmd.ban.user',
+			'manger.msg.ban.user',
 			{
 				target,
 				time: time / 60,
@@ -152,9 +152,9 @@ Core.cmd('ban', (_send, data) => {
 	}
 	if (!target && Core.args[1]) return BOT_RESULT.ARGS_ERROR;
 	Main.Api.set_group_whole_ban(data.group_id!);
-	return 'manger.cmd.ban.all';
+	return 'manger.msg.ban.all';
 })
-	.descr('manger.cmd.ban.descr')
+	.help('manger.help.ban')
 	.menuId('groupMange')
 	.scope(SCOPE.GROUP)
 	.access(ACCESS.MANGER)
@@ -173,7 +173,7 @@ Core.cmd('unban', (send, data) => {
 	const target = getQq(Core.args[1]);
 	if (target) {
 		Main.Api.set_group_ban(data.group_id!, target, 0);
-		send('manger.cmd.unban.user', {
+		send('manger.msg.unban.user', {
 			target,
 		});
 		return;
@@ -183,9 +183,9 @@ Core.cmd('unban', (send, data) => {
 		return;
 	}
 	Main.Api.set_group_whole_ban(data.group_id!, false);
-	send('manger.cmd.unban.all');
+	send('manger.msg.unban.all');
 })
-	.descr('manger.cmd.unban.descr')
+	.help('manger.help.unban')
 	.menuId('groupMange')
 	.scope(SCOPE.GROUP)
 	.access(ACCESS.MANGER)
@@ -198,13 +198,13 @@ Core.cmd('unban', (send, data) => {
 
 Core.cmd('black', (_send, data) => {
 	const target = getQq(Core.args[1]);
-	if (target && Main.checkWhiteList(target, data.group_id)) return 'manger.cmd.black.fail';
+	if (target && Main.checkWhiteList(target, data.group_id)) return 'manger.msg.black.fail';
 
 	return controlParams(path.join(data.group_id!.toString(), 'blackList.json'), [
-		'manger.cmd.black.query',
-		'manger.cmd.black.add',
-		'manger.cmd.black.del',
-		'manger.cmd.black.list',
+		'manger.msg.black.query',
+		'manger.msg.black.add',
+		'manger.msg.black.del',
+		'manger.msg.black.list',
 	]);
 })
 	.menuId('groupMange')
@@ -212,10 +212,10 @@ Core.cmd('black', (_send, data) => {
 	.access(ACCESS.MANGER)
 	.params({
 		query: {
-			descr: 'manger.cmd.black.descr.query',
+			help: 'manger.help.black.query',
 		},
 		add: {
-			descr: 'manger.cmd.black.descr.add',
+			help: 'manger.help.black.add',
 			args: [
 				{
 					must: true,
@@ -224,7 +224,7 @@ Core.cmd('black', (_send, data) => {
 			],
 		},
 		del: {
-			descr: 'manger.cmd.black.descr.del',
+			help: 'manger.help.black.del',
 			args: [
 				{
 					must: true,
@@ -236,10 +236,10 @@ Core.cmd('black', (_send, data) => {
 
 Core.cmd('white', (send, data) => {
 	const message = controlParams(path.join(data.group_id!.toString(), 'whiteList.json'), [
-		'manger.cmd.white.query',
-		'manger.cmd.white.add',
-		'manger.cmd.white.del',
-		'manger.cmd.white.list',
+		'manger.msg.white.query',
+		'manger.msg.white.add',
+		'manger.msg.white.del',
+		'manger.msg.white.list',
 	]);
 	send(message);
 })
@@ -248,10 +248,10 @@ Core.cmd('white', (send, data) => {
 	.access(ACCESS.MANGER)
 	.params({
 		query: {
-			descr: 'manger.cmd.white.descr.query',
+			help: 'manger.help.white.query',
 		},
 		add: {
-			descr: 'manger.cmd.white.descr.add',
+			help: 'manger.help.white.add',
 			args: [
 				{
 					must: true,
@@ -260,7 +260,7 @@ Core.cmd('white', (send, data) => {
 			],
 		},
 		del: {
-			descr: 'manger.cmd.white.descr.del',
+			help: 'manger.help.white.del',
 			args: [
 				{
 					must: true,
@@ -273,13 +273,13 @@ Core.cmd('white', (send, data) => {
 Core.cmd('kick', (_send, data) => {
 	const target = getQq(Core.args[1]);
 	if (target) {
-		if (Main.checkWhiteList(target, data.group_id)) return 'manger.cmd.kick.fail';
+		if (Main.checkWhiteList(target, data.group_id)) return 'manger.msg.kick.fail';
 		Main.Api.set_group_kick(data.group_id!, target);
-		return ['manger.cmd.kick.info', { target }];
+		return ['manger.msg.kick.info', { target }];
 	}
 	return BOT_RESULT.ARGS_ERROR;
 })
-	.descr('manger.cmd.kick.descr')
+	.help('manger.help.kick')
 	.menuId('groupMange')
 	.scope(SCOPE.GROUP)
 	.access(ACCESS.MANGER)
@@ -291,13 +291,13 @@ Core.cmd('kick', (_send, data) => {
 	]);
 
 Core.cmd('all', () => [
-	'manger.cmd.all.info',
+	'manger.msg.all.info',
 	{
 		all: SDK.cq_at('all'),
 		input: Core.args[1],
 	},
 ])
-	.descr('manger.cmd.all.descr')
+	.help('manger.help.all')
 	.menuId('groupMange')
 	.scope(SCOPE.GROUP)
 	.access(ACCESS.MANGER)
@@ -311,13 +311,13 @@ Core.cmd('notice', (_send, data) => {
 	const image = SDK.get_image(Core.args[1]);
 	Main.Api.send_group_notice(
 		data.group_id!,
-		temp('manger.cmd.notice.info', {
+		temp('manger.msg.notice.info', {
 			input: Core.args[1],
 		}),
 		image || undefined,
 	);
 })
-	.descr('manger.cmd.notice.descr')
+	.help('manger.help.notice')
 	.menuId('groupMange')
 	.scope(SCOPE.GROUP)
 	.access(ACCESS.MANGER)
@@ -329,20 +329,20 @@ Core.cmd('notice', (_send, data) => {
 
 Core.cmd('blackg', () =>
 	controlParams(`blackList.json`, [
-		'manger.cmd.blackg.query',
-		'manger.cmd.blackg.add',
-		'manger.cmd.blackg.del',
-		'manger.cmd.blackg.list',
+		'manger.msg.blackg.query',
+		'manger.msg.blackg.add',
+		'manger.msg.blackg.del',
+		'manger.msg.blackg.list',
 	]),
 )
 	.menuId('adminMange')
 	.access(ACCESS.ADMIN)
 	.params({
 		query: {
-			descr: 'manger.cmd.blackg.descr.query',
+			help: 'manger.help.blackg.query',
 		},
 		add: {
-			descr: 'manger.cmd.blackg.descr.add',
+			help: 'manger.help.blackg.add',
 			args: [
 				{
 					must: true,
@@ -351,7 +351,7 @@ Core.cmd('blackg', () =>
 			],
 		},
 		del: {
-			descr: 'manger.cmd.blackg.descr.del',
+			help: 'manger.help.blackg.del',
 			args: [
 				{
 					must: true,
@@ -363,20 +363,20 @@ Core.cmd('blackg', () =>
 
 Core.cmd('whiteg', () =>
 	controlParams(`whiteList.json`, [
-		'manger.cmd.whiteg.query',
-		'manger.cmd.whiteg.add',
-		'manger.cmd.whiteg.del',
-		'manger.cmd.whiteg.list',
+		'manger.msg.whiteg.query',
+		'manger.msg.whiteg.add',
+		'manger.msg.whiteg.del',
+		'manger.msg.whiteg.list',
 	]),
 )
 	.menuId('adminMange')
 	.access(ACCESS.ADMIN)
 	.params({
 		query: {
-			descr: 'manger.cmd.whiteg.descr.query',
+			help: 'manger.help.whiteg.query',
 		},
 		add: {
-			descr: 'manger.cmd.whiteg.descr.add',
+			help: 'manger.help.whiteg.add',
 			args: [
 				{
 					must: true,
@@ -385,7 +385,7 @@ Core.cmd('whiteg', () =>
 			],
 		},
 		del: {
-			descr: 'manger.cmd.whiteg.descr.del',
+			help: 'manger.help.whiteg.del',
 			args: [
 				{
 					must: true,
@@ -397,10 +397,10 @@ Core.cmd('whiteg', () =>
 
 Core.cmd('manger', (send, data) => {
 	const message = controlParams(`${data.group_id}\\mangerList.json`, [
-		'manger.cmd.manger.query',
-		'manger.cmd.manger.add',
-		'manger.cmd.manger.del',
-		'manger.cmd.manger.list',
+		'manger.msg.manger.query',
+		'manger.msg.manger.add',
+		'manger.msg.manger.del',
+		'manger.msg.manger.list',
 	]);
 	send(message);
 })
@@ -408,10 +408,10 @@ Core.cmd('manger', (send, data) => {
 	.access(ACCESS.ADMIN)
 	.params({
 		query: {
-			descr: 'manger.cmd.manger.descr.query',
+			help: 'manger.help.manger.query',
 		},
 		add: {
-			descr: 'manger.cmd.manger.descr.add',
+			help: 'manger.help.manger.add',
 			args: [
 				{
 					must: true,
@@ -420,7 +420,7 @@ Core.cmd('manger', (send, data) => {
 			],
 		},
 		del: {
-			descr: 'manger.cmd.manger.descr.del',
+			help: 'manger.help.manger.del',
 			args: [
 				{
 					must: true,
@@ -433,7 +433,7 @@ Core.cmd('manger', (send, data) => {
 Core.cmd('banword', () =>
 	controlParams(
 		`banword.json`,
-		['manger.cmd.banword.query', 'manger.cmd.banword.add', 'manger.cmd.banword.del', 'manger.cmd.banword.list'],
+		['manger.msg.banword.query', 'manger.msg.banword.add', 'manger.msg.banword.del', 'manger.msg.banword.list'],
 		true,
 	),
 )
@@ -441,10 +441,10 @@ Core.cmd('banword', () =>
 	.access(ACCESS.ADMIN)
 	.params({
 		query: {
-			descr: 'manger.cmd.banword.descr.query',
+			help: 'manger.help.banword.query',
 		},
 		add: {
-			descr: 'manger.cmd.banword.descr.add',
+			help: 'manger.help.banword.add',
 			args: [
 				{
 					must: true,
@@ -453,7 +453,7 @@ Core.cmd('banword', () =>
 			],
 		},
 		del: {
-			descr: 'manger.cmd.banword.descr.del',
+			help: 'manger.help.banword.del',
 			args: [
 				{
 					must: true,

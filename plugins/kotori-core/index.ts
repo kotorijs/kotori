@@ -3,12 +3,12 @@
  * @Blog: http://imlolicon.tk
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-08-23 10:04:15
+ * @LastEditTime: 2023-09-03 17:26:30
  */
 import os from 'os';
 import path from 'path';
 import { existsSync } from 'fs';
-import type { EventDataType, Event, Api, Const, PackageInfo, PluginData, obj } from '@/tools';
+import type { EventDataType, Event, Api, Const, PackageInfo, PluginData, obj, EventMessageType } from '@/tools';
 import {
 	BotConfigFilter,
 	CONNECT_MODE,
@@ -109,19 +109,19 @@ Core.custom(
 	},
 );
 
-Core.menu('menu', 'main').descr('core.menu.main.descr');
-Core.menu('cores', 'coreCom').descr('core.menu.corecom.descr');
-Core.menu('days', 'dayTool').descr('core.menu.daytool.descr');
-Core.menu('querys', 'queryTool').descr('core.menu.querytool.descr');
-Core.menu('funs', 'funSys').descr('core.menu.funsys.descr');
-Core.menu('imgs', 'randomImg').descr('core.menu.random_img.descr');
-Core.menu('other', 'otherCom').descr('core.menu.othercom.descr');
+Core.menu('menu', 'main').help('core.menu.main.help');
+Core.menu('cores', 'coreCom').help('core.menu.corecom.help');
+Core.menu('days', 'dayTool').help('core.menu.daytool.help');
+Core.menu('querys', 'queryTool').help('core.menu.querytool.help');
+Core.menu('funs', 'funSys').help('core.menu.funsys.help');
+Core.menu('imgs', 'randomImg').help('core.menu.random_img.help');
+Core.menu('other', 'otherCom').help('core.menu.othercom.help');
 
 Core.cmd('api', async () => {
 	const content = await fetchT('https://api.imlolicon.tk/sys/datastat', { format: 'text' });
-	return [content ? 'core.cmd.api.info' : BOT_RESULT.SERVER_ERROR, content ? { content } : { res: content }];
+	return [content ? 'core.msg.api.info' : BOT_RESULT.SERVER_ERROR, content ? { content } : { res: content }];
 })
-	.descr('core.cmd.api.descr')
+	.help('core.help.api')
 	.menuId('otherCom');
 
 const cmdCore = (keyword: string, callback: CoreVal) => {
@@ -134,22 +134,22 @@ cmdCore('alias', () => {
 	if (Core.args[1] === 'query') {
 		let list = '';
 		Object.keys(data).forEach(key => {
-			list += temp('core.cmd.alias.list', {
+			list += temp('core.msg.alias.list', {
 				key,
 				val: data[key],
 			});
 		});
-		return temp('core.cmd.alias.query', {
+		return temp('core.msg.alias.query', {
 			list: list || BOT_RESULT.EMPTY,
 		});
 	}
 	if (Core.args[1] === 'add') {
 		if (data[Core.args[2]]) return BOT_RESULT.EXIST;
 		Core.args[3] = `/${Core.args[3]}`;
-		if (!Content.isUsefulCmd(Core.args[3].split(' ')[0], Core.args[3])) return 'core.cmd.alias.fail.2';
+		if (!Content.isUsefulCmd(Core.args[3].split(' ')[0], Core.args[3])) return 'core.msg.alias.fail.2';
 		data[Core.args[2]] = Core.args[3];
 		saveConfigP('alias.json', data);
-		return temp('core.cmd.alias.add', {
+		return temp('core.msg.alias.add', {
 			input: Core.args[2],
 		});
 	}
@@ -157,20 +157,20 @@ cmdCore('alias', () => {
 		if (!data[Core.args[2]]) return BOT_RESULT.NO_EXIST;
 		delete data[Core.args[2]];
 		saveConfigP('alias.json', data);
-		return temp('core.cmd.alias.del', {
+		return temp('core.msg.alias.del', {
 			input: Core.args[2],
 		});
 	}
 	return BOT_RESULT.ARGS_ERROR;
 })
-	.descr('core.cmd.alias.descr')
+	.help('core.help.alias')
 	.access(ACCESS.MANGER)
 	.params({
 		query: {
-			descr: 'core.cmd.alias.descr.query',
+			help: 'core.help.alias.query',
 		},
 		add: {
-			descr: 'core.cmd.alias.descr.add',
+			help: 'core.help.alias.add',
 			args: [
 				{
 					must: true,
@@ -184,7 +184,7 @@ cmdCore('alias', () => {
 			],
 		},
 		del: {
-			descr: 'core.cmd.alias.descr.del',
+			help: 'core.help.alias.del',
 			args: [
 				{
 					must: true,
@@ -199,7 +199,7 @@ cmdCore('system', (send, data) => {
 		!existsSync(path.join(Main.Const.ROOT_PATH, Main.Const.CONFIG.control.signserver)) ||
 		!existsSync(path.join(Main.Const.ROOT_PATH, Main.Const.CONFIG.control.program))
 	) {
-		send('core.cmd.system.fail');
+		send('core.msg.system.fail');
 		return;
 	}
 	const num = parseInt(Core.args[1], 10);
@@ -211,13 +211,13 @@ cmdCore('system', (send, data) => {
 		);
 	};
 	if (!num) {
-		send('core.cmd.system.info.0');
+		send('core.msg.system.info.0');
 		save();
 		setTimeout(() => {
 			Main.Process[0].restart();
 		}, 2000);
 	} else if (num === 1) {
-		send('core.cmd.system.info.1');
+		send('core.msg.system.info.1');
 		save();
 		setTimeout(() => {
 			Main.Process[1].restart();
@@ -225,14 +225,39 @@ cmdCore('system', (send, data) => {
 		}, 2000);
 	}
 })
-	.descr('core.cmd.system.descr')
 	.access(ACCESS.ADMIN)
 	.params({
 		'0': {
-			descr: 'core.cmd.system.descr.0',
+			help: 'core.help.system.0',
 		},
 		'1': {
-			descr: 'core.cmd.system.descr.1',
+			help: 'core.help.system.1',
+		},
+	});
+
+cmdCore('run', (send, data) => {
+	const eventData = JSON.parse(JSON.stringify(data));
+	eventData.message_type = Core.args[1] as EventMessageType;
+	if (eventData.message_type === 'group') eventData.group_id = parseInt(Core.args[2], 10);
+	eventData.message = Core.args[3];
+	send('core.msg.run', { target: Core.args[2] });
+	JSON.stringify(new Content(eventData, Main.Api, Main.Const));
+})
+	.access(ACCESS.ADMIN)
+	.params({
+		private: {
+			help: 'core.help.run.private',
+			args: [
+				{ must: true, name: 'id' },
+				{ must: true, name: 'command', rest: true },
+			],
+		},
+		group: {
+			help: 'core.help.system.group',
+			args: [
+				{ must: true, name: 'id' },
+				{ must: true, name: 'command', rest: true },
+			],
 		},
 	});
 
@@ -241,29 +266,29 @@ cmdCore('locale', () => {
 	if (Core.args[1] === 'list') {
 		let listRaw = '';
 		list.forEach(locale => {
-			listRaw += temp('core.cmd.locale.list', {
+			listRaw += temp('core.msg.locale.list', {
 				locale,
-				name: Locale.locale(`core.cmd.locale.locale.${locale.toLowerCase()}`),
+				name: Locale.locale(`core.msg.locale.locale.${locale.toLowerCase()}`),
 			});
 		});
-		return ['core.cmd.locale.lists', { list: listRaw }];
+		return ['core.msg.locale.lists', { list: listRaw }];
 	}
 	if (Core.args[1] === 'set') {
 		const locale = Core.args[2];
-		if (!list.includes(locale)) return 'core.cmd.locale.fail';
+		if (!list.includes(locale)) return 'core.msg.locale.fail';
 		const { 0: total, 1: success } = Locale.setlang(locale as keyof typeof LocaleIdentifier);
-		return ['core.cmd.locale.set', { locale, total, success }];
+		return ['core.msg.locale.set', { locale, total, success }];
 	}
 	return BOT_RESULT.ARGS_ERROR;
 })
-	.descr('core.cmd.locale.descr')
+	.help('core.help.locale')
 	.access(ACCESS.MANGER)
 	.params({
 		list: {
-			descr: 'core.cmd.locale.descr.list',
+			help: 'core.help.locale.list',
 		},
 		set: {
-			descr: 'core.cmd.locale.descr.set',
+			help: 'core.help.locale.set',
 			args: [
 				{
 					must: true,
@@ -274,27 +299,27 @@ cmdCore('locale', () => {
 	});
 
 cmdCore('core', () => {
-	const result = temp('core.cmd.core.info', {
+	const result = temp('core.msg.core.info', {
 		commands: Main.cmdDataP.size,
 	});
 	return result;
-}).descr('core.cmd.core.descr');
+}).help('core.help.core');
 
 cmdCore('help', () => {
-	if (!Core.args[1]) return temp('core.cmd.help.info', { content: '' });
+	if (!Core.args[1]) return temp('core.msg.help.info', { content: '' });
 	Core.args[1] = `/${Core.args[1]}`;
 	for (const key of Main.cmdInfoDataP) {
 		const { 0: cmd, 1: val } = key;
 		if (typeof cmd === 'string' && cmd !== Core.args[1]) continue;
 		if (Array.isArray(cmd) && !cmd.includes(Core.args[1])) continue;
 		if (typeof cmd === 'function') continue;
-		return temp('core.cmd.help.info', {
+		return temp('core.msg.help.info', {
 			content: Main.menuHandleParamsP(cmd, val),
 		});
 	}
-	return 'core.cmd.help.fail';
+	return 'core.msg.help.fail';
 })
-	.descr('core.cmd.help.descr')
+	.help('core.help.help')
 	.params([
 		{
 			must: 'menu',
@@ -310,57 +335,57 @@ cmdCore('view', () => {
 	let groupList = '';
 	switch (mode) {
 		case 'http':
-			modeContent = temp('core.cmd.view.mode.http', {
+			modeContent = temp('core.msg.view.mode.http', {
 				...http,
 				reverse_port: http['reverse-port'],
 				retry_time: http['retry-time'],
 			});
 			break;
 		case 'ws':
-			modeContent = temp('core.cmd.view.mode.ws', {
+			modeContent = temp('core.msg.view.mode.ws', {
 				...ws,
 				retry_time: ws['retry-time'],
 			});
 			break;
 		case 'ws-reverse':
-			modeContent = temp('core.cmd.view.mode.wsreverse', {
+			modeContent = temp('core.msg.view.mode.wsreverse', {
 				...wsReverse,
 			});
 			break;
 	}
 	const params = control.params.length > 0 ? control.params.join(' ') : BOT_RESULT.EMPTY;
 	bot.users.list.forEach(content => {
-		userList += temp('core.cmd.view.list', { content });
+		userList += temp('core.msg.view.list', { content });
 	});
 	bot.groups.list.forEach(content => {
-		groupList += temp('core.cmd.view.list', { content });
+		groupList += temp('core.msg.view.list', { content });
 	});
 	switch (bot.users.type) {
 		case BotConfigFilter.BLACK:
-			userList = temp('core.cmd.view.user.black', {
+			userList = temp('core.msg.view.user.black', {
 				list: bot.users.type,
 			});
 			break;
 		case BotConfigFilter.WHITE:
-			userList = temp('core.cmd.view.user.white', {
+			userList = temp('core.msg.view.user.white', {
 				list: userList,
 			});
 			break;
 	}
 	switch (bot.groups.type) {
 		case BotConfigFilter.BLACK:
-			groupList = temp('core.cmd.view.group.black', {
+			groupList = temp('core.msg.view.group.black', {
 				list: groupList,
 			});
 			break;
 		case BotConfigFilter.WHITE:
-			groupList = temp('core.cmd.view.group.white', {
+			groupList = temp('core.msg.view.group.white', {
 				list: groupList,
 			});
 			break;
 	}
 
-	return temp('core.cmd.view.info', {
+	return temp('core.msg.view.info', {
 		mode: CONNECT_MODE[mode],
 		mode_content: modeContent,
 		...control,
@@ -371,7 +396,7 @@ cmdCore('view', () => {
 		user_list: bot.users.type ? userList : '',
 		group_list: bot.groups.type ? groupList : '',
 	});
-}).descr('core.cmd.view.descr');
+}).help('core.help.view');
 
 cmdCore('plugin', () => {
 	const pluginsJson = path.join(CONST.CONFIG_PATH, 'plugins.json');
@@ -386,18 +411,18 @@ cmdCore('plugin', () => {
 			res.description = res?.description ?? BOT_RESULT.EMPTY;
 			res.author = res?.author ?? BOT_RESULT.EMPTY;
 			res.license = res?.license ?? BOT_RESULT.EMPTY;
-			result += temp('core.cmd.plugin.list', {
+			result += temp('core.msg.plugin.list', {
 				id: element[1],
 				...res,
 				state: formatOption(!data.includes(element[1])),
 			});
 		}
 		return result
-			? temp('core.cmd.plugin.query', {
+			? temp('core.msg.plugin.query', {
 					num: Main.Proxy.length,
 					list: result,
 			  })
-			: temp('core.cmd.plugin.fail', {
+			: temp('core.msg.plugin.fail', {
 					target: Core.args[2],
 			  });
 	}
@@ -405,7 +430,7 @@ cmdCore('plugin', () => {
 		if (data.includes(Core.args[2])) return BOT_RESULT.EXIST;
 		data.push(Core.args[2]);
 		saveConfig(pluginsJson, data);
-		return temp('core.cmd.plugin.ban', {
+		return temp('core.msg.plugin.ban', {
 			target: Core.args[2],
 		});
 	}
@@ -415,16 +440,16 @@ cmdCore('plugin', () => {
 			pluginsJson,
 			data.filter(item => item !== Core.args[2]),
 		);
-		return temp('core.cmd.plugin.unban', {
+		return temp('core.msg.plugin.unban', {
 			target: Core.args[2],
 		});
 	}
 	return BOT_RESULT.ARGS_ERROR;
 })
-	.descr('core.cmd.plugin.descr')
+	.help('core.help.plugin')
 	.params({
 		query: {
-			descr: 'core.cmd.plugin.descr.query',
+			help: 'core.help.plugin.query',
 			args: [
 				{
 					must: false,
@@ -433,7 +458,7 @@ cmdCore('plugin', () => {
 			],
 		},
 		ban: {
-			descr: 'core.cmd.plugin.descr.ban',
+			help: 'core.help.plugin.ban',
 			args: [
 				{
 					must: true,
@@ -442,7 +467,7 @@ cmdCore('plugin', () => {
 			],
 		},
 		unban: {
-			descr: 'core.cmd.plugin.descr.unban',
+			help: 'core.help.plugin.unban',
 			args: [
 				{
 					must: true,
@@ -455,23 +480,28 @@ cmdCore('plugin', () => {
 cmdCore('bot', () => {
 	const { self_id: selfId, connect, status } = Main.Const.BOT;
 	const STAT = status.stat;
-	const { version, license } = getPackageInfo();
-	const ENV = dealEnv();
-	return temp('core.cmd.bot.info', {
+	return temp('core.msg.bot.info', {
 		self_id: selfId,
-		version,
-		license,
 		...STAT,
-		...ENV,
 		connect: formatTime(new Date(connect * 1000)),
 		last_message_time: formatTime(new Date(STAT.last_message_time * 1000)),
 	});
-}).descr('core.cmd.bot.descr');
+}).help('core.help.bot');
+
+cmdCore('env', () => {
+	const ENV = dealEnv();
+	return temp('core.msg.env.info', { ...ENV });
+}).help('core.help.env');
+
+cmdCore('ver', () => {
+	const { version, license } = getPackageInfo();
+	return temp('core.msg.ver.info', { version, license });
+}).help('core.help.ver');
 
 cmdCore('status', () => {
 	const { model, speed, num, rate: cpuRate } = dealCpu();
 	const { total, used, rate: ramRate } = dealRam();
-	return temp('core.cmd.status.info', {
+	return temp('core.msg.status.info', {
 		type: os.type(),
 		platform: os.platform(),
 		arch: os.arch(),
@@ -487,34 +517,34 @@ cmdCore('status', () => {
 		hostname: os.hostname(),
 		homedir: os.homedir(),
 	});
-}).descr('core.cmd.status.descr');
+}).help('core.help.status');
 
 cmdCore('about', () => {
 	const { version, license } = getPackageInfo();
-	return temp('core.cmd.about.info', {
+	return temp('core.msg.about.info', {
 		version,
 		license,
 	});
-}).descr('core.cmd.about.descr');
+}).help('core.help.about');
 
 cmdCore('update', async () => {
 	const { version } = getPackageInfo();
 	const res = (await fetchJson('https://biyuehu.github.io/kotori-bot/package.json')) as PackageInfo;
 	const content =
 		res.version === version
-			? 'core.cmd.update.yes'
-			: temp('core.cmd.update.no', {
+			? 'core.msg.update.yes'
+			: temp('core.msg.update.no', {
 					version: res.version,
 			  });
 	const result = res && res.version;
-	return [result ? 'core.cmd.update.info' : BOT_RESULT.SERVER_ERROR, result ? { version, content } : { res }];
-}).descr('core.cmd.update.descr');
+	return [result ? 'core.msg.update.info' : BOT_RESULT.SERVER_ERROR, result ? { version, content } : { res }];
+}).help('core.help.update');
 
 Core.auto(() => {
 	const result = loadConfig(path.join(Main.Const.DATA_PLUGIN_PATH, 'system.ini'), 'txt') as string;
 	const isPrivate = result === 'private';
 	const id = isPrivate ? Main.Const.CONFIG.bot.master : parseInt(result, 10);
-	if (id) Main.Api.send_msg(isPrivate ? 'private' : 'group', Locale.locale('core.cmd.system.info.0'), id);
+	if (id) Main.Api.send_msg(isPrivate ? 'private' : 'group', Locale.locale('core.msg.system.info.0'), id);
 	saveConfig(path.join(Main.Const.DATA_PLUGIN_PATH, 'system.ini'), '', 'txt');
 });
 
@@ -536,9 +566,9 @@ Core.auto(async () => {
 	);
 
 	Main.Api.send_private_msg(
-		temp('core.cmd.update.info', {
+		temp('core.msg.update.info', {
 			version,
-			content: temp('core.cmd.update.no', {
+			content: temp('core.msg.update.no', {
 				version: res.version,
 			}),
 		}),

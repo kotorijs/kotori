@@ -6,7 +6,7 @@ import { Event, Api, Const, Locale, loadConfig, saveConfig, obj, getRandomInt, g
 import SDK from '@/utils/class.sdk';
 import Profile from './class/class.profile';
 import Guess from './class/class.guess';
-import { userData } from './type';
+import { userData, userInfo } from './type';
 import Hand from './class/class.hand';
 
 Locale.register(path.resolve(__dirname));
@@ -28,25 +28,35 @@ const saveData = (data: object, group: number) => {
 	saveConfig(getPath(group), data);
 };
 
-export const queryUser = (group: number, user: number, userName?: string): [userData, obj<userData>] => {
+export const queryUserInfo = (user: number) => {
+	if (!(user in Main.UserInfo)) {
+		return {
+			user_id: 0,
+			nickname: '',
+			sex: 'unknown',
+			age: 0,
+		};
+	}
+	return Main.UserInfo[user];
+};
+
+export const queryExp = (group: number, user: number): [userData, obj<userData>] => {
 	const data = loadData(group);
 	if (!(user in data)) {
 		data[user as keyof typeof data] = defaultData;
 	}
 
-	if (userName) data[user as keyof typeof data].name = userName;
 	saveData(data, group);
 	return [data[user as keyof typeof data], data];
 };
 
-export const addExp = (group: number, user: number, exp: number, userName?: string, tips: boolean = true) => {
+export const addExp = (group: number, user: number, exp: number, tips: boolean = true) => {
 	if (exp === 0) return;
 	const data = loadData(group);
 
 	if (!(user in data)) data[user as keyof typeof data] = defaultData;
 	data.group.exp += exp;
 	data[user as keyof typeof data].exp += exp;
-	if (userName) data[user as keyof typeof data].name = userName;
 	saveData(data, group);
 	if (tips) Main.Api.send_group_msg(`${SDK.cq_at(user)}经验+${exp}`, group);
 };
@@ -57,14 +67,14 @@ const Alias = (keyword: CoreKeyword, callback: CoreVal) => {
 };
 
 Alias('资料卡', async (_send, data) => {
-	const userData = queryUser(data.group_id!, data.user_id, data.sender.nickname)[0];
+	const userData = queryExp(data.group_id!, data.user_id)[0];
 	const image = new Profile(data, parseInt(Core.args[1], 10) || userData.exp).render();
 	return SDK.cq_image((await image).replace('data:image/png;base64,', 'base64://'));
 });
 
 Alias(['签到', '打卡'], (_send, data) => {
 	const time = getDate();
-	const groupData = queryUser(data.group_id!, data.user_id, data.sender.nickname)[1];
+	const groupData = queryExp(data.group_id!, data.user_id)[1];
 	const at = SDK.cq_at(data.user_id);
 	if (!(data.user_id in groupData)) groupData[data.user_id] = defaultData;
 	if (groupData[data.user_id].sign.includes(time)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
@@ -123,7 +133,7 @@ Alias('等级排行', (_send, data) => {
 		list += temp('\n%rank%.%name% - LV%level% 经验: %exp%', {
 			rank,
 			level: Profile.getLevel(item.exp)[0],
-			name: '',
+			name: queryUserInfo(data.user_id).nickname,
 			...item,
 		});
 		rank += 1;
@@ -147,7 +157,7 @@ Alias('发言排行', (_send, data) => {
 		if (rank > 20) return;
 		const item = oldItem as obj;
 		item.sign = '';
-		list += temp('\n%rank%.%name% - %msg%次', { rank, name: '', ...item });
+		list += temp('\n%rank%.%name% - %msg%次', { rank, name: queryUserInfo(data.user_id).nickname, ...item });
 		rank += 1;
 	});
 	return ['本群发言排行:%list%', { list }];
@@ -170,7 +180,12 @@ Alias('签到排行', (_send, data) => {
 		const count = oldItem.sign.length;
 		const item = oldItem as obj;
 		item.sign = '';
-		list += temp('\n%rank%.%name% - %count%次', { rank, count, name: '', ...item });
+		list += temp('\n%rank%.%name% - %count%次', {
+			rank,
+			count,
+			name: queryUserInfo(data.user_id).nickname,
+			...item,
+		});
 		rank += 1;
 	});
 	return ['本群签到排行:%list%', { list }];
@@ -232,16 +247,22 @@ Alias('猜拳', (_send, data) => {
 
 Core.hook(data => {
 	if (!data.group_id) return true;
-	const groupData = queryUser(data.group_id, data.user_id)[1];
+	const groupData = queryExp(data.group_id, data.user_id)[1];
 	if (!(data.user_id in groupData)) groupData[data.user_id] = defaultData;
 	groupData[data.user_id].msg += 1;
 	groupData.group.msg += 1;
 	saveData(groupData, data.group_id);
 	if (data.message.toUpperCase().includes('CQ')) return true;
-	if (data.message.length <= 100)
-		addExp(data.group_id, data.user_id, Math.floor(data.message.length / 10), data.sender.nickname, false);
-	if (data.message.length > 100)
-		addExp(data.group_id, data.user_id, Math.floor(data.message.length / 20), data.sender.nickname, false);
+	if (data.message.length <= 100) addExp(data.group_id, data.user_id, Math.floor(data.message.length / 10), false);
+	if (data.message.length > 100) addExp(data.group_id, data.user_id, Math.floor(data.message.length / 20), false);
+	return true;
+});
+
+Core.hook(data => {
+	if (!data.group_id || !(data.user_id in data)) {
+		Main.UserInfo[data.user_id] = data.sender;
+		saveConfig(path.join(Main.Consts.DATA_PLUGIN_PATH, 'userinfo.json'), Main.UserInfo);
+	}
 	return true;
 });
 
@@ -250,9 +271,17 @@ export class Main {
 
 	public static Api: Api;
 
+	public static UserInfo: obj<userInfo>;
+
 	public constructor(event: Event, api: Api, consts: Const) {
 		Main.Consts = consts;
 		Main.Api = api;
+		Main.UserInfo = loadConfig(
+			path.join(Main.Consts.DATA_PLUGIN_PATH, 'userinfo.json'),
+			'json',
+			{},
+		) as obj<userInfo>;
+		Main.UserInfo = Main.UserInfo || {};
 		event.listen('on_group_msg', data => console.log(data.sender));
 	}
 }

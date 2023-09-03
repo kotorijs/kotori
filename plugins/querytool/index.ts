@@ -17,8 +17,8 @@ const Cmd = (keyword: CoreKeyword, callback: CoreVal) => {
 Cmd('github', async send => {
 	const res = await fetchJ(`https://api.github.com/repos/${Core.args[1]}`);
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (!res.full_name) return ['querytool.cmd.github.fail', { input: Core.args[1] }];
-	send('querytool.cmd.github.info', {
+	if (!res.full_name) return ['querytool.msg.github.fail', { input: Core.args[1] }];
+	send('querytool.msg.github.info', {
 		name: res.full_name || BOT_RESULT.EMPTY,
 		description: res.description || BOT_RESULT.EMPTY,
 		language: res.language || BOT_RESULT.EMPTY,
@@ -32,7 +32,7 @@ Cmd('github', async send => {
 		`https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`,
 	);
 })
-	.descr('querytool.cmd.github.descr')
+	.help('querytool.help.github')
 	.params([
 		{
 			must: true,
@@ -45,7 +45,7 @@ Cmd('motd', async () => {
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
 	if ((res.code !== 500 && typeof res.code === 'number') || !isObj(res.data)) {
 		return [
-			'querytool.cmd.motd.fail',
+			'querytool.msg.motd.fail',
 			{
 				ip: Core.args[1],
 				port: Core.args[2],
@@ -54,7 +54,7 @@ Cmd('motd', async () => {
 	}
 
 	return [
-		'querytool.cmd.motd.info',
+		'querytool.msg.motd.info',
 		{
 			...res.data,
 			image:
@@ -64,7 +64,7 @@ Cmd('motd', async () => {
 		},
 	];
 })
-	.descr('querytool.cmd.motd.descr')
+	.help('querytool.help.motd')
 	.params([
 		{
 			must: true,
@@ -84,7 +84,7 @@ Cmd('motdbe', async () => {
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
 	if ((res.code !== 500 && typeof res.code === 'number') || !isObj(res.data)) {
 		return [
-			'querytool.cmd.motdbe.fail',
+			'querytool.msg.motdbe.fail',
 			{
 				ip: Core.args[1],
 				port: Core.args[2],
@@ -93,13 +93,13 @@ Cmd('motdbe', async () => {
 	}
 
 	return [
-		'querytool.cmd.motdbe.info',
+		'querytool.msg.motdbe.info',
 		{
 			...res.data,
 		},
 	];
 })
-	.descr('querytool.cmd.motdbe.descr')
+	.help('querytool.help.motdbe')
 	.params([
 		{
 			must: true,
@@ -114,10 +114,10 @@ Cmd('motdbe', async () => {
 Cmd('mcskin', async () => {
 	const res = await fetchJ('mcskin', { name: Core.args[1] });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code === 502 || !isObj(res.data)) return ['querytool.cmd.mcskin.fail', { input: Core.args[1] }];
+	if (res.code === 502 || !isObj(res.data)) return ['querytool.msg.mcskin.fail', { input: Core.args[1] }];
 
 	return [
-		'querytool.cmd.mcskin.info',
+		'querytool.msg.mcskin.info',
 		{
 			input: Core.args[1],
 			skin: SDK.cq_image(res.data.skin),
@@ -126,7 +126,7 @@ Cmd('mcskin', async () => {
 		},
 	];
 })
-	.descr('querytool.cmd.mcskin.descr')
+	.help('querytool.help.mcskin')
 	.params([
 		{
 			must: true,
@@ -164,54 +164,48 @@ Cmd('mcv', async () => {
 		break;
 	}
 
-	return [
-		`MinecraftJava:\n最新版: %release%\n发布时间: %releaseDate%\n最新快照: %snapshot%\n发布时间: %snapshotDate%\nMinecraftBedrock:\n最新版: %mcbe%\n发布时间: %mcbeDate%`,
-		{
-			...res.latest,
-			...date,
-		},
-	];
-}).descr('查询Minecraft版本信息');
+	return ['querytool.msg.mcv.info', { ...res.latest, ...date }];
+}).help('querytool.help.mcv');
 
 Cmd('sed', async (_send, data) => {
-	if (Core.args[1] === data.self_id.toString()) return ['querytool.cmd.sed.fail', { input: Core.args[1] }];
+	if (Core.args[1] === data.self_id.toString()) return ['querytool.msg.sed.fail', { input: Core.args[1] }];
 
 	const res = await fetchJ('sed', { msg: Core.args[1] });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code === 501 || !isObj(res.data)) return ['querytool.cmd.sed.fail', { input: Core.args[1] }];
+	if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.sed.fail', { input: Core.args[1] }];
 	let list = '';
 	list += res.data.qq
-		? temp('querytool.cmd.sed.list', {
-				key: Locale.locale('querytool.cmd.sed.key.qq'),
+		? temp('querytool.msg.sed.list', {
+				key: Locale.locale('querytool.msg.sed.key.qq'),
 				content: res.data.qq,
 		  })
 		: '';
 	list += res.data.phone
-		? temp('querytool.cmd.sed.list', {
-				key: Locale.locale('querytool.cmd.sed.key.phone'),
+		? temp('querytool.msg.sed.list', {
+				key: Locale.locale('querytool.msg.sed.key.phone'),
 				content: res.data.phone,
 		  })
 		: '';
 	list += res.data.location
-		? temp('querytool.cmd.sed.list', {
-				key: Locale.locale('querytool.cmd.sed.key.location'),
+		? temp('querytool.msg.sed.list', {
+				key: Locale.locale('querytool.msg.sed.key.location'),
 				content: res.data.location,
 		  })
 		: '';
 	list += res.data.id
-		? temp('querytool.cmd.sed.list', {
-				key: Locale.locale('querytool.cmd.sed.key.id'),
+		? temp('querytool.msg.sed.list', {
+				key: Locale.locale('querytool.msg.sed.key.id'),
 				content: res.data.id,
 		  })
 		: '';
 	list += res.data.area
-		? temp('querytool.cmd.sed.list', {
-				key: Locale.locale('querytool.cmd.sed.key.area'),
+		? temp('querytool.msg.sed.list', {
+				key: Locale.locale('querytool.msg.sed.key.area'),
 				content: res.data.area,
 		  })
 		: '';
 	return [
-		'querytool.cmd.sed.info',
+		'querytool.msg.sed.info',
 		{
 			input: Core.args[1],
 			time: Math.floor(res.takeTime),
@@ -220,7 +214,7 @@ Cmd('sed', async (_send, data) => {
 		},
 	];
 })
-	.descr('querytool.cmd.sed.descr')
+	.help('querytool.help.sed')
 	.params([
 		{
 			must: true,
@@ -231,17 +225,17 @@ Cmd('sed', async (_send, data) => {
 Cmd('idcard', async () => {
 	const res = await fetchJ('idcard', { msg: Core.args[1] });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code === 501 || !isObj(res.data)) return ['querytool.cmd.idcard.fail', { input: Core.args[1] }];
+	if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.idcard.fail', { input: Core.args[1] }];
 
 	return [
-		'querytool.cmd.idcard.info',
+		'querytool.msg.idcard.info',
 		{
 			input: Core.args[1],
 			...res.data,
 		},
 	];
 })
-	.descr('querytool.cmd.idcard.descr')
+	.help('querytool.help.idcard')
 	.params([
 		{
 			must: true,
@@ -256,7 +250,7 @@ Cmd('hcb', async () => {
 	if (!res || res.code !== 500 || !isObj(res.data) || Array.isArray(res.data))
 		return [BOT_RESULT.SERVER_ERROR, { res }];
 
-	if (!res.data.status) return ['querytool.cmd.hcb.fail', { input: Core.args[1] }];
+	if (!res.data.status) return ['querytool.msg.hcb.fail', { input: Core.args[1] }];
 
 	let imgs = '';
 	if (res.data.imgs !== null) {
@@ -265,7 +259,7 @@ Cmd('hcb', async () => {
 		});
 	}
 	return [
-		'querytool.cmd.hcb.info',
+		'querytool.msg.hcb.info',
 		{
 			input: Core.args[1],
 			...res.data,
@@ -273,7 +267,7 @@ Cmd('hcb', async () => {
 		},
 	];
 })
-	.descr('querytool.cmd.hcb.descr')
+	.help('querytool.help.hcb')
 	.params([
 		{
 			must: true,
@@ -281,7 +275,7 @@ Cmd('hcb', async () => {
 		},
 	]);
 
-Cmd('uuid', () => ['querytool.cmd.uuid.info', { uuid: getUuid() }]).descr('querytool.cmd.uuid.descr');
+Cmd('uuid', () => ['querytool.help.uuid.info', { uuid: getUuid() }]).help('querytool.help.uuid');
 
 Cmd('color', async () => {
 	let r = Math.floor(Math.random() * 256);
@@ -332,8 +326,8 @@ Cmd('color', async () => {
 	}, hex);
 	const buffer = await page.screenshot({ encoding: 'base64' });
 	await browser.close();
-	return ['querytool.cmd.color.info', { hex, rgb, hsl, image: SDK.cq_image(`base64://${buffer}`) }];
-}).descr('querytool.cmd.color.descr');
+	return ['querytool.msg.color.info', { hex, rgb, hsl, image: SDK.cq_image(`base64://${buffer}`) }];
+}).help('querytool.help.color');
 
 Cmd('header', async send => {
 	const res = await fetchT(Core.args[1]);
@@ -353,16 +347,16 @@ Cmd('header', async send => {
 	const title = $('title').text() ?? BOT_RESULT.EMPTY;
 	const keywords = $('meta[name="keywords"]').attr('content') ?? BOT_RESULT.EMPTY;
 	const description = $('meta[name="description"]').attr('content') ?? BOT_RESULT.EMPTY;
-	send('querytool.cmd.header.info', {
+	send('querytool.msg.header.info', {
 		input: Core.args[1],
 		title,
 		keywords,
 		description,
 	});
-	if (image) return ['querytool.cmd.header.image', { image: SDK.cq_image(image) }];
+	if (image) return ['querytool.msg.header.image', { image: SDK.cq_image(image) }];
 	return '';
 })
-	.descr('querytool.cmd.header.descr')
+	.help('querytool.help.header')
 	.params([
 		{
 			must: true,
@@ -373,11 +367,11 @@ Cmd('header', async send => {
 Cmd('state', async () => {
 	const res = await fetchT('webtool', { op: 1, url: Core.args[1] });
 	return [
-		res ? 'querytool.cmd.state.info' : BOT_RESULT.SERVER_ERROR,
+		res ? 'querytool.msg.state.info' : BOT_RESULT.SERVER_ERROR,
 		res ? { content: res.replace(/<br>/g, '\n') } : { res },
 	];
 })
-	.descr('querytool.cmd.state.descr')
+	.help('querytool.help.state')
 	.params([
 		{
 			must: true,
@@ -388,11 +382,11 @@ Cmd('state', async () => {
 Cmd('speed', async () => {
 	const res = await fetchT('webtool', { op: 3, url: Core.args[1] });
 	return [
-		res ? 'querytool.cmd.speed.info' : BOT_RESULT.SERVER_ERROR,
+		res ? 'querytool.msg.speed.info' : BOT_RESULT.SERVER_ERROR,
 		res ? { content: res.replace(/<br>/g, '\n') } : { res },
 	];
 })
-	.descr('querytool.cmd.speed.descr')
+	.help('querytool.help.speed')
 	.params([
 		{
 			must: true,

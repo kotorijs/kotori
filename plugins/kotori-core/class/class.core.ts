@@ -17,7 +17,7 @@ export class Core extends Data {
 		this.cmdData.set(keyword, callback);
 		const infoData: InfoVal = {
 			menuId: undefined,
-			description: undefined,
+			help: undefined,
 			scope: SCOPE.ALL,
 			access: ACCESS.NORMAL,
 			params: undefined,
@@ -29,10 +29,10 @@ export class Core extends Data {
 	public static menu = (keyword: CoreKeyword, menuId: string) => {
 		const callback = () => this.menuHandle(menuId);
 		const main = menuId === 'main' ? '' : 'main';
-		const { menuId: menuIdFun, descr, scope, access } = this.cmd(keyword, callback).menuId(main);
+		const { menuId: menuIdFun, help, scope, access } = this.cmd(keyword, callback).menuId(main);
 		return {
 			menuId: menuIdFun,
-			descr,
+			help,
 			scope,
 			access,
 		};
@@ -103,9 +103,9 @@ export class Core extends Data {
 			return temp('core.temp.menu.list', {
 				name: cmdName,
 				param: handleParams,
-				descr: value.description
-					? temp('core.temp.menu.descr', {
-							content: Locale.locale(value.description),
+				help: value.help
+					? temp('core.temp.menu.help', {
+							content: Locale.locale(value.help),
 					  })
 					: '',
 				scope,
@@ -121,9 +121,9 @@ export class Core extends Data {
 			list += temp('core.temp.menu.list', {
 				name: `${cmdName} ${param}`,
 				param: handleParams,
-				descr: val.descr
-					? temp('core.temp.menu.descr', {
-							content: Locale.locale(val.descr),
+				help: val.help
+					? temp('core.temp.menu.help', {
+							content: Locale.locale(val.help),
 					  })
 					: '',
 				scope,

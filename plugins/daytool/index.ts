@@ -22,20 +22,20 @@ Cmd('music', async send => {
 	const res = Cache.get(cache) || (await fetchJ('netease', { name: Core.args[1] }));
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
 	Cache.set(cache, res);
-	if (res.code !== 500 || !Array.isArray(res.data)) return ['daytool.cmd.music.fail', { input: Core.args[1] }];
+	if (res.code !== 500 || !Array.isArray(res.data)) return ['daytool.msg.music.fail', { input: Core.args[1] }];
 
 	const num = parseInt(Core.args[2], 10);
 	if (num === 0) {
 		let list = '';
 		for (let init = 0; init < (res.data.length > maxList ? maxList : res.data.length); init += 1) {
 			const song = res.data[init];
-			list += temp('daytool.cmd.music.list', {
+			list += temp('daytool.msg.music.list', {
 				num: init + 1,
 				title: typeof song.title === 'string' ? song.title : BOT_RESULT.EMPTY,
 				author: typeof song.author === 'string' ? song.author : BOT_RESULT.EMPTY,
 			});
 		}
-		return ['daytool.cmd.music.lists', { list }];
+		return ['daytool.msg.music.lists', { list }];
 	}
 
 	const song = res.data[num - 1];
@@ -44,14 +44,14 @@ Cmd('music', async send => {
 	send(SDK.cq_Music('163', song.songid));
 
 	return [
-		'daytool.cmd.music.info',
+		'daytool.msg.music.info',
 		{
 			...song,
 			image: typeof song.pic === 'string' ? SDK.cq_image(song.pic) : BOT_RESULT.EMPTY,
 		},
 	];
 })
-	.descr('daytool.cmd.music.descr')
+	.help('daytool.help.music')
 	.params([
 		{
 			must: true,
@@ -66,10 +66,10 @@ Cmd('music', async send => {
 Cmd('bili', async () => {
 	const res = await fetchJ('https://tenapi.cn/bv/', { id: Core.args[1] });
 	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code !== 200 && typeof res.code === 'number') return ['daytool.cmd.bili.fail', { input: Core.args[1] }];
+	if (res.code !== 200 && typeof res.code === 'number') return ['daytool.msg.bili.fail', { input: Core.args[1] }];
 
 	return [
-		'daytool.cmd.bili.info',
+		'daytool.msg.bili.info',
 		{
 			...res.data,
 			time: formatTime(new Date(res.data.time)),
@@ -77,7 +77,7 @@ Cmd('bili', async () => {
 		},
 	];
 })
-	.descr('daytool.cmd.bili.descr')
+	.help('daytool.help.bili')
 	.params([
 		{
 			must: true,
@@ -88,11 +88,11 @@ Cmd('bili', async () => {
 Cmd('bilier', async () => {
 	const res = await fetchJ('https://tenapi.cn/bilibili/', { uid: Core.args[1] });
 	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (!res.data.uid || !res.data.name) return ['daytool.cmd.bilier.fail', { input: Core.args[1] }];
+	if (!res.data.uid || !res.data.name) return ['daytool.msg.bilier.fail', { input: Core.args[1] }];
 	const res2 = await fetchJ('https://tenapi.cn/bilibilifo/', { uid: Core.args[1] });
 
 	return [
-		'daytool.cmd.bilier.info',
+		'daytool.msg.bilier.info',
 		{
 			...res2.data,
 			...res.data,
@@ -100,7 +100,7 @@ Cmd('bilier', async () => {
 		},
 	];
 })
-	.descr('daytool.cmd.bilier.descr')
+	.help('daytool.help.bilier')
 	.params([
 		{
 			must: true,
@@ -112,26 +112,26 @@ Cmd('bgm', async () => {
 	const num = parseInt(Core.args[2], 10);
 	const cache = `bgm${Core.args[1]}`;
 	const res = Cache.get(cache) || (await fetchBGM(`search/subject/${Core.args[1]}`));
-	if (!res || !Array.isArray(res.list)) return ['daytool.cmd.bgm.fail', { input: Core.args[1] }];
+	if (!res || !Array.isArray(res.list)) return ['daytool.msg.bgm.fail', { input: Core.args[1] }];
 	Cache.set(cache, res);
 
 	if (num === 0) {
 		let list = '';
 		for (let init = 0; init < (res.list.length > maxList ? maxList : res.list.length); init += 1) {
 			const data = res.list[init];
-			list += temp('daytool.cmd.bgm.list', {
+			list += temp('daytool.msg.bgm.list', {
 				...data,
 				num: init + 1,
 			});
 		}
-		return ['daytool.cmd.bgm.lists', { list }];
+		return ['daytool.msg.bgm.lists', { list }];
 	}
 
 	const data = res.list[num - 1];
 	if (!data) return BOT_RESULT.NUM_ERROR;
 
 	const res2 = await fetchBGM(`v0/subjects/${data.id}`);
-	if (!res2.name) return ['daytool.cmd.bgm.fail', { input: Core.args[1] }];
+	if (!res2.name) return ['daytool.msg.bgm.fail', { input: Core.args[1] }];
 
 	let tags = '';
 	if (Array.isArray(res2.tags)) {
@@ -140,7 +140,7 @@ Cmd('bgm', async () => {
 		});
 	}
 	return [
-		'daytool.cmd.bgm.info',
+		'daytool.msg.bgm.info',
 		{
 			...res2,
 			tags: tags.substring(1),
@@ -152,7 +152,7 @@ Cmd('bgm', async () => {
 		},
 	];
 })
-	.descr('daytool.cmd.bgm.descr')
+	.help('daytool.help.bgm')
 	.params([
 		{
 			must: true,
@@ -176,7 +176,7 @@ Cmd('bgmc', async () => {
 	for (let init = 0; init < 3; init += 1) {
 		const item = items[init];
 		if (!isObj(item)) return [BOT_RESULT.SERVER_ERROR, { res: item }];
-		list += temp('daytool.cmd.bgmc.list', {
+		list += temp('daytool.msg.bgmc.list', {
 			...item,
 			image:
 				isObj(item.images) && typeof item.images.large === 'string'
@@ -185,42 +185,42 @@ Cmd('bgmc', async () => {
 		});
 	}
 	return [
-		'daytool.cmd.bgmc.info',
+		'daytool.msg.bgmc.info',
 		{
 			weekday: isObj(res[dayNum].weekday) ? ((res[dayNum].weekday as obj).ja as string) : BOT_RESULT.EMPTY,
 			list,
 		},
 	];
-}).descr('daytool.cmd.bgmc.descr');
+}).help('daytool.help.bgmc');
 
 Cmd('star', async () => {
 	const res = await fetchJ('starluck', { msg: Core.args[1] });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code === 501 || !isObj(res.data)) return ['daytool.cmd.star.fail', { input: Core.args[1] }];
+	if (res.code === 501 || !isObj(res.data)) return ['daytool.msg.star.fail', { input: Core.args[1] }];
 
 	if (!Array.isArray(res.data.info) || !Array.isArray(res.data.index))
 		return [BOT_RESULT.SERVER_ERROR, { res: res.data }];
 
 	let list = '';
 	res.data.info.forEach((content: string) => {
-		list += temp('daytool.cmd.star.list', {
+		list += temp('daytool.msg.star.list', {
 			content,
 		});
 	});
 	res.data.index.forEach((content: string) => {
-		list += temp('daytool.cmd.star.list', {
+		list += temp('daytool.msg.star.list', {
 			content,
 		});
 	});
 	return [
-		'daytool.cmd.star.info',
+		'daytool.msg.star.info',
 		{
 			input: Core.args[1],
 			list,
 		},
 	];
 })
-	.descr('daytool.cmd.star.descr')
+	.help('daytool.help.star')
 	.params([
 		{
 			must: true,
@@ -232,11 +232,11 @@ Cmd('tran', async () => {
 	const res = await fetchJ('fanyi', { msg: Core.args[1] });
 	const result = res && res.code === 500 && typeof res.data === 'string';
 	return [
-		result ? 'daytool.cmd.tran.info' : BOT_RESULT.SERVER_ERROR,
+		result ? 'daytool.msg.tran.info' : BOT_RESULT.SERVER_ERROR,
 		result ? { input: Core.args[1], content: res.data } : { res },
 	];
 })
-	.descr('daytool.cmd.tran.descr')
+	.help('daytool.help.tran')
 	.params([
 		{
 			must: true,
@@ -247,8 +247,8 @@ Cmd('tran', async () => {
 
 Cmd('lunar', async () => {
 	const res = await fetchT('lunar');
-	return [res ? 'daytool.cmd.lunar.info' : BOT_RESULT.SERVER_ERROR, res ? { content: res } : { res }];
-}).descr('daytool.cmd.lunar.descr');
+	return [res ? 'daytool.msg.lunar.info' : BOT_RESULT.SERVER_ERROR, res ? { content: res } : { res }];
+}).help('daytool.help.lunar');
 
 Cmd('story', async () => {
 	const res = await fetchJ('storytoday');
@@ -256,12 +256,12 @@ Cmd('story', async () => {
 
 	let list = '';
 	(res.data as string[]).forEach(content => {
-		list += temp('daytool.cmd.story.list', {
+		list += temp('daytool.msg.story.list', {
 			content,
 		});
 	});
-	return ['daytool.cmd.story.info', { list }];
-}).descr('daytool.cmd.story.descr');
+	return ['daytool.msg.story.info', { list }];
+}).help('daytool.help.story');
 
 Cmd('luck', async (_send, data) => {
 	const target = getQq(Core.args[1]) || data.user_id;
@@ -284,7 +284,7 @@ Cmd('luck', async (_send, data) => {
 			const character = $('.subs_main').find('p:eq(4)').text().split('：')[1] ?? '';
 			const characterScore = $('.subs_main').find('p:eq(5)').text().split('：')[1] ?? '';
 			return [
-				'daytool.cmd.luck.info',
+				'daytool.msg.luck.info',
 				{
 					input: target,
 					luck,
@@ -295,7 +295,7 @@ Cmd('luck', async (_send, data) => {
 		})
 		.catch(err => [BOT_RESULT.SERVER_ERROR, { res: err }]);
 })
-	.descr('daytool.cmd.luck.descr')
+	.help('daytool.help.luck')
 	.params([
 		{
 			must: false,
@@ -305,11 +305,11 @@ Cmd('luck', async (_send, data) => {
 
 Cmd('value', async (send, data) => {
 	const target = getQq(Core.args[1]) || data.user_id;
-	send('daytool.cmd.value.info', {
+	send('daytool.msg.value.info', {
 		image: SDK.cq_image(`https://c.bmcx.com/temp/qqjiazhi/${target}.jpg`),
 	});
 })
-	.descr('daytool.cmd.value.descr')
+	.help('daytool.help.value')
 	.params([
 		{
 			must: false,
@@ -319,9 +319,9 @@ Cmd('value', async (send, data) => {
 
 Cmd('weather', async () => {
 	const res = await fetchT('weather', { msg: Core.args[1], b: 1 });
-	return [res ? 'daytool.cmd.weather.info' : BOT_RESULT.SERVER_ERROR, res ? { content: res } : { res }];
+	return [res ? 'daytool.msg.weather.info' : BOT_RESULT.SERVER_ERROR, res ? { content: res } : { res }];
 })
-	.descr('daytool.cmd.weather.descr')
+	.help('daytool.help.weather')
 	.params([
 		{
 			must: true,
@@ -344,23 +344,23 @@ Cmd('waste', async () => {
 	if (!res) return BOT_RESULT.REPAIRING;
 	if (!res || !Array.isArray(res.data) || !isObj(res.data[0])) return [BOT_RESULT.SERVER_ERROR, { res }];
 	const list = [
-		Locale.locale('daytool.cmd.waste.key.0'),
-		Locale.locale('daytool.cmd.waste.key.1'),
-		Locale.locale('daytool.cmd.waste.key.2'),
-		Locale.locale('daytool.cmd.waste.key.3'),
-		Locale.locale('daytool.cmd.waste.key.4'),
-		Locale.locale('daytool.cmd.waste.key.5'),
+		Locale.locale('daytool.msg.waste.key.0'),
+		Locale.locale('daytool.msg.waste.key.1'),
+		Locale.locale('daytool.msg.waste.key.2'),
+		Locale.locale('daytool.msg.waste.key.3'),
+		Locale.locale('daytool.msg.waste.key.4'),
+		Locale.locale('daytool.msg.waste.key.5'),
 	];
 	const type = list[res.data[0].type === 'string' ? parseInt(res.data[0].type, 10) : 0];
 	return [
-		'daytool.cmd.waste.info',
+		'daytool.msg.waste.info',
 		{
 			input: Core.args[1],
 			type,
 		},
 	];
 })
-	.descr('daytool.cmd.waste.descr')
+	.help('daytool.help.waste')
 	.params([
 		{
 			must: true,

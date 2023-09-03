@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { EventDataType, getDate, getRandomInt } from '@/tools';
 import config from '../config';
-import { queryUser } from '..';
+import { queryExp } from '..';
 
 export class Profile {
 	private event: EventDataType;
@@ -87,7 +87,7 @@ export class Profile {
 		const response = await fetch(`https://q.qlogo.cn/headimg_dl?spec=640&dst_uin=${this.event.user_id}`);
 		const arrayBuffer = await response.arrayBuffer();
 		const base64 = `data:image/png;base64,${Buffer.from(arrayBuffer).toString('base64')}`;
-		const { msg, sign } = queryUser(this.event.group_id!, this.event.user_id)[0];
+		const { msg, sign } = queryExp(this.event.group_id!, this.event.user_id)[0];
 
 		return page.evaluate(
 			(data, eventData, exp, base64, msg, isSign) =>

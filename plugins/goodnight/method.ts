@@ -3,9 +3,9 @@ import { Locale, getRandomInt } from '@/tools';
 export const getSex = (val: string): string => {
 	switch (val) {
 		case 'male':
-			return Locale.locale('goodnight.cmd.morning.male');
+			return Locale.locale('goodnight.msg.morning.male');
 		case 'female':
-			return Locale.locale('goodnight.cmd.morning.female');
+			return Locale.locale('goodnight.msg.morning.female');
 		default:
 			return getSex(getRandomInt(1) === 1 ? 'male' : 'femal');
 	}
@@ -20,10 +20,10 @@ export const formatTime = (timecal: number) => {
 	const seconds = Math.floor(timeDiff / 1000);
 	return (
 		hours +
-		Locale.locale('goodnight.cmd.night.hours') +
+		Locale.locale('goodnight.msg.night.hours') +
 		minutes +
-		Locale.locale('goodnight.cmd.night.minutes') +
+		Locale.locale('goodnight.msg.night.minutes') +
 		seconds +
-		Locale.locale('goodnight.cmd.night.seconds')
+		Locale.locale('goodnight.msg.night.seconds')
 	);
 };

@@ -1,14 +1,14 @@
 {
-	"mediawiki.cmd.wiki.descr": "MediaWikiを検索、numで対象のWikiを指定",
-	"mediawiki.cmd.wiki.empty": "Wikiリストが空です。「/wikio add」で新しいMediaWikiを追加してください。",
-	"mediawiki.cmd.wiki.error": "その番号のWikiは存在しません。「/wikil」で現在のMediaWikiリストを見てください。",
-	"mediawiki.cmd.wiki.fail": "関連コンテンツが見つかりませんでした: %input%",
-	"mediawiki.cmd.wiki.info": "タイトル: %title%\n内容: %extract%\n%url%\nソース: %name%",
-	"mediawiki.cmd.wikil.descr": "MediaWikiリストを表示",
-	"mediawiki.cmd.wikil.info": "MediaWikiリスト:%list%",
-	"mediawiki.cmd.wikil.list": "\n%num%.%name% - %api%",
-	"mediawiki.cmd.wikio.descr.del": "MediaWikiを削除",
-	"mediawiki.cmd.wikio.descr.add": "MediaWikiを追加",
-	"mediawiki.cmd.wikio.del": "MediaWikiを削除しました: %input%",
-	"mediawiki.cmd.wikio.add": "MediaWikiを追加しました: %input%"
+    "mediawiki.help.wiki": "MediaWikiを検索、numで対象のWikiを指定",
+    "mediawiki.msg.wiki.empty": "Wikiリストが空です。「/wikio add」で新しいMediaWikiを追加してください。",
+    "mediawiki.msg.wiki.error": "その番号のWikiは存在しません。「/wikil」で現在のMediaWikiリストを見てください。",
+    "mediawiki.msg.wiki.fail": "関連コンテンツが見つかりませんでした: %input%",
+    "mediawiki.msg.wiki.info": "タイトル: %title%\n内容: %extract%\n%url%\nソース: %name%",
+    "mediawiki.help.wikil": "MediaWikiリストを表示",
+    "mediawiki.msg.wikil.info": "MediaWikiリスト:%list%",
+    "mediawiki.msg.wikil.list": "\n%num%.%name% - %api%",
+    "mediawiki.help.wikio.del": "MediaWikiを削除",
+    "mediawiki.help.wikio.add": "MediaWikiを追加",
+    "mediawiki.msg.wikio.del": "MediaWikiを削除しました: %input%",
+    "mediawiki.msg.wikio.add": "MediaWikiを追加しました: %input%"
 }

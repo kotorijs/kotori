@@ -1,10 +1,10 @@
 {
-	"emote.cmd.feel.descr": "生成表情包-摸一摸",
-	"emote.cmd.feel.info": "%image%",
-	"emote.cmd.climb.descr": "生成表情包-爬",
-	"emote.cmd.climb.info": "%image%",
-	"emote.cmd.threaten.descr": "生成表情包-威脅",
-	"emote.cmd.threaten.info": "%image%",
-	"emote.cmd.hold.descr": "生成表情包-牽著",
-	"emote.cmd.hold.info": "%image%"
+    "emote.help.feel": "生成表情包-摸一摸",
+    "emote.msg.feel.info": "%image%",
+    "emote.help.climb": "生成表情包-爬",
+    "emote.msg.climb.info": "%image%",
+    "emote.help.threaten": "生成表情包-威脅",
+    "emote.msg.threaten.info": "%image%",
+    "emote.help.hold": "生成表情包-牽著",
+    "emote.msg.hold.info": "%image%"
 }

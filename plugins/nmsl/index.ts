@@ -7,7 +7,7 @@ Core.cmd('nmsl', () => {
 	if (!demo.result) return config.fail;
 	return [config.info, { content: demo.result }];
 })
-	.descr(config.descr)
+	.help(config.help)
 	.menuId('funSys')
 	.params([
 		{

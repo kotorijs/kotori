@@ -1,14 +1,14 @@
 {
-	"mediawiki.cmd.wiki.descr": "搜索MediaWiki,num指定搜索目標Wiki",
-	"mediawiki.cmd.wiki.empty": "暫時還沒有wiki列表，使用\"/wikio add\"以添加新的MediaWiki",
-	"mediawiki.cmd.wiki.error": "錯誤的序號不存在該WIKI，使用\"/wikil\"查看當前MediaWiki列表",
-	"mediawiki.cmd.wiki.fail": "未查詢到相關內容: %input%",
-	"mediawiki.cmd.wiki.info": "標題: %title%\n內容: %extract%\n%url%\n來源: %name%",
-	"mediawiki.cmd.wikil.descr": "查看MediaWiki列表",
-	"mediawiki.cmd.wikil.info": "MediaWiki列表:%list%",
-	"mediawiki.cmd.wikil.list": "\n%num%.%name% - %api%",
-	"mediawiki.cmd.wikio.descr.del": "刪除MediaWiki",
-	"mediawiki.cmd.wikio.descr.add": "添加MediaWiki",
-	"mediawiki.cmd.wikio.del": "成功刪除MediaWiki: %input%",
-	"mediawiki.cmd.wikio.add": "成功添加MediaWiki: %input%"
+    "mediawiki.help.wiki": "搜索MediaWiki,num指定搜索目標Wiki",
+    "mediawiki.msg.wiki.empty": "暫時還沒有wiki列表，使用\"/wikio add\"以添加新的MediaWiki",
+    "mediawiki.msg.wiki.error": "錯誤的序號不存在該WIKI，使用\"/wikil\"查看當前MediaWiki列表",
+    "mediawiki.msg.wiki.fail": "未查詢到相關內容: %input%",
+    "mediawiki.msg.wiki.info": "標題: %title%\n內容: %extract%\n%url%\n來源: %name%",
+    "mediawiki.help.wikil": "查看MediaWiki列表",
+    "mediawiki.msg.wikil.info": "MediaWiki列表:%list%",
+    "mediawiki.msg.wikil.list": "\n%num%.%name% - %api%",
+    "mediawiki.help.wikio.del": "刪除MediaWiki",
+    "mediawiki.help.wikio.add": "添加MediaWiki",
+    "mediawiki.msg.wikio.del": "成功刪除MediaWiki: %input%",
+    "mediawiki.msg.wikio.add": "成功添加MediaWiki: %input%"
 }

@@ -1,5 +1,5 @@
 import path from 'path';
-import { Api, Const, EventDataType, obj } from '@/tools';
+import { Api, Const, EventDataType, obj, parseCommand } from '@/tools';
 import SDK from '@/utils/class.sdk';
 import {
 	ACCESS,
@@ -27,7 +27,7 @@ export class Content extends Data {
 		this.data = data;
 		this.api = api;
 		Content.consts = consts;
-		Core.args = this.data.message.split(' ');
+		Core.args = parseCommand(this.data.message);
 
 		if (callbacks) {
 			for (const callback of callbacks) {
@@ -106,7 +106,10 @@ export class Content extends Data {
 				Core.args[indexNum] = params[index].must as string;
 			}
 
-			if (params[index].rest) return true;
+			if (params[index].rest) {
+				Core.args = this.data.message.split(' ');
+				return true;
+			}
 		}
 		return true;
 	};

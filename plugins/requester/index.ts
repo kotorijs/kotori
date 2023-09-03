@@ -33,7 +33,7 @@ export default class {
 
 	private onGroupIncrease = (data: EventDataType) => {
 		if (data.user_id !== this.Consts.BOT.self_id) return;
-		this.send(`requester.cmd.increase.${data.sub_type === 'approve' ? 'approve' : 'invite'}`, {
+		this.send(`requester.msg.increase.${data.sub_type === 'approve' ? 'approve' : 'invite'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
 		});
@@ -41,7 +41,7 @@ export default class {
 
 	private onGroupDecrease = (data: EventDataType) => {
 		if (data.user_id !== this.Consts.BOT.self_id) return;
-		this.send(`requester.cmd.decrease.${data.operator_id === data.user_id ? 'leave' : 'kick'}`, {
+		this.send(`requester.msg.decrease.${data.operator_id === data.user_id ? 'leave' : 'kick'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
 		});
@@ -49,7 +49,7 @@ export default class {
 
 	private onGroupAdmin = (data: EventDataType) => {
 		if (data.user_id !== this.Consts.BOT.self_id) return;
-		this.send(`requester.cmd.admin.${data.user_id ? 'set' : 'unset'}`, {
+		this.send(`requester.msg.admin.${data.user_id ? 'set' : 'unset'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
 		});
@@ -57,7 +57,7 @@ export default class {
 
 	private onGroupBan = (data: EventDataType) => {
 		if (data.user_id !== this.Consts.BOT.self_id) return;
-		this.send(`requester.cmd.ban.${data.duration && data.duration > 0 ? 'ban' : 'lift_ban'}`, {
+		this.send(`requester.msg.ban.${data.duration && data.duration > 0 ? 'ban' : 'lift_ban'}`, {
 			operator: data.operator_id!,
 			group: data.group_id!,
 			time: data.duration ? data.duration / 60 : 0,
@@ -66,7 +66,7 @@ export default class {
 
 	private onGroupRecall = (data: EventDataType) => {
 		if (data.user_id === this.Consts.BOT.self_id || data.operator_id === this.Consts.BOT.self_id) return;
-		this.send(`requester.cmd.recall.group.${data.operator_id === data.user_id ? 'self' : 'other'}`, {
+		this.send(`requester.msg.recall.group.${data.operator_id === data.user_id ? 'self' : 'other'}`, {
 			user: data.user_id,
 			operator: data.operator_id!,
 			message: this.messageData[data.message_id],
@@ -76,14 +76,14 @@ export default class {
 
 	private onFriendRecall = (data: EventDataType) => {
 		if (data.user_id === this.Consts.BOT.self_id) return;
-		this.send(`requester.cmd.recall.private`, {
+		this.send(`requester.msg.recall.private`, {
 			user: data.user_id,
 			message: this.messageData[data.message_id],
 		});
 	};
 
 	private onGroupRequest = (data: EventDataType) => {
-		this.send(`requester.cmd.request.group.${data.sub_type === 'invite' ? 'invite' : 'add'}`, {
+		this.send(`requester.msg.request.group.${data.sub_type === 'invite' ? 'invite' : 'add'}`, {
 			user: data.user_id,
 			group: data.group_id!,
 			message: data.message,
@@ -91,7 +91,7 @@ export default class {
 	};
 
 	private onFriendRequest = (data: EventDataType) => {
-		this.send(`requester.cmd.request.private`, {
+		this.send(`requester.msg.request.private`, {
 			user: data.user_id,
 			message: data.message,
 		});
@@ -101,7 +101,7 @@ export default class {
 		this.messageData[data.message_id] = data.message;
 		if (data.user_id === this.Consts.BOT.self_id || !data.message.includes(this.Consts.BOT.self_id.toString()))
 			return;
-		this.send(`requester.cmd.msg.group`, {
+		this.send(`requester.msg.msg.group`, {
 			user: data.user_id,
 			group: data.group_id!,
 			message: data.message,
@@ -116,7 +116,7 @@ export default class {
 			data.user_id === this.Consts.CONFIG.bot.master
 		)
 			return;
-		this.send(`requester.cmd.msg.private`, {
+		this.send(`requester.msg.msg.private`, {
 			user: data.user_id,
 			message: data.message,
 		});

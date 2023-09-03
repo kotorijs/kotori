@@ -18,7 +18,7 @@ Core.cmd(
 		'\n温柔语录 个性签名' +
 		'\n经典语录 英汉语录',
 )
-	.descr('hitokotos.menu.hitokotos.descr')
+	.help('hitokotos.menu.hitokotos.help')
 	.menuId('main');
 
 Core.alias('一言', async () => {
@@ -26,7 +26,7 @@ Core.alias('一言', async () => {
 	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];
 
 	return [
-		'hitokotos.cmd.hitokoto.info',
+		'hitokotos.msg.hitokoto.info',
 		{
 			...res.data,
 			from: res.data.from.trim() ? `——${res.data.from}` : '',
@@ -37,7 +37,7 @@ Core.alias('一言', async () => {
 const hitokotoT = async (msg: number): Promise<CoreValCallbackVal> => {
 	const res = await fetchT('words', { msg, format: 'text' });
 	if (!res) return [BOT_RESULT.SERVER_ERROR, { res }];
-	return ['hitokotos.cmd.list.info', { content: res }];
+	return ['hitokotos.msg.list.info', { content: res }];
 };
 
 Core.alias('一言2', () => hitokotoT(1));

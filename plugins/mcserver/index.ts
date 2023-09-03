@@ -46,15 +46,15 @@ export default (event: Event, api: Api, consts: Const) => {
 	};
 
 	const cmdHelp = () => {
-		let message: string = `查看帮助:${config.cmd_prefix}${config.cmd.help}\n`;
-		message += `查询服务器状态:${config.cmd_prefix}${config.cmd.status}\n`;
-		// message += `查询主机状态:${config.cmd_prefix}${config.cmd.state}\n`;
+		let message: string = `查看帮助:${config.cmd_prefix}${config.msg.help}\n`;
+		message += `查询服务器状态:${config.cmd_prefix}${config.msg.status}\n`;
+		// message += `查询主机状态:${config.cmd_prefix}${config.msg.state}\n`;
 		message += `仅管理员可用:\n`;
-		message += `启动服务器:${config.cmd_prefix}${config.cmd.start}\n`;
-		message += `关闭服务器:${config.cmd_prefix}${config.cmd.stop}\n`;
-		message += `重启服务器:${config.cmd_prefix}${config.cmd.rest}\n`;
-		message += `终止服务器:${config.cmd_prefix}${config.cmd.stopex}\n`;
-		message += `运行游戏指令:${config.cmd_prefix}${config.cmd.run} [Command]\n`;
+		message += `启动服务器:${config.cmd_prefix}${config.msg.start}\n`;
+		message += `关闭服务器:${config.cmd_prefix}${config.msg.stop}\n`;
+		message += `重启服务器:${config.cmd_prefix}${config.msg.rest}\n`;
+		message += `终止服务器:${config.cmd_prefix}${config.msg.stopex}\n`;
+		message += `运行游戏指令:${config.cmd_prefix}${config.msg.run} [Command]\n`;
 		message += `发送聊天:${config.chat_prefix}[Message]`;
 		send(message, true);
 	};
@@ -118,36 +118,36 @@ export default (event: Event, api: Api, consts: Const) => {
 
 		const command = stringSplit(data.message, config.cmd_prefix);
 		switch (true) {
-			case stringProcess(command, config.cmd.help):
+			case stringProcess(command, config.msg.help):
 				cmdHelp();
 				break;
-			case stringProcess(command, config.cmd.status):
+			case stringProcess(command, config.msg.status):
 				cmdStatus();
 				break;
-			case stringProcess(command, config.cmd.state):
+			case stringProcess(command, config.msg.state):
 				cmdState();
 				break;
-			case stringProcess(command, config.cmd.start):
+			case stringProcess(command, config.msg.start):
 				if (stringProcess(data.user_id, config.mangers)) cmdStart();
 				else send(config.message.not_manger);
 				break;
-			case stringProcess(command, config.cmd.stop):
+			case stringProcess(command, config.msg.stop):
 				if (stringProcess(data.user_id, config.mangers)) cmdStop();
 				else send(config.message.not_manger);
 				break;
-			case stringProcess(command, config.cmd.rest):
+			case stringProcess(command, config.msg.rest):
 				if (stringProcess(data.user_id, config.mangers)) cmdRest();
 				else send(config.message.not_manger);
 				break;
-			case stringProcess(command, config.cmd.stopex):
+			case stringProcess(command, config.msg.stopex):
 				if (stringProcess(data.user_id, config.mangers)) cmdStopex();
 				else send(config.message.not_manger);
 				break;
-			case stringProcess(command, config.cmd.run):
+			case stringProcess(command, config.msg.run):
 				// stringProcess(data.user_id, config.mangers) ? cmd_run(command[1]) : send(msg1)
 				break;
 			default:
-				send(`未知的命令,请输入${config.cmd_prefix}${config.cmd.help}以获取帮助`);
+				send(`未知的命令,请输入${config.cmd_prefix}${config.msg.help}以获取帮助`);
 		}
 	};
 
