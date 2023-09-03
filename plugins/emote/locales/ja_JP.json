@@ -1,10 +1,10 @@
 {
-    "emote.help.feel": "表情パックを生成 - なでる",
-    "emote.msg.feel.info": "%image%",
-    "emote.help.climb": "表情パックを生成 - よじ登る",
-    "emote.msg.climb.info": "%image%",
-    "emote.help.threaten": "表情パックを生成 - 脅迫する",
-    "emote.msg.threaten.info": "%image%",
-    "emote.help.hold": "表情パックを生成 - 手をつなぐ",
-    "emote.msg.hold.info": "%image%"
+	"emote.help.feel": "表情パックを生成 - なでる",
+	"emote.msg.feel.info": "%image%",
+	"emote.help.climb": "表情パックを生成 - よじ登る",
+	"emote.msg.climb.info": "%image%",
+	"emote.help.threaten": "表情パックを生成 - 脅迫する",
+	"emote.msg.threaten.info": "%image%",
+	"emote.help.hold": "表情パックを生成 - 手をつなぐ",
+	"emote.msg.hold.info": "%image%"
 }

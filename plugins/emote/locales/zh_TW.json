@@ -1,10 +1,10 @@
 {
-    "emote.help.feel": "生成表情包-摸一摸",
-    "emote.msg.feel.info": "%image%",
-    "emote.help.climb": "生成表情包-爬",
-    "emote.msg.climb.info": "%image%",
-    "emote.help.threaten": "生成表情包-威脅",
-    "emote.msg.threaten.info": "%image%",
-    "emote.help.hold": "生成表情包-牽著",
-    "emote.msg.hold.info": "%image%"
+	"emote.help.feel": "生成表情包-摸一摸",
+	"emote.msg.feel.info": "%image%",
+	"emote.help.climb": "生成表情包-爬",
+	"emote.msg.climb.info": "%image%",
+	"emote.help.threaten": "生成表情包-威脅",
+	"emote.msg.threaten.info": "%image%",
+	"emote.help.hold": "生成表情包-牽著",
+	"emote.msg.hold.info": "%image%"
 }

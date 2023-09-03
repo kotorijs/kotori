@@ -1,4 +1,4 @@
 {
-    "kotori_bot_admin_server.help.login": "Get Kotori-Amdin login url",
-    "kotori_bot_admin_server.msg.login.info": "Here are your login url:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\nLogin url will expire after[%expire_time%Second], dont give others"
+	"kotori_bot_admin_server.help.login": "Get Kotori-Amdin login url",
+	"kotori_bot_admin_server.msg.login.info": "Here are your login url:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\nLogin url will expire after[%expire_time%Second], dont give others"
 }

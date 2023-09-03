@@ -1,6 +1,6 @@
 {
-    "runcode.help.runjs": "運行JavaScript代碼",
-    "runcode.msg.runjs.info": "Console Output:\n%content%",
-    "runcode.help.runlua": "運行Lua代碼",
-    "runcode.msg.runlua.info": "Print Output:\n%content%"
+	"runcode.help.runjs": "運行JavaScript代碼",
+	"runcode.msg.runjs.info": "Console Output:\n%content%",
+	"runcode.help.runlua": "運行Lua代碼",
+	"runcode.msg.runlua.info": "Print Output:\n%content%"
 }

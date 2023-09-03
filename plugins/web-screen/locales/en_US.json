@@ -1,5 +1,5 @@
 {
-    "web_screen.help.screen": "Website screenshot",
-    "web_screen.msg.screen.tips": "Taking screenshots...",
-    "web_screen.msg.screen.info": "%image%"
+	"web_screen.help.screen": "Website screenshot",
+	"web_screen.msg.screen.tips": "Taking screenshots...",
+	"web_screen.msg.screen.info": "%image%"
 }

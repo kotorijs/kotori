@@ -1,9 +1,9 @@
 {
-    "drift_bottle.help.pick": "撿取一個漂流瓶",
-    "drift_bottle.msg.pick.none": "暫時還沒有一個漂流瓶",
-    "drift_bottle.msg.pick.info": "瓶子內容: %message%\n時間: %time%\n來源群號: %group%",
-    "drift_bottle.help.throw": "投擲一個漂流瓶~",
-    "drift_bottle.msg.throw.info": "%at%你的瓶子已投擲大海~",
-    "drift_bottle.msg.throw.fail": "%at%今天的投擲次數已超過%num%次，明天再來吧~",
-    "drift_bottle.msg.throw.empty": "%at%內容不能為空"
+	"drift_bottle.help.pick": "撿取一個漂流瓶",
+	"drift_bottle.msg.pick.none": "暫時還沒有一個漂流瓶",
+	"drift_bottle.msg.pick.info": "瓶子內容: %message%\n時間: %time%\n來源群號: %group%",
+	"drift_bottle.help.throw": "投擲一個漂流瓶~",
+	"drift_bottle.msg.throw.info": "%at%你的瓶子已投擲大海~",
+	"drift_bottle.msg.throw.fail": "%at%今天的投擲次數已超過%num%次，明天再來吧~",
+	"drift_bottle.msg.throw.empty": "%at%內容不能為空"
 }
