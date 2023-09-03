@@ -1,0 +1,9 @@
+{
+    "drift_bottle.help.pick": "漂流瓶を拾う",
+    "drift_bottle.msg.pick.none": "現在利用可能な漂流瓶はありません",
+    "drift_bottle.msg.pick.info": "瓶の中身: %message%\n時間: %time%\n出所グループ番号: %group%",
+    "drift_bottle.help.throw": "漂流瓶を投げる~",
+    "drift_bottle.msg.throw.info": "%at% あなたの瓶が海に投げられました~",
+    "drift_bottle.msg.throw.fail": "%at% 今日の投げる回数は%num%回超えています。明日また来てね~",
+    "drift_bottle.msg.throw.empty": "%at% 内容を空にすることはできません"
+}

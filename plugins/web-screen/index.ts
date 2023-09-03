@@ -9,11 +9,11 @@ Locale.register(path.resolve(__dirname));
 
 Core.cmd('screen', async send => {
 	if (!Core.args[1].includes('http')) return BOT_RESULT.ARGS_ERROR;
-	send('web_screen.cmd.screen.tips');
+	send('web_screen.msg.screen.tips');
 	const buffer = await screenshot(Core.args[1]);
-	return ['web_screen.cmd.screen.info', { image: SDK.cq_image(`base64://${buffer}`) }];
+	return ['web_screen.msg.screen.info', { image: SDK.cq_image(`base64://${buffer}`) }];
 })
-	.descr('web_screen.cmd.screen.descr')
+	.help('web_screen.help.screen')
 	.menuId('queryTool')
 	.params([
 		{

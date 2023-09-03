@@ -13,29 +13,29 @@ const Cmd = (keyword: string, callback: CoreVal) => {
 };
 
 Cmd('sex', async send => {
-	send('random_img.cmd.sex.tips');
+	send('random_img.msg.sex.tips');
 
 	const res = await fetchJ(`https://imlolicon.tk/api/seimg/v2/`, { tag: Core.args[1], r18: 0 });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code !== 500 || !Array.isArray(res.data)) return ['random_img.cmd.sex.fail', { input: Core.args[1] }];
+	if (res.code !== 500 || !Array.isArray(res.data)) return ['random_img.msg.sex.fail', { input: Core.args[1] }];
 
 	const dd = res.data[0];
 	let tags = '';
 	dd.tags.forEach((element: string) => {
 		tags += `、${element}`;
 	});
-	send('random_img.cmd.sex.info', {
+	send('random_img.msg.sex.info', {
 		...dd,
 		tags: tags.substring(1),
 	});
 	return [
-		'random_img.cmd.sex.image',
+		'random_img.msg.sex.image',
 		{
 			image: SDK.cq_image(dd.url),
 		},
 	];
 })
-	.descr('random_img.cmd.sex.descr')
+	.help('random_img.help.sex')
 	.params([
 		{
 			must: false,
@@ -44,10 +44,10 @@ Cmd('sex', async send => {
 	]);
 
 Cmd('sexh', async send => {
-	send('random_img.cmd.sexh.tips');
+	send('random_img.msg.sexh.tips');
 	const res = await fetchJ('https://imlolicon.tk/api/huimg/', { tag: Core.args[1] });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
-	if (res.code !== 500 || !isObj(res.data)) return ['random_img.cmd.sexh.fail', { input: Core.args[1] }];
+	if (res.code !== 500 || !isObj(res.data)) return ['random_img.msg.sexh.fail', { input: Core.args[1] }];
 
 	const dd = res.data;
 	let tags = '';
@@ -55,14 +55,14 @@ Cmd('sexh', async send => {
 		tags += `、${element}`;
 	});
 	return [
-		'random_img.cmd.sexh.info',
+		'random_img.msg.sexh.info',
 		{
 			tags: tags.substring(1),
 			image: SDK.cq_image(dd.url),
 		},
 	];
 })
-	.descr('random_img.cmd.sexh.descr')
+	.help('random_img.help.sexh')
 	.params([
 		{
 			must: false,
@@ -71,59 +71,59 @@ Cmd('sexh', async send => {
 	]);
 
 Cmd('seller', () =>
-	temp('random_img.cmd.seller.info', {
+	temp('random_img.msg.seller.info', {
 		image: SDK.cq_image(`${URL.API}sellerimg`),
 	}),
-).descr('random_img.cmd.seller.descr');
+).help('random_img.help.seller');
 
 Cmd('sedimg', () =>
-	temp('random_img.cmd.sedimg.info', {
+	temp('random_img.msg.sedimg.info', {
 		image: SDK.cq_image(`${URL.API}sedimg`),
 	}),
-).descr('random_img.cmd.sedimg.descr');
+).help('random_img.help.sedimg');
 
 Cmd('bing', () =>
-	temp('random_img.cmd.bing.info', {
+	temp('random_img.msg.bing.info', {
 		image: SDK.cq_image(`${URL.API}bing`),
 	}),
-).descr('random_img.cmd.bing.descr');
+).help('random_img.help.bing');
 
 Cmd('day', () =>
 	config.day.apiKey
-		? temp('random_img.cmd.day.info', {
+		? temp('random_img.msg.day.info', {
 				image: SDK.cq_image(`${URL.API}60s?apikey=${config.day.apiKey}&area=日本神户市`),
 		  })
 		: BOT_RESULT.APIKEY_EMPTY,
-).descr('random_img.cmd.day.descr');
+).help('random_img.help.day');
 
 Cmd('earth', () =>
-	temp('random_img.cmd.earth.info', {
+	temp('random_img.msg.earth.info', {
 		image: SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg'),
 	}),
-).descr('random_img.cmd.earth.descr');
+).help('random_img.help.earth');
 
 Cmd('china', () =>
-	temp('random_img.cmd.china.info', {
+	temp('random_img.msg.china.info', {
 		image: SDK.cq_image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg'),
 	}),
-).descr('random_img.cmd.china.descr');
+).help('random_img.help.china');
 
 Cmd('sister', () =>
-	temp('random_img.cmd.sister.info', {
+	temp('random_img.msg.sister.info', {
 		video: SDK.cq_video(`${URL.API}sisters`),
 	}),
-).descr('random_img.cmd.sister.descr');
+).help('random_img.help.sister');
 
 Cmd('qrcode', () => {
 	const frame = ['L', 'M', 'Q', 'H'][parseInt(Core.args[2], 10)];
 	if (!frame) {
-		return 'random_img.cmd.qrcode.fail';
+		return 'random_img.msg.qrcode.fail';
 	}
-	return temp('random_img.cmd.qrcode.info', {
+	return temp('random_img.msg.qrcode.info', {
 		image: SDK.cq_image(`${URL.API}qrcode?text=${Core.args[1]}&frame=2&size=200&e=${frame}`),
 	});
 })
-	.descr('random_img.cmd.qrcode.descr')
+	.help('random_img.help.qrcode')
 	.params([
 		{
 			must: true,

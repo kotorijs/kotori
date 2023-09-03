@@ -1,1 +1,9 @@
-{}
+{
+    "drift_bottle.help.pick": "Pick up a drift bottle",
+    "drift_bottle.msg.pick.none": "No drift bottles available at the moment",
+    "drift_bottle.msg.pick.info": "Message in bottle: %message%\nTime: %time%\nSource group: %group%",
+    "drift_bottle.help.throw": "Throw a drift bottle~",
+    "drift_bottle.msg.throw.info": "%at% Your bottle has been thrown into the sea~",
+    "drift_bottle.msg.throw.fail": "%at% You have already thrown %num% bottles today, come back tomorrow~",
+    "drift_bottle.msg.throw.empty": "%at% Message cannot be empty"
+}

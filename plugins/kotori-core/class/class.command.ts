@@ -22,8 +22,8 @@ export class Command extends Data {
 		return this.handle();
 	};
 
-	public descr = (descr: string) => {
-		this.info.description = descr;
+	public help = (help: string) => {
+		this.info.help = help;
 		return this.handle();
 	};
 

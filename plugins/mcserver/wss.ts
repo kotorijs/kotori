@@ -49,7 +49,7 @@ export const wss = (event: Event, send: Send) => {
 		};
 
 		const cmdRun = (cmd: string) => {
-			const command: string = stringSplit(cmd, `${config.cmd.run} `);
+			const command: string = stringSplit(cmd, `${config.msg.run} `);
 			sendWss('to_command', { command });
 			send(`指令发送成功 ${command}`);
 		};
@@ -70,7 +70,7 @@ export const wss = (event: Event, send: Send) => {
 			const command = stringSplit(data.message, config.cmd_prefix);
 
 			switch (true) {
-				case stringProcess(command, config.cmd.run):
+				case stringProcess(command, config.msg.run):
 					if (stringProcess(data.user_id!, config.mangers)) cmdRun(command);
 					else send(config.message.not_manger);
 					break;

@@ -23,7 +23,7 @@ Core.cmd(bot.cmd, () => {
 	const tokenHandle = encode((<Token>loadConfigP('token.json')).token);
 	const path = `/#/verify/${tokenHandle}`;
 	return [
-		'kotori_bot_admin_server.cmd.login.info',
+		'kotori_bot_admin_server.msg.login.info',
 		{
 			port: config.port,
 			path,
@@ -32,7 +32,7 @@ Core.cmd(bot.cmd, () => {
 		},
 	];
 })
-	.descr('kotori_bot_admin_server.cmd.login.descr')
+	.help('kotori_bot_admin_server.help.login')
 	.menuId('coreCom')
 	.scope(bot.allowGroup ? SCOPE.ALL : SCOPE.PRIVATE)
 	.access(ACCESS.ADMIN);

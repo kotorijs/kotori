@@ -7,7 +7,7 @@ import config from './config';
 
 Locale.register(path.resolve(__dirname));
 
-Core.menu('gpts', 'gptChat').descr('gpt_chat.menu.gpt_chat.descr');
+Core.menu('gpts', 'gptChat').help('gpt_chat.menu.gpt_chat.help');
 
 Core.cmd('gpt', async () => {
 	const res = await fetchJ('http://chatgpt.imlolicon.tk/v1/chat/completions', undefined, {
@@ -30,11 +30,11 @@ Core.cmd('gpt', async () => {
 	const result =
 		!res || !res.choices || !res.choices[0] || !res.choices[0].message || !res.choices[0].message.content;
 	return [
-		result ? BOT_RESULT.SERVER_ERROR : 'gpt_chat.cmd.gpt.info',
+		result ? BOT_RESULT.SERVER_ERROR : 'gpt_chat.msg.gpt.info',
 		result ? { res } : { content: res.choices[0].message.content },
 	];
 })
-	.descr('gpt_chat.cmd.gpt.descr')
+	.help('gpt_chat.help.gpt')
 	.menuId('gptChat')
 	.params([
 		{
@@ -44,7 +44,7 @@ Core.cmd('gpt', async () => {
 	]);
 
 Core.cmd('cl', () => BOT_RESULT.REPAIRING)
-	.descr('gpt_chat.cmd.cl.descr')
+	.help('gpt_chat.help.cl')
 	.menuId('gptChat')
 	.params([
 		{

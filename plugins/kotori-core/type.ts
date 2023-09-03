@@ -1,4 +1,4 @@
-import { CONST, Locale, getPackageInfo } from '@/tools';
+import { Locale, getPackageInfo } from '@/tools';
 import { Api, EventDataType, Msg, obj } from '@/tools/type';
 import SDK from '@/utils/class.sdk';
 
@@ -51,7 +51,7 @@ export const BOT_RESULT = new Proxy(
 export const GLOBAL = {
 	HEAD: 'Kotori-Bot:',
 	REPO: 'https://github.com/biyuehu/kotori-bot',
-	AVATAR: SDK.cq_image(`https://q.qlogo.cn/headimg_dl?spec=640&dst_uin=${CONST.BOT.self_id}`),
+	AVATAR: SDK.cq_image(`https://q.qlogo.cn/headimg_dl?spec=640&dst_uin=2142124427`),
 	DOC: 'http://??????????.com',
 	AUTHOR: `By${getPackageInfo().author}`,
 };
@@ -69,7 +69,7 @@ export type Send = (msg: Msg, params?: obj<string | number>) => void;
 
 export interface InfoVal {
 	params?: InfoValArg;
-	description?: string;
+	help?: string;
 	menuId?: string;
 	scope: SCOPE;
 	access: ACCESS;
@@ -83,7 +83,7 @@ export interface InfoArg {
 
 export interface InfoArgEx {
 	[key: string]: {
-		descr?: string;
+		help?: string;
 		args?: InfoArg[] /*  | InfoArgEx */ | null;
 	};
 }

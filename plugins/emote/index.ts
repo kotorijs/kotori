@@ -13,11 +13,11 @@ const Cmd = (keyword: string, callback: CoreVal) => {
 
 Cmd('feel', (send, data) => {
 	const target = getQq(Core.args[1]) || data.user_id;
-	send('emote.cmd.feel.info', {
+	send('emote.msg.feel.info', {
 		image: SDK.cq_image(`http://api.tombk.cn/API/dtt/mo.php?QQ=${target}`),
 	});
 })
-	.descr('emote.cmd.feel.descr')
+	.help('emote.help.feel')
 	.params([
 		{
 			must: false,
@@ -27,11 +27,11 @@ Cmd('feel', (send, data) => {
 
 Cmd('climb', (send, data) => {
 	const target = getQq(Core.args[1]) || data.user_id;
-	send('emote.cmd.climb.info', {
+	send('emote.msg.climb.info', {
 		image: SDK.cq_image(`http://api.tombk.cn/API/pa/pa.php?qq=${target}`),
 	});
 })
-	.descr('emote.cmd.climb.descr')
+	.help('emote.help.climb')
 	.params([
 		{
 			must: false,
@@ -41,11 +41,11 @@ Cmd('climb', (send, data) => {
 
 Cmd('threaten', (send, data) => {
 	const target = getQq(Core.args[1]) || data.user_id;
-	send('emote.cmd.threaten.info', {
+	send('emote.msg.threaten.info', {
 		image: SDK.cq_image(`http://api.tombk.cn/API/dtt/weixie.php?QQ=${target}`),
 	});
 })
-	.descr('emote.cmd.threaten.descr')
+	.help('emote.help.threaten')
 	.params([
 		{
 			must: false,
@@ -54,11 +54,11 @@ Cmd('threaten', (send, data) => {
 	]);
 
 Cmd('hold', (send, data) => {
-	send('emote.cmd.hold.info', {
+	send('emote.msg.hold.info', {
 		image: SDK.cq_image(`http://api.tombk.cn/API/dtt/qian.php?qq1=${data.user_id}&qq2=${getQq(Core.args[1])}`),
 	});
 })
-	.descr('emote.cmd.hold.descr')
+	.help('emote.help.hold')
 	.params([
 		{
 			must: true,

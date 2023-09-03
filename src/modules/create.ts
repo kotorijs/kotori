@@ -88,12 +88,12 @@ import { Event, Api, Const, Locale } from '@/tools';
 Locale.register(path.resolve(__dirname));
 
 Core.cmd('print', () => [
-	'echo.cmd.print.info',
+	'echo.msg.print.info',
 	{
 		content: Core.args[1],
 	},
 ])
-	.descr('echo.cmd.print.descr')
+	.help('echo.help.print')
 	.menuId('coreCom')
 	.scope(SCOPE.PRIVATE)
 	.access(ACCESS.ADMIN)
@@ -105,12 +105,12 @@ Core.cmd('print', () => [
 	]);
 
 Core.cmd('echo', () => [
-	'echo.cmd.echo.info',
+	'echo.msg.echo.info',
 	{
 		content: Core.args[1],
 	},
 ])
-	.descr('echo.cmd.echo.descr')
+	.help('echo.help.echo')
 	.menuId('coreCom')
 	.scope(SCOPE.GROUP)
 	.access(ACCESS.ADMIN)
@@ -144,10 +144,10 @@ Core.cmd('echo', () => [
 	private CoreConfigTs = 'export default {\n}';
 
 	private localeJson = `{
-    "echo.cmd.echo.descr": "send a message on group",
-    "echo.cmd.echo.info": "%content%",
-    "echo.cmd.print.descr": "send a message on privates",
-    "echo.cmd.print.info": "Result: %content%"
+    "echo.help.echo": "send a message on group",
+    "echo.msg.echo.info": "%content%",
+    "echo.help.print": "send a message on privates",
+    "echo.msg.print.info": "%content%"
 }`;
 
 	private readmeMd = () => `# ${this.result.name}
