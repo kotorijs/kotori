@@ -1,6 +1,6 @@
 /*
  * @Author: hotaru biyuehuya@gmail.com
- * @Blog: http://imlolicon.tk
+ * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-09-03 17:26:30
@@ -118,7 +118,7 @@ Core.menu('imgs', 'randomImg').help('core.menu.random_img.help');
 Core.menu('other', 'otherCom').help('core.menu.othercom.help');
 
 Core.cmd('api', async () => {
-	const content = await fetchT('https://api.imlolicon.tk/sys/datastat', { format: 'text' });
+	const content = await fetchT('https://api.hotaru.icu/sys/datastat', { format: 'text' });
 	return [content ? 'core.msg.api.info' : BOT_RESULT.SERVER_ERROR, content ? { content } : { res: content }];
 })
 	.help('core.help.api')

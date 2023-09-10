@@ -10,7 +10,7 @@ Locale.register(path.resolve(__dirname));
 Core.menu('gpts', 'gptChat').help('gpt_chat.menu.gpt_chat.help');
 
 Core.cmd('gpt', async () => {
-	const res = await fetchJ('http://chatgpt.imlolicon.tk/v1/chat/completions', undefined, {
+	const res = await fetchJ('http://chatgpt.hotaru.icu/v1/chat/completions', undefined, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

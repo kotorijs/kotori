@@ -22,7 +22,7 @@ Core.cmd(
 	.menuId('main');
 
 Core.alias('一言', async () => {
-	const res = await fetchJ('https://imlolicon.tk/api/hitokoto/v2/');
+	const res = await fetchJ('https://hotaru.icu/api/hitokoto/v2/');
 	if (!isObj(res) || !isObj(res.data)) return [BOT_RESULT.SERVER_ERROR, { res }];
 
 	return [

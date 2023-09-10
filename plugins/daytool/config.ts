@@ -1,6 +1,6 @@
 export default {
 	bangumi: {
-		apiKey: 'CUISWUtzJyM0C7VMd8TakNHjtNGCQfIJWYVHAE1R',
+		apiKey: 'iugKW0Wvby5bNFhz8HY1po2Mn0eiIMl1z0HjpPQN',
 	},
 	maxList: 10,
 };

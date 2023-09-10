@@ -1,6 +1,6 @@
 /*
  * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: http://imlolicon.tk
+ * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 10:31:22
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-18 17:18:18
@@ -8,7 +8,7 @@
 import { Event, Api, stringProcess, stringSplit, EventDataType } from '@/tools';
 import config from './config';
 
-const url = 'http://chatgpt.imlolicon.tk/v1/chat/completions';
+const url = 'http://chatgpt.hotaru.icu/v1/chat/completions';
 
 const requestOptions = (message: string) => ({
 	method: 'POST',

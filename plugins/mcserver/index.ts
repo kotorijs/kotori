@@ -1,6 +1,6 @@
 /*
  * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: http://imlolicon.tk
+ * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 10:31:22
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-18 18:06:36
@@ -60,7 +60,7 @@ export default (event: Event, api: Api, consts: Const) => {
 	};
 
 	const cmdStatus = async () => {
-		const d = (await needle('get', `https://api.imlolicon.tk/api/motdpe?ip=${ip}&port=${config.info.port}`)).body;
+		const d = (await needle('get', `https://api.hotaru.icu/api/motdpe?ip=${ip}&port=${config.info.port}`)).body;
 
 		const message: string =
 			d.code === 500

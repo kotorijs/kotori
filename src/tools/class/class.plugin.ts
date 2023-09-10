@@ -1,6 +1,6 @@
 /*
  * @Author: hotaru biyuehuya@gmail.com
- * @Blog: http://imlolicon.tk
+ * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-08-25 15:51:14
