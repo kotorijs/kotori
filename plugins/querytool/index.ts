@@ -244,7 +244,7 @@ Cmd('idcard', async () => {
 	]);
 
 Cmd('hcb', async () => {
-	const res = await fetchJ('https://hcb.imlolicon.tk/api/v3', {
+	const res = await fetchJ('https://hcb.hotaru.icu/api/v3', {
 		value: Core.args[1],
 	});
 	if (!res || res.code !== 500 || !isObj(res.data) || Array.isArray(res.data))

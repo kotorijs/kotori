@@ -18,7 +18,7 @@
 
 **Kotori**是一个罗马字，在日语中是**ことり(小鳥)**的意思，该名字取自于[Key](http://key.visualarts.gr.jp/)公式游戏[《Rewrite》](https://bgm.tv/subject/4022)及其衍生作品中的主要女性角色之一的**[神户小鸟](https://bgm.tv/character/12063)**(神戸（かんべ） 小鳥（ことり）)。
 
-> [Blog](https://imlolicon.tk)
+> [Blog](https://hotaru.icu)
 
 ---
 

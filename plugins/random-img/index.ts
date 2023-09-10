@@ -15,7 +15,7 @@ const Cmd = (keyword: string, callback: CoreVal) => {
 Cmd('sex', async send => {
 	send('random_img.msg.sex.tips');
 
-	const res = await fetchJ(`https://imlolicon.tk/api/seimg/v2/`, { tag: Core.args[1], r18: 0 });
+	const res = await fetchJ(`https://hotaru.icu/api/seimg/v2/`, { tag: Core.args[1], r18: 0 });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
 	if (res.code !== 500 || !Array.isArray(res.data)) return ['random_img.msg.sex.fail', { input: Core.args[1] }];
 
@@ -45,7 +45,7 @@ Cmd('sex', async send => {
 
 Cmd('sexh', async send => {
 	send('random_img.msg.sexh.tips');
-	const res = await fetchJ('https://imlolicon.tk/api/huimg/', { tag: Core.args[1] });
+	const res = await fetchJ('https://hotaru.icu/api/huimg/', { tag: Core.args[1] });
 	if (!isObj(res)) return [BOT_RESULT.SERVER_ERROR, { res }];
 	if (res.code !== 500 || !isObj(res.data)) return ['random_img.msg.sexh.fail', { input: Core.args[1] }];
 

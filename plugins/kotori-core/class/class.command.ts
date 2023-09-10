@@ -12,7 +12,7 @@ export class Command extends Data {
 		this.info = info;
 	}
 
-	public handle = () => {
+	private handle = () => {
 		Command.cmdInfoData.set(this.keyword, this.info);
 		return this;
 	};

@@ -70,7 +70,7 @@ export default (Event: any, Api: any) => {
 		/* 判断是否请求成功且有数据 */
 		if (req.body.code === 500 && reqData.id !== null) {
 			// 别问为什么是500,问就是看接口文档
-			// https://api.imlolicon.tk/iluh/nemusic
+			// https://api.hotaru.icu/iluh/nemusic
 			content += `歌曲ID:${reqData.id}`;
 			content += `歌曲名字:${reqData.name}`;
 			content += `歌手名字:${reqData.singer}`;
@@ -94,7 +94,7 @@ export default (Event: any, Api: any) => {
 	/* 获取音乐信息 */
 	function getMusicInfo(musicName: string) {
 		// 此处可不引入needle,使用原生的fetch()方法
-		return needle('get', `https://api.imlolicon.tk/api/nemusic?msg=${musicName}&line=1`);
+		return needle('get', `https://api.hotaru.icu/api/nemusic?msg=${musicName}&line=1`);
 	}
 };
 ```

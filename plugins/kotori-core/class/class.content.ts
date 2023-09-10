@@ -92,6 +92,7 @@ export class Content extends Data {
 			const index = parseInt(indexs, 10);
 			const indexNum = index + num;
 			if (params[index].rest) {
+				Core.args = this.data.message.split(' ');
 				for (let init = 0; init < Core.args.length; init += 1) {
 					if (init > indexNum && Core.args[init]) Core.args[indexNum] += ` ${Core.args[init]}`;
 				}
@@ -106,10 +107,7 @@ export class Content extends Data {
 				Core.args[indexNum] = params[index].must as string;
 			}
 
-			if (params[index].rest) {
-				Core.args = this.data.message.split(' ');
-				return true;
-			}
+			if (params[index].rest) return true;
 		}
 		return true;
 	};

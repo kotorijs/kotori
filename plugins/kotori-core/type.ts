@@ -15,8 +15,8 @@ export const enum ACCESS {
 }
 
 export const enum URL {
-	API = 'https://api.imlolicon.tk/api/',
-	BLOG = 'https://imlolicon.tk/api/',
+	API = 'https://api.hotaru.icu/api/',
+	BLOG = 'https://hotaru.icu/api/',
 }
 
 export const BOT_RESULT = new Proxy(
@@ -53,7 +53,7 @@ export const GLOBAL = {
 	REPO: 'https://github.com/biyuehu/kotori-bot',
 	AVATAR: SDK.cq_image(`https://q.qlogo.cn/headimg_dl?spec=640&dst_uin=2142124427`),
 	DOC: 'http://??????????.com',
-	AUTHOR: `By${getPackageInfo().author}`,
+	AUTHOR: `By ${getPackageInfo().author}`,
 };
 
 export type CoreKeyword = string | string[];
