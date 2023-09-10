@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.8](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.7...v0.7.8) (2023-09-10)
+
+
+### ✨ Features
+
+* grouper plugin and favicon ([3640024](https://github.com/BIYUEHU/kotori-bot/commit/3640024d5a8b289826b2068a4a78b9397b9fdb5f))
+
+
+### ✏️ Documentation
+
+* change README.md ([68872c4](https://github.com/BIYUEHU/kotori-bot/commit/68872c4bfc95ed94d12db7474baf3bc45225f8d9))
+* change README.md ([c2f3b76](https://github.com/BIYUEHU/kotori-bot/commit/c2f3b76b8391c66a624d3788baa46d0c53870358))
+* change README.md ([fc84dc3](https://github.com/BIYUEHU/kotori-bot/commit/fc84dc3fe43160ac462603ddd284b2cb63e8029c))
+* change README.md ([9095ea3](https://github.com/BIYUEHU/kotori-bot/commit/9095ea3177f18f63cb352d2ba752a73f135e3139))
+* change README.md ([a68f312](https://github.com/BIYUEHU/kotori-bot/commit/a68f3126177cfc9da3c31fbad75df4df6d907f1b))
+* change README.md ([233aa1a](https://github.com/BIYUEHU/kotori-bot/commit/233aa1a99aeda66a59f77618b78ea6af5905d075))
+
+
+### 🚀 Chore
+
+* some changence ([22e977e](https://github.com/BIYUEHU/kotori-bot/commit/22e977ee1da4b97a57698e74d8c27c0fbc125b5a))
+* update lang format and changes ([a03f954](https://github.com/BIYUEHU/kotori-bot/commit/a03f95458d373260bcc8c870181d1b55bff48170))
+* update lang format and changes ([774c7f1](https://github.com/BIYUEHU/kotori-bot/commit/774c7f1617890d0e754b369abe6c2565661f5510))
+* update plugins and docs ([8dd8836](https://github.com/BIYUEHU/kotori-bot/commit/8dd883695ee761ba96324987f9ce597d63906bab))
+
 ### [0.7.7](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.6...v0.7.7) (2023-08-26)
 
 
