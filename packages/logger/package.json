@@ -1,0 +1,11 @@
+{
+    "name": "@kotori-bot/logger",
+    "version": "1.0.0",
+    "description": "Logger For Kotori-Bot",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Hotaru <biyuehuya@gmail.com>",
+    "dependencies": {
+        "@kotori-bot/tools": "workspace:^"
+    }
+}

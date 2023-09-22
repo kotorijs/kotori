@@ -1,0 +1,8 @@
+{
+    "name": "@kotori-bot/tools",
+    "version": "1.0.0",
+    "description": "Tools For Kotori-Bot",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Hotaru <biyuehuya@gmail.com>"
+}
