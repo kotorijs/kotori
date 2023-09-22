@@ -1,11 +1,11 @@
 {
-    "name": "@kotori-bot/i18n",
-    "version": "1.0.0",
-    "description": "I18n For Kotori-Bot",
-    "main": "src/index.ts",
-    "license": "GPL-3.0",
-    "author": "Hotaru <biyuehuya@gmail.com>",
-    "dependencies": {
-        "@kotori-bot/tools": "workspace:^"
-    }
+	"name": "@kotori-bot/i18n",
+	"version": "1.0.0",
+	"description": "I18n For Kotori-Bot",
+	"main": "src/index.ts",
+	"license": "GPL-3.0",
+	"author": "Hotaru <biyuehuya@gmail.com>",
+	"dependencies": {
+		"@kotori-bot/tools": "workspace:^"
+	}
 }
