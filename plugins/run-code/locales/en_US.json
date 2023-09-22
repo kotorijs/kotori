@@ -1,6 +1,0 @@
-{
-	"runcode.help.runjs": "Run JavaScript code",
-	"runcode.msg.runjs.info": "Console Output:\n%content%",
-	"runcode.help.runlua": "Run Lua Code",
-	"runcode.msg.runlua.info": "Print Output:\n%content%"
-}

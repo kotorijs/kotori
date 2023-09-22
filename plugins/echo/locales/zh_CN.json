@@ -1,6 +1,0 @@
-{
-	"echo.help.echo": "在群聊中输出消息",
-	"echo.msg.echo.info": "%content%",
-	"echo.help.print": "在私聊下打印消息",
-	"echo.msg.print.info": "%content%"
-}

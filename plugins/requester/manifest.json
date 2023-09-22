@@ -1,7 +1,0 @@
-{
-	"name": "Requester",
-	"version": "1.0.0",
-	"description": "Listen delete message and request event call to master",
-	"author": "himeno",
-	"license": "GPL-3.0"
-}

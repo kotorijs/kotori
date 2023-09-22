@@ -1,6 +1,0 @@
-{
-	"echo.help.echo": "グループチャットでメッセージを出力する",
-	"echo.msg.echo.info": "%content%",
-	"echo.help.print": "個人チャットでメッセージを印刷する",
-	"echo.msg.print.info": "結果: %content%"
-}
