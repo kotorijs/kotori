@@ -1,6 +1,8 @@
 import path from 'path';
-import { existsSync } from 'fs';
-import { CONST, isObj, loadConfig, obj, saveConfig } from '@kotori-bot/tools';
+import { existsSync, statSync } from 'fs';
+import { isObj, loadConfig, obj } from '@kotori-bot/tools';
+
+export type langType = keyof typeof LocaleIdentifier;
 
 export enum LocaleIdentifier {
 	ja_JP,
@@ -10,73 +12,41 @@ export enum LocaleIdentifier {
 }
 
 export class Locale {
-	public static register = (dirPath: string) => {
-		if (!this.localeConfigPath) this.localeConfigPath = path.join(CONST.CONFIG_PATH, 'i18n.json');
-		if (!this.isGetLocale) this.getLocale();
-		const newDirPath = path.join(dirPath, 'locales');
-		if (!existsSync(newDirPath)) return false;
-		this.localePathList.push(newDirPath);
-		return this.loader(newDirPath);
-	};
+	private readonly localeDataList: obj<obj<string>> = {};
 
-	public static locale = (val: string) => {
-		const result = val in this.localeDataList ? this.localeDataList[val] : val;
-		return result;
-	};
+	private readonly localePathList: string[] = [];
 
-	public static setlang = (val: keyof typeof LocaleIdentifier) => {
-		const result = {
-			language: val,
-		};
-		saveConfig(this.localeConfigPath, result);
-		this.getLocale();
-		return this.reload();
-	};
+	private langing: LocaleIdentifier = LocaleIdentifier.en_US;
 
-	private static localeDataList: obj<string> = {};
-
-	private static localePathList: string[] = [];
-
-	private static defaultLang: LocaleIdentifier = LocaleIdentifier.en_US;
-
-	private static useLang: keyof typeof LocaleIdentifier = LocaleIdentifier[
-		this.defaultLang
-	] as keyof typeof LocaleIdentifier;
-
-	private static localeConfigPath = '';
-
-	private static isGetLocale = false;
-
-	private static loader = (dirPath: string) => {
-		const filePath = path.join(dirPath, `${this.useLang}.json`);
-		const localeData = loadConfig(filePath, 'json', {});
-		if (!isObj(localeData, '')) return false;
-		this.localeDataList = { ...this.localeDataList, ...localeData };
-		return true;
-	};
-
-	private static reload = () => {
-		let totalNum = 0;
-		let successNum = 0;
-		this.localePathList.forEach(dir => {
-			totalNum += 1;
-			if (this.loader(dir)) successNum += 1;
+	private readonly loader = (dirPath: string) => {
+		let state = false;
+		Object.values((target?: langType | number) => {
+			if (typeof target !== 'string') return;
+			const localeData = loadConfig(path.join(dirPath, `${target}.json`), 'json');
+			if (!isObj(localeData, '')) return;
+			this.localeDataList[target] = Object.assign(this.localeDataList[target], localeData);
+			state = true;
 		});
-		return [totalNum, successNum];
+		return state;
 	};
 
-	private static checkLocaleIdentifier = (val: string): val is keyof typeof LocaleIdentifier => {
-		const result = Object.values(LocaleIdentifier).includes(val);
-		return result;
+	public constructor(uselang?: langType) {
+		if (uselang) this.langing = LocaleIdentifier[uselang];
+	}
+
+	public readonly uselang = (dir: string = path.resolve('./locales')) => {
+		if (!existsSync(dir) || !statSync(dir).isDirectory()) return false;
+		this.localePathList.push(dir);
+		return this.loader(dir);
 	};
 
-	private static getLocale = () => {
-		const result = loadConfig(this.localeConfigPath);
-		if (!result || !isObj(result) || Array.isArray(result)) return;
-		if (!result?.language || typeof result.language !== 'string') return;
-		if (!this.checkLocaleIdentifier(result.language)) return;
-		this.useLang = result.language;
-		this.isGetLocale = true;
+	public readonly locale = (val: string, lang: langType = LocaleIdentifier[this.langing] as langType) => {
+		if (!(lang in this.localeDataList)) return val;
+		return val in this.localeDataList[lang] ? this.localeDataList[lang][val] : val;
+	};
+
+	public readonly setlang = (lang: langType) => {
+		this.langing = LocaleIdentifier[lang];
 	};
 }
 
