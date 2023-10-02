@@ -1,4 +1,5 @@
 export * from './function';
+export * from './function.node';
 export * from './type';
 /* 
 import consoleS from './class/class.logger';
