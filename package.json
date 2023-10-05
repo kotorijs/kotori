@@ -5,7 +5,6 @@
     "scripts": {
         "test": "echo testing",
         "build": "tsc",
-        "create": "ts-node -r tsconfig-paths/register ./src/modules/create.ts",
         "lint": "eslint \"packages/**/*.{js,vue,ts,jsx,tsx}\" --fix",
         "prettier": "prettier --config .prettierrc \"packages/**/*.{vue,js,ts,json,jsx,tsx}\" --write",
         "prepare": "husky install",

@@ -3,13 +3,13 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:13
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-09-30 11:38:17
+ * @LastEditTime: 2023-09-29 15:40:12
  */
 import { Api, Msg } from '@kotori-bot/kotori';
 
 export default class QQApi extends Api {
 	public send_private_msg = (message: Msg, userId: number) => {
-		this.send('send_private_msg', { user_id: userId, message, auto_escape: false });
+		this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
 	};
 
 	/**
@@ -19,7 +19,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public send_group_msg = (message: Msg, groupId: number): void => {
-		this.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
+		this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
 	};
 
 	/**
@@ -28,7 +28,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public delete_msg = (messageId: number): void => {
-		this.send('delete_msg', { messageId });
+		this.adapter.send('delete_msg', { messageId });
 	};
 
 	/**
@@ -38,7 +38,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public set_group_name = (groupId: number, groupName: string): void => {
-		this.send('set_group_name', { group_id: groupId, group_name: groupName });
+		this.adapter.send('set_group_name', { group_id: groupId, group_name: groupName });
 	};
 
 	/**
@@ -48,7 +48,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public set_group_avatar = (groupId: number, image: string): void => {
-		this.send('set_group_portrait', { group_id: groupId, file: image, cache: false });
+		this.adapter.send('set_group_portrait', { group_id: groupId, file: image, cache: false });
 	};
 
 	/**
@@ -59,7 +59,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public set_group_admin = (groupId: number, userId: number, enable: boolean = true): void => {
-		this.send('set_group_admin', { group_id: groupId, user_id: userId, enable });
+		this.adapter.send('set_group_admin', { group_id: groupId, user_id: userId, enable });
 	};
 
 	/**
@@ -70,7 +70,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public set_group_card = (groupId: number, userId: number, card: string): void => {
-		this.send('set_group_card', { group_id: groupId, user_id: userId, card });
+		this.adapter.send('set_group_card', { group_id: groupId, user_id: userId, card });
 	};
 
 	/**
@@ -82,9 +82,9 @@ export default class QQApi extends Api {
 	 */
 	public set_group_ban = (groupId: number, userId?: number, time: number = 0): void => {
 		if (userId) {
-			this.send('set_group_ban', { group_id: groupId, user_id: userId, duration: time });
+			this.adapter.send('set_group_ban', { group_id: groupId, user_id: userId, duration: time });
 		} else {
-			this.send('set_group_whole_ban', { group_id: groupId, enable: !!time });
+			this.adapter.send('set_group_whole_ban', { group_id: groupId, enable: !!time });
 		}
 	};
 
@@ -96,7 +96,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public send_group_notice = (groupId: number, content: string, image?: string): void => {
-		this.send('_send_group_notice', { group_id: groupId, content, image });
+		this.adapter.send('_send_group_notice', { group_id: groupId, content, image });
 	};
 
 	/**
@@ -106,7 +106,7 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public set_group_kick = (groupId: number, userId: number): void => {
-		this.send('set_group_kick', { group_id: groupId, user_id: userId, reject_add_request: false });
+		this.adapter.send('set_group_kick', { group_id: groupId, user_id: userId, reject_add_request: false });
 	};
 
 	/**
@@ -115,6 +115,6 @@ export default class QQApi extends Api {
 	 * @return {void}
 	 */
 	public set_group_leave = (groupId: number): void => {
-		this.send('set_group_leave', { group_id: groupId, is_dismiss: false });
+		this.adapter.send('set_group_leave', { group_id: groupId, is_dismiss: false });
 	};
 }

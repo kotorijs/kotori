@@ -1,4 +1,4 @@
-import { FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, obj } from './type';
+import { FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, StringTempArgs, obj } from './type';
 
 export const initialize: MethodDecorator = (_, __, val) => {
 	if (val.value instanceof Function) val.value();
@@ -94,7 +94,7 @@ export function stringSplit(str: string, key: string): string {
 	return '';
 }
 
-export function stringTemp(template: string, args: obj<string | number>) {
+export function stringTemp(template: string, args: StringTempArgs) {
 	const params = args;
 	let templateString = template;
 	if (!params || typeof params !== 'object') return templateString;
@@ -104,44 +104,6 @@ export function stringTemp(template: string, args: obj<string | number>) {
 		templateString = templateString.replace(new RegExp(`%${param}%`, 'g'), params[param] as string);
 	});
 	return templateString;
-}
-
-export function parseCommand(cmd: string) {
-	let command = cmd.trim();
-	command = command.replace(/\s{2,}/g, ' ');
-
-	const args = [];
-	let current = '';
-	let inQuote = false;
-
-	command.split('').forEach(char => {
-		if (char === ' ' && !inQuote) {
-			args.push(current.trim());
-			current = '';
-		} else if (char === '"' || char === "'") {
-			inQuote = !inQuote;
-		} else {
-			current += char;
-		}
-	});
-
-	args.push(current.trim());
-
-	return args.map(arg => {
-		if (arg[0] === '"' || arg[0] === "'") {
-			return arg.substring(1, arg.length - 1);
-		}
-		return arg;
-	});
-}
-
-export function restCommand(commandArr: string[], indexOf: number = 0) {
-	let index = indexOf;
-	if (commandArr.length <= index) return commandArr;
-	for (index; index >= 0; index -= 1) {
-		commandArr.shift();
-	}
-	return commandArr;
 }
 
 export function formatTime(date?: Date | null, format: number = 0) {
@@ -165,11 +127,11 @@ export function getDate() {
 	return time;
 }
 
-export function getSpecStr(_template_: string) {
-	return _template_.replace(/[xy]/g, _c_ => {
+export function getSpecStr(template: string) {
+	return template.replace(/[xy]/g, char => {
 		const r = Math.random() * 16;
 		let v: number | string;
-		if (_c_ === 'x') {
+		if (char === 'x') {
 			v = Math.floor(r);
 		} else {
 			v = (Math.floor(r) % 4) + 8;

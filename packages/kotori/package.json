@@ -1,18 +1,18 @@
 {
-    "name": "kotori-bot",
-    "version": "1.0.0",
-    "description": "ChatBot Framework",
-    "main": "src/index.ts",
-    "scripts": {
-        "start": "ts-node -r tsconfig-paths/register ./src/app.ts --no-signale",
-        "serve": "ts-node -r tsconfig-paths/register ./src/app.ts dev --no-signale",
-        "dev": "nodemon --config nodemon.json"
-    },
-    "license": "GPL-3.0",
-    "author": "Hotaru <biyuehuya@gmail.com>",
-    "dependencies": {
-        "@kotori-bot/i18n": "workspace:^",
-        "@kotori-bot/logger": "workspace:^",
-        "@kotori-bot/tools": "workspace:^"
-    }
+	"name": "kotori-bot",
+	"version": "1.0.0",
+	"description": "ChatBot Framework",
+	"main": "src/index.ts",
+	"scripts": {
+		"start": "ts-node -r tsconfig-paths/register ./src/app.ts --no-signale",
+		"serve": "ts-node -r tsconfig-paths/register ./src/app.ts dev --no-signale",
+		"dev": "nodemon --config nodemon.json"
+	},
+	"license": "GPL-3.0",
+	"author": "Hotaru <biyuehuya@gmail.com>",
+	"dependencies": {
+		"@kotori-bot/i18n": "workspace:^",
+		"@kotori-bot/logger": "workspace:^",
+		"@kotori-bot/tools": "workspace:^"
+	}
 }

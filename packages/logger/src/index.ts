@@ -1,18 +1,11 @@
 /* import fs from 'fs';
 import path from 'path'; */
-import { formatTime, initialize } from '@kotori-bot/tools';
+
+import { formatTime } from '@kotori-bot/tools';
 
 export enum LoggerLevel {
 	LOG,
 	DEBUG,
-}
-
-interface ILogger {
-	readonly log: (...args: unknown[]) => void;
-	readonly info: (...args: unknown[]) => void;
-	readonly warn: (...args: unknown[]) => void;
-	readonly error: (...args: unknown[]) => void;
-	readonly debug: (...args: unknown[]) => void;
 }
 
 interface LoggerOptions {
@@ -20,8 +13,12 @@ interface LoggerOptions {
 	tags: string[];
 }
 
-export class Logger implements ILogger {
-	private static colorList = {
+type color = keyof typeof Logger.colorList;
+
+type prefixFunc<T = Logger> = (content: string | (() => string), startColor: color, endColor: color) => T;
+
+export class Logger {
+	public static readonly colorList = {
 		default: '\x1B[0m', // 默认
 		bright: '\x1B[1m', // 亮色
 		grey: '\x1B[2m', // 灰色
@@ -47,16 +44,9 @@ export class Logger implements ILogger {
 		whiteBG: '\x1B[47m', // 背景色为白色
 	};
 
-	private static gobalPrefixs: LoggerOptions['prefixs'] = [];
+	// private static logsFilePath = CONST.LOGS;
 
-	// private static logsFilePath = CONST.LOGS_PATH;
-
-	@initialize
-	protected static initPrefix() {
-		this.prefix(() => formatTime(), 'blue', 'default');
-	}
-
-	private static handlePrefix = (prefixs: LoggerOptions['prefixs']) => {
+	private static readonly handlePrefix = (prefixs: LoggerOptions['prefixs']) => {
 		const handle: string[] = [];
 		prefixs.forEach(element => {
 			if (element instanceof Function) {
@@ -68,19 +58,17 @@ export class Logger implements ILogger {
 		return handle;
 	};
 
-	public static prefix = (
-		content: string | (() => string),
-		startColor: keyof typeof Logger.colorList,
-		endColor: keyof typeof Logger.colorList,
-	) => {
-		this.gobalPrefixs.push(Logger.colorList[startColor], content, Logger.colorList[endColor]);
+	protected static readonly prefixs: LoggerOptions['prefixs'] = [];
+
+	public static readonly prefix: prefixFunc = (content, startColor, endColor) => {
+		this.prefixs.push(Logger.colorList[startColor], content, Logger.colorList[endColor]);
 		return this;
 	};
 
-	public static print = (args: unknown[], level: LoggerLevel) => () => {
-		if (process.env.log_level === LoggerLevel[LoggerLevel.DEBUG] && level !== LoggerLevel.DEBUG) return;
+	public static readonly print = (args: unknown[], level: LoggerLevel) => {
+		if (process.env.NODE_ENV !== 'dev' && level === LoggerLevel.DEBUG) return;
 
-		let message: string = '';
+		let message = '';
 		args.forEach(value => {
 			let Element = value;
 			if (Element && typeof Element === 'object') {
@@ -91,8 +79,7 @@ export class Logger implements ILogger {
 			message.slice(0, -1);
 		});
 
-		console.log(...this.handlePrefix(this.gobalPrefixs), ...args, this.colorList.default);
-
+		console.log(...this.handlePrefix(this.prefixs), ...this.tags, ...args, this.colorList.default);
 		// Write Logs
 		/* 		const logFile: string = path.join(this.logsFilePath, `${formatTime(null, 1)}.log`);
 		if (!fs.existsSync(logFile)) {
@@ -102,68 +89,49 @@ export class Logger implements ILogger {
 		fs.appendFileSync(logFile, `${content}\n`); */
 	};
 
-	private prefixs: LoggerOptions['prefixs'] = [];
+	private static Tags: string[] = [];
 
-	private tags: string[] = [];
-
-	public constructor(options?: LoggerOptions) {
-		if (!options) return;
-		this.prefixs = options.prefixs;
-		this.tags = options.tags;
+	private static get tags() {
+		const tags = Object.create(this.Tags);
+		this.Tags = [];
+		return tags;
 	}
 
-	public prefix = (
-		content: string | (() => string),
-		startColor: keyof typeof Logger.colorList,
-		endColor: keyof typeof Logger.colorList,
-	) => {
-		this.prefixs.push(Logger.colorList[startColor], content, Logger.colorList[endColor]);
-		return this;
-	};
-
-	public tag = (tag: string, typeColor: keyof typeof Logger.colorList, textColor: keyof typeof Logger.colorList) => {
-		this.tags.push(
+	public static readonly tag = (tag: string, typeColor: color, textColor: color) => {
+		this.Tags.push(
 			`[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`,
 		);
 		return this;
 	};
+	/* 
+	public static readonly extend = (...content: string[]) => {
+		const CloneLogger = Object.create(Logger) as typeof Logger;
+		CloneLogger.tags = content;
+		console.log(CloneLogger.tags);
+		return CloneLogger;
+	}; */
 
-	public extend = () => {
-		const logger = new Logger({
-			prefixs: this.prefixs,
-			tags: Object.create(this.tags),
-		});
-		return logger;
+	public static readonly log = (...args: unknown[]) => {
+		Logger.tag('LOG', 'cyan', 'default').print(args, LoggerLevel.LOG);
 	};
 
-	public print = (args: unknown[], level: LoggerLevel) => {
-		Logger.print([Logger.handlePrefix(this.prefixs), ...args], level);
+	public static readonly info = (...args: unknown[]) => {
+		Logger.tag('INFO', 'green', 'bright').print(args, LoggerLevel.LOG);
 	};
 
-	public readonly log = (...args: unknown[]) => {
-		const logger = new Logger();
-		logger.tag('LOG', 'cyan', 'white').print([...this.prefixs, args], LoggerLevel.LOG);
+	public static readonly warn = (...args: unknown[]) => {
+		Logger.tag('WARM', 'yellow', 'yellow').print(args, LoggerLevel.LOG);
 	};
 
-	public readonly info = (...args: unknown[]) => {
-		const logger = new Logger();
-		logger.tag('INFO', 'green', 'bright').print([...this.prefixs, args], LoggerLevel.LOG);
+	public static readonly error = (...args: unknown[]) => {
+		Logger.tag('ERROR', 'red', 'red').print(args, LoggerLevel.LOG);
 	};
 
-	public readonly warn = (...args: unknown[]) => {
-		const logger = new Logger();
-		logger.tag('WARM', 'yellow', 'yellow').print([...this.prefixs, args], LoggerLevel.LOG);
-	};
-
-	public readonly error = (...args: unknown[]) => {
-		const logger = new Logger();
-		logger.tag('ERROR', 'red', 'red').print([...this.prefixs, args], LoggerLevel.LOG);
-	};
-
-	public readonly debug = (...args: unknown[]) => {
-		const logger = new Logger();
-		logger.tag('DEBUG', 'magenta', 'red').print([...this.prefixs, args], LoggerLevel.DEBUG);
+	public static readonly debug = (...args: unknown[]) => {
+		Logger.tag('DEBUG', 'magenta', 'red').print(args, LoggerLevel.DEBUG);
 	};
 }
+
+Logger.prefix(() => formatTime(), 'blue', 'default');
 
 export default Logger;

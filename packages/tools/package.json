@@ -4,5 +4,8 @@
 	"description": "Tools For Kotori-Bot",
 	"main": "src/index.ts",
 	"license": "GPL-3.0",
-	"author": "Hotaru <biyuehuya@gmail.com>"
+	"author": "Hotaru <biyuehuya@gmail.com>",
+	"dependencies": {
+		"@kotori-bot/logger": "workspace:^"
+	}
 }

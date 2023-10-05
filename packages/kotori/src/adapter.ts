@@ -1,8 +1,8 @@
-import { obj } from '@kotori-bot/tools';
+import { none, obj } from '@kotori-bot/tools';
 import { langType } from '@kotori-bot/i18n';
 import Api from './api';
 import Events from './events';
-import { MixedBefore } from './content';
+import Mixed from './mixed';
 
 interface Istatus {
 	value: 'online' | 'offline';
@@ -25,25 +25,29 @@ interface IAdapter {
 }
 
 export interface AdapterConfig extends obj {
+	extend: string;
+	master: number;
 	lang: langType;
 }
+
+export type sendFunc = (action: string, params?: object) => void;
+export type AdapterType = new (config: AdapterConfig, identity: string) => Adapter;
 
 export abstract class Adapter<T extends Api = Api> extends Events implements IAdapter {
 	public static get adapterStack() {
 		return Object.create(this.AdapterStack);
 	}
 
-	public constructor(config: AdapterConfig) {
+	public constructor(config: AdapterConfig, identity: string) {
 		super();
 		this.config = config;
-		if (!Adapter.apiStack[this.platform]) Adapter.apiStack[this.platform] = [];
+		this.identity = identity;
 		this.apis = Adapter.apiStack[this.platform] as T[];
-		this.apisIndex = this.apis.length;
 	}
 
 	protected readonly apis: T[];
 
-	protected readonly apisIndex: number;
+	// protected readonly apisIndex: number;
 
 	private readonly Status: Istatus = {
 		value: 'offline',
@@ -63,9 +67,11 @@ export abstract class Adapter<T extends Api = Api> extends Events implements IAd
 		this.Status.offlineNum += 1;
 	};
 
-	protected readonly locale = (val: string) => MixedBefore.locale(val, this.config.lang);
+	protected readonly locale = (val: string) => Mixed.locale(val, this.config.lang);
 
 	public readonly config: AdapterConfig;
+
+	public readonly identity: string;
 
 	public readonly platform: string = '';
 
@@ -75,26 +81,28 @@ export abstract class Adapter<T extends Api = Api> extends Events implements IAd
 
 	public readonly avatar: string = '';
 
-	public get static() {
+	public get status() {
 		return this.Status;
 	}
 
-	public get api() {
+	/* 	public get api() {
 		return Object.create(this.Api);
-	}
-
+	} */
+	/* 
 	public set api(value) {
 		this.Api = value;
 		this.apis[this.apisIndex] = value;
-	}
+	} */
 
-	protected abstract Api: T;
+	public abstract api: T;
 
 	public abstract readonly handle: (data: any) => void;
 
 	public abstract readonly start: () => void;
 
 	public abstract readonly stop: () => void;
+
+	public send: sendFunc = action => none(this, action);
 }
 
 export default Adapter;

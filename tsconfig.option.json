@@ -4,7 +4,10 @@
         "module": "CommonJS" /* CommonJS */, // Specify module code generation
         "moduleResolution": "node" /* Optional */, // Module resolution strategy for imports
         "strict": true, // Enable strict mode
-        "jsx": "react-jsx",
+        "jsx": "preserve",
+        "jsxFactory": "DOMcreateElement",
+        "jsxFragmentFactory": "DOMcreateFragment",
+        "allowJs": true,
         "sourceMap": false, // Generate sourceMap for debug in browser
         "resolveJsonModule": true,
         "isolatedModules": true,

@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/module-adapter-qq",
+    "name": "@kotori-bot/plugdin-adapter-qq",
     "version": "1.0.0",
     "description": "Adapter For QQ",
     "main": "src/index.ts",

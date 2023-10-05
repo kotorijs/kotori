@@ -8,36 +8,44 @@ interface eventDataBase<T extends keyof IeventList> {
 	type: T;
 }
 
-interface eventDataConnect extends eventDataBase<'connect'> {
+export interface eventDataConnect extends eventDataBase<'connect'> {
 	normal: boolean;
 	adapter: Adapter;
+	info: string;
+	onlyStart?: boolean;
 }
 
-interface eventDataDisconnect extends eventDataBase<'disconnect'> {
+export interface eventDataDisconnect extends eventDataBase<'disconnect'> {
 	normal: boolean;
 	adapter: Adapter;
+	info: string;
 }
 
-interface eventDataReady extends eventDataBase<'ready'> {
+export interface eventDataReady extends eventDataBase<'ready'> {
 	adapter: Adapter;
 }
 
-interface eventDataReadyAll extends eventDataBase<'ready_all'> {
+export interface eventDataReadyAll extends eventDataBase<'ready_all'> {
 	adapters: Adapter[];
 }
 
-interface eventDataLoadModule extends eventDataBase<'load_module'> {
+export interface eventDataLoadModule extends eventDataBase<'load_module'> {
+	module: ImoduleStack | null;
+	service: 'database' | 'adapter' | '';
+}
+
+export interface eventDataLoadAllModule extends eventDataBase<'load_all_module'> {
+	count: number;
+}
+
+export interface eventDataUnloadModule extends eventDataBase<'unload_module'> {
 	module: ImoduleStack | null;
 }
 
-interface eventDataUnloadModule extends eventDataBase<'unload_module'> {
-	module: ImoduleStack | null;
-}
+export type eventDataMsgSenderSex = 'male' | 'female' | 'unknown';
+export type eventDataOperation = 'set' | 'unset';
 
-type eventDataMsgSenderSex = 'male' | 'female' | 'unknown';
-type eventDataOperation = 'set' | 'unset';
-
-interface eventDataMsgSender {
+export interface eventDataMsgSender {
 	nickname: string;
 	sex: eventDataMsgSenderSex;
 	age: number;
@@ -113,6 +121,7 @@ export interface eventType {
 	ready: eventDataReady;
 	ready_all: eventDataReadyAll;
 	load_module: eventDataLoadModule;
+	load_all_module: eventDataLoadAllModule;
 	unload_module: eventDataUnloadModule;
 	private_msg: eventDataPrivateMsg;
 	group_msg: eventDataGroupMsg;
@@ -135,6 +144,7 @@ export interface IeventList {
 	ready: eventCallback<'ready'>[];
 	ready_all: eventCallback<'ready_all'>[];
 	load_module: eventCallback<'load_module'>[];
+	load_all_module: eventCallback<'load_all_module'>[];
 	unload_module: eventCallback<'unload_module'>[];
 	private_msg: eventCallback<'private_msg'>[];
 	group_msg: eventCallback<'group_msg'>[];
@@ -158,6 +168,7 @@ export class Events extends Core {
 		ready: [],
 		ready_all: [],
 		load_module: [],
+		load_all_module: [],
 		unload_module: [],
 		private_msg: [],
 		group_msg: [],
