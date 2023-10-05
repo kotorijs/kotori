@@ -1,19 +1,11 @@
-import { none } from '@kotori-bot/tools';
 import Adapter from './adapter';
 import { Msg } from './message';
-
-export type sendFunc = (action: string, params?: object) => void;
-
-const fakeSend: sendFunc = action => none(action);
 
 export abstract class Api {
 	public readonly adapter: Adapter<this>;
 
-	public readonly send: sendFunc;
-
-	public constructor(adapter: Adapter, send: sendFunc = fakeSend) {
+	public constructor(adapter: Adapter) {
 		this.adapter = adapter as Adapter<this>;
-		this.send = send;
 	}
 
 	public abstract readonly send_private_msg: (message: Msg, userId: number) => Promise<unknown> | void;

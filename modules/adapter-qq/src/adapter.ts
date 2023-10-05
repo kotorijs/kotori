@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-09-30 16:59:39
+ * @LastEditTime: 2023-10-05 19:21:31
  */
-import { Adapter, Events, Msg, isObj } from '@kotori-bot/kotori';
+import { Adapter, AdapterConfig, Events, Msg, isObj } from '@kotori-bot/kotori';
 import WebSocket from 'ws';
 import QQApi from './api';
 import WsServer from './services/wsserver';
@@ -24,17 +24,19 @@ function checkConfig(config: any): config is Iconfig {
 }
 
 export default class QQAdapter extends Adapter<QQApi> {
-	protected Api: QQApi;
+	private info: string;
 
-	public readonly platform: string = 'QQ';
+	public api: QQApi = new QQApi(this);
+
+	public readonly platform: string = 'qq';
 
 	public declare config: Iconfig;
 
-	public constructor(config: object) {
-		super(config);
-		if (!checkConfig(config)) throw new Error('config error');
+	public constructor(config: AdapterConfig, identity: string) {
+		super(config, identity);
+		if (!checkConfig(config)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = config;
-		this.Api = new QQApi(this as Adapter<QQApi>);
+		this.info = `${this.config.address}:${this.config.port}`;
 	}
 
 	public handle = (data: EventDataType) => {
@@ -139,6 +141,12 @@ export default class QQAdapter extends Adapter<QQApi> {
 			});
 		} else if (data.post_type === 'meta_event' && data.meta_event_type === 'heartbeat') {
 			if (data.status.online) {
+				if (this.status.value === 'offline') {
+					Events.emit({
+						type: 'ready',
+						adapter: this,
+					});
+				}
 				this.online();
 				if (this.onlineTimerId) clearTimeout(this.onlineTimerId);
 			}
@@ -146,20 +154,25 @@ export default class QQAdapter extends Adapter<QQApi> {
 		if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
 	};
 
-	public start = async () => {
-		Events.emit({
-			type: 'connect',
-			adapter: this,
-			normal: true,
-		});
+	public start = () => {
+		if (this.config.mode === 'ws-reverse') {
+			Events.emit({
+				type: 'connect',
+				adapter: this,
+				normal: true,
+				info: `start wsserver at ${this.info}`,
+				onlyStart: true,
+			});
+		}
 		this.connectWss();
 	};
 
 	public stop = () => {
 		Events.emit({
-			type: 'connect',
+			type: 'disconnect',
 			adapter: this,
-			normal: false,
+			normal: true,
+			info: this.config.mode === 'ws' ? `disconnect from ${this.info}` : `stop wsserver at ${this.info}`,
 		});
 		this.socket?.close();
 		this.offline();
@@ -170,9 +183,35 @@ export default class QQAdapter extends Adapter<QQApi> {
 	private connectWss = async () => {
 		if (this.config.mode === 'ws-reverse') {
 			this.socket = await WsServer(this.config.port);
-		} else {
-			this.socket = new WebSocket(`${this.config.address}:${this.config.port}`);
+			Events.emit({
+				type: 'connect',
+				adapter: this,
+				normal: true,
+				info: `client connect to ${this.info}`,
+			});
 			this.socket.on('close', () => {
+				Events.emit({
+					type: 'disconnect',
+					adapter: this,
+					normal: false,
+					info: `unexpected client disconnect from ${this.info}`,
+				});
+			});
+		} else {
+			Events.emit({
+				type: 'connect',
+				adapter: this,
+				normal: true,
+				info: `connect server to ${this.info}`,
+			});
+			this.socket = new WebSocket(`${this.info}`);
+			this.socket.on('close', () => {
+				Events.emit({
+					type: 'disconnect',
+					adapter: this,
+					normal: false,
+					info: `unexpected disconnect server from ${this.info}, will reconnect in ${this.config.retry} seconds`,
+				});
 				setTimeout(
 					() => {
 						if (!this.socket) return;
@@ -181,6 +220,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 							type: 'connect',
 							adapter: this,
 							normal: false,
+							info: `reconnect server to ${this.info}`,
 						});
 						this.connectWss();
 					},
@@ -189,6 +229,10 @@ export default class QQAdapter extends Adapter<QQApi> {
 			});
 		}
 		this.socket.on('message', data => this.handle(JSON.parse(data.toString())));
+
+		this.send = (action, param?) => {
+			this.socket?.send(JSON.stringify({ action, ...param }));
+		};
 	};
 
 	private func = (data: EventDataType) => {
@@ -199,7 +243,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				this.api.send_private_msg(message, data.user_id);
 			}
 		};
-		return { send, api: this.api };
+		return { send, api: this.api, locale: this.locale };
 	};
 
 	private onlineTimerId: NodeJS.Timeout | null = null;

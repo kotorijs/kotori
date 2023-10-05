@@ -1,14 +1,20 @@
-import Mixed from './content';
+import Mixed from './mixed';
 
 export * from './adapter';
 export * from './api';
 export * from './events';
 export * from './message';
+export * from './mixed';
+export * from './errror';
+export * from './global';
 export * from '@kotori-bot/tools';
 
 export type Content = keyof typeof Mixed;
 
 export namespace Kotori {
+	/* Core Class */
+	export const { config, baseDir } = Mixed;
+
 	/* Events Class */
 	export const { on, once, off, offAll } = Mixed;
 

@@ -14,6 +14,7 @@ export type ConfigFileType = 'json' | 'yaml' /* | 'xml' | 'ini'  */ | 'txt';
 export type FuncStringProcessStr = string | number;
 export type FuncStringProcessKey = FuncStringProcessStr | Array<string | number>;
 export type FuncStringProcessMode = 0 | 1 | 2;
+export type StringTempArgs = obj<string | number>;
 
 /* export const enum LOG_PREFIX {
 	CONNECT = '[Connect]',

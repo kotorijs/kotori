@@ -1,10 +1,8 @@
-import Logger from '@kotori-bot/logger';
 import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
+import Logger from '@kotori-bot/logger';
 import { ConfigFileType } from './type';
-
-export const logger = new Logger();
 
 export function loadConfig(
 	filename: string,
@@ -15,13 +13,13 @@ export function loadConfig(
 	if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
 	if (!fs.existsSync(filename)) fs.writeFileSync(filename, typeof init === 'string' ? init : JSON.stringify(init));
 
-	const data: string = fs.readFileSync(filename).toString();
+	const data = fs.readFileSync(filename).toString();
 	try {
 		if (type === 'yaml') return YAML.parse(data);
 		if (type === 'txt') return data;
 		return JSON.parse(data);
 	} catch (err) {
-		logger.debug(err);
+		Logger.warn(err);
 		return null;
 	}
 }
@@ -38,7 +36,7 @@ export function saveConfig(filename: string, data: object | string, type: Config
 
 		fs.writeFileSync(filename, content);
 	} catch (err) {
-		logger.debug(err);
+		Logger.warn(err);
 	}
 }
 
@@ -51,6 +49,6 @@ export function createConfig(filename: string, data?: object, type: ConfigFileTy
 			fs.writeFileSync(filename, content);
 		}
 	} catch (err) {
-		logger.debug(err);
+		Logger.warn(err);
 	}
 }

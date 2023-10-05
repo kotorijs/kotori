@@ -6,19 +6,19 @@
  * @LastEditTime: 2023-09-29 17:33:28
  */
 
-import { eventDataMsgSenderSex } from '@kotori-bot/kotori';
+import { AdapterConfig, eventDataMsgSenderSex } from '@kotori-bot/kotori';
 import { obj } from '@kotori-bot/tools';
 
 export type Iconfig = IconfigWs | IconfigWsReverse;
 
-export interface IconfigWs {
+export interface IconfigWs extends AdapterConfig {
 	mode: 'ws';
 	address: string;
 	port: number;
 	retry: number;
 }
 
-export interface IconfigWsReverse {
+export interface IconfigWsReverse extends AdapterConfig {
 	mode: 'ws-reverse';
 	port: number;
 }

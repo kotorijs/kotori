@@ -8,6 +8,10 @@
                 "packages/*/src"
             ]
         },
+        "typeRoots": [
+            "./node_modules/@types",
+            "./packages/kotori/src/global.d.ts"
+        ],
         "outDir": "./dist/", // Output directory
         "declarationDir": "./dist/" /* Optional */ // Output directory for declarations
     },

@@ -2,8 +2,9 @@ import { isClass, isObj, none, stringProcess } from '@kotori-bot/tools';
 import fs from 'fs';
 import path from 'path';
 import KotoriError from './errror';
-import Events from './events';
-import Content from './content';
+import Events, { eventDataLoadModule } from './events';
+import Mixed from './mixed';
+import Adapter, { AdapterType } from './adapter';
 
 export interface ImodulePackage {
 	name: string;
@@ -45,12 +46,15 @@ export class Modules extends Events {
 
 	private static readonly moduleRootDir: string[] = [];
 
-	private static moduleCurrent: string;
+	private static moduleCurrent: string | 'core' = 'core';
+
+	private static alreadyModuleNum = 0;
 
 	private static readonly getDirFiles = (rootDir: string) => {
 		const files = fs.readdirSync(rootDir);
 		const list: string[] = [];
-		files.forEach(file => {
+		files.forEach(fileName => {
+			const file = path.join(rootDir, fileName);
 			if (fs.statSync(file).isDirectory()) {
 				list.push(...this.getDirFiles(file));
 			}
@@ -61,14 +65,16 @@ export class Modules extends Events {
 	};
 
 	private static readonly getModuleRootDir = () => {
-		const path1 = path.resolve('./', '..', '..', '..');
-		if (fs.existsSync(path.join(path1, 'modules'))) this.moduleRootDir.push(path.join(path1, 'modules'));
-		if (fs.existsSync(path.join(path1, 'node_modules'))) this.moduleRootDir.push(path.join(path1, 'node_modules'));
+		if (fs.existsSync(this.baseDir.MODULES)) this.moduleRootDir.push(this.baseDir.MODULES);
+		if (fs.existsSync(path.join(this.baseDir.ROOT, 'node_modules/@kotori-bot'))) {
+			this.moduleRootDir.push(path.join(this.baseDir.ROOT, 'node_modules/@kotori-bot'));
+		}
 	};
 
 	private static readonly getModuleList = (rootDir: string) => {
 		const files = fs.readdirSync(rootDir);
-		files.forEach(dir => {
+		files.forEach(fileName => {
+			const dir = path.join(rootDir, fileName);
 			if (!fs.statSync(dir).isDirectory()) return;
 			const packagePath = path.join(dir, 'package.json');
 			let packageJson: ImodulePackage;
@@ -103,12 +109,14 @@ export class Modules extends Events {
 		);
 	};
 
-	protected static readonly moduleAll = () => {
+	protected static readonly moduleAll = async () => {
 		this.getModuleRootDir();
 		this.moduleRootDir.forEach(dir => {
 			this.getModuleList(dir);
 		});
-		this.moduleStack.forEach(module => this.module(module));
+		for (const module of this.moduleStack) {
+			this.module(module);
+		}
 	};
 
 	protected static getModuleCurrent = () => this.moduleCurrent;
@@ -125,7 +133,7 @@ export class Modules extends Events {
 				clearTimeout(failTime);
 				clearInterval(sleepTime);
 				reject(new ModuleError(`Module loading timeout ${value}`));
-			}, 150);
+			}, 10 * 1000);
 			const sleepTime = setInterval(() => {
 				if (this.moduleCurrent === defaultValue) {
 					this.moduleCurrent = value;
@@ -133,38 +141,61 @@ export class Modules extends Events {
 					clearInterval(sleepTime);
 					resolve(null);
 				}
-			});
+			}, 150);
 		});
 	};
 
-	public static module = async (module: string | ImoduleStack) => {
-		const moduleType = typeof module === 'string';
-		const modulePath = moduleType ? module : module.mainPath;
-		/* Emit event */
-		Events.emit({
-			type: 'load_module',
-			module: moduleType ? null : module,
-		});
+	private static loadClass = (
+		Value: new (...args: unknown[]) => unknown,
+		moduleObj: string | ImoduleStack,
+	): eventDataLoadModule['service'] => {
+		const func = (Obj: object): Obj is AdapterType => Adapter.isPrototypeOf.call(Adapter, Obj);
+		const prefix = '@kotori-bot/plugin-adapter-';
+		const adapterName = moduleObj instanceof Object ? moduleObj.package.name.split(prefix)[1] : '';
+		if (adapterName && func(Value)) {
+			this.AdapterStack[adapterName] = Value;
+			return 'adapter';
+		}
+		none(new Value(Mixed));
+		return '';
+	};
 
-		if (moduleType && !fs.existsSync(module)) throw new ModuleError(`cannot find ${path}`);
+	public static module = async (moduleObj: string | ImoduleStack) => {
+		const moduleType = typeof moduleObj === 'string';
+		const modulePath = moduleType ? moduleObj : moduleObj.mainPath;
+		let service: eventDataLoadModule['service'] = '';
+		if (!moduleType) this.alreadyModuleNum += 1;
+
+		if (moduleType && !fs.existsSync(moduleObj)) throw new ModuleError(`cannot find ${path}`);
 		await this.setModuleCureent(modulePath);
 		try {
 			const moduleObject = await import(modulePath);
 			if (!isObj(moduleObject)) return;
 			const Enter = moduleObject.default;
 			if (Enter instanceof Function) {
-				if (isClass(Enter)) none(new Enter(Content));
-				else Enter(Content);
+				if (isClass(Enter)) service = this.loadClass(Enter, moduleObj);
+				else Enter(Mixed);
 			} else if (moduleObject.main instanceof Function && !isClass(moduleObject.main)) {
-				moduleObject.main(Content);
+				moduleObject.main(Mixed);
 			} else if (moduleObject.Main instanceof Function && isClass(moduleObject.Main)) {
-				none(new moduleObject.Main(Content));
+				service = this.loadClass(moduleObject.Main, moduleObj);
 			}
-		} catch (e) {
+		} catch (err) {
 			this.setModuleCureent();
-			throw e;
+			throw err;
 		}
 		this.setModuleCureent();
+
+		/* Emit event */
+		Events.emit({
+			type: 'load_module',
+			module: moduleType ? null : moduleObj,
+			service,
+		});
+		if (this.alreadyModuleNum >= this.moduleStack.length) {
+			this.alreadyModuleNum = -1;
+			this.emit({ type: 'load_all_module', count: this.moduleStack.length });
+		}
 	};
 
 	public static delcache = (module: string | ImoduleStack) => {
