@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ESNext", // Specify ECMAScript target version
+        "target": "ES2017", // Specify ECMAScript target version
         "module": "CommonJS" /* CommonJS */, // Specify module code generation
         "moduleResolution": "node" /* Optional */, // Module resolution strategy for imports
         "strict": true, // Enable strict mode
@@ -15,7 +15,7 @@
         /* List of library files to be included in compilation */
         "lib": [
             "ESNext",
-            /* "DOM" */ /* "DOM.Iterable"  */ /* Optional */
+            "DOM" /* "DOM.Iterable"  */ /* Optional */
         ],
         /* Paths to declare type definition files to include */
         "types": [ /* "vite/client", */ /* Optional(If exists) */

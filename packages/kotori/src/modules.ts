@@ -24,8 +24,9 @@ export interface ImoduleStack {
 	mainPath: string;
 }
 
-const checkPackageJson = (json: any): json is ImodulePackage => {
-	const isStr = (val: any): val is string => val && typeof val === 'string';
+const checkPackageJson = (json: unknown): json is ImodulePackage => {
+	if (!isObj(json)) return false;
+	const isStr = (val: unknown): val is string => !!val && typeof val === 'string';
 	const baseInfo =
 		isStr(json.name) && isStr(json.version) && isStr(json.description) && isStr(json.main) && json.peerDependencies;
 	if (!baseInfo) return false;
@@ -164,9 +165,8 @@ export class Modules extends Events {
 		const moduleType = typeof moduleObj === 'string';
 		const modulePath = moduleType ? moduleObj : moduleObj.mainPath;
 		let service: eventDataLoadModule['service'] = '';
-		if (!moduleType) this.alreadyModuleNum += 1;
-
 		if (moduleType && !fs.existsSync(moduleObj)) throw new ModuleError(`cannot find ${path}`);
+
 		await this.setModuleCureent(modulePath);
 		try {
 			const moduleObject = await import(modulePath);
@@ -184,8 +184,9 @@ export class Modules extends Events {
 			this.setModuleCureent();
 			throw err;
 		}
-		this.setModuleCureent();
 
+		this.setModuleCureent();
+		if (!moduleType) this.alreadyModuleNum += 1;
 		/* Emit event */
 		Events.emit({
 			type: 'load_module',
@@ -216,10 +217,3 @@ export class Modules extends Events {
 }
 
 export default Modules;
-// 获取初始的所有插件entry
-// const entries = getPluginEntries(pluginRoot);
-
-// 监听所有entry的变化
-/* entries.forEach(entry => {
-	
-}); */

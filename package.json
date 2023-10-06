@@ -3,6 +3,8 @@
     "version": "0.9.9",
     "description": "ChatBot Framework Base For Go-cqhttp And Node",
     "scripts": {
+        "start": "cd ./packages/loader && pnpm build",
+        "dev": "cd ./packages/loader && pnpm dev",
         "test": "echo testing",
         "build": "tsc",
         "lint": "eslint \"packages/**/*.{js,vue,ts,jsx,tsx}\" --fix",

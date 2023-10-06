@@ -29,6 +29,9 @@ export namespace Kotori {
 
 	/* Logger Module */
 	export const { logger } = Mixed;
+
+	/* Axios */
+	export const { http } = Mixed;
 }
 
 export default Kotori;

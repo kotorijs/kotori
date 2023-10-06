@@ -1,14 +1,10 @@
-/* import fs from 'fs';
-
-const file = './test2.ts';
-import(file);
-
-fs.watchFile(file, async () => {
-	console.log(require.cache[require.resolve(file)]);
-	delete require.cache[require.resolve(file)];
-	console.log(await import(file));
+process.on('exit', () => {
+	console.log('222');
 });
- */
-import test2 from './test/test2';
+process.stdin.on('close', () => {
+	console.log('1');
+});
 
-test2();
+process.stdin.on('data', data => {
+	console.log(data.toString() === '\n' || data.toString() === '\r\n');
+});

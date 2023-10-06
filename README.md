@@ -14,7 +14,7 @@
 
 ---
 
-基于**NodeJS**+**TypeScript**的**go-cqhttp**的SDK和QQ机器人框架实现,相比于其它的go-cqhttp的NodeJS实现，Kotori-Bot的最大特点便是完全由纯**TypeScript**语言开发
+基于**NodeJS**+**TypeScript**的**go-cqhttp**的SDK和QQ机器人框架实现,相比于其它的go-cqhttp的NodeJS实现，KotoriBot的最大特点便是完全由纯**TypeScript**语言开发
 
 **Kotori**是一个罗马字，在日语中是**ことり(小鳥)**的意思，该名字取自于[Key](http://key.visualarts.gr.jp/)公式游戏[《Rewrite》](https://bgm.tv/subject/4022)及其衍生作品中的主要女性角色之一的**[神户小鸟](https://bgm.tv/character/12063)**(神戸（かんべ） 小鳥（ことり）)。
 
@@ -28,6 +28,7 @@ kotori是一个**快捷,轻便,跨平台**的BOT框架,去繁化简只为打造�
 
 > [变更日志](CHANGELOG.md)
 
+<!--
 ## kotori支持的连接模式
 
 -   [x] 正向 WebSocket
@@ -94,3 +95,4 @@ npm run build
     ```
 
     > 该方式下运行不会读取项目下的配置文件，需在实例化时传入配置参数，详细说明参考
+-->

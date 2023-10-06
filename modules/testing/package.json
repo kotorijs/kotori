@@ -1,7 +1,7 @@
 {
-    "name": "@kotori-bot/plugin-adapter-cmd",
+    "name": "@kotori-bot/plugin-testing",
     "version": "1.0.0",
-    "description": "Adapter For Cmd",
+    "description": "testing plugin",
     "main": "src/index.ts",
     "license": "GPL-3.0",
     "author": "Hotaru <biyuehuya@gmail.com>",
