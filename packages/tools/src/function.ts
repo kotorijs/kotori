@@ -154,45 +154,6 @@ export function getRandomInt(max: number, min: number = 0): number {
 	const result = min + index;
 	return result;
 }
-/* 
-export const fetchParam: FuncFetchSuper = async (url: string, params, init) => {
-	logger.info(`${init?.method || 'GET'} Request url:${url} params:`, params || 'empty');
-	let urlRaw = url;
-	if (params) {
-		urlRaw += '?';
-		Object.keys(params).forEach(key => {
-			urlRaw += `${key}=${encodeURIComponent(params[key])}&`;
-		});
-		urlRaw = urlRaw.substring(0, urlRaw.length - 1);
-	}
-	return fetch(urlRaw, init);
-};
-
-export const fetchJson: FuncFetchSuper<obj> = async (url: string, params, init) => {
-	const response = fetchParam(url, params, init)
-		.then(async res => {
-			const result = res.json();
-			logger.info('Response type: JSON result:', await result);
-			return result;
-		})
-		.catch(err => {
-			logger.error(err);
-		});
-	return response;
-};
-
-export const fetchText: FuncFetchSuper<string | void> = async (url: string, params, init) => {
-	const response = fetchParam(url, params, init)
-		.then(async res => {
-			const result = res.text();
-			logger.info('Response type: TEXT result:', await result);
-			return result;
-		})
-		.catch(err => {
-			logger.error(err);
-		});
-	return response;
-}; */
 
 export function createProxy<T extends object>(val: T | (() => T)) {
 	return new Proxy({} as T, {

@@ -110,11 +110,13 @@ export class Message extends Modules {
 		}
 
 		/* Handle command */
-		const execute = this.executeCommand(data.message);
-		if (execute instanceof Object) {
-			result(execute.action(execute, data));
-		} else {
-			send(execute.toFixed());
+		if (stringProcess(data.message, '/')) {
+			const execute = this.executeCommand(data.message);
+			if (execute instanceof Object) {
+				result(execute.action(execute, data));
+			} else {
+				send(execute.toFixed());
+			}
 		}
 
 		/* Handle regexp */

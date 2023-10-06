@@ -18,5 +18,7 @@ adapter:
       # reverse-port: 8080 # 反向Http端口
       # retry: 10 # 连接断开或失败时尝试重连间隔时间 单位:秒
 
-  # cmd-test:
-  #     master:
+  cmd-test:
+      extend: "cmd"
+      master: 0720
+      lang: 'zh_CN'

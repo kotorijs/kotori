@@ -3,10 +3,23 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-05 19:23:35
+ * @LastEditTime: 2023-10-06 14:24:25
  */
-import { Adapter, KotoriError, Mixed, eventDataConnect, eventDataDisconnect, none } from '@kotori-bot/kotori';
+import {
+	Adapter,
+	KotoriError,
+	Mixed,
+	eventDataConnect,
+	eventDataDisconnect,
+	getPackageInfo,
+	isObj,
+	none,
+} from '@kotori-bot/kotori';
 import './log';
+
+const enum GLOBAL {
+	REPO = 'https://github.com/biyuehu/kotori-bot',
+}
 
 class Main extends Mixed {
 	/* global */
@@ -16,10 +29,15 @@ class Main extends Mixed {
 		this.catchError();
 		this.listenMessage();
 		this.loadAllModule();
+		this.checkUpdate();
 	};
 
-	private catchError = () => {
+	private readonly catchError = () => {
 		const handleError = (err: Error | unknown, prefix: string) => {
+			/* 			if (err instanceof Mixed.http.error) {
+				Mixed.logger.error(err.toString());
+				return;
+			} */
 			const isKotoriError = err instanceof KotoriError;
 			Mixed.logger.error(isKotoriError ? '' : prefix, err);
 			if (isKotoriError && err.name === 'CoreError') process.emit('SIGINT');
@@ -32,8 +50,7 @@ class Main extends Mixed {
 		if (this.isDev) Mixed.logger.debug('Run Info: Develop With Debuing...');
 	};
 
-	private listenMessage = () => {
-		none(this);
+	private readonly listenMessage = () => {
 		const handleConnectInfo = (data: eventDataConnect | eventDataDisconnect) => {
 			if (!data.info) return;
 			Mixed.logger[data.normal ? 'log' : 'warn'](
@@ -61,13 +78,13 @@ class Main extends Mixed {
 		});
 	};
 
-	private loadAllModule = () => {
+	private readonly loadAllModule = () => {
 		Mixed.moduleAll();
 		if (this.isDev) Mixed.watchFile();
 	};
 
-	private loadAllAdapter = () => {
-		none(this.isDev);
+	private readonly loadAllAdapter = () => {
+		none(this);
 		for (const botName of Object.keys(Mixed.config.adapter)) {
 			const botConfig = Mixed.config.adapter[botName];
 			if (botConfig.extend in Mixed.AdapterStack) {
@@ -84,6 +101,24 @@ class Main extends Mixed {
 			apis.forEach(api => adapters.push(api.adapter));
 		});
 		Mixed.emit({ type: 'ready_all', adapters });
+	};
+
+	private readonly checkUpdate = async () => {
+		none(this);
+		const params = { url: 'https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/package.json' };
+		const version = getPackageInfo().version;
+		const res = await Mixed.http
+			.post('https://hotaru.icu/api/agent/', params)
+			.catch(() => Mixed.logger.error('Get update failed, please check your network'));
+		if (!res || !isObj(res)) {
+			Mixed.logger.error(`Detection update failed`);
+		} else if (version === res.version) {
+			Mixed.logger.log('KotoriBot is currently the latest version');
+		} else {
+			Mixed.logger.warn(
+				`The current version of KotoriBot is ${version}, and the latest version is ${res.version}. Please go to ${GLOBAL.REPO} to update`,
+			);
+		}
 	};
 }
 

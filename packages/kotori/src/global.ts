@@ -45,7 +45,7 @@ export const CONST = (() => {
 	};
 })();
 
-const checkGlobalConfig = (data: any): data is GlobalConfig => {
+const checkGlobalConfig = (data: unknown): data is GlobalConfig => {
 	if (!data || !isObj(data) || !isObj(data.adapter, {} as obj)) return false;
 	for (const el of Object.values(data.adapter)) {
 		if (!isObj(el)) return false;

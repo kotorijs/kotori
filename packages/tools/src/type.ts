@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-09-30 18:55:45
+ * @LastEditTime: 2023-10-06 14:22:10
  */
 
 export interface obj<T = any> {
@@ -15,7 +15,6 @@ export type FuncStringProcessStr = string | number;
 export type FuncStringProcessKey = FuncStringProcessStr | Array<string | number>;
 export type FuncStringProcessMode = 0 | 1 | 2;
 export type StringTempArgs = obj<string | number>;
-
 /* export const enum LOG_PREFIX {
 	CONNECT = '[Connect]',
 	PLUGIN = '[Plugin]',
@@ -34,8 +33,4 @@ export const enum PROCESS_CMD {
 	SEND = 'send',
 	SYS = 'system',
 }
-
-export const enum PLUGIN_GLOBAL {
-	CORE_PLUGIN = 'kotori-core',
-	ADMIN_PLUGIN = 'kotori-bot-admin-server',
-} */
+ */

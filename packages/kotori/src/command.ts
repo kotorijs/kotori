@@ -16,7 +16,7 @@ export interface commandConfig {
 	scope?: MsgType | 'all';
 	access?: commandAccess;
 	help?: string;
-	action?: any;
+	action?: commandAction;
 }
 
 export interface ICommandArg {

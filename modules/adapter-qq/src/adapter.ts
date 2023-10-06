@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-05 19:21:31
+ * @LastEditTime: 2023-10-06 15:25:14
  */
 import { Adapter, AdapterConfig, Events, Msg, isObj } from '@kotori-bot/kotori';
 import WebSocket from 'ws';
@@ -11,7 +11,7 @@ import QQApi from './api';
 import WsServer from './services/wsserver';
 import { EventDataType, Iconfig, IconfigWs } from './type';
 
-function checkConfig(config: any): config is Iconfig {
+function checkConfig(config: unknown): config is Iconfig {
 	if (!isObj(config)) return false;
 	if (typeof config.port !== 'number') return false;
 	if (config.mode === 'ws') {
@@ -54,7 +54,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				groupId: data.group_id,
 				...this.func(data),
 			});
-			// this.status.receivedMsg += 1;
+			this.status.receivedMsg += 1;
 		} else if (data.post_type === 'message' && data.message_type === 'group') {
 			Events.emit({
 				type: 'group_msg',
@@ -69,7 +69,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				groupId: data.group_id!,
 				...this.func(data),
 			});
-			// this.status.receivedMsg += 1;
+			this.status.receivedMsg += 1;
 		} else if (data.post_type === 'notice' && data.notice_type === 'private_recall') {
 			Events.emit({
 				type: 'private_recall',
