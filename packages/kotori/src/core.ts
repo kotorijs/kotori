@@ -19,7 +19,7 @@ export class Core {
 
 	public static readonly baseDir = CONST;
 
-	public static config: GlobalConfig = CONFIG;
+	public static configs: GlobalConfig = CONFIG;
 
 	public static options: GlobalOptions = { node_env: process.env.node_env === 'dev' ? 'dev' : 'build' };
 }

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-06 14:24:25
+ * @LastEditTime: 2023-10-22 17:00:42
  */
 import {
 	Adapter,
@@ -85,8 +85,8 @@ class Main extends Mixed {
 
 	private readonly loadAllAdapter = () => {
 		none(this);
-		for (const botName of Object.keys(Mixed.config.adapter)) {
-			const botConfig = Mixed.config.adapter[botName];
+		for (const botName of Object.keys(Mixed.configs.adapter)) {
+			const botConfig = Mixed.configs.adapter[botName];
 			if (botConfig.extend in Mixed.AdapterStack) {
 				const bot = new Mixed.AdapterStack[botConfig.extend](botConfig, botName);
 				if (!(botConfig.extend in Adapter.apiStack)) Adapter.apiStack[botConfig.extend] = [];

@@ -174,7 +174,7 @@ export class Message extends Modules {
 	};
 
 	public static readonly notify = (message: Msg) => {
-		const mainAdapterIdentity = Object.keys(this.config.adapter)[0];
+		const mainAdapterIdentity = Object.keys(this.configs.adapter)[0];
 		for (const apis of Object.values(this.apiStack)) {
 			for (const api of apis) {
 				if (api.adapter.identity !== mainAdapterIdentity) continue;

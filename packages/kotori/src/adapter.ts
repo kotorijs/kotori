@@ -1,8 +1,8 @@
 import { none, obj } from '@kotori-bot/tools';
 import { langType } from '@kotori-bot/i18n';
 import Api from './api';
-import Events from './events';
 import Mixed from './mixed';
+import Core from './core';
 
 interface Istatus {
 	value: 'online' | 'offline';
@@ -33,16 +33,12 @@ export interface AdapterConfig extends obj {
 export type sendFunc = (action: string, params?: object) => void;
 export type AdapterType = new (config: AdapterConfig, identity: string) => Adapter;
 
-export abstract class Adapter<T extends Api = Api> extends Events implements IAdapter {
-	public static get adapterStack() {
-		return Object.create(this.AdapterStack);
-	}
-
+export abstract class Adapter<T extends Api = Api> extends Core implements IAdapter {
 	public constructor(config: AdapterConfig, identity: string) {
 		super();
 		this.config = config;
 		this.identity = identity;
-		this.apis = Adapter.apiStack[this.platform] as T[];
+		this.apis = Core.apiStack[this.platform] as T[];
 	}
 
 	protected readonly apis: T[];

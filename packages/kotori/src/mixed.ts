@@ -19,12 +19,17 @@ const http = {
 	head: requestType('head'),
 };
 
-export const Mixed = Object.assign(Message, new Locale('en_US'), { logger: Logger }, { http });
+export class Content extends Message {
+	public static http = http;
+
+	public static logger = Logger;
+}
 
 /* export declare namespace JSX {
 	interface IntrinsicElements {
 		render: any;
 	}
 } */
+export const Mixed = Object.assign(Content, new Locale('en_US'));
 
 export default Mixed;
