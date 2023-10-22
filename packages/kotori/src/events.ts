@@ -183,12 +183,6 @@ export class Events extends Core {
 		group_request: [],
 	};
 
-	protected static readonly emit = <T extends keyof eventType>(eventData: eventType[T]) => {
-		this.eventStack[eventData.type].forEach(callback => {
-			(callback as eventCallback<T>)(eventData);
-		});
-	};
-
 	protected static readonly addListener: eventListenerFunc = (type, callback) => {
 		const eventStack = this.eventStack[type] as unknown[];
 		if (eventStack.filter(Element => Element === callback).length > 0) return false;
@@ -209,6 +203,12 @@ export class Events extends Core {
 		if (eventStack.length === 0) return false;
 		(this.eventStack[type] as unknown[]) = [];
 		return true;
+	};
+
+	public static readonly emit = <T extends keyof eventType>(eventData: eventType[T]) => {
+		this.eventStack[eventData.type].forEach(callback => {
+			(callback as eventCallback<T>)(eventData);
+		});
 	};
 
 	public static readonly on = this.addListener;

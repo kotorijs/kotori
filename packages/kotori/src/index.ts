@@ -13,7 +13,7 @@ export type Content = keyof typeof Mixed;
 
 export namespace Kotori {
 	/* Core Class */
-	export const { config, baseDir } = Mixed;
+	export const { configs, baseDir } = Mixed;
 
 	/* Events Class */
 	export const { on, once, off, offAll } = Mixed;
