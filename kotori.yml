@@ -1,8 +1,11 @@
+global:
+  command-prefix: '/'
+  lang: 'zh_CN'
+
 adapter:
   kotori:
       extend: "qq"
       master: 3324656453
-      lang: "zh_CN"
       # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
       mode: ws-reverse
       address: 'ws://127.0.0.1'
@@ -21,4 +24,3 @@ adapter:
   cmd-test:
       extend: "cmd"
       master: 0720
-      lang: 'zh_CN'

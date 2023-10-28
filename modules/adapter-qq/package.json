@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/plugin-adapter-qq",
+    "name": "kotori-plugin-adapter-qq",
     "version": "1.0.0",
     "description": "Adapter For QQ",
     "main": "src/index.ts",
@@ -7,5 +7,9 @@
     "author": "Hotaru <biyuehuya@gmail.com>",
     "peerDependencies": {
         "kotori-bot": "workspace:^"
+    },
+    "dependencies": {
+        "@types/ws": "^8.5.8",
+        "ws": "^8.14.2"
     }
 }

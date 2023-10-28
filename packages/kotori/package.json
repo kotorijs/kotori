@@ -1,13 +1,13 @@
 {
-	"name": "kotori-bot",
-	"version": "1.0.0",
-	"description": "ChatBot Framework",
-	"main": "src/index.ts",
-	"license": "GPL-3.0",
-	"author": "Hotaru <biyuehuya@gmail.com>",
-	"dependencies": {
-		"@kotori-bot/i18n": "workspace:^",
-		"@kotori-bot/logger": "workspace:^",
-		"@kotori-bot/tools": "workspace:^"
-	}
+    "name": "kotori-bot",
+    "version": "1.0.0",
+    "description": "ChatBot Framework",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Hotaru <biyuehuya@gmail.com>",
+    "dependencies": {
+        "@kotori-bot/i18n": "workspace:^",
+        "@kotori-bot/logger": "workspace:^",
+        "@kotori-bot/tools": "workspace:^"
+    }
 }

@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/plugin-adapter-cmd",
+    "name": "kotori-plugin-adapter-cmd",
     "version": "1.0.0",
     "description": "Adapter For Cmd",
     "main": "src/index.ts",

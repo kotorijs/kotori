@@ -1,8 +1,11 @@
 {
-	"name": "@kotori-bot/tools",
-	"version": "1.0.0",
-	"description": "Tools For KotoriBot",
-	"main": "src/index.ts",
-	"license": "GPL-3.0",
-	"author": "Hotaru <biyuehuya@gmail.com>"
+    "name": "@kotori-bot/tools",
+    "version": "1.0.0",
+    "description": "Tools For KotoriBot",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Hotaru <biyuehuya@gmail.com>",
+    "dependencies": {
+        "yaml": "^2.3.3"
+    }
 }

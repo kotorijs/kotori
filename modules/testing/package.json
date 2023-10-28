@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/plugin-testing",
+    "name": "kotori-plugin-testing",
     "version": "1.0.0",
     "description": "testing plugin",
     "main": "src/index.ts",

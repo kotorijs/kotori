@@ -2,6 +2,7 @@ import Logger from '@kotori-bot/logger';
 import Locale from '@kotori-bot/i18n';
 import { FuncFetchSuper, fetchJson, fetchText, obj } from '@kotori-bot/tools';
 import Message from './message';
+import Core from './core';
 
 const requestType = (method: string) => {
 	const func: FuncFetchSuper<obj> = (url, params, init = { method }) => fetchJson(url, params, init);
@@ -30,6 +31,6 @@ export class Content extends Message {
 		render: any;
 	}
 } */
-export const Mixed = Object.assign(Content, new Locale('en_US'));
+export const Mixed = Object.assign(Content, new Locale(Core.configs.global.lang));
 
 export default Mixed;

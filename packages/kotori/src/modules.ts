@@ -1,4 +1,4 @@
-import { isClass, isObj, none, stringProcess } from '@kotori-bot/tools';
+import { isClass, isObj, none } from '@kotori-bot/tools';
 import fs from 'fs';
 import path from 'path';
 import KotoriError from './errror';
@@ -67,8 +67,8 @@ export class Modules extends Events {
 
 	private static readonly getModuleRootDir = () => {
 		if (fs.existsSync(this.baseDir.MODULES)) this.moduleRootDir.push(this.baseDir.MODULES);
-		if (fs.existsSync(path.join(this.baseDir.ROOT, 'node_modules/@kotori-bot'))) {
-			this.moduleRootDir.push(path.join(this.baseDir.ROOT, 'node_modules/@kotori-bot'));
+		if (fs.existsSync(path.join(this.baseDir.ROOT, 'node_modules'))) {
+			this.moduleRootDir.push(path.join(this.baseDir.ROOT, 'node_modules'));
 		}
 	};
 
@@ -85,8 +85,9 @@ export class Modules extends Events {
 			} catch {
 				throw new ModuleError(`illegal package.json ${packagePath}`);
 			}
-			if (!checkPackageJson(packageJson)) throw new ModuleError(`package.json format error ${packagePath}`);
-			if (!stringProcess(packageJson.name, '@kotori-bot/plugin-')) return;
+			if (!checkPackageJson(packageJson)) return;
+			// if (!checkPackageJson(packageJson)) throw new ModuleError(`package.json format error ${packagePath}`);
+			if (!this.checkModuleName(packageJson.name)) return;
 			const mainPath = path.join(dir, packageJson.main);
 			if (!fs.existsSync(mainPath)) throw new ModuleError(`cannot find ${mainPath}`);
 			this.moduleStack.push({
@@ -122,6 +123,8 @@ export class Modules extends Events {
 
 	protected static getModuleCurrent = () => this.moduleCurrent;
 
+	private static checkModuleName = (target: string) => !!/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/.exec(target);
+
 	private static setModuleCureent = (value?: string) => {
 		const defaultValue = 'core';
 		return new Promise((resolve, reject) => {
@@ -151,7 +154,7 @@ export class Modules extends Events {
 		moduleObj: string | ImoduleStack,
 	): eventDataLoadModule['service'] => {
 		const func = (Obj: object): Obj is AdapterType => Adapter.isPrototypeOf.call(Adapter, Obj);
-		const prefix = '@kotori-bot/plugin-adapter-';
+		const prefix = 'kotori-plugin-adapter-';
 		const adapterName = moduleObj instanceof Object ? moduleObj.package.name.split(prefix)[1] : '';
 		if (adapterName && func(Value)) {
 			this.AdapterStack[adapterName] = Value;
@@ -193,13 +196,17 @@ export class Modules extends Events {
 			module: moduleType ? null : moduleObj,
 			service,
 		});
-		if (this.alreadyModuleNum >= this.moduleStack.length) {
+		if (
+			moduleObj === this.moduleStack[this.moduleStack.length - 1] ||
+			this.alreadyModuleNum >= this.moduleStack.length
+		) {
 			this.alreadyModuleNum = -1;
 			this.emit({ type: 'load_all_module', count: this.moduleStack.length });
 		}
 	};
 
 	public static delcache = (module: string | ImoduleStack) => {
+		/* need more... */
 		const moduleType = typeof module === 'string';
 		const modulePath = moduleType ? module : module.mainPath;
 		Events.emit({

@@ -1,4 +1,4 @@
-import Kotori, { getPackageInfo } from '@kotori-bot/kotori';
+import Kotori, { getPackageInfo } from 'kotori-bot';
 
 (() => {
 	console.info('Kotori Bot is loading...');

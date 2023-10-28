@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { isObj, loadConfig, obj } from '@kotori-bot/tools';
-import { LocaleIdentifier } from '@kotori-bot/i18n';
+import { LocaleIdentifier, langType } from '@kotori-bot/i18n';
 import KotoriError from './errror';
 import { AdapterConfig } from './adapter';
 
@@ -23,6 +23,10 @@ interface PackageInfo {
 }
 
 export interface GlobalConfig {
+	global: {
+		lang: langType;
+		'command-prefix': string;
+	};
 	adapter: {
 		[propName: string]: AdapterConfig;
 	};
@@ -45,20 +49,27 @@ export const CONST = (() => {
 	};
 })();
 
+const checkLangType = (data: unknown): data is langType => {
+	if (!data || typeof data !== 'string') return false;
+	for (const val of Object.values(LocaleIdentifier)) {
+		if (typeof val !== 'string') continue;
+		if (val === data) return true;
+	}
+	return false;
+};
+
+/* refactor with configcheck... */
 const checkGlobalConfig = (data: unknown): data is GlobalConfig => {
-	if (!data || !isObj(data) || !isObj(data.adapter, {} as obj)) return false;
+	if (!data || !isObj(data) || !isObj<obj>(data.global) || !isObj<obj>(data.adapter)) return false;
+	if (!checkLangType(data.global.lang)) return false;
+	if (!data.global['command-prefix'] || typeof data.global['command-prefix'] !== 'string') return false;
 	for (const el of Object.values(data.adapter)) {
 		if (!isObj(el)) return false;
-		if (typeof el.extend !== 'string' || typeof el.master !== 'number' || typeof el.lang !== 'string') return false;
-		let checkLang = false;
-		for (const val of Object.values(LocaleIdentifier)) {
-			if (typeof val !== 'string') continue;
-			if (val === el.lang) {
-				checkLang = true;
-				break;
-			}
-		}
-		if (!checkLang) return false;
+		if (typeof el.extend !== 'string' || typeof el.master !== 'number') return false;
+		if (el.lang && !checkLangType(el.lang)) return false;
+		if (!el.lang) el.lang = data.global.lang;
+		if (el['command-prefix'] && typeof el['command-prefix'] !== 'string') return false;
+		if (!el['command-prefix']) el['command-prefix'] = data.global['command-prefix'];
 	}
 	return true;
 };

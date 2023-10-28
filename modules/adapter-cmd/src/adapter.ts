@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-06 15:59:37
+ * @LastEditTime: 2023-10-28 21:14:31
  */
-import { Adapter, AdapterConfig, Events, Msg, eventDataMsgSender, isObj } from '@kotori-bot/kotori';
+import Kotori, { Adapter, AdapterConfig, Msg, eventDataMsgSender, isObj } from 'kotori-bot';
 import CmdApi from './api';
 
 interface Iconfig extends AdapterConfig {
@@ -23,9 +23,7 @@ function checkConfig(config: unknown): config is Iconfig {
 }
 
 export default class CmdAdapter extends Adapter<CmdApi> {
-	private messageId = 0;
-
-	public api: CmdApi = new CmdApi(this);
+	private messageId = 1;
 
 	public readonly platform: string = 'cmd';
 
@@ -38,7 +36,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 			sex: 'male',
 		};
 		const newConfig = Object.assign(defaultConfig, config);
-		super(newConfig, identity);
+		super(newConfig, identity, CmdApi);
 		if (!checkConfig(newConfig)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = newConfig;
 		process.stdin.on('data', data => this.handle(data));
@@ -46,9 +44,11 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 
 	public handle = (data: Buffer) => {
 		if (this.status.value !== 'online') return;
-		const message = data.toString();
+		let message = data.toString();
 		if (message === '\n' || message === '\r\n') return;
-		Adapter.emit({
+		message = message.replace('\r\n', '').replace('\n', '');
+
+		Kotori.emit({
 			type: 'private_msg',
 			messageId: this.messageId,
 			message,
@@ -73,8 +73,14 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 			if (typeof (params as { message: string }).message !== 'string') return;
 			if ((params as { user_id: unknown }).user_id !== this.config.master) return;
 			process.stdout.write(`> ${(params as { message: string }).message} \r\n`);
+			this.messageId += 1;
+			Kotori.emit({
+				type: 'send',
+				api: this.api,
+				messageId: this.messageId,
+			});
 		};
-		Events.emit({
+		Kotori.emit({
 			type: 'connect',
 			adapter: this,
 			normal: true,
@@ -84,7 +90,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 	};
 
 	public stop = () => {
-		Events.emit({
+		Kotori.emit({
 			type: 'disconnect',
 			adapter: this,
 			normal: true,

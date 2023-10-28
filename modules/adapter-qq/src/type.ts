@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-09-29 17:33:28
  */
 
-import { AdapterConfig, eventDataMsgSenderSex } from '@kotori-bot/kotori';
+import { AdapterConfig, eventDataMsgSenderSex } from 'kotori-bot';
 import { obj } from '@kotori-bot/tools';
 
 export type Iconfig = IconfigWs | IconfigWsReverse;

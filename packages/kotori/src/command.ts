@@ -4,7 +4,7 @@ import { MsgQuickType, MsgType } from './message';
 import { eventType } from './events';
 
 export type commandAction = (
-	data: { args: commandArgType[]; options: obj<commandArgType> },
+	data: { args: commandArgType[]; options: obj<commandArgType>; quick: (msg: MsgQuickType) => void },
 	events: eventType['group_msg' | 'private_msg'],
 ) => MsgQuickType;
 export type commandAccess = 'member' | 'manger' | 'admin';
@@ -23,10 +23,13 @@ export interface ICommandArg {
 	name: string;
 	type: commandArgTypeSign;
 	optional: boolean;
-	default: commandArgType;
+	default?: commandArgType;
 }
 
-export interface ICommandOption extends ICommandArg {
+export interface ICommandOption {
+	name: string;
+	type: commandArgTypeSign;
+	default?: commandArgType;
 	realname: string;
 	description?: string;
 }
@@ -38,24 +41,24 @@ export interface ICommandData {
 	options: ICommandOption[];
 	scope: commandConfig['scope'];
 	access: commandAccess;
-	description?: string;
 	help?: string;
 	action?: commandAction;
+	description?: string;
 }
 
 const parseTemplateParam = (content: string) => {
-	const { '0': prefix, '1': defaultValue } = content.split('=');
-	const { '0': argName, '1': argType } = prefix;
-	let handleDefaultValue: commandArgType | null = defaultValue || null;
-	let handleArgType: commandArgTypeSign = 'string';
+	const { '0': root, '1': defaultValue } = content.split('=');
+	const { '0': argName, '1': argType } = root.split(':');
+	let handleDefault: commandArgType | undefined = defaultValue || undefined;
+	let handleArg: commandArgTypeSign = 'string';
 	if (argType === 'number') {
-		handleArgType = 'number';
-		if (handleDefaultValue) handleDefaultValue = parseInt(handleDefaultValue, 10);
+		handleArg = argType;
+		if (handleDefault !== undefined) handleDefault = parseInt(handleDefault, 10);
 	}
 	return {
 		name: argName || 'content',
-		type: handleArgType,
-		default: defaultValue,
+		type: handleArg,
+		default: handleDefault,
 	};
 };
 
@@ -77,40 +80,43 @@ export class Command extends Core {
 		access: 'member',
 		args: [],
 		options: [],
-		description: '',
 	};
 
+	private requiredParamMatch = /<(.*?)>/g;
+
+	private optionalParamMatch = /\[(.*?)]/g;
+
 	private parseTemplate = () => {
-		this.template = this.template.trim().replace(/\s{2,}/g, ' ');
-		const { '0': commandStr, '1': description } = this.template.split(' - ');
+		const { '0': root, '1': description } = this.template
+			.trim()
+			.replace(/\s{2,}/g, ' ')
+			.split(' - ');
 		this.data.description = description;
-		const requiredIndex = commandStr.indexOf(' <');
-		const optionalIndex = commandStr.indexOf(' [');
+		const requiredIndex = root.indexOf(' <');
+		const optionalIndex = root.indexOf(' [');
 		let requiredStr = '';
 		let optionalStr = '';
 		if (requiredIndex > 0) {
-			this.data.root = commandStr.substring(0, requiredIndex);
-			requiredStr = commandStr.substring(requiredIndex);
+			this.data.root = root.substring(0, requiredIndex);
+			requiredStr = root.substring(requiredIndex);
 			const newOptionalIndex = requiredStr.indexOf(' [');
 			if (newOptionalIndex > 0) {
 				optionalStr = requiredStr.substring(newOptionalIndex);
 				requiredStr = requiredStr.substring(0, newOptionalIndex);
 			}
 		} else if (optionalIndex > 0) {
-			this.data.root = commandStr.substring(0, optionalIndex);
-			optionalStr = commandStr.substring(optionalIndex);
+			this.data.root = root.substring(0, optionalIndex);
+			optionalStr = root.substring(optionalIndex);
 		} else {
-			this.data.root = commandStr;
+			this.data.root = root;
 		}
 
-		const handleFunc = (str: string, optional: boolean) => {
-			[...str.matchAll(/<(.*?).>/g)].forEach(content => {
-				this.data.args.push({ optional, ...parseTemplateParam(content[1]) });
-			});
-		};
-
-		if (requiredStr) handleFunc(requiredStr, false);
-		if (optionalStr) handleFunc(optionalStr, true);
+		[...requiredStr.matchAll(this.requiredParamMatch)].forEach(content => {
+			this.data.args.push({ optional: false, ...parseTemplateParam(content[1]) });
+		});
+		[...optionalStr.matchAll(this.optionalParamMatch)].forEach(content => {
+			this.data.args.push({ optional: true, ...parseTemplateParam(content[1]) });
+		});
 	};
 
 	public readonly alias = (alias: string | string[]) => {
@@ -130,20 +136,9 @@ export class Command extends Core {
 	};
 
 	public readonly option = (name: string, template: string) => {
-		const { '0': str, '1': description } = template
-			.trim()
-			.replace(/\s{2,}/g, ' ')
-			.split(' ');
-
-		const index = str.indexOf('=<') > 0 ? str.indexOf('=<') : str.indexOf('=[');
-		const realname = index > 0 ? str.substring(0, index) : template;
-		this.data.options.push({
-			realname,
-			description,
-			optional: str.indexOf('=<') <= 0,
-			...parseTemplateParam(str.substring(index)),
-			name,
-		});
+		const { '0': root, '1': description } = template.trim().split(' ');
+		const handleData = parseTemplateParam(root);
+		this.data.options.push({ realname: handleData.name, description, ...handleData, name });
 		return this;
 	};
 

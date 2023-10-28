@@ -16,7 +16,7 @@ export namespace Kotori {
 	export const { configs, baseDir } = Mixed;
 
 	/* Events Class */
-	export const { on, once, off, offAll } = Mixed;
+	export const { on, once, off, offAll, emit } = Mixed;
 
 	/* Modules Class */
 	export const { module, delcache } = Mixed;
@@ -30,7 +30,7 @@ export namespace Kotori {
 	/* Logger Module */
 	export const { logger } = Mixed;
 
-	/* Axios */
+	/* Fetch */
 	export const { http } = Mixed;
 }
 
