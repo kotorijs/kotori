@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:13
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-06 15:57:29
+ * @LastEditTime: 2023-10-28 17:51:02
  */
-import { Api, Msg } from '@kotori-bot/kotori';
+import { Api, Msg } from 'kotori-bot';
 
 export default class CmdApi extends Api {
 	public send_private_msg = (message: Msg, userId: number) => {

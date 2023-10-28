@@ -23,7 +23,7 @@ export class Locale {
 		Object.values((target?: langType | number) => {
 			if (typeof target !== 'string') return;
 			const localeData = loadConfig(path.join(dirPath, `${target}.json`), 'json');
-			if (!isObj(localeData, '')) return;
+			if (!isObj<string>(localeData)) return;
 			this.localeDataList[target] = Object.assign(this.localeDataList[target], localeData);
 			state = true;
 		});
@@ -34,7 +34,7 @@ export class Locale {
 		if (uselang) this.langing = LocaleIdentifier[uselang];
 	}
 
-	public readonly uselang = (dir: string = path.resolve('./locales')) => {
+	public readonly uselang = (dir: string = path.resolve('../locales')) => {
 		if (!existsSync(dir) || !statSync(dir).isDirectory()) return false;
 		this.localePathList.push(dir);
 		return this.loader(dir);

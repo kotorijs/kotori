@@ -3,18 +3,18 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-22 17:00:42
+ * @LastEditTime: 2023-10-27 22:16:52
  */
 import {
+	Mixed,
 	Adapter,
 	KotoriError,
-	Mixed,
 	eventDataConnect,
 	eventDataDisconnect,
 	getPackageInfo,
 	isObj,
 	none,
-} from '@kotori-bot/kotori';
+} from 'kotori-bot';
 import './log';
 
 const enum GLOBAL {
@@ -100,7 +100,7 @@ class Main extends Mixed {
 		Object.values(Mixed.apiStack).forEach(apis => {
 			apis.forEach(api => adapters.push(api.adapter));
 		});
-		Mixed.emit({ type: 'ready_all', adapters });
+		// Mixed.emit({ type: 'adapters', adapters });
 	};
 
 	private readonly checkUpdate = async () => {

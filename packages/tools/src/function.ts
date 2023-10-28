@@ -165,7 +165,7 @@ export function createProxy<T extends object>(val: T | (() => T)) {
 	});
 }
 
-export const isObj = <T = any>(data: unknown, _targetVal?: T): data is obj<T> => {
+export const isObj = <T = any>(data: unknown): data is obj<T> => {
 	const result = data && typeof data === 'object' && !Array.isArray(data);
 	if (!result) return false;
 	for (const element of Object.keys(result)) {

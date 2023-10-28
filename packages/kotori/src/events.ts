@@ -1,32 +1,12 @@
 import Adapter from './adapter';
 import Api from './api';
+import { commandAccess } from './command';
 import Core from './core';
-import { Msg } from './message';
+import { CmdResult, Msg, MsgQuickType, MsgType } from './message';
 import { ImoduleStack } from './modules';
 
 interface eventDataBase<T extends keyof IeventList> {
 	type: T;
-}
-
-export interface eventDataConnect extends eventDataBase<'connect'> {
-	normal: boolean;
-	adapter: Adapter;
-	info: string;
-	onlyStart?: boolean;
-}
-
-export interface eventDataDisconnect extends eventDataBase<'disconnect'> {
-	normal: boolean;
-	adapter: Adapter;
-	info: string;
-}
-
-export interface eventDataReady extends eventDataBase<'ready'> {
-	adapter: Adapter;
-}
-
-export interface eventDataReadyAll extends eventDataBase<'ready_all'> {
-	adapters: Adapter[];
 }
 
 export interface eventDataLoadModule extends eventDataBase<'load_module'> {
@@ -50,6 +30,73 @@ export interface eventDataMsgSender {
 	sex: eventDataMsgSenderSex;
 	age: number;
 }
+export interface eventDataConnect extends eventDataBase<'connect'> {
+	normal: boolean;
+	adapter: Adapter;
+	info: string;
+	onlyStart?: boolean;
+}
+
+export interface eventDataDisconnect extends eventDataBase<'disconnect'> {
+	normal: boolean;
+	adapter: Adapter;
+	info: string;
+}
+
+export interface eventDataReady extends eventDataBase<'ready'> {
+	adapter: Adapter;
+}
+
+export interface eventDataOnline extends eventDataBase<'online'> {
+	adapter: Adapter;
+}
+
+export interface eventDataOffline extends eventDataBase<'offline'> {
+	adapter: Adapter;
+}
+
+type messageData = eventDataGroupMsg | eventDataPrivateMsg<'private_msg'>;
+export interface eventDataMidwares extends eventDataBase<'midwares'> {
+	isPass: boolean;
+	messageData: messageData;
+	quick: (message: MsgQuickType) => void;
+}
+
+export interface eventDataBeforeCommand extends eventDataBase<'before_command'> {
+	messageData: messageData;
+	command: string;
+	scope: MsgType;
+	access: commandAccess;
+	cancel: () => void;
+}
+
+export interface eventDataCommand extends eventDataBase<'command'> {
+	messageData: messageData;
+	command: string;
+	scope: MsgType;
+	access: commandAccess;
+	result: CmdResult;
+}
+
+export interface eventDataBeforeSend extends eventDataBase<'before_send'> {
+	api: Api;
+	message: Msg;
+	messageType: MsgType;
+	targetId: number;
+	cancel: () => void;
+}
+
+export interface eventDataSend extends eventDataBase<'send'> {
+	api: Api;
+	/* 	message: Msg;
+	messageType: MsgType;
+	targetId: number; */
+	messageId: number;
+}
+
+/* export interface eventDataAdapters extends eventDataBase<'adapters'> {
+	adapters: Adapter[];
+} */
 
 interface eventDataAdapterBase<T extends keyof IeventList> extends eventDataBase<T> {
 	userId: number;
@@ -60,8 +107,8 @@ interface eventDataAdapterBase<T extends keyof IeventList> extends eventDataBase
 
 export interface eventDataPrivateMsg<T extends keyof IeventList = 'private_msg'> extends eventDataAdapterBase<T> {
 	messageId: number;
-	message: string;
-	messageH?: object;
+	message: Msg;
+	messageH?: object /* what is this? */;
 	sender: eventDataMsgSender;
 	groupId?: number;
 }
@@ -94,13 +141,17 @@ interface eventDataPrivateAdd extends eventDataAdapterBase<'private_add'> {
 	userId: number;
 }
 
-interface eventDataGroupIncrease<T extends keyof IeventList = 'group_increase'> extends eventDataAdapterBase<T> {
+interface eventDataGroupIncrease extends eventDataAdapterBase<'group_increase'> {
 	userId: number;
 	groupId: number;
 	operatorId: number;
 }
 
-interface eventDataGroupDecrease extends eventDataGroupIncrease<'group_decrease'> {}
+interface eventDataGroupDecrease extends eventDataAdapterBase<'group_decrease'> {
+	userId: number;
+	groupId: number;
+	operatorId: number;
+}
 
 interface eventDataGroupAdmin extends eventDataAdapterBase<'group_admin'> {
 	userId: number;
@@ -116,13 +167,20 @@ interface eventDataGroupBan extends eventDataAdapterBase<'group_ban'> {
 }
 
 export interface eventType {
-	connect: eventDataConnect;
-	disconnect: eventDataDisconnect;
-	ready: eventDataReady;
-	ready_all: eventDataReadyAll;
 	load_module: eventDataLoadModule;
 	load_all_module: eventDataLoadAllModule;
 	unload_module: eventDataUnloadModule;
+	// adapters: eventDataAdapters;
+	connect: eventDataConnect;
+	disconnect: eventDataDisconnect;
+	ready: eventDataReady;
+	online: eventDataOnline;
+	offline: eventDataOffline;
+	midwares: eventDataMidwares;
+	before_command: eventDataBeforeCommand;
+	command: eventDataCommand;
+	before_send: eventDataBeforeSend;
+	send: eventDataSend;
 	private_msg: eventDataPrivateMsg;
 	group_msg: eventDataGroupMsg;
 	private_recall: eventDataPrivateRecall;
@@ -139,13 +197,19 @@ export interface eventType {
 export type eventCallback<T extends keyof eventType> = (data: eventType[T]) => void | Msg;
 
 export interface IeventList {
-	connect: eventCallback<'connect'>[];
-	disconnect: eventCallback<'disconnect'>[];
-	ready: eventCallback<'ready'>[];
-	ready_all: eventCallback<'ready_all'>[];
 	load_module: eventCallback<'load_module'>[];
 	load_all_module: eventCallback<'load_all_module'>[];
 	unload_module: eventCallback<'unload_module'>[];
+	connect: eventCallback<'connect'>[];
+	disconnect: eventCallback<'disconnect'>[];
+	ready: eventCallback<'ready'>[];
+	online: eventCallback<'online'>[];
+	offline: eventCallback<'offline'>[];
+	midwares: eventCallback<'midwares'>[];
+	before_command: eventCallback<'before_command'>[];
+	command: eventCallback<'command'>[];
+	before_send: eventCallback<'before_send'>[];
+	send: eventCallback<'send'>[];
 	private_msg: eventCallback<'private_msg'>[];
 	group_msg: eventCallback<'group_msg'>[];
 	private_recall: eventCallback<'private_recall'>[];
@@ -163,13 +227,19 @@ export type eventListenerFunc = <T extends keyof eventType>(type: T, callback: e
 
 export class Events extends Core {
 	private static eventStack: IeventList = {
-		connect: [],
-		disconnect: [],
-		ready: [],
-		ready_all: [],
 		load_module: [],
 		load_all_module: [],
 		unload_module: [],
+		connect: [],
+		disconnect: [],
+		ready: [],
+		online: [],
+		offline: [],
+		midwares: [],
+		before_command: [],
+		command: [],
+		before_send: [],
+		send: [],
 		private_msg: [],
 		group_msg: [],
 		private_recall: [],

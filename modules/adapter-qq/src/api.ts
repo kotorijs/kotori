@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-09-29 15:40:12
  */
-import { Api, Msg } from '@kotori-bot/kotori';
+import { Api, Msg } from 'kotori-bot';
 
 export default class QQApi extends Api {
 	public send_private_msg = (message: Msg, userId: number) => {
