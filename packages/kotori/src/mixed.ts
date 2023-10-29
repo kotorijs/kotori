@@ -11,7 +11,6 @@ const requestType = (method: string) => {
 
 const http = {
 	text: fetchText,
-	json: fetchJson,
 	get: requestType('get'),
 	post: requestType('post'),
 	put: requestType('put'),

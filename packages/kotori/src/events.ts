@@ -194,7 +194,7 @@ export interface eventType {
 	group_ban: eventDataGroupBan;
 }
 
-export type eventCallback<T extends keyof eventType> = (data: eventType[T]) => void | Msg;
+export type eventCallback<T extends keyof eventType> = (data: eventType[T]) => void | Msg | Promise<void | Msg>;
 
 export interface IeventList {
 	load_module: eventCallback<'load_module'>[];

@@ -148,10 +148,10 @@ export class Message extends Modules {
 		this.emit({ type: 'midwares', isPass, messageData, quick });
 	};
 
-	protected static registeMessageEvent() {
+	protected static registeMessageEvent = () => {
 		this.addListener('group_msg', this.handleMessageEvent);
 		this.addListener('private_msg', this.handleMessageEvent);
-		this.addListener('midwares', data => {
+		this.addListener('midwares', async data => {
 			const { isPass, messageData, quick } = data;
 			if (!isPass) return;
 
@@ -177,7 +177,7 @@ export class Message extends Modules {
 				const isSuccess = execute instanceof Object;
 				quick(
 					isSuccess
-						? execute.action({ quick, args: execute.args, options: execute.options }, messageData)
+						? await execute.action({ quick, args: execute.args, options: execute.options }, messageData)
 						: execute.toFixed(),
 				); /* here need locales... */
 				this.emit({ type: 'command', result: isSuccess ? 0 : execute, ...commonParams });
@@ -200,7 +200,7 @@ export class Message extends Modules {
 				if (element.extend === data.module.mainPath) delete superArr[index];
 			}
 		});
-	}
+	};
 
 	public static readonly midware = (callback: midwareCallback, priority: number = 100) => {
 		if (this.midwareStack.filter(Element => Element.callback === callback).length) return false;

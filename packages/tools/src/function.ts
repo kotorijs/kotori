@@ -100,7 +100,7 @@ export function stringTemp(template: string, args: StringTempArgs) {
 	if (!params || typeof params !== 'object') return templateString;
 	Object.keys(params).forEach(param => {
 		if (typeof params[param] !== 'string' && typeof args[param] !== 'number') params[param] = '';
-		if (typeof params[param] !== 'string') params[param] = params[param].toString();
+		if (params[param]?.toString instanceof Function) params[param] = (params[param] as number).toString();
 		templateString = templateString.replace(new RegExp(`%${param}%`, 'g'), params[param] as string);
 	});
 	return templateString;
