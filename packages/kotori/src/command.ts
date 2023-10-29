@@ -6,7 +6,7 @@ import { eventType } from './events';
 export type commandAction = (
 	data: { args: commandArgType[]; options: obj<commandArgType>; quick: (msg: MsgQuickType) => void },
 	events: eventType['group_msg' | 'private_msg'],
-) => MsgQuickType;
+) => MsgQuickType | Promise<MsgQuickType>;
 export type commandAccess = 'member' | 'manger' | 'admin';
 export type commandArgType = string | number;
 type commandArgTypeSign = 'string' | 'number';

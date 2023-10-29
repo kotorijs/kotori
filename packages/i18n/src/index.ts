@@ -12,7 +12,12 @@ export enum LocaleIdentifier {
 }
 
 export class Locale {
-	private readonly localeDataList: obj<obj<string>> = {};
+	private readonly localeDataList: obj<obj<string>> = {
+		ja_JP: {},
+		en_US: {},
+		zh_TW: {},
+		zh_CN: {},
+	};
 
 	private readonly localePathList: string[] = [];
 
@@ -20,7 +25,7 @@ export class Locale {
 
 	private readonly loader = (dirPath: string) => {
 		let state = false;
-		Object.values((target?: langType | number) => {
+		Object.values(LocaleIdentifier).forEach(target => {
 			if (typeof target !== 'string') return;
 			const localeData = loadConfig(path.join(dirPath, `${target}.json`), 'json');
 			if (!isObj<string>(localeData)) return;
@@ -34,7 +39,7 @@ export class Locale {
 		if (uselang) this.langing = LocaleIdentifier[uselang];
 	}
 
-	public readonly uselang = (dir: string = path.resolve('../locales')) => {
+	public readonly uselang = (dir: string) => {
 		if (!existsSync(dir) || !statSync(dir).isDirectory()) return false;
 		this.localePathList.push(dir);
 		return this.loader(dir);
