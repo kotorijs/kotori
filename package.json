@@ -1,7 +1,7 @@
 {
     "name": "@kotori-bot/root",
     "version": "0.9.9",
-    "description": "ChatBot Framework Base For Go-cqhttp And Node",
+    "description": "ChatBot Framework Base For TypeScript And NodeJS",
     "scripts": {
         "start": "cd ./packages/loader && pnpm build",
         "dev": "cd ./packages/loader && pnpm dev",
