@@ -1,5 +1,5 @@
 import Adapter from './adapter';
-import { Msg } from './message';
+import { MessageRaw } from './types';
 
 export abstract class Api {
 	public readonly adapter: Adapter<this>;
@@ -8,9 +8,9 @@ export abstract class Api {
 		this.adapter = adapter as Adapter<this>;
 	}
 
-	public abstract readonly send_private_msg: (message: Msg, userId: number) => /* Promise<unknown> | */ void;
+	public abstract readonly send_private_msg: (message: MessageRaw, userId: number) => /* Promise<unknown> | */ void;
 
-	public abstract readonly send_group_msg: (message: Msg, groupId: number) => /* Promise<unknown> | */ void;
+	public abstract readonly send_group_msg: (message: MessageRaw, groupId: number) => /* Promise<unknown> | */ void;
 
 	public abstract readonly delete_msg: (messageId: number) => void;
 

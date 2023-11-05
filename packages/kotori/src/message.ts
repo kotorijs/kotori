@@ -1,130 +1,130 @@
-import { StringTempArgs, isObj, obj, stringProcess, stringSplit, stringTemp } from '@kotori-bot/tools';
-import { eventCallback, eventType } from './events';
+import { isObj, obj, stringProcess, stringSplit, stringTemp } from '@kotori-bot/tools';
+import {
+	EventCallback,
+	CommandData,
+	CommandAccess,
+	CommandArgType,
+	CommandConfig,
+	CmdResult,
+	MessageQuick,
+	MessageRaw,
+	MessageScope,
+	EventDataMsg,
+} from './types';
 import Modules from './modules';
 import Api from './api';
-import Command, { ICommandData, commandAccess, commandArgType, commandConfig } from './command';
+import Command from './command';
 
-export type Msg = string;
-export type MsgType = 'private' | 'group';
-export type MsgQuickType = void | Msg | [string, StringTempArgs];
-export const enum CmdResult {
-	SUCCESS,
-	OPTION_ERROR,
-	ARG_ERROR,
-	MANY_ARG,
-	FEW_ARG,
-	SYNTAX,
-}
+type MidwareCallback = (data: EventDataMsg, next: () => void) => MessageQuick;
+type RegexpCallback = (match: RegExpMatchArray, data: EventDataMsg) => MessageQuick;
 
-type midwareCallback = (data: eventType['group_msg' | 'private_msg'], next: () => void) => MsgQuickType;
-type regexpCallback = (match: RegExpMatchArray, data: eventType['group_msg' | 'private_msg']) => MsgQuickType;
-
-interface ImidwareStack {
+interface MidwareStack {
 	extend: string;
-	callback: midwareCallback;
+	callback: MidwareCallback;
 	priority: number;
 }
 
-interface IcommandStack {
+interface CommandStack {
 	extend: string;
-	data: ICommandData;
+	data: CommandData;
 }
 
-interface IregexpStack {
+interface RegexpStack {
 	extend: string;
 	match: RegExp;
-	callback: regexpCallback;
+	callback: RegexpCallback;
 }
 
-export class Message extends Modules {
-	private static readonly midwareStack: ImidwareStack[] = [];
+const parseCommand = (input: string) => {
+	const options: obj<CommandArgType> = {};
+	const args: CommandArgType[] = [];
 
-	private static readonly commandStack: IcommandStack[] = [];
-
-	private static readonly regexpStack: IregexpStack[] = [];
-
-	private static readonly parseCommand = (input: string) => {
-		const options: obj<commandArgType> = {};
-		const args: commandArgType[] = [];
-
-		for (const data of this.commandDataStack) {
-			/* parse root */
-			if (!data.action) continue;
-			let root = data.root;
-			let cmd = input.replace(/(\s+)|("")|('')/g, '').trim();
-			if (!stringProcess(input, data.root)) {
-				const alias = data.alias.filter(el => stringProcess(input, el));
-				if (alias.length <= 0) continue;
-				root = alias[0];
-			}
-			cmd = (input.split(root)[1] ?? '').trim();
-
-			/* parse options */
-			for (const el of [...`${cmd} `.matchAll(/\s-([a-z]+)(=(\w+)|)\s?\b/g)]) {
-				cmd = cmd.replace(el[0], '');
-				const key = el[1];
-				let val: commandArgType | undefined = el[3] || undefined;
-				for (const option of data.options) {
-					if (option.realname !== key) continue;
-					if (val !== undefined && val !== '') {
-						if (option.type === 'number' && typeof val !== 'number') {
-							val = parseInt(val, 10);
-							if (Number.isNaN(val)) return CmdResult.OPTION_ERROR;
-						}
-					}
-					val = option.default || '';
-					options[option.name] = val;
-				}
-			}
-
-			/* parse args */
-			let current = '';
-			let inBackslash = false;
-			let inQuote = false;
-			for (const char of `${cmd} `.split('')) {
-				if (inBackslash) {
-					inBackslash = false;
-					current += char;
-					continue;
-				}
-				if (char === ' ' && !inQuote) {
-					if (!current) continue;
-					const arg = data.args[args.length];
-					if (!arg || !isObj(arg)) return CmdResult.MANY_ARG;
-					let val: commandArgType = current.trim();
-					if (arg.type === 'number' && typeof val !== 'number') {
-						val = parseInt(current, 10);
-						if (Number.isNaN(current)) return CmdResult.ARG_ERROR;
-					}
-					args.push(val);
-					current = '';
-				} else if (char === '"' || char === "'") {
-					// dont fix it for big and small quote
-					inQuote = !inQuote;
-				} else if (char === '\\') {
-					inBackslash = true;
-				} else {
-					current += char;
-				}
-			}
-			if (inQuote || inBackslash) return CmdResult.SYNTAX;
-			if (data.args.filter(el => el.optional === false).length > args.length) return CmdResult.FEW_ARG;
-			if (data.args.length > args.length) {
-				let index = args.length;
-				while (index < data.args.length) {
-					const arg = data.args[index];
-					if (arg.default === undefined) break;
-					args.push(arg.default);
-					index += 1;
-				}
-			}
-			return { action: data.action, args, options };
+	for (const data of Command.commandDataStack) {
+		/* parse root */
+		if (!data.action) continue;
+		let root = data.root;
+		let cmd = input.replace(/(\s+)|("")|('')/g, '').trim();
+		if (!stringProcess(input, data.root)) {
+			const alias = data.alias.filter(el => stringProcess(input, el));
+			if (alias.length <= 0) continue;
+			root = alias[0];
 		}
-		return 3; // unknown command
-	};
+		cmd = (input.split(root)[1] ?? '').trim();
 
-	private static readonly handleMessageEvent: eventCallback<'group_msg' | 'private_msg'> = messageData => {
-		const quick = (message: MsgQuickType) => {
+		/* parse options */
+		for (const el of [...`${cmd} `.matchAll(/\s-([a-z]+)(=(\w+)|)\s?\b/g)]) {
+			cmd = cmd.replace(el[0], '');
+			const key = el[1];
+			let val: CommandArgType | undefined = el[3] || undefined;
+			for (const option of data.options) {
+				if (option.realname !== key) continue;
+				if (val !== undefined && val !== '') {
+					if (option.type === 'number' && typeof val !== 'number') {
+						val = parseInt(val, 10);
+						if (Number.isNaN(val)) return CmdResult.OPTION_ERROR;
+					}
+				}
+				val = option.default || '';
+				options[option.name] = val;
+			}
+		}
+
+		/* parse args */
+		let current = '';
+		let inBackslash = false;
+		let inQuote = false;
+		for (const char of `${cmd} `.split('')) {
+			if (inBackslash) {
+				inBackslash = false;
+				current += char;
+				continue;
+			}
+			if (char === ' ' && !inQuote) {
+				if (!current) continue;
+				const arg = data.args[args.length];
+				if (!arg || !isObj(arg)) return CmdResult.MANY_ARG;
+				let val: CommandArgType = current.trim();
+				if (arg.type === 'number' && typeof val !== 'number') {
+					val = parseInt(current, 10);
+					if (Number.isNaN(current)) return CmdResult.ARG_ERROR;
+				}
+				args.push(val);
+				current = '';
+			} else if (char === '"' || char === "'") {
+				// dont fix it for big and small quote
+				inQuote = !inQuote;
+			} else if (char === '\\') {
+				inBackslash = true;
+			} else {
+				current += char;
+			}
+		}
+		if (inQuote || inBackslash) return CmdResult.SYNTAX;
+		if (data.args.filter(el => el.optional === false).length > args.length) return CmdResult.FEW_ARG;
+		if (data.args.length > args.length) {
+			let index = args.length;
+			while (index < data.args.length) {
+				const arg = data.args[index];
+				if (arg.default === undefined) break;
+				args.push(arg.default);
+				index += 1;
+			}
+		}
+		return { action: data.action, args, options };
+	}
+	return 3; // unknown command
+};
+
+export class Message extends Modules {
+	private readonly midwareStack: MidwareStack[] = [];
+
+	/* two commands data array kill them! */
+	private readonly commandStack: CommandStack[] = [];
+
+	private readonly regexpStack: RegexpStack[] = [];
+
+	private readonly handleMessageEvent: EventCallback<'group_msg' | 'private_msg'> = messageData => {
+		const quick = (message: MessageQuick) => {
 			if (!message) return;
 			const val =
 				typeof message === 'string'
@@ -135,7 +135,7 @@ export class Message extends Modules {
 		};
 		/* Handle middle wares */
 		let isPass = true;
-		const midwareStack: ImidwareStack[] = Object.create(this.midwareStack);
+		const midwareStack: MidwareStack[] = Object.create(this.midwareStack);
 		let lastMidwareNum = -1;
 		while (midwareStack.length > 0) {
 			if (lastMidwareNum === midwareStack.length) {
@@ -148,10 +148,10 @@ export class Message extends Modules {
 		this.emit({ type: 'midwares', isPass, messageData, quick });
 	};
 
-	protected static registeMessageEvent = () => {
-		this.addListener('group_msg', this.handleMessageEvent);
-		this.addListener('private_msg', this.handleMessageEvent);
-		this.addListener('midwares', async data => {
+	protected registeMessageEvent = () => {
+		this.on('group_msg', this.handleMessageEvent);
+		this.on('private_msg', this.handleMessageEvent);
+		this.on('midwares', async data => {
 			const { isPass, messageData, quick } = data;
 			if (!isPass) return;
 
@@ -161,8 +161,8 @@ export class Message extends Modules {
 				const commonParams = {
 					messageData,
 					command: stringSplit(params[0], params[1]),
-					scope: messageData.type === 'group_msg' ? 'group' : ('private' as MsgType),
-					access: 'member' /* here need database... */ as commandAccess,
+					scope: messageData.type === 'group_msg' ? 'group' : ('private' as MessageScope),
+					access: 'member' /* here need database... */ as CommandAccess,
 				};
 				let isCancel = false;
 				this.emit({
@@ -173,7 +173,7 @@ export class Message extends Modules {
 					...commonParams,
 				});
 				if (isCancel) return;
-				const execute = this.parseCommand(commonParams.command);
+				const execute = parseCommand(commonParams.command);
 				const isSuccess = execute instanceof Object;
 				quick(
 					isSuccess
@@ -191,7 +191,7 @@ export class Message extends Modules {
 				quick(element.callback(match, messageData));
 			});
 		});
-		this.addListener('unload_module', data => {
+		this.on('unload_module', data => {
 			if (!data.module) return;
 			const superArr = [...this.midwareStack, ...this.commandStack, ...this.regexpStack];
 			for (const indexOf of Object.keys(superArr)) {
@@ -202,29 +202,29 @@ export class Message extends Modules {
 		});
 	};
 
-	public static readonly midware = (callback: midwareCallback, priority: number = 100) => {
+	public readonly midware = (callback: MidwareCallback, priority: number = 100) => {
 		if (this.midwareStack.filter(Element => Element.callback === callback).length) return false;
 		this.midwareStack.push({ callback, priority, extend: this.getModuleCurrent() });
 		this.midwareStack.sort((first, second) => first.priority - second.priority);
 		return true;
 	};
 
-	public static readonly command = (template: string, config?: commandConfig) => {
+	public readonly command = (template: string, config?: CommandConfig) => {
 		const result = new Command(template, config);
 		this.commandStack.push({
 			extend: this.getModuleCurrent(),
-			data: this.commandDataStack[this.commandDataStack.length - 1],
+			data: Command.commandDataStack[Command.commandDataStack.length - 1],
 		});
 		return result;
 	};
 
-	public static readonly regexp = (match: RegExp, callback: regexpCallback) => {
+	public readonly regexp = (match: RegExp, callback: RegexpCallback) => {
 		if (this.regexpStack.filter(Element => Element.match === match).length) return false;
 		this.regexpStack.push({ extend: this.getModuleCurrent(), match, callback });
 		return true;
 	};
 
-	public static readonly boardcasst = (type: MsgType, message: Msg) => {
+	public readonly boardcasst = (type: MessageScope, message: MessageRaw) => {
 		const send =
 			type === 'private'
 				? (api: Api) => api.send_private_msg(message, 1)
@@ -236,7 +236,7 @@ export class Message extends Modules {
 		});
 	};
 
-	public static readonly notify = (message: Msg) => {
+	public readonly notify = (message: MessageRaw) => {
 		const mainAdapterIdentity = Object.keys(this.configs.adapter)[0];
 		for (const apis of Object.values(this.apiStack)) {
 			for (const api of apis) {

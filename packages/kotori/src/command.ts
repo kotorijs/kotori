@@ -1,56 +1,10 @@
-import { obj } from '@kotori-bot/tools';
-import Core from './core';
-import { MsgQuickType, MsgType } from './message';
-import { eventType } from './events';
-
-export type commandAction = (
-	data: { args: commandArgType[]; options: obj<commandArgType>; quick: (msg: MsgQuickType) => void },
-	events: eventType['group_msg' | 'private_msg'],
-) => MsgQuickType | Promise<MsgQuickType>;
-export type commandAccess = 'member' | 'manger' | 'admin';
-export type commandArgType = string | number;
-type commandArgTypeSign = 'string' | 'number';
-
-export interface commandConfig {
-	alias?: string[];
-	scope?: MsgType | 'all';
-	access?: commandAccess;
-	help?: string;
-	action?: commandAction;
-}
-
-export interface ICommandArg {
-	name: string;
-	type: commandArgTypeSign;
-	optional: boolean;
-	default?: commandArgType;
-}
-
-export interface ICommandOption {
-	name: string;
-	type: commandArgTypeSign;
-	default?: commandArgType;
-	realname: string;
-	description?: string;
-}
-
-export interface ICommandData {
-	root: string;
-	alias: string[];
-	args: ICommandArg[];
-	options: ICommandOption[];
-	scope: commandConfig['scope'];
-	access: commandAccess;
-	help?: string;
-	action?: commandAction;
-	description?: string;
-}
+import { CommandAccess, CommandAction, CommandArgType, CommandArgTypeSign, CommandConfig, CommandData } from './types';
 
 const parseTemplateParam = (content: string) => {
 	const { '0': root, '1': defaultValue } = content.split('=');
 	const { '0': argName, '1': argType } = root.split(':');
-	let handleDefault: commandArgType | undefined = defaultValue || undefined;
-	let handleArg: commandArgTypeSign = 'string';
+	let handleDefault: CommandArgType | undefined = defaultValue || undefined;
+	let handleArg: CommandArgTypeSign = 'string';
 	if (argType === 'number') {
 		handleArg = argType;
 		if (handleDefault !== undefined) handleDefault = parseInt(handleDefault, 10);
@@ -62,18 +16,19 @@ const parseTemplateParam = (content: string) => {
 	};
 };
 
-export class Command extends Core {
-	public constructor(template: string, config?: commandConfig) {
-		super();
+export class Command {
+	public static commandDataStack: CommandData[] = [];
+
+	public constructor(template: string, config?: CommandConfig) {
 		this.template = template;
 		this.data = Object.assign(this.data, config);
-		Core.commandDataStack.push(this.data);
+		Command.commandDataStack.push(this.data);
 		this.parseTemplate();
 	}
 
 	private template: string;
 
-	public readonly data: ICommandData = {
+	public readonly data: CommandData = {
 		root: '',
 		alias: [],
 		scope: 'all',
@@ -125,12 +80,12 @@ export class Command extends Core {
 		return this;
 	};
 
-	public readonly scope = (scope: commandConfig['scope']) => {
+	public readonly scope = (scope: CommandConfig['scope']) => {
 		this.data.scope = scope;
 		return this;
 	};
 
-	public readonly access = (access: commandAccess) => {
+	public readonly access = (access: CommandAccess) => {
 		this.data.access = access;
 		return this;
 	};
@@ -142,7 +97,7 @@ export class Command extends Core {
 		return this;
 	};
 
-	public readonly action = (callback: commandAction) => {
+	public readonly action = (callback: CommandAction) => {
 		this.data.action = callback;
 		return this;
 	};

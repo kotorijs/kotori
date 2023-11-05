@@ -2,7 +2,7 @@ import Logger from '@kotori-bot/logger';
 import Locale from '@kotori-bot/i18n';
 import { FuncFetchSuper, fetchJson, fetchText, obj } from '@kotori-bot/tools';
 import Message from './message';
-import Core from './core';
+import { BaseDir, GlobalConfigs, GlobalOptions } from './types';
 
 const requestType = (method: string) => {
 	const func: FuncFetchSuper<obj> = (url, params, init = { method }) => fetchJson(url, params, init);
@@ -20,9 +20,23 @@ const http = {
 };
 
 export class Content extends Message {
-	public static http = http;
+	public http = http;
 
-	public static logger = Logger;
+	public logger = Logger;
+
+	public uselang;
+
+	public setlang;
+
+	public locale;
+
+	public constructor(baseDir: BaseDir, configs: GlobalConfigs, env: GlobalOptions['node_env']) {
+		super(baseDir, configs, env);
+		const { uselang, setlang, locale } = new Locale(this.configs.global.lang);
+		this.uselang = uselang;
+		this.setlang = setlang;
+		this.locale = locale;
+	}
 }
 
 /* export declare namespace JSX {
@@ -30,6 +44,5 @@ export class Content extends Message {
 		render: any;
 	}
 } */
-export const Mixed = Object.assign(Content, new Locale(Core.configs.global.lang));
 
-export default Mixed;
+export default Content;
