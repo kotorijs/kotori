@@ -3,7 +3,7 @@ import path from 'path';
 import { isObj, loadConfig, obj } from '@kotori-bot/tools';
 import { LocaleIdentifier, langType } from '@kotori-bot/i18n';
 import KotoriError from './errror';
-import { AdapterConfig } from './adapter';
+import { GlobalConfigs } from './types';
 
 interface PackageInfo {
 	name: string;
@@ -22,16 +22,6 @@ interface PackageInfo {
 	devDependencies: obj<string>;
 }
 
-export interface GlobalConfig {
-	global: {
-		lang: langType;
-		'command-prefix': string;
-	};
-	adapter: {
-		[propName: string]: AdapterConfig;
-	};
-}
-
 export const CONST = (() => {
 	let ROOT = path.resolve(__dirname, '..');
 	let count = 0;
@@ -44,8 +34,6 @@ export const CONST = (() => {
 	return {
 		ROOT,
 		MODULES: path.join(ROOT, 'modules'),
-		DATA: path.join(ROOT, 'data'),
-		LOGS: path.join(ROOT, 'logs'),
 	};
 })();
 
@@ -59,7 +47,7 @@ const checkLangType = (data: unknown): data is langType => {
 };
 
 /* refactor with configcheck... */
-const checkGlobalConfig = (data: unknown): data is GlobalConfig => {
+const checkGlobalConfig = (data: unknown): data is GlobalConfigs => {
 	if (!data || !isObj(data) || !isObj<obj>(data.global) || !isObj<obj>(data.adapter)) return false;
 	if (!checkLangType(data.global.lang)) return false;
 	if (!data.global['command-prefix'] || typeof data.global['command-prefix'] !== 'string') return false;

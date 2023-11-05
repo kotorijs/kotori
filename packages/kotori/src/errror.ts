@@ -1,4 +1,4 @@
-type KotoriErrorType = 'AdapterError' | 'DatabaseError' | 'ModuleError' | 'CoreError' | 'UnknownError';
+type KotoriErrorType = /* 'AdapterError' | */ 'DatabaseError' | 'ModuleError' | 'CoreError' | 'UnknownError';
 type KotoriErrorLevel = 'debug' | 'normal';
 
 interface IKotoriError {

@@ -1,27 +1,28 @@
 import { obj } from '@kotori-bot/tools';
-import { AdapterType } from './adapter';
-import { CONFIG, CONST, GlobalConfig } from './global';
-import { ICommandData } from './command';
+import { AdapterEntity, BaseDir, GlobalConfigs, GlobalOptions } from './types';
 import Api from './api';
 
-export interface GlobalOptions {
-	node_env: 'dev' | 'build';
-}
-
 export class Core {
-	protected static readonly AdapterStack: obj<AdapterType> = {};
+	protected readonly adapterStack: obj<AdapterEntity> = {};
 
-	// protected static readonly botsStack: obj<Adapter[]> = {};
+	// protected readonly botsStack: obj<Adapter[]> = {};
 
-	protected static readonly apiStack: obj<Api[]> = {};
+	protected readonly apiStack: obj<Api[]> = {};
 
-	protected static readonly commandDataStack: ICommandData[] = [];
+	public readonly baseDir: BaseDir;
 
-	public static readonly baseDir = CONST;
+	public readonly configs: GlobalConfigs;
 
-	public static configs: GlobalConfig = CONFIG;
+	public readonly options: GlobalOptions;
 
-	public static options: GlobalOptions = { node_env: process.env.node_env === 'dev' ? 'dev' : 'build' };
+	public constructor(baseDir: BaseDir, configs: GlobalConfigs, env: GlobalOptions['node_env']) {
+		/* question of there some var kill them... */
+		this.baseDir = baseDir;
+		this.configs = configs;
+		this.options = {
+			node_env: env,
+		};
+	}
 }
 
 export default Core;

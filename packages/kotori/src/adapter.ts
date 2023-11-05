@@ -1,12 +1,10 @@
-import { none, obj } from '@kotori-bot/tools';
-import { langType } from '@kotori-bot/i18n';
+import { none } from '@kotori-bot/tools';
 import Api from './api';
-import Mixed from './mixed';
-import Core from './core';
+import Content from './content';
 import Events from './events';
-import { Msg, MsgType } from './message';
+import { AdapterConfig, MessageRaw, MessageScope } from './types';
 
-interface Istatus {
+interface Status {
 	value: 'online' | 'offline';
 	createTime: Date;
 	lastMsgTime: Date | null;
@@ -15,7 +13,7 @@ interface Istatus {
 	offlineNum: number;
 }
 
-interface IAdapter<T extends Api> {
+interface AdapterImpl<T extends Api> {
 	readonly platform: string;
 	readonly selfId: number;
 	readonly nickname: string;
@@ -23,50 +21,46 @@ interface IAdapter<T extends Api> {
 	readonly config: AdapterConfig;
 	readonly identity: string;
 	readonly api: T;
-	readonly status: Istatus;
+	readonly status: Status;
 	readonly handle: (data: any) => void;
 	readonly start: () => void;
 	readonly stop: () => void;
-	send: sendFunc;
+	send: AdapterSend;
 }
 
-export interface AdapterConfig extends obj {
-	extend: string;
-	master: number;
-	lang: langType;
-	'command-prefix': string;
-}
+type AdapterSend = (action: string, params?: object) => void;
 
-export type sendFunc = (action: string, params?: object) => void;
-export type AdapterType = new (config: AdapterConfig, identity: string) => Adapter;
-
-const ApiProxy = <T extends Api>(api: T): T => {
+const ApiProxy = <T extends Api>(api: T, emit: Events['emit']): T => {
 	const apiProxy = Object.create(api);
-	const applyCommon = (target: (msg: Msg, id: number) => void, args: [Msg, number], messageType: MsgType) => {
+	const applyCommon = (
+		target: (msg: MessageRaw, id: number) => void,
+		args: [MessageRaw, number],
+		messageType: MessageScope,
+	) => {
 		const { '0': message, '1': targetId } = args;
 		let isCancel = false;
 		const cancel = () => {
 			isCancel = true;
 		};
-		Events.emit({ type: 'before_send', api, message, messageType, targetId, cancel });
+		emit({ type: 'before_send', api, message, messageType, targetId, cancel });
 		if (!isCancel) target(message, targetId);
 	};
 	apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
-		apply: (target, _, argArray) => applyCommon(target, argArray as [Msg, number], 'private'),
+		apply: (target, _, argArray) => applyCommon(target, argArray as [MessageRaw, number], 'private'),
 	});
 	apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
-		apply: (target, _, argArray) => applyCommon(target, argArray as [Msg, number], 'group'),
+		apply: (target, _, argArray) => applyCommon(target, argArray as [MessageRaw, number], 'group'),
 	});
 	return apiProxy;
 };
 
-export abstract class Adapter<T extends Api = Api> extends Core implements IAdapter<T> {
+export abstract class Adapter<T extends Api = Api> extends Events implements AdapterImpl<T> {
 	public constructor(config: AdapterConfig, identity: string, Api: new (adapter: Adapter) => T) {
 		super();
 		this.config = config;
 		this.identity = identity;
-		this.apis = Core.apiStack[this.platform] as T[];
-		this.api = ApiProxy(new Api(this));
+		this.apis = this.apiStack[this.platform] as T[];
+		this.api = ApiProxy(new Api(this), this.emit);
 	}
 
 	protected readonly apis: T[];
@@ -74,12 +68,12 @@ export abstract class Adapter<T extends Api = Api> extends Core implements IAdap
 	protected readonly online = () => {
 		if (this.status.value === 'offline') {
 			if (this.status.offlineNum <= 0) {
-				Events.emit({
+				this.emit({
 					type: 'ready',
 					adapter: this,
 				});
 			}
-			Events.emit({
+			this.emit({
 				type: 'online',
 				adapter: this,
 			});
@@ -89,7 +83,7 @@ export abstract class Adapter<T extends Api = Api> extends Core implements IAdap
 
 	protected readonly offline = () => {
 		if (this.status.value === 'online') {
-			Events.emit({
+			this.emit({
 				adapter: this,
 				type: 'offline',
 			});
@@ -106,7 +100,7 @@ export abstract class Adapter<T extends Api = Api> extends Core implements IAdap
 		this.status.receivedMsg += 1;
 	};
 
-	protected readonly locale = (val: string) => Mixed.locale(val, this.config.lang);
+	protected readonly locale = (val: string) => Content.locale(val, this.config.lang);
 
 	public readonly config: AdapterConfig;
 
@@ -122,7 +116,7 @@ export abstract class Adapter<T extends Api = Api> extends Core implements IAdap
 
 	public readonly api: T;
 
-	public readonly status: Istatus = {
+	public readonly status: Status = {
 		value: 'offline',
 		createTime: new Date(),
 		lastMsgTime: null,
@@ -137,7 +131,7 @@ export abstract class Adapter<T extends Api = Api> extends Core implements IAdap
 
 	public abstract readonly stop: () => void;
 
-	public send: sendFunc = action => none(this, action);
+	public send: AdapterSend = action => none(this, action);
 }
 
 export default Adapter;
