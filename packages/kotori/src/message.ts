@@ -5,7 +5,7 @@ import {
 	CommandAccess,
 	CommandArgType,
 	CommandConfig,
-	CmdResult,
+	CommandResult,
 	MessageQuick,
 	MessageRaw,
 	MessageScope,
@@ -43,7 +43,10 @@ const parseCommand = (input: string) => {
 		/* parse root */
 		if (!data.action) continue;
 		let root = data.root;
-		let cmd = input.replace(/(\s+)|("")|('')/g, '').trim();
+		let cmd = input
+			.replace(/(\s+)/g, ' ')
+			.replace(/("\s?")|('\s?')/g, '')
+			.trim();
 		if (!stringProcess(input, data.root)) {
 			const alias = data.alias.filter(el => stringProcess(input, el));
 			if (alias.length <= 0) continue;
@@ -61,7 +64,7 @@ const parseCommand = (input: string) => {
 				if (val !== undefined && val !== '') {
 					if (option.type === 'number' && typeof val !== 'number') {
 						val = parseInt(val, 10);
-						if (Number.isNaN(val)) return CmdResult.OPTION_ERROR;
+						if (Number.isNaN(val)) return CommandResult.OPTION_ERROR;
 					}
 				}
 				val = option.default || '';
@@ -82,11 +85,11 @@ const parseCommand = (input: string) => {
 			if (char === ' ' && !inQuote) {
 				if (!current) continue;
 				const arg = data.args[args.length];
-				if (!arg || !isObj(arg)) return CmdResult.MANY_ARG;
+				if (!arg || !isObj(arg)) return CommandResult.MANY_ARG;
 				let val: CommandArgType = current.trim();
 				if (arg.type === 'number' && typeof val !== 'number') {
 					val = parseInt(current, 10);
-					if (Number.isNaN(current)) return CmdResult.ARG_ERROR;
+					if (Number.isNaN(current)) return CommandResult.ARG_ERROR;
 				}
 				args.push(val);
 				current = '';
@@ -99,8 +102,8 @@ const parseCommand = (input: string) => {
 				current += char;
 			}
 		}
-		if (inQuote || inBackslash) return CmdResult.SYNTAX;
-		if (data.args.filter(el => el.optional === false).length > args.length) return CmdResult.FEW_ARG;
+		if (inQuote || inBackslash) return CommandResult.SYNTAX;
+		if (data.args.filter(el => el.optional === false).length > args.length) return CommandResult.FEW_ARG;
 		if (data.args.length > args.length) {
 			let index = args.length;
 			while (index < data.args.length) {
@@ -165,22 +168,20 @@ export class Message extends Modules {
 					access: 'member' /* here need database... */ as CommandAccess,
 				};
 				let isCancel = false;
-				this.emit({
-					type: 'before_command',
-					cancel: () => {
-						isCancel = true;
-					},
-					...commonParams,
-				});
+				const cancel = () => {
+					isCancel = true;
+				};
+				this.emit({ type: 'before_command', cancel, ...commonParams });
 				if (isCancel) return;
 				const execute = parseCommand(commonParams.command);
 				const isSuccess = execute instanceof Object;
+				this.emit({ type: 'command', result: isSuccess ? 0 : execute, ...commonParams, cancel });
+				if (isCancel) return;
 				quick(
 					isSuccess
 						? await execute.action({ quick, args: execute.args, options: execute.options }, messageData)
 						: execute.toFixed(),
-				); /* here need locales... */
-				this.emit({ type: 'command', result: isSuccess ? 0 : execute, ...commonParams });
+				);
 				return;
 			}
 
@@ -224,7 +225,7 @@ export class Message extends Modules {
 		return true;
 	};
 
-	public readonly boardcasst = (type: MessageScope, message: MessageRaw) => {
+	public readonly boardcast = (type: MessageScope, message: MessageRaw) => {
 		const send =
 			type === 'private'
 				? (api: Api) => api.send_private_msg(message, 1)

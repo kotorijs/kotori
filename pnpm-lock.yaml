@@ -85,6 +85,18 @@ importers:
         specifier: ^8.14.2
         version: 8.14.2
 
+  modules/core-i18n:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/querytool:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
   modules/testing:
     dependencies:
       kotori-bot:

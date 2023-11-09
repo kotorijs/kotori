@@ -1,6 +1,6 @@
 global:
-  command-prefix: '/'
-  lang: 'zh_CN'
+  command-prefix: "/"
+  lang: "zh_CN"
 
 adapter:
   kotori:
@@ -8,7 +8,7 @@ adapter:
       master: 3324656453
       # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
       mode: ws-reverse
-      address: 'ws://127.0.0.1'
+      address: "ws://127.0.0.1"
       # WebSocket反向(相对于Gocqhttp)
       port: 8080 # WS反向端口
       # WebSocket正向
@@ -23,4 +23,10 @@ adapter:
 
   cmd-test:
       extend: "cmd"
-      master: 0720
+      master: 720
+      nickname: "Kotarou"
+      age: 18
+      sex: "male"
+      self-id: 2333
+      self-nickname: "Kotori"
+      self-avatar: "https://kotori.js.org/kotori.png"

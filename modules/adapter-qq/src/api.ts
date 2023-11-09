@@ -5,10 +5,10 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-09-29 15:40:12
  */
-import { Api, Msg } from 'kotori-bot';
+import { Api, MessageRaw } from 'kotori-bot';
 
 export default class QQApi extends Api {
-	public send_private_msg = (message: Msg, userId: number) => {
+	public send_private_msg = (message: MessageRaw, userId: number) => {
 		this.adapter.status.lastMsgTime = new Date();
 		this.adapter.status.sendMsg += 1;
 		this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
@@ -20,7 +20,7 @@ export default class QQApi extends Api {
 	 * @param {groupId} groupId 群号
 	 * @return {void}
 	 */
-	public send_group_msg = (message: Msg, groupId: number): void => {
+	public send_group_msg = (message: MessageRaw, groupId: number): void => {
 		this.adapter.status.lastMsgTime = new Date();
 		this.adapter.status.sendMsg += 1;
 		this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });

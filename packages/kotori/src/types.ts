@@ -2,10 +2,25 @@ import { StringTempArgs, obj } from '@kotori-bot/tools';
 import { langType } from '@kotori-bot/i18n';
 import Api from './api';
 import Adapter from './adapter';
+import { Content } from '.';
+
+export type KotoriConfigs = {
+	baseDir?: {
+		[P in keyof BaseDir]?: BaseDir[P];
+	};
+	configs?: {
+		[P in keyof GlobalConfigs]?: {
+			[K in keyof GlobalConfigs[P]]?: GlobalConfigs[P][K];
+		};
+	};
+	options?: {
+		[P in keyof GlobalOptions]?: GlobalOptions[P];
+	};
+};
 
 export interface BaseDir {
-	ROOT: string;
-	MODULES: string;
+	root: string;
+	modules: string;
 }
 
 export interface GlobalConfigs {
@@ -19,17 +34,17 @@ export interface GlobalConfigs {
 }
 
 export interface GlobalOptions {
-	node_env: 'dev' | 'production';
+	nodeEnv: 'dev' | 'production';
 }
 
-export interface AdapterConfig extends obj {
+export interface AdapterConfig {
 	extend: string;
 	master: number;
 	lang: langType;
 	'command-prefix': string;
 }
 
-export type AdapterEntity = new (config: AdapterConfig, identity: string) => Adapter;
+export type AdapterEntity = new (config: AdapterConfig, identity: string, ctx: Content) => Adapter;
 
 export type CommandAccess = 'member' | 'manger' | 'admin';
 
@@ -78,7 +93,7 @@ export interface CommandData {
 export type MessageRaw = string;
 export type MessageScope = 'private' | 'group';
 export type MessageQuick = void | MessageRaw | [string, StringTempArgs];
-export const enum CmdResult {
+export const enum CommandResult {
 	SUCCESS,
 	OPTION_ERROR,
 	ARG_ERROR,
@@ -130,7 +145,7 @@ interface EventDataUnloadModule extends EventDataBase<'unload_module'> {
 type EventDataMsgSenderSex = 'male' | 'female' | 'unknown';
 type EventDataOperation = 'set' | 'unset';
 
-interface EventDataMsgSender {
+export interface EventDataMsgSender {
 	nickname: string;
 	sex: EventDataMsgSenderSex;
 	age: number;
@@ -180,7 +195,8 @@ interface EventDataCommand extends EventDataBase<'command'> {
 	command: string;
 	scope: MessageScope;
 	access: CommandAccess;
-	result: CmdResult;
+	result: CommandResult;
+	cancel: () => void;
 }
 
 interface EventDataBeforeSend extends EventDataBase<'before_send'> {
@@ -305,31 +321,8 @@ export type EventCallback<T extends keyof EventType> = (
 	data: EventType[T],
 ) => void | MessageRaw | Promise<void | MessageRaw>;
 
-export interface EventList {
-	load_module: EventCallback<'load_module'>[];
-	load_all_module: EventCallback<'load_all_module'>[];
-	unload_module: EventCallback<'unload_module'>[];
-	connect: EventCallback<'connect'>[];
-	disconnect: EventCallback<'disconnect'>[];
-	ready: EventCallback<'ready'>[];
-	online: EventCallback<'online'>[];
-	offline: EventCallback<'offline'>[];
-	midwares: EventCallback<'midwares'>[];
-	before_command: EventCallback<'before_command'>[];
-	command: EventCallback<'command'>[];
-	before_send: EventCallback<'before_send'>[];
-	send: EventCallback<'send'>[];
-	private_msg: EventCallback<'private_msg'>[];
-	group_msg: EventCallback<'group_msg'>[];
-	private_recall: EventCallback<'private_recall'>[];
-	group_recall: EventCallback<'group_recall'>[];
-	private_request: EventCallback<'private_request'>[];
-	group_request: EventCallback<'group_request'>[];
-	private_add: EventCallback<'private_add'>[];
-	group_increase: EventCallback<'group_increase'>[];
-	group_decrease: EventCallback<'group_decrease'>[];
-	group_admin: EventCallback<'group_admin'>[];
-	group_ban: EventCallback<'group_ban'>[];
-}
+export type EventList = {
+	[P in keyof EventType]: EventCallback<P>[];
+};
 
 export type EventListenerFunc = <T extends keyof EventType>(type: T, callback: EventCallback<T>) => boolean;

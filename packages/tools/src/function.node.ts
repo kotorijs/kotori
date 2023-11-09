@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
-import { ConfigFileType, FuncStringProcessStr, obj } from './type';
+import { ConfigFileType, FuncStringProcessStr, obj } from './types';
 import { isObj } from './function';
 
 export function loadConfig(

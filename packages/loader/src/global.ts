@@ -2,8 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { isObj, loadConfig, obj } from '@kotori-bot/tools';
 import { LocaleIdentifier, langType } from '@kotori-bot/i18n';
-import KotoriError from './errror';
-import { GlobalConfigs } from './types';
+import { KotoriError, GlobalConfigs, BaseDir } from 'kotori-bot';
 
 interface PackageInfo {
 	name: string;
@@ -11,7 +10,6 @@ interface PackageInfo {
 	description: string;
 	main: string;
 	types: string;
-	// scripts: obj<string>;
 	author: string;
 	license: string;
 	bugs: {
@@ -22,18 +20,18 @@ interface PackageInfo {
 	devDependencies: obj<string>;
 }
 
-export const CONST = (() => {
-	let ROOT = path.resolve(__dirname, '..');
+export const baseDir: BaseDir = (() => {
+	let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
 	let count = 0;
-	while (!fs.existsSync(path.join(ROOT, 'kotori.yml'))) {
+	while (!fs.existsSync(path.join(root, 'kotori.yml'))) {
 		if (count > 5) throw new KotoriError('cannot find kotori-bot global kotori.yml', 'CoreError');
-		ROOT = path.join(ROOT, '..');
+		root = path.join(root, '..');
 		count += 1;
 	}
 
 	return {
-		ROOT,
-		MODULES: path.join(ROOT, 'modules'),
+		root,
+		modules: path.join(root, 'modules'),
 	};
 })();
 
@@ -62,14 +60,14 @@ const checkGlobalConfig = (data: unknown): data is GlobalConfigs => {
 	return true;
 };
 
-export const CONFIG = (() => {
-	const data = loadConfig(path.join(CONST.ROOT, 'kotori.yml'), 'yaml');
+export const globalConfigs: GlobalConfigs = (() => {
+	const data = loadConfig(path.join(baseDir.root, 'kotori.yml'), 'yaml');
 	if (!checkGlobalConfig(data)) throw new KotoriError('kotori-bot global kotori.yml format error', 'CoreError');
 	return data;
 })();
 
 export function getPackageInfo(): PackageInfo {
-	const info = loadConfig(path.join(CONST.ROOT, 'package.json')) as PackageInfo;
+	const info = loadConfig(path.join(baseDir.root, 'package.json')) as PackageInfo;
 	if (!info || !info.author || !info.name || !info.version || !info.license) {
 		throw new KotoriError('cannot find kotori-bot package.json or format error', 'CoreError');
 	}

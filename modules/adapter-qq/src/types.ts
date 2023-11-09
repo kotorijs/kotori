@@ -3,23 +3,24 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-09-29 17:33:28
+ * @LastEditTime: 2023-11-09 21:57:35
  */
 
-import { AdapterConfig, eventDataMsgSenderSex } from 'kotori-bot';
+import { AdapterConfig, EventDataMsgSender } from 'kotori-bot';
 import { obj } from '@kotori-bot/tools';
 
-export type Iconfig = IconfigWs | IconfigWsReverse;
+export type QQConfig = QQConfigWs | QQConfigWsReverse;
 
-export interface IconfigWs extends AdapterConfig {
+export interface QQConfigWs extends AdapterConfig {
 	mode: 'ws';
 	address: string;
 	port: number;
 	retry: number;
 }
 
-export interface IconfigWsReverse extends AdapterConfig {
+export interface QQConfigWsReverse extends AdapterConfig {
 	mode: 'ws-reverse';
+	address: string;
 	port: number;
 }
 
@@ -478,7 +479,7 @@ export type EvenetSenderRoleType = 'owner' | 'admin' | 'member';
 export interface EventSenderType {
 	user_id: number;
 	nickname: string;
-	sex: eventDataMsgSenderSex;
+	sex: EventDataMsgSender['sex'];
 	age: number;
 	group_id?: number;
 	card?: string;

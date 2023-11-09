@@ -3,42 +3,56 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-28 21:14:31
+ * @LastEditTime: 2023-11-09 21:56:50
  */
-import Kotori, { Adapter, AdapterConfig, Msg, eventDataMsgSender, isObj } from 'kotori-bot';
+import { Adapter, AdapterConfig, MessageRaw, EventDataMsgSender, isObj, Content } from 'kotori-bot';
 import CmdApi from './api';
 
-interface Iconfig extends AdapterConfig {
+interface CmdConfig extends AdapterConfig {
 	nickname: string;
 	age: number;
-	sex: eventDataMsgSender['sex'];
+	sex: EventDataMsgSender['sex'];
+	'self-id': number;
+	'self-nickname': string;
+	'self-avatar': string;
 }
 
-function checkConfig(config: unknown): config is Iconfig {
+function checkConfig(config: unknown): config is CmdConfig {
 	if (!isObj(config)) return false;
 	if (typeof config.nickname !== 'string') return false;
 	if (typeof config.age !== 'number') return false;
 	if (config.sex !== 'male' && config.sex !== 'female' && config.sex !== 'unknown') return false;
+	if (typeof config['self-id'] !== 'number') return false;
+	if (typeof config['self-nickname'] !== 'string') return false;
+	if (typeof config['self-avatar'] !== 'string') return false;
 	return true;
 }
 
 export default class CmdAdapter extends Adapter<CmdApi> {
 	private messageId = 1;
 
-	public readonly platform: string = 'cmd';
+	public config: CmdConfig;
 
-	public declare config: Iconfig;
-
-	public constructor(config: AdapterConfig, identity: string) {
-		const defaultConfig = {
+	public constructor(
+		config: Partial<keyof Omit<CmdConfig, keyof AdapterConfig>> & AdapterConfig,
+		identity: string,
+		ctx: Content,
+	) {
+		const defaultConfig: Omit<CmdConfig, keyof AdapterConfig> = {
 			nickname: 'Kotarou',
 			age: 18,
 			sex: 'male',
+			'self-id': 2333,
+			'self-nickname': 'Kotori',
+			'self-avatar': 'https://kotori.js.org/kotori.png',
 		};
 		const newConfig = Object.assign(defaultConfig, config);
-		super(newConfig, identity, CmdApi);
+		super(newConfig, identity, ctx, CmdApi);
 		if (!checkConfig(newConfig)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = newConfig;
+		this.selfId = this.config['self-id'];
+		this.nickname = this.config['self-nickname'];
+		this.avatar = this.config['self-avatar'];
 		process.stdin.on('data', data => this.handle(data));
 	}
 
@@ -48,7 +62,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 		if (message === '\n' || message === '\r\n') return;
 		message = message.replace('\r\n', '').replace('\n', '');
 
-		Kotori.emit({
+		this.ctx.emit({
 			type: 'private_msg',
 			messageId: this.messageId,
 			message,
@@ -58,7 +72,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 				sex: this.config.sex,
 				age: this.config.age,
 			},
-			send: (message: Msg) => {
+			send: (message: MessageRaw) => {
 				this.api.send_private_msg(message, this.config.master);
 			},
 			api: this.api,
@@ -72,15 +86,15 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 			if (this.status.value !== 'online' || action !== 'send_private_msg' || !params) return;
 			if (typeof (params as { message: string }).message !== 'string') return;
 			if ((params as { user_id: unknown }).user_id !== this.config.master) return;
-			process.stdout.write(`> ${(params as { message: string }).message} \r\n`);
+			process.stdout.write(`${this.nickname} > ${(params as { message: string }).message} \r\n`);
 			this.messageId += 1;
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'send',
 				api: this.api,
 				messageId: this.messageId,
 			});
 		};
-		Kotori.emit({
+		this.ctx.emit({
 			type: 'connect',
 			adapter: this,
 			normal: true,
@@ -90,7 +104,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 	};
 
 	public stop = () => {
-		Kotori.emit({
+		this.ctx.emit({
 			type: 'disconnect',
 			adapter: this,
 			normal: true,

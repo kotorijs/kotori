@@ -1,13 +1,44 @@
 import { obj } from '@kotori-bot/tools';
-import { AdapterEntity, BaseDir, GlobalConfigs, GlobalOptions } from './types';
+import path from 'path';
+import { AdapterEntity, BaseDir, GlobalConfigs, GlobalOptions, KotoriConfigs } from './types';
 import Api from './api';
+
+const defaultConfigs: {
+	baseDir: BaseDir;
+	configs: GlobalConfigs;
+	options: GlobalOptions;
+} = {
+	baseDir: {
+		root: path.resolve('./'),
+		modules: path.resolve('./modules/'),
+	},
+	configs: {
+		global: {
+			lang: 'en_US',
+			'command-prefix': '/',
+		},
+		adapter: {},
+	},
+	options: {
+		nodeEnv: 'dev',
+	},
+};
+
+const setDefaultValue = <T extends object>(value: T, defaultValue: T) => {
+	const newValue = value;
+	Object.keys(newValue).forEach(key => {
+		if (newValue[key as keyof T] !== undefined) return;
+		newValue[key as keyof T] = defaultValue[key as keyof T];
+	});
+	return newValue;
+};
 
 export class Core {
 	protected readonly adapterStack: obj<AdapterEntity> = {};
 
 	// protected readonly botsStack: obj<Adapter[]> = {};
 
-	protected readonly apiStack: obj<Api[]> = {};
+	public readonly apiStack: obj<Api[]> = {};
 
 	public readonly baseDir: BaseDir;
 
@@ -15,13 +46,22 @@ export class Core {
 
 	public readonly options: GlobalOptions;
 
-	public constructor(baseDir: BaseDir, configs: GlobalConfigs, env: GlobalOptions['node_env']) {
-		/* question of there some var kill them... */
-		this.baseDir = baseDir;
-		this.configs = configs;
-		this.options = {
-			node_env: env,
-		};
+	public constructor(configs?: KotoriConfigs) {
+		if (!configs) {
+			this.baseDir = defaultConfigs.baseDir;
+			this.configs = defaultConfigs.configs;
+			this.options = defaultConfigs.options!;
+			return;
+		}
+		this.baseDir = configs.baseDir
+			? setDefaultValue<BaseDir>(configs.baseDir as BaseDir, defaultConfigs.baseDir!)
+			: defaultConfigs.baseDir!;
+		this.configs = configs.configs
+			? setDefaultValue<GlobalConfigs>(configs.configs as GlobalConfigs, defaultConfigs.configs!)
+			: defaultConfigs.configs;
+		this.options = configs.options
+			? setDefaultValue<GlobalOptions>(configs.options as GlobalOptions, defaultConfigs.options!)
+			: defaultConfigs.options;
 	}
 }
 

@@ -54,40 +54,38 @@ const ApiProxy = <T extends Api>(api: T, emit: Events['emit']): T => {
 	return apiProxy;
 };
 
-export abstract class Adapter<T extends Api = Api> extends Events implements AdapterImpl<T> {
-	public constructor(config: AdapterConfig, identity: string, Api: new (adapter: Adapter) => T) {
-		super();
+export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
+	public constructor(config: AdapterConfig, identity: string, Content: Content, Api: new (adapter: Adapter) => T) {
 		this.config = config;
 		this.identity = identity;
-		this.apis = this.apiStack[this.platform] as T[];
-		this.api = ApiProxy(new Api(this), this.emit);
+		this.platform = config.extend;
+		this.ctx = Content;
+		this.api = ApiProxy(new Api(this), this.ctx.emit);
+		if (!this.ctx.apiStack[this.platform]) this.ctx.apiStack[this.platform] = [];
+		(this.ctx.apiStack[this.platform] as T[]).push(this.api);
 	}
 
-	protected readonly apis: T[];
-
 	protected readonly online = () => {
-		if (this.status.value === 'offline') {
-			if (this.status.offlineNum <= 0) {
-				this.emit({
-					type: 'ready',
-					adapter: this,
-				});
-			}
-			this.emit({
-				type: 'online',
+		if (this.status.value !== 'offline') return;
+		if (this.status.offlineNum <= 0) {
+			this.ctx.emit({
+				type: 'ready',
 				adapter: this,
 			});
 		}
+		this.ctx.emit({
+			type: 'online',
+			adapter: this,
+		});
 		this.status.value = 'online';
 	};
 
 	protected readonly offline = () => {
-		if (this.status.value === 'online') {
-			this.emit({
-				adapter: this,
-				type: 'offline',
-			});
-		}
+		if (this.status.value !== 'online') return;
+		this.ctx.emit({
+			adapter: this,
+			type: 'offline',
+		});
 		this.status.value = 'offline';
 		this.status.offlineNum += 1;
 	};
@@ -100,19 +98,21 @@ export abstract class Adapter<T extends Api = Api> extends Events implements Ada
 		this.status.receivedMsg += 1;
 	};
 
-	protected readonly locale = (val: string) => Content.locale(val, this.config.lang);
+	protected readonly locale = (val: string) => this.ctx.locale(val, this.config.lang);
+
+	public readonly ctx: Content;
 
 	public readonly config: AdapterConfig;
 
 	public readonly identity: string;
 
-	public readonly platform: string = '';
+	public readonly platform: string;
 
-	public readonly selfId: number = -1;
+	public selfId: number = -1;
 
-	public readonly nickname: string = '';
+	public nickname: string = '';
 
-	public readonly avatar: string = '';
+	public avatar: string = '';
 
 	public readonly api: T;
 
