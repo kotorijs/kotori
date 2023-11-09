@@ -3,15 +3,15 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-10-28 16:35:45
+ * @LastEditTime: 2023-11-09 22:00:48
  */
-import Kotori, { Adapter, AdapterConfig, Msg, isObj } from 'kotori-bot';
+import { Adapter, AdapterConfig, Content, MessageRaw, isObj } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
 import WsServer from './services/wsserver';
-import { EventDataType, Iconfig, IconfigWs } from './type';
+import { EventDataType, QQConfig, QQConfigWs } from './types';
 
-function checkConfig(config: unknown): config is Iconfig {
+function checkConfig(config: unknown): config is QQConfig {
 	if (!isObj(config)) return false;
 	if (typeof config.port !== 'number') return false;
 	if (config.mode === 'ws') {
@@ -24,14 +24,12 @@ function checkConfig(config: unknown): config is Iconfig {
 }
 
 export default class QQAdapter extends Adapter<QQApi> {
-	private info: string;
+	private readonly info: string;
 
-	public readonly platform: string = 'qq';
+	public readonly config: QQConfig;
 
-	public declare config: Iconfig;
-
-	public constructor(config: AdapterConfig, identity: string) {
-		super(config, identity, QQApi);
+	public constructor(config: AdapterConfig, identity: string, ctx: Content) {
+		super(config, identity, ctx, QQApi);
 		if (!checkConfig(config)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = config;
 		this.info = `${this.config.address}:${this.config.port}`;
@@ -39,7 +37,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	public handle = (data: EventDataType) => {
 		if (data.post_type === 'message' && data.message_type === 'private') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'private_msg',
 				userId: data.user_id,
 				messageId: data.message_id,
@@ -53,7 +51,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'message' && data.message_type === 'group') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_msg',
 				userId: data.user_id,
 				messageId: data.message_id,
@@ -67,14 +65,14 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'private_recall') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'private_recall',
 				userId: data.user_id,
 				messageId: data.message_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_recall') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_recall',
 				userId: data.user_id,
 				messageId: data.message_id,
@@ -83,13 +81,13 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'request' && data.request_type === 'private') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'private_request',
 				userId: data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'request' && data.request_type === 'group') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_request',
 				userId: data.user_id,
 				groupId: data.group_id!,
@@ -97,13 +95,13 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'private_add') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'private_add',
 				userId: data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_increase') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_increase',
 				userId: data.user_id,
 				groupId: data.group_id!,
@@ -111,7 +109,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_decrease') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_decrease',
 				userId: data.user_id,
 				groupId: data.group_id!,
@@ -119,7 +117,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_admin') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_admin',
 				userId: data.user_id,
 				groupId: data.group_id!,
@@ -127,7 +125,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_ban') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'group_ban',
 				userId: data.user_id,
 				groupId: data.group_id!,
@@ -140,8 +138,12 @@ export default class QQAdapter extends Adapter<QQApi> {
 				this.online();
 				if (this.onlineTimerId) clearTimeout(this.onlineTimerId);
 			}
+			if (this.selfId === -1 && typeof data.self_id === 'number') {
+				this.selfId = data.self_id;
+				this.avatar = `https://q.qlogo.cn/g?b=qq&s=640&nk=${this.selfId}`;
+			}
 		} else if (data.data instanceof Object && data.data.message_id && typeof data.data.message_id === 'number') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'send',
 				api: this.api,
 				messageId: data.data.message_id,
@@ -151,7 +153,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 	};
 
 	private funcs = (data: EventDataType) => {
-		const send = (message: Msg) => {
+		const send = (message: MessageRaw) => {
 			if (data.message_type === 'group') {
 				this.api.send_group_msg(message, data.group_id!);
 			} else {
@@ -163,7 +165,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	public start = () => {
 		if (this.config.mode === 'ws-reverse') {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'connect',
 				adapter: this,
 				normal: true,
@@ -175,7 +177,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 	};
 
 	public stop = () => {
-		Kotori.emit({
+		this.ctx.emit({
 			type: 'disconnect',
 			adapter: this,
 			normal: true,
@@ -190,14 +192,14 @@ export default class QQAdapter extends Adapter<QQApi> {
 	private connectWss = async () => {
 		if (this.config.mode === 'ws-reverse') {
 			this.socket = await WsServer(this.config.port);
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'connect',
 				adapter: this,
 				normal: true,
 				info: `client connect to ${this.info}`,
 			});
 			this.socket.on('close', () => {
-				Kotori.emit({
+				this.ctx.emit({
 					type: 'disconnect',
 					adapter: this,
 					normal: false,
@@ -205,7 +207,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				});
 			});
 		} else {
-			Kotori.emit({
+			this.ctx.emit({
 				type: 'connect',
 				adapter: this,
 				normal: true,
@@ -213,17 +215,19 @@ export default class QQAdapter extends Adapter<QQApi> {
 			});
 			this.socket = new WebSocket(`${this.info}`);
 			this.socket.on('close', () => {
-				Kotori.emit({
+				this.ctx.emit({
 					type: 'disconnect',
 					adapter: this,
 					normal: false,
-					info: `unexpected disconnect server from ${this.info}, will reconnect in ${this.config.retry} seconds`,
+					info: `unexpected disconnect server from ${this.info}, will reconnect in ${
+						(this.config as QQConfigWs).retry
+					} seconds`,
 				});
 				setTimeout(
 					() => {
 						if (!this.socket) return;
 						this.socket.close();
-						Kotori.emit({
+						this.ctx.emit({
 							type: 'connect',
 							adapter: this,
 							normal: false,
@@ -231,7 +235,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 						});
 						this.connectWss();
 					},
-					(this.config as IconfigWs).retry * 1000,
+					(this.config as QQConfigWs).retry * 1000,
 				);
 			});
 		}

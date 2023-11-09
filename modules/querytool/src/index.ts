@@ -1,7 +1,7 @@
 import Kotori, { formatTime, getUuid, isObj, stringTemp } from 'kotori-bot';
 import { resolve } from 'path';
 
-Kotori.logger.debug(Kotori.uselang(resolve(__dirname, '../locales')));
+Kotori.uselang(resolve(__dirname, '../locales'));
 
 Kotori.command('github <repository> - Github仓库搜索')
 	.action(async data => {

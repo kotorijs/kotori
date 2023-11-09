@@ -1,3 +1,3 @@
 export * from './function';
 export * from './function.node';
-export * from './type';
+export * from './types';

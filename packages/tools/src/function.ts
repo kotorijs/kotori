@@ -1,4 +1,4 @@
-import { FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, StringTempArgs, obj } from './type';
+import { FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, StringTempArgs, obj } from './types';
 
 export const initialize: MethodDecorator = (_, __, val) => {
 	if (val.value instanceof Function) val.value();

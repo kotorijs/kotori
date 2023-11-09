@@ -41,9 +41,9 @@ export class Modules extends Content {
 	};
 
 	private readonly getModuleRootDir = () => {
-		if (fs.existsSync(this.baseDir.MODULES)) this.moduleRootDir.push(this.baseDir.MODULES);
-		if (fs.existsSync(path.join(this.baseDir.ROOT, 'node_modules'))) {
-			this.moduleRootDir.push(path.join(this.baseDir.ROOT, 'node_modules'));
+		if (fs.existsSync(this.baseDir.modules)) this.moduleRootDir.push(this.baseDir.modules);
+		if (fs.existsSync(path.join(this.baseDir.root!, 'node_modules'))) {
+			this.moduleRootDir.push(path.join(this.baseDir.root, 'node_modules'));
 		}
 	};
 
@@ -81,7 +81,7 @@ export class Modules extends Content {
 			this.getModuleList(dir);
 		});
 		for (const module of this.moduleStack) {
-			this.module(module);
+			this.module(module, this);
 		}
 	};
 
@@ -90,13 +90,11 @@ export class Modules extends Content {
 			module.fileList.forEach(file =>
 				fs.watchFile(file, () => {
 					this.delcache(module);
-					this.module(module);
+					this.module(module, this);
 				}),
 			),
 		);
 	};
-
-	public readonly getApis = this.apiStack;
 
 	public readonly getAdapters = this.adapterStack;
 }

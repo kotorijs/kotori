@@ -1,0 +1,17 @@
+{
+    "corei18n.template.args_error": "输入参数错误，请检查后重新发送",
+    "corei18n.template.args_few": "输入参数过少，请减少参数",
+    "corei18n.template.args_many": "输入参数过多，请添加参数",
+    "corei18n.template.option_error": "输入选项错误，请检查后重新发送",
+    "corei18n.template.syntax": "指令语法错误，请重试",
+    "corei18n.template.unknown": "未知的错误！\nCode：%code%",
+    "----------------------": "----------",
+    "corei18n.template.data_rror": "返回数据错误！请联系管理员\n源数据：%res%",
+    "corei18n.template.num.error": "序号错误,请重新发送",
+    "corei18n.template.num.choose": "再次发送指令并传入参数[序号]以选择对应内容\n示例:/指令 内容 2",
+    "corei18n.template.no_access.1": "该指令仅群管理员与群BOT管理员可执行!",
+    "corei18n.template.no_access.2": "该指令仅BOT超级管理员可执行!",
+    "corei18n.template.disable": "该功能目前未启用,请联系管理员开启",
+    "corei18n.template.exist": "输入参数目标已存在,请勿重复执行",
+    "corei18n.template.no_esist": "目标参数不存在,请确认后重新发送"
+}

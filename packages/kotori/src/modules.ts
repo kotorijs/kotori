@@ -6,8 +6,10 @@ import Events from './events';
 import Content from './content';
 import Adapter from './adapter';
 import { AdapterEntity, ModuleData, ModuleEntityClass, ModuleEntityFunc, ModuleService } from './types';
+import Kotori from '.';
 
 const ModuleError = new KotoriError(undefined, 'ModuleError', 'normal').extend();
+
 export class Modules extends Events {
 	private moduleCurrent: string | 'core' = 'core';
 
@@ -42,6 +44,7 @@ export class Modules extends Events {
 	private loadEntity = (
 		Entity: ModuleEntityFunc | ModuleEntityClass,
 		moduleObj: string | ModuleData,
+		ctx: Content,
 	): ModuleService => {
 		if (isClass(Entity)) {
 			const func = (Obj: object): Obj is AdapterEntity => Adapter.isPrototypeOf.call(Adapter, Obj);
@@ -51,38 +54,42 @@ export class Modules extends Events {
 				this.adapterStack[adapterName] = Entity;
 				return 'adapter';
 			}
-			none(new Entity(Content));
-		} else {
-			Entity(Content);
+			none(new Entity(ctx));
+			return 'plugin';
 		}
+		Entity(ctx);
 		return 'plugin';
 	};
 
 	protected readonly moduleStack: ModuleData[] = [];
 
-	public module = async (moduleObj: string | ModuleData | ModuleEntityFunc | ModuleEntityClass) => {
+	public module = async (
+		moduleObj: string | ModuleData | ModuleEntityFunc | ModuleEntityClass,
+		ctx: Content = Kotori,
+	) => {
 		let service: ModuleService = 'plugin';
 		const isString = typeof moduleObj === 'string';
 		const isFunc = moduleObj instanceof Function;
 
 		try {
 			if (moduleObj instanceof Function) {
-				service = this.loadEntity(moduleObj, '');
+				service = this.loadEntity(moduleObj, '', ctx);
 			} else {
 				const modulePath = isString ? moduleObj : moduleObj.mainPath;
 				if (isString && !fs.existsSync(moduleObj)) throw new ModuleError(`cannot find ${path}`);
 				await this.setModuleCureent(modulePath);
 				const moduleObject = await import(modulePath);
-				if (!isObj(moduleObject)) return;
-				if (moduleObject.default instanceof Function) {
-					service = this.loadEntity(moduleObject.default, moduleObj);
+				if (!isObj(moduleObject)) {
+					throw new ModuleError(`Not a valid module ${modulePath}`);
+				} else if (moduleObject.default instanceof Function) {
+					service = this.loadEntity(moduleObject.default, moduleObj, ctx);
 				} else if (moduleObject.main instanceof Function && !isClass(moduleObject.main)) {
-					moduleObject.main(Content);
+					moduleObject.main(ctx);
 					service = 'plugin';
 				} else if (moduleObject.Main instanceof Function && isClass(moduleObject.Main)) {
-					service = this.loadEntity(moduleObject.Main, moduleObj);
+					service = this.loadEntity(moduleObject.Main, moduleObj, ctx);
 				} else {
-					throw new ModuleError(`Not a valid module ${modulePath}`);
+					service = 'plugin';
 				}
 			}
 		} catch (err) {

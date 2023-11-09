@@ -3,31 +3,38 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-05 17:24:42
+ * @LastEditTime: 2023-11-09 21:23:37
  */
-import { Adapter, KotoriError, EventType, isObj, none, ContentInstance } from 'kotori-bot';
-import './log';
+import { Adapter, KotoriError, EventType, isObj, ContentInstance, KotoriConfigs } from 'kotori-bot';
 import Modules from './modules';
+import { baseDir, getPackageInfo, globalConfigs } from './global';
+import loadInfo from './log';
 
 const enum GLOBAL {
 	REPO = 'https://github.com/biyuehu/kotori-bot',
 }
 
-/* here some questions... */
+const isDev = 'Content.options.node_env'.toString() !== 'dev';
+
+const kotoriConfigs: KotoriConfigs = {
+	baseDir,
+	configs: globalConfigs,
+	options: {
+		nodeEnv: isDev ? 'dev' : 'production',
+	},
+};
 
 class Main extends ContentInstance {
-	/* global */
-	private isDev = 'Content.options.node_env'.toString() !== 'dev';
-
 	private ctx: Modules;
 
 	public constructor() {
-		if (!Main.instance) Main.instance = new Modules();
+		Main.setInstance(new Modules(kotoriConfigs));
 		super();
-		this.ctx = Main.instance as Modules;
+		this.ctx = Main.getInstance() as Modules;
 	}
 
-	public run = async () => {
+	public run = () => {
+		loadInfo();
 		this.catchError();
 		this.listenMessage();
 		this.loadAllModule();
@@ -41,7 +48,7 @@ class Main extends ContentInstance {
 				return;
 			} */
 			const isKotoriError = err instanceof KotoriError;
-			this.ctx.logger.error(isKotoriError ? '' : prefix, err);
+			/* this.ctx.logger.error */ console.error(isKotoriError ? '' : prefix, err);
 			if (isKotoriError && err.name === 'CoreError') process.emit('SIGINT');
 		};
 		process.on('uncaughtExceptionMonitor', err => handleError(err, 'UCE'));
@@ -49,7 +56,7 @@ class Main extends ContentInstance {
 		process.on('SIGINT', () => {
 			process.exit();
 		});
-		if (this.isDev) this.ctx.logger.debug('Run Info: Develop With Debuing...');
+		if (isDev) this.ctx.logger.debug('Run Info: Develop With Debuing...');
 	};
 
 	private readonly listenMessage = () => {
@@ -62,7 +69,6 @@ class Main extends ContentInstance {
 			);
 		};
 
-		this.ctx.registeMessageEvent();
 		this.ctx.on('connect', handleConnectInfo);
 		this.ctx.on('disconnect', handleConnectInfo);
 		this.ctx.on('load_module', data => {
@@ -82,31 +88,29 @@ class Main extends ContentInstance {
 
 	private readonly loadAllModule = () => {
 		this.ctx.moduleAll();
-		if (this.isDev) this.ctx.watchFile();
+		if (isDev) this.ctx.watchFile();
 	};
 
 	private readonly loadAllAdapter = () => {
-		none(this);
 		for (const botName of Object.keys(this.ctx.configs.adapter)) {
 			const botConfig = this.ctx.configs.adapter[botName];
 			if (botConfig.extend in this.ctx.getAdapters) {
-				const bot = new this.ctx.getAdapters[botConfig.extend](botConfig, botName);
-				// if (!(botConfig.extend in Adapter)) Adapter.apis[botConfig.extend] = [];
-				this.ctx.getApis[botConfig.extend].push(bot.api);
+				const bot = new this.ctx.getAdapters[botConfig.extend](botConfig, botName, this.ctx);
+				// if (!(botConfig.extend in Adapter)) Adapter.apis[botConfig.extend] = []; // I dont know whats this
+				this.ctx.apiStack[botConfig.extend].push(bot.api);
 				bot.start();
 				continue;
 			}
 			this.ctx.logger.warn(`Cannot find adapter '${botConfig.extend}' for ${botName}`);
 		}
 		const adapters: Adapter[] = [];
-		Object.values(this.ctx.getApis).forEach(apis => {
+		Object.values(this.ctx.apiStack).forEach(apis => {
 			apis.forEach(api => adapters.push(api.adapter));
 		});
 		// this.ctx.emit({ type: 'adapters', adapters });
 	};
 
 	private readonly checkUpdate = async () => {
-		none(this);
 		const params = { url: 'https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/package.json' };
 		const version = getPackageInfo().version;
 		const res = await this.ctx.http

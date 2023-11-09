@@ -1,5 +1,5 @@
 {
-    "name": "kotori-plugin-adapter-qq",
+    "name": "@kotori-bot/kotori-plugin-adapter-qq",
     "version": "1.0.0",
     "description": "Adapter For QQ",
     "main": "src/index.ts",

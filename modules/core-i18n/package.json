@@ -1,7 +1,7 @@
 {
-    "name": "@kotori-bot/kotori-plugin-adapter-cmd",
+    "name": "@kotori-bot/kotori-plugin-core-i18n",
     "version": "1.0.0",
-    "description": "Adapter For Cmd",
+    "description": "i18n for kotori-core",
     "main": "src/index.ts",
     "license": "GPL-3.0",
     "author": "Hotaru <biyuehuya@gmail.com>",
