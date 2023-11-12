@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-09 22:00:48
+ * @LastEditTime: 2023-11-12 16:30:28
  */
-import { Adapter, AdapterConfig, Content, MessageRaw, isObj } from 'kotori-bot';
+import { Adapter, AdapterConfig, Context, MessageRaw, isObj } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
 import WsServer from './services/wsserver';
@@ -28,7 +28,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	public readonly config: QQConfig;
 
-	public constructor(config: AdapterConfig, identity: string, ctx: Content) {
+	public constructor(config: AdapterConfig, identity: string, ctx: Context) {
 		super(config, identity, ctx, QQApi);
 		if (!checkConfig(config)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = config;
@@ -37,8 +37,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	public handle = (data: EventDataType) => {
 		if (data.post_type === 'message' && data.message_type === 'private') {
-			this.ctx.emit({
-				type: 'private_msg',
+			this.ctx.emit('private_msg', {
 				userId: data.user_id,
 				messageId: data.message_id,
 				message: data.message,
@@ -51,8 +50,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'message' && data.message_type === 'group') {
-			this.ctx.emit({
-				type: 'group_msg',
+			this.ctx.emit('group_msg', {
 				userId: data.user_id,
 				messageId: data.message_id,
 				message: data.message,
@@ -65,15 +63,13 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'private_recall') {
-			this.ctx.emit({
-				type: 'private_recall',
+			this.ctx.emit('private_recall', {
 				userId: data.user_id,
 				messageId: data.message_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_recall') {
-			this.ctx.emit({
-				type: 'group_recall',
+			this.ctx.emit('group_recall', {
 				userId: data.user_id,
 				messageId: data.message_id,
 				groupId: data.group_id!,
@@ -81,52 +77,45 @@ export default class QQAdapter extends Adapter<QQApi> {
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'request' && data.request_type === 'private') {
-			this.ctx.emit({
-				type: 'private_request',
+			this.ctx.emit('private_request', {
 				userId: data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'request' && data.request_type === 'group') {
-			this.ctx.emit({
-				type: 'group_request',
+			this.ctx.emit('group_request', {
 				userId: data.user_id,
 				groupId: data.group_id!,
 				operatorId: data.operator_id || data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'private_add') {
-			this.ctx.emit({
-				type: 'private_add',
+			this.ctx.emit('private_add', {
 				userId: data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_increase') {
-			this.ctx.emit({
-				type: 'group_increase',
+			this.ctx.emit('group_increase', {
 				userId: data.user_id,
 				groupId: data.group_id!,
 				operatorId: data.operator_id || data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_decrease') {
-			this.ctx.emit({
-				type: 'group_decrease',
+			this.ctx.emit('group_decrease', {
 				userId: data.user_id,
 				groupId: data.group_id!,
 				operatorId: data.operator_id || data.user_id,
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_admin') {
-			this.ctx.emit({
-				type: 'group_admin',
+			this.ctx.emit('group_admin', {
 				userId: data.user_id,
 				groupId: data.group_id!,
 				operation: data.sub_type === 'set' ? 'set' : 'unset',
 				...this.funcs(data),
 			});
 		} else if (data.post_type === 'notice' && data.notice_type === 'group_ban') {
-			this.ctx.emit({
-				type: 'group_ban',
+			this.ctx.emit('group_ban', {
 				userId: data.user_id,
 				groupId: data.group_id!,
 				operatorId: data.operator_id,
@@ -143,8 +132,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 				this.avatar = `https://q.qlogo.cn/g?b=qq&s=640&nk=${this.selfId}`;
 			}
 		} else if (data.data instanceof Object && data.data.message_id && typeof data.data.message_id === 'number') {
-			this.ctx.emit({
-				type: 'send',
+			this.ctx.emit('send', {
 				api: this.api,
 				messageId: data.data.message_id,
 			});
@@ -165,8 +153,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	public start = () => {
 		if (this.config.mode === 'ws-reverse') {
-			this.ctx.emit({
-				type: 'connect',
+			this.ctx.emit('connect', {
 				adapter: this,
 				normal: true,
 				info: `start wsserver at ${this.info}`,
@@ -177,8 +164,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 	};
 
 	public stop = () => {
-		this.ctx.emit({
-			type: 'disconnect',
+		this.ctx.emit('disconnect', {
 			adapter: this,
 			normal: true,
 			info: this.config.mode === 'ws' ? `disconnect from ${this.info}` : `stop wsserver at ${this.info}`,
@@ -192,31 +178,27 @@ export default class QQAdapter extends Adapter<QQApi> {
 	private connectWss = async () => {
 		if (this.config.mode === 'ws-reverse') {
 			this.socket = await WsServer(this.config.port);
-			this.ctx.emit({
-				type: 'connect',
+			this.ctx.emit('connect', {
 				adapter: this,
 				normal: true,
 				info: `client connect to ${this.info}`,
 			});
 			this.socket.on('close', () => {
-				this.ctx.emit({
-					type: 'disconnect',
+				this.ctx.emit('disconnect', {
 					adapter: this,
 					normal: false,
 					info: `unexpected client disconnect from ${this.info}`,
 				});
 			});
 		} else {
-			this.ctx.emit({
-				type: 'connect',
+			this.ctx.emit('connect', {
 				adapter: this,
 				normal: true,
 				info: `connect server to ${this.info}`,
 			});
 			this.socket = new WebSocket(`${this.info}`);
 			this.socket.on('close', () => {
-				this.ctx.emit({
-					type: 'disconnect',
+				this.ctx.emit('disconnect', {
 					adapter: this,
 					normal: false,
 					info: `unexpected disconnect server from ${this.info}, will reconnect in ${
@@ -227,8 +209,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 					() => {
 						if (!this.socket) return;
 						this.socket.close();
-						this.ctx.emit({
-							type: 'connect',
+						this.ctx.emit('connect', {
 							adapter: this,
 							normal: false,
 							info: `reconnect server to ${this.info}`,
@@ -241,8 +222,8 @@ export default class QQAdapter extends Adapter<QQApi> {
 		}
 		this.socket.on('message', data => this.handle(JSON.parse(data.toString())));
 
-		this.send = (action, param?) => {
-			this.socket?.send(JSON.stringify({ action, ...param }));
+		this.send = (action, params?) => {
+			this.socket?.send(JSON.stringify({ action, params }));
 		};
 	};
 

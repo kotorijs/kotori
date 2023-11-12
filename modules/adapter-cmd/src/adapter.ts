@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-09 21:56:50
+ * @LastEditTime: 2023-11-10 10:45:12
  */
-import { Adapter, AdapterConfig, MessageRaw, EventDataMsgSender, isObj, Content } from 'kotori-bot';
+import { Adapter, AdapterConfig, MessageRaw, EventDataMsgSender, isObj, Context } from 'kotori-bot';
 import CmdApi from './api';
 
 interface CmdConfig extends AdapterConfig {
@@ -36,7 +36,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 	public constructor(
 		config: Partial<keyof Omit<CmdConfig, keyof AdapterConfig>> & AdapterConfig,
 		identity: string,
-		ctx: Content,
+		ctx: Context,
 	) {
 		const defaultConfig: Omit<CmdConfig, keyof AdapterConfig> = {
 			nickname: 'Kotarou',
@@ -62,8 +62,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 		if (message === '\n' || message === '\r\n') return;
 		message = message.replace('\r\n', '').replace('\n', '');
 
-		this.ctx.emit({
-			type: 'private_msg',
+		this.ctx.emit('private_msg', {
 			messageId: this.messageId,
 			message,
 			userId: this.config.master,
@@ -88,14 +87,12 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 			if ((params as { user_id: unknown }).user_id !== this.config.master) return;
 			process.stdout.write(`${this.nickname} > ${(params as { message: string }).message} \r\n`);
 			this.messageId += 1;
-			this.ctx.emit({
-				type: 'send',
+			this.ctx.emit('send', {
 				api: this.api,
 				messageId: this.messageId,
 			});
 		};
-		this.ctx.emit({
-			type: 'connect',
+		this.ctx.emit('connect', {
 			adapter: this,
 			normal: true,
 			info: `start cmd-line listen`,
@@ -104,8 +101,7 @@ export default class CmdAdapter extends Adapter<CmdApi> {
 	};
 
 	public stop = () => {
-		this.ctx.emit({
-			type: 'disconnect',
+		this.ctx.emit('disconnect', {
 			adapter: this,
 			normal: true,
 			info: `stop cmd-line listen`,

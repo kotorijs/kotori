@@ -1,20 +1,25 @@
 global:
+  lang: 'zh_CN'
   command-prefix: "/"
-  lang: "zh_CN"
+  command-alias: ['<at target=${selfId} /> ']
+  dirs: [
+    './node_modules/',
+    './node_modules/@kotori-bot/'
+  ]
 
 adapter:
   kotori:
       extend: "qq"
       master: 3324656453
       # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
-      mode: ws-reverse
-      address: "ws://127.0.0.1"
+      mode: ws
+      # address: "ws://127.0.0.1"
       # WebSocket反向(相对于Gocqhttp)
-      port: 8080 # WS反向端口
+      # port: 8080 # WS反向端口
       # WebSocket正向
-      # address: "ws://localhost" # WS地址
-      # port: 8888 # WS端口
-      # retry: 10 # 同上
+      address: "ws://69.176.89.123" # WS地址
+      port: 8088 # WS端口
+      retry: 10 # 同上
       # Http正反向(暂未支持)
       # address: "http://localhost" # 正向Http地址
       # port: 8888 # 正向Http端口

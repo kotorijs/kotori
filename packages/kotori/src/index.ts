@@ -1,30 +1,30 @@
 import { none } from '@kotori-bot/tools';
-import Content from './content';
+import Context from './context';
 
 export * from './adapter';
 export * from './api';
-export * from './content';
+export * from './context';
 export * from './errror';
 export * from './types';
 export * from '@kotori-bot/tools';
 
-export class ContentInstance {
+export class ContextInstance {
 	protected constructor() {
 		none();
 	}
 
-	private static instance: Content = {} as Content;
+	private static instance: Context = {} as Context;
 
-	protected static readonly setInstance = (Ctx: Content) => {
+	protected static readonly setInstance = (Ctx: Context) => {
 		this.instance = Ctx;
 	};
 
-	public static readonly getInstance = (): Content => Object.create(this.instance);
+	public static readonly getInstance = (): Context => Object.create(this.instance);
 
-	public static readonly getInstanceMixin = () => Object.assign(ContentInstance.getInstance(), Content);
+	public static readonly getInstanceMixin = () => Object.assign(ContextInstance.getInstance(), Context);
 }
 
-// const ctx = ContentInstance.getInstance();
+// const ctx = ContextInstance.getInstance();
 
 // namespace KotoriSpace {
 // 	/* Core Class */
@@ -49,9 +49,9 @@ export class ContentInstance {
 // 	export const { http } = ctx;
 // }
 
-export const Kotori: typeof Content & Content = new Proxy(ContentInstance.getInstanceMixin(), {
+export const Kotori: typeof Context & Context = new Proxy(ContextInstance.getInstanceMixin(), {
 	get: (_, prop) => {
-		const target = ContentInstance.getInstanceMixin();
+		const target = ContextInstance.getInstanceMixin();
 		if (prop === undefined) return target;
 		return target[prop as keyof typeof target];
 	},

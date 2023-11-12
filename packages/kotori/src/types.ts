@@ -2,7 +2,7 @@ import { StringTempArgs, obj } from '@kotori-bot/tools';
 import { langType } from '@kotori-bot/i18n';
 import Api from './api';
 import Adapter from './adapter';
-import { Content } from '.';
+import { Context } from '.';
 
 export type KotoriConfigs = {
 	baseDir?: {
@@ -44,12 +44,12 @@ export interface AdapterConfig {
 	'command-prefix': string;
 }
 
-export type AdapterEntity = new (config: AdapterConfig, identity: string, ctx: Content) => Adapter;
+export type AdapterEntity = new (config: AdapterConfig, identity: string, ctx: Context) => Adapter;
 
 export type CommandAccess = 'member' | 'manger' | 'admin';
 
 export type CommandAction = (
-	data: { args: CommandArgType[]; options: obj<CommandArgType>; quick: (msg: MessageQuick) => void },
+	data: { args: CommandArgType[]; options: obj<CommandArgType>; quick: MessageQuickFunc },
 	events: EventType['group_msg' | 'private_msg'],
 ) => MessageQuick | Promise<MessageQuick>;
 export type CommandArgType = string | number;
@@ -92,7 +92,9 @@ export interface CommandData {
 
 export type MessageRaw = string;
 export type MessageScope = 'private' | 'group';
-export type MessageQuick = void | MessageRaw | [string, StringTempArgs];
+export type MessageQuickFunc = (msg: MessageQuick) => void;
+export type MessageQuickReal = void | MessageRaw | [string, StringTempArgs];
+export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 export const enum CommandResult {
 	SUCCESS,
 	OPTION_ERROR,
@@ -100,6 +102,8 @@ export const enum CommandResult {
 	MANY_ARG,
 	FEW_ARG,
 	SYNTAX,
+	UNKNOWN,
+	ERROR,
 }
 
 export type ModuleService = 'database' | 'adapter' | 'plugin';
@@ -125,7 +129,7 @@ export interface ModuleData {
 	mainPath: string;
 }
 
-interface EventDataBase<T extends keyof EventList> {
+interface EventDataBase<T extends keyof EventType> {
 	type: T;
 }
 
@@ -219,7 +223,7 @@ interface EventDataSend extends EventDataBase<'send'> {
 	adapters: Adapter[];
 } */
 
-interface EventDataAdapterBase<T extends keyof EventList> extends EventDataBase<T> {
+interface EventDataAdapterBase<T extends keyof EventType> extends EventDataBase<T> {
 	userId: number;
 	send: (message: MessageRaw) => void | Promise<unknown>;
 	locale: (val: string) => string;
@@ -228,7 +232,7 @@ interface EventDataAdapterBase<T extends keyof EventList> extends EventDataBase<
 
 export type EventDataMsg = EventDataPrivateMsg | EventDataGroupMsg;
 
-interface EventDataPrivateMsg<T extends keyof EventList = 'private_msg'> extends EventDataAdapterBase<T> {
+interface EventDataPrivateMsg<T extends keyof EventType = 'private_msg'> extends EventDataAdapterBase<T> {
 	messageId: number;
 	message: MessageRaw;
 	messageH?: object /* what is this? */;
@@ -317,12 +321,13 @@ export interface EventType {
 	group_ban: EventDataGroupBan;
 }
 
-export type EventCallback<T extends keyof EventType> = (
-	data: EventType[T],
-) => void | MessageRaw | Promise<void | MessageRaw>;
+/* 
+export type EventType = { [P in keyof EventAfterType]: EventAfterType[P]} & { 
+    [P in `before_${keyof EventBeforeType}`]: EventBeforeType[T extends `before_${infer R}` ? R : T];
+} */
 
-export type EventList = {
-	[P in keyof EventType]: EventCallback<P>[];
-};
+export type EventCallback<T extends keyof EventType> = (data: EventType[T]) => void;
+
+export type EventLists = { type: keyof EventType; callback: EventCallback<keyof EventType> }[];
 
 export type EventListenerFunc = <T extends keyof EventType>(type: T, callback: EventCallback<T>) => boolean;
