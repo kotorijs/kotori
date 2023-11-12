@@ -1,0 +1,11 @@
+{
+    "name": "@kotori-bot/kotori-plugin-hitokotos",
+    "version": "1.0.0",
+    "description": "Seventeen kind of different sentences",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Hotaru <biyuehuya@gmail.com>",
+    "peerDependencies": {
+        "kotori-bot": "workspace:^"
+    }
+}

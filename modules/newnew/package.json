@@ -1,0 +1,11 @@
+{
+    "name": "@kotori-bot/kotori-plugin-penis",
+    "version": "1.0.0",
+    "description": "查看今日牛牛的长度和排行",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Himeno <biyuehuya@gmail.com>",
+    "peerDependencies": {
+        "kotori-bot": "workspace:^"
+    }
+}

@@ -10,13 +10,14 @@ import {
 	MessageRaw,
 	MessageScope,
 	EventDataMsg,
+	MessageQuickFunc,
 } from './types';
 import Modules from './modules';
 import Api from './api';
 import Command from './command';
 
-type MidwareCallback = (data: EventDataMsg, next: () => void) => MessageQuick;
-type RegexpCallback = (match: RegExpMatchArray, data: EventDataMsg) => MessageQuick;
+type MidwareCallback = (data: EventDataMsg, next: () => void, qucik: MessageQuickFunc) => MessageQuick;
+type RegexpCallback = (data: EventDataMsg, match: RegExpMatchArray, quick: MessageQuickFunc) => MessageQuick;
 
 interface MidwareStack {
 	extend: string;
@@ -52,6 +53,7 @@ const parseCommand = (input: string) => {
 			if (alias.length <= 0) continue;
 			root = alias[0];
 		}
+
 		cmd = (input.split(root)[1] ?? '').trim();
 
 		/* parse options */
@@ -89,7 +91,7 @@ const parseCommand = (input: string) => {
 				let val: CommandArgType = current.trim();
 				if (arg.type === 'number' && typeof val !== 'number') {
 					val = parseInt(current, 10);
-					if (Number.isNaN(current)) return CommandResult.ARG_ERROR;
+					if (Number.isNaN(val)) return CommandResult.ARG_ERROR;
 				}
 				args.push(val);
 				current = '';
@@ -115,7 +117,7 @@ const parseCommand = (input: string) => {
 		}
 		return { action: data.action, args, options };
 	}
-	return 3; // unknown command
+	return CommandResult.UNKNOWN; // unknown command
 };
 
 export class Message extends Modules {
@@ -127,12 +129,11 @@ export class Message extends Modules {
 	private readonly regexpStack: RegexpStack[] = [];
 
 	private readonly handleMessageEvent: EventCallback<'group_msg' | 'private_msg'> = messageData => {
-		const quick = (message: MessageQuick) => {
-			if (!message) return;
+		const quick: MessageQuickFunc = async message => {
+			const msg = await message;
+			if (!msg) return;
 			const val =
-				typeof message === 'string'
-					? messageData.locale(message)
-					: stringTemp(messageData.locale(message[0]), message[1]);
+				typeof msg === 'string' ? messageData.locale(msg) : stringTemp(messageData.locale(msg[0]), msg[1]);
 			if (!val) return;
 			messageData.send(val);
 		};
@@ -146,9 +147,9 @@ export class Message extends Modules {
 				break;
 			}
 			lastMidwareNum = midwareStack.length;
-			quick(midwareStack[0].callback(messageData, () => midwareStack.shift()));
+			quick(midwareStack[0].callback(messageData, () => midwareStack.shift(), quick));
 		}
-		this.emit({ type: 'midwares', isPass, messageData, quick });
+		this.emit('midwares', { isPass, messageData, quick });
 	};
 
 	protected registeMessageEvent = () => {
@@ -171,11 +172,11 @@ export class Message extends Modules {
 				const cancel = () => {
 					isCancel = true;
 				};
-				this.emit({ type: 'before_command', cancel, ...commonParams });
+				this.emit('before_command', { cancel, ...commonParams });
 				if (isCancel) return;
 				const execute = parseCommand(commonParams.command);
 				const isSuccess = execute instanceof Object;
-				this.emit({ type: 'command', result: isSuccess ? 0 : execute, ...commonParams, cancel });
+				this.emit('command', { result: isSuccess ? 0 : execute, ...commonParams, cancel });
 				if (isCancel) return;
 				quick(
 					isSuccess
@@ -189,7 +190,7 @@ export class Message extends Modules {
 			this.regexpStack.forEach(element => {
 				const match = messageData.message.match(element.match);
 				if (!match) return;
-				quick(element.callback(match, messageData));
+				quick(element.callback(messageData, match, quick));
 			});
 		});
 		this.on('unload_module', data => {

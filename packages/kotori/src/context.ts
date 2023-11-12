@@ -19,7 +19,7 @@ const http = {
 	head: requestType('head'),
 };
 
-export class Content extends Message {
+export class Context extends Message {
 	public readonly http = http;
 
 	public readonly logger = Logger;
@@ -41,6 +41,10 @@ export class Content extends Message {
 
 	private readonly initialize = () => {
 		this.registeMessageEvent();
+		this.midware((data, next) => {
+			const selfId = data.api.adapter.selfId;
+			if (data.userId !== selfId) next();
+		}, 50);
 	};
 }
 
@@ -50,4 +54,4 @@ export class Content extends Message {
 	}
 } */
 
-export default Content;
+export default Context;

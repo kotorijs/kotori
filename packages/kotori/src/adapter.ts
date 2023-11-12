@@ -1,6 +1,6 @@
 import { none } from '@kotori-bot/tools';
 import Api from './api';
-import Content from './content';
+import Context from './context';
 import Events from './events';
 import { AdapterConfig, MessageRaw, MessageScope } from './types';
 
@@ -42,7 +42,7 @@ const ApiProxy = <T extends Api>(api: T, emit: Events['emit']): T => {
 		const cancel = () => {
 			isCancel = true;
 		};
-		emit({ type: 'before_send', api, message, messageType, targetId, cancel });
+		emit('before_send', { api, message, messageType, targetId, cancel });
 		if (!isCancel) target(message, targetId);
 	};
 	apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
@@ -51,15 +51,15 @@ const ApiProxy = <T extends Api>(api: T, emit: Events['emit']): T => {
 	apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
 		apply: (target, _, argArray) => applyCommon(target, argArray as [MessageRaw, number], 'group'),
 	});
-	return apiProxy;
+	return Object.assign(api, apiProxy);
 };
 
 export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
-	public constructor(config: AdapterConfig, identity: string, Content: Content, Api: new (adapter: Adapter) => T) {
+	public constructor(config: AdapterConfig, identity: string, Context: Context, Api: new (adapter: Adapter) => T) {
 		this.config = config;
 		this.identity = identity;
 		this.platform = config.extend;
-		this.ctx = Content;
+		this.ctx = Context;
 		this.api = ApiProxy(new Api(this), this.ctx.emit);
 		if (!this.ctx.apiStack[this.platform]) this.ctx.apiStack[this.platform] = [];
 		(this.ctx.apiStack[this.platform] as T[]).push(this.api);
@@ -68,24 +68,15 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 	protected readonly online = () => {
 		if (this.status.value !== 'offline') return;
 		if (this.status.offlineNum <= 0) {
-			this.ctx.emit({
-				type: 'ready',
-				adapter: this,
-			});
+			this.ctx.emit('ready', { adapter: this });
 		}
-		this.ctx.emit({
-			type: 'online',
-			adapter: this,
-		});
+		this.ctx.emit('online', { adapter: this });
 		this.status.value = 'online';
 	};
 
 	protected readonly offline = () => {
 		if (this.status.value !== 'online') return;
-		this.ctx.emit({
-			adapter: this,
-			type: 'offline',
-		});
+		this.ctx.emit('offline', { adapter: this });
 		this.status.value = 'offline';
 		this.status.offlineNum += 1;
 	};
@@ -100,7 +91,7 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 
 	protected readonly locale = (val: string) => this.ctx.locale(val, this.config.lang);
 
-	public readonly ctx: Content;
+	public readonly ctx: Context;
 
 	public readonly config: AdapterConfig;
 

@@ -1,0 +1,11 @@
+{
+    "name": "@kotori-bot/kotori-plugin-goodnight",
+    "version": "1.0.0",
+    "description": "And in case i don't see you,good afternoon,good evening,and good night!",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Hotaru <biyuehuya@gmail.com>",
+    "peerDependencies": {
+        "kotori-bot": "workspace:^"
+    }
+}

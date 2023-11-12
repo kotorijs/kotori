@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-11-09 21:23:37
  */
-import { Adapter, KotoriError, EventType, isObj, ContentInstance, KotoriConfigs } from 'kotori-bot';
+import { Adapter, KotoriError, EventType, isObj, ContextInstance, KotoriConfigs } from 'kotori-bot';
 import Modules from './modules';
 import { baseDir, getPackageInfo, globalConfigs } from './global';
 import loadInfo from './log';
@@ -14,7 +14,7 @@ const enum GLOBAL {
 	REPO = 'https://github.com/biyuehu/kotori-bot',
 }
 
-const isDev = 'Content.options.node_env'.toString() !== 'dev';
+const isDev = 'Context.options.node_env'.toString() !== 'dev';
 
 const kotoriConfigs: KotoriConfigs = {
 	baseDir,
@@ -24,7 +24,7 @@ const kotoriConfigs: KotoriConfigs = {
 	},
 };
 
-class Main extends ContentInstance {
+class Main extends ContextInstance {
 	private ctx: Modules;
 
 	public constructor() {
@@ -43,12 +43,8 @@ class Main extends ContentInstance {
 
 	private readonly catchError = () => {
 		const handleError = (err: Error | unknown, prefix: string) => {
-			/* 			if (err instanceof Content.http.error) {
-				Content.logger.error(err.toString());
-				return;
-			} */
 			const isKotoriError = err instanceof KotoriError;
-			/* this.ctx.logger.error */ console.error(isKotoriError ? '' : prefix, err);
+			this.ctx.logger.error(isKotoriError ? '' : prefix, err);
 			if (isKotoriError && err.name === 'CoreError') process.emit('SIGINT');
 		};
 		process.on('uncaughtExceptionMonitor', err => handleError(err, 'UCE'));
@@ -129,10 +125,3 @@ class Main extends ContentInstance {
 }
 
 export default Main;
-
-/* Catch Error */
-/*     private domainDemo: Domain.Domain = Domain.create();
-        private catchError = () => this.domainDemo.on('error', err => {
-            console.error(T.LOG_PREFIX.PLUGIN, err);
-        });
-     */

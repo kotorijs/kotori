@@ -1,7 +1,7 @@
 import { isObj } from '@kotori-bot/tools';
 import fs from 'fs';
 import path from 'path';
-import { Content, KotoriError, ModulePackage } from 'kotori-bot';
+import { Context, KotoriError, ModulePackage } from 'kotori-bot';
 
 const checkPackageJson = (json: unknown): json is ModulePackage => {
 	if (!isObj(json)) return false;
@@ -23,7 +23,7 @@ const checkModuleName = (target: string) => !!/kotori-plugin-[a-z]([a-z,0-9]{3,1
 
 const ModuleError = new KotoriError('', 'ModuleError', 'normal').extend();
 
-export class Modules extends Content {
+export class Modules extends Context {
 	private readonly moduleRootDir: string[] = [];
 
 	private readonly getDirFiles = (rootDir: string) => {

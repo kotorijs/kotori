@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import KotoriError from './errror';
 import Events from './events';
-import Content from './content';
+import Context from './context';
 import Adapter from './adapter';
 import { AdapterEntity, ModuleData, ModuleEntityClass, ModuleEntityFunc, ModuleService } from './types';
 import Kotori from '.';
@@ -44,7 +44,7 @@ export class Modules extends Events {
 	private loadEntity = (
 		Entity: ModuleEntityFunc | ModuleEntityClass,
 		moduleObj: string | ModuleData,
-		ctx: Content,
+		ctx: Context,
 	): ModuleService => {
 		if (isClass(Entity)) {
 			const func = (Obj: object): Obj is AdapterEntity => Adapter.isPrototypeOf.call(Adapter, Obj);
@@ -65,7 +65,7 @@ export class Modules extends Events {
 
 	public module = async (
 		moduleObj: string | ModuleData | ModuleEntityFunc | ModuleEntityClass,
-		ctx: Content = Kotori,
+		ctx: Context = Kotori,
 	) => {
 		let service: ModuleService = 'plugin';
 		const isString = typeof moduleObj === 'string';
@@ -100,8 +100,7 @@ export class Modules extends Events {
 		this.setModuleCureent();
 		if (moduleObj instanceof Object) this.alreadyModuleNum += 1;
 		/* Emit event */
-		this.emit({
-			type: 'load_module',
+		this.emit('load_module', {
 			module: isString || isFunc ? null : moduleObj,
 			service,
 		});
@@ -110,7 +109,7 @@ export class Modules extends Events {
 			this.alreadyModuleNum >= this.moduleStack.length
 		) {
 			this.alreadyModuleNum = -1;
-			this.emit({ type: 'load_all_module', count: this.moduleStack.length });
+			this.emit('load_all_module', { count: this.moduleStack.length });
 		}
 	};
 
@@ -118,10 +117,7 @@ export class Modules extends Events {
 		/* need more... */
 		const isString = typeof module === 'string';
 		const modulePath = isString ? module : module.mainPath;
-		this.emit({
-			type: 'unload_module',
-			module: isString ? null : module,
-		});
+		this.emit('unload_module', { module: isString ? null : module });
 		if (!isString) {
 			module.fileList.forEach(file => delete require.cache[require.resolve(file)]);
 			for (let index = 0; index < this.moduleStack.length; index += 1) {

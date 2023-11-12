@@ -11,4 +11,12 @@ Kotori.command('echo <content> [num:number=3]')
 			},
 		];
 	})
-	.alias('print');
+	.alias('print')
+	.scope('group');
+
+Kotori.regexp(/(.*)#print/, (_, match) => match[1]);
+
+Kotori.command('ison').action((_, events) => {
+	if (events.api.adapter.config.master === events.userId) return `${events.api.adapter.nickname}在的哟主人~`;
+	return '你是...谁?';
+});
