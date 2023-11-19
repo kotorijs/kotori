@@ -8,11 +8,11 @@
 import WebSocket from 'ws';
 
 export const WsServer = async (port: number) =>
-	new Promise<WebSocket>((resolve, reject) => {
+	new Promise<[WebSocket, WebSocket.Server]>((resolve, reject) => {
 		try {
 			const WebSocketServer: WebSocket.Server = new WebSocket.Server({ port });
 			WebSocketServer.on('connection', ws => {
-				resolve(ws);
+				resolve([ws, WebSocketServer]);
 			});
 		} catch (e) {
 			reject(e);

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-12 15:53:58
+ * @LastEditTime: 2023-11-18 21:31:27
  */
 import path from 'path';
 import Kotori, { obj } from 'kotori-bot';
@@ -11,7 +11,7 @@ import config from './config';
 
 Kotori.uselang(path.resolve(__dirname, '../locales'));
 
-Kotori.regexp(/今日长度/, data => {
+Kotori.regexp(/^今日长度$/, data => {
 	if (!(data.userId in penisData)) {
 		penisData[data.userId] = getNewLength();
 	}
@@ -57,18 +57,16 @@ Kotori.regexp(/今日长度/, data => {
 	// 	stat[data.user_id] = [todayLength, todayLength, 1, todayLength];
 	// }
 	// saveStatData(stat);
-}); /* 
-	.help('newnew.help.today_length')
-	.menuId('funSys'); */
+});
 
-Kotori.regexp(/我的长度/, () => {
+Kotori.regexp(/^我的长度$/, () => {
 	const result = '该功能维护中';
 	return result;
 	/* 	const stat = loadStatData();
 	const person = stat[data.user_id];
 	if (!person || person.length <= 0) return ['newnew.msg.my_length.fail', { at: SDK.cq_at(data.user_id) }];
 	return [
-		'newnew.msg.my_length.info',
+		'newnew.msg.my_length',
 		{
 			at: SDK.cq_at(data.user_id),
 			max_length: person[1],
@@ -78,11 +76,9 @@ Kotori.regexp(/我的长度/, () => {
 			nums: person[2],
 		},
 	]; */
-}); /* 
-	.help('newnew.help.my_length')
-	.menuId('funSys'); */
+});
 
-Kotori.regexp(/平均排行/, () => {
+Kotori.regexp(/^平均排行$/, () => {
 	const result = '该功能维护中';
 	return result;
 	/* 	const stat = loadStatData();
@@ -110,12 +106,10 @@ Kotori.regexp(/平均排行/, () => {
 		});
 		num += 1;
 	});
-	return ['newnew.msg.avg_ranking.info', { list }]; */
+	return ['newnew.msg.avg_ranking', { list }]; */
 });
-/* 	.help('newnew.help.avg_ranking')
-	.menuId('funSys'); */
 
-Kotori.regexp(/今日排行/, () => {
+Kotori.regexp(/^今日排行$/, () => {
 	const result = '该功能维护中';
 	return result;
 	/* const today = loadTodayData();
@@ -135,10 +129,8 @@ Kotori.regexp(/今日排行/, () => {
 		});
 		num += 1;
 	});
-	return ['newnew.msg.today_ranking.info', { list }]; */
-}); /* 
-	.help('newnew.help.today_ranking')
-	.menuId('funSys'); */
+	return ['newnew.msg.today_ranking', { list }]; */
+});
 
 const penisData: obj<number> = {};
 /* 

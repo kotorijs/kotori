@@ -61,7 +61,7 @@ export class Modules extends Events {
 		return 'plugin';
 	};
 
-	protected readonly moduleStack: ModuleData[] = [];
+	public readonly moduleStack: ModuleData[] = [];
 
 	public module = async (
 		moduleObj: string | ModuleData | ModuleEntityFunc | ModuleEntityClass,

@@ -48,8 +48,8 @@ const parseCommand = (input: string) => {
 			.replace(/(\s+)/g, ' ')
 			.replace(/("\s?")|('\s?')/g, '')
 			.trim();
-		if (!stringProcess(input, data.root)) {
-			const alias = data.alias.filter(el => stringProcess(input, el));
+		if (!stringProcess(`${input} `, `${data.root} `)) {
+			const alias = data.alias.filter(el => stringProcess(`${input} `, `${el} `));
 			if (alias.length <= 0) continue;
 			root = alias[0];
 		}
@@ -121,12 +121,12 @@ const parseCommand = (input: string) => {
 };
 
 export class Message extends Modules {
-	private readonly midwareStack: MidwareStack[] = [];
+	public readonly midwareStack: MidwareStack[] = [];
 
 	/* two commands data array kill them! */
-	private readonly commandStack: CommandStack[] = [];
+	public readonly commandStack: CommandStack[] = [];
 
-	private readonly regexpStack: RegexpStack[] = [];
+	public readonly regexpStack: RegexpStack[] = [];
 
 	private readonly handleMessageEvent: EventCallback<'group_msg' | 'private_msg'> = messageData => {
 		const quick: MessageQuickFunc = async message => {
@@ -166,7 +166,10 @@ export class Message extends Modules {
 					messageData,
 					command: stringSplit(params[0], params[1]),
 					scope: messageData.type === 'group_msg' ? 'group' : ('private' as MessageScope),
-					access: 'member' /* here need database... */ as CommandAccess,
+					access:
+						messageData.userId === messageData.api.adapter.config.master
+							? CommandAccess.ADMIN
+							: CommandAccess.MEMBER,
 				};
 				let isCancel = false;
 				const cancel = () => {
@@ -232,7 +235,7 @@ export class Message extends Modules {
 				? (api: Api) => api.send_private_msg(message, 1)
 				: (api: Api) => api.send_group_msg(message, 1);
 		/* this need support of database... */
-		Object.values(this.apiStack).forEach(apis => {
+		Object.values(this.botStack).forEach(apis => {
 			/* feating... */
 			apis.forEach(api => send(api));
 		});
@@ -240,7 +243,7 @@ export class Message extends Modules {
 
 	public readonly notify = (message: MessageRaw) => {
 		const mainAdapterIdentity = Object.keys(this.configs.adapter)[0];
-		for (const apis of Object.values(this.apiStack)) {
+		for (const apis of Object.values(this.botStack)) {
 			for (const api of apis) {
 				if (api.adapter.identity !== mainAdapterIdentity) continue;
 				api.send_private_msg(message, api.adapter.config.master);

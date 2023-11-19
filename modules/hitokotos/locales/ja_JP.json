@@ -1,5 +1,5 @@
 {
-    "hitokotos.help.hitokotos.help": "ランダム語録",
-    "hitokotos.msg.hitokoto.info": "%msg%%from%\nタイプ: %type%",
-    "hitokotos.msg.list.info": "%content%"
+    "hitokotos.descr.hitokotos.help": "ランダム語録",
+    "hitokotos.msg.hitokoto": "%msg%%from%\nタイプ: %type%",
+    "hitokotos.msg.list": "%content%"
 }

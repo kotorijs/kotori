@@ -1,10 +1,10 @@
 global:
-  lang: 'zh_CN'
+  lang: "zh_CN"
   command-prefix: "/"
-  command-alias: ['<at target=${selfId} /> ']
+  command-alias: ["<at target=${selfId} /> "]
   dirs: [
-    './node_modules/',
-    './node_modules/@kotori-bot/'
+    "./node_modules/",
+    "./node_modules/@kotori-bot/"
   ]
 
 adapter:
@@ -12,7 +12,7 @@ adapter:
       extend: "qq"
       master: 3324656453
       # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
-      mode: ws
+      mode: ws-reverse
       # address: "ws://127.0.0.1"
       # WebSocket反向(相对于Gocqhttp)
       # port: 8080 # WS反向端口
@@ -35,3 +35,10 @@ adapter:
       self-id: 2333
       self-nickname: "Kotori"
       self-avatar: "https://kotori.js.org/kotori.png"
+
+  kisaki:
+      extend: "tencent-qq"
+      master: 2333
+      appid: ""
+      secret: ""
+      retry: 30

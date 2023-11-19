@@ -1,0 +1,10 @@
+{
+    "bangumi.descr.bgm": "翻组计划搜索游戏/动漫",
+    "bangumi.descr.bgmc": "获取番组计划今日放送",
+    "bangumi.msg.bgm": "原名: %name%\n中文名: %name_cn%\n介绍: %summary%\n标签: %tags%\n详情: %url%\n%image%",
+    "bangumi.msg.bgm.list": "%num%.%name%%name_cn%\n",
+    "bangumi.msg.bgm.lists": "%list%再次发送指令并传入参数[序号]以选择对应内容\n示例:/指令 内容 2",
+    "bangumi.msg.bgm.fail": "未找到相关条目: %input%",
+    "bangumi.msg.bgmc": "日期: %weekday%~%list%",
+    "bangumi.msg.bgmc.list": "\n原名: %name%\n中文名: %name_cn%\n开播时间: %air_date%\n%image%"
+}

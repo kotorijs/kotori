@@ -9,8 +9,8 @@ interface Status {
 	createTime: Date;
 	lastMsgTime: Date | null;
 	receivedMsg: number;
-	sendMsg: number;
-	offlineNum: number;
+	sentMsg: number;
+	offlineTimes: number;
 }
 
 interface AdapterImpl<T extends Api> {
@@ -28,7 +28,7 @@ interface AdapterImpl<T extends Api> {
 	send: AdapterSend;
 }
 
-type AdapterSend = (action: string, params?: object) => void;
+type AdapterSend = (...args: any[]) => void;
 
 const ApiProxy = <T extends Api>(api: T, emit: Events['emit']): T => {
 	const apiProxy = Object.create(api);
@@ -61,13 +61,13 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 		this.platform = config.extend;
 		this.ctx = Context;
 		this.api = ApiProxy(new Api(this), this.ctx.emit);
-		if (!this.ctx.apiStack[this.platform]) this.ctx.apiStack[this.platform] = [];
-		(this.ctx.apiStack[this.platform] as T[]).push(this.api);
+		if (!this.ctx.botStack[this.platform]) this.ctx.botStack[this.platform] = [];
+		(this.ctx.botStack[this.platform] as T[]).push(this.api);
 	}
 
 	protected readonly online = () => {
 		if (this.status.value !== 'offline') return;
-		if (this.status.offlineNum <= 0) {
+		if (this.status.offlineTimes <= 0) {
 			this.ctx.emit('ready', { adapter: this });
 		}
 		this.ctx.emit('online', { adapter: this });
@@ -78,11 +78,11 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 		if (this.status.value !== 'online') return;
 		this.ctx.emit('offline', { adapter: this });
 		this.status.value = 'offline';
-		this.status.offlineNum += 1;
+		this.status.offlineTimes += 1;
 	};
 
 	protected readonly onSend = () => {
-		this.status.sendMsg += 1;
+		this.status.sentMsg += 1;
 	};
 
 	protected readonly onReceive = () => {
@@ -112,8 +112,8 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 		createTime: new Date(),
 		lastMsgTime: null,
 		receivedMsg: 0,
-		sendMsg: 0,
-		offlineNum: 0,
+		sentMsg: 0,
+		offlineTimes: 0,
 	};
 
 	public abstract readonly handle: (data: any) => void;

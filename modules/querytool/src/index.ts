@@ -3,29 +3,27 @@ import { resolve } from 'path';
 
 Kotori.uselang(resolve(__dirname, '../locales'));
 
-Kotori.command('github <repository> - Github仓库搜索')
-	.action(async data => {
-		const res = await Kotori.http.get(`https://api.github.com/repos/${data.args[0]}`);
-		if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
-		if (!res.full_name) return ['querytool.msg.github.fail', { input: data.args[0] }];
-		return [
-			'querytool.msg.github.info',
-			{
-				name: res.full_name || 'BOT_RESULT.EMPTY',
-				description: res.description || 'BOT_RESULT.EMPTY',
-				language: res.language || 'BOT_RESULT.EMPTY',
-				author: res.owner ? res.owner.login || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
-				create: res.created_at || 'BOT_RESULT.EMPTY',
-				update: res.updated_at || 'BOT_RESULT.EMPTY',
-				push: res.pushed_at || 'BOT_RESULT.EMPTY',
-				license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
-			},
-		];
-		/* return SDK.cq_image(
-		`https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`,
-	); */
-	})
-	.help('querytool.help.github');
+const image = (file: string, cache: boolean = true) => `[CQ:image,file=${file}],cache=${cache ? 1 : 0}`;
+
+Kotori.command('github <repository> - querytool.descr.github').action(async data => {
+	const res = await Kotori.http.get(`https://api.github.com/repos/${data.args[0]}`);
+	if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
+	if (!res.full_name) return ['querytool.msg.github.fail', { input: data.args[0] }];
+	data.quick([
+		'querytool.msg.github',
+		{
+			name: res.full_name || 'BOT_RESULT.EMPTY',
+			description: res.description || 'BOT_RESULT.EMPTY',
+			language: res.language || 'BOT_RESULT.EMPTY',
+			author: res.owner ? res.owner.login || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
+			create: res.created_at || 'BOT_RESULT.EMPTY',
+			update: res.updated_at || 'BOT_RESULT.EMPTY',
+			push: res.pushed_at || 'BOT_RESULT.EMPTY',
+			license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
+		},
+	]);
+	return `[CQ:image,file=https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}]`;
+});
 
 Kotori.command('motd')
 	.action(async data => {
@@ -42,17 +40,14 @@ Kotori.command('motd')
 		}
 
 		return [
-			'querytool.msg.motd.info',
+			'querytool.msg.motd',
 			{
 				...res.data,
-				/* 			image:
-				typeof res.data.icon === 'string'
-					? SDK.cq_image(`base64://${res.data.icon.substring(22)}`)
-					: 'BOT_RESULT.EMPTY', */
+				image: typeof res.data.icon === 'string' ? image(`base64://${res.data.icon.substring(22)}`) : '',
 			},
 		];
 	})
-	.help('querytool.help.motd');
+	.help('querytool.descr.motd');
 
 Kotori.command('motdbe')
 	.action(async data => {
@@ -72,13 +67,13 @@ Kotori.command('motdbe')
 		}
 
 		return [
-			'querytool.msg.motdbe.info',
+			'querytool.msg.motdbe',
 			{
 				...res.data,
 			},
 		];
 	})
-	.help('querytool.help.motdbe');
+	.help('querytool.descr.motdbe');
 
 Kotori.command('mcskin')
 	.action(async data => {
@@ -87,18 +82,16 @@ Kotori.command('mcskin')
 		if (res.code === 502 || !isObj(res.data)) return ['querytool.msg.mcskin.fail', { input: data.args[0] }];
 
 		return [
-			'querytool.msg.mcskin.info',
+			'querytool.msg.mcskin',
 			{
 				input: data.args[0],
-				// skin: SDK.cq_image(res.data.skin),
-				// cape: res.data.cape ? SDK.cq_image(res.data.cape) : 'BOT_RESULT.EMPTY',
-				/* 				avatar: res.data.avatar
-					? SDK.cq_image(`base64://${res.data.avatar.substring(22)}`)
-					: 'BOT_RESULT.EMPTY', */
+				skin: image(res.data.skin),
+				cape: res.data.cape ? image(res.data.cape) : '',
+				avatar: res.data.avatar ? image(`base64://${res.data.avatar.substring(22)}`) : '',
 			},
 		];
 	})
-	.help('querytool.help.mcskin');
+	.help('querytool.descr.mcskin');
 
 Kotori.command('mcv')
 	.action(async () => {
@@ -131,9 +124,9 @@ Kotori.command('mcv')
 			break;
 		}
 
-		return ['querytool.msg.mcv.info', { ...res.latest, ...date }];
+		return ['querytool.msg.mcv', { ...res.latest, ...date }];
 	})
-	.help('querytool.help.mcv');
+	.help('querytool.descr.mcv');
 
 Kotori.command('sed')
 	.action(async (data, message) => {
@@ -175,7 +168,7 @@ Kotori.command('sed')
 			  })
 			: '';
 		return [
-			'querytool.msg.sed.info',
+			'querytool.msg.sed',
 			{
 				input: data.args[0],
 				time: Math.floor(res.takeTime),
@@ -184,7 +177,7 @@ Kotori.command('sed')
 			},
 		];
 	})
-	.help('querytool.help.sed');
+	.help('querytool.descr.sed');
 
 Kotori.command('idcard')
 	.action(async data => {
@@ -193,14 +186,14 @@ Kotori.command('idcard')
 		if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.idcard.fail', { input: data.args[0] }];
 
 		return [
-			'querytool.msg.idcard.info',
+			'querytool.msg.idcard',
 			{
 				input: data.args[0],
 				...res.data,
 			},
 		];
 	})
-	.help('querytool.help.idcard');
+	.help('querytool.descr.idcard');
 
 Kotori.command('hcb')
 	.action(async data => {
@@ -220,11 +213,11 @@ Kotori.command('hcb')
 		const imgs = '';
 		/* 	if (res.data.imgs !== null) {
 		(<string[]>res.data.imgs).forEach(element => {
-			imgs += SDK.cq_image(element);
+			imgs += image(element);
 		});
 	} */
 		return [
-			'querytool.msg.hcb.info',
+			'querytool.msg.hcb',
 			{
 				input: data.args[0],
 				// ...res.data,
@@ -232,11 +225,11 @@ Kotori.command('hcb')
 			},
 		];
 	})
-	.help('querytool.help.hcb');
+	.help('querytool.descr.hcb');
 
 Kotori.command('uuid')
-	.action(() => ['querytool.msg.uuid.info', { uuid: getUuid() }])
-	.help('querytool.help.uuid');
+	.action(() => ['querytool.msg.uuid', { uuid: getUuid() }])
+	.help('querytool.descr.uuid');
 
 /* Kotori.command('color')
 	.action(async () => {
@@ -288,54 +281,6 @@ Kotori.command('uuid')
 		}, hex);
 		const buffer = await page.screenshot({ encoding: 'base64' });
 		await browser.close();
-		return ['querytool.msg.color.info', { hex, rgb, hsl, image: SDK.cq_image(`base64://${buffer}`) }];
+		return ['querytool.msg.color', { hex, rgb, hsl, image: image(`base64://${buffer}`) }];
 	})
-	.help('querytool.help.color'); */
-
-// Kotori.command('header').action(async data => {
-// 	const res = await Kotori.http.text(data.args[0]);
-// 	if (!res) return ['BOT_RESULT.SERVER_ERROR', { res }];
-// 	const $ = cheerio.load(res);
-
-// 	let image = $('link[rel="icon"]').attr('href');
-// 	image = image || $(/* html */ `link[rel="shortcut icon"]`).attr('href');
-// 	const domain = data.args[0].match(/^https?:\/\/([^/]+)/i);
-// 	if (image) {
-// 		image = image.includes('http')
-// 			? image
-// 			: `http://${Array.isArray(domain) ? domain[1] : ''}${image.substring(0, 1) === '/' ? '' : '/'}${image}`;
-// 	} else {
-// 		image = '';
-// 	}
-// 	const title = $('title').text() ?? 'BOT_RESULT.EMPTY';
-// 	const keywords = $('meta[name="keywords"]').attr('content') ?? 'BOT_RESULT.EMPTY';
-// 	const description = $('meta[name="description"]').attr('content') ?? 'BOT_RESULT.EMPTY';
-// 	send('querytool.msg.header.info', {
-// 		input: data.args[0],
-// 		title,
-// 		keywords,
-// 		description,
-// 	});
-// 	if (image) return ['querytool.msg.header.image', { image: SDK.cq_image(image) }];
-// 	return '';
-// }).help('querytool.help.header');
-
-Kotori.command('state')
-	.action(async data => {
-		const res = await Kotori.http.text('webtool', { op: 1, url: data.args[0] });
-		return [
-			res ? 'querytool.msg.state.info' : 'BOT_RESULT.SERVER_ERROR',
-			res ? { content: res.replace(/<br>/g, '\n') } : { res },
-		];
-	})
-	.help('querytool.help.state');
-
-Kotori.command('speed')
-	.action(async data => {
-		const res = await Kotori.http.text('webtool', { op: 3, url: data.args[0] });
-		return [
-			res ? 'querytool.msg.speed.info' : 'BOT_RESULT.SERVER_ERROR',
-			res ? { content: res.replace(/<br>/g, '\n') } : { res },
-		];
-	})
-	.help('querytool.help.speed');
+	.help('querytool.descr.color'); */
