@@ -17,7 +17,7 @@ const parseTemplateParam = (content: string) => {
 };
 
 export class Command {
-	public static commandDataStack: CommandData[] = [];
+	public static readonly commandDataStack: CommandData[] = [];
 
 	public constructor(template: string, config?: CommandConfig) {
 		this.template = template;
@@ -32,7 +32,7 @@ export class Command {
 		root: '',
 		alias: [],
 		scope: 'all',
-		access: 'member',
+		access: CommandAccess.MEMBER,
 		args: [],
 		options: [],
 	};
@@ -67,10 +67,10 @@ export class Command {
 		}
 
 		[...requiredStr.matchAll(this.requiredParamMatch)].forEach(content => {
-			this.data.args.push({ optional: false, ...parseTemplateParam(content[1]) });
+			this.data.args.push({ optional: false, rest: false, ...parseTemplateParam(content[1]) });
 		});
 		[...optionalStr.matchAll(this.optionalParamMatch)].forEach(content => {
-			this.data.args.push({ optional: true, ...parseTemplateParam(content[1]) });
+			this.data.args.push({ optional: true, rest: false, ...parseTemplateParam(content[1]) });
 		});
 	};
 

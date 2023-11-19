@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-12 16:30:28
+ * @LastEditTime: 2023-11-18 15:52:26
  */
 import { Adapter, AdapterConfig, Context, MessageRaw, isObj } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -136,6 +136,17 @@ export default class QQAdapter extends Adapter<QQApi> {
 				api: this.api,
 				messageId: data.data.message_id,
 			});
+		} else if (
+			data.post_type === 'notice' &&
+			(data as any).notice_type === 'notify' &&
+			(data as any).sub_type === 'poke'
+		) {
+			this.ctx.emit('group_msg', {
+				userId: data.user_id,
+				groupId: data.group_id!,
+				message: `[CQ:poke,qq=${data.target_id}]`,
+				...this.funcs(Object.assign(data, { message_type: 'group' }) as any),
+			} as any);
 		}
 		if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
 	};
@@ -177,18 +188,21 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	private connectWss = async () => {
 		if (this.config.mode === 'ws-reverse') {
-			this.socket = await WsServer(this.config.port);
+			const wss = await WsServer(this.config.port);
+			this.socket = wss[0];
 			this.ctx.emit('connect', {
 				adapter: this,
 				normal: true,
 				info: `client connect to ${this.info}`,
 			});
-			this.socket.on('close', () => {
+			this.socket?.on('close', () => {
 				this.ctx.emit('disconnect', {
 					adapter: this,
 					normal: false,
 					info: `unexpected client disconnect from ${this.info}`,
 				});
+				wss[1].close();
+				this.connectWss();
 			});
 		} else {
 			this.ctx.emit('connect', {

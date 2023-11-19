@@ -23,6 +23,22 @@ export interface BaseDir {
 	modules: string;
 }
 
+export interface PackageInfo {
+	name: string;
+	version: string;
+	description: string;
+	main: string;
+	types: string;
+	author: string;
+	license: string;
+	bugs: {
+		url: string;
+	};
+	homepage: string;
+	dependencies: obj<string>;
+	devDependencies: obj<string>;
+}
+
 export interface GlobalConfigs {
 	global: {
 		lang: langType;
@@ -46,7 +62,11 @@ export interface AdapterConfig {
 
 export type AdapterEntity = new (config: AdapterConfig, identity: string, ctx: Context) => Adapter;
 
-export type CommandAccess = 'member' | 'manger' | 'admin';
+export const enum CommandAccess {
+	MEMBER,
+	MANGER,
+	ADMIN,
+}
 
 export type CommandAction = (
 	data: { args: CommandArgType[]; options: obj<CommandArgType>; quick: MessageQuickFunc },
@@ -68,6 +88,7 @@ export interface CommandArg {
 	type: CommandArgTypeSign;
 	optional: boolean;
 	default?: CommandArgType;
+	rest: boolean;
 }
 
 export interface CommandOption {

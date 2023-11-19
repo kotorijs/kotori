@@ -1,4 +1,4 @@
-import Kotori, { getDate } from 'kotori-bot';
+import Kotori, { getDate, isObj } from 'kotori-bot';
 
 /*
 const defaultData = {
@@ -64,7 +64,7 @@ Alias('资料卡', async (_send, data) => {
 
 const signData: string[] = [];
 
-Kotori.regexp(/签到|打卡/, async data => {
+Kotori.regexp(/^(签到|打卡)$/, async data => {
 	const time = getDate();
 	if (!data.groupId) return '';
 	// const groupData = queryExp(data.groupId!, data.userId)[1];
@@ -72,12 +72,17 @@ Kotori.regexp(/签到|打卡/, async data => {
 	const identier = `${data.groupId}&${data.userId}&${time}`;
 	if (signData.includes(identier)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
 	signData.push(identier);
+	const res = await Kotori.http.get('https://hotaru.icu/api/hitokoto/v2/');
+	const hitokoto =
+		isObj(res) && isObj(res.data) && res.data.msg
+			? `${res.data.msg}${res.data.from.trim() ? `——${res.data.from}` : ''}`
+			: '';
 	return [
 		'%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%',
 		{
 			at,
 			image: `[CQ:image,file=https://tenapi.cn/acg]`,
-			hitokoto: await Kotori.http.text('https://hotaru.icu/api/hitokoto/v2/?format=text'),
+			hitokoto,
 		},
 	];
 	/* 	if (!(data.userId in groupData)) groupData[data.userId] = defaultData;

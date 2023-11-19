@@ -4,22 +4,6 @@ import { isObj, loadConfig, obj } from '@kotori-bot/tools';
 import { LocaleIdentifier, langType } from '@kotori-bot/i18n';
 import { KotoriError, GlobalConfigs, BaseDir } from 'kotori-bot';
 
-interface PackageInfo {
-	name: string;
-	version: string;
-	description: string;
-	main: string;
-	types: string;
-	author: string;
-	license: string;
-	bugs: {
-		url: string;
-	};
-	homepage: string;
-	dependencies: obj<string>;
-	devDependencies: obj<string>;
-}
-
 export const baseDir: BaseDir = (() => {
 	let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
 	let count = 0;
@@ -65,13 +49,3 @@ export const globalConfigs: GlobalConfigs = (() => {
 	if (!checkGlobalConfig(data)) throw new KotoriError('kotori-bot global kotori.yml format error', 'CoreError');
 	return data;
 })();
-
-export function getPackageInfo(): PackageInfo {
-	const info = loadConfig(path.join(baseDir.root, 'package.json')) as PackageInfo;
-	if (!info || !info.author || !info.name || !info.version || !info.license) {
-		throw new KotoriError('cannot find kotori-bot package.json or format error', 'CoreError');
-	}
-	if (Array.isArray(info.author)) info.author = info.author[1];
-	info.author = info.author.split(' <')[0];
-	return info;
-}

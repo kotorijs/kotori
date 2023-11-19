@@ -1,0 +1,11 @@
+{
+    "name": "kotori-plugin-bilibili",
+    "version": "1.0.0",
+    "description": "bilibili plugin",
+    "main": "src/index.ts",
+    "license": "GPL-3.0",
+    "author": "Himeno <biyuehuya@gmail.com>",
+    "peerDependencies": {
+        "kotori-bot": "workspace:^"
+    }
+}

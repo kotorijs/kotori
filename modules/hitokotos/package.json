@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/kotori-plugin-hitokotos",
+    "name": "kotori-plugin-hitokotos",
     "version": "1.0.0",
     "description": "Seventeen kind of different sentences",
     "main": "src/index.ts",

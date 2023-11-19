@@ -10,7 +10,7 @@ import { Api, MessageRaw } from 'kotori-bot';
 export default class QQApi extends Api {
 	public send_private_msg = (message: MessageRaw, userId: number) => {
 		this.adapter.status.lastMsgTime = new Date();
-		this.adapter.status.sendMsg += 1;
+		this.adapter.status.sentMsg += 1;
 		this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
 	};
 
@@ -22,7 +22,7 @@ export default class QQApi extends Api {
 	 */
 	public send_group_msg = (message: MessageRaw, groupId: number): void => {
 		this.adapter.status.lastMsgTime = new Date();
-		this.adapter.status.sendMsg += 1;
+		this.adapter.status.sentMsg += 1;
 		this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
 	};
 

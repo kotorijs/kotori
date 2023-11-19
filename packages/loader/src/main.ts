@@ -3,11 +3,11 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-09 21:23:37
+ * @LastEditTime: 2023-11-18 22:11:56
  */
-import { Adapter, KotoriError, EventType, isObj, ContextInstance, KotoriConfigs } from 'kotori-bot';
+import { KotoriError, EventType, isObj, ContextInstance, KotoriConfigs } from 'kotori-bot';
 import Modules from './modules';
-import { baseDir, getPackageInfo, globalConfigs } from './global';
+import { baseDir, globalConfigs } from './global';
 import loadInfo from './log';
 
 const enum GLOBAL {
@@ -34,7 +34,7 @@ class Main extends ContextInstance {
 	}
 
 	public run = () => {
-		loadInfo();
+		loadInfo(this.ctx.package);
 		this.catchError();
 		this.listenMessage();
 		this.loadAllModule();
@@ -93,24 +93,25 @@ class Main extends ContextInstance {
 			if (botConfig.extend in this.ctx.getAdapters) {
 				const bot = new this.ctx.getAdapters[botConfig.extend](botConfig, botName, this.ctx);
 				// if (!(botConfig.extend in Adapter)) Adapter.apis[botConfig.extend] = []; // I dont know whats this
-				this.ctx.apiStack[botConfig.extend].push(bot.api);
+				// this.ctx.botStack[botConfig.extend].push(bot.api);
 				bot.start();
 				continue;
 			}
 			this.ctx.logger.warn(`Cannot find adapter '${botConfig.extend}' for ${botName}`);
-		}
+		} /* 
 		const adapters: Adapter[] = [];
-		Object.values(this.ctx.apiStack).forEach(apis => {
+		Object.values(this.ctx.botStack).forEach(apis => {
 			apis.forEach(api => adapters.push(api.adapter));
-		});
+		}); */
 		// this.ctx.emit({ type: 'adapters', adapters });
 	};
 
 	private readonly checkUpdate = async () => {
-		const params = { url: 'https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/package.json' };
-		const version = getPackageInfo().version;
+		const { version } = this.ctx.package;
 		const res = await this.ctx.http
-			.post('https://hotaru.icu/api/agent/', params)
+			.get(
+				'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/packages/kotori/package.json',
+			)
 			.catch(() => this.ctx.logger.error('Get update failed, please check your network'));
 		if (!res || !isObj(res)) {
 			this.ctx.logger.error(`Detection update failed`);

@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/kotori-plugin-goodnight",
+    "name": "kotori-plugin-goodnight",
     "version": "1.0.0",
     "description": "And in case i don't see you,good afternoon,good evening,and good night!",
     "main": "src/index.ts",

@@ -1,7 +1,8 @@
-import { obj } from '@kotori-bot/tools';
+import { isObj, loadConfig, obj } from '@kotori-bot/tools';
 import path from 'path';
-import { AdapterEntity, BaseDir, GlobalConfigs, GlobalOptions, KotoriConfigs } from './types';
+import { AdapterEntity, BaseDir, GlobalConfigs, GlobalOptions, KotoriConfigs, PackageInfo } from './types';
 import Api from './api';
+import KotoriError from './errror';
 
 const defaultConfigs: {
 	baseDir: BaseDir;
@@ -34,11 +35,9 @@ const setDefaultValue = <T extends object>(value: T, defaultValue: T) => {
 };
 
 export class Core {
-	protected readonly adapterStack: obj<AdapterEntity> = {};
+	public readonly adapterStack: obj<AdapterEntity> = {};
 
-	// protected readonly botsStack: obj<Adapter[]> = {};
-
-	public readonly apiStack: obj<Api[]> = {};
+	public readonly botStack: obj<Api[]> = {};
 
 	public readonly baseDir: BaseDir;
 
@@ -46,7 +45,15 @@ export class Core {
 
 	public readonly options: GlobalOptions;
 
+	public readonly package: PackageInfo;
+
 	public constructor(configs?: KotoriConfigs) {
+		const info = loadConfig(path.join(__dirname, '../package.json')) as unknown;
+		if (!info || !isObj(info) || !info.author || !info.name || !info.version || !info.license) {
+			throw new KotoriError('cannot find kotori-bot package.json or format error', 'CoreError');
+		}
+		this.package = info as PackageInfo;
+
 		if (!configs) {
 			this.baseDir = defaultConfigs.baseDir;
 			this.configs = defaultConfigs.configs;

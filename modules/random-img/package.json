@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/kotori-plugin-randomimg",
+    "name": "kotori-plugin-randomimg",
     "version": "1.0.0",
     "description": "Random imgs base for Core",
     "main": "src/index.ts",

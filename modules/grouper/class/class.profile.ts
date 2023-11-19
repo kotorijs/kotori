@@ -76,7 +76,6 @@ export class Profile {
 		while (list.length < 10) {
 			list.push('🌕');
 		}
-		console.log(list, list.length);
 		return list.join('');
 	};
 

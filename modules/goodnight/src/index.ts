@@ -21,7 +21,7 @@ export class Main {
 		Ctx.uselang(path.resolve(__dirname, '../locales'));
 
 		Ctx.regexp(
-			/早|早安|早上好/,
+			/^(早|早安|早上好)$/,
 			_ => '早安~',
 			/* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
@@ -44,7 +44,7 @@ export class Main {
 		);
 
 		Ctx.regexp(
-			/晚|晚安|晚上好/,
+			/^(晚|晚安|晚上好)$/,
 			_ => '晚安~（该功能维护中）',
 			/* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);

@@ -1,5 +1,5 @@
 {
-    "name": "@kotori-bot/kotori-plugin-penis",
+    "name": "kotori-plugin-penis",
     "version": "1.0.0",
     "description": "查看今日牛牛的长度和排行",
     "main": "src/index.ts",

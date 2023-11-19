@@ -1,0 +1,9 @@
+{
+    "daytool.descr.music": "网易云点歌,序号默认为1,填0显示歌曲列表",
+    "daytool.msg.music": "歌曲ID: %songid%\n歌曲标题：%title%\n歌曲作者: %author%\n歌曲下载：%url%\n歌曲封面：%image%",
+    "daytool.msg.music.list": "%num%.%title% - %author%\n",
+    "daytool.msg.music.lists": "%list%再次发送指令并传入参数[序号]以选择对应内容\n示例：/指令 内容 2",
+    "daytool.msg.music.fail": "未找到相关歌曲：%input%",
+    "daytool.msg.music.fail.server": "获取接口数据失败，请联系管理员",
+    "daytool.msg.music.fail.order": "序号错误！请检查后重新发送"
+}

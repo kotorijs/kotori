@@ -4,7 +4,8 @@
 	"description": "Loader For KotoriBot",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=dev ts-node -r tsconfig-paths/register ./src/index.ts --no-signale",
-		"build": "cross-env NODE_ENV=build ts-node -r tsconfig-paths/register ./src/index.ts --no-signale"
+		"build": "cross-env NODE_ENV=build ts-node -r tsconfig-paths/register ./src/index.ts --no-signale",
+		"devs": "ts-node -r tsconfig-paths/register ./src/index.ts --no-signale"
 	},
 	"main": "src/index.ts",
 	"license": "GPL-3.0",
