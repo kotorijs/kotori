@@ -93,6 +93,9 @@ importers:
       axios:
         specifier: ^1.6.1
         version: 1.6.1
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
       ws:
         specifier: ^8.14.2
         version: 8.14.2
@@ -116,12 +119,6 @@ importers:
         version: link:../../packages/kotori
 
   modules/core:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/core-i18n:
     dependencies:
       kotori-bot:
         specifier: workspace:^
@@ -193,12 +190,6 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
-  modules/querytool:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
   modules/random-img:
     dependencies:
       kotori-bot:
@@ -211,11 +202,7 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
-  packages/i18n:
-    dependencies:
-      '@kotori-bot/tools':
-        specifier: workspace:^
-        version: link:../tools
+  packages/i18n: {}
 
   packages/kotori:
     dependencies:
@@ -228,6 +215,9 @@ importers:
       '@kotori-bot/tools':
         specifier: workspace:^
         version: link:../tools
+      tsukiko:
+        specifier: ^1.1.1
+        version: 1.1.1
 
   packages/loader:
     dependencies:
@@ -4455,6 +4445,10 @@ packages:
   /tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: true
+
+  /tsukiko@1.1.1:
+    resolution: {integrity: sha512-aDxYCHWeOihgPBNmxNnwomyZDzkwZ3oEpEV64w3IY3clFO88DJk9EhUht0oCdXSPewuS/sKa9+pntx1pF+cdMQ==}
+    dev: false
 
   /type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}

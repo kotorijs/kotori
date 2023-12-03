@@ -1,14 +1,20 @@
 import Logger from '@kotori-bot/logger';
-import Locale from '@kotori-bot/i18n';
 import { Http } from '@kotori-bot/tools';
-import Message from './message';
-import { KotoriConfigs } from './types';
-import Command from './command';
+import Locale from './utils/i18n';
+import Internal from './core/internal';
+import { KotoriConfig } from './types';
 
-export class Context extends Message {
+export class Context extends Internal {
 	public readonly http = new Http({ validateStatus: () => true });
 
-	public readonly logger = Logger;
+	public readonly logger = Object.assign(
+		Logger,
+		new Proxy(Logger.debug, {
+			apply: (target, _, argArray) => {
+				if (this.options.nodeEnv === 'dev') target(argArray);
+			},
+		}),
+	);
 
 	public readonly uselang;
 
@@ -16,30 +22,22 @@ export class Context extends Message {
 
 	public readonly locale;
 
-	public readonly commandList = Command.commandDataStack;
+	private initialize() {
+		this.registeMessageEvent();
+		this.midware((next, session) => {
+			const { selfId } = session.api.adapter;
+			if (session.userId !== selfId) next();
+		}, 50);
+	}
 
-	public constructor(configs?: KotoriConfigs) {
-		super(configs);
-		const { uselang, setlang, locale } = new Locale(this.configs.global.lang);
+	public constructor(Config?: KotoriConfig) {
+		super(Config);
+		const { use: uselang, set: setlang, locale } = new Locale(this.config.global.lang);
 		this.uselang = uselang;
 		this.setlang = setlang;
 		this.locale = locale;
 		this.initialize();
 	}
-
-	private readonly initialize = () => {
-		this.registeMessageEvent();
-		this.midware((data, next) => {
-			const selfId = data.api.adapter.selfId;
-			if (data.userId !== selfId) next();
-		}, 50);
-	};
 }
-
-/* export declare namespace JSX {
-	interface IntrinsicElements {
-		render: any;
-	}
-} */
 
 export default Context;

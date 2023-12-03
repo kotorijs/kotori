@@ -1,8 +1,6 @@
 import { resolve } from 'path';
-import Kotori, { isObj, obj, stringTemp } from '@kotori-bot/kotori';
+import Kotori, { obj, stringTemp } from 'kotori-bot';
 import http from './http';
-
-const image = (file: string, cache: boolean = false) => `[CQ:image,file=${file}],cache=${cache ? 1 : 0}`;
 
 const MAX_LIST = 10;
 
@@ -45,9 +43,9 @@ Kotori.command('bgm <content> [order:number=1] - bangumi.descr.bgm').action(asyn
 			tags: tags.substring(1),
 			url: `https://bgm.tv/subject/${result.id}`,
 			image:
-				isObj(res2.images) && typeof res2.images.large === 'string'
+				res2.images && typeof res2.images.large === 'string'
 					? image(res2.images.large)
-					: 'BOT_RESULT.EMPTY',
+					: 'corei18n.template.empty',
 		},
 	];
 });

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { FuncStringProcessStr, obj } from './types';
+import { FuncStringProcessStr } from './types';
 
-type HttpMethod<T = obj> = (
+type HttpMethod<T = unknown> = (
 	url: string,
 	params?: { [key: string]: FuncStringProcessStr },
 	config?: AxiosRequestConfig<any>,
@@ -26,24 +26,24 @@ export class Http {
 		this.config = config || {};
 	}
 
-	public extend = (config: AxiosRequestConfig<any>) => {
+	public extend(config: AxiosRequestConfig<any>) {
 		const NewHttp = new Http(Object.assign(this.config, config));
 		return NewHttp;
-	};
+	}
 
-	public get: HttpMethod = (url, params, config) => this.method(url, params, config, 'get');
+	public readonly get: HttpMethod = (url, params, config) => this.method(url, params, config, 'get');
 
-	public post: HttpMethod = async (url, params, config) =>
+	public readonly post: HttpMethod = async (url, params, config) =>
 		(await axios.post(url, params, Object.assign(this.config, config))).data;
 
 	/* here need update */
-	public patch: HttpMethod = (url, params, config) => this.method(url, params, config, 'patch');
+	public readonly patch: HttpMethod = (url, params, config) => this.method(url, params, config, 'patch');
 
-	public put: HttpMethod = (url, params, config) => this.method(url, params, config, 'put');
+	public readonly put: HttpMethod = (url, params, config) => this.method(url, params, config, 'put');
 
-	public delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
+	public readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
 
-	public head: HttpMethod = (url, params, config) => this.method(url, params, config, 'head');
+	public readonly head: HttpMethod = (url, params, config) => this.method(url, params, config, 'head');
 }
 
 export default Http;

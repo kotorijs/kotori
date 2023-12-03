@@ -1,4 +1,13 @@
-import Kotori, { getDate, isObj } from 'kotori-bot';
+import Kotori, { Tsu, getDate } from 'kotori-bot';
+
+const hitokotoSchema = Tsu.Object({
+	data: Tsu.Object({
+		msg: Tsu.String(),
+		from: Tsu.String().optional(),
+		likes: Tsu.Number(),
+		type: Tsu.String(),
+	}),
+});
 
 /*
 const defaultData = {
@@ -7,18 +16,18 @@ const defaultData = {
 	exp: 0,
 };
 
-const getPath = (group: number) => path.join(Main.Consts.DATA_PLUGIN_PATH, `${group.toString()}.json`);
+const getPath(group: number)  path.join(Main.Consts.DATA_PLUGIN_PATH, `${group.toString()}.json`);
 
 const loadData = (group: number): obj<userData> => {
 	const data = (loadConfig(getPath(group), 'json', { group: defaultData }) as obj) || {};
 	return data;
 };
 
-const saveData = (data: object, group: number) => {
+const saveData(data: object, group: number)  {
 	saveConfig(getPath(group), data);
 };
 
-export const queryUserInfo = (user: number) => {
+export const queryUserInfo(user: number)  {
 	if (!(user in Main.UserInfo)) {
 		return {
 			userId: 0,
@@ -40,7 +49,7 @@ export const queryExp = (group: number, user: number): [userData, obj<userData>]
 	return [data[user as keyof typeof data], data];
 };
 
-export const addExp = (group: number, user: number, exp: number, tips: boolean = true) => {
+export const addExp(group: number, user: number, exp: number, tips: boolean = true)  {
 	if (exp === 0) return;
 	const data = loadData(group);
 
@@ -51,7 +60,7 @@ export const addExp = (group: number, user: number, exp: number, tips: boolean =
 	if (tips) Main.Api.send_group_msg(`${SDK.cq_at(user)}经验+${exp}`, group);
 };
 
-const Alias = (keyword: CoreKeyword, callback: CoreVal) => {
+const Alias(keyword: CoreKeyword, callback: CoreVal)  {
 	const entity = Core.alias(keyword, callback).menuId('funSys').scope(SCOPE.GROUP);
 	return entity;
 };
@@ -64,27 +73,18 @@ Alias('资料卡', async (_send, data) => {
 
 const signData: string[] = [];
 
-Kotori.regexp(/^(签到|打卡)$/, async data => {
+Kotori.regexp(/^(签到|打卡)$/, async (data, session) => {
 	const time = getDate();
-	if (!data.groupId) return '';
+	if (!session.groupId) return '';
 	// const groupData = queryExp(data.groupId!, data.userId)[1];
-	const at = /* SDK.cq_at(data.userId); */ `[CQ:at,qq=${data.userId}]`;
-	const identier = `${data.groupId}&${data.userId}&${time}`;
+	const at = session.api.extra.type === 'onebot' ? `${session.api.extra.at(session.userId)} ` : '';
+	const identier = `${session.groupId}&${session.userId}&${time}`;
 	if (signData.includes(identier)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
 	signData.push(identier);
 	const res = await Kotori.http.get('https://hotaru.icu/api/hitokoto/v2/');
-	const hitokoto =
-		isObj(res) && isObj(res.data) && res.data.msg
-			? `${res.data.msg}${res.data.from.trim() ? `——${res.data.from}` : ''}`
-			: '';
-	return [
-		'%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%',
-		{
-			at,
-			image: `[CQ:image,file=https://tenapi.cn/acg]`,
-			hitokoto,
-		},
-	];
+	const hitokoto = hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '';
+	const image = session.api.extra.type === 'onebot' ? session.api.extra.image('https://tenapi.cn/acg') : '';
+	return ['%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%', { at, image, hitokoto }];
 	/* 	if (!(data.userId in groupData)) groupData[data.userId] = defaultData;
 	if (groupData[data.userId].sign.includes(time)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
 	groupData[data.userId].sign.push(time);

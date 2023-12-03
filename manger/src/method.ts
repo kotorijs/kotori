@@ -6,11 +6,11 @@ import CONTROL_PARAMS from './type';
 
 export const CACHE_MSG_TIMES: obj<{ time: number; times: number }> = {};
 
-export const controlParams = (filePath: string, msg: [string, string, string, string], isString: boolean = false) => {
+export const controlParams(filePath: string, msg: [string, string, string, string], isString: boolean = false)  {
 	let message = '';
 	let list = loadConfigP(filePath) as FuncStringProcessStr[];
 	const target = isString ? Core.args[2] : getQq(Core.args[2]);
-	const check = () => {
+	const check()  {
 		if (!Core.args[2]) {
 			message = BOT_RESULT.ARGS_EMPTY;
 			return false;

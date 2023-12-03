@@ -3,15 +3,13 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-18 15:52:26
+ * @LastEditTime: 2023-12-02 22:55:15
  */
-import { Adapter, AdapterConfig, Context, MessageRaw, isObj } from 'kotori-bot';
+import { Adapter, AdapterConfig, Context, obj } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
-import WsServer from './services/wsserver';
-import { EventDataType, QQConfig, QQConfigWs } from './types';
 
-function checkConfig(config: unknown): config is QQConfig {
+/* function checkConfig(config: unknown): config is AdapterConfig {
 	if (!isObj(config)) return false;
 	if (typeof config.port !== 'number') return false;
 	if (config.mode === 'ws') {
@@ -21,225 +19,174 @@ function checkConfig(config: unknown): config is QQConfig {
 		return true;
 	}
 	return false;
+} */
+
+interface QQAdapterConfig extends AdapterConfig {
+	appid: string;
+	secret: string;
+	retry: number;
 }
 
 export default class QQAdapter extends Adapter<QQApi> {
-	private readonly info: string;
+	private token = '';
 
-	public readonly config: QQConfig;
+	private seq = 0;
 
-	public constructor(config: AdapterConfig, identity: string, ctx: Context) {
-		super(config, identity, ctx, QQApi);
-		if (!checkConfig(config)) throw new Error(`Bot '${identity}' config format error`);
+	private msg_seq = 0;
+
+	private readonly address = 'wss://api.sgroup.qq.com/websocket';
+
+	public readonly config: QQAdapterConfig;
+
+	public constructor(ctx: Context, config: QQAdapterConfig, identity: string) {
+		super(ctx, config, identity, QQApi);
+		// if (!checkConfig(config)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = config;
-		this.info = `${this.config.address}:${this.config.port}`;
 	}
 
-	public handle = (data: EventDataType) => {
-		if (data.post_type === 'message' && data.message_type === 'private') {
-			this.ctx.emit('private_msg', {
-				userId: data.user_id,
-				messageId: data.message_id,
-				message: data.message,
-				sender: {
-					nickname: data.sender.nickname,
-					age: data.sender.age,
-					sex: data.sender.sex,
+	public handle(data: obj) {
+		if (data.op === 10) {
+			this.send('ws', {
+				op: 2,
+				d: {
+					token: `QQBot ${this.token}`,
+					intents: 1241513984,
+					shard: [0, 1],
 				},
-				groupId: data.group_id,
-				...this.funcs(data),
 			});
-		} else if (data.post_type === 'message' && data.message_type === 'group') {
-			this.ctx.emit('group_msg', {
-				userId: data.user_id,
-				messageId: data.message_id,
-				message: data.message,
+			console.log('login...');
+		} else if (data.t === 'READY') {
+			console.log('login success');
+			this.heartbeat();
+		} else if (data.t === 'GROUP_AT_MESSAGE_CREATE') {
+			this.emit('group_msg', {
+				userId: 233,
+				messageId: 233,
+				message: data.d.content.trim(),
 				sender: {
-					nickname: data.sender.nickname,
-					age: data.sender.age,
-					sex: data.sender.sex,
+					nickname: '233',
+					age: 222,
+					sex: 'unknown',
 				},
 				groupId: data.group_id!,
-				...this.funcs(data),
 			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'private_recall') {
-			this.ctx.emit('private_recall', {
-				userId: data.user_id,
-				messageId: data.message_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'group_recall') {
-			this.ctx.emit('group_recall', {
-				userId: data.user_id,
-				messageId: data.message_id,
-				groupId: data.group_id!,
-				operatorId: data.operator_id || data.user_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'request' && data.request_type === 'private') {
-			this.ctx.emit('private_request', {
-				userId: data.user_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'request' && data.request_type === 'group') {
-			this.ctx.emit('group_request', {
-				userId: data.user_id,
-				groupId: data.group_id!,
-				operatorId: data.operator_id || data.user_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'private_add') {
-			this.ctx.emit('private_add', {
-				userId: data.user_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'group_increase') {
-			this.ctx.emit('group_increase', {
-				userId: data.user_id,
-				groupId: data.group_id!,
-				operatorId: data.operator_id || data.user_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'group_decrease') {
-			this.ctx.emit('group_decrease', {
-				userId: data.user_id,
-				groupId: data.group_id!,
-				operatorId: data.operator_id || data.user_id,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'group_admin') {
-			this.ctx.emit('group_admin', {
-				userId: data.user_id,
-				groupId: data.group_id!,
-				operation: data.sub_type === 'set' ? 'set' : 'unset',
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'notice' && data.notice_type === 'group_ban') {
-			this.ctx.emit('group_ban', {
-				userId: data.user_id,
-				groupId: data.group_id!,
-				operatorId: data.operator_id,
-				time: data.duration!,
-				...this.funcs(data),
-			});
-		} else if (data.post_type === 'meta_event' && data.meta_event_type === 'heartbeat') {
-			if (data.status.online) {
-				this.online();
-				if (this.onlineTimerId) clearTimeout(this.onlineTimerId);
-			}
-			if (this.selfId === -1 && typeof data.self_id === 'number') {
-				this.selfId = data.self_id;
-				this.avatar = `https://q.qlogo.cn/g?b=qq&s=640&nk=${this.selfId}`;
-			}
-		} else if (data.data instanceof Object && data.data.message_id && typeof data.data.message_id === 'number') {
-			this.ctx.emit('send', {
-				api: this.api,
-				messageId: data.data.message_id,
-			});
-		} else if (
-			data.post_type === 'notice' &&
-			(data as any).notice_type === 'notify' &&
-			(data as any).sub_type === 'poke'
-		) {
-			this.ctx.emit('group_msg', {
-				userId: data.user_id,
-				groupId: data.group_id!,
-				message: `[CQ:poke,qq=${data.target_id}]`,
-				...this.funcs(Object.assign(data, { message_type: 'group' }) as any),
-			} as any);
+			console.log('group');
+		} else if (data.op === 11) {
+			this.online();
+			// this.offlineCheck();
 		}
-		if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
-	};
+		console.log(data);
 
-	private funcs = (data: EventDataType) => {
-		const send = (message: MessageRaw) => {
-			if (data.message_type === 'group') {
-				this.api.send_group_msg(message, data.group_id!);
-			} else {
-				this.api.send_private_msg(message, data.user_id);
-			}
-		};
-		return { send, api: this.api, locale: this.locale };
-	};
+		if (data.s) this.seq = data.s;
 
-	public start = () => {
-		if (this.config.mode === 'ws-reverse') {
-			this.ctx.emit('connect', {
-				adapter: this,
-				normal: true,
-				info: `start wsserver at ${this.info}`,
-				onlyStart: true,
-			});
-		}
-		this.connectWss();
-	};
+		// if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
+	}
 
-	public stop = () => {
+	public start() {
+		this.ctx.emit('connect', {
+			adapter: this,
+			normal: true,
+			info: `connect server to qqbot`,
+		});
+		this.getToken();
+		this.connect();
+	}
+
+	public stop() {
 		this.ctx.emit('disconnect', {
 			adapter: this,
 			normal: true,
-			info: this.config.mode === 'ws' ? `disconnect from ${this.info}` : `stop wsserver at ${this.info}`,
+			info: `disconnect from ${this.address}`,
 		});
 		this.socket?.close();
 		this.offline();
-	};
+	}
+
+	public send(action: string, params: object) {
+		if (action === 'ws') {
+			this.socket?.send(JSON.stringify(params));
+			return undefined;
+		}
+		let address = '';
+		let req: obj = {};
+		if (action === 'send_group_msg' && 'groupId' in params && 'message' in params && 'id' in params) {
+			if (!params.message) return null;
+			this.msg_seq += 1;
+			address = `groups/${params.groupId}/messages`;
+			req = {
+				content: params.message,
+				msg_type: 0,
+				msg_id: params.id,
+				msg_seq: this.msg_seq,
+			};
+		}
+		return this.ctx.http.post(`https://api.sgroup.qq.com/v2/${address}`, req, {
+			headers: {
+				Authorization: `QQBot ${this.token}`,
+				'X-Union-Appid': this.config.appid,
+			},
+			validateStatus: () => true,
+		});
+	}
 
 	private socket: WebSocket | null = null;
 
-	private connectWss = async () => {
-		if (this.config.mode === 'ws-reverse') {
-			const wss = await WsServer(this.config.port);
-			this.socket = wss[0];
-			this.ctx.emit('connect', {
+	private async connect() {
+		this.socket = new WebSocket(`${this.address}`);
+		this.socket.on('close', () => {
+			this.ctx.emit('disconnect', {
 				adapter: this,
-				normal: true,
-				info: `client connect to ${this.info}`,
+				normal: false,
+				info: `unexpected disconnect server from ${this.address}, will reconnect in ${this.config.retry} seconds`,
 			});
-			this.socket?.on('close', () => {
-				this.ctx.emit('disconnect', {
+			setTimeout(() => {
+				if (!this.socket) return;
+				this.socket.close();
+				this.ctx.emit('connect', {
 					adapter: this,
 					normal: false,
-					info: `unexpected client disconnect from ${this.info}`,
+					info: `reconnect server to ${this.address}`,
 				});
-				wss[1].close();
-				this.connectWss();
-			});
-		} else {
-			this.ctx.emit('connect', {
-				adapter: this,
-				normal: true,
-				info: `connect server to ${this.info}`,
-			});
-			this.socket = new WebSocket(`${this.info}`);
-			this.socket.on('close', () => {
-				this.ctx.emit('disconnect', {
-					adapter: this,
-					normal: false,
-					info: `unexpected disconnect server from ${this.info}, will reconnect in ${
-						(this.config as QQConfigWs).retry
-					} seconds`,
-				});
-				setTimeout(
-					() => {
-						if (!this.socket) return;
-						this.socket.close();
-						this.ctx.emit('connect', {
-							adapter: this,
-							normal: false,
-							info: `reconnect server to ${this.info}`,
-						});
-						this.connectWss();
-					},
-					(this.config as QQConfigWs).retry * 1000,
-				);
-			});
-		}
+				this.start();
+			}, this.config.retry * 1000);
+		});
 		this.socket.on('message', data => this.handle(JSON.parse(data.toString())));
+	}
 
-		this.send = (action, params?) => {
-			this.socket?.send(JSON.stringify({ action, params }));
-		};
-	};
+	private async getToken() {
+		const data = await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
+			appId: this.config.appid,
+			clientSecret: this.config.secret,
+		});
+		if (!data.access_token) {
+			this.offline();
+			console.log('gettoken error', data);
+			return;
+		}
+		this.token = data.access_token;
+		console.log(`new token ${this.token}`);
+		this.getTokenTimerId = setTimeout(
+			() => {
+				if (this.getTokenTimerId) clearInterval(this.getTokenTimerId);
+				this.getToken();
+			},
+			(parseInt(data.expires_in, 10) - 30) * 1000,
+		);
+	}
 
-	private onlineTimerId: NodeJS.Timeout | null = null;
+	private async heartbeat() {
+		this.heartbeatTimerId = setTimeout(() => {
+			this.send('ws', {
+				op: 1,
+				d: this.seq || null,
+			});
+			if (this.heartbeatTimerId) clearInterval(this.heartbeatTimerId);
+			this.heartbeat();
+		}, 7 * 1000);
+	}
+
+	/* global NodeJS */
+	private getTokenTimerId?: NodeJS.Timeout;
+
+	private heartbeatTimerId?: NodeJS.Timeout;
 }

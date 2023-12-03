@@ -9,7 +9,7 @@ export const getSex = (val: string, locale): string => {
 	}
 };
 
-export const formatTime = (timecal: number, locale) => {
+export const formatTime(timecal: number, locale)  {
 	let timeDiff = timecal;
 	const hours = Math.floor(timeDiff / 3600000);
 	timeDiff %= 3600000;

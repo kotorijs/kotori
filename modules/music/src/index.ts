@@ -1,4 +1,4 @@
-import Kotori, { isObj, stringTemp } from '@kotori-bot/kotori';
+import Kotori, { isObj, stringTemp } from 'kotori-bot';
 import { resolve } from 'path';
 
 const MAX_LIST = 10;

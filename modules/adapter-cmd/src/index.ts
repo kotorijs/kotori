@@ -1,3 +1,3 @@
-import QQAdapter from './adapter';
+import CmdAdapter from './adapter';
 
-export default QQAdapter;
+export default CmdAdapter;

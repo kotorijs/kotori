@@ -1,7 +1,7 @@
-import Kotori from '@kotori-bot/kotori';
+import Kotori from 'kotori-bot';
 
-export const fetchWiki = (wikiUrl: string, action: string, params: object) => {
-	const promise = Kotori.http.get(wikiUrl, {
+export function fetchWiki(wikiUrl: string, action: string, params: object) {
+	return Kotori.http.get(wikiUrl, {
 		action,
 		exintro: '',
 		explaintext: '',
@@ -9,14 +9,13 @@ export const fetchWiki = (wikiUrl: string, action: string, params: object) => {
 		format: 'json',
 		...params,
 	});
-	return promise;
-};
+}
 
-export const wikiSearch = async (api: string, keyword: string) => {
-	const result = await fetchWiki(api, 'query', {
+export async function wikiSearch(api: string, keyword: string) {
+	const result = (await fetchWiki(api, 'query', {
 		list: 'search',
 		srsearch: keyword,
-	});
+	})) as any;
 	if (
 		!result ||
 		!result.query ||
@@ -26,8 +25,11 @@ export const wikiSearch = async (api: string, keyword: string) => {
 		return null;
 
 	let searchData = result.query.search;
-	if (Array.isArray(searchData)) searchData = searchData[0];
-	const data = await fetchWiki(api, 'query', { pageids: searchData.pageid });
+	if (Array.isArray(searchData)) {
+		const { 0: temp } = searchData;
+		searchData = temp;
+	}
+	const data = (await fetchWiki(api, 'query', { pageids: searchData.pageid })) as any;
 	if (!data || !data.query || !data.query.pages || !data.query.pages[searchData.pageid]) return null;
 	return data.query.pages[searchData.pageid];
-};
+}

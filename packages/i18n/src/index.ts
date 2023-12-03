@@ -1,9 +1,3 @@
-import path from 'path';
-import { existsSync, statSync } from 'fs';
-import { isObj, loadConfig, obj } from '@kotori-bot/tools';
-
-export type langType = keyof typeof LocaleIdentifier;
-
 export enum LocaleIdentifier {
 	ja_JP,
 	en_US,
@@ -11,48 +5,50 @@ export enum LocaleIdentifier {
 	zh_CN,
 }
 
+export type LocaleType = keyof typeof LocaleIdentifier;
+
+export interface localeData {
+	[propName: string]: string;
+}
+
+export type LocaleDataList = {
+	[K in LocaleType]: localeData;
+};
+
 export class Locale {
-	private readonly localeDataList: obj<obj<string>> = {
+	private readonly localeDataList: LocaleDataList = {
 		ja_JP: {},
 		en_US: {},
 		zh_TW: {},
 		zh_CN: {},
 	};
 
-	private readonly localePathList: string[] = [];
+	private lang: LocaleIdentifier;
 
-	private langing: LocaleIdentifier = LocaleIdentifier.en_US;
-
-	private readonly loader = (dirPath: string) => {
-		let state = false;
-		Object.values(LocaleIdentifier).forEach(target => {
-			if (typeof target !== 'string') return;
-			const localeData = loadConfig(path.join(dirPath, `${target}.json`), 'json');
-			if (!isObj<string>(localeData)) return;
-			this.localeDataList[target] = Object.assign(this.localeDataList[target], localeData);
-			state = true;
-		});
-		return state;
-	};
-
-	public constructor(uselang?: langType) {
-		if (uselang) this.langing = LocaleIdentifier[uselang];
+	public constructor(type: LocaleType = 'en_US') {
+		this.lang = LocaleIdentifier[type];
 	}
 
-	public readonly uselang = (dir: string) => {
-		if (!existsSync(dir) || !statSync(dir).isDirectory()) return false;
-		this.localePathList.push(dir);
-		return this.loader(dir);
-	};
+	public use(data: { type: LocaleType; locales: localeData }) {
+		Object.keys(this.localeDataList[data.type]).forEach(locale => {
+			if (!(locale in data.locales)) return;
+			delete this.localeDataList[data.type][locale];
+		});
+		this.localeDataList[data.type] = Object.assign(this.localeDataList[data.type], data.locales);
+	}
 
-	public readonly locale = (val: string, lang: langType = LocaleIdentifier[this.langing] as langType) => {
+	public locale(val: string, lang: LocaleType = LocaleIdentifier[this.lang] as LocaleType) {
 		if (!(lang in this.localeDataList)) return val;
 		return val in this.localeDataList[lang] ? this.localeDataList[lang][val] : val;
-	};
+	}
 
-	public readonly setlang = (lang: langType) => {
-		this.langing = LocaleIdentifier[lang];
-	};
+	public set(lang: LocaleType) {
+		this.lang = LocaleIdentifier[lang];
+	}
+
+	public get() {
+		return this.lang;
+	}
 }
 
 export default Locale;

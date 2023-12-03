@@ -3,7 +3,7 @@ import { resolve } from 'path';
 
 Kotori.uselang(resolve(__dirname, '../locales'));
 
-const image = (file: string, cache: boolean = true) => `[CQ:image,file=${file}],cache=${cache ? 1 : 0}`;
+const image(file: string, cache: boolean = true)  `[CQ:image,file=${file}],cache=${cache ? 1 : 0}`;
 
 Kotori.command('github <repository> - querytool.descr.github').action(async data => {
 	const res = await Kotori.http.get(`https://api.github.com/repos/${data.args[0]}`);
@@ -236,7 +236,7 @@ Kotori.command('uuid')
 		let r = Math.floor(Math.random() * 256);
 		let g = Math.floor(Math.random() * 256);
 		let b = Math.floor(Math.random() * 256);
-		const componentToHex = (c: number) => {
+		const componentToHex(c: number)  {
 			const hex = c.toString(16);
 			return hex.length === 1 ? `0${hex}` : hex;
 		};

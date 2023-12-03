@@ -31,29 +31,23 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "import/no-unresolved": 0,
-        "import/extensions": 0,
         "import/no-extraneous-dependencies": 0,
-        "import/no-mutable-exports": 0,
         "@typescript-eslint/no-explicit-any": 0,
-        "@typescript-eslint/no-unused-vars": 0,
         "@typescript-eslint/no-namespace": 0,
-        "no-unused-vars": 0,
-        "no-shadow": 0,
-        "no-undef": 0,
-        "no-use-before-define": 0,
-        "no-restricted-syntax": 0,
-        "max-classes-per-file": 0,
-        "no-continue": 0,
-        "prefer-destructuring": 0,
-        "default-case": 0,
         "no-console": 0,
         "indent": [
             0,
             "spaces",
             4
         ],
-        "space-before-function-paren": 0
+        "space-before-function-paren": 0,
+        /* typescript need */
+        "import/extensions": 0,
+        "no-use-before-define": 0,
+        "no-unused-vars": 0,
+        "no-shadow": 0,
+        "no-redeclare": 0
+        // "@typescript-eslint/no-unused-vars": 0
     },
     "settings": {
         "import/resolver": {

@@ -46,7 +46,7 @@ export class Logger {
 
 	// private static logsFilePath = CONST.LOGS;
 
-	private static readonly handlePrefix = (prefixs: LoggerOptions['prefixs']) => {
+	private static handlePrefix(prefixs: LoggerOptions['prefixs']) {
 		const handle: string[] = [];
 		prefixs.forEach(element => {
 			if (element instanceof Function) {
@@ -56,7 +56,7 @@ export class Logger {
 			handle.push(element);
 		});
 		return handle;
-	};
+	}
 
 	protected static readonly prefixs: LoggerOptions['prefixs'] = [];
 
@@ -65,7 +65,7 @@ export class Logger {
 		return this;
 	};
 
-	public static readonly print = (args: unknown[], level: LoggerLevel) => {
+	public static print(args: unknown[], level: LoggerLevel) {
 		if (process.env.NODE_ENV !== 'dev' && level === LoggerLevel.DEBUG) return;
 
 		let message = '';
@@ -87,7 +87,7 @@ export class Logger {
 		}
 		const content: string = `${time} ${type} ${message}`;
 		fs.appendFileSync(logFile, `${content}\n`); */
-	};
+	}
 
 	private static Tags: string[] = [];
 
@@ -97,39 +97,39 @@ export class Logger {
 		return tags;
 	}
 
-	public static readonly tag = (tag: string, typeColor: color, textColor: color) => {
+	public static tag(tag: string, typeColor: color, textColor: color) {
 		this.Tags.push(
 			`[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`,
 		);
 		return this;
-	};
+	}
 	/* 
-	public static readonly extend = (...content: string[]) => {
+	public static extend(...content: string[])  {
 		const CloneLogger = Object.create(Logger) as typeof Logger;
 		CloneLogger.tags = content;
 		console.log(CloneLogger.tags);
 		return CloneLogger;
 	}; */
 
-	public static readonly log = (...args: unknown[]) => {
+	public static log(...args: unknown[]) {
 		Logger.tag('LOG', 'cyan', 'default').print(args, LoggerLevel.LOG);
-	};
+	}
 
-	public static readonly info = (...args: unknown[]) => {
+	public static info(...args: unknown[]) {
 		Logger.tag('INFO', 'green', 'bright').print(args, LoggerLevel.LOG);
-	};
+	}
 
-	public static readonly warn = (...args: unknown[]) => {
+	public static warn(...args: unknown[]) {
 		Logger.tag('WARM', 'yellow', 'yellow').print(args, LoggerLevel.LOG);
-	};
+	}
 
-	public static readonly error = (...args: unknown[]) => {
+	public static error(...args: unknown[]) {
 		Logger.tag('ERROR', 'red', 'red').print(args, LoggerLevel.LOG);
-	};
+	}
 
-	public static readonly debug = (...args: unknown[]) => {
+	public static debug(...args: unknown[]) {
 		Logger.tag('DEBUG', 'magenta', 'red').print(args, LoggerLevel.DEBUG);
-	};
+	}
 }
 
 Logger.prefix(() => formatTime(), 'blue', 'default');

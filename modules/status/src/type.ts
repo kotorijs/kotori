@@ -57,15 +57,15 @@ export const GLOBAL = {
 };
 
 export type CoreKeyword = string | string[];
-export type CoreKeywordMatch = (str: string) => boolean;
+export type CoreKeywordMatch(str: string)  boolean;
 export type CoreVal = CoreValCallback | string;
-export type CoreValCallback = (send: Send, data: EventDataType) => CoreValCallbackVal | Promise<CoreValCallbackVal>;
+export type CoreValCallback(send: Send, data: EventDataType)  CoreValCallbackVal | Promise<CoreValCallbackVal>;
 export type CoreValCallbackVal = void | string | [string, obj<unknown>];
 export type Cmd<T = CoreVal> = Map<CoreKeyword | CoreKeywordMatch, T>;
 export type CmdInfo = Cmd<InfoVal>;
 export type InfoValArg = InfoArg[] | InfoArgEx;
-export type Hook = (data: EventDataType, send: Send, api: Api) => boolean;
-export type Send = (msg: Msg, params?: obj<string | number>) => void;
+export type Hook(data: EventDataType, send: Send, api: Api)  boolean;
+export type Send(msg: Msg, params?: obj<string | number>)  void;
 
 export interface InfoVal {
 	params?: InfoValArg;

@@ -20,16 +20,16 @@ export class Main {
 		this.registerEvent();
 	}
 
-	public registerEvent = () => {
+	public registerEvent() {
 		this.Event.listen('on_group_increase', data => Main.onGroupIncrease(data));
 		this.Event.listen('on_group_decrease', data => Main.onGroupDecrease(data));
-	};
+	}
 
 	public static Api: Api;
 
 	public static Const: Const;
 
-	public static checkWhiteList = (user: number, group?: number) => {
+	public static checkWhiteList(user: number, group?: number) {
 		if (user === this.Const.CONFIG.bot.master) return false;
 		const result =
 			(loadConfigP('whiteList.json') as number[]).includes(user) ||
@@ -37,9 +37,9 @@ export class Main {
 				((loadConfigP(path.join(group!.toString(), 'whiteList.json')) as number[]).includes(user) ||
 					(loadConfigP(path.join(group!.toString(), 'mangerList.json')) as number[]).includes(user)));
 		return result;
-	};
+	}
 
-	private static onGroupIncrease = (data: EventDataType) => {
+	private static onGroupIncrease(data: EventDataType) {
 		if (!config.joinGroupWelcome || !Content.verifyFrom(data)) return;
 		Main.Api.send_group_msg(
 			temp('manger.auto.join_group_welcome', {
@@ -47,9 +47,9 @@ export class Main {
 			}),
 			data.group_id!,
 		);
-	};
+	}
 
-	private static onGroupDecrease = (data: EventDataType) => {
+	private static onGroupDecrease(data: EventDataType) {
 		if (!config.exitGroupAddBlack || !Content.verifyFrom(data)) return;
 		const list = loadConfigP(path.join(data.group_id!.toString(), 'blackList.json')) as number[];
 		list.push(data.user_id);
@@ -60,7 +60,7 @@ export class Main {
 			}),
 			data.group_id!,
 		);
-	};
+	}
 }
 
 Core.hook((data, send) => {

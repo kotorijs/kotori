@@ -1,9 +1,7 @@
-import Kotori, { formatTime, isObj } from 'kotori-bot';
+import Kotori, { formatTime } from 'kotori-bot';
 import { resolve } from 'path';
 
 Kotori.uselang(resolve(__dirname, '../locales'));
-
-const image = (file: string, cache: boolean = true) => `[CQ:image,file=${file}],cache=${cache ? 1 : 0}`;
 
 Kotori.command('motd')
 	.action(async data => {

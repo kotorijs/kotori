@@ -1,8 +1,8 @@
-import { FuncStringProcessKey, FuncStringProcessMode, FuncStringProcessStr, StringTempArgs, obj } from './types';
+import { obj } from './types';
 
-export const initialize: MethodDecorator = (_, __, val) => {
+/* export const initialize: MethodDecorator = (_, __, val) => {
 	if (val.value instanceof Function) val.value();
-};
+}; */
 
 export function none(...elements: unknown[]) {
 	JSON.stringify(elements);
@@ -37,7 +37,7 @@ export function isClass(obj: unknown, strict: boolean = true): obj is new (...ar
 	return false;
 }
 
-export function stringProcess(
+/* export function stringProcess(
 	string: FuncStringProcessStr,
 	keyString: FuncStringProcessKey,
 	mode: FuncStringProcessMode = 0,
@@ -85,16 +85,14 @@ export function arrayProcess(
 	}
 	return false;
 }
+*/
 
-export function stringSplit(str: string, key: string): string {
+export function stringRightSplit(str: string, key: string): string {
 	const index = str.indexOf(key);
-	if (index !== -1) {
-		return str.slice(index + key.length);
-	}
-	return '';
+	return str.slice(index + key.length);
 }
 
-export function stringTemp(template: string, args: StringTempArgs) {
+export function stringTemp(template: string, args: obj<string | number | void>) {
 	const params = args;
 	let templateString = template;
 	if (!params || typeof params !== 'object') return templateString;
@@ -165,11 +163,11 @@ export function createProxy<T extends object>(val: T | (() => T)) {
 	});
 }
 
-export const isObj = <T = any>(data: unknown): data is obj<T> => {
+/* export const isObj = <T = any>(data: unknown): data is obj<T> => {
 	const result = data && typeof data === 'object' && !Array.isArray(data);
 	if (!result) return false;
-	for (const element of Object.keys(result)) {
+  	for (const element of Object.keys(result)) {
 		if (!element as T) return false;
 	}
 	return true;
-};
+}; */

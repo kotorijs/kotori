@@ -42,7 +42,7 @@ export class Content extends Data {
 
 	private static consts: Const;
 
-	public static verifyAccess = (data: EventDataType) => {
+	public static verifyAccess(data: EventDataType)  {
 		if (data.user_id === this.consts.CONFIG.bot.master) return ACCESS.ADMIN;
 		if (!data.group_id) return ACCESS.NORMAL;
 		if (data.sender.role === 'admin' || data.sender.role === 'owner') return ACCESS.MANGER;
@@ -50,7 +50,7 @@ export class Content extends Data {
 		return mangerList.includes(data.user_id) ? ACCESS.MANGER : ACCESS.NORMAL;
 	};
 
-	public static verifyFrom = (data: EventDataType) => {
+	public static verifyFrom(data: EventDataType)  {
 		if (data.user_id === data.self_id) return false;
 		return true;
 	};
@@ -69,7 +69,7 @@ export class Content extends Data {
 		return null;
 	};
 
-	private send: Send = (contents, params = {}) => {
+	private send: Send(contents, params = {})  {
 		let content = contents;
 		if (typeof content !== 'object') content = temp(content, params);
 		if (this.data.message_type === 'private') {
@@ -79,7 +79,7 @@ export class Content extends Data {
 		}
 	};
 
-	private checkParams = (key: CoreKeyword) => {
+	private checkParams(key: CoreKeyword)  {
 		const params = Data.cmdInfoData.get(key)?.params;
 
 		if (!params) return true;
@@ -87,7 +87,7 @@ export class Content extends Data {
 		return this.checkParamsObj(params);
 	};
 
-	private checkParamsArr = (params: InfoArg[], num: number = 1) => {
+	private checkParamsArr(params: InfoArg[], num: number = 1)  {
 		for (const indexs of Object.keys(params)) {
 			const index = parseInt(indexs, 10);
 			const indexNum = index + num;
@@ -112,7 +112,7 @@ export class Content extends Data {
 		return true;
 	};
 
-	private checkParamsObj = (params: InfoArgEx, num: number = 1) => {
+	private checkParamsObj(params: InfoArgEx, num: number = 1)  {
 		if (!Core.args[num]) {
 			this.send(BOT_RESULT.ARGS_ERROR);
 			return false;
@@ -128,7 +128,7 @@ export class Content extends Data {
 		return true;
 	};
 
-	private checkScope = (scope: SCOPE) => {
+	private checkScope(scope: SCOPE)  {
 		if (scope === SCOPE.ALL) return true;
 		if (scope === SCOPE.PRIVATE && this.data.message_type === 'private') return true;
 		if (scope === SCOPE.GROUP && this.data.message_type === 'group') return true;
@@ -136,7 +136,7 @@ export class Content extends Data {
 		return false;
 	};
 
-	private checkAccess = (access: ACCESS) => {
+	private checkAccess(access: ACCESS)  {
 		const result = Content.verifyAccess(this.data) >= access;
 		if (!result) this.send(access === ACCESS.ADMIN ? BOT_RESULT.NO_ACCESS_2 : BOT_RESULT.NO_ACCESS_1);
 		return result;
@@ -159,7 +159,7 @@ export class Content extends Data {
 			return;
 		}
 
-		const listenr = (error: unknown) => {
+		const listenr(error: unknown)  {
 			process.removeListener('unhandledRejection', listenr);
 			Content.isErroring = false;
 			this.send(BOT_RESULT.UNKNOWN_ERROR, {
@@ -192,7 +192,7 @@ export class Content extends Data {
 		this.send(result[0], result[1] as obj<string | number>);
 	};
 
-	private runAlias = () => {
+	private runAlias()  {
 		const data = (loadConfigP('alias.json', {}) as obj<string>)[this.data.message];
 		if (!data || typeof data !== 'string') return;
 		this.data.message = data;

@@ -1,5 +1,5 @@
 {
-    "extends": "./tsconfig.option.json",
+    "extends": "./tsconfig.node.json",
     "compilerOptions": {
         "baseUrl": ".", // Base directory for imports
         /* Path mapping for module imports */
@@ -7,25 +7,14 @@
             "@kotori-bot/*": [
                 "packages/*/src"
             ]
-        },
-        "typeRoots": [
-            "./node_modules/@types",
-            "./packages/kotori/src/global.d.ts"
-        ],
-        "outDir": "./dist/", // Output directory
-        "declarationDir": "./dist/" /* Optional */ // Output directory for declarations
+        }
     },
-    /* Included files */
     "include": [
-        "*/**/src/**/*.ts"
-        // "src/**/*.d.ts" /* Optional */,
-        // "src/**/*.tsx" /* Optional */,
-        // "src/**/*.vue" /* Optional */
+        "packages/*/src/**/*",
+        "modules/*/src/**/*"
     ],
-    /* Excluded files */
     "exclude": [
         "node_modules",
-        "*.test.ts",
-        "old"
-    ] /* Optional */
+        "*.test.ts"
+    ],
 }

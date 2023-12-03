@@ -14,17 +14,16 @@ Kotori.command('echo <content> [num:number=3]')
 	.alias('print')
 	.scope('group');
 
-Kotori.regexp(/^(.*)#print$/, (_, match) => match[1]);
+Kotori.regexp(/^(.*)#print$/, match => match[1]);
 
 Kotori.command('ison').action((_, events) => {
-	if (events.api.adapter.config.master === events.userId) return `${events.api.adapter.nickname}在的哟主人~`;
+	if (events.api.adapter.config.master === events.userId) return `在的哟主人~`;
 	return '你是...谁?';
 });
 
-Kotori.regexp(/^\[CQ:poke,qq=(.*)\]$/, (data, match) => {
-	if (!data.groupId) return ';';
-	if (data.userId === data.api.adapter.selfId || parseInt(match[1], 10) !== data.api.adapter.selfId) return '';
-	data.send(`[CQ:poke,qq=${data.userId}]`);
-	console.log(data, match);
+Kotori.on('poke', session => {
+	if (session.api.extra.type !== 'onebot') return '';
+	if (session.userId === session.api.adapter.selfId || session.targetId !== session.api.adapter.selfId) return '';
+	session.api.extra.poke(session.userId);
 	return '戳回去！！';
 });
