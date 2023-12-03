@@ -1,4 +1,4 @@
-import Kotori from '@kotori-bot/kotori';
+import Kotori from 'kotori-bot';
 import config from './config';
 import Translate from './translate';
 

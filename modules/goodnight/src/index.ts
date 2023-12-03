@@ -3,7 +3,7 @@ import { Context } from 'kotori-bot';
 
 export class Main {
 	/* 
-    private static getTodayPath = (yesterday: boolean = false) => {
+    private static getTodayPath(yesterday: boolean = false)  {
         const TIME = new Date();
         const date = TIME.getDate();
         const time = `${TIME.getFullYear()}-${TIME.getMonth() + 1}-${yesterday ? date - 1 : date}`;
@@ -12,17 +12,17 @@ export class Main {
     
     private static defaultData: good = { morning: {}, night: {} };
     
-    private static loadTodayData = (yesterday: boolean = false) =>
+    private static loadTodayData(yesterday: boolean = false) 
         (loadConfig(this.getTodayPath(yesterday), 'json', this.defaultData) as good) || this.defaultData;
     
-    private static saveTodayData = (data: good) => this.saveConfig(this.getTodayPath(), data); */
+    private static saveTodayData(data: good)  this.saveConfig(this.getTodayPath(), data); */
 
 	public constructor(Ctx: Context) {
 		Ctx.uselang(path.resolve(__dirname, '../locales'));
 
 		Ctx.regexp(
 			/^(早|早安|早上好)$/,
-			_ => '早安~',
+			() => '早安~',
 			/* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
 			if (data.user_id in record.morning) return ['goodnight.msg.morning.already', { at }];
@@ -45,7 +45,7 @@ export class Main {
 
 		Ctx.regexp(
 			/^(晚|晚安|晚上好)$/,
-			_ => '晚安~（该功能维护中）',
+			() => '晚安~',
 			/* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
 			if (data.user_id in record.night) return ['goodnight.msg.night.already', { at }];

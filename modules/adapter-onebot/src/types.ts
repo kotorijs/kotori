@@ -3,26 +3,10 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-09 21:57:35
+ * @LastEditTime: 2023-12-02 13:50:39
  */
 
-import { AdapterConfig, EventDataMsgSender } from 'kotori-bot';
-import { obj } from '@kotori-bot/tools';
-
-export type QQConfig = QQConfigWs | QQConfigWsReverse;
-
-export interface QQConfigWs extends AdapterConfig {
-	mode: 'ws';
-	address: string;
-	port: number;
-	retry: number;
-}
-
-export interface QQConfigWsReverse extends AdapterConfig {
-	mode: 'ws-reverse';
-	address: string;
-	port: number;
-}
+import { EventDataMsgSender } from 'kotori-bot';
 
 export interface BotInfo {
 	self_id: number;
@@ -455,7 +439,8 @@ export type EventSubType =
 	| 'set'
 	| 'unset'
 	| 'ban'
-	| 'lift_ban';
+	| 'lift_ban'
+	| 'poke';
 export type EventRequestType = 'private' | 'group';
 export type EventNoticeType =
 	| 'group_upload'
@@ -509,7 +494,7 @@ export interface EventStatType {
 	last_message_time: number;
 }
 
-export interface EventDataType extends obj {
+export type EventDataType = {
 	post_type: EventPostType;
 	message_type: EventMessageType;
 	sub_type: EventSubType;
@@ -526,8 +511,12 @@ export interface EventDataType extends obj {
 	user_id: number;
 	group_id?: number;
 	operator_id?: number;
+	target_id?: number;
 	duration?: number;
 	sender: EventSenderType;
 	status: EventStatusType;
 	font: number | 0;
-}
+	data?: {
+		message_id?: number;
+	};
+};

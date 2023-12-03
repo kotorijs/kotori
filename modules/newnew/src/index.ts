@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-18 21:31:27
+ * @LastEditTime: 2023-12-03 16:52:27
  */
 import path from 'path';
 import Kotori, { obj } from 'kotori-bot';
@@ -11,13 +11,13 @@ import config from './config';
 
 Kotori.uselang(path.resolve(__dirname, '../locales'));
 
-Kotori.regexp(/^今日长度$/, data => {
-	if (!(data.userId in penisData)) {
-		penisData[data.userId] = getNewLength();
+Kotori.regexp(/^今日长度$/, (_, session) => {
+	if (!(session.userId in penisData)) {
+		penisData[session.userId] = getNewLength();
 	}
-	const todayLength = penisData[data.userId];
+	const todayLength = penisData[session.userId];
 	const params = {
-		at: `[CQ:at,qq=${data.userId}]`,
+		at: `[CQ:at,qq=${session.userId}]`,
 		length: todayLength,
 	};
 	if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];
@@ -134,7 +134,7 @@ Kotori.regexp(/^今日排行$/, () => {
 
 const penisData: obj<number> = {};
 /* 
-const getTodayPath = () => {
+const getTodayPath()  {
 	const TIME = new Date();
 	const time = `${TIME.getFullYear()}-${TIME.getMonth() + 1}-${TIME.getDate()}`;
 	return path.join(CONST.DATA_PLUGIN_PATH, `${time}.json`);
@@ -142,24 +142,24 @@ const getTodayPath = () => {
 
 const loadTodayData = (): number[] => (loadConfig(getTodayPath()) as number[]) || [];
 
-const saveTodayData = (data: number[]) => saveConfig(getTodayPath(), data);
+const saveTodayData(data: number[])  saveConfig(getTodayPath(), data);
 
 const loadStatData = (): arrData => {
 	const PATH = path.join(CONST.DATA_PLUGIN_PATH, `stat.json`);
 	return (loadConfig(PATH) as arrData) || [];
 };
 
-const saveStatData = (data: arrData) => {
+const saveStatData(data: arrData)  {
 	const PATH = path.join(CONST.DATA_PLUGIN_PATH, `stat.json`);
 	saveConfig(PATH, data);
 }; */
 
-const getNewLength = () => {
+function getNewLength() {
 	const { max, min } = config;
 	const range = max - min + 1;
 	const index = Math.floor(Math.random() * range);
 	const result = min + index;
 	return result;
-};
+}
 
 // type arrData = [number, number, number, number][];

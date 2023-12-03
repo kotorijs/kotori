@@ -12,35 +12,35 @@ export class Command extends Data {
 		this.info = info;
 	}
 
-	private handle = () => {
+	private handle() {
 		Command.cmdInfoData.set(this.keyword, this.info);
 		return this;
-	};
+	}
 
-	public menuId = (val: string) => {
+	public menuId(val: string) {
 		this.info.menuId = val;
 		return this.handle();
-	};
+	}
 
-	public help = (help: string) => {
+	public help(help: string) {
 		this.info.help = help;
 		return this.handle();
-	};
+	}
 
-	public scope = (scope: SCOPE) => {
+	public scope(scope: SCOPE) {
 		this.info.scope = scope;
 		return this.handle();
-	};
+	}
 
-	public access = (access: ACCESS) => {
+	public access(access: ACCESS) {
 		this.info.access = access;
 		return this.handle();
-	};
+	}
 
-	public params = (params: InfoValArg) => {
+	public params(params: InfoValArg) {
 		this.info.params = params;
 		return this.handle();
-	};
+	}
 }
 
 export default Command;

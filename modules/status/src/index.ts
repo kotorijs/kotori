@@ -72,12 +72,12 @@ export class Main extends Core {
 		Core.autoEvent.forEach(callback => callback());
 	}
 
-	private registerEvent = () => {
+	private registerEvent()  {
 		this.Event.listen('on_group_msg', data => Main.onMsg(data));
 		this.Event.listen('on_private_msg', data => Main.onMsg(data));
 	};
 
-	private static onMsg = (data: EventDataType) => {
+	private static onMsg(data: EventDataType)  {
 		if (!Content.verifyFrom(data)) return {};
 		return new Content(data, this.Api, this.Const, this.hookEvent);
 	};
@@ -124,7 +124,7 @@ Core.cmd('api', async () => {
 	.help('core.descr.api')
 	.menuId('otherCom');
 
-const Kotori.command = (keyword: string, callback: CoreVal) => {
+const Kotori.command(keyword: string, callback: CoreVal)  {
 	const result = Core.cmd(keyword, callback).menuId('coreCom');
 	return result;
 };
@@ -203,7 +203,7 @@ Kotori.command('system').action( (send, data) => {
 		return;
 	}
 	const num = parseInt(data.args[0], 10);
-	const save = () => {
+	const save()  {
 		saveConfig(
 			path.join(Main.Const.DATA_PLUGIN_PATH, 'system.ini'),
 			data.group_id ? data.group_id.toString() : 'private',

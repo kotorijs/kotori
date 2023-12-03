@@ -1,12 +1,13 @@
 import { none } from '@kotori-bot/tools';
 import Context from './context';
 
-export * from './adapter';
-export * from './api';
+export * from './components/adapter';
+export * from './components/api';
 export * from './context';
-export * from './errror';
+export * from './utils/errror';
 export * from './types';
 export * from '@kotori-bot/tools';
+export * from 'tsukiko';
 
 export class ContextInstance {
 	protected constructor() {
@@ -15,20 +16,22 @@ export class ContextInstance {
 
 	private static instance: Context = {} as Context;
 
-	protected static readonly setInstance = (Ctx: Context) => {
-		this.instance = Ctx;
-	};
+	protected static set(ctx: Context) {
+		this.instance = ctx;
+		console.log(this.instance);
+	}
 
-	public static readonly getInstance = (): Context => Object.create(this.instance);
+	public static get = (): Context => Object.create(this.instance);
 
-	public static readonly getInstanceMixin = () => Object.assign(ContextInstance.getInstance(), Context);
+	public static getMixin() {
+		return Object.assign(ContextInstance.get(), Context);
+	}
 }
-
-// const ctx = ContextInstance.getInstance();
+// const ctx = ContextInstance.get();
 
 // namespace KotoriSpace {
 // 	/* Core Class */
-// 	export const { configs, baseDir } = ctx;
+// 	export const { Config, baseDir } = ctx;
 
 // 	/* Events Class */
 // 	export const { on, once, off, offAll, emit } = ctx;
@@ -49,9 +52,10 @@ export class ContextInstance {
 // 	export const { http } = ctx;
 // }
 
-export const Kotori: typeof Context & Context = new Proxy(ContextInstance.getInstanceMixin(), {
+export const Kotori: typeof Context & Context = new Proxy(ContextInstance.getMixin(), {
 	get: (_, prop) => {
-		const target = ContextInstance.getInstanceMixin();
+		console.log(ContextInstance.getMixin(), ContextInstance.get());
+		const target = ContextInstance.getMixin();
 		if (prop === undefined) return target;
 		return target[prop as keyof typeof target];
 	},

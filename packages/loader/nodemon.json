@@ -1,8 +1,0 @@
-{
-	"restartable": "rs",
-	"verbose": false,
-	"ignore": ["data/**/*.*", "logs/**/*.*"],
-	"delay": "1000",
-	"exec": "ts-node -r tsconfig-paths/register ./src/app.ts dev",
-	"ext": "ts"
-}

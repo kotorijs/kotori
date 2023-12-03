@@ -1,6 +1,6 @@
 {
     "name": "kotori-plugin-goodnight",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "And in case i don't see you,good afternoon,good evening,and good night!",
     "main": "src/index.ts",
     "license": "GPL-3.0",

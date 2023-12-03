@@ -1,19 +1,15 @@
 {
-    "name": "@kotori-bot/kotori-plugin-adapter-tencent-qq",
-    "version": "1.0.0",
-    "description": "Adapter For QQ Base On Tencent Api",
+    "name": "@kotori-bot/kotori-plugin-adapter-onebot",
+    "version": "1.1.0",
+    "description": "Adapter For OneBot (go-cqhttp)",
     "main": "src/index.ts",
     "license": "GPL-3.0",
     "author": "Hotaru <biyuehuya@gmail.com>",
-    "scripts": {
-        "test": "ts-node ./src/test"
-    },
     "peerDependencies": {
         "kotori-bot": "workspace:^"
     },
     "dependencies": {
         "@types/ws": "^8.5.8",
-        "axios": "^1.6.1",
         "ws": "^8.14.2"
     }
 }

@@ -1,4 +1,4 @@
-import Kotori from '@kotori-bot/kotori';
+import Kotori from 'kotori-bot';
 
 const headers = {
 	'user-agent': 'czy0729/Bangumi/6.4.0 (Android) (http://github.com/czy0729/Bangumi)',

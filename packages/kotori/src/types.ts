@@ -1,66 +1,96 @@
-import { StringTempArgs, obj } from '@kotori-bot/tools';
-import { langType } from '@kotori-bot/i18n';
-import Api from './api';
-import Adapter from './adapter';
-import { Context } from '.';
+import type { StringTempArgs, obj } from '@kotori-bot/tools';
+import type { LocaleType } from '@kotori-bot/i18n';
+import Tsu from 'tsukiko';
+import type Api from './components/api';
+import type Adapter from './components/adapter';
+import type Context from './context';
+import { defaultConfig } from './core/core';
 
-export type KotoriConfigs = {
-	baseDir?: {
-		[P in keyof BaseDir]?: BaseDir[P];
-	};
-	configs?: {
-		[P in keyof GlobalConfigs]?: {
-			[K in keyof GlobalConfigs[P]]?: GlobalConfigs[P][K];
-		};
-	};
-	options?: {
-		[P in keyof GlobalOptions]?: GlobalOptions[P];
-	};
-};
+export const baseDirSchema = Tsu.Object({
+	root: Tsu.String(),
+	modules: Tsu.String(),
+});
 
-export interface BaseDir {
-	root: string;
-	modules: string;
+export type BaseDir = Tsu.infer<typeof baseDirSchema>;
+
+export const packageInfoSchema = Tsu.Object({
+	name: Tsu.String(),
+	version: Tsu.String(),
+	description: Tsu.String(),
+	main: Tsu.String(),
+	license: Tsu.Literal('GPL-3.0'),
+	author: Tsu.String(),
+});
+
+export type PackageInfo = Tsu.infer<typeof packageInfoSchema>;
+
+export const localeTypeSchema = Tsu.Union([
+	Tsu.Union([Tsu.Literal('en_US'), Tsu.Literal('ja_JP')]),
+	Tsu.Union([Tsu.Literal('zh_CN'), Tsu.Literal('zh_TW')]),
+]);
+
+export const globalOptions = Tsu.Object({
+	nodeEnv: Tsu.Union([Tsu.Literal('dev'), Tsu.Literal('build')]).default('dev'),
+});
+
+export type GlobalOptions = Tsu.infer<typeof globalOptions>;
+
+const GlobalConfigBaseSchema = Tsu.Object({
+	lang: localeTypeSchema.default(/* defaultConfig.config.global.lang */ 'zh_CN' as LocaleType),
+	'command-prefix': Tsu.String().default(
+		/* defaultConfig.config.global['command-prefix'] */ '/',
+	) /* here have some question */,
+});
+
+const adapterConfigBaseSchema = Tsu.Intersection([
+	Tsu.Object({
+		extends: Tsu.String(),
+		master: Tsu.Union([Tsu.Number(), Tsu.String()]),
+	}),
+	GlobalConfigBaseSchema,
+]);
+
+export const globalConfigSchema = Tsu.Object({
+	global: GlobalConfigBaseSchema,
+	adapter: Tsu.Object().index(adapterConfigBaseSchema).default({}),
+	plugin: Tsu.Object().index(Tsu.Unknown()),
+});
+
+export type GlobalConfig = Tsu.infer<typeof globalConfigSchema>;
+
+export const adapterConfigSchema = Tsu.Custom<Tsu.infer<typeof adapterConfigBaseSchema> & obj>(
+	input => adapterConfigBaseSchema.check(input) && Tsu.Object().index(Tsu.Any()).check(input),
+);
+
+export type AdapterConfig = Tsu.infer<typeof adapterConfigSchema>;
+
+export type AdapterConstructor = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
+
+export const kotoriConfigSchema = Tsu.Object({
+	baseDir: baseDirSchema.default(/* defaultConfig.baseDir */ { root: './', modules: './modules/' }),
+	config: globalConfigSchema.default(
+		/* defaultConfig.config */ {
+			global: {
+				lang: 'en_US',
+				'command-prefix': '/',
+			},
+			adapter: {},
+		} as Tsu.infer<typeof globalConfigSchema>,
+	),
+	options: globalOptions.default(
+		/* defaultConfig.options  */ {
+			nodeEnv: 'dev',
+		} as Tsu.infer<typeof globalOptions>,
+	), // question
+}).default(defaultConfig as any);
+
+export type KotoriConfig = Tsu.infer<typeof kotoriConfigSchema>;
+
+export interface ApiExtra {
+	default: { type: 'default' };
 }
 
-export interface PackageInfo {
-	name: string;
-	version: string;
-	description: string;
-	main: string;
-	types: string;
-	author: string;
-	license: string;
-	bugs: {
-		url: string;
-	};
-	homepage: string;
-	dependencies: obj<string>;
-	devDependencies: obj<string>;
-}
-
-export interface GlobalConfigs {
-	global: {
-		lang: langType;
-		'command-prefix': string;
-	};
-	adapter: {
-		[propName: string]: AdapterConfig;
-	};
-}
-
-export interface GlobalOptions {
-	nodeEnv: 'dev' | 'production';
-}
-
-export interface AdapterConfig {
-	extend: string;
-	master: number;
-	lang: langType;
-	'command-prefix': string;
-}
-
-export type AdapterEntity = new (config: AdapterConfig, identity: string, ctx: Context) => Adapter;
+export type ApiExtraValue = ApiExtra[keyof ApiExtra];
 
 export const enum CommandAccess {
 	MEMBER,
@@ -69,9 +99,13 @@ export const enum CommandAccess {
 }
 
 export type CommandAction = (
-	data: { args: CommandArgType[]; options: obj<CommandArgType>; quick: MessageQuickFunc },
-	events: EventType['group_msg' | 'private_msg'],
-) => MessageQuick | Promise<MessageQuick>;
+	data: { args: CommandArgType[]; options: obj<CommandArgType> },
+	session: EventType['group_msg' | 'private_msg'],
+) =>
+	| MessageQuick
+	| CommandResultExtra[keyof CommandResultExtra]
+	| void
+	| Promise<MessageQuick | CommandResultExtra[keyof CommandResultExtra] | void>;
 export type CommandArgType = string | number;
 export type CommandArgTypeSign = 'string' | 'number';
 
@@ -110,14 +144,9 @@ export interface CommandData {
 	action?: CommandAction;
 	description?: string;
 }
-
-export type MessageRaw = string;
-export type MessageScope = 'private' | 'group';
-export type MessageQuickFunc = (msg: MessageQuick) => void;
-export type MessageQuickReal = void | MessageRaw | [string, StringTempArgs];
-export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
-export const enum CommandResult {
-	SUCCESS,
+/* 
+export enum CommandResult {
+	SUCCESS = 0,
 	OPTION_ERROR,
 	ARG_ERROR,
 	MANY_ARG,
@@ -125,24 +154,82 @@ export const enum CommandResult {
 	SYNTAX,
 	UNKNOWN,
 	ERROR,
-}
-
-export type ModuleService = 'database' | 'adapter' | 'plugin';
-
-export type ModuleEntityClass = new (...args: unknown[]) => unknown;
-export type ModuleEntityFunc = (...args: unknown[]) => unknown;
-
-export interface ModulePackage {
-	name: string;
-	version: string;
-	description: string;
-	main: string;
-	license: 'GPL-3.0';
-	author: string | string[];
-	peerDependencies: {
-		'kotori-bot': string;
+} */
+export interface CommandParseResult {
+	parsed: {
+		action: CommandAction;
+		args: CommandArgType[];
+		options: obj<CommandArgType>;
 	};
+	option_error: { expected: string; reality: string; target: string };
+	arg_many: { expected: number; reality: number };
+	arg_few: CommandParseResult['arg_many'];
+	arg_error: CommandParseResult['option_error'];
+	syntax: { index: number; char: string };
+	unknown: { input: string };
 }
+
+export interface CommandResult extends CommandParseResult {
+	success: { return?: string };
+	error: { error: unknown };
+}
+
+export type CommandParseResultExtra = Pick<CommandResultExtra, keyof CommandParseResult>;
+export type CommandExecuteResultExtra = Pick<
+	CommandResultExtra,
+	Exclude<keyof CommandResult, keyof CommandParseResult>
+>;
+
+export type CommandResultExtra = {
+	[K in keyof CommandResult]: { type: K } & CommandResult[K];
+};
+
+export type MessageRaw = string;
+export type MessageScope = 'private' | 'group';
+export type MessageQuickFunc = (msg: MessageQuick) => void;
+export type MessageQuickReal = MessageRaw | [string, StringTempArgs] | void; /* void need be deleted */
+export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
+
+export type ModuleType = 'database' | 'adapter' | 'plugin';
+export type ModuleInstanceType = 'constructor' | 'function' | 'none';
+
+export type ModuleInstanceConstructor = new (...args: unknown[]) => unknown;
+export type ModuleInstanceFunction = (...args: unknown[]) => unknown;
+
+/* here need feat */
+export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick /* ReturnType<CommandAction> */;
+export type RegexpCallback = (match: RegExpMatchArray, session: EventDataMsg) => MessageQuick;
+
+export interface MidwareStack {
+	extend: string;
+	callback: MidwareCallback;
+	priority: number;
+}
+
+export interface CommandStack {
+	extend: string;
+	data: CommandData;
+}
+
+export interface RegexpStack {
+	extend: string;
+	match: RegExp;
+	callback: RegexpCallback;
+}
+
+export const ModulePackageSchema = Tsu.Object({
+	name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
+	version: Tsu.String(),
+	description: Tsu.String(),
+	main: Tsu.String(),
+	license: Tsu.Literal('GPL-3.0'),
+	author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
+	peerDependencies: Tsu.Object({
+		'kotori-bot': Tsu.String(),
+	}),
+});
+
+export type ModulePackage = Tsu.infer<typeof ModulePackageSchema>;
 
 export interface ModuleData {
 	package: ModulePackage;
@@ -150,13 +237,14 @@ export interface ModuleData {
 	mainPath: string;
 }
 
-interface EventDataBase<T extends keyof EventType> {
+export interface EventDataBase<T extends keyof EventType> {
 	type: T;
 }
 
 interface EventDataLoadModule extends EventDataBase<'load_module'> {
 	module: ModuleData | null;
-	service: ModuleService;
+	moduleType: ModuleType;
+	instanceType: ModuleInstanceType;
 }
 
 interface EventDataLoadAllModule extends EventDataBase<'load_all_module'> {
@@ -175,142 +263,154 @@ export interface EventDataMsgSender {
 	sex: EventDataMsgSenderSex;
 	age: number;
 }
-interface EventDataConnect extends EventDataBase<'connect'> {
-	normal: boolean;
+
+export interface EventDataAdapterBase<T extends keyof EventType> extends EventDataBase<T> {
 	adapter: Adapter;
+}
+
+interface EventDataConnect extends EventDataAdapterBase<'connect'> {
+	normal: boolean;
 	info: string;
 	onlyStart?: boolean;
 }
 
-interface EventDataDisconnect extends EventDataBase<'disconnect'> {
+interface EventDataDisconnect extends EventDataAdapterBase<'disconnect'> {
 	normal: boolean;
-	adapter: Adapter;
 	info: string;
 }
 
-interface EventDataReady extends EventDataBase<'ready'> {
-	adapter: Adapter;
-}
+interface EventDataReady extends EventDataAdapterBase<'ready'> {}
 
-interface EventDataOnline extends EventDataBase<'online'> {
-	adapter: Adapter;
-}
+interface EventDataOnline extends EventDataAdapterBase<'online'> {}
 
-interface EventDataOffline extends EventDataBase<'offline'> {
-	adapter: Adapter;
-}
+interface EventDataOffline extends EventDataAdapterBase<'offline'> {}
 
-type messageData = EventDataGroupMsg | EventDataPrivateMsg<'private_msg'>;
+export type EventDataMsg = EventDataPrivateMsg | EventDataGroupMsg;
+
 interface EventDataMidwares extends EventDataBase<'midwares'> {
 	isPass: boolean;
-	messageData: messageData;
-	quick: (message: MessageQuick) => void;
+	event: EventDataMsg;
+}
+
+interface EventDataBeforeParse extends EventDataBase<'before_parse'> {
+	event: EventDataMsg;
+	command: string;
+}
+
+interface EventDataParse extends EventDataBase<'parse'> {
+	event: EventDataMsg;
+	command: string;
+	result: CommandParseResultExtra[keyof CommandParseResultExtra];
+	cancel(): void;
 }
 
 interface EventDataBeforeCommand extends EventDataBase<'before_command'> {
-	messageData: messageData;
+	event: EventDataMsg;
 	command: string;
 	scope: MessageScope;
 	access: CommandAccess;
-	cancel: () => void;
+	cancel(): void;
 }
 
 interface EventDataCommand extends EventDataBase<'command'> {
-	messageData: messageData;
+	event: EventDataMsg;
 	command: string;
 	scope: MessageScope;
 	access: CommandAccess;
-	result: CommandResult;
-	cancel: () => void;
+	result: CommandResultExtra[keyof CommandResultExtra];
 }
+
+export const eventDataTargetIdSchema = Tsu.Union([Tsu.String(), Tsu.Number()]);
+
+export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>;
 
 interface EventDataBeforeSend extends EventDataBase<'before_send'> {
 	api: Api;
 	message: MessageRaw;
 	messageType: MessageScope;
-	targetId: number;
-	cancel: () => void;
+	targetId: EventDataTargetId;
+	cancel(): void;
 }
 
 interface EventDataSend extends EventDataBase<'send'> {
 	api: Api;
 	/* 	message: MessageRaw;
 	messageType: MessageScope;
-	targetId: number; */
-	messageId: number;
+	targetId: EventDataTargetId; */
+	messageId: EventDataTargetId;
 }
 
 /* interface EventDataAdapters extends EventDataBase<'adapters'> {
 	adapters: Adapter[];
 } */
 
-interface EventDataAdapterBase<T extends keyof EventType> extends EventDataBase<T> {
-	userId: number;
-	send: (message: MessageRaw) => void | Promise<unknown>;
-	locale: (val: string) => string;
+export interface EventDataApiBase<T extends keyof EventType> extends EventDataBase<T> {
 	api: Api;
+	userId: EventDataTargetId;
+	send(message: MessageRaw): void;
+	locale(val: string): string;
+	quick(message: MessageQuick): void;
+	error<T extends keyof CommandResult>(type: T, data?: Omit<CommandResultExtra[T], 'type'>): CommandResultExtra[T];
 }
 
-export type EventDataMsg = EventDataPrivateMsg | EventDataGroupMsg;
-
-interface EventDataPrivateMsg<T extends keyof EventType = 'private_msg'> extends EventDataAdapterBase<T> {
-	messageId: number;
+interface EventDataPrivateMsg<T extends keyof EventType = 'private_msg'> extends EventDataApiBase<T> {
+	messageId: EventDataTargetId;
 	message: MessageRaw;
 	messageH?: object /* what is this? */;
 	sender: EventDataMsgSender;
-	groupId?: number;
+	groupId?: EventDataTargetId;
 }
 
 interface EventDataGroupMsg extends EventDataPrivateMsg<'group_msg'> {
-	groupId: number;
+	groupId: EventDataTargetId;
 }
 
-interface EventDataPrivateRecall extends EventDataAdapterBase<'private_recall'> {
-	messageId: number;
+interface EventDataPrivateRecall extends EventDataApiBase<'private_recall'> {
+	messageId: EventDataTargetId;
 }
 
-interface EventDataGroupRecall extends EventDataAdapterBase<'group_recall'> {
-	messageId: number;
-	groupId: number;
-	operatorId: number;
+interface EventDataGroupRecall extends EventDataApiBase<'group_recall'> {
+	messageId: EventDataTargetId;
+	groupId: EventDataTargetId;
+	operatorId: EventDataTargetId;
 }
 
-interface EventDataPrivateRequest extends EventDataAdapterBase<'private_request'> {
-	userId: number;
+interface EventDataPrivateRequest extends EventDataApiBase<'private_request'> {
+	userId: EventDataTargetId;
 }
 
-interface EventDataGroupRequest extends EventDataAdapterBase<'group_request'> {
-	userId: number;
-	groupId: number;
-	operatorId: number;
+interface EventDataGroupRequest extends EventDataApiBase<'group_request'> {
+	userId: EventDataTargetId;
+	groupId: EventDataTargetId;
+	operatorId: EventDataTargetId;
 }
 
-interface EventDataPrivateAdd extends EventDataAdapterBase<'private_add'> {
-	userId: number;
+interface EventDataPrivateAdd extends EventDataApiBase<'private_add'> {
+	userId: EventDataTargetId;
 }
 
-interface EventDataGroupIncrease extends EventDataAdapterBase<'group_increase'> {
-	userId: number;
-	groupId: number;
-	operatorId: number;
+interface EventDataGroupIncrease extends EventDataApiBase<'group_increase'> {
+	userId: EventDataTargetId;
+	groupId: EventDataTargetId;
+	operatorId: EventDataTargetId;
 }
 
-interface EventDataGroupDecrease extends EventDataAdapterBase<'group_decrease'> {
-	userId: number;
-	groupId: number;
-	operatorId: number;
+interface EventDataGroupDecrease extends EventDataApiBase<'group_decrease'> {
+	userId: EventDataTargetId;
+	groupId: EventDataTargetId;
+	operatorId: EventDataTargetId;
 }
 
-interface EventDataGroupAdmin extends EventDataAdapterBase<'group_admin'> {
-	userId: number;
-	groupId: number;
+interface EventDataGroupAdmin extends EventDataApiBase<'group_admin'> {
+	userId: EventDataTargetId;
+	groupId: EventDataTargetId;
 	operation: EventDataOperation;
 }
 
-interface EventDataGroupBan extends EventDataAdapterBase<'group_ban'> {
-	userId: number | 0;
-	operatorId?: number;
-	groupId: number;
+interface EventDataGroupBan extends EventDataApiBase<'group_ban'> {
+	userId: EventDataTargetId | 0;
+	operatorId?: EventDataTargetId;
+	groupId: EventDataTargetId;
 	time?: number | -1;
 }
 
@@ -325,6 +425,8 @@ export interface EventType {
 	online: EventDataOnline;
 	offline: EventDataOffline;
 	midwares: EventDataMidwares;
+	before_parse: EventDataBeforeParse;
+	parse: EventDataParse;
 	before_command: EventDataBeforeCommand;
 	command: EventDataCommand;
 	before_send: EventDataBeforeSend;
@@ -341,7 +443,6 @@ export interface EventType {
 	group_admin: EventDataGroupAdmin;
 	group_ban: EventDataGroupBan;
 }
-
 /* 
 export type EventType = { [P in keyof EventAfterType]: EventAfterType[P]} & { 
     [P in `before_${keyof EventBeforeType}`]: EventBeforeType[T extends `before_${infer R}` ? R : T];
@@ -351,4 +452,7 @@ export type EventCallback<T extends keyof EventType> = (data: EventType[T]) => v
 
 export type EventLists = { type: keyof EventType; callback: EventCallback<keyof EventType> }[];
 
-export type EventListenerFunc = <T extends keyof EventType>(type: T, callback: EventCallback<T>) => boolean;
+export interface DevErrorExtra {
+	path: string;
+	type: 'warning' | 'info' | 'error';
+}

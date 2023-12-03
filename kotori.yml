@@ -9,7 +9,7 @@ global:
 
 adapter:
   kotori:
-      extend: "qq"
+      extends: "qq"
       master: 3324656453
       # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
       mode: ws-reverse
@@ -27,18 +27,15 @@ adapter:
       # retry: 10 # 连接断开或失败时尝试重连间隔时间 单位:秒
 
   cmd-test:
-      extend: "cmd"
-      master: 720
+      extends: "cmd"
+      master: 2333
       nickname: "Kotarou"
       age: 18
       sex: "male"
-      self-id: 2333
-      self-nickname: "Kotori"
-      self-avatar: "https://kotori.js.org/kotori.png"
+      self-id: 720
 
   kisaki:
-      extend: "tencent-qq"
+      extends: "tencent-qq"
       master: 2333
-      appid: ""
-      secret: ""
+
       retry: 30

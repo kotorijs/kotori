@@ -12,7 +12,7 @@ const { maxList } = config;
 
 Locale.register(path.resolve(__dirname));
 
-const Kotori.command = (keyword: string, callback: CoreVal) => {
+const Kotori.command(keyword: string, callback: CoreVal)  {
 	const result = Core.cmd(keyword, callback).menuId('dayTool');
 	return result;
 };

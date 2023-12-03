@@ -1,7 +1,22 @@
-import { Context, MessageQuickReal, isObj, obj } from 'kotori-bot';
+import { Context, MessageQuickReal, Tsu } from 'kotori-bot';
 import { resolve } from 'path';
 
-export default function main(ctx: Context) {
+const hitokotoSchema = Tsu.Object({
+	data: Tsu.Object({
+		msg: Tsu.String(),
+		from: Tsu.String().optional(),
+		likes: Tsu.Number(),
+		type: Tsu.String(),
+	}),
+});
+
+const hitokotosSchema = Tsu.Object({
+	data: Tsu.Object({
+		msg: Tsu.String(),
+	}),
+});
+
+export function main(ctx: Context) {
 	ctx.uselang(resolve(__dirname, '../locales'));
 
 	ctx.command('hitokoto - hitokotos.descr.hitokotos.help').action(
@@ -19,21 +34,13 @@ export default function main(ctx: Context) {
 
 	ctx.regexp(/^一言$/, async () => {
 		const res = await ctx.http.get('https://hotaru.icu/api/hitokoto/v2/');
-		if (!isObj(res) || !isObj(res.data)) return 'Server error!Please contact ';
-
-		return [
-			'hitokotos.msg.hitokoto',
-			{
-				...res.data,
-				from: res.data.from.trim() ? `——${res.data.from}` : '',
-			},
-		];
+		if (!hitokotoSchema.check(res)) return ['corei18n.template.res_error', { res: res as string }];
+		return ['hitokotos.msg.hitokoto', { ...res.data, from: res.data.from ? `——${res.data.from}` : '' }];
 	});
 
 	const hitokotoT = async (msg: number): Promise<MessageQuickReal> => {
 		const res = await ctx.http.get('https://api.hotaru.icu/api/words', { params: msg });
-		if (!isObj(res) || !(res as obj).data || (res as obj).data.msg !== 'string')
-			return 'Server error!Please contact ';
+		if (!hitokotosSchema.check(res)) return ['corei18n.template.res_error', { res: res as string }];
 		return ['hitokotos.msg.list', { content: res.data.msg }];
 	};
 
@@ -53,3 +60,5 @@ export default function main(ctx: Context) {
 	ctx.regexp(/^英汉语录$/, () => hitokotoT(15));
 	ctx.regexp(/^诗词$/, () => hitokotoT(16));
 }
+
+export default main;

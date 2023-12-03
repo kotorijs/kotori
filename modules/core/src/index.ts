@@ -3,41 +3,40 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-11-18 22:10:13
+ * @LastEditTime: 2023-12-03 15:34:55
  */
 
-import Kotori, { formatTime, isObj, stringTemp } from '@kotori-bot/kotori';
+import Kotori, { type Api, Tsu, formatTime, type obj, stringTemp } from 'kotori-bot';
 import { resolve } from 'path';
 
 Kotori.uselang(resolve(__dirname, '../locales'));
 
 Kotori.command('core - core.descr.core').action((_, events) => {
-	const { configs, baseDir, options, moduleStack, adapterStack, botStack, midwareStack, commandStack, regexpStack } =
-		events.api.adapter.ctx;
+	const { config, baseDir, options, internal } = events.api.adapter.ctx;
 	let botsLength = 0;
-	Object.values(botStack).forEach(apis =>
-		apis.forEach(() => {
+	Object.values(internal.getBots()).forEach(bots =>
+		bots.forEach(() => {
 			botsLength += 1;
 		}),
 	);
 	return [
 		'core.msg.core',
 		{
-			lang: configs.global.lang,
+			lang: config.global.lang,
 			root: baseDir.root,
 			mode: options.nodeEnv,
-			modules: moduleStack.length,
-			adapters: Object.values(adapterStack).length,
+			modules: internal.getModules().length,
+			adapters: Object.values(internal.getAdapters()).length,
 			bots: botsLength,
-			midwares: midwareStack.length,
-			commands: commandStack.length,
-			regexps: regexpStack.length,
+			midwares: internal.getMidwares().length,
+			commands: internal.getCommands().length,
+			regexps: internal.getRegexps().length,
 		},
 	];
 });
 
 Kotori.command('bot - core.descr.bot').action((_, events) => {
-	const { identity, platform, selfId, nickname, config, status } = events.api.adapter;
+	const { identity, platform, selfId, config, status } = events.api.adapter;
 	return [
 		'core.msg.bot',
 		{
@@ -45,7 +44,6 @@ Kotori.command('bot - core.descr.bot').action((_, events) => {
 			lang: config.lang,
 			platform,
 			self_id: selfId,
-			nickname,
 			create_time: formatTime(status.createTime),
 			last_msg_time: formatTime(status.lastMsgTime),
 			received_msg: status.receivedMsg,
@@ -57,9 +55,9 @@ Kotori.command('bot - core.descr.bot').action((_, events) => {
 
 Kotori.command('bots - core.descr.bots').action((_, events) => {
 	let list = '';
-	Object.values(events.api.adapter.ctx.botStack).forEach(apis =>
-		apis.forEach(api => {
-			const { identity, platform, config, status } = api.adapter;
+	Object.values(events.api.adapter.ctx.internal.getBots() as obj<Api[]>).forEach(bots =>
+		bots.forEach(bot => {
+			const { identity, platform, config, status } = bot.adapter;
 			list += stringTemp(events.locale('core.msg.bots.list'), {
 				identity,
 				lang: config.lang,
@@ -84,7 +82,7 @@ Kotori.command('update - core.descr.update').action(async (_, events) => {
 	const res = await Kotori.http.get(
 		'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/packages/kotori/package.json',
 	);
-	if (!res || !isObj(res)) {
+	if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
 		content = events.locale('core.msg.update.fail');
 	} else if (version === res.version) {
 		content = events.locale('core.msg.update.yes');

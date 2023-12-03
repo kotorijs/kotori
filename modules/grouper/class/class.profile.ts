@@ -13,7 +13,7 @@ export class Profile {
 		this.exp = exp;
 	}
 
-	private initData = () => {
+	private initData()  {
 		const { role, title, nickname } = this.event.sender;
 		let { sex } = this.event.sender;
 		if (sex === 'unknown') sex = getRandomInt(1) ? 'male' : 'female';
@@ -40,7 +40,7 @@ export class Profile {
 		return { titleRaw, nickname, sexColor, level, totalExp: level >= config.maxLevel ? '~' : totalExp, progress };
 	};
 
-	public static getLevel = (exp: number) => {
+	public static getLevel(exp: number)  {
 		if (exp < 0) return [-1, 0, 0];
 		let totalExp = config.baseExp;
 		let totalExpLast = 0;
@@ -56,7 +56,7 @@ export class Profile {
 		return [level, totalExp, avg];
 	};
 
-	private static renderProgress = (num: number) => {
+	private static renderProgress(num: number)  {
 		let baseNum = 10;
 		const list = [];
 		while (num >= baseNum) {
@@ -103,7 +103,7 @@ export class Profile {
 					const img = new Image();
 					img.src = base64;
 
-					img.onload = () => {
+					img.onload()  {
 						// Draw white background and image
 						ctx.fillStyle = 'white';
 						ctx.fillRect(0, 0, width, height);

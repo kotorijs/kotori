@@ -8,6 +8,21 @@
     "dependencies": {
         "@kotori-bot/i18n": "workspace:^",
         "@kotori-bot/logger": "workspace:^",
-        "@kotori-bot/tools": "workspace:^"
-    }
+        "@kotori-bot/tools": "workspace:^",
+        "tsukiko": "^1.1.1"
+    },
+    "keywords": [
+        "ChatBot",
+        "Bot",
+        "bot",
+        "QQ",
+        "QQBot",
+        "typescript",
+        "TypeScript",
+        "NodeJs",
+        "AOP",
+        "robotics",
+        "nodejs",
+        "back-end"
+    ]
 }

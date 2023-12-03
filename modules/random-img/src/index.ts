@@ -1,69 +1,84 @@
-import Kotori, { isObj } from 'kotori-bot';
+import Kotori, { type Api, Tsu } from 'kotori-bot';
 import { resolve } from 'path';
 import config from './config';
 
+const sexSchema = Tsu.Object({
+	data: Tsu.Array(
+		Tsu.Object({
+			pid: Tsu.Number(),
+			title: Tsu.String(),
+			author: Tsu.String(),
+			tags: Tsu.Array(Tsu.String()),
+			url: Tsu.String(),
+		}),
+	).optional(),
+});
+
+const sexhSchema = Tsu.Object({
+	data: Tsu.Object({
+		url: Tsu.String(),
+		tag: Tsu.Array(Tsu.String()),
+	}).optional(),
+});
+
+const quick = (url: string, api: Api) =>
+	api.extra.type === 'onebot' ? api.extra.image(url) : 'corei18n.template.empty';
+
 Kotori.uselang(resolve(__dirname, '../locales'));
 
-const image = (file: string) => `[CQ:image,file=${file},cache=0]`;
-
-Kotori.command('sex [tags] - random_img.descr.sex').action(async data => {
-	data.quick('random_img.msg.sex.tips');
-
+Kotori.command('sex [tags] - random_img.descr.sex').action(async (data, session) => {
+	session.quick('random_img.msg.sex.tips');
 	const res = await Kotori.http.get(`https://hotaru.icu/api/seimg/v2/`, { tag: data.args[0] || '', r18: 0 });
-	if (!isObj(res)) return 'Server error!Please contact bot admin';
-	if (res.code !== 500 || !Array.isArray(res.data)) return ['random_img.msg.sex.fail', { input: data.args[0] }];
+	if (!sexSchema.check(res)) return session.error('res_error', { res });
+	if (!res.data) return ['random_img.msg.sex.fail', { input: data.args[0] }];
 
-	const dd = res.data[0];
-	let tags = '';
-	dd.tags.forEach((element: string) => {
-		tags += `、${element}`;
-	});
-	data.quick(['random_img.msg.sex', { ...dd, tags: tags.substring(1) }]);
-	return ['random_img.msg.sex.image', { image: image(dd.url) }];
+	const info = res.data[0];
+	session.quick(['random_img.msg.sex', { ...info, tags: info.tags.join(' ') }]);
+	if (session.api.extra.type !== 'onebot') return '';
+	return ['random_img.msg.sex.image', { image: session.api.extra.image(info.url) }];
 });
 
-Kotori.command('sexh - random_img.descr.sexh').action(async data => {
-	data.quick('random_img.msg.sexh.tips');
+Kotori.command('sexh - random_img.descr.sexh').action(async (data, session) => {
+	session.quick('random_img.msg.sexh.tips');
 	const res = await Kotori.http.get('https://hotaru.icu/api/huimg/');
-	if (!isObj(res)) return 'Server error!Please contact bot admin';
-	if (res.code !== 500 || !isObj(res.data)) return 'random_img.msg.sexh.fail';
-
-	const dd = res.data;
-	let tags = '';
-	(dd.tag as string[]).forEach(element => {
-		tags += `、${element}`;
-	});
-	return ['random_img.msg.sexh', { tags: tags.substring(1), image: image(dd.url) }];
+	if (!sexhSchema.check(res)) return session.error('res_error', { res });
+	if (!res.data) return ['random_img.msg.sexh.fail', { input: data.args[0] }];
+	const info = res.data;
+	if (session.api.extra.type !== 'onebot') return '';
+	return ['random_img.msg.sexh', { tags: info.tag.join(' '), image: session.api.extra.image(info.url) }];
 });
 
-Kotori.command('bing - random_img.descr.bing').action(() => [
+Kotori.command('bing - random_img.descr.bing').action((_, session) => [
 	'random_img.msg.bing',
 	{
-		image: image(`https://api.hotaru.icu/api/bing`),
+		image: quick('https://api.hotaru.icu/api/bing', session.api),
 	},
 ]);
 
-Kotori.command('day').action(() =>
+Kotori.command('day').action((_, session) =>
 	config.day.apiKey
 		? [
 				'random_img.msg.day',
 				{
-					image: image(`https://api.hotaru.icu/api/60s?apikey=${config.day.apiKey}&area=日本神户市`),
+					image: quick(
+						`https://api.hotaru.icu/api/60s?apikey=${config.day.apiKey}&area=日本神户市`,
+						session.api,
+					),
 				},
 		  ]
 		: 'Apikey error!',
 );
 
-Kotori.command('earth - random_img.descr.earth').action(() => [
+Kotori.command('earth - random_img.descr.earth').action((_, session) => [
 	'random_img.msg.earth',
 	{
-		image: image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg'),
+		image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg', session.api),
 	},
 ]);
 
-Kotori.command('china - random_img.descr.china').action(() => [
+Kotori.command('china - random_img.descr.china').action((_, session) => [
 	'random_img.msg.china',
 	{
-		image: image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg'),
+		image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg', session.api),
 	},
 ]);

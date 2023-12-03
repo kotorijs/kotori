@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "ESNext",
+        "strict": true,
+        /* "jsx": "preserve",
+        "jsxFactory": "DOMcreateElement",
+        "jsxFragmentFactory": "DOMcreateFragment",*/
+        "outDir": "dist",
+        "declaration": true,
+        "experimentalDecorators": true,
+    }
+}

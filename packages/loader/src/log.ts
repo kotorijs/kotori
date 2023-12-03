@@ -1,6 +1,6 @@
-import Kotori, { PackageInfo } from 'kotori-bot';
+import type { Context, PackageInfo } from 'kotori-bot';
 
-export const loadInfo = (info: PackageInfo) => {
+export function loadInfo(info: PackageInfo, ctx: Context) {
 	console.info('Kotori Bot is loading...');
 	console.info(`
 ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗
@@ -10,9 +10,9 @@ export const loadInfo = (info: PackageInfo) => {
 ██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
 ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
 `);
-	Kotori.logger.info(`Kotori Bot Version: ${info.version} License: ${info.license}`);
-	Kotori.logger.info(`Kotori Bot By ${info.author}`);
-	Kotori.logger.info(`Copyright © 2023 ${info.author} All rights reserved.`);
-};
+	ctx.logger.info(`Kotori Bot Version: ${info.version} License: ${info.license}`);
+	ctx.logger.info(`Kotori Bot By ${info.author}`);
+	ctx.logger.info(`Copyright © 2023 ${info.author} All rights reserved.`);
+}
 
 export default loadInfo;

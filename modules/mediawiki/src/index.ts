@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import Kotori, { obj, stringTemp } from '@kotori-bot/kotori';
+import Kotori, { obj, stringTemp } from 'kotori-bot';
 import wikiData from './type';
 import { wikiSearch } from './method';
 
@@ -16,7 +16,7 @@ const defaultData = [
 	},
 ];
 
-// const getPath = () => path.join(Main.Consts.CONFIG_PLUGIN_PATH, 'wiki.json');
+// const getPath()  path.join(Main.Consts.CONFIG_PLUGIN_PATH, 'wiki.json');
 
 const loadWikiData = () =>
 	/* {

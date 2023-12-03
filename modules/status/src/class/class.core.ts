@@ -7,12 +7,12 @@ import Data from './class.data';
 export class Core extends Data {
 	public static args: string[] = [];
 
-	public static cmd = (keyword: CoreKeyword, callback: CoreVal) => {
+	public static cmd(keyword: CoreKeyword, callback: CoreVal)  {
 		const newKeyword = `/${keyword}`;
 		return this.alias(newKeyword, callback);
 	};
 
-	public static alias = (keyword: CoreKeyword, callback: CoreVal) => {
+	public static alias(keyword: CoreKeyword, callback: CoreVal)  {
 		// if (!this.isInitialize) this.initialize();
 		this.cmdData.set(keyword, callback);
 		const infoData: InfoVal = {
@@ -26,8 +26,8 @@ export class Core extends Data {
 		return new Command(keyword, infoData);
 	};
 
-	public static menu = (keyword: CoreKeyword, menuId: string) => {
-		const callback = () => this.menuHandle(menuId);
+	public static menu(keyword: CoreKeyword, menuId: string)  {
+		const callback()  this.menuHandle(menuId);
 		const main = menuId === 'main' ? '' : 'main';
 		const { menuId: menuIdFun, help, scope, access } = this.cmd(keyword, callback).menuId(main);
 		return {
@@ -38,16 +38,16 @@ export class Core extends Data {
 		};
 	};
 
-	public static custom = (match: CoreKeywordMatch, callback: CoreVal) => {
+	public static custom(match: CoreKeywordMatch, callback: CoreVal)  {
 		// if (!this.isInitialize) this.initialize();
 		this.cmdData.set(match, callback);
 	};
 
-	public static auto = (callback: () => void) => {
+	public static auto(callback: ()  void) => {
 		this.autoEvent.push(callback);
 	};
 
-	public static hook = (callback: Hook) => {
+	public static hook(callback: Hook)  {
 		Core.hookEvent.push(callback);
 	};
 
@@ -57,7 +57,7 @@ export class Core extends Data {
 
 	/* 	private static isInitialize: boolean = false;
 
-	private static initialize = () => {
+	private static initialize()  {
 		this.isInitialize = true;
 		if (CCOM.main) {
 			this.cmd(LMENU.main.cmd, LMENU.main.content);
@@ -69,7 +69,7 @@ export class Core extends Data {
 		}
 	}; */
 
-	private static menuHandle = (menuId: string) => {
+	private static menuHandle(menuId: string)  {
 		let list = '';
 		for (const key of this.cmdInfoData) {
 			const { 0: cmdKey, 1: value } = key;
@@ -81,7 +81,7 @@ export class Core extends Data {
 		});
 	};
 
-	protected static menuHandleParams = (key: CoreKeyword, value: InfoVal) => {
+	protected static menuHandleParams(key: CoreKeyword, value: InfoVal)  {
 		let cmdName = Array.isArray(key) ? key[0] : key;
 		if (Array.isArray(key)) cmdName = `${cmdName} (${key.filter(val => val !== key[0]).join('|')})`;
 		let scope = '';
@@ -133,7 +133,7 @@ export class Core extends Data {
 		return list;
 	};
 
-	private static menuHandleParamsArr = (params: InfoArg[]) => {
+	private static menuHandleParamsArr(params: InfoArg[])  {
 		let handleParams = '';
 		params.forEach(element => {
 			const paramName = element.name ?? Locale.locale('core.temp.menu.param_name_default');

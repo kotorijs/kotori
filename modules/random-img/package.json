@@ -1,6 +1,6 @@
 {
     "name": "kotori-plugin-randomimg",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Random imgs base for Core",
     "main": "src/index.ts",
     "license": "GPL-3.0",

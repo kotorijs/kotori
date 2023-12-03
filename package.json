@@ -23,8 +23,10 @@
         "typescript",
         "TypeScript",
         "NodeJs",
-        "Node",
-        "AOP"
+        "AOP",
+        "robotics",
+        "nodejs",
+        "back-end"
     ],
     "bugs": {
         "url": "https://github.com/biyuehu/kotori-bot/issues"
