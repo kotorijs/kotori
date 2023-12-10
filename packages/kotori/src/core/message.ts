@@ -1,5 +1,5 @@
 import Tsu from 'tsukiko';
-import { stringRightSplit, stringTemp } from '@kotori-bot/tools';
+import { obj, stringRightSplit, stringTemp } from '@kotori-bot/tools';
 import {
 	CommandAccess,
 	CommandConfig,
@@ -30,7 +30,7 @@ export class Message extends Modules {
 	private handleMessageEvent(session: EventDataMsg) {
 		/* Handle middle wares */
 		let isPass = true;
-		const midwareStack: MidwareStack[] = Object.create(this.midwareStack);
+		const midwareStack = Object.create(this.midwareStack);
 		let lastMidwareNum = -1;
 		while (midwareStack.length > 0) {
 			if (lastMidwareNum === midwareStack.length) {
@@ -79,20 +79,28 @@ export class Message extends Modules {
 			const parseResult = err.extra.value;
 			const isSuccessParsed = parseResult.type === 'parsed';
 			this.emit('parse', { result: parseResult, ...commonParams, cancel });
-			if (isCancel || !isSuccessParsed) return;
+			if (isCancel) return;
+			if (!isSuccessParsed) throw err;
 			try {
 				const executedResult = await parseResult.action(
 					{ args: parseResult.args, options: parseResult.options },
 					event,
 				);
-
-				if (Tsu.Object().check(executedResult)) {
+				if (Tsu.Object({}).index(Tsu.Unknown()).check(executedResult)) {
 					this.emit('command', { result: executedResult, ...commonParams, ...commandParams });
 					return;
 				}
+        const objectTemp = (obj: obj<string |number |void>) => {
+          const result = obj;
+          Object.keys(result).forEach(key => {
+            if (!result[key] || typeof result[key] !== 'string') return;
+            result[key] = event.locale(result[key] as string);
+        })
+        return result;
+      }
 				const returnHandle = Array.isArray(executedResult)
-					? stringTemp(event.locale(executedResult[0]), executedResult[1])
-					: executedResult;
+					? stringTemp(event.locale(executedResult[0]), objectTemp(executedResult[1]))
+					: event.locale(executedResult ?? '');
 				this.emit('command', {
 					result: { type: 'success', return: returnHandle ?? undefined },
 					...commonParams,
@@ -121,10 +129,10 @@ export class Message extends Modules {
 	}
 
 	protected registeMessageEvent() {
-		this.on('group_msg', this.handleMessageEvent);
-		this.on('private_msg', this.handleMessageEvent);
-		this.on('midwares', this.handleMidwaresEvent);
-		this.on('unload_module', this.handleUnloadModuleEvent);
+		this.on('group_msg', session => this.handleMessageEvent(session));
+		this.on('private_msg', session => this.handleMessageEvent(session));
+		this.on('midwares', session => this.handleMidwaresEvent(session));
+		this.on('unload_module', session => this.handleUnloadModuleEvent(session));
 	}
 
 	public midware(callback: MidwareCallback, priority: number = 100) {

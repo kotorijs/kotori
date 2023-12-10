@@ -1,5 +1,4 @@
-import { obj } from '@kotori-bot/tools';
-import Tsu from 'tsukiko';
+import { obj, stringRightSplit } from '@kotori-bot/tools';
 import {
 	CommandAccess,
 	type CommandAction,
@@ -64,25 +63,26 @@ export class Command {
 		return [realityOptions, cmd];
 	}
 
-	private static parseArgs(expectedArgs: CommandArg[], input: string) {
+	private static parseArgs(expectedArgs: CommandArg[], inputHandel: string) {
 		const realityArgs: CommandArgType[] = [];
 		let current = '';
 		let inBackslash = false;
 		let inQuote = false;
-		`${input} `.split('').forEach(char => {
+		`${inputHandel} `.split('').forEach(char => {
 			if (inBackslash) {
 				inBackslash = false;
 				current += char;
 			} else if (char === ' ' && !inQuote) {
 				if (!current) return;
 				const arg = expectedArgs[realityArgs.length];
-				if (!arg || !Tsu.Object().check(arg))
-					throw error('arg_many', { expected: expectedArgs.length, reality: realityArgs.length });
+				if (!arg) {
+					throw error('arg_many', { expected: expectedArgs.length, reality: realityArgs.length + 1 });
+				}
 				let val: CommandArgType = current.trim();
 				if (arg.type === 'number' && typeof val !== 'number') {
 					val = parseInt(current, 10);
 					if (Number.isNaN(val)) {
-						throw error('arg_error', { expected: 'number', reality: 'string,', target: arg.name });
+						throw error('arg_error', { expected: 'number', reality: 'string', target: arg.name });
 					}
 				}
 				realityArgs.push(val);
@@ -97,7 +97,7 @@ export class Command {
 			}
 		});
 		if (!inQuote && !inBackslash) return realityArgs;
-		throw error('syntax', { index: input.lastIndexOf(inQuote ? '"' : '\\'), char: inQuote ? '"' : '\\' });
+		throw error('syntax', { index: inputHandel.lastIndexOf(inQuote ? '"' : '\\'), char: inQuote ? '"' : '\\' });
 	}
 
 	public static readonly dataList: CommandData[] = [];
@@ -117,8 +117,11 @@ export class Command {
 
 			const tempArray = this.parseOption(command.options, cmd);
 			const realityOptions = tempArray[0];
-			const realityArgs: CommandArgType[] = this.parseArgs(command.args, tempArray[1]);
-			const expectedLength = command.args.filter(el => el.optional === false).length;
+			const realityArgs: CommandArgType[] = this.parseArgs(
+				command.args,
+				stringRightSplit(tempArray[1], cmd.split(' ')[0]),
+			);
+			const expectedLength = command.args.filter(el => !el.optional).length;
 			if (expectedLength > realityArgs.length) {
 				throw error('arg_few', { expected: expectedLength, reality: realityArgs.length });
 			}

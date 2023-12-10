@@ -16,15 +16,16 @@ export class ContextInstance {
 
 	private static instance: Context = {} as Context;
 
-	protected static set(ctx: Context) {
+	protected static setInstance(ctx: Context) {
 		this.instance = ctx;
-		console.log(this.instance);
 	}
 
-	public static get = (): Context => Object.create(this.instance);
+	public static getInstance() {
+		return this.instance;
+	}
 
 	public static getMixin() {
-		return Object.assign(ContextInstance.get(), Context);
+		return Object.assign(ContextInstance.getInstance() /* , Context */);
 	}
 }
 // const ctx = ContextInstance.get();
@@ -54,7 +55,6 @@ export class ContextInstance {
 
 export const Kotori: typeof Context & Context = new Proxy(ContextInstance.getMixin(), {
 	get: (_, prop) => {
-		console.log(ContextInstance.getMixin(), ContextInstance.get());
 		const target = ContextInstance.getMixin();
 		if (prop === undefined) return target;
 		return target[prop as keyof typeof target];

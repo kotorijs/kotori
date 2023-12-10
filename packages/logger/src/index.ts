@@ -1,7 +1,7 @@
 /* import fs from 'fs';
 import path from 'path'; */
 
-import { formatTime } from '@kotori-bot/tools';
+import { formatTime, obj } from '@kotori-bot/tools';
 
 export enum LoggerLevel {
 	LOG,
@@ -72,7 +72,17 @@ export class Logger {
 		args.forEach(value => {
 			let Element = value;
 			if (Element && typeof Element === 'object') {
-				Element = Element instanceof Error ? Element.toString() : JSON.stringify(Element);
+				const cache: obj[] = [];
+				if (Element instanceof Error) {
+					Element = Element.toString();
+				} else {
+					Element = JSON.stringify(Element, (key, value) => {
+						if (typeof value !== 'object' || value === null) return value;
+						if (cache.indexOf(value) === -1) return undefined;
+						cache.push(value);
+						return value;
+					});
+				}
 			}
 			if (typeof Element === 'string' && Element.length > 1000) Element = `${Element.substring(0, 999)}...`;
 			message += `${Element} `;
@@ -98,9 +108,7 @@ export class Logger {
 	}
 
 	public static tag(tag: string, typeColor: color, textColor: color) {
-		this.Tags.push(
-			`[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`,
-		);
+		this.Tags.push(`[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`);
 		return this;
 	}
 	/* 

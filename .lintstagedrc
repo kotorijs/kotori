@@ -1,6 +1,5 @@
 {
-    "*.{sb}": [
-        "npm run lint",
-        "npm run prettier"
-    ]
+  "*.{js,jsx,vue,ts,tsx}": [
+    "echo 1"
+  ]
 }

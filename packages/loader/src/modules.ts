@@ -28,9 +28,9 @@ export class Modules extends Context {
 
 	private getModuleRootDir() {
 		if (fs.existsSync(this.baseDir.modules)) this.moduleRootDir.push(this.baseDir.modules);
-		if (fs.existsSync(path.join(this.baseDir.root!, 'node_modules'))) {
-			this.moduleRootDir.push(path.join(this.baseDir.root, 'node_modules'));
-		}
+		// if (fs.existsSync(path.join(this.baseDir.root!, 'node_modules'))) {
+		// 	this.moduleRootDir.push(path.join(this.baseDir.root, 'node_modules'));
+		// } questions
 	}
 
 	private getModuleList(rootDir: string) {
@@ -53,9 +53,7 @@ export class Modules extends Context {
 			if (!fs.existsSync(mainPath)) throw new ModuleError(`cannot find ${mainPath}`);
 			this.moduleStack.push({
 				package: packageJson,
-				fileList: fs.statSync(path.join(dir, 'src')).isDirectory()
-					? this.getDirFiles(path.join(dir, 'src'))
-					: [],
+				fileList: fs.statSync(path.join(dir, 'src')).isDirectory() ? this.getDirFiles(path.join(dir, 'src')) : [],
 				mainPath: path.resolve(mainPath),
 			});
 		});
@@ -74,9 +72,10 @@ export class Modules extends Context {
 		this.moduleRootDir.forEach(dir => {
 			this.getModuleList(dir);
 		});
-		this.moduleStack.forEach(moduleData => {
-			this.moduleQuick(moduleData);
-		});
+		/* here need update(question) */
+		const array = this.moduleStack.filter(data => data.package.name.startsWith('@kotori-bot/'));
+		array.push(...this.moduleStack.filter(data => !array.includes(data)));
+		array.forEach(moduleData => this.moduleQuick(moduleData));
 	};
 
 	public readonly watchFile = async () => {

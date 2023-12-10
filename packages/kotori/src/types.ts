@@ -52,17 +52,13 @@ const adapterConfigBaseSchema = Tsu.Intersection([
 
 export const globalConfigSchema = Tsu.Object({
 	global: GlobalConfigBaseSchema,
-	adapter: Tsu.Object().index(adapterConfigBaseSchema).default({}),
-	plugin: Tsu.Object().index(Tsu.Unknown()),
+	adapter: Tsu.Object({}).index(adapterConfigBaseSchema).default({}),
+	plugin: Tsu.Object({}).index(Tsu.Unknown()),
 });
 
 export type GlobalConfig = Tsu.infer<typeof globalConfigSchema>;
 
-export const adapterConfigSchema = Tsu.Custom<Tsu.infer<typeof adapterConfigBaseSchema> & obj>(
-	input => adapterConfigBaseSchema.check(input) && Tsu.Object().index(Tsu.Any()).check(input),
-);
-
-export type AdapterConfig = Tsu.infer<typeof adapterConfigSchema>;
+export type AdapterConfig = Tsu.infer<typeof adapterConfigBaseSchema>;
 
 export type AdapterConstructor = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
 
@@ -90,7 +86,9 @@ export interface ApiExtra {
 	default: { type: 'default' };
 }
 
-export type ApiExtraValue = ApiExtra[keyof ApiExtra];
+export type ApiExtraValue = (ApiExtra & { any: { type: Exclude<string, keyof ApiExtra> } & Omit<obj, 'type'> })[
+	| keyof ApiExtra
+	| 'any'];
 
 export const enum CommandAccess {
 	MEMBER,
@@ -193,8 +191,8 @@ export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 export type ModuleType = 'database' | 'adapter' | 'plugin';
 export type ModuleInstanceType = 'constructor' | 'function' | 'none';
 
-export type ModuleInstanceConstructor = new (...args: unknown[]) => unknown;
-export type ModuleInstanceFunction = (...args: unknown[]) => unknown;
+export type ModuleInstanceConstructor = new (ctx: Context, config: object) => unknown;
+export type ModuleInstanceFunction = (ctx: Context, config: object) => unknown;
 
 /* here need feat */
 export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick /* ReturnType<CommandAction> */;
@@ -248,7 +246,8 @@ interface EventDataLoadModule extends EventDataBase<'load_module'> {
 }
 
 interface EventDataLoadAllModule extends EventDataBase<'load_all_module'> {
-	count: number;
+	reality: number;
+	expected: number;
 }
 
 interface EventDataUnloadModule extends EventDataBase<'unload_module'> {

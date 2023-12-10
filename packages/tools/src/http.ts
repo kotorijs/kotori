@@ -15,10 +15,10 @@ export class Http {
 	private method = async (
 		url: string,
 		params?: { [key: string]: string | number },
-		config = {},
+		config?: AxiosRequestConfig,
 		method: Method = 'get',
 	) => {
-		const response = (await axios[method](url, Object.assign(this.config, config, params))).data;
+		const response = (await axios[method](url, Object.assign(this.config, config || {}, { params }))).data;
 		return response;
 	};
 

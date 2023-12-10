@@ -37,9 +37,9 @@ export class Locale {
 		this.localeDataList[data.type] = Object.assign(this.localeDataList[data.type], data.locales);
 	}
 
-	public locale(val: string, lang: LocaleType = LocaleIdentifier[this.lang] as LocaleType) {
-		if (!(lang in this.localeDataList)) return val;
-		return val in this.localeDataList[lang] ? this.localeDataList[lang][val] : val;
+	public locale(val: string, type: LocaleType = LocaleIdentifier[this.lang] as LocaleType) {
+		if (!(type in this.localeDataList)) return val;
+		return val in this.localeDataList[type] ? this.localeDataList[type][val] : val;
 	}
 
 	public set(lang: LocaleType) {

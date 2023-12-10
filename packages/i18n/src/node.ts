@@ -1,3 +1,4 @@
+/*
 export function isNodeEnv() {
 	return process && process.version;
 }
@@ -7,6 +8,7 @@ interface FsModule {
 	statSync(path: string): { isDirectory(): boolean } | undefined;
 	readFileSync(path: string): { toString(): string } | undefined | null;
 }
+/
 
 export class NodeFs {
 	private static fs?: FsModule;
@@ -21,3 +23,4 @@ export class NodeFs {
 		return this.require();
 	}
 }
+*/

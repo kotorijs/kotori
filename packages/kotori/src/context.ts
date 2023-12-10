@@ -16,11 +16,11 @@ export class Context extends Internal {
 		}),
 	);
 
-	public readonly uselang;
+	public readonly uselang: Locale['use'];
 
-	public readonly setlang;
+	public readonly setlang: Locale['set'];
 
-	public readonly locale;
+	public readonly locale: Locale['locale'];
 
 	private initialize() {
 		this.registeMessageEvent();
@@ -32,10 +32,10 @@ export class Context extends Internal {
 
 	public constructor(Config?: KotoriConfig) {
 		super(Config);
-		const { use: uselang, set: setlang, locale } = new Locale(this.config.global.lang);
-		this.uselang = uselang;
-		this.setlang = setlang;
-		this.locale = locale;
+		const locale = new Locale(this.config.global.lang);
+		this.uselang = data => locale.use(data);
+		this.setlang = lang => locale.set(lang);
+		this.locale = (val, type?) => locale.locale(val, type);
 		this.initialize();
 	}
 }
