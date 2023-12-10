@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-03 16:52:27
+ * @LastEditTime: 2023-12-10 22:40:37
  */
 import path from 'path';
 import Kotori, { obj } from 'kotori-bot';
@@ -17,7 +17,7 @@ Kotori.regexp(/^今日长度$/, (_, session) => {
 	}
 	const todayLength = penisData[session.userId];
 	const params = {
-		at: `[CQ:at,qq=${session.userId}]`,
+		at: session.api.extra.type === 'onebot' ? session.api.extra.at(session.userId) : '',
 		length: todayLength,
 	};
 	if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];

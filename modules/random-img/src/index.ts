@@ -28,8 +28,7 @@ Kotori.uselang(resolve(__dirname, '../locales'));
 
 Kotori.command('sex [tags] - random_img.descr.sex').action(async (data, session) => {
 	session.quick('random_img.msg.sex.tips');
-	const res = await Kotori.http.get(`https://hotaru.icu/api/seimg/v2/`, { tag: data.args[0] || '', r18: 0 });
-	if (!sexSchema.check(res)) return session.error('res_error', { res });
+	const res = sexSchema.parse(await Kotori.http.get(`https://hotaru.icu/api/seimg/v2/`, { tag: data.args[0] || '', r18: 0 }));
 	if (!res.data) return ['random_img.msg.sex.fail', { input: data.args[0] }];
 
 	const info = res.data[0];
@@ -40,8 +39,7 @@ Kotori.command('sex [tags] - random_img.descr.sex').action(async (data, session)
 
 Kotori.command('sexh - random_img.descr.sexh').action(async (data, session) => {
 	session.quick('random_img.msg.sexh.tips');
-	const res = await Kotori.http.get('https://hotaru.icu/api/huimg/');
-	if (!sexhSchema.check(res)) return session.error('res_error', { res });
+	const res = sexhSchema.parse(await Kotori.http.get('https://hotaru.icu/api/huimg/'));
 	if (!res.data) return ['random_img.msg.sexh.fail', { input: data.args[0] }];
 	const info = res.data;
 	if (session.api.extra.type !== 'onebot') return '';

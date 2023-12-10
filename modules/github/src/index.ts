@@ -22,8 +22,7 @@ const githubSchema = Tsu.Union([
 Kotori.uselang(resolve(__dirname, '../locales'));
 
 Kotori.command('github <repository> - querytool.descr.github').action(async (data, session) => {
-	const res = await Kotori.http.get(`https://api.github.com/repos/${data.args[0]}`);
-	if (!githubSchema.check(res)) return session.error('res_error', { res });
+	const res = githubSchema.parse(await Kotori.http.get(`https://api.github.com/repos/${data.args[0]}`));
 	if (!('full_name' in res)) return ['querytool.msg.github.fail', { input: data.args[0] }];
 	session.quick([
 		'querytool.msg.github',

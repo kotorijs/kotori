@@ -27,7 +27,7 @@ interface QQAdapterConfig extends AdapterConfig {
 	retry: number;
 }
 
-export default class QQAdapter extends Adapter<QQApi> {
+export class QQAdapter extends Adapter<QQApi> {
 	private token = '';
 
 	private seq = 0;
@@ -157,7 +157,7 @@ export default class QQAdapter extends Adapter<QQApi> {
 		const data = await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
 			appId: this.config.appid,
 			clientSecret: this.config.secret,
-		});
+		}) as any;
 		if (!data.access_token) {
 			this.offline();
 			console.log('gettoken error', data);
@@ -190,3 +190,5 @@ export default class QQAdapter extends Adapter<QQApi> {
 
 	private heartbeatTimerId?: NodeJS.Timeout;
 }
+
+export default QQAdapter;

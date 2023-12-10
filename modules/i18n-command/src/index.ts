@@ -1,9 +1,9 @@
-import { Context } from 'kotori-bot';
+import { Context, TsuError } from 'kotori-bot';
 import { resolve } from 'path';
 
 declare module 'kotori-bot' {
 	interface CommandResult {
-		res_error: { res: unknown };
+		res_error: { error: TsuError };
 		num_error: object;
 		num_choose: object;
 		no_access_manger: object;
@@ -52,12 +52,7 @@ export function main(ctx: Context) {
 		const { quick } = session.event;
 		switch (result.type) {
 			case 'res_error':
-				quick([
-					'corei18n.template.res_error',
-					{
-						content: typeof result.res === 'object' ? JSON.stringify(result.res) : (result.res as string),
-					},
-				]);
+				quick(['corei18n.template.res_error', { content: result.error.message }]);
 				break;
 			case 'num_error':
 				quick(['corei18n.template.num_error', result]);
@@ -81,6 +76,11 @@ export function main(ctx: Context) {
 				quick(['corei18n.template.no_exists', result]);
 				break;
 			case 'error':
+				ctx.logger.error(result.error);
+				if (result.error instanceof TsuError) {
+					quick(['corei18n.template.res_error', { content: result.error.message }]);
+					return;
+				}
 				if (result.error instanceof Error) {
 					quick(['corei18n.template.error', { error: `${result.error.name} ${result.error.message}` }]);
 					return;

@@ -23,7 +23,6 @@ export function main(ctx: Context) {
 			  )
 			: commandStack;
 		if (filterResult.length <= 0) return 'helper.msg.descr.fail';
-		console.log(filterResult);
 		let commands = '';
 		const temp: typeof stringTemp = (template, args) => stringTemp(events.locale(template), args);
 

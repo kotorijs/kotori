@@ -1,4 +1,4 @@
-import { obj } from '@/tools';
+import { obj } from "kotori-bot";
 
 export default interface good {
 	morning: obj<number>;

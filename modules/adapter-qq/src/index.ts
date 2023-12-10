@@ -1,3 +1,3 @@
-import QQAdapter from './adapter';
+import {QQAdapter} from './adapter'
 
 export default QQAdapter;
