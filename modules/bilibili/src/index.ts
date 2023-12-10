@@ -17,25 +17,28 @@ const biliSchema = Tsu.Object({
 	}).optional(),
 });
 
-const bilierSchema = Tsu.Object({
+const bilier1Schema = Tsu.Object({
 	data: Tsu.Object({
-		uid: Tsu.Any(),
-		name: Tsu.String(),
-		level: Tsu.Number(),
-		sex: Tsu.String(),
-		description: Tsu.String(),
-		avatar: Tsu.String(),
 		following: Tsu.Number(),
 		follower: Tsu.Number(),
 	}).optional(),
 });
 
+const bilier2Schema = Tsu.Object({
+	data: Tsu.Object({
+		name: Tsu.String(),
+		level: Tsu.Number(),
+		sex: Tsu.String(),
+		description: Tsu.String(),
+		avatar: Tsu.String(),
+	}).optional(),
+});
+
 Kotori.uselang(resolve(__dirname, '../locales'));
 
-Kotori.command('bili <bvid>')
+Kotori.command('bili <bvid> - bilibili.descr.bili')
 	.action(async (data, session) => {
-		const res = await Kotori.http.get('https://tenapi.cn/bv/', { id: data.args[0] });
-		if (!biliSchema.check(res)) return session.error('res_error', { res });
+		const res = biliSchema.parse(await Kotori.http.get('https://tenapi.cn/bv/', { id: data.args[0] }));
 		if (!res.data) return ['bilibili.msg.bili.fail', { input: data.args[0] }];
 		return [
 			'bilibili.msg.bili',
@@ -43,29 +46,24 @@ Kotori.command('bili <bvid>')
 				...res.data,
 				time: formatTime(new Date(res.data.time)),
 				image:
-					(session.api.extra.type === 'onebot' && session.api.extra.image(res.data.cover)) ||
-					'corei18n.template.empty',
+					(session.api.extra.type === 'onebot' && session.api.extra.image(res.data.cover)) || 'corei18n.template.empty',
 			},
 		];
-	})
-	.help('bilibili.descr.bili');
+	});
 
-Kotori.command('bilier <uid>')
+Kotori.command('bilier <uid> - bilibili.descr.bilier')
 	.action(async (data, session) => {
 		const res = Object.assign(
-			(await Kotori.http.get('https://tenapi.cn/bilibilifo/', { uid: data.args[0] })) || {},
-			await Kotori.http.get('https://tenapi.cn/bilibili/', { uid: data.args[0] }),
+			bilier1Schema.parse(await Kotori.http.get('https://tenapi.cn/bilibilifo/', { uid: data.args[0] })).data || {},
+			bilier2Schema.parse(await Kotori.http.get('https://tenapi.cn/bilibili/', { uid: data.args[0] })).data,
 		);
-		if (!bilierSchema.check(res)) return session.error('res_error', { res });
-		if (!res.data) return ['bilibili.msg.bilier.fail', { input: data.args[0] }];
+		if (!res) return ['bilibili.msg.bilier.fail', { input: data.args[0] }];
 		return [
 			'bilibili.msg.bilier',
 			{
-				...res.data,
+				...res,
 				image:
-					(session.api.extra.type === 'onebot' && session.api.extra.image(res.data.avatar)) ||
-					'corei18n.template.empty',
+					(session.api.extra.type === 'onebot' && session.api.extra.image(res.avatar)) || 'corei18n.template.empty',
 			},
 		];
-	})
-	.help('bilibili.descr.bilier');
+	});

@@ -55,7 +55,8 @@ Kotori.command('bot - core.descr.bot').action((_, events) => {
 
 Kotori.command('bots - core.descr.bots').action((_, events) => {
 	let list = '';
-	Object.values(events.api.adapter.ctx.internal.getBots() as obj<Api[]>).forEach(bots =>
+  console.log(events.api.adapter.ctx.internal.getBots(), events.api.adapter.ctx.internal.getAdapters())
+	Object.values(events.api.adapter.ctx.internal.getBots()).forEach(bots =>
 		bots.forEach(bot => {
 			const { identity, platform, config, status } = bot.adapter;
 			list += stringTemp(events.locale('core.msg.bots.list'), {

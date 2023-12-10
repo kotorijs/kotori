@@ -21,7 +21,7 @@ export function main(ctx: Context) {
 
 	ctx.command('hitokoto - hitokotos.descr.hitokotos.help').action(
 		() =>
-			'%HEAD%' +
+			'随机语录' +
 			'\n一言 一言2' +
 			'\n诗词 情话' +
 			'\n骚话 笑话' +

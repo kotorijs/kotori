@@ -1,3 +1,4 @@
-import CmdAdapter from './adapter';
+import { CmdAdapter } from './adapter'
 
+export {config} from './adapter'
 export default CmdAdapter;
