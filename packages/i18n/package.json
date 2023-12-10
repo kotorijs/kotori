@@ -1,8 +1,8 @@
 {
-    "name": "@kotori-bot/i18n",
-    "version": "1.1.0",
-    "description": "I18n For KotoriBot",
-    "main": "src/index.ts",
-    "license": "GPL-3.0",
-    "author": "Hotaru <biyuehuya@gmail.com>"
+  "name": "@kotori-bot/i18n",
+  "version": "1.1.1",
+  "description": "I18n For KotoriBot",
+  "main": "src/index.ts",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>"
 }

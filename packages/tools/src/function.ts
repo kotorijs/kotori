@@ -4,8 +4,8 @@ import { obj } from './types';
 	if (val.value instanceof Function) val.value();
 }; */
 
-export function none(...elements: unknown[]) {
-	JSON.stringify(elements);
+export function none(..._: unknown[]) {
+	_.length.toString();
 }
 
 export function isClass(obj: unknown, strict: boolean = true): obj is new (...args: unknown[]) => unknown {

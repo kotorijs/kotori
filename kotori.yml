@@ -9,7 +9,7 @@ global:
 
 adapter:
   kotori:
-      extends: "qq"
+      extends: "onebot"
       master: 3324656453
       # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
       mode: ws-reverse
@@ -35,7 +35,10 @@ adapter:
       self-id: 720
 
   kisaki:
-      extends: "tencent-qq"
+      extends: "gqq"
       master: 2333
 
       retry: 30
+
+plugin:
+  test:

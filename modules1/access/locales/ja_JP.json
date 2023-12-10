@@ -1,0 +1,9 @@
+{
+    "access.descr.access.query": "グループBOT管理者を照会する",
+    "access.descr.access.add": "グループBOT管理者を追加する",
+    "access.descr.access.del": "グループBOT管理者を削除する",
+    "access.msg.access.query": "現在のグループ管理者一覧:\n%content%\b",
+    "access.msg.access.list": "%content%、",
+    "access.msg.access.add": "[%target%]を現在のグループ管理者に追加しました",
+    "access.msg.access.del": "[%target%]を現在のグループ管理者から削除しました"
+}

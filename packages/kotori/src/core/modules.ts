@@ -36,7 +36,7 @@ function getTypeInfo(Instance: ModuleInstanceFunction | ModuleInstanceConstructo
 export class Modules extends Events {
 	private current: string | 'core' = 'core';
 
-	private alreadyTriedCount = 0;
+	private failedLoadCount: number = 0;
 
 	protected getCurrent() {
 		return this.current;
@@ -77,7 +77,8 @@ export class Modules extends Events {
 		}
 		if (typeInfo.instanceType === 'none') return;
 		/* Check config */
-		if (exports[1] && !exports[1].check(args[1])) {
+		const isSchema = exports[1]?.parseSafe(args[1]);
+		if (isSchema && !isSchema.value) {
 			throw new ModuleError(`Config format of module ${typeInfo.moduleName} is error`);
 		}
 		if (typeInfo.instanceType === 'constructor') {
@@ -87,10 +88,11 @@ export class Modules extends Events {
 		(exports[0] as ModuleInstanceFunction)(...args);
 	}
 
-	private moduleAfterHandle() {
-		if (this.alreadyTriedCount < this.moduleStack.length) return;
-		this.alreadyTriedCount = -1;
-		this.emit('load_all_module', { count: this.moduleStack.length });
+	private moduleAllHandle() {
+		this.emit('load_all_module', {
+			reality: this.moduleStack.length - this.failedLoadCount,
+			expected: this.moduleStack.length,
+		});
 	}
 
 	protected readonly moduleStack: ModuleData[] = [];
@@ -106,7 +108,7 @@ export class Modules extends Events {
 		let typeInfo: ReturnType<typeof getTypeInfo>;
 		let exports;
 
-		if (this.alreadyTriedCount >= 0 && summary instanceof Object && !isFunc) this.alreadyTriedCount += 1;
+		const isLast = !isString && !isFunc && summary === this.moduleStack[this.moduleStack.length - 1];
 		try {
 			if (isFunc) {
 				typeInfo = getTypeInfo(summary, '');
@@ -114,13 +116,16 @@ export class Modules extends Events {
 				exports = null;
 			} else {
 				const moduleName = isString ? summary : summary.package.name;
-				const modulePath = isString ? summary : summary.mainPath;
+				const modulePath = `file://${isString ? summary : summary.mainPath}`;
 				if (isString && !fs.existsSync(summary)) throw new ModuleError(`Cannot find ${modulePath}`);
 				await this.setCureent(modulePath);
 				exports = await import(modulePath);
-				if (!Tsu.Object().check(exports)) {
+				if (!Tsu.Object({}).index(Tsu.Unknown()).check(exports)) {
 					throw new DevError(`Not a valid module at ${modulePath}`);
-				} else if (exports.default instanceof Function) {
+				}
+				exports = Tsu.Object({}).index(Tsu.Unknown()).check(exports.default) ? exports.default : exports;
+
+				if (exports.default instanceof Function) {
 					typeInfo = getTypeInfo(exports.default, moduleName);
 					Instance = exports.default;
 				} else if (exports.main instanceof Function && !isClass(exports.main)) {
@@ -133,9 +138,7 @@ export class Modules extends Events {
 					typeInfo = getTypeInfo(exports.Main, moduleName);
 					Instance = exports.Main;
 					if (typeInfo.instanceType !== 'constructor') {
-						throw new DevError(
-							`Module instance is constructor,export name should be 'Main' at ${modulePath}`,
-						);
+						throw new DevError(`Module instance is constructor,export name should be 'Main' at ${modulePath}`);
 					}
 				} else {
 					typeInfo = getTypeInfo(null, moduleName);
@@ -146,7 +149,8 @@ export class Modules extends Events {
 			this.runInstance(typeInfo, [Instance, schema], [ctx, config]);
 		} catch (err) {
 			this.setCureent();
-			this.moduleAfterHandle();
+			this.failedLoadCount += 1;
+			if (isLast) this.moduleAllHandle();
 			throw err;
 		}
 		this.setCureent();
@@ -155,7 +159,7 @@ export class Modules extends Events {
 			moduleType: typeInfo.type,
 			instanceType: typeInfo.instanceType,
 		});
-		this.moduleAfterHandle();
+		if (isLast) this.moduleAllHandle();
 	}
 
 	public delcache(module: string | ModuleData) {

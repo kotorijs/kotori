@@ -1,28 +1,28 @@
 {
-    "name": "kotori-bot",
-    "version": "1.0.0",
-    "description": "ChatBot Framework",
-    "main": "src/index.ts",
-    "license": "GPL-3.0",
-    "author": "Hotaru <biyuehuya@gmail.com>",
-    "dependencies": {
-        "@kotori-bot/i18n": "workspace:^",
-        "@kotori-bot/logger": "workspace:^",
-        "@kotori-bot/tools": "workspace:^",
-        "tsukiko": "^1.1.1"
-    },
-    "keywords": [
-        "ChatBot",
-        "Bot",
-        "bot",
-        "QQ",
-        "QQBot",
-        "typescript",
-        "TypeScript",
-        "NodeJs",
-        "AOP",
-        "robotics",
-        "nodejs",
-        "back-end"
-    ]
+  "name": "kotori-bot",
+  "version": "1.0.0",
+  "description": "ChatBot Framework",
+  "main": "src/index.ts",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "dependencies": {
+    "@kotori-bot/i18n": "workspace:^",
+    "@kotori-bot/logger": "workspace:^",
+    "@kotori-bot/tools": "workspace:^",
+    "tsukiko": "^1.2.1"
+  },
+  "keywords": [
+    "ChatBot",
+    "Bot",
+    "bot",
+    "QQ",
+    "QQBot",
+    "typescript",
+    "TypeScript",
+    "NodeJs",
+    "AOP",
+    "robotics",
+    "nodejs",
+    "back-end"
+  ]
 }

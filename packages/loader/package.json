@@ -1,17 +1,22 @@
 {
-	"name": "@kotori-bot/loader",
-	"version": "1.0.0",
-	"description": "Loader For KotoriBot",
-	"scripts": {
-		"dev": "cross-env NODE_ENV=dev ts-node -r tsconfig-paths/register ./src/index.ts --no-signale",
-		"build": "cross-env NODE_ENV=build ts-node -r tsconfig-paths/register ./src/index.ts --no-signale",
-		"devs": "ts-node -r tsconfig-paths/register ./src/index.ts --no-signale"
-	},
-	"main": "src/index.ts",
-	"license": "GPL-3.0",
-	"author": "Hotaru <biyuehuya@gmail.com>",
-	"dependencies": {
-		"cross-env": "^7.0.3",
-		"kotori-bot": "workspace:^"
-	}
+  "name": "@kotori-bot/loader",
+  "version": "1.1.0",
+  "description": "Loader For KotoriBot",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev ts-node --esm -r tsconfig-paths/register ./src/index.ts --no-signale",
+    "build": "cross-env NODE_ENV=build node ./dist/index.js",
+    "devs": "ts-node -r tsconfig-paths/register ./src/index.ts --no-signale"
+  },
+  "main": "src/index.ts",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "kotori-bot": "workspace:^"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.1.3"
+  }
 }

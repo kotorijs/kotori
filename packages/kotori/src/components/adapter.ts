@@ -1,14 +1,12 @@
 import { stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
 import type Context from '../context';
-import type Events from '../core/events';
 import type {
 	EventDataApiBase,
 	MessageQuickFunc,
 	AdapterConfig,
 	EventType,
 	MessageRaw,
-	MessageScope,
 	EventDataTargetId,
 	CommandResult,
 	CommandResultExtra,
@@ -34,27 +32,28 @@ interface AdapterImpl<T extends Api> {
 
 // type AdapterSend = (...args: any[]) => void;
 
-function ApiProxy<T extends Api>(api: T, emit: Events['emit']): T {
-	const apiProxy = Object.create(api);
-	const applyCommon = (
-		target: (msg: MessageRaw, id: number) => void,
-		args: [MessageRaw, number],
-		messageType: MessageScope,
-	) => {
-		const { '0': message, '1': targetId } = args;
+export function ApiProxy<T extends Api>(api: T, ctx: Context): T {
+	const apiProxy = api;
+	apiProxy.send_private_msg = (message, userId, extra?) => new Proxy(api.send_private_msg, {
+		apply: (target, _, argArray) => {
+		const { '0': message, '1': targetId } = argArray;
 		let isCancel = false;
 		const cancel = () => {
 			isCancel = true;
 		};
-		emit('before_send', { api, message, messageType, targetId, cancel });
+	ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel });
 		if (!isCancel) target(message, targetId);
-	};
-	apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
-		apply: (target, _, argArray) => applyCommon(target, argArray as [MessageRaw, number], 'private'),
-	});
-	apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
-		apply: (target, _, argArray) => applyCommon(target, argArray as [MessageRaw, number], 'group'),
-	});
+	}})(message, userId, extra);
+	apiProxy.send_group_msg = (message, groupId, extra?) =>  new Proxy(api.send_group_msg, {
+		apply: (target, _, argArray) => {
+		const { '0': message, '1': targetId } = argArray;
+		let isCancel = false;
+		const cancel = () => {
+			isCancel = true;
+		};
+	ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel });
+		if (!isCancel) target(message, targetId);
+	}})(message, groupId, extra);
 	return apiProxy;
 }
 
@@ -72,11 +71,12 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 		super();
 		this.config = config;
 		this.identity = identity;
-		this.platform = config.extend;
+		this.platform = config.extends;
 		this.ctx = ctx;
-		this.api = ApiProxy(new ApiConstructor(this), this.ctx.emit);
-		if (!this.ctx.internal.getBots(this.platform)) this.ctx.internal.setBots(this.platform, []);
-		(this.ctx.internal.getBots(this.platform) as Api[]).push(this.api);
+		// this.api = ApiProxy(new ApiConstructor(this), this.ctx);
+		this.api = new ApiConstructor(this);
+		if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
+		this.ctx.internal.getBots()[this.platform].push(this.api);
 	}
 
 	public abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;

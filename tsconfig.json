@@ -1,20 +1,22 @@
 {
-    "extends": "./tsconfig.node.json",
-    "compilerOptions": {
-        "baseUrl": ".", // Base directory for imports
-        /* Path mapping for module imports */
-        "paths": {
-            "@kotori-bot/*": [
-                "packages/*/src"
-            ]
-        }
+  "extends": "./tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": ".", // Base directory for imports
+    /* Path mapping for module imports */
+    "paths": {
+      "@kotori-bot/*": [
+        "packages/*/src"
+      ]
     },
-    "include": [
-        "packages/*/src/**/*",
-        "modules/*/src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "*.test.ts"
-    ],
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+  },
+  "include": [
+    "packages/*/src/**/*",
+    "modules/*/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "*.test.ts"
+  ]
 }

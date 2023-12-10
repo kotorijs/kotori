@@ -1,32 +1,39 @@
 <div align="center">
-<img src="./favicon.ico" width="200px" height="200px" alt="logo"/>
+<img src="https://kotori.js.org/favicon.ico" width="200px" height="200px" alt="logo"/>
 
 # 小鳥 · KotoriBot
 
-[快速搭建](./docs/CREATE.md)
-[使用指南](./docs/GUIDE.md)
-[开发教程](./docs/DEVELOP.md)  
-[接口文档](./docs/INTERFACE.md)
+[使用指南](https://kotori.js.org/guide/)
+[开发指南](https://kotori.js.org/develop/)  
+[接口文档](https://kotori.js.org/api/)
 
-[![Build Status](https://app.travis-ci.com/BIYUEHU/kotori-bot.svg?branch=master)](https://app.travis-ci.com/BIYUEHU/kotori-bot) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/BIYUEHU/kotori-bot/master) ![npm collaborators](https://img.shields.io/npm/collaborators/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
+![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/biyuehu/biyuehu) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/BIYUEHU/kotori-bot/master) ![GitHub contributors](https://img.shields.io/github/contributors/biyuehu/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
 
 </div>
 
 ---
 
-基于**NodeJS**+**TypeScript**的**go-cqhttp**的SDK和QQ机器人框架实现,相比于其它的go-cqhttp的NodeJS实现，KotoriBot的最大特点便是完全由纯**TypeScript**语言开发
-
-**Kotori**是一个罗马字，在日语中是**ことり(小鳥)**的意思，该名字取自于[Key](http://key.visualarts.gr.jp/)公式游戏[《Rewrite》](https://bgm.tv/subject/4022)及其衍生作品中的主要女性角色之一的**[神户小鸟](https://bgm.tv/character/12063)**(神戸（かんべ） 小鳥（ことり）)。
-
-> [Blog](https://hotaru.icu)
+kotori 是一个**跨平台、解耦合、现代化**于一体的 ChatBot 聊天机器人 框架，运行于 NodeJS 环境并使用 TypeScript 语言开发。
 
 ---
 
-## 概要
+## Summary
 
-kotori是一个**快捷,轻便,跨平台**的BOT框架,去繁化简只为打造一个**重工具,轻娱乐**的工具性BOT
+**Kotori**是一个罗马字，在日语中是**ことり(小鳥)**的意思，该名字取自于[Key](http://key.visualarts.gr.jp/)公式游戏[《Rewrite》](https://bgm.tv/subject/4022)及其衍生作品中的主要女性角色之一的**[神户小鸟](https://bgm.tv/character/12063)**(神戸（かんべ） 小鳥（ことり）)。
 
-> [变更日志](CHANGELOG.md)
+### Advantages
+
+- **跨平台**
+得益于模块化支持，通过编写各种模块实现不同的功能与聊天平台接入
+
+- **解耦合**
+对底层事件封装实现核心功能，减少代码冗余与复杂度，提升开发效率
+
+- **现代化**
+Kotori 使用现代化的 ECMAScript 语法规范与强大的 TypeScript 类型检查
+
+## Reference
+- [变更日志](CHANGELOG.md)
 
 <!--
 ## kotori支持的连接模式

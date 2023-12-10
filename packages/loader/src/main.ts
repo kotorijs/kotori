@@ -3,18 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-03 17:37:29
+ * @LastEditTime: 2023-12-10 22:50:48
  */
-import {
-	KotoriError,
-	type EventType,
-	ContextInstance,
-	KotoriConfig,
-	Tsu,
-	type AdapterConstructor,
-	type Parser,
-	obj,
-} from 'kotori-bot';
+import { KotoriError, type EventType, ContextInstance, KotoriConfig, Tsu, AdapterConfig } from 'kotori-bot';
 import Modules from './modules';
 import { baseDir, globalConfig } from './global';
 import loadInfo from './log';
@@ -23,7 +14,7 @@ const enum GLOBAL {
 	REPO = 'https://github.com/biyuehu/kotori-bot',
 }
 
-const isDev = 'Context.options.node_env'.toString() === 'dev';
+const isDev = process.env.NODE_ENV === 'dev';
 
 const kotoriConfig: KotoriConfig = {
 	baseDir,
@@ -37,9 +28,10 @@ class Main extends ContextInstance {
 	private ctx: Modules;
 
 	public constructor() {
-		Main.set(new Modules(kotoriConfig));
+		ContextInstance.setInstance(new Modules(kotoriConfig));
 		super();
-		this.ctx = Main.get() as Modules;
+		this.ctx = ContextInstance.getInstance() as Modules;
+		// 静态类型继续居然她妈是隔离的
 	}
 
 	public run() {
@@ -93,7 +85,10 @@ class Main extends ContextInstance {
 			);
 		});
 		this.ctx.on('load_all_module', data => {
-			this.ctx.logger.info(`Loaded ${data.count} modules (plugins)`);
+			const failed = data.expected - data.reality;
+			this.ctx.logger.info(
+				`Loaded ${data.reality} modules (plugins)${failed > 0 ? `, failed to load ${failed} modules` : ''}`,
+			);
 			this.loadAllAdapter();
 		});
 	}
@@ -104,7 +99,7 @@ class Main extends ContextInstance {
 	}
 
 	private loadAllAdapter() {
-		const adapters = this.ctx.internal.getAdapters() as obj<[AdapterConstructor, Parser<unknown>?]>;
+		const adapters = this.ctx.internal.getAdapters();
 		Object.keys(this.ctx.config.adapter).forEach(botName => {
 			const botConfig = this.ctx.config.adapter[botName];
 			if (!(botConfig.extends in adapters)) {
@@ -112,10 +107,11 @@ class Main extends ContextInstance {
 				return;
 			}
 			const array = adapters[botConfig.extends];
-			if (!array[1]?.check(botConfig)) {
+			const isSchema = array[1]?.parseSafe(botConfig);
+			if (isSchema && !isSchema.value) {
 				return;
 			}
-			const bot = new array[0](this.ctx, botConfig, botName);
+			const bot = new array[0](this.ctx, isSchema ? (isSchema.data as AdapterConfig) : botConfig, botName);
 			// if (!(botConfig.extend in Adapter)) Adapter.apis[botConfig.extend] = []; // I dont know whats this
 			// this.ctx.botStack[botConfig.extend].push(bot.api);
 			bot.start();

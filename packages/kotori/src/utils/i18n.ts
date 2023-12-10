@@ -17,9 +17,9 @@ export class Locale {
 
 	public constructor(lang: LocaleType = 'en_US') {
 		this.instance = new LocaleOrigin(lang);
-		this.locale = this.instance.locale;
-		this.set = this.instance.set;
-		this.get = this.instance.get;
+		this.locale = (val, lang?) => this.instance.locale(val, lang);
+		this.set = lang => this.instance.set(lang);
+		this.get = () => this.instance.get();
 	}
 
 	private localePathList: string[] = [];
@@ -29,7 +29,7 @@ export class Locale {
 		Object.values(LocaleIdentifier).forEach(type => {
 			if (typeof type !== 'string') return;
 			const locales = loadConfig(path.join(dirPath, `${type}.json`), 'json');
-			if (!Tsu.Object().index(Tsu.String()).check(locales)) {
+			if (!Tsu.Object({}).index(Tsu.String()).check(locales)) {
 				state = false;
 				return;
 			}

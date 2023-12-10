@@ -19,6 +19,7 @@ export const baseDir: BaseDir = (() => {
 
 export const globalConfig: GlobalConfig = (() => {
 	const data = loadConfig(path.join(baseDir.root, 'kotori.yml'), 'yaml');
-	if (!globalConfigSchema.check(data)) throw new CoreError('kotori-bot global kotori.yml format error');
-	return data;
+	const isSchema = globalConfigSchema.parseSafe(data);
+	if (!isSchema.value) throw new CoreError('kotori-bot global kotori.yml format error');
+	return isSchema.data;
 })();
