@@ -1,4 +1,4 @@
-import { isClass, none } from '@kotori-bot/tools';
+import { isClass, none, stringRightSplit } from '@kotori-bot/tools';
 import fs from 'fs';
 import Tsu, { Parser } from 'tsukiko';
 import Events from './events';
@@ -13,6 +13,7 @@ import {
 	type ModuleType,
 } from '../types';
 import { DevError, ModuleError } from '../utils/errror';
+import { ADAPTER_PREFIX, LOAD_MODULE_MAX_TIME, LOAD_MODULE_SLEEP_TIME, PLUGIN_PREFIX } from '../consts';
 
 function getTypeInfo(Instance: ModuleInstanceFunction | ModuleInstanceConstructor | unknown, moduleName: string) {
 	let type: ModuleType = 'plugin';
@@ -20,8 +21,7 @@ function getTypeInfo(Instance: ModuleInstanceFunction | ModuleInstanceConstructo
 	if (isClass(Instance)) {
 		instanceType = 'constructor';
 		const func = (Obj: object): Obj is AdapterConstructor => Adapter.isPrototypeOf.call(Adapter, Obj);
-		const prefix = 'kotori-plugin-adapter-';
-		const adapterName = moduleName.split(prefix)[1];
+		const adapterName = moduleName.split(ADAPTER_PREFIX)[1];
 		if (adapterName && func(Instance)) {
 			type = 'adapter';
 			return { type, instanceType, moduleName, adapterName };
@@ -36,7 +36,7 @@ function getTypeInfo(Instance: ModuleInstanceFunction | ModuleInstanceConstructo
 export class Modules extends Events {
 	private current: string | 'core' = 'core';
 
-	private failedLoadCount: number = 0;
+	private failedLoadCount = 0;
 
 	protected getCurrent() {
 		return this.current;
@@ -54,7 +54,7 @@ export class Modules extends Events {
 				clearTimeout(failTime);
 				clearInterval(sleepTime);
 				reject(new ModuleError(`Module loading timeout ${value}`));
-			}, 10 * 1000);
+			}, LOAD_MODULE_MAX_TIME);
 			const sleepTime = setInterval(() => {
 				if (this.current === defaultValue) {
 					this.current = value;
@@ -62,30 +62,37 @@ export class Modules extends Events {
 					clearInterval(sleepTime);
 					resolve(null);
 				}
-			}, 150);
+			}, LOAD_MODULE_SLEEP_TIME);
 		});
 	}
 
 	private runInstance(
 		typeInfo: ReturnType<typeof getTypeInfo>,
-		exports: [ModuleInstanceFunction | ModuleInstanceConstructor | unknown, Parser<unknown>?],
-		args: [Context, object],
+		Instances: [ModuleInstanceFunction | ModuleInstanceConstructor | unknown, Parser<unknown>?],
+		data: {
+			args: [Context, object];
+			langDir?: string;
+		},
 	) {
+		/* before handle */
+		if (data.langDir) data.args[0].i18n.use(data.langDir);
+
+		/* after handle */
 		if (typeInfo.type === 'adapter') {
-			this.adapterStack[typeInfo.adapterName] = [exports[0] as AdapterConstructor, exports[1]];
+			this.adapterStack[typeInfo.adapterName] = [Instances[0] as AdapterConstructor, Instances[1]];
 			return;
 		}
 		if (typeInfo.instanceType === 'none') return;
 		/* Check config */
-		const isSchema = exports[1]?.parseSafe(args[1]);
+		const isSchema = Instances[1]?.parseSafe(data.args[1]);
 		if (isSchema && !isSchema.value) {
 			throw new ModuleError(`Config format of module ${typeInfo.moduleName} is error`);
 		}
 		if (typeInfo.instanceType === 'constructor') {
-			none(new (exports[0] as ModuleInstanceConstructor)(...args));
+			none(new (Instances[0] as ModuleInstanceConstructor)(...data.args));
 			return;
 		}
-		(exports[0] as ModuleInstanceFunction)(...args);
+		(Instances[0] as ModuleInstanceFunction)(...data.args);
 	}
 
 	private moduleAllHandle() {
@@ -97,7 +104,7 @@ export class Modules extends Events {
 
 	protected readonly moduleStack: ModuleData[] = [];
 
-	public async module(
+	public async use(
 		summary: string | ModuleData | ModuleInstanceFunction | ModuleInstanceConstructor,
 		ctx: Context,
 		config: object,
@@ -106,37 +113,37 @@ export class Modules extends Events {
 		const isFunc = summary instanceof Function;
 		let Instance;
 		let typeInfo: ReturnType<typeof getTypeInfo>;
-		let exports;
+		let exportObj;
 
 		const isLast = !isString && !isFunc && summary === this.moduleStack[this.moduleStack.length - 1];
 		try {
 			if (isFunc) {
 				typeInfo = getTypeInfo(summary, '');
 				Instance = summary;
-				exports = null;
+				exportObj = null;
 			} else {
 				const moduleName = isString ? summary : summary.package.name;
 				const modulePath = `file://${isString ? summary : summary.mainPath}`;
 				if (isString && !fs.existsSync(summary)) throw new ModuleError(`Cannot find ${modulePath}`);
 				await this.setCureent(modulePath);
-				exports = await import(modulePath);
-				if (!Tsu.Object({}).index(Tsu.Unknown()).check(exports)) {
+				exportObj = await import(modulePath);
+				if (!Tsu.Object({}).index(Tsu.Unknown()).check(exportObj)) {
 					throw new DevError(`Not a valid module at ${modulePath}`);
 				}
-				exports = Tsu.Object({}).index(Tsu.Unknown()).check(exports.default) ? exports.default : exports;
+				exportObj = Tsu.Object({}).index(Tsu.Unknown()).check(exportObj.default) ? exportObj.default : exportObj;
 
-				if (exports.default instanceof Function) {
-					typeInfo = getTypeInfo(exports.default, moduleName);
-					Instance = exports.default;
-				} else if (exports.main instanceof Function && !isClass(exports.main)) {
-					typeInfo = getTypeInfo(exports.main, moduleName);
-					Instance = exports.main;
+				if (exportObj.default instanceof Function) {
+					typeInfo = getTypeInfo(exportObj.default, moduleName);
+					Instance = exportObj.default;
+				} else if (exportObj.main instanceof Function && !isClass(exportObj.main)) {
+					typeInfo = getTypeInfo(exportObj.main, moduleName);
+					Instance = exportObj.main;
 					if (typeInfo.instanceType !== 'function') {
 						throw new DevError(`Module instance is function,export name should be 'main' at ${modulePath}`);
 					}
-				} else if (exports.Main instanceof Function && isClass(exports.Main)) {
-					typeInfo = getTypeInfo(exports.Main, moduleName);
-					Instance = exports.Main;
+				} else if (exportObj.Main instanceof Function && isClass(exportObj.Main)) {
+					typeInfo = getTypeInfo(exportObj.Main, moduleName);
+					Instance = exportObj.Main;
 					if (typeInfo.instanceType !== 'constructor') {
 						throw new DevError(`Module instance is constructor,export name should be 'Main' at ${modulePath}`);
 					}
@@ -145,8 +152,16 @@ export class Modules extends Events {
 					Instance = null;
 				}
 			}
-			const schema = exports && exports.config instanceof Parser ? exports.config : undefined;
-			this.runInstance(typeInfo, [Instance, schema], [ctx, config]);
+			const schema = exportObj && exportObj.config instanceof Parser ? exportObj.config : undefined;
+			this.runInstance(typeInfo, [Instance, schema], {
+				args: [
+					Object.assign(ctx, {
+						logger: ctx.logger.prefix(stringRightSplit(typeInfo.moduleName, PLUGIN_PREFIX), 'italic', 'white'),
+					}),
+					config,
+				],
+				langDir: exportObj && typeof exportObj.lang === 'string' ? exportObj.lang : undefined,
+			});
 		} catch (err) {
 			this.setCureent();
 			this.failedLoadCount += 1;
@@ -162,7 +177,7 @@ export class Modules extends Events {
 		if (isLast) this.moduleAllHandle();
 	}
 
-	public delcache(module: string | ModuleData) {
+	public dispose(module: string | ModuleData) {
 		/* need more... */
 		const isString = typeof module === 'string';
 		const modulePath = isString ? module : module.mainPath;

@@ -37,8 +37,7 @@ Kotori.command('github <repository> - querytool.descr.github').action(async (dat
 			license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
 		},
 	]);
-	if (session.api.extra.type !== 'onebot') return '';
-	return session.api.extra.image(
+	return session.el.image(
 		`https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`,
 	);
 });

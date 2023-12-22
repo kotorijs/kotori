@@ -1,5 +1,6 @@
 {
-    "hitokotos.descr.hitokotos.help": "Random Quotations",
-    "hitokotos.msg.hitokoto": "%msg%%from%\nType: %type%",
-    "hitokotos.msg.list": "%content%"
+  "hitokotos.descr.hitokotos.help": "Random Quotations",
+  "hitokotos.descr.hitokoto.help": "Get A Hitokoto",
+  "hitokotos.msg.hitokoto": "%msg%%from%\nType: %type%",
+  "hitokotos.msg.list": "%content%"
 }

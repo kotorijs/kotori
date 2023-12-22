@@ -53,7 +53,8 @@ Kotori.command('wiki <content> [order] - mediawiki.descr.wiki').action(async dat
 	];
 });
 
-Kotori.command('wikil').action((_, events) => {
+/* here nedd feat: 二级参数 */
+Kotori.command('wikil - mediawiki.descr.wikil').action((_, events) => {
 	const dataList = loadWikiData();
 	let list = '';
 	let init = 1;

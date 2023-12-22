@@ -1,6 +1,7 @@
 import { none } from '@kotori-bot/tools';
 import type Adapter from './adapter';
-import type { ApiExtraValue, EventDataTargetId, MessageRaw } from '../types';
+import type { EventDataTargetId, MessageRaw } from '../types';
+import Elements from './elements';
 
 interface ApiImpl {
 	readonly adapter: Adapter<this>;
@@ -30,14 +31,17 @@ interface ApiImpl {
 
 	set_group_leave(groupId: EventDataTargetId): void;
 
-	extra: ApiExtraValue;
+	elements: Elements;
 }
 
 export abstract class Api implements ApiImpl {
 	public readonly adapter: Adapter<this>;
 
-	public constructor(adapter: Adapter) {
+	public elements: Elements;
+
+	public constructor(adapter: Adapter, el: Elements) {
 		this.adapter = adapter as Adapter<this>;
+		this.elements = el;
 	}
 
 	public send_private_msg(message: MessageRaw, userId: EventDataTargetId, extra?: unknown) {
@@ -83,8 +87,6 @@ export abstract class Api implements ApiImpl {
 	public set_group_leave(groupId: EventDataTargetId, extra?: unknown) {
 		none(this, groupId, groupId, extra);
 	}
-
-	public extra: ApiExtraValue = { type: 'default' };
 }
 
 export default Api;

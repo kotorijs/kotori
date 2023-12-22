@@ -45,6 +45,7 @@ export class Message extends Modules {
 
 	private async handleMidwaresEvent(session: EventType['midwares']) {
 		const { isPass, event } = session;
+		event.api.adapter.status.receivedMsg += 1;
 		if (!isPass) return;
 
 		/* Handle regexp */
@@ -90,14 +91,14 @@ export class Message extends Modules {
 					this.emit('command', { result: executedResult, ...commonParams, ...commandParams });
 					return;
 				}
-        const objectTemp = (obj: obj<string |number |void>) => {
-          const result = obj;
-          Object.keys(result).forEach(key => {
-            if (!result[key] || typeof result[key] !== 'string') return;
-            result[key] = event.locale(result[key] as string);
-        })
-        return result;
-      }
+				const objectTemp = (obj: obj<string | number | void>) => {
+					const result = obj;
+					Object.keys(result).forEach(key => {
+						if (!result[key] || typeof result[key] !== 'string') return;
+						result[key] = event.locale(result[key] as string);
+					});
+					return result;
+				};
 				const returnHandle = Array.isArray(executedResult)
 					? stringTemp(event.locale(executedResult[0]), objectTemp(executedResult[1]))
 					: event.locale(executedResult ?? '');
@@ -129,9 +130,13 @@ export class Message extends Modules {
 	}
 
 	protected registeMessageEvent() {
+		this.on('midwares', session => this.handleMidwaresEvent(session));
 		this.on('group_msg', session => this.handleMessageEvent(session));
 		this.on('private_msg', session => this.handleMessageEvent(session));
-		this.on('midwares', session => this.handleMidwaresEvent(session));
+		this.before('send', session => {
+			const { api } = session;
+			api.adapter.status.sentMsg += 1;
+		});
 		this.on('unload_module', session => this.handleUnloadModuleEvent(session));
 	}
 

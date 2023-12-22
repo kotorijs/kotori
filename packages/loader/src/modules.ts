@@ -1,6 +1,16 @@
 import fs from 'fs';
 import path from 'path';
-import { Context, ModuleData, ModuleError, ModulePackage, ModulePackageSchema, stringRightSplit } from 'kotori-bot';
+import {
+	Context,
+	DevError,
+	ModuleData,
+	ModulePackage,
+	ModulePackageSchema,
+	OFFICIAL_MODULES_SCOPE,
+	PLUGIN_PREFIX,
+	stringRightSplit,
+} from 'kotori-bot';
+import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 
 declare module 'kotori-bot' {
 	interface Context {
@@ -10,6 +20,8 @@ declare module 'kotori-bot' {
 }
 
 export class Modules extends Context {
+	private isDev = this.options.env === 'dev';
+
 	private readonly moduleRootDir: string[] = [];
 
 	private getDirFiles(rootDir: string) {
@@ -20,17 +32,16 @@ export class Modules extends Context {
 			if (fs.statSync(file).isDirectory()) {
 				list.push(...this.getDirFiles(file));
 			}
-			if (path.parse(file).ext !== '.ts') return;
+			if (path.parse(file).ext !== (this.isDev ? DEV_FILE : BUILD_FILE)) return;
 			list.push(path.resolve(file));
 		});
 		return list;
 	}
 
 	private getModuleRootDir() {
-		if (fs.existsSync(this.baseDir.modules)) this.moduleRootDir.push(this.baseDir.modules);
-		// if (fs.existsSync(path.join(this.baseDir.root!, 'node_modules'))) {
-		// 	this.moduleRootDir.push(path.join(this.baseDir.root, 'node_modules'));
-		// } questions
+		Object.assign(this.config.global.dirs, this.baseDir.modules).forEach(dir => {
+			if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) this.moduleRootDir.push(dir);
+		});
 	}
 
 	private getModuleList(rootDir: string) {
@@ -44,26 +55,28 @@ export class Modules extends Context {
 			try {
 				packageJson = JSON.parse(fs.readFileSync(packagePath).toString());
 			} catch {
-				throw new ModuleError(`illegal package.json ${packagePath}`);
+				throw new DevError(`illegal package.json ${packagePath}`);
 			}
 			if (!ModulePackageSchema.check(packageJson)) {
-				throw new ModuleError(`package.json format error ${packagePath}`);
+				if (rootDir !== this.baseDir.modules) return;
+				throw new DevError(`package.json format error ${packagePath}`);
 			}
-			const mainPath = path.join(dir, packageJson.main);
-			if (!fs.existsSync(mainPath)) throw new ModuleError(`cannot find ${mainPath}`);
+			const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
+			if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
+			const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
 			this.moduleStack.push({
 				package: packageJson,
-				fileList: fs.statSync(path.join(dir, 'src')).isDirectory() ? this.getDirFiles(path.join(dir, 'src')) : [],
+				fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
 				mainPath: path.resolve(mainPath),
 			});
 		});
 	}
 
 	private moduleQuick(moduleData: ModuleData) {
-		return this.module(
+		return this.use(
 			moduleData,
 			this,
-			this.config.plugin[stringRightSplit(moduleData.package.name, 'kotori-plugin-')] ?? {},
+			this.config.plugin[stringRightSplit(moduleData.package.name, PLUGIN_PREFIX)] ?? {},
 		);
 	}
 
@@ -72,8 +85,7 @@ export class Modules extends Context {
 		this.moduleRootDir.forEach(dir => {
 			this.getModuleList(dir);
 		});
-		/* here need update(question) */
-		const array = this.moduleStack.filter(data => data.package.name.startsWith('@kotori-bot/'));
+		const array = this.moduleStack.filter(data => data.package.name.startsWith(OFFICIAL_MODULES_SCOPE));
 		array.push(...this.moduleStack.filter(data => !array.includes(data)));
 		array.forEach(moduleData => this.moduleQuick(moduleData));
 	};
@@ -81,7 +93,7 @@ export class Modules extends Context {
 	public readonly watchFile = async () => {
 		this.moduleStack.forEach(moduleData =>
 			moduleData.fileList.forEach(file =>
-				fs.watchFile(file, () => (this.delcache(moduleData) as unknown) && this.moduleQuick(moduleData)),
+				fs.watchFile(file, () => (this.dispose(moduleData) as unknown) && this.moduleQuick(moduleData)),
 			),
 		);
 	};

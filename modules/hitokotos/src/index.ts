@@ -19,20 +19,22 @@ const hitokotosSchema = Tsu.Object({
 export function main(ctx: Context) {
 	ctx.uselang(resolve(__dirname, '../locales'));
 
-	ctx.command('hitokoto - hitokotos.descr.hitokotos.help').action(
-		() =>
-			'随机语录' +
-			'\n一言 一言2' +
-			'\n诗词 情话' +
-			'\n骚话 笑话' +
-			'\n人生语录 社会语录' +
-			'\n网抑云 毒鸡汤' +
-			'\n舔狗语录 爱情语录' +
-			'\n温柔语录 个性签名' +
-			'\n经典语录 英汉语录',
-	);
+	ctx
+		.command('hitokotos - hitokotos.descr.hitokotos.help')
+		.action(
+			() =>
+				'随机语录' +
+				'\n一言 一言2' +
+				'\n诗词 情话' +
+				'\n骚话 笑话' +
+				'\n人生语录 社会语录' +
+				'\n网抑云 毒鸡汤' +
+				'\n舔狗语录 爱情语录' +
+				'\n温柔语录 个性签名' +
+				'\n经典语录 英汉语录',
+		);
 
-	ctx.regexp(/^一言$/, async () => {
+	ctx.command('hitokoto - hitokotos.descr.hitokoto.help').action(async () => {
 		const res = await ctx.http.get('https://hotaru.icu/api/hitokoto/v2/');
 		if (!hitokotoSchema.check(res)) return ['corei18n.template.res_error', { res: res as string }];
 		return ['hitokotos.msg.hitokoto', { ...res.data, from: res.data.from ? `——${res.data.from}` : '' }];

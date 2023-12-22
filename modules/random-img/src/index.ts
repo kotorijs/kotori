@@ -1,4 +1,4 @@
-import Kotori, { type Api, Tsu } from 'kotori-bot';
+import Kotori, { Tsu, type Elements } from 'kotori-bot';
 import { resolve } from 'path';
 import config from './config';
 
@@ -21,20 +21,20 @@ const sexhSchema = Tsu.Object({
 	}).optional(),
 });
 
-const quick = (url: string, api: Api) =>
-	api.extra.type === 'onebot' ? api.extra.image(url) : 'corei18n.template.empty';
+const quick = (url: string, el: Elements) => el.image(url) || 'corei18n.template.unsupported';
 
 Kotori.uselang(resolve(__dirname, '../locales'));
 
 Kotori.command('sex [tags] - random_img.descr.sex').action(async (data, session) => {
 	session.quick('random_img.msg.sex.tips');
-	const res = sexSchema.parse(await Kotori.http.get(`https://hotaru.icu/api/seimg/v2/`, { tag: data.args[0] || '', r18: 0 }));
+	const res = sexSchema.parse(
+		await Kotori.http.get(`https://hotaru.icu/api/seimg/v2/`, { tag: data.args[0] || '', r18: 0 }),
+	);
 	if (!res.data) return ['random_img.msg.sex.fail', { input: data.args[0] }];
 
 	const info = res.data[0];
 	session.quick(['random_img.msg.sex', { ...info, tags: info.tags.join(' ') }]);
-	if (session.api.extra.type !== 'onebot') return '';
-	return ['random_img.msg.sex.image', { image: session.api.extra.image(info.url) }];
+	return ['random_img.msg.sex.image', { image: session.el.image(info.url) }];
 });
 
 Kotori.command('sexh - random_img.descr.sexh').action(async (data, session) => {
@@ -42,14 +42,13 @@ Kotori.command('sexh - random_img.descr.sexh').action(async (data, session) => {
 	const res = sexhSchema.parse(await Kotori.http.get('https://hotaru.icu/api/huimg/'));
 	if (!res.data) return ['random_img.msg.sexh.fail', { input: data.args[0] }];
 	const info = res.data;
-	if (session.api.extra.type !== 'onebot') return '';
-	return ['random_img.msg.sexh', { tags: info.tag.join(' '), image: session.api.extra.image(info.url) }];
+	return ['random_img.msg.sexh', { tags: info.tag.join(' '), image: session.el.image(info.url) }];
 });
 
 Kotori.command('bing - random_img.descr.bing').action((_, session) => [
 	'random_img.msg.bing',
 	{
-		image: quick('https://api.hotaru.icu/api/bing', session.api),
+		image: quick('https://api.hotaru.icu/api/bing', session.el),
 	},
 ]);
 
@@ -58,10 +57,7 @@ Kotori.command('day').action((_, session) =>
 		? [
 				'random_img.msg.day',
 				{
-					image: quick(
-						`https://api.hotaru.icu/api/60s?apikey=${config.day.apiKey}&area=日本神户市`,
-						session.api,
-					),
+					image: quick(`https://api.hotaru.icu/api/60s?apikey=${config.day.apiKey}&area=日本神户市`, session.el),
 				},
 		  ]
 		: 'Apikey error!',
@@ -70,13 +66,13 @@ Kotori.command('day').action((_, session) =>
 Kotori.command('earth - random_img.descr.earth').action((_, session) => [
 	'random_img.msg.earth',
 	{
-		image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg', session.api),
+		image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg', session.el),
 	},
 ]);
 
 Kotori.command('china - random_img.descr.china').action((_, session) => [
 	'random_img.msg.china',
 	{
-		image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg', session.api),
+		image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg', session.el),
 	},
 ]);

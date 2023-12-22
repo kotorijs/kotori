@@ -64,6 +64,18 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
+  modules/adapter-onebot:
+    dependencies:
+      '@types/ws':
+        specifier: ^8.5.8
+        version: 8.5.8
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+      ws:
+        specifier: ^8.14.2
+        version: 8.14.2
+
   modules/adapter-qq:
     dependencies:
       '@types/ws':
@@ -75,6 +87,12 @@ importers:
       ws:
         specifier: ^8.14.2
         version: 8.14.2
+
+  modules/bangumi:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
 
   modules/better-join:
     dependencies:
@@ -136,6 +154,18 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
+  modules/menu:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/music:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
   modules/newnew:
     dependencies:
       kotori-bot:
@@ -155,6 +185,12 @@ importers:
         version: link:../../packages/kotori
 
   modules/testing:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/weather:
     dependencies:
       kotori-bot:
         specifier: workspace:^
@@ -2772,6 +2808,7 @@ packages:
 
   /json-parse-even-better-errors@2.3.1:
     resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
+    requiresBuild: true
     dev: true
 
   /json-schema-traverse@0.4.1:

@@ -3,26 +3,33 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-10 22:40:37
+ * @LastEditTime: 2023-12-17 13:15:48
  */
 import path from 'path';
-import Kotori, { obj } from 'kotori-bot';
+import Kotori, { EventDataMsg, MessageQuick, obj } from 'kotori-bot';
 import config from './config';
 
 Kotori.uselang(path.resolve(__dirname, '../locales'));
 
-Kotori.regexp(/^今日长度$/, (_, session) => {
+const todayLength = (session: EventDataMsg): MessageQuick => {
 	if (!(session.userId in penisData)) {
 		penisData[session.userId] = getNewLength();
 	}
 	const todayLength = penisData[session.userId];
 	const params = {
-		at: session.api.extra.type === 'onebot' ? session.api.extra.at(session.userId) : '',
+		at: session.el.at(session.userId),
 		length: todayLength,
 	};
 	if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];
 	if (todayLength > 0 && todayLength <= config.joke) return ['newnew.msg.today_length.info.1', params];
 	return ['newnew.msg.today_length.info.0', params];
+};
+
+Kotori.command('今日长度').action((_, session) => todayLength(session));
+
+Kotori.regexp(
+	/^今日长度$/,
+	(_, session) => todayLength(session), // {
 
 	/* 加载数据 */
 	// const today = loadTodayData();
@@ -56,8 +63,8 @@ Kotori.regexp(/^今日长度$/, (_, session) => {
 	// } else {
 	// 	stat[data.user_id] = [todayLength, todayLength, 1, todayLength];
 	// }
-	// saveStatData(stat);
-});
+	// saveStatData(stat);}
+);
 
 Kotori.regexp(/^我的长度$/, () => {
 	const result = '该功能维护中';

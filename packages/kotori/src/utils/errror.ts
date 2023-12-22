@@ -31,16 +31,16 @@ export class KotoriError<T extends object = object> extends Error implements Kot
 
 	public readonly level: KotoriErrorLevel;
 
-	public extend(): typeof KotoriError {
-		const { message: fatherMessage, name: fatherName, level: fatherLevel, extra: fatherExtra } = this;
+	public extend(): typeof KotoriError<T> {
+		const { message: fatherMessage, name: fatherType, level: fatherLevel, extra: fatherExtra } = this;
 		// const newConstructor: typeof KotoriError = Object.create(KotoriError);
-		return new Proxy(KotoriError, {
+		return new Proxy(KotoriError<T>, {
 			construct(Constructor, params) {
 				const args = params;
 				args[0] = `${fatherMessage} ${args[0]}`;
-				args[1] = args[1] ?? fatherName;
-				args[2] = args[2] ?? fatherLevel;
-				args[3] = args[3] ?? fatherExtra;
+				args[1] = args[1] ?? fatherExtra;
+				args[2] = args[2] ?? fatherType;
+				args[3] = args[3] ?? fatherLevel;
 				return new Constructor(...args);
 			},
 		});

@@ -3,29 +3,23 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-02 22:55:15
+ * @LastEditTime: 2023-12-22 20:52:47
  */
-import { Adapter, AdapterConfig, Context, obj } from 'kotori-bot';
+import { Adapter, AdapterConfig, Context, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
+import { PlayloadData } from './types';
 
-/* function checkConfig(config: unknown): config is AdapterConfig {
-	if (!isObj(config)) return false;
-	if (typeof config.port !== 'number') return false;
-	if (config.mode === 'ws') {
-		return typeof config.retry === 'number' && typeof config.address === 'string';
-	}
-	if (config.mode === 'ws-reverse') {
-		return true;
-	}
-	return false;
-} */
+const WS_ADDRESS = 'wss://api.sgroup.qq.com/websocket';
+const API_ADDRESS = 'https://api.sgroup.qq.com/v2';
 
-interface QQAdapterConfig extends AdapterConfig {
-	appid: string;
-	secret: string;
-	retry: number;
-}
+export const config = Tsu.Object({
+	appid: Tsu.String(),
+	secret: Tsu.String(),
+	retry: Tsu.Number().positive().default(10),
+});
+
+type QQConfig = Tsu.infer<typeof config> & AdapterConfig;
 
 export class QQAdapter extends Adapter<QQApi> {
 	private token = '';
@@ -34,17 +28,14 @@ export class QQAdapter extends Adapter<QQApi> {
 
 	private msg_seq = 0;
 
-	private readonly address = 'wss://api.sgroup.qq.com/websocket';
+	public readonly config: QQConfig;
 
-	public readonly config: QQAdapterConfig;
-
-	public constructor(ctx: Context, config: QQAdapterConfig, identity: string) {
+	public constructor(ctx: Context, config: QQConfig, identity: string) {
 		super(ctx, config, identity, QQApi);
-		// if (!checkConfig(config)) throw new Error(`Bot '${identity}' config format error`);
 		this.config = config;
 	}
 
-	public handle(data: obj) {
+	public handle(data: PlayloadData) {
 		if (data.op === 10) {
 			this.send('ws', {
 				op: 2,
@@ -56,38 +47,34 @@ export class QQAdapter extends Adapter<QQApi> {
 			});
 			console.log('login...');
 		} else if (data.t === 'READY') {
-			console.log('login success');
+			this.ctx.emit('connect', {
+				adapter: this,
+				normal: true,
+				info: `login to qqbot successfully`,
+			});
 			this.heartbeat();
 		} else if (data.t === 'GROUP_AT_MESSAGE_CREATE') {
 			this.emit('group_msg', {
-				userId: 233,
-				messageId: 233,
+				userId: data.d.author.member_openid,
+				messageId: data.d.id,
+				extra: data.d.id,
 				message: data.d.content.trim(),
 				sender: {
-					nickname: '233',
-					age: 222,
+					nickname: '',
+					age: 0,
 					sex: 'unknown',
 				},
-				groupId: data.group_id!,
+				groupId: data.d.group_openid,
 			});
-			console.log('group');
 		} else if (data.op === 11) {
 			this.online();
 			// this.offlineCheck();
 		}
-		console.log(data);
-
 		if (data.s) this.seq = data.s;
-
 		// if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
 	}
 
 	public start() {
-		this.ctx.emit('connect', {
-			adapter: this,
-			normal: true,
-			info: `connect server to qqbot`,
-		});
 		this.getToken();
 		this.connect();
 	}
@@ -96,7 +83,7 @@ export class QQAdapter extends Adapter<QQApi> {
 		this.ctx.emit('disconnect', {
 			adapter: this,
 			normal: true,
-			info: `disconnect from ${this.address}`,
+			info: `disconnect from ${WS_ADDRESS}`,
 		});
 		this.socket?.close();
 		this.offline();
@@ -120,7 +107,7 @@ export class QQAdapter extends Adapter<QQApi> {
 				msg_seq: this.msg_seq,
 			};
 		}
-		return this.ctx.http.post(`https://api.sgroup.qq.com/v2/${address}`, req, {
+		return this.ctx.http.post(`${API_ADDRESS}${address}`, req, {
 			headers: {
 				Authorization: `QQBot ${this.token}`,
 				'X-Union-Appid': this.config.appid,
@@ -132,12 +119,12 @@ export class QQAdapter extends Adapter<QQApi> {
 	private socket: WebSocket | null = null;
 
 	private async connect() {
-		this.socket = new WebSocket(`${this.address}`);
+		this.socket = new WebSocket(WS_ADDRESS);
 		this.socket.on('close', () => {
 			this.ctx.emit('disconnect', {
 				adapter: this,
 				normal: false,
-				info: `unexpected disconnect server from ${this.address}, will reconnect in ${this.config.retry} seconds`,
+				info: `unexpected disconnect server from ${WS_ADDRESS}, will reconnect in ${this.config.retry} seconds`,
 			});
 			setTimeout(() => {
 				if (!this.socket) return;
@@ -145,7 +132,7 @@ export class QQAdapter extends Adapter<QQApi> {
 				this.ctx.emit('connect', {
 					adapter: this,
 					normal: false,
-					info: `reconnect server to ${this.address}`,
+					info: `reconnect server to ${WS_ADDRESS}`,
 				});
 				this.start();
 			}, this.config.retry * 1000);
@@ -154,17 +141,21 @@ export class QQAdapter extends Adapter<QQApi> {
 	}
 
 	private async getToken() {
-		const data = await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
+		const data = (await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
 			appId: this.config.appid,
 			clientSecret: this.config.secret,
-		}) as any;
+		})) as any;
 		if (!data.access_token) {
 			this.offline();
-			console.log('gettoken error', data);
+
+			this.ctx.emit('disconnect', {
+				adapter: this,
+				normal: false,
+				info: `got token error!`,
+			});
 			return;
 		}
 		this.token = data.access_token;
-		console.log(`new token ${this.token}`);
 		this.getTokenTimerId = setTimeout(
 			() => {
 				if (this.getTokenTimerId) clearInterval(this.getTokenTimerId);

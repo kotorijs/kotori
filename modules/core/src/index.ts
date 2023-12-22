@@ -3,10 +3,10 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-03 15:34:55
+ * @LastEditTime: 2023-12-17 13:12:02
  */
 
-import Kotori, { type Api, Tsu, formatTime, type obj, stringTemp } from 'kotori-bot';
+import Kotori, { Tsu, formatTime, stringTemp } from 'kotori-bot';
 import { resolve } from 'path';
 
 Kotori.uselang(resolve(__dirname, '../locales'));
@@ -24,7 +24,7 @@ Kotori.command('core - core.descr.core').action((_, events) => {
 		{
 			lang: config.global.lang,
 			root: baseDir.root,
-			mode: options.nodeEnv,
+			mode: options.env,
 			modules: internal.getModules().length,
 			adapters: Object.values(internal.getAdapters()).length,
 			bots: botsLength,
@@ -47,7 +47,7 @@ Kotori.command('bot - core.descr.bot').action((_, events) => {
 			create_time: formatTime(status.createTime),
 			last_msg_time: formatTime(status.lastMsgTime),
 			received_msg: status.receivedMsg,
-			send_msg: status.sentMsg,
+			sent_msg: status.sentMsg,
 			offline_times: status.offlineTimes,
 		},
 	];
@@ -55,7 +55,6 @@ Kotori.command('bot - core.descr.bot').action((_, events) => {
 
 Kotori.command('bots - core.descr.bots').action((_, events) => {
 	let list = '';
-  console.log(events.api.adapter.ctx.internal.getBots(), events.api.adapter.ctx.internal.getAdapters())
 	Object.values(events.api.adapter.ctx.internal.getBots()).forEach(bots =>
 		bots.forEach(bot => {
 			const { identity, platform, config, status } = bot.adapter;
@@ -81,7 +80,7 @@ Kotori.command('update - core.descr.update').action(async (_, events) => {
 	const { version } = events.api.adapter.ctx.package;
 	let content: string;
 	const res = await Kotori.http.get(
-		'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/packages/kotori/package.json',
+		'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json',
 	);
 	if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
 		content = events.locale('core.msg.update.fail');

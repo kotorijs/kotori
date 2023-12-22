@@ -10,8 +10,12 @@ import type {
 	EventDataTargetId,
 	CommandResult,
 	CommandResultExtra,
+	ApiConstructor,
+	ElementsParam,
+  MessageScope,
 } from '../types';
 import Service from './service';
+import Elements from './elements';
 
 interface Status {
 	value: 'online' | 'offline';
@@ -33,32 +37,36 @@ interface AdapterImpl<T extends Api> {
 // type AdapterSend = (...args: any[]) => void;
 
 export function ApiProxy<T extends Api>(api: T, ctx: Context): T {
-	const apiProxy = api;
-	apiProxy.send_private_msg = (message, userId, extra?) => new Proxy(api.send_private_msg, {
-		apply: (target, _, argArray) => {
-		const { '0': message, '1': targetId } = argArray;
-		let isCancel = false;
-		const cancel = () => {
-			isCancel = true;
-		};
-	ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel });
-		if (!isCancel) target(message, targetId);
-	}})(message, userId, extra);
-	apiProxy.send_group_msg = (message, groupId, extra?) =>  new Proxy(api.send_group_msg, {
-		apply: (target, _, argArray) => {
-		const { '0': message, '1': targetId } = argArray;
-		let isCancel = false;
-		const cancel = () => {
-			isCancel = true;
-		};
-	ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel });
-		if (!isCancel) target(message, targetId);
-	}})(message, groupId, extra);
+	const apiProxy = Object.create(api) as T;
+	apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
+		apply(_, __, argArray) {
+			const { '0': message, '1': targetId } = argArray;
+			let isCancel = false;
+			const cancel = () => {
+				isCancel = true;
+			};
+			ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel });
+			if (isCancel) return;
+			api.send_private_msg(message, targetId, argArray[2]);
+		},
+	});
+	apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
+		apply(_, __, argArray) {
+			const { '0': message, '1': targetId } = argArray;
+			let isCancel = false;
+			const cancel = () => {
+				isCancel = true;
+			};
+			ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel });
+			if (isCancel) return;
+			api.send_group_msg(message, targetId, argArray[2]);
+		},
+	});
 	return apiProxy;
 }
 
 type EventApiType = {
-	[K in Extract<EventType[keyof EventType], EventDataApiBase<keyof EventType>>['type']]: EventType[K];
+	[K in Extract<EventType[keyof EventType], EventDataApiBase<keyof EventType, MessageScope>>['type']]: EventType[K];
 };
 
 export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
@@ -66,15 +74,15 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 		ctx: Context,
 		config: AdapterConfig,
 		identity: string,
-		ApiConstructor: new (adapter: Adapter) => T,
+		ApiConstructor: ApiConstructor<T>,
+		el: ElementsParam = {},
 	) {
 		super();
 		this.config = config;
 		this.identity = identity;
 		this.platform = config.extends;
 		this.ctx = ctx;
-		// this.api = ApiProxy(new ApiConstructor(this), this.ctx);
-		this.api = new ApiConstructor(this);
+		this.api = ApiProxy(new ApiConstructor(this, new Elements(el)), this.ctx);
 		if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
 		this.ctx.internal.getBots()[this.platform].push(this.api);
 	}
@@ -99,13 +107,14 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
 	protected emit<N extends keyof EventApiType>(
 		type: N,
-		data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'locale' | 'quick' | 'error'>,
+		data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'locale' | 'quick' | 'error' | 'el' | 'messageType'>,
 	) {
-		const send = (message: MessageRaw) => {
-			if (type === 'group_msg') {
-				this.api.send_group_msg(message, (data as unknown as EventType['group_msg']).groupId);
+		const messageType = type.includes('group') ? 'group' : 'private';
+    const send = (message: MessageRaw) => {
+      if (messageType === 'group') {
+				this.api.send_group_msg(message, (data as unknown as {groupId: EventDataTargetId}).groupId, data);
 			} else {
-				this.api.send_private_msg(message, data.userId);
+				this.api.send_private_msg(message, data.userId/* , data.messageId */);
 			}
 		};
 		const locale = (val: string) => this.ctx.locale(val, this.config.lang);
@@ -131,7 +140,16 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 				type,
 				...data,
 			}) as CommandResultExtra[T];
-		this.ctx.emit(type, { ...data, api: this.api, send, locale, quick, error } as unknown as EventType[N]);
+		this.ctx.emit(type, {
+			...data,
+			api: this.api,
+			send,
+			locale,
+			quick,
+			error,
+			el: this.api.elements,
+      messageType
+		} as unknown as EventType[N]);
 	}
 
 	public readonly ctx: Context;

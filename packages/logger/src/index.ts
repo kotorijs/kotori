@@ -88,7 +88,6 @@ export class Logger {
 			message += `${Element} `;
 			message.slice(0, -1);
 		});
-
 		console.log(...this.handlePrefix(this.prefixs), ...this.tags, ...args, this.colorList.default);
 		// Write Logs
 		/* 		const logFile: string = path.join(this.logsFilePath, `${formatTime(null, 1)}.log`);
@@ -108,7 +107,9 @@ export class Logger {
 	}
 
 	public static tag(tag: string, typeColor: color, textColor: color) {
-		this.Tags.push(`[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`);
+		this.Tags.push(
+			`${Logger.colorList.default}[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`,
+		);
 		return this;
 	}
 	/* 

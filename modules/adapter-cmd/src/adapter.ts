@@ -7,6 +7,7 @@
  */
 import { Adapter, AdapterConfig, Context, Tsu, eventDataTargetIdSchema } from 'kotori-bot';
 import CmdApi from './api';
+import CmdElements from './elements';
 
 export const config = Tsu.Object({
 	nickname: Tsu.String().default('Kotarou'),
@@ -24,8 +25,9 @@ export class CmdAdapter extends Adapter<CmdApi> {
 	public config: CmdConfig;
 
 	public constructor(ctx: Context, config: CmdConfig, identity: string) {
-		super(ctx, config, identity, CmdApi);
+		super(ctx, config, identity, CmdApi, CmdElements);
 		this.config = config;
+		this.selfId = config['self-id'];
 		process.stdin.on('data', data => this.handle(data));
 	}
 
