@@ -31,7 +31,7 @@ function parseTemplateParam(content: string) {
 }
 
 function error<T extends keyof CommandParseResultExtra>(type: T, data: CommandParseResult[T]) {
-	return new CommandError<CommandExtra>(undefined, new CommandExtra({ type, ...data } as CommandParseResultExtra[T]));
+	return new CommandError(undefined, new CommandExtra({ type, ...data } as CommandParseResultExtra[T]));
 }
 
 export class Command {
@@ -105,14 +105,14 @@ export class Command {
 	public static parse(input: string) {
 		this.dataList.forEach(command => {
 			if (!command.action) return;
-			let cmd = input
+			const cmd = input
 				.replace(/(\s+)/g, ' ')
 				.replace(/("\s?")|('\s?')/g, '')
 				.trim();
 			if (!`${input} `.startsWith(`${command.root} `)) {
 				const alias = command.alias.filter(el => `${input} `.startsWith(`${el} `));
 				if (alias.length <= 0) return;
-				cmd = (input.split(alias[0])[1] ?? '').trim();
+				// cmd = (input.split(alias[0])[1] ?? '').trim();
 			}
 
 			const tempArray = this.parseOption(command.options, cmd);

@@ -93,7 +93,7 @@ export function stringRightSplit(str: string, key: string): string {
 }
 
 export function stringTemp(template: string, args: obj<string | number | void>) {
-	const params = args;
+	const params = Object.assign(args, { break: '\n' });
 	let templateString = template;
 	if (!params || typeof params !== 'object') return templateString;
 	Object.keys(params).forEach(param => {

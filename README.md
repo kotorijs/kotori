@@ -7,7 +7,7 @@
 [开发指南](https://kotori.js.org/develop/)  
 [接口文档](https://kotori.js.org/api/)
 
-![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/biyuehu/biyuehu) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/BIYUEHU/kotori-bot/master) ![GitHub contributors](https://img.shields.io/github/contributors/biyuehu/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
+![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/biyuehu/biyuehu) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/kotorijs/kotori/master) ![GitHub contributors](https://img.shields.io/github/contributors/biyuehu/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
 
 </div>
 
@@ -24,15 +24,16 @@ kotori 是一个**跨平台、解耦合、现代化**于一体的 ChatBot 聊天
 ### Advantages
 
 - **跨平台**
-得益于模块化支持，通过编写各种模块实现不同的功能与聊天平台接入
+  得益于模块化支持，通过编写各种模块实现不同的功能与聊天平台接入
 
 - **解耦合**
-对底层事件封装实现核心功能，减少代码冗余与复杂度，提升开发效率
+  对底层事件封装实现核心功能，减少代码冗余与复杂度，提升开发效率
 
 - **现代化**
-Kotori 使用现代化的 ECMAScript 语法规范与强大的 TypeScript 类型检查
+  Kotori 使用现代化的 ECMAScript 语法规范与强大的 TypeScript 类型检查
 
 ## Reference
+
 - [变更日志](CHANGELOG.md)
 
 <!--

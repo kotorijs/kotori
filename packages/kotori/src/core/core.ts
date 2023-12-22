@@ -13,21 +13,22 @@ import {
 } from '../types';
 import type Api from '../components/api';
 import { CoreError } from '../utils/errror';
+import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from '../consts';
 
 export const defaultConfig = {
 	baseDir: {
-		root: path.resolve('./'),
-		modules: path.resolve('./modules/'),
+		root: path.resolve(DEFAULT_ROOT_DIR),
+		modules: path.resolve(DEFAULT_MODULES_DIR),
 	},
 	config: {
 		global: {
-			lang: 'en_US',
-			'command-prefix': '/',
+			lang: DEFAULT_LANG,
+			'command-prefix': DEFAULT_COMMAND_PREFIX,
 		},
 		adapter: {},
 	},
 	options: {
-		nodeEnv: 'dev',
+		env: DEFAULT_ENV,
 	},
 };
 

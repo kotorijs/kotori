@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-10 22:50:48
+ * @LastEditTime: 2023-12-17 15:54:48
  */
 import { KotoriError, type EventType, ContextInstance, KotoriConfig, Tsu, AdapterConfig } from 'kotori-bot';
 import Modules from './modules';
@@ -20,7 +20,7 @@ const kotoriConfig: KotoriConfig = {
 	baseDir,
 	config: globalConfig,
 	options: {
-		nodeEnv: isDev ? 'dev' : 'build',
+		env: isDev ? 'dev' : 'build',
 	},
 };
 
@@ -49,7 +49,7 @@ class Main extends ContextInstance {
 			return;
 		}
 		this.ctx.logger
-			.tag(err.name.split('Error')[0], 'default', 'yellow')
+			.tag(err.name.split('Error')[0].toUpperCase(), 'yellow', 'default')
 			[err.level === 'normal' ? 'error' : err.level](err.message, err.stack);
 		if (err.name === 'CoreError') process.emit('SIGINT');
 	}
@@ -127,7 +127,7 @@ class Main extends ContextInstance {
 		const { version } = this.ctx.package;
 		const res = await this.ctx.http
 			.get(
-				'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/BIYUEHU/kotori-bot/master/packages/kotori/package.json',
+				'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json',
 			)
 			.catch(() => this.ctx.logger.error('Get update failed, please check your network'));
 		if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {

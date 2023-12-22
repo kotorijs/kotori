@@ -8,9 +8,7 @@ export class Main {
 
 	private static handle: EventCallback<'group_increase'> = session => {
 		for (let init = 0; init < getRandomInt(2); init += 1) {
-			session.send(
-				`${session.api.extra.type === 'onebot' ? `${session.api.extra.at(session.userId)} ` : ''}${data[init]}`,
-			);
+			session.send(［data[init], {at: session.el.at(session.userId)}］);
 		}
 	};
 }

@@ -4,11 +4,10 @@ interface EmoticonMap {
 	[key: string]: string;
 }
 
-export default class Translate {
+export class Translate {
 	public result = '';
 
-  /* 抽象成都 */
-  public score = 0
+	public score = 0;
 
 	private emoticons: EmoticonMap;
 
@@ -18,9 +17,14 @@ export default class Translate {
 	}
 
 	private convert(text: string) {
+		let lastResult = '';
 		this.result = text;
 		Object.keys(this.emoticons).forEach(key => {
+			lastResult = this.result;
 			this.result = this.result.replace(new RegExp(key, 'g'), this.emoticons[key]);
-	  })
-  }
+			if (lastResult !== this.result) this.score += 1;
+		});
+	}
 }
+
+export default Translate;

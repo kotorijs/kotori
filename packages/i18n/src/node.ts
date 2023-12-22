@@ -1,5 +1,5 @@
 /*
-export function isNodeEnv() {
+export function isenv() {
 	return process && process.version;
 }
 
@@ -19,7 +19,7 @@ export class NodeFs {
 	}
 
 	public static get() {
-		if (!isNodeEnv) throw new Error('is not nodejs environment,cant load locale file');
+		if (!isenv) throw new Error('is not nodejs environment,cant load locale file');
 		return this.require();
 	}
 }

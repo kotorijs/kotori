@@ -47,7 +47,7 @@ export class Locale {
 	}
 
 	public get() {
-		return this.lang;
+		return LocaleIdentifier[this.lang] as LocaleType;
 	}
 }
 
