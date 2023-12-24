@@ -1,11 +1,11 @@
 {
-    "name": "@kotori-bot/kotori-plugin-adapter-cmd",
-    "version": "1.0.0",
-    "description": "Adapter For Cmd",
-    "main": "src/index.ts",
-    "license": "GPL-3.0",
-    "author": "Hotaru <biyuehuya@gmail.com>",
-    "peerDependencies": {
-        "kotori-bot": "workspace:^"
-    }
+  "name": "@kotori-bot/kotori-plugin-adapter-cmd",
+  "version": "1.0.0",
+  "description": "Adapter For Cmd",
+  "main": "lib/index.js",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  }
 }

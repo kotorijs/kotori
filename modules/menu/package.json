@@ -2,7 +2,7 @@
   "name": "@kotori-bot/kotori-plugin-menu",
   "version": "1.0.0",
   "description": "menu plugin",
-  "main": "src/index.ts",
+  "main": "lib/index.js",
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {

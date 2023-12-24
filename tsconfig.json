@@ -8,15 +8,9 @@
         "packages/*/src"
       ]
     },
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
   },
   "include": [
     "packages/*/src/**/*",
     "modules/*/src/**/*"
   ],
-  "exclude": [
-    "node_modules",
-    "*.test.ts"
-  ]
 }

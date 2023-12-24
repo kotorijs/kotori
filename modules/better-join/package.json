@@ -1,11 +1,11 @@
 {
-    "name": "kotori-plugin-better-join",
-    "version": "1.0.0",
-    "description": "better join tips,before close manger's join welcome",
-    "main": "src/index.ts",
-    "license": "GPL-3.0",
-    "author": "Himeno <biyuehuya@gmail.com>",
-    "peerDependencies": {
-        "kotori-bot": "workspace:^"
-    }
+  "name": "kotori-plugin-better-join",
+  "version": "1.0.0",
+  "description": "better join tips,before close manger's join welcome",
+  "main": "lib/index.js",
+  "license": "GPL-3.0",
+  "author": "Himeno <biyuehuya@gmail.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  }
 }

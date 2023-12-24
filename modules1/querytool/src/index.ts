@@ -1,7 +1,6 @@
 import Kotori from 'kotori-bot';
-import { resolve } from 'path';
 
-Kotori.uselang(resolve(__dirname, '../locales'));
+export const lang = `${__dirname}../locales`;
 
 /* 
 

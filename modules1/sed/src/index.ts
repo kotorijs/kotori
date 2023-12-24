@@ -1,106 +1,105 @@
 import Kotori, { formatTime, getUuid, isObj, stringTemp } from 'kotori-bot';
-import { resolve } from 'path';
 
-Kotori.uselang(resolve(__dirname, '../locales'));
+export const lang = `${__dirname}../locales`;
 
 Kotori.command('sed')
-	.action(async (data, message) => {
-		if (data.args[0] === message.api.adapter.selfId.toString())
-			return ['querytool.msg.sed.fail', { input: data.args[0] }];
+  .action(async (data, message) => {
+    if (data.args[0] === message.api.adapter.selfId.toString())
+      return ['querytool.msg.sed.fail', { input: data.args[0] }];
 
-		const res = await Kotori.http.get('sed', { msg: data.args[0] });
-		if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
-		if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.sed.fail', { input: data.args[0] }];
-		let list = '';
-		list += res.data.qq
-			? stringTemp('querytool.msg.sed.list', {
-					key: message.locale('querytool.msg.sed.key.qq'),
-					content: res.data.qq,
-			  })
-			: '';
-		list += res.data.phone
-			? stringTemp('querytool.msg.sed.list', {
-					key: message.locale('querytool.msg.sed.key.phone'),
-					content: res.data.phone,
-			  })
-			: '';
-		list += res.data.location
-			? stringTemp('querytool.msg.sed.list', {
-					key: message.locale('querytool.msg.sed.key.location'),
-					content: res.data.location,
-			  })
-			: '';
-		list += res.data.id
-			? stringTemp('querytool.msg.sed.list', {
-					key: message.locale('querytool.msg.sed.key.id'),
-					content: res.data.id,
-			  })
-			: '';
-		list += res.data.area
-			? stringTemp('querytool.msg.sed.list', {
-					key: message.locale('querytool.msg.sed.key.area'),
-					content: res.data.area,
-			  })
-			: '';
-		return [
-			'querytool.msg.sed',
-			{
-				input: data.args[0],
-				time: Math.floor(res.takeTime),
-				count: res.count,
-				list,
-			},
-		];
-	})
-	.help('querytool.descr.sed');
+    const res = await Kotori.http.get('sed', { msg: data.args[0] });
+    if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
+    if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.sed.fail', { input: data.args[0] }];
+    let list = '';
+    list += res.data.qq
+      ? stringTemp('querytool.msg.sed.list', {
+          key: message.locale('querytool.msg.sed.key.qq'),
+          content: res.data.qq,
+        })
+      : '';
+    list += res.data.phone
+      ? stringTemp('querytool.msg.sed.list', {
+          key: message.locale('querytool.msg.sed.key.phone'),
+          content: res.data.phone,
+        })
+      : '';
+    list += res.data.location
+      ? stringTemp('querytool.msg.sed.list', {
+          key: message.locale('querytool.msg.sed.key.location'),
+          content: res.data.location,
+        })
+      : '';
+    list += res.data.id
+      ? stringTemp('querytool.msg.sed.list', {
+          key: message.locale('querytool.msg.sed.key.id'),
+          content: res.data.id,
+        })
+      : '';
+    list += res.data.area
+      ? stringTemp('querytool.msg.sed.list', {
+          key: message.locale('querytool.msg.sed.key.area'),
+          content: res.data.area,
+        })
+      : '';
+    return [
+      'querytool.msg.sed',
+      {
+        input: data.args[0],
+        time: Math.floor(res.takeTime),
+        count: res.count,
+        list,
+      },
+    ];
+  })
+  .help('querytool.descr.sed');
 
 Kotori.command('idcard')
-	.action(async data => {
-		const res = await Kotori.http.get('idcard', { msg: data.args[0] });
-		if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
-		if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.idcard.fail', { input: data.args[0] }];
+  .action(async data => {
+    const res = await Kotori.http.get('idcard', { msg: data.args[0] });
+    if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
+    if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.idcard.fail', { input: data.args[0] }];
 
-		return [
-			'querytool.msg.idcard',
-			{
-				input: data.args[0],
-				...res.data,
-			},
-		];
-	})
-	.help('querytool.descr.idcard');
+    return [
+      'querytool.msg.idcard',
+      {
+        input: data.args[0],
+        ...res.data,
+      },
+    ];
+  })
+  .help('querytool.descr.idcard');
 
 Kotori.command('hcb')
-	.action(async data => {
-		const res = await Kotori.http.get('https://hcb.hotaru.icu/api/v3', {
-			value: data.args[0],
-		});
-		if (!res || res.code !== 500 || !isObj(res.data) || Array.isArray(res.data))
-			return [
-				'BOT_RESULT.SERVER_ERROR',
-				{
-					/* res */
-				},
-			];
+  .action(async data => {
+    const res = await Kotori.http.get('https://hcb.hotaru.icu/api/v3', {
+      value: data.args[0],
+    });
+    if (!res || res.code !== 500 || !isObj(res.data) || Array.isArray(res.data))
+      return [
+        'BOT_RESULT.SERVER_ERROR',
+        {
+          /* res */
+        },
+      ];
 
-		if (!res.data.status) return ['querytool.msg.hcb.fail', { input: data.args[0] }];
+    if (!res.data.status) return ['querytool.msg.hcb.fail', { input: data.args[0] }];
 
-		const imgs = '';
-		/* 	if (res.data.imgs !== null) {
+    const imgs = '';
+    /* 	if (res.data.imgs !== null) {
 		(<string[]>res.data.imgs).forEach(element => {
 			imgs += image(element);
 		});
 	} */
-		return [
-			'querytool.msg.hcb',
-			{
-				input: data.args[0],
-				// ...res.data,
-				images: imgs || 'BOT_RESULT.EMPTY',
-			},
-		];
-	})
-	.help('querytool.descr.hcb');
+    return [
+      'querytool.msg.hcb',
+      {
+        input: data.args[0],
+        // ...res.data,
+        images: imgs || 'BOT_RESULT.EMPTY',
+      },
+    ];
+  })
+  .help('querytool.descr.hcb');
 
 /* 
 

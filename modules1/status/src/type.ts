@@ -50,7 +50,7 @@ export const BOT_RESULT = new Proxy(
 
 export const GLOBAL = {
 	HEAD: 'Kotori-Bot:',
-	REPO: 'https://github.com/biyuehu/kotori-bot',
+	REPO: 'https://github.com/kotorijs/kotori',
 	AVATAR: SDK.cq_image(`https://q.qlogo.cn/headimg_dl?spec=640&dst_uin=2142124427`),
 	DOC: 'http://??????????.com',
 	AUTHOR: `By ${getPackageInfo().author}`,

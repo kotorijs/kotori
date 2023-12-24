@@ -1,11 +1,28 @@
 {
-	"name": "@kotori-bot/logger",
-	"version": "1.0.0",
-	"description": "Logger For KotoriBot",
-	"main": "src/index.ts",
-	"license": "GPL-3.0",
-	"author": "Hotaru <biyuehuya@gmail.com>",
-	"dependencies": {
-		"@kotori-bot/tools": "workspace:^"
-	}
+  "name": "@kotori-bot/logger",
+  "version": "1.0.0",
+  "description": "Logger For Kotori",
+  "main": "lib/index.js",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "dependencies": {
+    "@kotori-bot/tools": "workspace:^"
+  },
+  "keywords": [
+    "chatbot",
+    "bot",
+    "robotics",
+    "kotori"
+  ],
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/kotorijs/kotori/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotorijs/kotori.git"
+  },
+  "homepage": "https://kotori.js.org"
 }

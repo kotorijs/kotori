@@ -1,47 +1,28 @@
 {
   "name": "@kotori-bot/root",
   "version": "0.9.9",
-  "description": "ChatBot Framework Base For TypeScript And NodeJS",
+  "description": "ChatBot Framework",
+  "private": true,
   "scripts": {
-    "start": "cd ./dist/packages/loader && node ./src/index.js",
-    "dev": "cd ./packages/loader && pnpm dev",
+    "loader": "pnpm --filter @kotori-bot/loader",
+    "build": "pnpm run loader build",
+    "start": "pnpm run loader start",
+    "dev": "pnpm build && pnpm run loader dev",
     "test": "echo testing",
-    "build": "tsc",
-    "lint": "eslint \"packages/**/*.{js,vue,ts,jsx,tsx}\" --fix",
-    "prettier": "prettier --config .prettierrc \"packages/**/*.{vue,js,ts,json,jsx,tsx}\" --write",
+    "lint": "eslint \"{packages,modules}/**/src/*.{ts,tsx}\" --fix",
+    "format": "prettier --config .prettierrc \"{packages,modules}/**/src/*.ts\" --write",
     "prepare": "husky install",
     "release": "standard-version"
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
-  "keywords": [
-    "ChatBot",
-    "Bot",
-    "bot",
-    "QQ",
-    "QQBot",
-    "typescript",
-    "TypeScript",
-    "NodeJs",
-    "AOP",
-    "robotics",
-    "nodejs",
-    "back-end"
-  ],
-  "bugs": {
-    "url": "https://github.com/biyuehu/kotori-bot/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:kotorijs/kotori.git"
-  },
-  "homepage": "https://github.com/biyuehu/kotori-bot#readme",
   "devDependencies": {
     "@commitlint/cli": "12.1.4",
     "@commitlint/config-conventional": "^17.7.0",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "cz-conventional-changelog": "^3.3.0",
+    "esbuild": "^0.19.10",
     "eslint": "^8.47.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
@@ -51,14 +32,12 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.0",
     "prettier": "^3.0.2",
-    "standard-version": "^9.5.0"
+    "standard-version": "^9.5.0",
+    "@types/node": "^20.8.7"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "@types/node": "^20.8.7"
   }
 }

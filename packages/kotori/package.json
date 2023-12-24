@@ -1,28 +1,35 @@
 {
   "name": "kotori-bot",
   "version": "1.0.0",
-  "description": "ChatBot Framework",
-  "main": "src/index.ts",
+  "description": "ChatBot Framework Base For NodeJS And TypeScript",
+  "main": "lib/index.js",
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
+  "keywords": [
+    "chatbot",
+    "bot",
+    "typescript",
+    "robotics",
+    "nodejs",
+    "back-end"
+  ],
+  "files": [
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "bugs": {
+    "url": "https://github.com/kotorijs/kotori/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotorijs/kotori.git"
+  },
+  "homepage": "https://kotori.js.org",
   "dependencies": {
     "@kotori-bot/i18n": "workspace:^",
     "@kotori-bot/logger": "workspace:^",
     "@kotori-bot/tools": "workspace:^",
     "tsukiko": "^1.2.1"
-  },
-  "keywords": [
-    "ChatBot",
-    "Bot",
-    "bot",
-    "QQ",
-    "QQBot",
-    "typescript",
-    "TypeScript",
-    "NodeJs",
-    "AOP",
-    "robotics",
-    "nodejs",
-    "back-end"
-  ]
+  }
 }

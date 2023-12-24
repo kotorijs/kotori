@@ -1,8 +1,9 @@
-import path from 'path';
 import { Context } from 'kotori-bot';
 
+export const lang = `${__dirname}../locales`;
+
 export class Main {
-	/* 
+  /* 
     private static getTodayPath(yesterday: boolean = false)  {
         const TIME = new Date();
         const date = TIME.getDate();
@@ -17,13 +18,11 @@ export class Main {
     
     private static saveTodayData(data: good)  this.saveConfig(this.getTodayPath(), data); */
 
-	public constructor(Ctx: Context) {
-		Ctx.uselang(path.resolve(__dirname, '../locales'));
-
-		Ctx.regexp(
-			/^(早|早安|早上好)$/,
-			() => '早安~',
-			/* 			const record = loadTodayData();
+  public constructor(Ctx: Context) {
+    Ctx.regexp(
+      /^(早|早安|早上好)$/,
+      () => '早安~',
+      /* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
 			if (data.user_id in record.morning) return ['goodnight.msg.morning.already', { at }];
 
@@ -41,12 +40,12 @@ export class Main {
 			if (hours >= 12 && hours < config.getupTimeLate)
 				return ['goodnight.msg.morning.afternoon', { at, count, sex }];
 			return ['goodnight.msg.morning.late', { at, count, sex }]; */
-		);
+    );
 
-		Ctx.regexp(
-			/^(晚|晚安|晚上好)$/,
-			() => '晚安~',
-			/* 			const record = loadTodayData();
+    Ctx.regexp(
+      /^(晚|晚安|晚上好)$/,
+      () => '晚安~',
+      /* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
 			if (data.user_id in record.night) return ['goodnight.msg.night.already', { at }];
 
@@ -67,7 +66,7 @@ export class Main {
 			if (hours >= late[0] || hours < late[1]) return ['goodnight.msg.night.late', { at, time }];
 			if (hours >= normal[0] && hours < normal[1]) return ['goodnight.msg.night.normal', { at, time }];
 			return ['goodnight.msg.night.early', { at, time }]; */
-		);
-	}
+    );
+  }
 }
 export default Main;

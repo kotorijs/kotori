@@ -1,18 +1,18 @@
 {
-    "name": "@kotori-bot/kotori-plugin-adapter-qq",
-    "version": "1.0.0",
-    "description": "Adapter For QQ Base On Tencent Api",
-    "main": "src/index.ts",
-    "license": "GPL-3.0",
-    "author": "Hotaru <biyuehuya@gmail.com>",
-    "scripts": {
-        "test": "ts-node ./src/test"
-    },
-    "peerDependencies": {
-        "kotori-bot": "workspace:^"
-    },
-    "dependencies": {
-        "@types/ws": "^8.5.8",
-        "ws": "^8.14.2"
-    }
+  "name": "@kotori-bot/kotori-plugin-adapter-qq",
+  "version": "1.0.0",
+  "description": "Adapter For QQ Base On Tencent Api",
+  "main": "lib/index.js",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "scripts": {
+    "test": "ts-node ./src/test"
+  },
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@types/ws": "^8.5.8",
+    "ws": "^8.14.2"
+  }
 }

@@ -1,14 +1,14 @@
 global:
-  lang: 'zh_CN'
-  command-prefix: '/'
-  # command-alias: '<at target=${selfId} /> '
+  lang: zh_CN
+  command-prefix: /
+  # command-alias: <at target=${selfId} />
   dirs:
-    - './node_modules/'
-    - './node_modules/@kotori-bot/'
+    - ./node_modules/
+    - ./node_modules/@kotori-bot/
 
 adapter:
   kotori:
-    extends: 'onebot'
+    extends: onebot
     master: 3324656453
     # 连接模式 可选: http ws ws-reverse 推荐首选ws-reverse
     mode: ws-reverse
@@ -16,7 +16,7 @@ adapter:
     # WebSocket反向(相对于Gocqhttp)
     # port: 8080 # WS反向端口
     # WebSocket正向
-    address: 'ws://69.176.89.123' # WS地址
+    address: ws://69.176.89.123 # WS地址
     port: 8088 # WS端口
     retry: 10 # 同上
     # Http正反向(暂未支持)
@@ -26,20 +26,20 @@ adapter:
     # retry: 10 # 连接断开或失败时尝试重连间隔时间 单位:秒
 
   cmd-test:
-    extends: 'cmd'
+    extends: cmd
     master: 2333
-    nickname: 'Kotarou'
+    nickname: Kotarou
     age: 18
-    sex: 'male'
+    sex: male
     self-id: 720
 
   kisaki:
-    extends: 'qq'
+    extends: qq
     master: 2333
     retry: 10
 
 plugin:
   menu:
-    alias: 'cd'
-    keywords: ['菜单', '功能']
-    content: '菜单 | 小鳥%break%/menu - 查看BOT菜单%break%/hitokoto - 获取一条一言%break%/wiki <content> [order] - 搜索MediaWiki%break%/今日长度 - 查看今日长度%break%/抽象 [抽🐘话] - 孙G在🧵帮你翻译成抽🐘话%break%/music <name> [order：number=1] - 网易云点歌%break%  序号默认为1，填0显示歌曲列表%break%/weather <area> - 查询城市天气%break%ByHotaru'
+    alias: cd
+    keywords: [菜单, 功能]
+    content: 菜单 | 小鳥%break%/menu - 查看BOT菜单%break%/hitokoto - 获取一条一言%break%/wiki <content> [order] - 搜索MediaWiki%break%/今日长度 - 查看今日长度%break%/抽象 [抽🐘话] - 孙G在🧵帮你翻译成抽🐘话%break%/music <name> [order：number=1] - 网易云点歌%break%  序号默认为1，填0显示歌曲列表%break%/weather <area> - 查询城市天气%break%ByHotaru
