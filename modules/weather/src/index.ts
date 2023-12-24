@@ -1,11 +1,12 @@
-import Kotori, { Tsu } from 'kotori-bot';
-import { resolve } from 'path';
+import { Context, Tsu } from 'kotori-bot';
 
-Kotori.uselang(resolve(__dirname, '../locales'));
+export const lang = `${__dirname}../locales`;
 
-Kotori.command('weather <area> - weather.descr.weather').action(async data => {
-	const content = Tsu.String().parse(
-		await Kotori.http.get('https://api.hotaru.icu/api/weather', { msg: data.args[0], b: 1 }),
-	);
-	return ['weather.msg.weather', { content }];
-});
+export function main(ctx: Context) {
+  ctx.command('weather <area> - weather.descr.weather').action(async data => {
+    const content = Tsu.String().parse(
+      await ctx.http.get('https://api.hotaru.icu/api/weather', { msg: data.args[0], b: 1 }),
+    );
+    return ['weather.msg.weather', { content }];
+  });
+}

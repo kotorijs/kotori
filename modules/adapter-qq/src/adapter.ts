@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-22 20:52:47
+ * @LastEditTime: 2023-12-22 22:37:29
  */
 import { Adapter, AdapterConfig, Context, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -45,12 +45,17 @@ export class QQAdapter extends Adapter<QQApi> {
 					shard: [0, 1],
 				},
 			});
-			console.log('login...');
+			this.ctx.emit('connect', {
+				adapter: this,
+				normal: true,
+				onlyStart: true,
+				info: `logging in qqbot...`,
+			});
 		} else if (data.t === 'READY') {
 			this.ctx.emit('connect', {
 				adapter: this,
 				normal: true,
-				info: `login to qqbot successfully`,
+				info: `logged in qqbot successfully`,
 			});
 			this.heartbeat();
 		} else if (data.t === 'GROUP_AT_MESSAGE_CREATE') {
