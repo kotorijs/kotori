@@ -8,6 +8,7 @@
     "build": "pnpm run loader build",
     "start": "pnpm run loader start",
     "dev": "pnpm build && pnpm run loader dev",
+    "dev:only": "pnpm run loader dev",
     "test": "echo testing",
     "lint": "eslint \"{packages,modules}/**/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/**/src/*.ts\" --write",
