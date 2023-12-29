@@ -1,6 +1,7 @@
 import { isClass, none } from '@kotori-bot/tools';
 import fs from 'fs';
 import Tsu, { Parser } from 'tsukiko';
+import { resolve } from 'path';
 import Events from './events';
 import Context from '../context';
 import Adapter from '../components/adapter';
@@ -70,12 +71,16 @@ export class Modules extends Events {
     typeInfo: ReturnType<typeof getTypeInfo>,
     Instances: [ModuleInstanceFunction | ModuleInstanceConstructor | unknown, Parser<unknown>?],
     data: {
-      args: [Context, object];
-      langDir?: string;
+      ctx: Context;
+      config: object;
+      langDir?: string | string[];
     },
   ) {
     /* before handle */
-    if (data.langDir) data.args[0].i18n.use(data.langDir);
+    if (data.langDir)
+      data.ctx.i18n.use(
+        typeof data.langDir === 'string' ? resolve(data.langDir) : resolve(...data.langDir),
+      ); /* here need */
 
     /* after handle */
     if (typeInfo.type === 'adapter') {
@@ -84,15 +89,15 @@ export class Modules extends Events {
     }
     if (typeInfo.instanceType === 'none') return;
     /* Check config */
-    const isSchema = Instances[1]?.parseSafe(data.args[1]);
+    const isSchema = Instances[1]?.parseSafe(data.config);
     if (isSchema && !isSchema.value) {
       throw new ModuleError(`Config format of module ${typeInfo.moduleName} is error`);
     }
     if (typeInfo.instanceType === 'constructor') {
-      none(new (Instances[0] as ModuleInstanceConstructor)(...data.args));
+      none(new (Instances[0] as ModuleInstanceConstructor)(data.ctx, data.config));
       return;
     }
-    (Instances[0] as ModuleInstanceFunction)(...data.args);
+    (Instances[0] as ModuleInstanceFunction)(data.ctx, data.config);
   }
 
   private moduleAllHandle() {
@@ -154,14 +159,15 @@ export class Modules extends Events {
       }
       const schema = exportObj && exportObj.config instanceof Parser ? exportObj.config : undefined;
       this.runInstance(typeInfo, [Instance, schema], {
-        args: [
-          /* wait for logger updated after hered need new 功能 about print module of name */
-          /* Object.assign(ctx, {
+        /* wait for logger updated after hered need new 功能 about print module of name */
+        /* Object.assign(ctx, {
             logger: ctx.logger.tag(stringRightSplit(typeInfo.moduleName, PLUGIN_PREFIX), 'italic', 'white'),
           }) */ ctx,
-          config,
-        ],
-        langDir: exportObj && typeof exportObj.lang === 'string' ? exportObj.lang : undefined,
+        config,
+        langDir:
+          exportObj && (typeof exportObj.lang === 'string' || Array.isArray(exportObj.lang))
+            ? exportObj.lang
+            : undefined,
       });
     } catch (err) {
       this.setCureent();

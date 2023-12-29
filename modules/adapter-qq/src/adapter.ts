@@ -99,12 +99,12 @@ export class QQAdapter extends Adapter<QQApi> {
 			this.socket?.send(JSON.stringify(params));
 			return undefined;
 		}
-		let address = '';
+		let address = '/';
 		let req: obj = {};
 		if (action === 'send_group_msg' && 'groupId' in params && 'message' in params && 'id' in params) {
 			if (!params.message) return null;
 			this.msg_seq += 1;
-			address = `groups/${params.groupId}/messages`;
+			address += `groups/${params.groupId}/messages`;
 			req = {
 				content: params.message,
 				msg_type: 0,

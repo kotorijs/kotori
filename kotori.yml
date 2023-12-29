@@ -35,11 +35,13 @@ adapter:
 
   kisaki:
     extends: qq
+    appid: "102073009"
+    secret: "HTSDj140jDSTFn6A"
     master: 2333
     retry: 10
 
 plugin:
   menu:
     alias: cd
-    keywords: [菜单, 功能]
+    keywords: []
     content: 菜单 | 小鳥%break%/menu - 查看BOT菜单%break%/hitokoto - 获取一条一言%break%/wiki <content> [order] - 搜索MediaWiki%break%/今日长度 - 查看今日长度%break%/抽象 [抽🐘话] - 孙G在🧵帮你翻译成抽🐘话%break%/music <name> [order：number=1] - 网易云点歌%break%  序号默认为1，填0显示歌曲列表%break%/weather <area> - 查询城市天气%break%ByHotaru

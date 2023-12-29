@@ -7,8 +7,9 @@ export class Main {
   }
 
   private static handle: EventCallback<'group_increase'> = session => {
-    for (let init = 0; init < getRandomInt(2); init += 1) {
-      session.send(stringTemp(data[init], { at: session.el.at(session.userId) }));
+  const standard = getRandomInt(1, 2)
+    for (let init = 0; init < standard; init += 1) {
+      session.send(stringTemp(data[getRandomInt(0, Object.keys(data).length)], { at: session.el.at(session.userId) }));
     }
   };
 }

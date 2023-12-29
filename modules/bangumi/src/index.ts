@@ -51,7 +51,7 @@ const bgmcSchema = Tsu.Array(
 
 const MAX_LIST = 10;
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.command('bgm <content> [order:number=1] - bangumi.descr.bgm').action(async (data, session) => {

@@ -14,7 +14,7 @@ export const config = Tsu.Object({
   content: Tsu.String(),
 });
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
   const handle = (session: EventDataMsg): MessageQuick => [conf.content, { at: session.el.at(session.userId) }];

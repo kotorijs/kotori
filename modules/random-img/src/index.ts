@@ -22,7 +22,7 @@ const sexhSchema = Tsu.Object({
 
 const quick = (url: string, el: Elements) => el.image(url) || 'corei18n.template.unsupported';
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.command('sex [tags] - random_img.descr.sex').action(async (data, session) => {

@@ -14,7 +14,7 @@ declare module 'kotori-bot' {
   }
 }
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.on('parse', session => {

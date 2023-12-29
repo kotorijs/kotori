@@ -1,6 +1,6 @@
 import { Context, Tsu } from 'kotori-bot';
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.command('weather <area> - weather.descr.weather').action(async data => {

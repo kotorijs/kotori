@@ -2,7 +2,7 @@ import { Context, obj, stringTemp } from 'kotori-bot';
 import wikiData from './type';
 import { wikiSearch } from './method';
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 const defaultData = [
   {

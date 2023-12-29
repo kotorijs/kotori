@@ -112,9 +112,9 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     const messageType = type.includes('group') ? 'group' : 'private';
     const send = (message: MessageRaw) => {
       if (messageType === 'group') {
-        this.api.send_group_msg(message, (data as unknown as { groupId: EventDataTargetId }).groupId, data);
+        this.api.send_group_msg(message, (data as unknown as { groupId: EventDataTargetId }).groupId, data.extra);
       } else {
-        this.api.send_private_msg(message, data.userId /* , data.messageId */);
+        this.api.send_private_msg(message, data.userId , data.extra);
       }
     };
     const locale = (val: string) => this.ctx.i18n.locale(val, this.config.lang);

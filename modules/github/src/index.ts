@@ -18,7 +18,7 @@ const githubSchema = Tsu.Union([
   Tsu.Object({}),
 ]);
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.command('github <repository> - querytool.descr.github').action(async (data, session) => {

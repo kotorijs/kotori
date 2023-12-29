@@ -15,7 +15,7 @@ const hitokotosSchema = Tsu.Object({
   }),
 });
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx

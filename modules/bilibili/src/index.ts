@@ -33,7 +33,7 @@ const bilier2Schema = Tsu.Object({
   }).optional(),
 });
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.command('bili <bvid> - bilibili.descr.bili').action(async (data, session) => {
