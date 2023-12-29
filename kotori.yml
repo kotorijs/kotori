@@ -35,8 +35,7 @@ adapter:
 
   kisaki:
     extends: qq
-    appid: "102073009"
-    secret: "HTSDj140jDSTFn6A"
+
     master: 2333
     retry: 10
 

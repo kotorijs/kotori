@@ -13,14 +13,22 @@
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "prepare": "husky install",
-    "release": "pnpm changeset publish"
+    "release:pre": "conventional-changelog -i CHANGELOG.md -s && pnpm changeset && pnpm changeset",
+    "release": "pnpm run release:pre && pnpm changeset publish"
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
+  "files": [
+    "{packages,modules}/*/{dist,lib}/**/*.js",
+    "{packages,modules}/*/{package.json,LICENSE,README.md}",
+    "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml,favicon.ico}"
+  ],
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
+    "conventional-changelog-cli": "^4.1.0",
     "eslint": "^8.47.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
@@ -29,13 +37,5 @@
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.2"
-  },
-  "files": [
-    "{packages,modules}/*/{dist,lib}/**/*.js",
-    "{packages,modules}/*/{package.json,LICENSE,README.md}",
-    "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml,favicon.ico}"
-  ],
-  "dependencies": {
-    "@changesets/cli": "^2.27.1"
   }
 }
