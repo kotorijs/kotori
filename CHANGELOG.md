@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/BIYUEHU/kotori-bot/compare/v0.7.8...v1.1.0) (2023-12-29)
+
+
+### Features
+
+* add more callback type and querytool ([952d6fc](https://github.com/BIYUEHU/kotori-bot/commit/952d6fc9e2bd34af3c7f77c63e8652c8ad7a14bb))
+* add some events and fix command,message ([a68b292](https://github.com/BIYUEHU/kotori-bot/commit/a68b292b165b02707cce04818c0226adc9876e21))
+* cmd adapter and loader modules ([d698df1](https://github.com/BIYUEHU/kotori-bot/commit/d698df1cdae524c43a39bd75aeebde8c32fdca39))
+* cmd adapter and loader modules ([f2b656a](https://github.com/BIYUEHU/kotori-bot/commit/f2b656a3a367d74a1b16a058430d7027b539a2e4))
+* loader and modules && mixed && command ([c0a2abe](https://github.com/BIYUEHU/kotori-bot/commit/c0a2abe5a27dbb7a3f5523861ca1310c76b1645f))
+* loader and modules && mixed && command ([9ba0bc9](https://github.com/BIYUEHU/kotori-bot/commit/9ba0bc98a18aa193d588630c8c6ca8c9ab3a25e8))
+* loader and modules,mixed,command ([5d11c5f](https://github.com/BIYUEHU/kotori-bot/commit/5d11c5f1e25fbd30a49a5333661e1c052bdf83d2))
+* loader updated, as subpack and core-18n ([1e5a6ec](https://github.com/BIYUEHU/kotori-bot/commit/1e5a6ec12cc7a3ee697fc0d4249acc2e74fe4220))
+* new plugins and adapter-tencent-qq and some fixs ([5512975](https://github.com/BIYUEHU/kotori-bot/commit/55129758c529cf7ac6cc446ed2202d14c6446a63))
+* new plugins,event.before  and bug fix ([283d4c8](https://github.com/BIYUEHU/kotori-bot/commit/283d4c8505b828151ff84e16bfdb23d7928135ae))
+* some changes about class static ([a440959](https://github.com/BIYUEHU/kotori-bot/commit/a4409593f645004b2465af2cafe7304205262bff))
+* type checker i18n and error handle ([4596740](https://github.com/BIYUEHU/kotori-bot/commit/45967408dcd3957a433d7f0aa0b01dd79931ef89))
+* v1 events,modules,message,content,api,adapter,core ([b6349cb](https://github.com/BIYUEHU/kotori-bot/commit/b6349cb075f1caf7d1151e607e368f4e5de44c45))
+
 ### [0.7.8](https://github.com/kotorijs/kotori/compare/v0.7.7...v0.7.8) (2023-09-10)
 
 ### ✨ Features
