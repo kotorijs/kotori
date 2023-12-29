@@ -11,5 +11,8 @@
   "dependencies": {
     "@types/ws": "^8.5.8",
     "ws": "^8.14.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
