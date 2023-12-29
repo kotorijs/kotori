@@ -8,7 +8,7 @@
 import { Context, EventDataMsg, MessageQuick, obj } from 'kotori-bot';
 import config from './config';
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 const penisData: obj<number> = {};
 

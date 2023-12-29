@@ -15,7 +15,7 @@ const musicSchema = Tsu.Object({
 
 const MAX_LIST = 10;
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx

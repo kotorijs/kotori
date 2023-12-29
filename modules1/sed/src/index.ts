@@ -1,6 +1,6 @@
 import Kotori, { formatTime, getUuid, isObj, stringTemp } from 'kotori-bot';
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 Kotori.command('sed')
   .action(async (data, message) => {

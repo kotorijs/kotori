@@ -8,7 +8,7 @@
 
 import { Context, stringTemp } from 'kotori-bot';
 
-export const lang = `${__dirname}../locales`;
+export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   /* rest paramter */
