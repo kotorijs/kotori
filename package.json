@@ -13,7 +13,8 @@
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "prepare": "husky install",
-    "release:pre": "conventional-changelog -i CHANGELOG.md -s && pnpm changeset && pnpm changeset",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s && git add changelog",
+    "release:pre": "pnpm changeset && pnpm changeset",
     "release": "pnpm run release:pre && pnpm changeset publish"
   },
   "license": "GPL-3.0",
