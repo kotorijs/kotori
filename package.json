@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/root",
-  "version": "0.9.9",
+  "version": "1.1.0",
   "description": "ChatBot Framework",
   "private": true,
   "scripts": {
@@ -18,13 +18,9 @@
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "devDependencies": {
-    "@commitlint/cli": "12.1.4",
-    "@commitlint/config-conventional": "^17.7.0",
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "esbuild": "^0.19.10",
     "eslint": "^8.47.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
@@ -36,11 +32,11 @@
     "prettier": "^3.0.2",
     "standard-version": "^9.5.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
+  "files": [
+    "./{packages,modules}/*/{dist,lib}/**/*.js",
+    "./{packages,modules}/*/{package.json,LICENSE,README.md}",
+    "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml,favicon.ico}"
+  ],
   "dependencies": {
     "@changesets/cli": "^2.27.1"
   }
