@@ -1,5 +1,6 @@
 {
-  "*.{js,jsx,vue,ts,tsx}": [
-    "echo 1"
+  "*.{ts,tsx}": [
+    "pnpm run lint",
+    "pnpm run format"
   ]
 }

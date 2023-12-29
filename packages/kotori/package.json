@@ -31,8 +31,5 @@
     "@kotori-bot/logger": "workspace:^",
     "@kotori-bot/tools": "workspace:^",
     "tsukiko": "^1.2.1"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

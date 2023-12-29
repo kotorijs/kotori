@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/root",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "ChatBot Framework",
   "private": true,
   "scripts": {
@@ -10,10 +10,10 @@
     "dev": "pnpm build && pnpm run loader dev",
     "dev:only": "pnpm run loader dev",
     "test": "echo testing",
-    "lint": "eslint \"{packages,modules}/**/src/*.{ts,tsx}\" --fix",
-    "format": "prettier --config .prettierrc \"{packages,modules}/**/src/*.ts\" --write",
+    "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
+    "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "pnpm changeset publish"
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
@@ -28,13 +28,11 @@
     "eslint-plugin-import": "^2.28.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.0",
-    "prettier": "^3.0.2",
-    "standard-version": "^9.5.0"
+    "prettier": "^3.0.2"
   },
   "files": [
-    "./{packages,modules}/*/{dist,lib}/**/*.js",
-    "./{packages,modules}/*/{package.json,LICENSE,README.md}",
+    "{packages,modules}/*/{dist,lib}/**/*.js",
+    "{packages,modules}/*/{package.json,LICENSE,README.md}",
     "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml,favicon.ico}"
   ],
   "dependencies": {

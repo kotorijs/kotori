@@ -7,8 +7,5 @@
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
