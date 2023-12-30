@@ -34,17 +34,17 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
           body: |
-            New Release ${{ github.ref }} 
+            New Release ${{ github.ref_name }} 
             [CHANGELOG](https://github.com/kotorijs/kotori/blob/master/packages/kotori/CHANGELOG.md)
           files: |
-            kotori-bot-v1.1.0.tgz
+            ./packages/kotori/kotori-bot-v1.1.0.tgz
             LICENSE
-      - name: Publish packages
-        run: pnpm run publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Publish packages
+      #   run: pnpm run publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
