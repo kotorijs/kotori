@@ -10,7 +10,7 @@
     },
   },
   "include": [
-    "packages/*/src/**/*",
-    "modules/*/src/**/*"
+    "packages/*/src/**/*.ts",
+    "modules/*/src/**/*.ts"
   ],
 }

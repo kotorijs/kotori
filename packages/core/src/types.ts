@@ -4,7 +4,7 @@ import { LocaleType } from '@kotori-bot/i18n';
 import type Api from './components/api';
 import type Adapter from './components/adapter';
 import type Context from './context';
-import { defaultConfig } from './core/core';
+import { defaultConfig } from './base/core';
 import type Elements from './components/elements';
 import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from './consts';
 

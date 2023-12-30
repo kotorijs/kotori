@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.node.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./lib"
+  },
+  "references": [
+    {
+      "path": "../i18n"
+    },
+    {
+      "path": "../logger"
+    },
+    {
+      "path": "../tools"
+    }
+  ]
+}

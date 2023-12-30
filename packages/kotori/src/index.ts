@@ -1,35 +1,7 @@
-import { none } from '@kotori-bot/tools';
-import Context from './context';
+import { Context, ContextInstance } from '@kotori-bot/core';
 
-export * from './components/adapter';
-export * from './components/api';
-export * from './components/elements';
-export * from './context';
-export * from './utils/errror';
-export * from './consts';
-export * from './types';
-export * from '@kotori-bot/tools';
-export * from 'tsukiko';
+export * from '@kotori-bot/core';
 
-export class ContextInstance {
-	protected constructor() {
-		none();
-	}
-
-	private static instance: Context = {} as Context;
-
-	protected static setInstance(ctx: Context) {
-		this.instance = ctx;
-	}
-
-	public static getInstance() {
-		return this.instance;
-	}
-
-	public static getMixin() {
-		return Object.assign(ContextInstance.getInstance() /* , Context */);
-	}
-}
 // const ctx = ContextInstance.get();
 
 // namespace KotoriSpace {
@@ -56,11 +28,11 @@ export class ContextInstance {
 // }
 
 export const Kotori: typeof Context & Context = new Proxy(ContextInstance.getMixin(), {
-	get: (_, prop) => {
-		const target = ContextInstance.getMixin();
-		if (prop === undefined) return target;
-		return target[prop as keyof typeof target];
-	},
+  get: (_, prop) => {
+    const target = ContextInstance.getMixin();
+    if (prop === undefined) return target;
+    return target[prop as keyof typeof target];
+  },
 });
 
 export default Kotori;

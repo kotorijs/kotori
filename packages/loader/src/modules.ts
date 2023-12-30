@@ -9,10 +9,10 @@ import {
   OFFICIAL_MODULES_SCOPE,
   PLUGIN_PREFIX,
   stringRightSplit,
-} from 'kotori-bot';
+} from '@kotori-bot/core';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 
-declare module 'kotori-bot' {
+declare module '@kotori-bot/core' {
   interface Context {
     readonly moduleAll?: () => void;
     readonly watchFile?: () => void;
@@ -49,6 +49,7 @@ export class Modules extends Context {
     files.forEach(fileName => {
       const dir = path.join(rootDir, fileName);
       if (!fs.statSync(dir).isDirectory()) return;
+      if (rootDir !== this.baseDir.modules && fileName.startsWith(PLUGIN_PREFIX)) return;
       const packagePath = path.join(dir, 'package.json');
       let packageJson: ModulePackage;
       if (!fs.existsSync(packagePath)) return;
@@ -57,9 +58,9 @@ export class Modules extends Context {
       } catch {
         throw new DevError(`illegal package.json ${packagePath}`);
       }
-      if (!ModulePackageSchema.check(packageJson)) {
-        if (rootDir !== this.baseDir.modules) return;
-        throw new DevError(`package.json format error ${packagePath}`);
+      const result = ModulePackageSchema.parseSafe(packageJson);
+      if (!result.value && rootDir === this.baseDir.modules) {
+        throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);

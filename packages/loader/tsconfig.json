@@ -1,18 +1,15 @@
 {
   "extends": "../../tsconfig.node.json",
   "compilerOptions": {
-    "incremental": false,
-    "composite": false,
     "rootDir": "./src",
     "outDir": "./lib"
   },
   "references": [
     {
-      "path": "../kotori"
+      "path": "../core"
     }
   ],
   "ts-node": {
-    // "esm": true,
     "experimentalSpecifierResolution": "node"
   }
 }
