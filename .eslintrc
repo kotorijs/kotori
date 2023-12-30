@@ -41,6 +41,8 @@
       4
     ],
     "space-before-function-paren": 0,
+    /* special */
+    "@typescript-eslint/no-var-requires": 0,
     /* typescript need */
     "import/no-unresolved": 0,
     "import/extensions": 0,
@@ -71,6 +73,7 @@
   }, */
   "ignorePatterns": [
     "*.js",
+    "*.d.ts",
     "node_modules"
   ]
 }

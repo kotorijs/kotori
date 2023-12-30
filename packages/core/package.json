@@ -1,0 +1,30 @@
+{
+  "name": "@kotori-bot/core",
+  "version": "1.0.0",
+  "description": "Kotori Core",
+  "main": "lib/index.js",
+  "license": "GPL-3.0",
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "keywords": [
+    "chatbot",
+    "bot",
+    "kotori"
+  ],
+  "files": [
+    "lib"
+  ],
+  "bugs": {
+    "url": "https://github.com/kotorijs/kotori/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotorijs/kotori.git"
+  },
+  "homepage": "https://kotori.js.org",
+  "dependencies": {
+    "@kotori-bot/i18n": "workspace:^",
+    "@kotori-bot/logger": "workspace:^",
+    "@kotori-bot/tools": "workspace:^",
+    "tsukiko": "^1.2.1"
+  }
+}

@@ -7,3 +7,5 @@ lib
 tsconfig.tsbuildinfo
 pnpm-lock.yaml
 kotori.dev.yml
+
+scripts/*.js

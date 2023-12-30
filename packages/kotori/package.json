@@ -1,10 +1,17 @@
 {
   "name": "kotori-bot",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "ChatBot Framework Base For NodeJS And TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
+  "scripts": {
+    "dev": "ts-node --esm -r tsconfig-paths/register ./src/dev.ts --no-signale",
+    "build": "tsc --build"
+  },
+  "bin": {
+    "kotori": "./lib/cli.js"
+  },
   "keywords": [
     "chatbot",
     "bot",
@@ -27,9 +34,8 @@
   },
   "homepage": "https://kotori.js.org",
   "dependencies": {
-    "@kotori-bot/i18n": "workspace:^",
-    "@kotori-bot/logger": "workspace:^",
-    "@kotori-bot/tools": "workspace:^",
-    "tsukiko": "^1.2.1"
+    "@kotori-bot/core": "workspace:^",
+    "@kotori-bot/loader": "workspace:^",
+    "cac": "^6.7.14"
   }
 }

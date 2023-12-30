@@ -3,42 +3,36 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-24 21:49:47
+ * @LastEditTime: 2023-12-30 19:12:43
  */
-import { KotoriError, type EventType, ContextInstance, Tsu, AdapterConfig, KotoriConfig } from 'kotori-bot';
+import { KotoriError, type EventType, ContextInstance, Tsu, AdapterConfig, KotoriConfig } from '@kotori-bot/core';
 import Modules from './modules';
-import { getBaseDir, getGlobalConfig } from './global';
+import { getBaseDir, getGlobalConfig, isDev } from './global';
 import loadInfo from './log';
 
 const enum GLOBAL {
   REPO = 'https://github.com/kotorijs/kotori',
 }
 
-const isDev = process.env.NODE_ENV === 'dev';
-
-const kotoriConfig: KotoriConfig = (() => {
+const kotoriConfig = (): KotoriConfig => {
   let result = {} as KotoriConfig;
-  try {
-    const baseDir = getBaseDir();
-    result = {
-      baseDir,
-      config: getGlobalConfig(baseDir),
-      options: {
-        env: isDev ? 'dev' : 'build',
-      },
-    };
-  } catch (err) {
-    console.error(err instanceof Error ? err.message : err);
-  }
+  const baseDir = getBaseDir();
+  result = {
+    baseDir,
+    config: getGlobalConfig(baseDir),
+    options: {
+      env: isDev() ? 'dev' : 'build',
+    },
+  };
   return result;
-})();
+};
 
 class Main extends ContextInstance {
   private ctx: Modules;
 
   public constructor() {
     super();
-    ContextInstance.setInstance(new Modules(kotoriConfig));
+    ContextInstance.setInstance(new Modules(kotoriConfig()));
     this.ctx = ContextInstance.getInstance() as Modules;
     // 静态类型继续居然她妈是隔离的
   }
@@ -106,7 +100,7 @@ class Main extends ContextInstance {
 
   private loadAllModule() {
     this.ctx.moduleAll();
-    if (isDev) this.ctx.watchFile();
+    if (isDev()) this.ctx.watchFile();
   }
 
   private loadAllAdapter() {
