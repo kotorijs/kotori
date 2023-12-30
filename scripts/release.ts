@@ -88,7 +88,7 @@ import { resolve } from 'path';
       },
     ]);
     await echo('git add .');
-    await echo(`git commit -m 'chore: ${version}'`);
+    await echo(`git commit -m "chore: ${version}"`);
     if (!answer2.push) {
       console.info(`All ok!\nPlease enter "git push origin ${config.branch} --tags"`);
       return;
