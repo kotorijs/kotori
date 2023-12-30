@@ -39,7 +39,7 @@ jobs:
             [CHANGELOG](https://github.com/kotorijs/kotori/blob/master/packages/kotori/CHANGELOG.md)
             prerelease: false
           files: |
-            kotori-bot-*.tgz
+            kotori-bot-v1.1.0.tgz
             LICENSE
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
