@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Adapter For QQ Base On Tencent Api",
   "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --build"
+  },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "scripts": {

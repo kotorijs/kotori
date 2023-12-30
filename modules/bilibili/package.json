@@ -3,6 +3,9 @@
   "version": "1.1.0",
   "description": "bilibili plugin",
   "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --build"
+  },
   "license": "GPL-3.0",
   "author": "Himeno <biyuehuya@gmail.com>",
   "peerDependencies": {

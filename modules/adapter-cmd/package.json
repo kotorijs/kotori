@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Adapter For Cmd",
   "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --build"
+  },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {

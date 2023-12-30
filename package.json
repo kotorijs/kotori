@@ -5,10 +5,10 @@
   "private": true,
   "scripts": {
     "loader": "pnpm --filter @kotori-bot/loader",
-    "build": "pnpm run loader build",
+    "build": "pnpm -r build",
     "start": "pnpm run loader start",
     "dev:only": "pnpm run loader dev",
-    "dev": "pnpm build && pnpm run dev:only",
+    "dev": "pnpm run build && pnpm run dev:only",
     "test": "echo testing",
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
