@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v*.*.*'
-    branches:
-      - master
 
 jobs:
   release:
@@ -21,13 +19,14 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
       - name: Install packages
         run: pnpm install
       - name: Build packages
         run: pnpm build
       - name: Zip main package
-        run: cd ./packages/kotori
+        run: |
+          cd ./packages/kotori
           pnpm pack
       - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v1
