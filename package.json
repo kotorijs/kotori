@@ -19,11 +19,6 @@
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
-  "files": [
-    "{packages,modules}/*/{dist,lib}/**/*.js",
-    "{packages,modules}/*/{package.json,LICENSE,README.md}",
-    "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml}"
-  ],
   "bin": {
     "release": "./scripts/release.ts"
   },
