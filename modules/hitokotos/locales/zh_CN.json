@@ -1,6 +1,0 @@
-{
-  "hitokotos.descr.hitokotos.help": "随机语录",
-  "hitokotos.descr.hitokoto.help": "获取一条一言",
-  "hitokotos.msg.hitokoto": "%msg%%from%\n类型： %type%",
-  "hitokotos.msg.list": "%content%"
-}

@@ -1,7 +1,0 @@
-{
-  "music.descr.music": "NetEaseクラウドミュージック、デフォルトの曲番号は1、曲リストを表示するには0を入力",
-  "music.msg.music": "楽曲ID: %songid%\n曲名: %title%\nアーティスト: %author%\nダウンロード: %url%\nジャケット: %image%",
-  "music.msg.music.list": "%num%.%title% - %author%\n",
-  "music.msg.music.lists": "%list%コマンドを再送信し、対応するコンテンツを選択するために[番号]を入力してください。\n例: /コマンド コンテンツ 2",
-  "music.msg.music.fail": "楽曲が見つかりません: %input%"
-}
