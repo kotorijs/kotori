@@ -1,4 +1,4 @@
-import { Context, Tsu, stringTemp } from 'kotori-bot';
+import { CommandResult, Context, Tsu, stringTemp } from 'kotori-bot';
 import http from './http';
 
 const bgm1Schema = Tsu.Object({
@@ -74,7 +74,7 @@ export function main(ctx: Context) {
     }
 
     const result = res.list[(data.args[1] as number) - 1];
-    if (!result) return session.error('num_error');
+    if (!result) return session.error('num_error' as keyof CommandResult);
     const res2 = bgm2Schema.parse(await http(`v0/subjects/${result.id}`));
     if ('title' in res2) return ['bangumi.msg.bgm.fail', { input: data.args[0] }];
     return [
