@@ -23,6 +23,8 @@
   },
   "files": [
     "{packages,modules}/*/{lib,dist}/**/*.js",
+    "{packages,modules}/*/{package.json,LICENSE,README.md}",
+    "!scripts",
     "README.md",
     "LICENSE",
     "kotori.yml"
