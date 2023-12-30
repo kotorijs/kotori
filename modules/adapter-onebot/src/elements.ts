@@ -1,4 +1,4 @@
-import { ElementsParam, none } from 'kotori-bot';
+import { ElementsParam } from 'kotori-bot';
 
 /* 
 
@@ -24,27 +24,27 @@ declare module 'kotori-bot' {
 		onebot: OneBotApiExtra;
 	}
 }
-*/ 
+*/
 
 export const OneBotElements: ElementsParam = {
-	at(target) {
-		return `[CQ:at,qq=${target}]`;
-	},
-	image(url) {
-		return `[CQ:image,file=${url},cache=0]`;
-	},
-	voice(url) {
-		return `[CQ:voice,file=${url}]`;
-	},
-	video(url) {
-		return `[CQ:video,file=${url}]`;
-	},
-	face(id) {
-		return `[CQ:face,id=${id}]`;
-	},
-	file(data) {
-		return `[CQ:file,file=${data}]`;
-	},
+  at(target) {
+    return `[CQ:at,qq=${target}]`;
+  },
+  image(url) {
+    return `[CQ:image,file=${url},cache=0]`;
+  },
+  voice(url) {
+    return `[CQ:voice,file=${url}]`;
+  },
+  video(url) {
+    return `[CQ:video,file=${url}]`;
+  },
+  face(id) {
+    return `[CQ:face,id=${id}]`;
+  },
+  file(data) {
+    return `[CQ:file,file=${data}]`;
+  },
 };
 
 export default OneBotElements;

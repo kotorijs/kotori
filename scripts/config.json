@@ -1,4 +1,11 @@
 {
   "branch": "master",
-  "package": "../packages/kotori/package.json"
+  "package": "../packages/kotori/",
+  "beforeVersion": [
+    "pnpm run lint",
+    "pnpm run format"
+  ],
+  "beforeAddcommit": [
+    "pnpm run version"
+  ]
 }
