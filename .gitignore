@@ -9,3 +9,5 @@ pnpm-lock.yaml
 kotori.dev.yml
 
 scripts/*.js
+
+modules2
