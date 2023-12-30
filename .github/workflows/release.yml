@@ -32,13 +32,14 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          body: |
-            ${{ steps.changelog.outputs.clean_changelog }}
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          body: New Release ${{ github.ref }}.
+          draft: false
+          prerelease: false
           files: |
-            'kotori-bot-**.tgz'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            kotori-bot-*.tgz
+            LICENSE
       - name: Publish packages
         run: pnpm run publish
         env:
