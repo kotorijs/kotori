@@ -28,9 +28,10 @@ jobs:
       - name: Build packages
         run: pnpm build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
+          name: packages
           path: |
-            "{packages,modules}/*/{dist,lib}/**/*.js",
-            "{packages,modules}/*/{package.json,LICENSE,README.md}",
-            "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml}"
+            packages
+            modules
+            !packages/*/src
