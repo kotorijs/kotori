@@ -7,28 +7,34 @@
     "loader": "pnpm --filter @kotori-bot/loader",
     "build": "pnpm run loader build",
     "start": "pnpm run loader start",
-    "dev": "pnpm build && pnpm run loader dev",
     "dev:only": "pnpm run loader dev",
+    "dev": "pnpm build && pnpm run dev:only",
     "test": "echo testing",
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "prepare": "husky install",
-    "changelog": "conventional-changelog -i CHANGELOG.md -s && git add changelog",
-    "release:pre": "pnpm changeset && pnpm changeset",
-    "release": "pnpm run release:pre && pnpm changeset publish"
+    "version": "pnpm changeset && pnpm changeset version && pnpm exec conventional-changelog -p eslint -i CHANGELOG.md -s && git add {CHANGELOG.md,package.json}",
+    "release": "pnpmr run version && pnpm exec release",
+    "publish": "pnpm changeset publish --no-git-tag"
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "files": [
     "{packages,modules}/*/{dist,lib}/**/*.js",
     "{packages,modules}/*/{package.json,LICENSE,README.md}",
-    "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml,favicon.ico}"
+    "./{package.json,README.md,pnpm-workspace.yaml,kotori.yml}"
   ],
+  "bin": {
+    "release": "./scripts/release.ts"
+  },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@types/inquirer": "^9.0.7",
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
+    "cli-pkg": "^0.0.2",
     "conventional-changelog-cli": "^4.1.0",
     "eslint": "^8.47.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -37,6 +43,7 @@
     "eslint-plugin-import": "^2.28.0",
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^8.0.3",
+    "inquirer": "^9.2.12",
     "prettier": "^3.0.2"
   }
 }
