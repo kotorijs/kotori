@@ -1,7 +1,9 @@
 node_modules
 dist
 lib
-tsconfig.tsbuildinfo
 .husky/_
+
+*.tgz
+tsconfig.tsbuildinfo
 pnpm-lock.yaml
 kotori.dev.yml
