@@ -34,12 +34,15 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           name: Release ${{ github.ref }}
-          body: New Release ${{ github.ref }}.
-          draft: false
-          prerelease: false
+          body: |
+            New Release ${{ github.ref }} 
+            [CHANGELOG](https://github.com/kotorijs/kotori/blob/master/packages/kotori/CHANGELOG.md)
+            prerelease: false
           files: |
             kotori-bot-*.tgz
             LICENSE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish packages
         run: pnpm run publish
         env:
