@@ -7,6 +7,10 @@
     "build": "tsc --build"
   },
   "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"

@@ -4,6 +4,10 @@
   "description": "Plugin Of For Minecraft!",
   "main": "src/index.ts",
   "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "README.md"
+  ],
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"

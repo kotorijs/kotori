@@ -4,13 +4,14 @@
   "description": "Adapter For QQ Base On Tencent Api",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc --build"
-  },
-  "license": "GPL-3.0",
-  "author": "Hotaru <biyuehuya@gmail.com>",
-  "scripts": {
     "test": "ts-node ./src/test"
   },
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
