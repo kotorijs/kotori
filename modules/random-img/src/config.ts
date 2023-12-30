@@ -6,7 +6,7 @@
  * @LastEditTime: 2023-08-20 10:42:08
  */
 export default {
-	day: {
-		apiKey: '1c42abefdb5f7cc463dbc88e82d561b1',
-	},
+  day: {
+    apiKey: '1c42abefdb5f7cc463dbc88e82d561b1',
+  },
 };

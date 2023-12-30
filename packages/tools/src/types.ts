@@ -7,7 +7,7 @@
  */
 
 export interface obj<T = any> {
-	[propName: string]: T;
+  [propName: string]: T;
 }
 
 export type ConfigFileType = 'json' | 'yaml' /* | 'xml' | 'ini'  */ | 'txt';
@@ -19,7 +19,7 @@ export type StringTempArgs = obj<string | number | void>;
 export type ObjectValue<T extends obj> = T extends obj<infer V> ? V : never;
 export type ArrayValue<T extends unknown[]> = T extends (infer E)[] ? E : never;
 export type ObjectArrayValue<T extends obj | unknown[]> = T extends obj
-	? ObjectValue<T>
-	: T extends unknown[]
-	? ArrayValue<T>
-	: never;
+  ? ObjectValue<T>
+  : T extends unknown[]
+  ? ArrayValue<T>
+  : never;

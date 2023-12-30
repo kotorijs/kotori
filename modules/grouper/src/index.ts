@@ -1,12 +1,12 @@
 import Kotori, { Tsu, getDate } from 'kotori-bot';
 
 const hitokotoSchema = Tsu.Object({
-	data: Tsu.Object({
-		msg: Tsu.String(),
-		from: Tsu.String().optional(),
-		likes: Tsu.Number(),
-		type: Tsu.String(),
-	}),
+  data: Tsu.Object({
+    msg: Tsu.String(),
+    from: Tsu.String().optional(),
+    likes: Tsu.Number(),
+    type: Tsu.String(),
+  }),
 });
 
 /*
@@ -74,18 +74,18 @@ Alias('资料卡', async (_send, data) => {
 const signData: string[] = [];
 
 Kotori.regexp(/^(签到|打卡)$/, async (data, session) => {
-	const time = getDate();
-	if (!session.groupId) return '';
-	// const groupData = queryExp(data.groupId!, data.userId)[1];
-	const at = session.el.at(session.userId);
-	const identier = `${session.groupId}&${session.userId}&${time}`;
-	if (signData.includes(identier)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
-	signData.push(identier);
-	const res = await Kotori.http.get('https://hotaru.icu/api/hitokoto/v2/');
-	const hitokoto = hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '';
-	const image = session.el.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images');
-	return ['%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%', { at, image, hitokoto }];
-	/* 	if (!(data.userId in groupData)) groupData[data.userId] = defaultData;
+  const time = getDate();
+  if (!session.groupId) return '';
+  // const groupData = queryExp(data.groupId!, data.userId)[1];
+  const at = session.el.at(session.userId);
+  const identier = `${session.groupId}&${session.userId}&${time}`;
+  if (signData.includes(identier)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
+  signData.push(identier);
+  const res = await Kotori.http.get('https://hotaru.icu/api/hitokoto/v2/');
+  const hitokoto = hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '';
+  const image = session.el.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images');
+  return ['%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%', { at, image, hitokoto }];
+  /* 	if (!(data.userId in groupData)) groupData[data.userId] = defaultData;
 	if (groupData[data.userId].sign.includes(time)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
 	groupData[data.userId].sign.push(time);
 	saveData(groupData, data.groupId!);

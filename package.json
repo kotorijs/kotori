@@ -12,8 +12,9 @@
     "test": "echo testing",
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
-    "version": "pnpm changeset && pnpm changeset version && pnpm exec conventional-changelog -p eslint -i CHANGELOG.md -s && git add {CHANGELOG.md,package.json}",
-    "release": "pnpm run version && pnpm exec release",
+    "version": "cd ./packages/kotori && pnpm exec conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "release": "pnpm changeset && pnpm exec release",
+    "release:only": "pnpm exec release",
     "publish": "pnpm changeset publish --no-git-tag"
   },
   "license": "GPL-3.0",
