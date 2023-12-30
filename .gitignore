@@ -4,3 +4,4 @@ lib
 tsconfig.tsbuildinfo
 .husky/_
 pnpm-lock.yaml
+kotori.dev.yml
