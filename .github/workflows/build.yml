@@ -27,11 +27,11 @@ jobs:
         run: pnpm install
       - name: Build packages
         run: pnpm build
+      - name: Zip packages
+        run: pnpm pack
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: packages
+          name: kotori-bot-root
           path: |
-            packages
-            modules
-            !packages/*/src
+            kotori-bot-*.tgz

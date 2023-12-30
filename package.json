@@ -21,6 +21,12 @@
   "bin": {
     "release": "./scripts/release.ts"
   },
+  "files": [
+    "{packages,modules}/*/{lib,dist}/**/*.js",
+    "README.md",
+    "LICENSE",
+    "kotori.yml"
+  ],
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "@release-it/conventional-changelog": "^8.0.1",
