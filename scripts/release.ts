@@ -8,7 +8,7 @@ import { resolve } from 'path';
 const config = {
   branch: 'master',
   remote: 'origin',
-  // registry: 'https://registry.npmjs.org/',
+  registry: 'https://registry.npmjs.org/',
   main: 'kotori-bot',
   root: '@kotori-bot/root',
   sync: ['@kotori-bot/core'],
@@ -155,7 +155,7 @@ type Option = {
   await setVersions(packages);
 
   /* Lifecycle: beforeAddcommit */
-  log('Run eslint and prettier...');
+  log('Run eslint, prettier and conventional-changelog...');
   await hooks(config.hooks.beforeAddcommit);
 
   /* Step: spawn tag */
@@ -170,7 +170,7 @@ type Option = {
       message: 'Do you need zip main package?',
       default: true,
     });
-    if (answer.value) await step(`pnpm pack --pack-destination "${ROOT_DIR}"`, undefined, { cwd: mainPkg.dir });
+    if (answer.value) await step('pnpm pack --pack-destination', [ROOT_DIR], { cwd: mainPkg.dir });
   }
 
   /* Step: push to remote branch */
@@ -194,11 +194,12 @@ type Option = {
   /* Step: checkout registry and publish */
   if (answer.publish) {
     log('Publish...');
-    // const originRegistry = (await execa('pnpm config get registry')).stdout.replace(/(\n)|(\r)/g, '');
-    // await execa(`pnpm config set registry "${config.registry}"`);
+    const originRegistry = (await execa('pnpm config get registry')).stdout;
+    await execa('pnpm config set registry', [config.registry ?? originRegistry]);
     await publishPackages(packages.filter(pkg => pkg.packageJson.private !== true));
-    // await execa(`pnpm config set registry "${originRegistry}"`);
+    await execa(`pnpm config set registry`, [originRegistry]);
   }
+
   /* ending */
   if (!answer.push) log(`\nPlease enter "${pushCommand}"`);
   log(`All ok!`);
