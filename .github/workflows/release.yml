@@ -12,39 +12,13 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Install packages
-        run: pnpm install
-      - name: Build packages
-        run: pnpm build
-      - name: Zip main package
-        run: |
-          cd ./packages/kotori
-          pnpm pack
-      - name: Create Release and Upload Asset
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           draft: false
           prerelease: false
           body: |
-            New Release ${{ github.ref_name }} 
-            [CHANGELOG](https://github.com/kotorijs/kotori/blob/master/packages/kotori/CHANGELOG.md)
-          files: |
-            ./packages/kotori/kotori-bot-v1.1.0.tgz
-            LICENSE
-      # - name: Publish packages
-      #   run: pnpm run publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            Please refer to [CHANGELOG.md](https://github.com/kotorijs/kotori/blob/master/CHANGELOG.md) for details.
