@@ -171,7 +171,7 @@ type Option = {
       message: 'Do you need zip main package?',
       default: true,
     });
-    if (answer.value) await step('pnpm pack --pack-destination ../../', undefined, { cwd: mainPkg.dir });
+    if (answer.value) await step(`pnpm pack --pack-destination "${ROOT_DIR}"`, undefined, { cwd: mainPkg.dir });
   }
 
   /* Step: push to remote branch */
