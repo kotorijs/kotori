@@ -1,1 +1,0 @@
-./packages/kotori/CHANGELOG.md

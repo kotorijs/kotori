@@ -1,7 +1,0 @@
-{
-    "core.descr.bot": "View BOT info and status",
-    "core.msg.bot": "BOT Info\nBOT QQ: %self_id%\nConnect time: %connect%\nPackets received: %packet_received%\nPackets sent: %packet_sent%\nPackets lost: %packet_lost%\nMessages received: %message_received%\nMessages sent: %message_sent%\nLost connections: %lost_times%\nDisconnects: %disconnect_times%\nLast message time: %last_message_time%\n%AUTHOR%",
-    "core.msg.ver": "KotoriBot version: %version%\nLicense: %license%\n%AUTHOR%",
-    "core.descr.status": "View server running status",
-    "core.msg.status": "Server status\nKernel: %type%\nPlatform: %platform%\nCPU architecture: %arch%\nCPU model: %model%\nCPU speed: %speed%GHz\nCPU cores: %num%\nCPU usage: %cpu_rate%%\nTotal memory: %total%GB\nAvailable memory: %used%GB\nMemory usage: %ram_rate%%\nNetwork cards: %network%\nUptime: %time%\nHostname: %hostname%\nHome dir: %homedir%\n%AUTHOR%"
-}
