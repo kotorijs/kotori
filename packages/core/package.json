@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/core",
-  "version": "v1.0.1",
+  "version": "v1.0.0",
   "description": "Kotori Core",
   "main": "lib/index.js",
   "license": "GPL-3.0",

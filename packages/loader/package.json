@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/loader",
-  "version": "1.1.0",
+  "version": "v1.2.0",
   "description": "Loader For KotoriBot",
   "license": "GPL-3.0",
   "main": "lib/index.js",
