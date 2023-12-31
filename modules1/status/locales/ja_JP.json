@@ -1,6 +1,0 @@
-{
-    "core.descr.bot": "BOT情報とステータスを表示",
-    "core.msg.bot": "BOT情報\nBOT QQ: %self_id%\n接続時間: %connect%\n受信パケット数: %packet_received%\n送信パケット数: %packet_sent%\nパケットロス数: %packet_lost%\n受信メッセージ数: %message_received%\n送信メッセージ数: %message_sent%\n接続ロスト回数: %lost_times%\n切断回数: %disconnect_times%\n最終メッセージ時間: %last_message_time%\n%AUTHOR%",
-    "core.descr.status": "サーバーの実行状況を確認する",
-    "core.msg.status": "サーバーステータス\nカーネル: %type%\nプラットフォーム: %platform%\nCPUアーキテクチャ: %arch%\nCPUモデル: %model%\nCPU速度: %speed%GHz\nCPUコア数: %num%\nCPU使用率: %cpu_rate%%\nメモリ総量: %total%GB\n利用可能メモリ: %used%GB\nメモリ使用率: %ram_rate%%\nネットワークカード数: %network%\n起動時間: %time%\nホスト名: %hostname%\nホームディレクトリ: %homedir%\n%AUTHOR%"
-}

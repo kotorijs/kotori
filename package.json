@@ -1,7 +1,8 @@
 {
   "name": "@kotori-bot/root",
-  "version": "1.0.0",
   "description": "ChatBot Framework",
+  "version": "1.0.0",
+  "packageManager": "pnpm@8.7.4",
   "private": true,
   "scripts": {
     "kotori": "pnpm --filter kotori-bot",
@@ -12,10 +13,9 @@
     "test": "echo testing",
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
-    "version": "cd ./packages/kotori && pnpm exec conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "release": "pnpm changeset && pnpm exec release",
-    "release:only": "pnpm exec release",
-    "publish": "pnpm changeset publish --no-git-tag"
+    "version": "pnpm exec conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "release": "pnpm exec release",
+    "release:only": "pnpm exec release"
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
@@ -28,11 +28,11 @@
     "kotori.yml"
   ],
   "bin": {
-    "release": "./scripts/release.ts"
+    "release": "./scripts/release.ts",
+    "release3": "./scripts/release3.ts"
   },
   "devDependencies": {
-    "tsconfig-paths": "^4.2.0",
-    "@changesets/cli": "^2.27.1",
+    "@manypkg/get-packages": "^2.2.0",
     "@types/inquirer": "^9.0.7",
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
@@ -46,6 +46,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "execa": "^8.0.1",
     "inquirer": "^9.2.12",
-    "prettier": "^3.0.2"
+    "prettier": "^3.0.2",
+    "tsconfig-paths": "^4.2.0"
   }
 }
