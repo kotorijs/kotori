@@ -25,7 +25,6 @@ const config = {
 
 const ROOT_DIR = resolve(__dirname, '../');
 const WORKSPACE = getPackagesSync(ROOT_DIR);
-const MAIN_PACKAGE = getTargetPackage(config.main, WORKSPACE.packages);
 
 function getTargetPackage(pkgName: string, pkgs: Package[]) {
   const filterPackages = pkgs.filter(pkg => pkg.packageJson.name === pkgName);
@@ -84,20 +83,20 @@ type Option = {
     return handle.split('.').map(val => parseInt(val, 10));
   }
 
-  function isUpdateVersion(pkgName: string, version: Version) {
+  function isUpdateVersion(version: Version) {
     return prompt({
       type: 'confirm',
       name: 'value',
-      message: `For ${pkgName} : update ${version} version?`,
+      message: `Do you want to update ${version} version?`,
       default: false,
     });
   }
 
-  async function getVersion(pkg: Package) {
-    const version = parseVersion(pkg.packageJson.version);
-    if ((await isUpdateVersion(pkg.packageJson.name, 'Major')).value) return `v${version[0] + 1}.0.0`;
-    if ((await isUpdateVersion(pkg.packageJson.name, 'Minor')).value) return `v${version[0]}.${version[1] + 1}.0`;
-    return `v${version[0]}.${version[1]}.${version[2] + 1}`;
+  async function genVersion() {
+    if ((await isUpdateVersion(/* pkg.packageJson.name,  */ 'Major')).value)
+      return (version: number[]) => `v${version[0] + 1}.0.0`;
+    if ((await isUpdateVersion('Minor')).value) return (version: number[]) => `v${version[0]}.${version[1] + 1}.0`;
+    return (version: number[]) => `v${version[0]}.${version[1]}.${version[2] + 1}`;
   }
 
   function setVersion(pkg: Package) {
@@ -106,32 +105,20 @@ type Option = {
   }
 
   async function setVersions(pkgs: Package[]) {
+    const getVersion = await genVersion();
     const mainPkg = getTargetPackage(config.main, pkgs);
     if (mainPkg) {
-      pkgs.push(
-        ...(config.sync
-          .map(pkgName => getTargetPackage(pkgName, WORKSPACE.packages))
-          .filter(pkg => !!pkg) as Package[]),
-      );
-      if (WORKSPACE.rootPackage) pkgs.push(WORKSPACE.rootPackage);
+      const extraPkgs = config.sync.map(pkgName => getTargetPackage(pkgName, WORKSPACE.packages));
+      extraPkgs.push(WORKSPACE.rootPackage as (typeof extraPkgs)[0]);
     }
-    const res = await Promise.all(
-      pkgs.map(async pkg => {
-        const handle = pkg;
-        /* Sync packages version by main package */
-        if (
-          config.sync.includes(pkg.packageJson.name) ||
-          pkg.packageJson.name === WORKSPACE.rootPackage?.packageJson.name
-        ) {
-          handle.packageJson.version = MAIN_PACKAGE!.packageJson.version;
-          return handle;
-        }
-        handle.packageJson.version = await getVersion(pkg);
-        if (handle.packageJson.name === config.main) MAIN_PACKAGE!.packageJson.version = handle.packageJson.version;
-        return handle;
-      }),
-    );
-    res.forEach(pkg => setVersion(pkg));
+    pkgs.forEach(pkg => {
+      const pkgJson = pkg.packageJson;
+      pkgJson.version =
+        pkgJson.name === WORKSPACE.rootPackage?.packageJson.name || config.sync.includes(pkgJson.name)
+          ? mainPkg!.packageJson.version
+          : getVersion(parseVersion(pkg.packageJson.version));
+      setVersion(pkg);
+    });
   }
 
   async function handleGit(version: string) {
@@ -165,6 +152,22 @@ type Option = {
   log('Run eslint and prettier...');
   await hooks(config.hooks.beforeAddcommit);
 
+  const mainPkg = getTargetPackage(config.main, packages);
+  if (mainPkg) {
+    /* Step: spawn tag */
+    log('Adding tag...');
+    await handleGit(mainPkg.packageJson.version);
+    /* Step: zip main package */
+    const answer = await prompt({
+      type: 'confirm',
+      name: 'value',
+      message: 'Do you need zip main package?',
+      default: true,
+    });
+    if (answer.value) await step('pnpm pack', undefined, { cwd: mainPkg.dir });
+  }
+
+  /* Step: push to remote branch */
   const answer = await prompt([
     {
       type: 'confirm',
@@ -179,22 +182,6 @@ type Option = {
       default: true,
     },
   ]);
-  const mainPkg = getTargetPackage(config.main, packages);
-  if (mainPkg) {
-    /* Step: spawn tag */
-    log('Adding tag...');
-    await handleGit(`v${mainPkg.packageJson.version}`);
-    /* Step: zip main package */
-    const answer = await prompt({
-      type: 'confirm',
-      name: 'value',
-      message: 'Do you need zip main package?',
-      default: true,
-    });
-    if (answer.value) await step('pnpm pack', undefined, { cwd: mainPkg.dir });
-  }
-
-  /* Step: push to remote branch */
   const pushCommand = `git push ${config.remote} ${config.branch} ${mainPkg ? '--tags' : ''}`;
   if (answer.push) await step(pushCommand);
 
