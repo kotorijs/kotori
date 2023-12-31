@@ -7,7 +7,7 @@ type HttpMethod<T = unknown> = (
   config?: AxiosRequestConfig<any>,
 ) => Promise<T>;
 
-type Method = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head';
+type Method = 'get' | 'delete' | 'head';
 
 export class Http {
   private config: AxiosRequestConfig;
@@ -36,10 +36,11 @@ export class Http {
   public readonly post: HttpMethod = async (url, params, config) =>
     (await axios.post(url, params, Object.assign(this.config, config))).data;
 
-  /* here need update */
-  public readonly patch: HttpMethod = (url, params, config) => this.method(url, params, config, 'patch');
+  public readonly patch: HttpMethod = async (url, params, config) =>
+    (await axios.patch(url, params, Object.assign(this.config, config))).data;
 
-  public readonly put: HttpMethod = (url, params, config) => this.method(url, params, config, 'put');
+  public readonly put: HttpMethod = async (url, params, config) =>
+    (await axios.put(url, params, Object.assign(this.config, config))).data;
 
   public readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
 

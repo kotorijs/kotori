@@ -50,27 +50,7 @@
     "no-unused-vars": 0,
     "no-shadow": 0,
     "no-redeclare": 0
-    // "@typescript-eslint/no-unused-vars": 0
   },
-  /*   "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          [
-            "@",
-            "./src"
-          ]
-        ],
-        "extensions": [
-          ".ts",
-          ".tsx",
-          ".js",
-          ".jsx",
-          ".json"
-        ]
-      }
-    }
-  }, */
   "ignorePatterns": [
     "*.js",
     "*.d.ts",

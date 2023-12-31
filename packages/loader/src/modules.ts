@@ -1,11 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 import {
+  ADAPTER_PREFIX,
+  CUSTOM_PREFIX,
   Context,
+  DATABASE_PREFIX,
+  DEFAULT_ADAPTER_PRIORITY,
+  DEFAULT_CUSTOM_PRIORITY,
+  DEFAULT_DATABASE_PRIORITY,
+  DEFAULT_PRIORITY,
   DevError,
   ModuleData,
   ModulePackage,
-  ModulePackageSchema,
+  ModulePackageSchemaController,
   OFFICIAL_MODULES_SCOPE,
   PLUGIN_PREFIX,
   stringRightSplit,
@@ -19,6 +26,12 @@ declare module '@kotori-bot/core' {
   }
 }
 
+function getDefaultPriority(pkgName: string) {
+  if (pkgName.includes(DATABASE_PREFIX)) return DEFAULT_DATABASE_PRIORITY;
+  if (pkgName.includes(ADAPTER_PREFIX)) return DEFAULT_ADAPTER_PRIORITY;
+  if (pkgName.includes(CUSTOM_PREFIX)) return DEFAULT_CUSTOM_PRIORITY;
+  return DEFAULT_PRIORITY;
+}
 export class Modules extends Context {
   private isDev = this.options.env === 'dev';
 
@@ -58,15 +71,18 @@ export class Modules extends Context {
       } catch {
         throw new DevError(`illegal package.json ${packagePath}`);
       }
-      const result = ModulePackageSchema.parseSafe(packageJson);
+      const result = ModulePackageSchemaController().parseSafe(packageJson);
       if (!result.value && rootDir === this.baseDir.modules) {
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
+      packageJson = ModulePackageSchemaController(getDefaultPriority(this.package.name)).parse(packageJson);
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
       const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
+
       this.moduleStack.push({
         package: packageJson,
+        config: Object.assign(packageJson.kotori.config, [stringRightSplit()] || {}) /* here */,
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
         mainPath: path.resolve(mainPath),
       });

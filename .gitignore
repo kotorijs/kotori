@@ -12,3 +12,9 @@ scripts/*.js
 
 modules2
 modules3
+# modules/*
+!modules/adapter-*
+!modules/core
+!modules/helper
+!modules/i18n-command
+!modules/menu

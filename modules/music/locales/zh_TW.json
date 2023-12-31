@@ -1,0 +1,7 @@
+{
+  "music.descr.music": "網易雲點歌,序號默認爲1，填0顯示歌曲列表",
+  "music.msg.music": "歌曲ID： %songid%\n歌曲標題：%title%\n歌曲作者： %author%\n歌曲下載：%url%\n歌曲封面：%image%",
+  "music.msg.music.list": "%num%。%title% - %author%\n",
+  "music.msg.music.lists": "%list%再次發送指令並傳入參數[序號]以選擇對應內容\n示例：/指令 內容 2",
+  "music.msg.music.fail": "未找到相關歌曲：%input%"
+}

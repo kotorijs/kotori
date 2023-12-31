@@ -13,26 +13,11 @@ import type {
   ApiConstructor,
   ElementsParam,
   MessageScope,
+  AdapterImpl,
+  AdapterStatus,
 } from '../types';
 import Service from './service';
 import Elements from './elements';
-
-interface Status {
-  value: 'online' | 'offline';
-  createTime: Date;
-  lastMsgTime: Date | null;
-  receivedMsg: number;
-  sentMsg: number;
-  offlineTimes: number;
-}
-
-interface AdapterImpl<T extends Api> {
-  readonly platform: string;
-  readonly selfId: EventDataTargetId;
-  readonly identity: string;
-  readonly api: T;
-  readonly status: Status;
-}
 
 // type AdapterSend = (...args: any[]) => void;
 
@@ -77,11 +62,11 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     ApiConstructor: ApiConstructor<T>,
     el: ElementsParam = {},
   ) {
-    super();
+    super('adapter', '');
+    this.ctx = ctx;
     this.config = config;
     this.identity = identity;
     this.platform = config.extends;
-    this.ctx = ctx;
     this.api = ApiProxy(new ApiConstructor(this, new Elements(el)), this.ctx);
     if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
     this.ctx.internal.getBots()[this.platform].push(this.api);
@@ -114,7 +99,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
       if (messageType === 'group') {
         this.api.send_group_msg(message, (data as unknown as { groupId: EventDataTargetId }).groupId, data.extra);
       } else {
-        this.api.send_private_msg(message, data.userId , data.extra);
+        this.api.send_private_msg(message, data.userId, data.extra);
       }
     };
     const locale = (val: string) => this.ctx.i18n.locale(val, this.config.lang);
@@ -162,7 +147,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
   public readonly api: T;
 
-  public readonly status: Status = {
+  public readonly status: AdapterStatus = {
     value: 'offline',
     createTime: new Date(),
     lastMsgTime: null,
