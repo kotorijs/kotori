@@ -155,11 +155,15 @@ type Option = {
   }
   await setVersions(packages);
 
+  /* Lifecycle: beforeAddcommit */
+  log('Run eslint and prettier...');
+  await hooks(config.hooks.beforeAddcommit);
+
   /* Step: spawn tag */
   const mainPkg = getTargetPackage(config.main, packages);
   if (mainPkg) {
-    log('Adding tag...');
     await handleGit(mainPkg.packageJson.version);
+    log('Adding tag...');
     /* Step: zip main package */
     const answer = await prompt({
       type: 'confirm',
@@ -169,10 +173,6 @@ type Option = {
     });
     if (answer.value) await step('pnpm pack --pack-destination ../../', undefined, { cwd: mainPkg.dir });
   }
-
-  /* Lifecycle: beforeAddcommit */
-  log('Run eslint and prettier...');
-  await hooks(config.hooks.beforeAddcommit);
 
   /* Step: push to remote branch */
   const answer = await prompt([
