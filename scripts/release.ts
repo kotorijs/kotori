@@ -43,10 +43,14 @@ type Option = {
   const { execa } = await import('execa');
 
   async function step(cmd: string, args?: string[], option: Option = { cwd: ROOT_DIR }, print: boolean = false) {
-    const entity = await execa(cmd, args, option);
-    const { stdout, stderr } = entity;
-    if (stderr) error('Error:', stderr, `\nAt "${cmd}"`);
-    log(print ? `Result: ${stdout}` : `Success: ${cmd}`);
+    try {
+      const entity = await execa(cmd, args, option);
+      const { stdout, stderr } = entity;
+      if (stderr) error('Error:', stderr, `\nAt "${cmd}"`);
+      log(print ? `Result: ${stdout}` : `Success: ${cmd}`);
+    } catch (err) {
+      error(`Run error:`, err);
+    }
   }
 
   function hooks(hooks: string[]) {
@@ -108,15 +112,18 @@ type Option = {
     const getVersion = await genVersion();
     const mainPkg = getTargetPackage(config.main, pkgs);
     if (mainPkg) {
-      const extraPkgs = config.sync.map(pkgName => getTargetPackage(pkgName, WORKSPACE.packages));
-      extraPkgs.push(WORKSPACE.rootPackage as (typeof extraPkgs)[0]);
+      config.sync.forEach(pkgName => {
+        const pkg = getTargetPackage(pkgName, WORKSPACE.packages);
+        if (!pkg) return;
+        pkg.packageJson.version = mainPkg.packageJson.version;
+        pkgs.push(pkg);
+      });
+      if (WORKSPACE.rootPackage) pkgs.push(WORKSPACE.rootPackage);
     }
     pkgs.forEach(pkg => {
       const pkgJson = pkg.packageJson;
-      pkgJson.version =
-        pkgJson.name === WORKSPACE.rootPackage?.packageJson.name || config.sync.includes(pkgJson.name)
-          ? mainPkg!.packageJson.version
-          : getVersion(parseVersion(pkg.packageJson.version));
+      pkgJson.version = getVersion(parseVersion(pkg.packageJson.version));
+      console.log(pkg);
       setVersion(pkg);
     });
   }
@@ -133,7 +140,7 @@ type Option = {
   function publishPackages(pkgs: Package[]) {
     return pkgs.reduce(async (promise, pkg) => {
       await promise;
-      return step('pnpm publish --access --access public', undefined, { cwd: pkg.dir });
+      return step('pnpm publish --access public', undefined, { cwd: pkg.dir });
     }, Promise.resolve());
   }
 
@@ -148,13 +155,9 @@ type Option = {
   }
   await setVersions(packages);
 
-  /* Lifecycle: beforeAddcommit */
-  log('Run eslint and prettier...');
-  await hooks(config.hooks.beforeAddcommit);
-
+  /* Step: spawn tag */
   const mainPkg = getTargetPackage(config.main, packages);
   if (mainPkg) {
-    /* Step: spawn tag */
     log('Adding tag...');
     await handleGit(mainPkg.packageJson.version);
     /* Step: zip main package */
@@ -164,8 +167,12 @@ type Option = {
       message: 'Do you need zip main package?',
       default: true,
     });
-    if (answer.value) await step('pnpm pack', undefined, { cwd: mainPkg.dir });
+    if (answer.value) await step('pnpm pack --pack-destination ../../', undefined, { cwd: mainPkg.dir });
   }
+
+  /* Lifecycle: beforeAddcommit */
+  log('Run eslint and prettier...');
+  await hooks(config.hooks.beforeAddcommit);
 
   /* Step: push to remote branch */
   const answer = await prompt([
@@ -190,7 +197,7 @@ type Option = {
     log('Publish...');
     // const originRegistry = (await execa('pnpm config get registry')).stdout.replace(/(\n)|(\r)/g, '');
     // await execa(`pnpm config set registry "${config.registry}"`);
-    await publishPackages(packages);
+    await publishPackages(packages.filter(pkg => pkg.packageJson.private !== true));
     // await execa(`pnpm config set registry "${originRegistry}"`);
   }
   /* ending */
