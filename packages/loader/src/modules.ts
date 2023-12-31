@@ -82,7 +82,7 @@ export class Modules extends Context {
 
       this.moduleStack.push({
         package: packageJson,
-        config: Object.assign(packageJson.kotori.config, [stringRightSplit()] || {}) /* here */,
+        config: Object.assign(packageJson.kotori.config, [stringRightSplit('', '')] || {}) /* here */,
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
         mainPath: path.resolve(mainPath),
       });
