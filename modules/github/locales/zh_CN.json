@@ -1,6 +1,0 @@
-{
-    "querytool.descr.github": "查询Github仓库信息",
-    "querytool.msg.github": "地址: %name%\n描述: %description%\n语言： %language%\n所有者： %author%\n创建时间：\n %create%\n最后更新时间： %update%\n最后推送时间： %push%\n开源协议： %license%",
-    "querytool.msg.github.image": "%image%",
-    "querytool.msg.github.fail": "未找到仓库： %input%"
-}
