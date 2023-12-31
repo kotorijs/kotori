@@ -1,0 +1,19 @@
+{
+	"goodnight.msg.morning.male": "boy",
+	"goodnight.msg.morning.female": "girl",
+	"goodnight.msg.morning.already": "%at%You already got up today, didn't you? (╬ ̄皿 ̄)",
+	"goodnight.msg.morning.morning": "%at%Good morning! You are the %count% %sex% to wake up today ( ̄▽ ̄)~*",
+	"goodnight.msg.afternoon.afternoon": "%at%It's already afternoon! You are the %count% %sex% to wake up today~",
+	"goodnight.msg.morning.early": "%at%Please get enough sleep, you shouldn't wake up before %hour%:00 (╬ ̄皿 ̄)=○",
+	"goodnight.msg.morning.late": "%at%Waking up now is even worse than not waking up! You are the %count% %sex% to wake up today",
+	"goodnight.msg.night.already": "%at%You already said good night, go to bed early~",
+	"goodnight.msg.night.not": "%at%Don't sleep without waking up, just die in your sleep! (▼ヘ▼#)",
+	"goodnight.msg.night.less": "%at%You just woke up not long ago and now you want to sleep, don't challenge my bottom line! (#`皿′)",
+	"goodnight.msg.night.later": "%at%Wow it's really late now, your wake time today is %time%, you need to take responsibility for your own health, I really care about you (;′⌒`)",
+	"goodnight.msg.night.late": "%at%Good night~ Don't stay up too late, your wake time today is %time% (*^▽^*)",
+	"goodnight.msg.night.normal": "%at%Good night, your wake time today is %time% (*^▽^*)",
+	"goodnight.msg.night.early": "%at%You're sleeping too early, your wake time today is %time% ψ(*`ー′)ψ",
+	"goodnight.msg.night.hours": "hours",
+	"goodnight.msg.night.minutes": "minutes",
+	"goodnight.msg.night.seconds": "seconds"
+}

@@ -1,0 +1,23 @@
+{
+    "random_img.descr.sex": "Pixiv images",
+    "random_img.descr.sexh": "HuliImg images",
+    "random_img.descr.seller": "Seller show images",
+    "random_img.descr.sedimg": "Temptation images",
+    "random_img.descr.bing": "Bing daily image",
+    "random_img.descr.day": "See the world daily",
+    "random_img.descr.earth": "Real-time Earth",
+    "random_img.descr.china": "Real-time China",
+    "random_img.msg.sex.tips": "Image coming right up...please be patient",
+    "random_img.msg.sex": "PID: %pid%\nTitle: %title%\nAuthor: %author%\nTags: %tags%",
+    "random_img.msg.sex.image": "%image%",
+    "random_img.msg.sex.fail": "No matching image found for %input%",
+    "random_img.msg.sexh.tips": "Image coming right up...please be patient",
+    "random_img.msg.sexh": "Tags: %tags%\n%image%",
+    "random_img.msg.sexh.fail": "No matching image found for %input%",
+    "random_img.msg.seller": "%image%",
+    "random_img.msg.sedimg": "%image%",
+    "random_img.msg.bing": "%image%",
+    "random_img.msg.day": "%image%",
+    "random_img.msg.earth": "%image%",
+    "random_img.msg.china": "%image%"
+}

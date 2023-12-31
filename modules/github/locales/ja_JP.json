@@ -1,0 +1,6 @@
+{
+    "querytool.descr.github": "Githubリポジトリ情報を検索",
+    "querytool.msg.github": "アドレス: %name%\n説明: %description%\n言語: %language%\n所有者: %author%\n作成日時: %create%\n最終更新日時: %update%\n最終プッシュ日時: %push%\nオープンソースライセンス: %license%",
+    "querytool.msg.github.image": "%image%",
+    "querytool.msg.github.fail": "リポジトリが見つかりません: %input%"
+}

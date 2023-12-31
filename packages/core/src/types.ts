@@ -6,7 +6,16 @@ import type Adapter from './components/adapter';
 import type Context from './context';
 import { defaultConfig } from './base/core';
 import type Elements from './components/elements';
-import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from './consts';
+import {
+  DEFAULT_COMMAND_PREFIX,
+  DEFAULT_ENV,
+  DEFAULT_FILTER,
+  DEFAULT_LANG,
+  DEFAULT_MODULES_DIR,
+  DEFAULT_PRIORITY,
+  DEFAULT_ROOT_DIR,
+} from './consts';
+import Service from './components/service';
 
 export const baseDirSchema = Tsu.Object({
   root: Tsu.String(),
@@ -43,14 +52,10 @@ const CommonConfigSchemaController = (lang = DEFAULT_LANG, commandPrefix = DEFAU
     'command-prefix': Tsu.String().default(commandPrefix),
   });
 
-const GlobalConfigSchema = Tsu.Intersection([
-  Tsu.Object({
-    dirs: Tsu.Array(Tsu.String()).default([]),
-  }),
-  CommonConfigSchemaController(),
-]);
-
-const adapterConfigBaseSchemaController = (lang?: LocaleType, commandPrefix?: string) =>
+const adapterConfigBaseSchemaController = (
+  lang: LocaleType = DEFAULT_LANG,
+  commandPrefix: string = DEFAULT_COMMAND_PREFIX,
+) =>
   Tsu.Intersection([
     Tsu.Object({
       extends: Tsu.String(),
@@ -59,25 +64,73 @@ const adapterConfigBaseSchemaController = (lang?: LocaleType, commandPrefix?: st
     CommonConfigSchemaController(lang, commandPrefix),
   ]);
 
-const adapterConfigBaseSchema = adapterConfigBaseSchemaController();
-
-const pluginConfigBaseSchema = Tsu.Object({
-  priority: Tsu.Number().min(0).default(100),
-});
-
-export const globalConfigSchemaController = (lang?: LocaleType, commandPrefix?: string) =>
+export const ModuleConfigBaseSchemaController = (
+  priority: number = DEFAULT_PRIORITY,
+  filter: object | undefined = undefined,
+) =>
   Tsu.Object({
-    global: GlobalConfigSchema,
-    adapter: Tsu.Object({}).index(adapterConfigBaseSchemaController(lang, commandPrefix)).default({}),
-    plugin: Tsu.Object({}).index(pluginConfigBaseSchema),
+    priority: Tsu.Number().min(0).default(priority),
+    filter: Tsu.Object({}).optional().default(filter),
   });
 
-const globalConfigSchema = globalConfigSchemaController();
+export const globalConfigSchemaController = (
+  lang: LocaleType = DEFAULT_LANG,
+  commandPrefix: string = DEFAULT_COMMAND_PREFIX,
+) =>
+  Tsu.Object({
+    global: Tsu.Intersection([
+      Tsu.Object({
+        dirs: Tsu.Array(Tsu.String()).default([]),
+      }),
+      CommonConfigSchemaController(),
+    ]),
+    adapter: Tsu.Object({}).index(adapterConfigBaseSchemaController(lang, commandPrefix)).default({}),
+    plugin: Tsu.Object({}).index(ModuleConfigBaseSchemaController()).default({}),
+  });
 
-export type GlobalConfig = Tsu.infer<typeof globalConfigSchema>;
+export type GlobalConfig = Tsu.infer<ReturnType<typeof globalConfigSchemaController>>;
 
-export type AdapterConfig = Tsu.infer<typeof adapterConfigBaseSchema>;
+export type AdapterConfig = Tsu.infer<ReturnType<typeof adapterConfigBaseSchemaController>>;
 
+export type ModuleConfig = Tsu.infer<ReturnType<typeof ModuleConfigBaseSchemaController>>;
+
+export const ModulePackageSchemaController = (priority: number = DEFAULT_PRIORITY, filter: object = DEFAULT_FILTER) =>
+  Tsu.Object({
+    name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
+    version: Tsu.String(),
+    description: Tsu.String(),
+    main: Tsu.String(),
+    license: Tsu.Literal('GPL-3.0'),
+    author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
+    peerDependencies: Tsu.Object({
+      'kotori-bot': Tsu.String(),
+    }),
+    kotori: Tsu.Object({
+      config: ModuleConfigBaseSchemaController(priority, filter).default({ priority, filter }),
+      meta: Tsu.Object({
+        language: Tsu.Array(localeTypeSchema).default([]),
+        service: Tsu.Array(Tsu.String()).default([]),
+      }).default({ language: [], service: [] }),
+      required: Tsu.Array(Tsu.String()).default([]),
+      optional: Tsu.Array(Tsu.String()).default([]),
+    }).default({
+      config: { priority, filter },
+      meta: { language: [], service: [] },
+      required: [],
+      optional: [],
+    }),
+  });
+
+export type ModulePackage = Tsu.infer<ReturnType<typeof ModulePackageSchemaController>>;
+
+export interface ModuleData {
+  package: ModulePackage;
+  config: ModuleConfig;
+  fileList: string[];
+  mainPath: string;
+}
+
+export type ServiceConstructor = new (config: object) => Service;
 export type AdapterConstructor = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
 export type ApiConstructor<T extends Api> = new (adapter: Adapter, el: Elements) => T;
 
@@ -87,19 +140,48 @@ export type ElementsParam = {
 
 export const kotoriConfigSchema = Tsu.Object({
   baseDir: baseDirSchema.default({ root: DEFAULT_ROOT_DIR, modules: DEFAULT_MODULES_DIR }),
-  config: globalConfigSchema.default({
+  config: globalConfigSchemaController().default({
     global: {
       lang: DEFAULT_LANG,
       'command-prefix': DEFAULT_COMMAND_PREFIX,
     },
     adapter: {},
-  } as Tsu.infer<typeof globalConfigSchema>),
+  } as Tsu.infer<ReturnType<typeof globalConfigSchemaController>>),
   options: globalOptions.default({
     env: DEFAULT_ENV,
   } as Tsu.infer<typeof globalOptions>), // question
 }).default(defaultConfig as any);
 
 export type KotoriConfig = Tsu.infer<typeof kotoriConfigSchema>;
+
+export type ServiceType = Exclude<ModuleType, 'plugin' | 'service'> | 'custom';
+
+export interface ServiceImpl {
+  readonly config: object;
+  readonly serviceType: ServiceType;
+  readonly service: string;
+  handle(...data: unknown[]): void;
+  start(): void;
+  stop(): void;
+}
+
+export interface AdapterImpl<T extends Api> extends ServiceImpl {
+  readonly ctx: Context;
+  readonly platform: string;
+  readonly selfId: EventDataTargetId;
+  readonly identity: string;
+  readonly api: T;
+  readonly status: AdapterStatus;
+}
+
+export interface AdapterStatus {
+  value: 'online' | 'offline';
+  createTime: Date;
+  lastMsgTime: Date | null;
+  receivedMsg: number;
+  sentMsg: number;
+  offlineTimes: number;
+}
 
 export interface ApiExtra {
   default: { type: 'default' };
@@ -207,18 +289,14 @@ export type MessageQuickFunc = (msg: MessageQuick) => void;
 export type MessageQuickReal = MessageRaw | [string, StringTempArgs] | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 
-export type ModuleType = 'database' | 'adapter' | 'plugin';
+export type ModuleType = 'database' | 'adapter' | 'service' | 'plugin';
 export type ModuleInstanceType = 'constructor' | 'function' | 'none';
 
 export type ModuleInstanceConstructor = new (ctx: Context, config: object) => unknown;
 export type ModuleInstanceFunction = (ctx: Context, config: object) => unknown;
 
-/* here need feat */
-export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick /* ReturnType<CommandAction> */;
-export type RegexpCallback = (
-  match: RegExpMatchArray,
-  session: EventDataMsg,
-) => MessageQuick /* ReturnType<CommandAction> */;
+export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick;
+export type RegexpCallback = (match: RegExpMatchArray, session: EventDataMsg) => MessageQuick;
 
 export interface MidwareStack {
   extend: string;
@@ -235,26 +313,6 @@ export interface RegexpStack {
   extend: string;
   match: RegExp;
   callback: RegexpCallback;
-}
-
-export const ModulePackageSchema = Tsu.Object({
-  name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
-  version: Tsu.String(),
-  description: Tsu.String(),
-  main: Tsu.String(),
-  license: Tsu.Literal('GPL-3.0'),
-  author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
-  peerDependencies: Tsu.Object({
-    'kotori-bot': Tsu.String(),
-  }),
-});
-
-export type ModulePackage = Tsu.infer<typeof ModulePackageSchema>;
-
-export interface ModuleData {
-  package: ModulePackage;
-  fileList: string[];
-  mainPath: string;
 }
 
 export interface EventDataBase<T extends keyof EventType> {

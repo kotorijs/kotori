@@ -1,0 +1,8 @@
+{
+  "bilibili.descr.bili": "Bilibili video info query",
+  "bilibili.descr.bilier": "Bilibili User Information Query",
+  "bilibili.msg.bili": "BV number: %id%\nVideo title: %title%\nVideo description: %description%\nAuthor: %name%\nCategory: %sort%\nPublished time: %time%\nView count: %view%\nCoin count: %coin%\nLike count: %like%\nFavorite count: %collect%\nThumbnail: %image%",
+  "bilibili.msg.bili.fail": "Video not found: %input%",
+  "bilibili.msg.bilier": "UID: %uid%\nName: %name%\nLevel: LV%level%\nGender: %sex%\nIntroduction: %description%\nFollowing count: %following%\nFollower count: %follower%\nAvatar: %image%",
+  "bilibili.msg.bilier.fail": "User not found: %input%"
+}

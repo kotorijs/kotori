@@ -10,7 +10,7 @@
     "build": "tsc --build"
   },
   "bin": {
-    "kotori": "./lib/cli.js"
+    "kotori": "./bin.js"
   },
   "keywords": [
     "chatbot",

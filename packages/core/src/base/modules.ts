@@ -6,6 +6,7 @@ import Events from './events';
 import Context from '../context';
 import Adapter from '../components/adapter';
 import {
+  type ServiceConstructor,
   type AdapterConstructor,
   type ModuleData,
   type ModuleInstanceConstructor,
@@ -15,15 +16,18 @@ import {
 } from '../types';
 import { DevError, ModuleError } from '../utils/errror';
 import { ADAPTER_PREFIX, LOAD_MODULE_MAX_TIME, LOAD_MODULE_SLEEP_TIME } from '../consts';
+import Service from '../components/service';
 
 function getTypeInfo(Instance: ModuleInstanceFunction | ModuleInstanceConstructor | unknown, moduleName: string) {
   let type: ModuleType = 'plugin';
   let instanceType: ModuleInstanceType = 'none';
   if (isClass(Instance)) {
     instanceType = 'constructor';
-    const func = (Obj: object): Obj is AdapterConstructor => Adapter.isPrototypeOf.call(Adapter, Obj);
+    const isServiceConsructor = (Obj: object): Obj is ServiceConstructor => Adapter.isPrototypeOf.call(Service, Obj);
+    const isAdapterConstructor = (Obj: object): Obj is AdapterConstructor => Adapter.isPrototypeOf.call(Adapter, Obj);
+    if (!isServiceConsructor(Instance)) return { type, instanceType, moduleName };
     const adapterName = moduleName.split(ADAPTER_PREFIX)[1];
-    if (adapterName && func(Instance)) {
+    if (adapterName && isAdapterConstructor(Instance)) {
       type = 'adapter';
       return { type, instanceType, moduleName, adapterName };
     }
@@ -78,9 +82,7 @@ export class Modules extends Events {
   ) {
     /* before handle */
     if (data.langDir)
-      data.ctx.i18n.use(
-        typeof data.langDir === 'string' ? resolve(data.langDir) : resolve(...data.langDir),
-      ); /* here need */
+      data.ctx.i18n.use(typeof data.langDir === 'string' ? resolve(data.langDir) : resolve(...data.langDir));
 
     /* after handle */
     if (typeInfo.type === 'adapter') {

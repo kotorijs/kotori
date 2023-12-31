@@ -1,0 +1,23 @@
+{
+    "random_img.descr.sex": "Pixiv图片",
+    "random_img.descr.sexh": "HuliImg图片",
+    "random_img.descr.seller": "卖家秀图片",
+    "random_img.descr.sedimg": "诱惑图",
+    "random_img.descr.bing": "必应每日图",
+    "random_img.descr.day": "每日看世界",
+    "random_img.descr.earth": "实时地球",
+    "random_img.descr.china": "实时中国",
+    "random_img.msg.sex.tips": "图片正在来的路上。。。。你先别急",
+    "random_img.msg.sex": "PID：%pid%\n标题：%title%\n作者：%author%\n标签：%tags%",
+    "random_img.msg.sex.image": "%image%",
+    "random_img.msg.sex.fail": "未找到相应图片%input%",
+    "random_img.msg.sexh.tips": "图片正在来的路上。。。。你先别急",
+    "random_img.msg.sexh": "标签：%tags%\n%image%",
+    "random_img.msg.sexh.fail": "未找到相应图片%input%",
+    "random_img.msg.seller": "%image%",
+    "random_img.msg.sedimg": "%image%",
+    "random_img.msg.bing": "%image%",
+    "random_img.msg.day": "%image%",
+    "random_img.msg.earth": "%image%",
+    "random_img.msg.china": "%image%"
+}
