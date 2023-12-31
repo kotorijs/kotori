@@ -123,7 +123,6 @@ type Option = {
     pkgs.forEach(pkg => {
       const pkgJson = pkg.packageJson;
       pkgJson.version = getVersion(parseVersion(pkg.packageJson.version));
-      console.log(pkg);
       setVersion(pkg);
     });
   }
