@@ -1,7 +1,7 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.0.0",
+  "version": "v1.0.1",
   "packageManager": "pnpm@8.7.4",
   "private": true,
   "scripts": {
@@ -14,8 +14,7 @@
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "version": "pnpm exec conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "release": "pnpm exec release",
-    "release:only": "pnpm exec release"
+    "release": "pnpm exec release"
   },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
@@ -34,6 +33,7 @@
   "devDependencies": {
     "@manypkg/get-packages": "^2.2.0",
     "@types/inquirer": "^9.0.7",
+    "@types/js-beautify": "^1.14.3",
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
@@ -46,6 +46,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "execa": "^8.0.1",
     "inquirer": "^9.2.12",
+    "js-beautify": "^1.14.11",
     "prettier": "^3.0.2",
     "tsconfig-paths": "^4.2.0"
   }
