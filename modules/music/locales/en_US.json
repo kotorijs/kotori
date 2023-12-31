@@ -1,6 +1,0 @@
-{
-  "music.descr.music": "NetEase Cloud music, default song no. is 1, enter 0 to show song list",
-  "music.msg.music": "Song ID: %songid%\nSong Title: %title%\nSong Author: %author%\nSong Download: %url%\nSong Cover: %image%",
-  "music.msg.music.list": "%num%.%title% - %author%\n",
-  "music.msg.music.lists": "%list%Resend command and input [number] to choose corresponding content\nExample: /command content 2"
-}

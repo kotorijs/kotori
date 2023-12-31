@@ -1,8 +1,0 @@
-{
-  "bilibili.descr.bili": "Bilibiliの動画情報検索",
-  "bilibili.descr.bilier": "Bilibiliユーザ情報照会",
-  "bilibili.msg.bili": "BV番号: %id%\n動画タイトル: %title%\n動画概要: %description%\n作者: %name%\n分類: %sort%\n公開日: %time%\n再生数: %view%\n投げ銭数: %coin%\n高評価数: %like%\n保存数: %collect%\nサムネイル: %image%",
-  "bilibili.msg.bili.fail": "動画が見つかりません: %input%",
-  "bilibili.msg.bilier": "UID: %uid%\n名前: %name%\nランク: LV%level%\n性別: %sex%\n自己紹介: %description%\nフォロー数: %following%\nフォロワー数: %follower%\nアイコン画像: %image%",
-  "bilibili.msg.bilier.fail": "ユーザーが見つかりません: %input%"
-}
