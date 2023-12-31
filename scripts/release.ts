@@ -43,7 +43,7 @@ type Option = {
       message: 'Select the package you need to update',
       choices: packages
         .filter(pkg => !config.sync.includes(pkg.packageJson.name))
-        .map(pkg => ({ name: pkg.packageJson.name, value: pkg.relativeDir })),
+        .map(pkg => ({ name: `${pkg.packageJson.name}@${pkg.packageJson.version}`, value: pkg.relativeDir })),
     });
     const filterPackages = packages.filter(pkg => value.includes(pkg.relativeDir));
     const mainPkgJson = getTargetPackage(filterPackages)?.packageJson;
@@ -74,6 +74,7 @@ type Option = {
 
   function setVersion(pkg: Package) {
     writeFileSync(resolve(pkg.dir, 'package.json'), JSON.stringify(pkg.packageJson), 'utf-8');
+    log(`New version: ${pkg.packageJson.name}@${[pkg.packageJson.version]}`);
   }
 
   async function getVersion(pkg: Package) {
