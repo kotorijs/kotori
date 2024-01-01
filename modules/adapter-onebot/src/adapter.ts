@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-02 22:54:59
+ * @LastEditTime: 2024-01-01 17:06:21
  */
 import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -48,7 +48,7 @@ export class OneBotAdapter extends Adapter {
   public readonly config: OneBotConfig;
 
   public constructor(ctx: Context, config: OneBotConfig, identity: string) {
-    super(ctx, config, identity, OneBotApi, OneBotElements);
+    super(ctx, config, identity, OneBotApi, new OneBotElements());
     this.config = config;
     this.info = `${this.config.address}:${this.config.port}`;
   }
@@ -161,7 +161,7 @@ export class OneBotAdapter extends Adapter {
   public start() {
     if (this.config.mode === 'ws-reverse') {
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
         info: `start wsserver at ${this.info}`,
         onlyStart: true,
@@ -172,7 +172,7 @@ export class OneBotAdapter extends Adapter {
 
   public stop() {
     this.ctx.emit('disconnect', {
-      adapter: this,
+      service: this,
       normal: true,
       info: this.config.mode === 'ws' ? `disconnect from ${this.info}` : `stop wsserver at ${this.info}`,
     });
@@ -192,13 +192,13 @@ export class OneBotAdapter extends Adapter {
       const { 0: socket } = wss;
       this.socket = socket;
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
         info: `client connect to ${this.info}`,
       });
       this.socket?.on('close', () => {
         this.ctx.emit('disconnect', {
-          adapter: this,
+          service: this,
           normal: false,
           info: `unexpected client disconnect from ${this.info}`,
         });
@@ -207,14 +207,14 @@ export class OneBotAdapter extends Adapter {
       });
     } else {
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
         info: `connect server to ${this.info}`,
       });
       this.socket = new WebSocket(`${this.info}`);
       this.socket.on('close', () => {
         this.ctx.emit('disconnect', {
-          adapter: this,
+          service: this,
           normal: false,
           info: `unexpected disconnect server from ${this.info}, will reconnect in ${this.config.retry} seconds`,
         });
@@ -222,7 +222,7 @@ export class OneBotAdapter extends Adapter {
           if (!this.socket) return;
           this.socket.close();
           this.ctx.emit('connect', {
-            adapter: this,
+            service: this,
             normal: false,
             info: `reconnect server to ${this.info}`,
           });
@@ -236,5 +236,3 @@ export class OneBotAdapter extends Adapter {
   /* global NodeJS */
   private onlineTimerId: NodeJS.Timeout | null = null;
 }
-
-export default OneBotAdapter;

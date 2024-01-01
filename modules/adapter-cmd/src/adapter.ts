@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-02 22:54:34
+ * @LastEditTime: 2024-01-01 16:44:32
  */
 import { Adapter, AdapterConfig, Context, Tsu, eventDataTargetIdSchema } from 'kotori-bot';
 import CmdApi from './api';
@@ -25,7 +25,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
   public config: CmdConfig;
 
   public constructor(ctx: Context, config: CmdConfig, identity: string) {
-    super(ctx, config, identity, CmdApi, CmdElements);
+    super(ctx, config, identity, CmdApi, new CmdElements());
     this.config = config;
     this.selfId = config['self-id'];
     process.stdin.on('data', data => this.handle(data));
@@ -52,7 +52,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
 
   public start() {
     this.ctx.emit('connect', {
-      adapter: this,
+      service: this,
       normal: true,
       info: `start cmd-line listen`,
     });
@@ -61,7 +61,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
 
   public stop() {
     this.ctx.emit('disconnect', {
-      adapter: this,
+      service: this,
       normal: true,
       info: `stop cmd-line listen`,
     });

@@ -24,6 +24,7 @@ export class Context extends Internal {
       const { selfId } = session.api.adapter;
       if (session.userId !== selfId) next();
     }, 50);
+    // this.on('ready_all', () => this.startAllService());
   }
 
   public constructor(Config?: KotoriConfig) {

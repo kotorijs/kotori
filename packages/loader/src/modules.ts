@@ -15,6 +15,8 @@ import {
   ModulePackageSchemaController,
   OFFICIAL_MODULES_SCOPE,
   PLUGIN_PREFIX,
+  clearObject,
+  none,
   stringRightSplit,
 } from '@kotori-bot/core';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
@@ -32,6 +34,7 @@ function getDefaultPriority(pkgName: string) {
   if (pkgName.includes(CUSTOM_PREFIX)) return DEFAULT_CUSTOM_PRIORITY;
   return DEFAULT_PRIORITY;
 }
+
 export class Modules extends Context {
   private isDev = this.options.env === 'dev';
 
@@ -72,17 +75,20 @@ export class Modules extends Context {
         throw new DevError(`illegal package.json ${packagePath}`);
       }
       const result = ModulePackageSchemaController().parseSafe(packageJson);
-      if (!result.value && rootDir === this.baseDir.modules) {
+      if (!result.value) {
+        if (rootDir !== this.baseDir.modules) return;
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
-      packageJson = ModulePackageSchemaController(getDefaultPriority(this.package.name)).parse(packageJson);
+      packageJson = ModulePackageSchemaController(getDefaultPriority(this.package.name), {}).parse(result.data);
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
       const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
-
       this.moduleStack.push({
         package: packageJson,
-        config: Object.assign(packageJson.kotori.config, [stringRightSplit('', '')] || {}) /* here */,
+        config: Object.assign(
+          packageJson.kotori.config || {},
+          clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {}),
+        ),
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
         mainPath: path.resolve(mainPath),
       });
@@ -90,11 +96,7 @@ export class Modules extends Context {
   }
 
   private moduleQuick(moduleData: ModuleData) {
-    return this.use(
-      moduleData,
-      this,
-      this.config.plugin[stringRightSplit(moduleData.package.name, PLUGIN_PREFIX)] ?? {},
-    );
+    this.use(moduleData, this, moduleData.config);
   }
 
   public readonly moduleAll = async () => {
@@ -104,15 +106,18 @@ export class Modules extends Context {
     });
     const array = this.moduleStack.filter(data => data.package.name.startsWith(OFFICIAL_MODULES_SCOPE));
     array.push(...this.moduleStack.filter(data => !array.includes(data)));
-    array.forEach(moduleData => this.moduleQuick(moduleData));
+    array.forEach(moduleData => {
+      this.moduleQuick(moduleData);
+    });
   };
 
   public readonly watchFile = async () => {
-    this.moduleStack.forEach(moduleData =>
+    /* this.moduleStack.forEach(moduleData =>
       moduleData.fileList.forEach(file =>
         fs.watchFile(file, () => (this.dispose(moduleData) as unknown) && this.moduleQuick(moduleData)),
       ),
-    );
+    ); */
+    none(this);
   };
 }
 

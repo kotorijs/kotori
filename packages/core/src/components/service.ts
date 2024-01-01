@@ -1,11 +1,18 @@
+import { none } from '@kotori-bot/tools';
 import { ServiceImpl, ServiceType } from '../types';
 
 export abstract class Service implements ServiceImpl {
-  public abstract handle(...data: unknown[]): void;
+  public handle(...data: unknown[]): void {
+    return none(this, data);
+  }
 
-  public abstract start(): void;
+  public start(): void {
+    return none(this);
+  }
 
-  public abstract stop(): void;
+  public stop(): void {
+    return none(this);
+  }
 
   public readonly serviceType: ServiceType;
 
