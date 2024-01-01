@@ -15,7 +15,8 @@ import {
   DEFAULT_PRIORITY,
   DEFAULT_ROOT_DIR,
 } from './consts';
-import Service from './components/service';
+import type Service from './components/service';
+import type Database from './components/database';
 
 export const baseDirSchema = Tsu.Object({
   root: Tsu.String(),
@@ -64,12 +65,9 @@ const adapterConfigBaseSchemaController = (
     CommonConfigSchemaController(lang, commandPrefix),
   ]);
 
-export const ModuleConfigBaseSchemaController = (
-  priority: number = DEFAULT_PRIORITY,
-  filter: object | undefined = undefined,
-) =>
+export const ModuleConfigBaseSchemaController = (priority?: number, filter?: object) =>
   Tsu.Object({
-    priority: Tsu.Number().min(0).default(priority),
+    priority: Tsu.Number().min(0).optional().default(priority),
     filter: Tsu.Object({}).optional().default(filter),
   });
 
@@ -132,11 +130,8 @@ export interface ModuleData {
 
 export type ServiceConstructor = new (config: object) => Service;
 export type AdapterConstructor = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
+export type DatabaseConstructor = new (config: /* DatabaseConfig , identity: string */ object) => Database;
 export type ApiConstructor<T extends Api> = new (adapter: Adapter, el: Elements) => T;
-
-export type ElementsParam = {
-  [K in Exclude<keyof Elements, 'supports'>]?: (...args: unknown[]) => string;
-};
 
 export const kotoriConfigSchema = Tsu.Object({
   baseDir: baseDirSchema.default({ root: DEFAULT_ROOT_DIR, modules: DEFAULT_MODULES_DIR }),
@@ -154,6 +149,7 @@ export const kotoriConfigSchema = Tsu.Object({
 
 export type KotoriConfig = Tsu.infer<typeof kotoriConfigSchema>;
 
+export type ModuleType = 'database' | 'adapter' | 'service' | 'plugin';
 export type ServiceType = Exclude<ModuleType, 'plugin' | 'service'> | 'custom';
 
 export interface ServiceImpl {
@@ -187,9 +183,9 @@ export interface ApiExtra {
   default: { type: 'default' };
 }
 
-/* export type ApiExtraValue = (ApiExtra & { any: { type: Exclude<string, keyof ApiExtra> } & Omit<obj, 'type'> })[
-	| keyof ApiExtra
-	| 'any']; */
+export type ApiExtraValue = (ApiExtra & { any: { type: Exclude<string, keyof ApiExtra> } & Omit<obj, 'type'> })[
+  | keyof ApiExtra
+  | 'any'];
 
 export const enum CommandAccess {
   MEMBER,
@@ -289,28 +285,25 @@ export type MessageQuickFunc = (msg: MessageQuick) => void;
 export type MessageQuickReal = MessageRaw | [string, StringTempArgs] | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 
-export type ModuleType = 'database' | 'adapter' | 'service' | 'plugin';
-export type ModuleInstanceType = 'constructor' | 'function' | 'none';
-
-export type ModuleInstanceConstructor = new (ctx: Context, config: object) => unknown;
-export type ModuleInstanceFunction = (ctx: Context, config: object) => unknown;
+export type ModuleInstanceConstructor = new (ctx: Context, config: object) => void;
+export type ModuleInstanceFunction = (ctx: Context, config: object) => void;
 
 export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick;
 export type RegexpCallback = (match: RegExpMatchArray, session: EventDataMsg) => MessageQuick;
 
 export interface MidwareStack {
-  extend: string;
+  // extend: string;
   callback: MidwareCallback;
   priority: number;
 }
-
+/* 
 export interface CommandStack {
-  extend: string;
+  // extend: string;
   data: CommandData;
-}
+} */
 
 export interface RegexpStack {
-  extend: string;
+  // extend: string;
   match: RegExp;
   callback: RegexpCallback;
 }
@@ -319,19 +312,18 @@ export interface EventDataBase<T extends keyof EventType> {
   type: T;
 }
 
-interface EventDataLoadModule extends EventDataBase<'load_module'> {
+interface EventDataReady extends EventDataBase<'ready'> {
   module: ModuleData | null;
-  moduleType: ModuleType;
-  instanceType: ModuleInstanceType;
+  result: boolean;
 }
 
-interface EventDataLoadAllModule extends EventDataBase<'load_all_module'> {
+interface EventDataDispose extends EventDataBase<'dispose'> {
+  module: ModuleData | null;
+}
+
+interface EventDataReadyAll extends EventDataBase<'ready_all'> {
   reality: number;
   expected: number;
-}
-
-interface EventDataUnloadModule extends EventDataBase<'unload_module'> {
-  module: ModuleData | null;
 }
 
 type EventDataMsgSenderSex = 'male' | 'female' | 'unknown';
@@ -343,26 +335,28 @@ export interface EventDataMsgSender {
   age: number;
 }
 
-export interface EventDataAdapterBase<T extends keyof EventType> extends EventDataBase<T> {
-  adapter: Adapter;
+export interface EventDataServiceBase<T extends keyof EventType> extends EventDataBase<T> {
+  service: Service;
 }
 
-interface EventDataConnect extends EventDataAdapterBase<'connect'> {
+interface EventDataConnect extends EventDataServiceBase<'connect'> {
   normal: boolean;
   info: string;
   onlyStart?: boolean;
 }
 
-interface EventDataDisconnect extends EventDataAdapterBase<'disconnect'> {
+interface EventDataDisconnect extends EventDataServiceBase<'disconnect'> {
   normal: boolean;
   info: string;
 }
 
-interface EventDataReady extends EventDataAdapterBase<'ready'> {}
+interface EventDataOnline extends EventDataBase<'online'> {
+  adapter: Adapter;
+}
 
-interface EventDataOnline extends EventDataAdapterBase<'online'> {}
-
-interface EventDataOffline extends EventDataAdapterBase<'offline'> {}
+interface EventDataOffline extends EventDataBase<'offline'> {
+  adapter: Adapter;
+}
 
 export type EventDataMsg = EventDataPrivateMsg | EventDataGroupMsg;
 
@@ -418,10 +412,6 @@ interface EventDataSend extends EventDataBase<'send'> {
 	targetId: EventDataTargetId; */
   messageId: EventDataTargetId;
 }
-
-/* interface EventDataAdapters extends EventDataBase<'adapters'> {
-	adapters: Adapter[];
-} */
 
 export interface EventDataApiBase<T extends keyof EventType, M extends MessageScope = MessageScope>
   extends EventDataBase<T> {
@@ -501,13 +491,11 @@ interface EventDataGroupBan extends EventDataApiBase<'group_ban', 'group'> {
 }
 
 export interface EventType {
-  load_module: EventDataLoadModule;
-  load_all_module: EventDataLoadAllModule;
-  unload_module: EventDataUnloadModule;
-  // adapters: EventDataAdapters;
+  ready: EventDataReady;
+  ready_all: EventDataReadyAll;
+  dispose: EventDataDispose;
   connect: EventDataConnect;
   disconnect: EventDataDisconnect;
-  ready: EventDataReady;
   online: EventDataOnline;
   offline: EventDataOffline;
   midwares: EventDataMidwares;

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-22 22:37:29
+ * @LastEditTime: 2024-01-01 16:43:54
  */
 import { Adapter, AdapterConfig, Context, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -46,14 +46,14 @@ export class QQAdapter extends Adapter<QQApi> {
         },
       });
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
         onlyStart: true,
         info: `logging in qqbot...`,
       });
     } else if (data.t === 'READY') {
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
         info: `logged in qqbot successfully`,
       });
@@ -86,7 +86,7 @@ export class QQAdapter extends Adapter<QQApi> {
 
   public stop() {
     this.ctx.emit('disconnect', {
-      adapter: this,
+      service: this,
       normal: true,
       info: `disconnect from ${WS_ADDRESS}`,
     });
@@ -127,7 +127,7 @@ export class QQAdapter extends Adapter<QQApi> {
     this.socket = new WebSocket(WS_ADDRESS);
     this.socket.on('close', () => {
       this.ctx.emit('disconnect', {
-        adapter: this,
+        service: this,
         normal: false,
         info: `unexpected disconnect server from ${WS_ADDRESS}, will reconnect in ${this.config.retry} seconds`,
       });
@@ -135,7 +135,7 @@ export class QQAdapter extends Adapter<QQApi> {
         if (!this.socket) return;
         this.socket.close();
         this.ctx.emit('connect', {
-          adapter: this,
+          service: this,
           normal: false,
           info: `reconnect server to ${WS_ADDRESS}`,
         });
@@ -154,7 +154,7 @@ export class QQAdapter extends Adapter<QQApi> {
       this.offline();
 
       this.ctx.emit('disconnect', {
-        adapter: this,
+        service: this,
         normal: false,
         info: `got token error!`,
       });

@@ -1,50 +1,31 @@
-import { ElementsParam } from 'kotori-bot';
+import { Elements, EventDataTargetId, none } from 'kotori-bot';
+import { MessageCqType } from './types';
 
-/* 
+export class OneBotElements extends Elements {
+  public cq(type: MessageCqType, data: string) {
+    none(this);
+    return `[CQ:${type},${data}]`;
+  }
 
+  public at(target: EventDataTargetId) {
+    return this.cq('at', `qq=${target}`);
+  }
 
+  public image(url: string) {
+    return this.cq('image', `file=${url},cache=0`);
+  }
 
-function cq(type: MessageCqType, data: obj<string|number>) {
-    return `[CQ:${type},data]`
-} 
+  public voice(url: string) {
+    return this.cq('record', `file=${url}`);
+  }
 
-const image = ;
-const at = (qq: EventDataTargetId) => `[CQ:at,qq=${qq}]`;
-const poke = (qq: EventDataTargetId) => `[CQ:poke,qq=${qq}]`;
+  public video(url: string) {
+    return this.cq('video', `file=${url}`);
+  }
 
- interface OneBotApiExtra {
-	type: 'onebot';
-	image: typeof image;
-	at: typeof at;
-	poke: typeof poke;
+  public face(id: number) {
+    return this.cq('face', `id=${id}`);
+  }
 }
-
-declare module 'kotori-bot' {
-	interface ApiExtra {
-		onebot: OneBotApiExtra;
-	}
-}
-*/
-
-export const OneBotElements: ElementsParam = {
-  at(target) {
-    return `[CQ:at,qq=${target}]`;
-  },
-  image(url) {
-    return `[CQ:image,file=${url},cache=0]`;
-  },
-  voice(url) {
-    return `[CQ:voice,file=${url}]`;
-  },
-  video(url) {
-    return `[CQ:video,file=${url}]`;
-  },
-  face(id) {
-    return `[CQ:face,id=${id}]`;
-  },
-  file(data) {
-    return `[CQ:file,file=${data}]`;
-  },
-};
 
 export default OneBotElements;

@@ -2,7 +2,6 @@ import { loadConfig, obj } from '@kotori-bot/tools';
 import path from 'path';
 import { Parser } from 'tsukiko';
 import {
-  type AdapterConstructor,
   type BaseDir,
   type GlobalConfig,
   type GlobalOptions,
@@ -10,6 +9,7 @@ import {
   type PackageInfo,
   packageInfoSchema,
   kotoriConfigSchema,
+  type ServiceConstructor,
 } from '../types';
 import type Api from '../components/api';
 import { CoreError } from '../utils/errror';
@@ -33,7 +33,7 @@ export const defaultConfig = {
 };
 
 export class Core {
-  protected readonly adapterStack: obj<[AdapterConstructor, Parser<unknown>?]> = {};
+  protected readonly serviceStack: obj<[ServiceConstructor, Parser<unknown>?]> = {};
 
   protected readonly botStack: obj<Api[]> = {};
 

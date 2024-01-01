@@ -10,10 +10,6 @@ export const ADAPTER_PREFIX = `${PLUGIN_PREFIX}adapter-`;
 
 export const CUSTOM_PREFIX = `${PLUGIN_PREFIX}custom-`;
 
-export const LOAD_MODULE_MAX_TIME = 10 * 1000;
-
-export const LOAD_MODULE_SLEEP_TIME = 150;
-
 export const DEFAULT_LANG: LocaleType = 'en_US';
 
 export const DEFAULT_ROOT_DIR = './';

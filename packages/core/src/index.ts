@@ -1,7 +1,10 @@
 import { none } from '@kotori-bot/tools';
 import Context from './context';
 
+export * from './components/service';
+export * from './components/database';
 export * from './components/adapter';
+export * from './components/service';
 export * from './components/api';
 export * from './components/elements';
 export * from './context';

@@ -11,7 +11,6 @@ import type {
   CommandResult,
   CommandResultExtra,
   ApiConstructor,
-  ElementsParam,
   MessageScope,
   AdapterImpl,
   AdapterStatus,
@@ -19,55 +18,53 @@ import type {
 import Service from './service';
 import Elements from './elements';
 
-// type AdapterSend = (...args: any[]) => void;
-
-export function ApiProxy<T extends Api>(api: T, ctx: Context): T {
-  const apiProxy = Object.create(api) as T;
-  apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
-    apply(_, __, argArray) {
-      const { '0': message, '1': targetId } = argArray;
-      let isCancel = false;
-      const cancel = () => {
-        isCancel = true;
-      };
-      ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel });
-      if (isCancel) return;
-      api.send_private_msg(message, targetId, argArray[2]);
-    },
-  });
-  apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
-    apply(_, __, argArray) {
-      const { '0': message, '1': targetId } = argArray;
-      let isCancel = false;
-      const cancel = () => {
-        isCancel = true;
-      };
-      ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel });
-      if (isCancel) return;
-      api.send_group_msg(message, targetId, argArray[2]);
-    },
-  });
-  return apiProxy;
-}
-
 type EventApiType = {
   [K in Extract<EventType[keyof EventType], EventDataApiBase<keyof EventType, MessageScope>>['type']]: EventType[K];
 };
 
 export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
+  private static apiProxy<T extends Api>(api: T, ctx: Context): T {
+    const apiProxy = Object.create(api) as T;
+    apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
+      apply(_, __, argArray) {
+        const { '0': message, '1': targetId } = argArray;
+        let isCancel = false;
+        const cancel = () => {
+          isCancel = true;
+        };
+        ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel });
+        if (isCancel) return;
+        api.send_private_msg(message, targetId, argArray[2]);
+      },
+    });
+    apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
+      apply(_, __, argArray) {
+        const { '0': message, '1': targetId } = argArray;
+        let isCancel = false;
+        const cancel = () => {
+          isCancel = true;
+        };
+        ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel });
+        if (isCancel) return;
+        api.send_group_msg(message, targetId, argArray[2]);
+      },
+    });
+    return apiProxy;
+  }
+
   public constructor(
     ctx: Context,
     config: AdapterConfig,
     identity: string,
     ApiConstructor: ApiConstructor<T>,
-    el: ElementsParam = {},
+    el: Elements = new Elements(),
   ) {
     super('adapter', '');
     this.ctx = ctx;
     this.config = config;
     this.identity = identity;
     this.platform = config.extends;
-    this.api = ApiProxy(new ApiConstructor(this, new Elements(el)), this.ctx);
+    this.api = Adapter.apiProxy(new ApiConstructor(this, el), this.ctx);
     if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
     this.ctx.internal.getBots()[this.platform].push(this.api);
   }
@@ -76,9 +73,6 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
   protected online() {
     if (this.status.value !== 'offline') return;
-    if (this.status.offlineTimes <= 0) {
-      this.ctx.emit('ready', { adapter: this });
-    }
     this.ctx.emit('online', { adapter: this });
     this.status.value = 'online';
   }
