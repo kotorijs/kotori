@@ -1,15 +1,17 @@
 name: Docs
+
 on:
   push:
     branches:
       - docs
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
 
     - name: vuepress-deploy
       uses: jenkey2011/vuepress-deploy@master
