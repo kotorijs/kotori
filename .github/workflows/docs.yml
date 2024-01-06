@@ -16,7 +16,7 @@ jobs:
     - name: vuepress-deploy
       uses: jenkey2011/vuepress-deploy@master
       env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_REPO: kotorijs/kotori
         TARGET_BRANCH: main
         BUILD_SCRIPT: yarn && yarn docs:build
