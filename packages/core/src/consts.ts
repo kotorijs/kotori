@@ -20,12 +20,6 @@ export const DEFAULT_COMMAND_PREFIX = '/';
 
 export const DEFAULT_ENV = 'dev';
 
-export const DEFAULT_PRIORITY = 70;
-
-export const DEFAULT_CUSTOM_PRIORITY = 40;
-
-export const DEFAULT_ADAPTER_PRIORITY = 30;
-
-export const DEFAULT_DATABASE_PRIORITY = 20;
-
-export const DEFAULT_FILTER = {};
+export const CORE_MODULES = [
+  '@kotori-bot/kotori-plugin-core'
+]
