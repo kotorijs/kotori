@@ -9,10 +9,8 @@ import type Elements from './components/elements';
 import {
   DEFAULT_COMMAND_PREFIX,
   DEFAULT_ENV,
-  DEFAULT_FILTER,
   DEFAULT_LANG,
   DEFAULT_MODULES_DIR,
-  DEFAULT_PRIORITY,
   DEFAULT_ROOT_DIR,
 } from './consts';
 import type Service from './components/service';
@@ -65,11 +63,10 @@ const adapterConfigBaseSchemaController = (
     CommonConfigSchemaController(lang, commandPrefix),
   ]);
 
-export const ModuleConfigBaseSchemaController = (priority?: number, filter?: object) =>
+export const ModuleConfigBaseSchema =
   Tsu.Object({
-    priority: Tsu.Number().min(0).optional().default(priority),
-    filter: Tsu.Object({}).optional().default(filter),
-  });
+    filter: Tsu.Object({}).default({}),
+  }).default({ filter: {} });
 
 export const globalConfigSchemaController = (
   lang: LocaleType = DEFAULT_LANG,
@@ -83,16 +80,20 @@ export const globalConfigSchemaController = (
       CommonConfigSchemaController(),
     ]),
     adapter: Tsu.Object({}).index(adapterConfigBaseSchemaController(lang, commandPrefix)).default({}),
-    plugin: Tsu.Object({}).index(ModuleConfigBaseSchemaController()).default({}),
+    plugin: Tsu.Object({}).index(ModuleConfigBaseSchema).default({}),
   });
 
 export type GlobalConfig = Tsu.infer<ReturnType<typeof globalConfigSchemaController>>;
 
 export type AdapterConfig = Tsu.infer<ReturnType<typeof adapterConfigBaseSchemaController>>;
 
-export type ModuleConfig = Tsu.infer<ReturnType<typeof ModuleConfigBaseSchemaController>>;
+export type ModuleConfig = Tsu.infer<typeof ModuleConfigBaseSchema>;
 
-export const ModulePackageSchemaController = (priority: number = DEFAULT_PRIORITY, filter: object = DEFAULT_FILTER) =>
+const moduleEnforceSchema = Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')]);
+
+export type ModuleEnforce = Tsu.infer<typeof moduleEnforceSchema>;
+
+export const ModulePackageSchema =
   Tsu.Object({
     name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
     version: Tsu.String(),
@@ -104,22 +105,20 @@ export const ModulePackageSchemaController = (priority: number = DEFAULT_PRIORIT
       'kotori-bot': Tsu.String(),
     }),
     kotori: Tsu.Object({
-      config: ModuleConfigBaseSchemaController(priority, filter).default({ priority, filter }),
+      enforce: moduleEnforceSchema.optional(),
+      config: ModuleConfigBaseSchema,
       meta: Tsu.Object({
         language: Tsu.Array(localeTypeSchema).default([]),
         service: Tsu.Array(Tsu.String()).default([]),
       }).default({ language: [], service: [] }),
-      required: Tsu.Array(Tsu.String()).default([]),
-      optional: Tsu.Array(Tsu.String()).default([]),
     }).default({
-      config: { priority, filter },
+      enforce: undefined,
+      config: { filter: {} },
       meta: { language: [], service: [] },
-      required: [],
-      optional: [],
     }),
   });
 
-export type ModulePackage = Tsu.infer<ReturnType<typeof ModulePackageSchemaController>>;
+export type ModulePackage = Tsu.infer<typeof ModulePackageSchema>;
 
 export interface ModuleData {
   package: ModulePackage;
@@ -241,14 +240,14 @@ export interface CommandData {
 }
 /* 
 export enum CommandResult {
-	SUCCESS = 0,
-	OPTION_ERROR,
-	ARG_ERROR,
-	MANY_ARG,
-	FEW_ARG,
-	SYNTAX,
-	UNKNOWN,
-	ERROR,
+  SUCCESS = 0,
+  OPTION_ERROR,
+  ARG_ERROR,
+  MANY_ARG,
+  FEW_ARG,
+  SYNTAX,
+  UNKNOWN,
+  ERROR,
 } */
 export interface CommandParseResult {
   parsed: {
@@ -408,8 +407,8 @@ interface EventDataBeforeSend extends EventDataBase<'before_send'> {
 interface EventDataSend extends EventDataBase<'send'> {
   api: Api;
   /* 	message: MessageRaw;
-	messageType: MessageScope;
-	targetId: EventDataTargetId; */
+  messageType: MessageScope;
+  targetId: EventDataTargetId; */
   messageId: EventDataTargetId;
 }
 

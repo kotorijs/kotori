@@ -16,9 +16,7 @@
     "kotori-bot": "workspace:^"
   },
   "kotori": {
-    "config": {
-      "priority": 50
-    },
+    "enforce": "pre",
     "meta": {
       "languages": [
         "zh_CN"

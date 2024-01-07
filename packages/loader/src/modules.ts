@@ -2,17 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import {
   ADAPTER_PREFIX,
+  CORE_MODULES,
   CUSTOM_PREFIX,
   Context,
   DATABASE_PREFIX,
-  DEFAULT_ADAPTER_PRIORITY,
-  DEFAULT_CUSTOM_PRIORITY,
-  DEFAULT_DATABASE_PRIORITY,
-  DEFAULT_PRIORITY,
   DevError,
   ModuleData,
   ModulePackage,
-  ModulePackageSchemaController,
+  ModulePackageSchema,
   OFFICIAL_MODULES_SCOPE,
   PLUGIN_PREFIX,
   clearObject,
@@ -26,13 +23,6 @@ declare module '@kotori-bot/core' {
     readonly moduleAll?: () => void;
     readonly watchFile?: () => void;
   }
-}
-
-function getDefaultPriority(pkgName: string) {
-  if (pkgName.includes(DATABASE_PREFIX)) return DEFAULT_DATABASE_PRIORITY;
-  if (pkgName.includes(ADAPTER_PREFIX)) return DEFAULT_ADAPTER_PRIORITY;
-  if (pkgName.includes(CUSTOM_PREFIX)) return DEFAULT_CUSTOM_PRIORITY;
-  return DEFAULT_PRIORITY;
 }
 
 export class Modules extends Context {
@@ -74,12 +64,12 @@ export class Modules extends Context {
       } catch {
         throw new DevError(`illegal package.json ${packagePath}`);
       }
-      const result = ModulePackageSchemaController().parseSafe(packageJson);
+      const result = ModulePackageSchema.parseSafe(packageJson);
       if (!result.value) {
         if (rootDir !== this.baseDir.modules) return;
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
-      packageJson = ModulePackageSchemaController(getDefaultPriority(this.package.name), {}).parse(result.data);
+      packageJson = result.data;
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
       const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
@@ -104,11 +94,17 @@ export class Modules extends Context {
     this.moduleRootDir.forEach(dir => {
       this.getModuleList(dir);
     });
-    const array = this.moduleStack.filter(data => data.package.name.startsWith(OFFICIAL_MODULES_SCOPE));
-    array.push(...this.moduleStack.filter(data => !array.includes(data)));
-    array.forEach(moduleData => {
+    const handle = (pkg: ModulePackage) => {
+      if (pkg.name.includes(DATABASE_PREFIX)) return 1;
+      if (pkg.name.includes(ADAPTER_PREFIX)) return 2;
+      if (CORE_MODULES.includes(pkg.name)) return 3;
+      if (pkg.kotori.enforce === 'pre') return 4;
+      if (!pkg.kotori.enforce) return 5;
+      return 5;
+    }
+    this.moduleStack.sort((el1, el2) => handle(el1.package) - handle(el2.package)).forEach(moduleData => {
       this.moduleQuick(moduleData);
-    });
+    })
   };
 
   public readonly watchFile = async () => {
