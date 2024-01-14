@@ -1,0 +1,19 @@
+{
+    "goodnight.msg.morning.male": "少年",
+    "goodnight.msg.morning.female": "少女",
+    "goodnight.msg.morning.already": "%at%你今天不是起过床了吗(╬ ̄皿 ̄)",
+    "goodnight.msg.morning.morning": "%at%上午好啊！你已经是今天第%count%位起床的%sex%啦( ̄▽ ̄)~*",
+    "goodnight.msg.morning.afternoon": "%at%已经是下午啦！你已经是今天第%count%位起床的%sex%啦~",
+    "goodnight.msg.morning.early": "%at%请保持充足睡眠，至少%hour%：00才可以起床(╬￣皿￣)=○",
+    "goodnight.msg.morning.late": "%at%现在起床还不如不起了呢！！你是今天第%count%位起床的%sex%",
+    "goodnight.msg.night.already": "%at%你已经发过晚安了，早点睡觉哦~",
+    "goodnight.msg.night.not": "%at%不起床就睡，睡死你好了(▼ヘ▼#)",
+    "goodnight.msg.night.less": "%at%你才起床多久就要睡觉，不要挑战我的底线(#`皿′)",
+    "goodnight.msg.night.later": "%at%哇现在已经很晚了呢，今天你的清醒时间为%time%，对自己的健康要负起责任，我可是很心疼你的(；′⌒`)",
+    "goodnight.msg.night.late": "%at%晚安~注意不要熬夜哦，你今天的清醒时间为%time%(*^▽^*)",
+    "goodnight.msg.night.normal": "%at%晚安哦，你今天的清醒时间为%time%(*^▽^*)",
+    "goodnight.msg.night.early": "%at%你睡得太早啦，今天的清醒时间为%time%ψ(*｀ー′)ψ",
+    "goodnight.msg.night.hours": "小时",
+    "goodnight.msg.night.minutes": "分钟",
+    "goodnight.msg.night.seconds": "秒"
+}

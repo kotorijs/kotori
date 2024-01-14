@@ -1,0 +1,14 @@
+{
+  "mediawiki.descr.wiki": "Search MediaWiki",
+  "mediawiki.msg.wiki.empty": "No wiki list yet, use \"/wikio add\" to add new MediaWiki",
+  "mediawiki.msg.wiki.error": "Invalid number, wiki does not exist, use \"/wikil\" to view current MediaWiki list",
+  "mediawiki.msg.wiki.fail": "No related content found: %input%",
+  "mediawiki.msg.wiki": "Title: %title%\nContent: %extract%\n%url%\nSource: %name%",
+  "mediawiki.descr.wikil": "View MediaWiki list",
+  "mediawiki.msg.wikil": "MediaWiki List: %list%",
+  "mediawiki.msg.wikil.list": "\n%num%. %name% - %api%",
+  "mediawiki.descr.wikio.del": "Delete MediaWiki ",
+  "mediawiki.descr.wikio.add": "Add MediaWiki",
+  "mediawiki.msg.wikio.del": "Successfully deleted MediaWiki: %input%",
+  "mediawiki.msg.wikio.add": "Successfully added MediaWiki: %input%"
+}

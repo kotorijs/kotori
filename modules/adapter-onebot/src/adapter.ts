@@ -7,10 +7,10 @@
  */
 import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
-import OneBotApi from './api';
+import OnebotApi from './api';
 import WsServer from './services/wsserver';
 import { EventDataType } from './types';
-import OneBotElements from './elements';
+import OnebotElements from './elements';
 
 interface EventDataPoke extends EventDataApiBase<'poke'> {
   targetId: EventDataTargetId;
@@ -40,15 +40,15 @@ export const config = Tsu.Intersection([
   ]),
 ]);
 
-type OneBotConfig = Tsu.infer<typeof config> & AdapterConfig;
+type OnebotConfig = Tsu.infer<typeof config> & AdapterConfig;
 
-export class OneBotAdapter extends Adapter {
+export class OnebotAdapter extends Adapter {
   private readonly info: string;
 
-  public readonly config: OneBotConfig;
+  public readonly config: OnebotConfig;
 
-  public constructor(ctx: Context, config: OneBotConfig, identity: string) {
-    super(ctx, config, identity, OneBotApi, new OneBotElements());
+  public constructor(ctx: Context, config: OnebotConfig, identity: string) {
+    super(ctx, config, identity, OnebotApi, new OnebotElements());
     this.config = config;
     this.info = `${this.config.address}:${this.config.port}`;
   }
