@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-01 16:43:54
+ * @LastEditTime: 2024-01-14 17:45:01
  */
 import { Adapter, AdapterConfig, Context, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -26,7 +26,12 @@ export class QQAdapter extends Adapter<QQApi> {
 
   private seq = 0;
 
-  private msg_seq = 0;
+  /* here need */
+  public msg_seq = 0;
+
+  private groupId = '';
+
+  public imageStack: (string | true)[] = [];
 
   public readonly config: QQConfig;
 
@@ -71,6 +76,8 @@ export class QQAdapter extends Adapter<QQApi> {
         },
         groupId: data.d.group_openid,
       });
+      this.groupId = data.d.group_openid;
+      /* here need imporve */
     } else if (data.op === 11) {
       this.online();
       // this.offlineCheck();
@@ -100,10 +107,10 @@ export class QQAdapter extends Adapter<QQApi> {
       return undefined;
     }
     let address = '/';
+    let cancel = false;
     let req: obj = {};
     if (action === 'send_group_msg' && 'groupId' in params && 'message' in params && 'id' in params) {
       if (!params.message) return null;
-      this.msg_seq += 1;
       address += `groups/${params.groupId}/messages`;
       req = {
         content: params.message,
@@ -111,7 +118,38 @@ export class QQAdapter extends Adapter<QQApi> {
         msg_id: params.id,
         msg_seq: this.msg_seq,
       };
+      if (this.imageStack[this.msg_seq]) {
+        cancel = true;
+        let timerId: NodeJS.Timeout
+        const timer = () => setTimeout(() => {
+          if (timerId) clearTimeout(timerId);
+          if (this.imageStack[this.msg_seq] === true) {
+            timerId = timer();
+            return;
+          }
+          req['file_info'] = { file_info: this.imageStack[this.msg_seq] };
+          req.msg_type = 7;
+          this.ctx.http.post(`${API_ADDRESS}${address}`, req, {
+            headers: {
+              Authorization: `QQBot ${this.token}`,
+              'X-Union-Appid': this.config.appid,
+            },
+            validateStatus: () => true,
+          });
+        }, 500);
+      };
+      this.msg_seq += 1;
+    } else if (action === 'send_group_msg_media' && 'url' in params && 'file_type' in params) {
+      address += `groups/${this.groupId}/files`;
+      req = {
+        file_type: params.file_type,
+        url: params.url,
+        srv_send_msg: false,
+      };
+      console.log(req);
+      this.msg_seq += 1;
     }
+    if (cancel) return undefined;
     return this.ctx.http.post(`${API_ADDRESS}${address}`, req, {
       headers: {
         Authorization: `QQBot ${this.token}`,

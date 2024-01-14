@@ -1,0 +1,20 @@
+{
+  "corei18n.template.args_error": "參數 “%target%” 的類型錯誤，期望類型：%expected% 實際類型：%reality%",
+  "corei18n.template.args_few": "輸入參數過少請增加參數，期望數量：%expected% 實際數量：%reality%",
+  "corei18n.template.args_many": "輸入參數過多請減少參數，期望數量：%expected% 實際數量：%reality%",
+  "corei18n.template.option_error": "選項 “%target%” 的類型錯誤，期望類型：%expected% 實際類型：%reality%",
+  "corei18n.template.syntax": "指令語法錯誤，意外地在 %index% 處字符 “%char%”",
+  "corei18n.template.unknown": "未知的指令 “%input%” ，請檢查指令是否輸入正確",
+  "corei18n.template.error": "意外的錯誤！\n捕獲信息：%error%",
+  "corei18n.template.res_error": "返回數據錯誤！請聯系管理員\n源數據：%res%",
+  "corei18n.template.num_error": "序號錯誤，請重新發送",
+  "corei18n.template.num_choose": "再次發送指令並傳入參數【序號】以選擇對應內容\n示例：/指令 內容 2",
+  "corei18n.template.no_access_manger": "該指令僅【群管理員】與【群BOT管理員】可執行！",
+  "corei18n.template.no_access_admin": "該指令僅【BOT超級管理員】可執行！",
+  "corei18n.template.disable": "該功能目前未啓用，請聯系管理員開啓",
+  "corei18n.template.exists": "目標參數【%target%】已存在，請勿重複執行",
+  "corei18n.template.no_exists": "目標參數【%target%】不存在，請確認後，重新發送",
+  "----------------------": "----------",
+  "corei18n.template.empty": "無",
+  "corei18n.template.unsupported": "當前平台不支持該消息元素"
+}

@@ -7,7 +7,7 @@
  */
 import { Api, MessageRaw } from 'kotori-bot';
 
-export class OneBotApi extends Api {
+export class OnebotApi extends Api {
   public send_private_msg(message: MessageRaw, userId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
@@ -125,4 +125,4 @@ export class OneBotApi extends Api {
   /* public extra: ApiExtraValue = { type: 'onebot', image, at, poke }; */
 }
 
-export default OneBotApi;
+export default OnebotApi;

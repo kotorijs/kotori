@@ -1,0 +1,6 @@
+{
+  "hitokotos.descr.hitokotos.help": "隨機語錄",
+  "hitokotos.descr.hitokoto.help": "語錄",
+  "hitokotos.msg.hitokoto": "%msg%%from%\n類型： %type%",
+  "hitokotos.msg.list": "%content%"
+}

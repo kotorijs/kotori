@@ -1,7 +1,7 @@
 import { Elements, EventDataTargetId, none } from 'kotori-bot';
 import { MessageCqType } from './types';
 
-export class OneBotElements extends Elements {
+export class OnebotElements extends Elements {
   public cq(type: MessageCqType, data: string) {
     none(this);
     return `[CQ:${type},${data}]`;
@@ -28,4 +28,4 @@ export class OneBotElements extends Elements {
   }
 }
 
-export default OneBotElements;
+export default OnebotElements;

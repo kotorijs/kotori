@@ -19,6 +19,9 @@
     "enforce": "pre",
     "meta": {
       "languages": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
         "zh_CN"
       ]
     }

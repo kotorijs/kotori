@@ -14,5 +14,15 @@
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "meta": {
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    }
   }
 }

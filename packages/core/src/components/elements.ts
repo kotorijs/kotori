@@ -1,11 +1,14 @@
 import { none } from '@kotori-bot/tools';
 import { EventDataTargetId } from '../types';
+import { Adapter } from '../components/adapter';
 
-export class Elements {
+export class Elements<T extends Adapter = Adapter> {
   private default(...args: unknown[]) {
     none(this, args);
     return '';
   }
+
+  public constructor(protected adapter: T) { };
 
   public at(target: EventDataTargetId, extra?: unknown) {
     return this.default(target, extra);
@@ -35,7 +38,7 @@ export class Elements {
     const supports: (keyof Elements)[] = [];
     const keys: (keyof Elements)[] = ['at', 'image', 'voice', 'video', 'face', 'file'];
     keys.forEach(key => {
-      if (this[key] !== new Elements()[key]) supports.push(key);
+      if (this[key] !== new Elements(this.adapter)[key]) supports.push(key);
     });
     return supports;
   }

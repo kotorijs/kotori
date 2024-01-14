@@ -1,0 +1,10 @@
+{
+    "bangumi.descr.bgm": "Search games/anime on Bangumi",
+    "bangumi.descr.bgmc": "Get today's Bangumi schedule",
+    "bangumi.msg.bgm": "Original Name: %name%\nChinese Name: %name_cn%\nSummary: %summary%\nTags: %tags%\nDetails: %url%\n%image%",
+    "bangumi.msg.bgm.list": "%num%.%name%%name_cn%\n",
+    "bangumi.msg.bgm.lists": "%list%Resend command and input [number] to choose corresponding content\nExample: /command content 2",
+    "bangumi.msg.bgm.fail": "No matching items found: %input%",
+    "bangumi.msg.bgmc": "Date: %weekday%~%list%",
+    "bangumi.msg.bgmc.list": "\nOriginal Name: %name%\nChinese Name: %name_cn%\nAir Time: %air_date%\n%image%"
+}
