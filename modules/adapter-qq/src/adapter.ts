@@ -9,6 +9,7 @@ import { Adapter, AdapterConfig, Context, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
 import { PlayloadData } from './types';
+import QQElements from './elements';
 
 const WS_ADDRESS = 'wss://api.sgroup.qq.com/websocket';
 const API_ADDRESS = 'https://api.sgroup.qq.com/v2';
@@ -36,7 +37,7 @@ export class QQAdapter extends Adapter<QQApi> {
   public readonly config: QQConfig;
 
   public constructor(ctx: Context, config: QQConfig, identity: string) {
-    super(ctx, config, identity, QQApi);
+    super(ctx, config, identity, QQApi, QQElements);
     this.config = config;
   }
 

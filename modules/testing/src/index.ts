@@ -29,3 +29,10 @@ Kotori.on('poke', session => {
 	session.send(`[CQ:poke,qq=${session.userId}]`)
 	return '戳回去！！';
 }); */
+
+Kotori.on('group_decrease', session => {
+    session.quick([session.userId === session.operatorId ? "%target% 默默的退出了群聊" : "%target% 被 %target% 制裁了...",{
+    target: session.userId,
+    operator: session.operatorId
+    }]);
+});
