@@ -52,7 +52,7 @@ export function main(ctx: Context) {
     },
   ]);
 
-  ctx.command('day').action((_, session) =>
+  ctx.command('day - random_img.descr.day').action((_, session) =>
     config.day.apiKey
       ? [
           'random_img.msg.day',

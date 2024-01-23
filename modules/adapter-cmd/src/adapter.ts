@@ -25,7 +25,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
   public config: CmdConfig;
 
   public constructor(ctx: Context, config: CmdConfig, identity: string) {
-    super(ctx, config, identity, CmdApi, new CmdElements());
+    super(ctx, config, identity, CmdApi, CmdElements);
     this.config = config;
     this.selfId = config['self-id'];
     process.stdin.on('data', data => this.handle(data));

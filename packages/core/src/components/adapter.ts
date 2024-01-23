@@ -57,14 +57,14 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     config: AdapterConfig,
     identity: string,
     ApiConstructor: ApiConstructor<T>,
-    el: Elements = new Elements(),
+    El: new (adapter: Adapter) => Elements = Elements,
   ) {
     super('adapter', '');
     this.ctx = ctx;
     this.config = config;
     this.identity = identity;
     this.platform = config.extends;
-    this.api = Adapter.apiProxy(new ApiConstructor(this, el), this.ctx);
+    this.api = Adapter.apiProxy(new ApiConstructor(this, new El(this)), this.ctx);
     if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
     this.ctx.internal.getBots()[this.platform].push(this.api);
   }

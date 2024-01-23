@@ -47,8 +47,7 @@ export function main(ctx: Context) {
       const song = res.data[(data.args[1] as number) - 1];
       if (!song) return 'music.msg.music.fail.order';
 
-      if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songid}`);
-      console.log(`[CQ:music,type=163,id=${song.songid}`, session.api.adapter.platform);
+      if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songid}]`);
 
       return [
         'music.msg.music',

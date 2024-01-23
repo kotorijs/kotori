@@ -37,5 +37,9 @@
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/loader": "workspace:^",
     "cac": "^6.7.14"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.1.3"
   }
 }

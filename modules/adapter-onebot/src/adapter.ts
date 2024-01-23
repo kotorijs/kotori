@@ -48,7 +48,7 @@ export class OnebotAdapter extends Adapter {
   public readonly config: OnebotConfig;
 
   public constructor(ctx: Context, config: OnebotConfig, identity: string) {
-    super(ctx, config, identity, OnebotApi, new OnebotElements());
+    super(ctx, config, identity, OnebotApi,  OnebotElements);
     this.config = config;
     this.info = `${this.config.address}:${this.config.port}`;
   }
