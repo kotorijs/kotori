@@ -8,7 +8,7 @@
 import { Api, EventDataTargetId, MessageRaw } from 'kotori-bot';
 
 export class CmdApi extends Api {
-  public send_private_msg(message: MessageRaw, userId: EventDataTargetId) {
+  send_private_msg(message: MessageRaw, userId: EventDataTargetId) {
     this.adapter.send('send_private_msg', { user_id: userId, message });
   }
 }

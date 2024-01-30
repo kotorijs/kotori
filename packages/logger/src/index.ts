@@ -5,7 +5,7 @@ import { formatTime, obj } from '@kotori-bot/tools';
 
 export enum LoggerLevel {
   LOG,
-  DEBUG,
+  DEBUG
 }
 
 interface LoggerOptions {
@@ -18,7 +18,7 @@ type color = keyof typeof Logger.colorList;
 type prefixFunc<T = Logger> = (content: string | (() => string), startColor: color, endColor: color) => T;
 
 export class Logger {
-  public static readonly colorList = {
+  static readonly colorList = {
     default: '\x1B[0m', // 默认
     bright: '\x1B[1m', // 亮色
     grey: '\x1B[2m', // 灰色
@@ -41,14 +41,14 @@ export class Logger {
     blueBG: '\x1B[44m', // 背景色为蓝色
     magentaBG: '\x1B[45m', // 背景色为品红
     cyanBG: '\x1B[46m', // 背景色为青色
-    whiteBG: '\x1B[47m', // 背景色为白色
+    whiteBG: '\x1B[47m' // 背景色为白色
   };
 
   // private static logsFilePath = CONST.LOGS;
 
   private static handlePrefix(prefixs: LoggerOptions['prefixs']) {
     const handle: string[] = [];
-    prefixs.forEach(element => {
+    prefixs.forEach((element) => {
       if (element instanceof Function) {
         handle.push(element());
         return;
@@ -60,17 +60,17 @@ export class Logger {
 
   protected static readonly prefixs: LoggerOptions['prefixs'] = [];
 
-  public static readonly prefix: prefixFunc = (content, startColor, endColor) => {
+  static readonly prefix: prefixFunc = (content, startColor, endColor) => {
     this.prefixs.push(Logger.colorList[startColor], content, Logger.colorList[endColor]);
     return this;
   };
 
   /* whole logger need to feat */
-  public static print(args: unknown[], level: LoggerLevel) {
+  static print(args: unknown[], level: LoggerLevel) {
     if ((globalThis as unknown as { env_mode: string }).env_mode !== 'dev' && level === LoggerLevel.DEBUG) return;
 
     let message = '';
-    args.forEach(value => {
+    args.forEach((value) => {
       let Element = value;
       if (Element && typeof Element === 'object') {
         const cache: obj[] = [];
@@ -107,37 +107,37 @@ export class Logger {
     return tags;
   }
 
-  public static tag(tag: string, typeColor: color, textColor: color) {
+  static tag(tag: string, typeColor: color, textColor: color) {
     this.Tags.push(
-      `${Logger.colorList.default}[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`,
+      `${Logger.colorList.default}[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`
     );
     return this;
   }
   /* 
-	public static extend(...content: string[])  {
+	static extend(...content: string[])  {
 		const CloneLogger = Object.create(Logger) as typeof Logger;
 		CloneLogger.tags = content;
 		console.log(CloneLogger.tags);
 		return CloneLogger;
 	}; */
 
-  public static log(...args: unknown[]) {
+  static log(...args: unknown[]) {
     Logger.tag('LOG', 'cyan', 'default').print(args, LoggerLevel.LOG);
   }
 
-  public static info(...args: unknown[]) {
+  static info(...args: unknown[]) {
     Logger.tag('INFO', 'green', 'bright').print(args, LoggerLevel.LOG);
   }
 
-  public static warn(...args: unknown[]) {
+  static warn(...args: unknown[]) {
     Logger.tag('WARM', 'yellow', 'yellow').print(args, LoggerLevel.LOG);
   }
 
-  public static error(...args: unknown[]) {
+  static error(...args: unknown[]) {
     Logger.tag('ERROR', 'red', 'red').print(args, LoggerLevel.LOG);
   }
 
-  public static debug(...args: unknown[]) {
+  static debug(...args: unknown[]) {
     Logger.tag('DEBUG', 'magenta', 'red').print(args, LoggerLevel.DEBUG);
   }
 }

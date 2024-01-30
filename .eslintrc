@@ -1,48 +1,18 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
+  "root": true,
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "airbnb-base",
     "prettier"
   ],
-  "overrides": [
-    {
-      "env": {
-        "node": true
-      },
-      "files": [
-        ".eslintrc.{js,cjs}"
-      ],
-      "parserOptions": {
-        "sourceType": "script"
-      }
-    }
-  ],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
   "plugins": [
     "@typescript-eslint"
   ],
   "rules": {
-    "import/no-extraneous-dependencies": 0,
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/no-namespace": 0,
-    "no-console": 0,
-    "indent": [
-      0,
-      "spaces",
-      4
-    ],
-    "space-before-function-paren": 0,
-    /* special */
-    "@typescript-eslint/no-var-requires": 0,
+    // "@typescript-eslint/no-explicit-any": 0,
+    // "@typescript-eslint/no-namespace": 0,
+    // "no-console": 0,
+    // "space-before-function-paren": 0,
     /* typescript need */
     "import/no-unresolved": 0,
     "import/extensions": 0,
@@ -50,30 +20,8 @@
     "no-unused-vars": 0,
     "no-shadow": 0,
     "no-redeclare": 0
-    // "@typescript-eslint/no-unused-vars": 0
   },
-  /*   "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          [
-            "@",
-            "./src"
-          ]
-        ],
-        "extensions": [
-          ".ts",
-          ".tsx",
-          ".js",
-          ".jsx",
-          ".json"
-        ]
-      }
-    }
-  }, */
   "ignorePatterns": [
-    "*.js",
-    "*.d.ts",
-    "node_modules"
+    "*.js"
   ]
 }

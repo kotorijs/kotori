@@ -37,6 +37,17 @@ export function isClass(obj: unknown, strict: boolean = true): obj is new (...ar
   return false;
 }
 
+export function clearObject(val: obj, strict: boolean = false, stacks: Set<unknown> = new Set()) {
+  const handle = val;
+  Object.keys(handle).forEach(key => {
+    if (handle[key] !== undefined && (strict || handle[key] !== null)) {
+      if (typeof handle[key] === 'object' && stacks.has(handle[key])) handle[key] = clearObject(handle[key]);
+      return;
+    }
+    delete handle[key];
+  });
+  return handle;
+}
 /* export function stringProcess(
 	string: FuncStringProcessStr,
 	keyString: FuncStringProcessKey,

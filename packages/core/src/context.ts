@@ -5,18 +5,18 @@ import Internal from './base/internal';
 import { KotoriConfig } from './types';
 
 export class Context extends Internal {
-  public http = new Http({ validateStatus: () => true });
+  http = new Http({ validateStatus: () => true });
 
-  public logger = Object.assign(
+  logger = Object.assign(
     Logger,
     new Proxy(Logger.debug, {
       apply: (target, _, argArray) => {
         if (this.options.env === 'dev') target(argArray);
-      },
-    }),
+      }
+    })
   );
 
-  public readonly i18n: Locale;
+  readonly i18n: Locale;
 
   private initialize() {
     this.registeMessageEvent();
@@ -24,9 +24,10 @@ export class Context extends Internal {
       const { selfId } = session.api.adapter;
       if (session.userId !== selfId) next();
     }, 50);
+    // this.on('ready_all', () => this.startAllService());
   }
 
-  public constructor(Config?: KotoriConfig) {
+  constructor(Config?: KotoriConfig) {
     super(Config);
     this.i18n = new Locale(this.config.global.lang);
     this.initialize();

@@ -1,35 +1,47 @@
 import { none } from '@kotori-bot/tools';
-import { ElementsParam, EventDataTargetId } from '../types';
+import { EventDataTargetId } from '../types';
+import { Adapter } from '../components/adapter';
 
-const defaultMethod = (...args: unknown[]) => {
-	none(...args);
-	return '';
-};
+export class Elements<T extends Adapter = Adapter> {
+  private default(...args: unknown[]) {
+    none(this, args);
+    return '';
+  }
 
-export class Elements {
-	public constructor(data: ElementsParam) {
-		this.at = data.at || defaultMethod;
-		this.image = data.image || defaultMethod;
-		this.voice = data.voice || defaultMethod;
-		this.video = data.video || defaultMethod;
-		this.face = data.face || defaultMethod;
-		this.file = data.file || defaultMethod;
-		this.supports = Object.keys(data);
-	}
+  constructor(protected adapter: T) {}
 
-	public at: (target: EventDataTargetId, extra?: unknown) => string;
+  at(target: EventDataTargetId, extra?: unknown) {
+    return this.default(target, extra);
+  }
 
-	public image: (url: string, extra?: unknown) => string;
+  image(url: string, extra?: unknown) {
+    return this.default(url, extra);
+  }
 
-	public voice: (url: string, extra?: unknown) => string;
+  voice(url: string, extra?: unknown) {
+    return this.default(url, extra);
+  }
 
-	public video: (url: string, extra?: unknown) => string;
+  video(url: string, extra?: unknown) {
+    return this.default(url, extra);
+  }
 
-	public face: (id: number | string, extra?: unknown) => string;
+  face(id: number | string, extra?: unknown) {
+    return this.default(id, extra);
+  }
 
-	public file: (data: ArrayBuffer, extra?: unknown) => string;
+  file(data: unknown, extra?: unknown) {
+    return this.default(data, extra);
+  }
 
-	public supports: string[];
+  supports() {
+    const supports: (keyof Elements)[] = [];
+    const keys: (keyof Elements)[] = ['at', 'image', 'voice', 'video', 'face', 'file'];
+    keys.forEach((key) => {
+      if (this[key] !== new Elements(this.adapter)[key]) supports.push(key);
+    });
+    return supports;
+  }
 }
 
 export default Elements;

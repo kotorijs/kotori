@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-03 16:50:16
+ * @LastEditTime: 2024-01-01 17:14:53
  */
 
 import { Context, stringTemp } from 'kotori-bot';
@@ -17,8 +17,8 @@ export function main(ctx: Context) {
     const filterResult = data.args[0]
       ? commandStack.filter(
           command =>
-            (data.args[0] as string).startsWith(command.data.root) ||
-            command.data.alias.filter(alias => (data.args[0] as string).startsWith(alias)).length > 0,
+            (data.args[0] as string).startsWith(command.root) ||
+            command.alias.filter(alias => (data.args[0] as string).startsWith(alias)).length > 0,
         )
       : commandStack;
     if (filterResult.length <= 0) return 'helper.msg.descr.fail';
@@ -26,7 +26,7 @@ export function main(ctx: Context) {
     const temp: typeof stringTemp = (template, args) => stringTemp(events.locale(template), args);
 
     filterResult.forEach(command => {
-      const cmd = command.data;
+      const cmd = command;
       const alias =
         cmd.alias.length > 0
           ? temp('helper.template.alias', {

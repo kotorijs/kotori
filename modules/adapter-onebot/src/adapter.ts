@@ -3,14 +3,14 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-02 22:54:59
+ * @LastEditTime: 2024-01-01 17:06:21
  */
 import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
-import OneBotApi from './api';
+import OnebotApi from './api';
 import WsServer from './services/wsserver';
 import { EventDataType } from './types';
-import OneBotElements from './elements';
+import OnebotElements from './elements';
 
 interface EventDataPoke extends EventDataApiBase<'poke'> {
   targetId: EventDataTargetId;
@@ -19,7 +19,7 @@ interface EventDataPoke extends EventDataApiBase<'poke'> {
 }
 
 declare module 'kotori-bot' {
-  interface EventType {
+  interface EventsList {
     poke: EventDataPoke;
   }
 }
@@ -28,32 +28,32 @@ export const config = Tsu.Intersection([
   Tsu.Object({
     port: Tsu.Number().int().range(1, 65535),
     address: Tsu.String().regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/),
-    retry: Tsu.Number().int().min(1).default(10),
+    retry: Tsu.Number().int().min(1).default(10)
   }),
   Tsu.Union([
     Tsu.Object({
-      mode: Tsu.Literal('ws'),
+      mode: Tsu.Literal('ws')
     }),
     Tsu.Object({
-      mode: Tsu.Literal('ws-reverse'),
-    }),
-  ]),
+      mode: Tsu.Literal('ws-reverse')
+    })
+  ])
 ]);
 
-type OneBotConfig = Tsu.infer<typeof config> & AdapterConfig;
+type OnebotConfig = Tsu.infer<typeof config> & AdapterConfig;
 
-export class OneBotAdapter extends Adapter {
+export class OnebotAdapter extends Adapter {
   private readonly info: string;
 
-  public readonly config: OneBotConfig;
+  readonly config: OnebotConfig;
 
-  public constructor(ctx: Context, config: OneBotConfig, identity: string) {
-    super(ctx, config, identity, OneBotApi, OneBotElements);
+  constructor(ctx: Context, config: OnebotConfig, identity: string) {
+    super(ctx, config, identity, OnebotApi, OnebotElements);
     this.config = config;
     this.info = `${this.config.address}:${this.config.port}`;
   }
 
-  public handle(data: EventDataType) {
+  handle(data: EventDataType) {
     if (data.post_type === 'message' && data.message_type === 'private') {
       this.emit('private_msg', {
         userId: data.user_id,
@@ -62,9 +62,9 @@ export class OneBotAdapter extends Adapter {
         sender: {
           nickname: data.sender.nickname,
           age: data.sender.age,
-          sex: data.sender.sex,
+          sex: data.sender.sex
         },
-        groupId: data.group_id,
+        groupId: data.group_id
       });
     } else if (data.post_type === 'message' && data.message_type === 'group') {
       this.emit('group_msg', {
@@ -74,60 +74,60 @@ export class OneBotAdapter extends Adapter {
         sender: {
           nickname: data.sender.nickname,
           age: data.sender.age,
-          sex: data.sender.sex,
+          sex: data.sender.sex
         },
-        groupId: data.group_id!,
+        groupId: data.group_id!
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'private_recall') {
       this.emit('private_recall', {
         userId: data.user_id,
-        messageId: data.message_id,
+        messageId: data.message_id
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'group_recall') {
       this.emit('group_recall', {
         userId: data.user_id,
         messageId: data.message_id,
         groupId: data.group_id!,
-        operatorId: data.operator_id || data.user_id,
+        operatorId: data.operator_id || data.user_id
       });
     } else if (data.post_type === 'request' && data.request_type === 'private') {
       this.emit('private_request', {
-        userId: data.user_id,
+        userId: data.user_id
       });
     } else if (data.post_type === 'request' && data.request_type === 'group') {
       this.emit('group_request', {
         userId: data.user_id,
         groupId: data.group_id!,
-        operatorId: data.operator_id || data.user_id,
+        operatorId: data.operator_id || data.user_id
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'private_add') {
       this.emit('private_add', {
-        userId: data.user_id,
+        userId: data.user_id
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'group_increase') {
       this.emit('group_increase', {
         userId: data.user_id,
         groupId: data.group_id!,
-        operatorId: data.operator_id || data.user_id,
+        operatorId: data.operator_id || data.user_id
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'group_decrease') {
       this.emit('group_decrease', {
         userId: data.user_id,
         groupId: data.group_id!,
-        operatorId: data.operator_id || data.user_id,
+        operatorId: data.operator_id || data.user_id
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'group_admin') {
       this.emit('group_admin', {
         userId: data.user_id,
         groupId: data.group_id!,
-        operation: data.sub_type === 'set' ? 'set' : 'unset',
+        operation: data.sub_type === 'set' ? 'set' : 'unset'
       });
     } else if (data.post_type === 'notice' && data.notice_type === 'group_ban') {
       this.emit('group_ban', {
         userId: data.user_id,
         groupId: data.group_id!,
         operatorId: data.operator_id,
-        time: data.duration!,
+        time: data.duration!
       });
     } else if (data.post_type === 'meta_event' && data.meta_event_type === 'heartbeat') {
       if (data.status.online) {
@@ -141,7 +141,7 @@ export class OneBotAdapter extends Adapter {
     } else if (data.data instanceof Object && typeof data.data.message_id === 'number') {
       this.ctx.emit('send', {
         api: this.api,
-        messageId: data.data.message_id,
+        messageId: data.data.message_id
       });
     } else if (
       data.post_type === 'notice' &&
@@ -152,35 +152,35 @@ export class OneBotAdapter extends Adapter {
       this.emit('poke', {
         userId: data.user_id,
         targetId: data.target_id,
-        groupId: data.group_id!,
+        groupId: data.group_id!
       });
     }
     if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
   }
 
-  public start() {
+  start() {
     if (this.config.mode === 'ws-reverse') {
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
         info: `start wsserver at ${this.info}`,
-        onlyStart: true,
+        onlyStart: true
       });
     }
     this.connectWss();
   }
 
-  public stop() {
+  stop() {
     this.ctx.emit('disconnect', {
-      adapter: this,
+      service: this,
       normal: true,
-      info: this.config.mode === 'ws' ? `disconnect from ${this.info}` : `stop wsserver at ${this.info}`,
+      info: this.config.mode === 'ws' ? `disconnect from ${this.info}` : `stop wsserver at ${this.info}`
     });
     this.socket?.close();
     this.offline();
   }
 
-  public send(action: string, params?: object) {
+  send(action: string, params?: object) {
     this.socket?.send(JSON.stringify({ action, params }));
   }
 
@@ -192,49 +192,47 @@ export class OneBotAdapter extends Adapter {
       const { 0: socket } = wss;
       this.socket = socket;
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
-        info: `client connect to ${this.info}`,
+        info: `client connect to ${this.info}`
       });
       this.socket?.on('close', () => {
         this.ctx.emit('disconnect', {
-          adapter: this,
+          service: this,
           normal: false,
-          info: `unexpected client disconnect from ${this.info}`,
+          info: `unexpected client disconnect from ${this.info}`
         });
         wss[1].close();
         this.connectWss();
       });
     } else {
       this.ctx.emit('connect', {
-        adapter: this,
+        service: this,
         normal: true,
-        info: `connect server to ${this.info}`,
+        info: `connect server to ${this.info}`
       });
       this.socket = new WebSocket(`${this.info}`);
       this.socket.on('close', () => {
         this.ctx.emit('disconnect', {
-          adapter: this,
+          service: this,
           normal: false,
-          info: `unexpected disconnect server from ${this.info}, will reconnect in ${this.config.retry} seconds`,
+          info: `unexpected disconnect server from ${this.info}, will reconnect in ${this.config.retry} seconds`
         });
         setTimeout(() => {
           if (!this.socket) return;
           this.socket.close();
           this.ctx.emit('connect', {
-            adapter: this,
+            service: this,
             normal: false,
-            info: `reconnect server to ${this.info}`,
+            info: `reconnect server to ${this.info}`
           });
           this.connectWss();
         }, this.config.retry * 1000);
       });
     }
-    this.socket.on('message', data => this.handle(JSON.parse(data.toString())));
+    this.socket.on('message', (data) => this.handle(JSON.parse(data.toString())));
   }
 
   /* global NodeJS */
   private onlineTimerId: NodeJS.Timeout | null = null;
 }
-
-export default OneBotAdapter;

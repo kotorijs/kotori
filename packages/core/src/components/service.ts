@@ -1,18 +1,38 @@
-interface ServiceImpl {
-	readonly config: object;
-	handle(...data: unknown[]): void;
-	start(): void;
-	stop(): void;
-}
+import { none } from '@kotori-bot/tools';
+import { ServiceImpl, ServiceType } from '../types';
 
 export abstract class Service implements ServiceImpl {
-	public abstract readonly config: object;
+  handle(...data: unknown[]): void {
+    return none(this, data);
+  }
 
-	public abstract handle(...data: unknown[]): void;
+  start(): void {
+    return none(this);
+  }
 
-	public abstract start(): void;
+  stop(): void {
+    return none(this);
+  }
 
-	public abstract stop(): void;
+  readonly serviceType: ServiceType;
+
+  readonly service: string;
+
+  readonly config: object;
+
+  constructor(serviceType: ServiceType, service: string, config: object = {}) {
+    this.serviceType = serviceType;
+    this.config = config;
+    if (serviceType === 'adapter') {
+      this.service = 'adapter';
+      return;
+    }
+    if (serviceType === 'database') {
+      this.service = 'database';
+      return;
+    }
+    this.service = service;
+  }
 }
 
 export default Service;

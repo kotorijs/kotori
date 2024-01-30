@@ -1,0 +1,4 @@
+{
+  "weather.descr.weather": "Query city weather",
+  "weather.msg.weather": "%content%"
+}

@@ -26,7 +26,7 @@ Kotori.command('core - core.descr.core').action((_, events) => {
       root: baseDir.root,
       mode: options.env,
       modules: internal.getModules().length,
-      adapters: Object.values(internal.getAdapters()).length,
+      services: Object.values(internal.getServices()).length,
       bots: botsLength,
       midwares: internal.getMidwares().length,
       commands: internal.getCommands().length,

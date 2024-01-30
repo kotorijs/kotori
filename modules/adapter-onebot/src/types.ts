@@ -457,7 +457,7 @@ export type EventNoticeType =
   | 'essence'
   | 'notify';
 export type EventNoticeNotifySubType = 'honor' | 'poke' | 'lucky_king' | 'title';
-export type EventMetaEventType = 'lifecycle' | 'heartbeat';
+export type EventMetaEventsList = 'lifecycle' | 'heartbeat';
 
 export type EvenetSenderRoleType = 'owner' | 'admin' | 'member';
 
@@ -501,7 +501,7 @@ export type EventDataType = {
   request_type: EventRequestType;
   notice_type: EventNoticeType;
   notice_notify_subtype: EventNoticeNotifySubType;
-  meta_event_type: EventMetaEventType;
+  meta_event_type: EventMetaEventsList;
   time: number;
   self_id: number;
   message_: Message;
