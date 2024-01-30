@@ -18,10 +18,10 @@ export class Main {
     
     private static saveTodayData(data: good)  this.saveConfig(this.getTodayPath(), data); */
 
-  public constructor(Ctx: Context) {
+  constructor(Ctx: Context) {
     Ctx.regexp(
       /^(早|早安|早上好)$/,
-      () => '早安~',
+      () => '早安~'
       /* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
 			if (data.user_id in record.morning) return ['goodnight.msg.morning.already', { at }];
@@ -44,7 +44,7 @@ export class Main {
 
     Ctx.regexp(
       /^(晚|晚安|晚上好)$/,
-      () => '晚安~',
+      () => '晚安~'
       /* 			const record = loadTodayData();
 			const at = SDK.cq_at(data.user_id);
 			if (data.user_id in record.night) return ['goodnight.msg.night.already', { at }];

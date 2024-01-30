@@ -8,7 +8,7 @@ export class Profile {
 
 	private exp: number;
 
-	public constructor(event: EventDataType, exp: number) {
+	constructor(event: EventDataType, exp: number) {
 		this.event = event;
 		this.exp = exp;
 	}
@@ -40,7 +40,7 @@ export class Profile {
 		return { titleRaw, nickname, sexColor, level, totalExp: level >= config.maxLevel ? '~' : totalExp, progress };
 	};
 
-	public static getLevel(exp: number)  {
+	static getLevel(exp: number)  {
 		if (exp < 0) return [-1, 0, 0];
 		let totalExp = config.baseExp;
 		let totalExpLast = 0;
@@ -79,7 +79,7 @@ export class Profile {
 		return list.join('');
 	};
 
-	public render = async () => {
+	render = async () => {
 		const browser = await puppeteer.launch({ headless: 'new' });
 		const page = await browser.newPage();
 

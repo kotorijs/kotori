@@ -8,36 +8,36 @@ export class Elements<T extends Adapter = Adapter> {
     return '';
   }
 
-  public constructor(protected adapter: T) { };
+  constructor(protected adapter: T) {}
 
-  public at(target: EventDataTargetId, extra?: unknown) {
+  at(target: EventDataTargetId, extra?: unknown) {
     return this.default(target, extra);
   }
 
-  public image(url: string, extra?: unknown) {
+  image(url: string, extra?: unknown) {
     return this.default(url, extra);
   }
 
-  public voice(url: string, extra?: unknown) {
+  voice(url: string, extra?: unknown) {
     return this.default(url, extra);
   }
 
-  public video(url: string, extra?: unknown) {
+  video(url: string, extra?: unknown) {
     return this.default(url, extra);
   }
 
-  public face(id: number | string, extra?: unknown) {
+  face(id: number | string, extra?: unknown) {
     return this.default(id, extra);
   }
 
-  public file(data: unknown, extra?: unknown) {
+  file(data: unknown, extra?: unknown) {
     return this.default(data, extra);
   }
 
-  public supports() {
+  supports() {
     const supports: (keyof Elements)[] = [];
     const keys: (keyof Elements)[] = ['at', 'image', 'voice', 'video', 'face', 'file'];
-    keys.forEach(key => {
+    keys.forEach((key) => {
       if (this[key] !== new Elements(this.adapter)[key]) supports.push(key);
     });
     return supports;

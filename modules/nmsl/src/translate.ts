@@ -5,9 +5,9 @@ interface EmoticonMap {
 }
 
 export class Translate {
-  public result = '';
+  result = '';
 
-  public score = 0;
+  score = 0;
 
   private emoticons: EmoticonMap;
 
@@ -19,7 +19,7 @@ export class Translate {
   private convert(text: string) {
     let lastResult = '';
     this.result = text;
-    Object.keys(this.emoticons).forEach(key => {
+    Object.keys(this.emoticons).forEach((key) => {
       lastResult = this.result;
       this.result = this.result.replace(new RegExp(key, 'g'), this.emoticons[key]);
       if (lastResult !== this.result) this.score += 1;

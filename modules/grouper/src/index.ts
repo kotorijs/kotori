@@ -5,8 +5,8 @@ const hitokotoSchema = Tsu.Object({
     msg: Tsu.String(),
     from: Tsu.String().optional(),
     likes: Tsu.Number(),
-    type: Tsu.String(),
-  }),
+    type: Tsu.String()
+  })
 });
 
 /*
@@ -276,13 +276,13 @@ Core.hook(data => {
 }); */ /* 
 
 export class Main {
-	public static Consts: Const;
+	static Consts: Const;
 
-	public static Api: Api;
+	static Api: Api;
 
-	public static UserInfo: obj<userInfo>;
+	static UserInfo: obj<userInfo>;
 
-	public constructor(event: Event, api: Api, consts: Const) {
+	constructor(event: Event, api: Api, consts: Const) {
 		Main.Consts = consts;
 		Main.Api = api;
 		Main.UserInfo = loadConfig(

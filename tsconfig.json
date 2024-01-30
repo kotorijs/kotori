@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.node.json",
   "compilerOptions": {
-    "baseUrl": ".", // Base directory for imports
     /* Path mapping for module imports */
     "paths": {
       "@kotori-bot/*": [

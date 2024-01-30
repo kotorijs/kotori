@@ -61,7 +61,7 @@ export class Internal extends Message {
     this.regexpStack[key] = value;
   }
 
-  public get internal() {
+  get internal() {
     const getModules: typeof this.getModules = () => this.getModules();
     const setModules: typeof this.setModules = (key, value) => this.setModules(key, value);
     const getServices: typeof this.getServices = () => this.getServices();
@@ -90,7 +90,7 @@ export class Internal extends Message {
       getMidwares,
       setMidwares,
       getRegexps,
-      setRegexps,
+      setRegexps
     };
   }
 }

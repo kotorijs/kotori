@@ -14,7 +14,7 @@ export const config = Tsu.Object({
   age: Tsu.Number().min(0).default(18),
   sex: Tsu.Union([Tsu.Literal('male'), Tsu.Literal('female')]),
   'self-nickname': Tsu.String().default('KotoriO'),
-  'self-id': eventDataTargetIdSchema.default('720'),
+  'self-id': eventDataTargetIdSchema.default('720')
 });
 
 type CmdConfig = Tsu.infer<typeof config> & AdapterConfig;
@@ -22,16 +22,16 @@ type CmdConfig = Tsu.infer<typeof config> & AdapterConfig;
 export class CmdAdapter extends Adapter<CmdApi> {
   private messageId = 1;
 
-  public config: CmdConfig;
+  config: CmdConfig;
 
-  public constructor(ctx: Context, config: CmdConfig, identity: string) {
+  constructor(ctx: Context, config: CmdConfig, identity: string) {
     super(ctx, config, identity, CmdApi, CmdElements);
     this.config = config;
     this.selfId = config['self-id'];
-    process.stdin.on('data', data => this.handle(data));
+    process.stdin.on('data', (data) => this.handle(data));
   }
 
-  public handle(data: Buffer) {
+  handle(data: Buffer) {
     if (this.status.value !== 'online') return;
     let message = data.toString();
     if (message === '\n' || message === '\r\n') return;
@@ -44,31 +44,31 @@ export class CmdAdapter extends Adapter<CmdApi> {
       sender: {
         nickname: this.config.nickname,
         sex: this.config.sex,
-        age: this.config.age,
-      },
+        age: this.config.age
+      }
     });
     this.messageId += 1;
   }
 
-  public start() {
+  start() {
     this.ctx.emit('connect', {
       service: this,
       normal: true,
-      info: `start cmd-line listen`,
+      info: `start cmd-line listen`
     });
     this.online();
   }
 
-  public stop() {
+  stop() {
     this.ctx.emit('disconnect', {
       service: this,
       normal: true,
-      info: `stop cmd-line listen`,
+      info: `stop cmd-line listen`
     });
     this.offline();
   }
 
-  public send(action: string, params?: object) {
+  send(action: string, params?: object) {
     if (this.status.value !== 'online' || action !== 'send_private_msg' || !params) return;
     if (typeof (params as { message: string }).message !== 'string') return;
     if ((params as { user_id: unknown }).user_id !== this.config.master) return;
@@ -76,7 +76,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
     this.messageId += 1;
     this.ctx.emit('send', {
       api: this.api,
-      messageId: this.messageId,
+      messageId: this.messageId
     });
   }
 }

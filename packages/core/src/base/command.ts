@@ -9,7 +9,7 @@ import {
   CommandArg,
   CommandOption,
   CommandParseResultExtra,
-  CommandParseResult,
+  CommandParseResult
 } from '../types';
 import { CommandError } from '../utils/errror';
 import CommandExtra from '../utils/commandExtra';
@@ -27,7 +27,7 @@ export class Command {
     return {
       name: argName || 'content',
       type: handleArg,
-      default: handleDefault,
+      default: handleDefault
     };
   }
 
@@ -38,11 +38,11 @@ export class Command {
   private static parseOption(expectedOptions: CommandOption[], input: string): [obj<CommandArgType>, string] {
     const realityOptions: obj<CommandArgType> = {};
     let cmd = input;
-    [...`${cmd} `.matchAll(/\s-([a-z]+)(=(\w+)|)\s?\b/g)].forEach(el => {
+    [...`${cmd} `.matchAll(/\s-([a-z]+)(=(\w+)|)\s?\b/g)].forEach((el) => {
       cmd = cmd.replace(el[0], '');
       const key = el[1];
       let val: CommandArgType | undefined = el[3] || undefined;
-      expectedOptions.forEach(option => {
+      expectedOptions.forEach((option) => {
         if (option.realname !== key) return;
         if (val !== undefined && val !== '') {
           if (option.type === 'number' && typeof val !== 'number') {
@@ -51,7 +51,7 @@ export class Command {
               throw this.error('option_error', {
                 expected: 'number',
                 reality: 'string,',
-                target: option.realname,
+                target: option.realname
               });
             }
           }
@@ -68,7 +68,7 @@ export class Command {
     let current = '';
     let inBackslash = false;
     let inQuote = false;
-    `${inputHandel} `.split('').forEach(char => {
+    `${inputHandel} `.split('').forEach((char) => {
       if (inBackslash) {
         inBackslash = false;
         current += char;
@@ -100,17 +100,17 @@ export class Command {
     throw this.error('syntax', { index: inputHandel.lastIndexOf(inQuote ? '"' : '\\'), char: inQuote ? '"' : '\\' });
   }
 
-  public static readonly dataList: CommandData[] = [];
+  static readonly dataList: CommandData[] = [];
 
-  public static parse(input: string) {
-    this.dataList.forEach(command => {
+  static parse(input: string) {
+    this.dataList.forEach((command) => {
       if (!command.action) return;
       const cmd = input
         .replace(/(\s+)/g, ' ')
         .replace(/("\s?")|('\s?')/g, '')
         .trim();
       if (!`${input} `.startsWith(`${command.root} `)) {
-        const alias = command.alias.filter(el => `${input} `.startsWith(`${el} `));
+        const alias = command.alias.filter((el) => `${input} `.startsWith(`${el} `));
         if (alias.length <= 0) return;
         // cmd = (input.split(alias[0])[1] ?? '').trim();
       }
@@ -119,9 +119,9 @@ export class Command {
       const realityOptions = tempArray[0];
       const realityArgs: CommandArgType[] = this.parseArgs(
         command.args,
-        stringRightSplit(tempArray[1], cmd.split(' ')[0]),
+        stringRightSplit(tempArray[1], cmd.split(' ')[0])
       );
-      const expectedLength = command.args.filter(el => !el.optional).length;
+      const expectedLength = command.args.filter((el) => !el.optional).length;
       if (expectedLength > realityArgs.length) {
         throw this.error('arg_few', { expected: expectedLength, reality: realityArgs.length });
       }
@@ -141,20 +141,20 @@ export class Command {
 
   private template: string;
 
-  public constructor(template: string, config?: CommandConfig) {
+  constructor(template: string, config?: CommandConfig) {
     this.template = template;
     this.data = Object.assign(this.data, config);
     Command.dataList.push(this.data);
     this.parseTemplate();
   }
 
-  public readonly data: CommandData = {
+  readonly data: CommandData = {
     root: '',
     alias: [],
     scope: 'all',
     access: CommandAccess.MEMBER,
     args: [],
-    options: [],
+    options: []
   };
 
   private requiredParamMatch = /<(.*?)>/g;
@@ -186,43 +186,43 @@ export class Command {
       this.data.root = root;
     }
 
-    [...requiredStr.matchAll(this.requiredParamMatch)].forEach(content => {
+    [...requiredStr.matchAll(this.requiredParamMatch)].forEach((content) => {
       this.data.args.push({ optional: false, rest: false, ...Command.parseTemplateParam(content[1]) });
     });
-    [...optionalStr.matchAll(this.optionalParamMatch)].forEach(content => {
+    [...optionalStr.matchAll(this.optionalParamMatch)].forEach((content) => {
       this.data.args.push({ optional: true, rest: false, ...Command.parseTemplateParam(content[1]) });
     });
   }
 
-  public alias(alias: string | string[]) {
+  alias(alias: string | string[]) {
     if (typeof alias === 'string') this.data.alias.push(alias);
     else this.data.alias.push(...alias);
     return this;
   }
 
-  public scope(scope: CommandConfig['scope']) {
+  scope(scope: CommandConfig['scope']) {
     this.data.scope = scope;
     return this;
   }
 
-  public access(access: CommandAccess) {
+  access(access: CommandAccess) {
     this.data.access = access;
     return this;
   }
 
-  public option(name: string, template: string) {
+  option(name: string, template: string) {
     const { '0': root, '1': description } = template.trim().split(' ');
     const handleData = Command.parseTemplateParam(root);
     this.data.options.push({ realname: handleData.name, description, ...handleData, name });
     return this;
   }
 
-  public action(callback: CommandAction) {
+  action(callback: CommandAction) {
     this.data.action = callback;
     return this;
   }
 
-  public help(text: string) {
+  help(text: string) {
     this.data.help = text;
     return this;
   }

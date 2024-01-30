@@ -6,19 +6,13 @@ import type Adapter from './components/adapter';
 import type Context from './context';
 import { defaultConfig } from './base/core';
 import type Elements from './components/elements';
-import {
-  DEFAULT_COMMAND_PREFIX,
-  DEFAULT_ENV,
-  DEFAULT_LANG,
-  DEFAULT_MODULES_DIR,
-  DEFAULT_ROOT_DIR,
-} from './consts';
+import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from './consts';
 import type Service from './components/service';
 import type Database from './components/database';
 
 export const baseDirSchema = Tsu.Object({
   root: Tsu.String(),
-  modules: Tsu.String(),
+  modules: Tsu.String()
 });
 
 export type BaseDir = Tsu.infer<typeof baseDirSchema>;
@@ -29,18 +23,18 @@ export const packageInfoSchema = Tsu.Object({
   description: Tsu.String(),
   main: Tsu.String(),
   license: Tsu.Literal('GPL-3.0'),
-  author: Tsu.String(),
+  author: Tsu.String()
 });
 
 export type PackageInfo = Tsu.infer<typeof packageInfoSchema>;
 
 export const localeTypeSchema = Tsu.Union([
   Tsu.Union([Tsu.Literal('en_US'), Tsu.Literal('ja_JP')]),
-  Tsu.Union([Tsu.Literal('zh_CN'), Tsu.Literal('zh_TW')]),
+  Tsu.Union([Tsu.Literal('zh_CN'), Tsu.Literal('zh_TW')])
 ]);
 
 export const globalOptions = Tsu.Object({
-  env: Tsu.Union([Tsu.Literal('dev'), Tsu.Literal('build')]).default('dev'),
+  env: Tsu.Union([Tsu.Literal('dev'), Tsu.Literal('build')]).default('dev')
 });
 
 export type GlobalOptions = Tsu.infer<typeof globalOptions>;
@@ -48,39 +42,38 @@ export type GlobalOptions = Tsu.infer<typeof globalOptions>;
 const CommonConfigSchemaController = (lang = DEFAULT_LANG, commandPrefix = DEFAULT_COMMAND_PREFIX) =>
   Tsu.Object({
     lang: localeTypeSchema.default(lang),
-    'command-prefix': Tsu.String().default(commandPrefix),
+    'command-prefix': Tsu.String().default(commandPrefix)
   });
 
 const adapterConfigBaseSchemaController = (
   lang: LocaleType = DEFAULT_LANG,
-  commandPrefix: string = DEFAULT_COMMAND_PREFIX,
+  commandPrefix: string = DEFAULT_COMMAND_PREFIX
 ) =>
   Tsu.Intersection([
     Tsu.Object({
       extends: Tsu.String(),
-      master: Tsu.Union([Tsu.Number(), Tsu.String()]),
+      master: Tsu.Union([Tsu.Number(), Tsu.String()])
     }),
-    CommonConfigSchemaController(lang, commandPrefix),
+    CommonConfigSchemaController(lang, commandPrefix)
   ]);
 
-export const ModuleConfigBaseSchema =
-  Tsu.Object({
-    filter: Tsu.Object({}).default({}),
-  }).default({ filter: {} });
+export const ModuleConfigBaseSchema = Tsu.Object({
+  filter: Tsu.Object({}).default({})
+}).default({ filter: {} });
 
 export const globalConfigSchemaController = (
   lang: LocaleType = DEFAULT_LANG,
-  commandPrefix: string = DEFAULT_COMMAND_PREFIX,
+  commandPrefix: string = DEFAULT_COMMAND_PREFIX
 ) =>
   Tsu.Object({
     global: Tsu.Intersection([
       Tsu.Object({
-        dirs: Tsu.Array(Tsu.String()).default([]),
+        dirs: Tsu.Array(Tsu.String()).default([])
       }),
-      CommonConfigSchemaController(),
+      CommonConfigSchemaController()
     ]),
     adapter: Tsu.Object({}).index(adapterConfigBaseSchemaController(lang, commandPrefix)).default({}),
-    plugin: Tsu.Object({}).index(ModuleConfigBaseSchema).default({}),
+    plugin: Tsu.Object({}).index(ModuleConfigBaseSchema).default({})
   });
 
 export type GlobalConfig = Tsu.infer<ReturnType<typeof globalConfigSchemaController>>;
@@ -93,30 +86,29 @@ const moduleEnforceSchema = Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')])
 
 export type ModuleEnforce = Tsu.infer<typeof moduleEnforceSchema>;
 
-export const ModulePackageSchema =
-  Tsu.Object({
-    name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
-    version: Tsu.String(),
-    description: Tsu.String(),
-    main: Tsu.String(),
-    license: Tsu.Literal('GPL-3.0'),
-    author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
-    peerDependencies: Tsu.Object({
-      'kotori-bot': Tsu.String(),
-    }),
-    kotori: Tsu.Object({
-      enforce: moduleEnforceSchema.optional(),
-      config: ModuleConfigBaseSchema,
-      meta: Tsu.Object({
-        language: Tsu.Array(localeTypeSchema).default([]),
-        service: Tsu.Array(Tsu.String()).default([]),
-      }).default({ language: [], service: [] }),
-    }).default({
-      enforce: undefined,
-      config: { filter: {} },
-      meta: { language: [], service: [] },
-    }),
-  });
+export const ModulePackageSchema = Tsu.Object({
+  name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
+  version: Tsu.String(),
+  description: Tsu.String(),
+  main: Tsu.String(),
+  license: Tsu.Literal('GPL-3.0'),
+  author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
+  peerDependencies: Tsu.Object({
+    'kotori-bot': Tsu.String()
+  }),
+  kotori: Tsu.Object({
+    enforce: moduleEnforceSchema.optional(),
+    config: ModuleConfigBaseSchema,
+    meta: Tsu.Object({
+      language: Tsu.Array(localeTypeSchema).default([]),
+      service: Tsu.Array(Tsu.String()).default([])
+    }).default({ language: [], service: [] })
+  }).default({
+    enforce: undefined,
+    config: { filter: {} },
+    meta: { language: [], service: [] }
+  })
+});
 
 export type ModulePackage = Tsu.infer<typeof ModulePackageSchema>;
 
@@ -137,13 +129,13 @@ export const kotoriConfigSchema = Tsu.Object({
   config: globalConfigSchemaController().default({
     global: {
       lang: DEFAULT_LANG,
-      'command-prefix': DEFAULT_COMMAND_PREFIX,
+      'command-prefix': DEFAULT_COMMAND_PREFIX
     },
-    adapter: {},
+    adapter: {}
   } as Tsu.infer<ReturnType<typeof globalConfigSchemaController>>),
   options: globalOptions.default({
-    env: DEFAULT_ENV,
-  } as Tsu.infer<typeof globalOptions>), // question
+    env: DEFAULT_ENV
+  } as Tsu.infer<typeof globalOptions>) // question
 }).default(defaultConfig as any);
 
 export type KotoriConfig = Tsu.infer<typeof kotoriConfigSchema>;
@@ -189,12 +181,12 @@ export type ApiExtraValue = (ApiExtra & { any: { type: Exclude<string, keyof Api
 export const enum CommandAccess {
   MEMBER,
   MANGER,
-  ADMIN,
+  ADMIN
 }
 
 export type CommandAction = (
   data: { args: CommandArgType[]; options: obj<CommandArgType> },
-  session: EventType['group_msg' | 'private_msg'],
+  session: EventsList['group_msg' | 'private_msg']
 ) =>
   | MessageQuick
   | CommandResultExtra[keyof CommandResultExtra]
@@ -307,7 +299,7 @@ export interface RegexpStack {
   callback: RegexpCallback;
 }
 
-export interface EventDataBase<T extends keyof EventType> {
+export interface EventDataBase<T extends keyof EventsList> {
   type: T;
 }
 
@@ -334,7 +326,7 @@ export interface EventDataMsgSender {
   age: number;
 }
 
-export interface EventDataServiceBase<T extends keyof EventType> extends EventDataBase<T> {
+export interface EventDataServiceBase<T extends keyof EventsList> extends EventDataBase<T> {
   service: Service;
 }
 
@@ -412,7 +404,7 @@ interface EventDataSend extends EventDataBase<'send'> {
   messageId: EventDataTargetId;
 }
 
-export interface EventDataApiBase<T extends keyof EventType, M extends MessageScope = MessageScope>
+export interface EventDataApiBase<T extends keyof EventsList, M extends MessageScope = MessageScope>
   extends EventDataBase<T> {
   api: Api;
   el: Elements;
@@ -489,7 +481,7 @@ interface EventDataGroupBan extends EventDataApiBase<'group_ban', 'group'> {
   groupId: EventDataTargetId;
 }
 
-export interface EventType {
+export interface EventsList {
   ready: EventDataReady;
   ready_all: EventDataReadyAll;
   dispose: EventDataDispose;
@@ -517,13 +509,11 @@ export interface EventType {
   group_ban: EventDataGroupBan;
 }
 /* 
-export type EventType = { [P in keyof EventAfterType]: EventAfterType[P]} & { 
+export type EventsList = { [P in keyof EventAfterType]: EventAfterType[P]} & { 
     [P in `before_${keyof EventBeforeType}`]: EventBeforeType[T extends `before_${infer R}` ? R : T];
 } */
 
-export type EventCallback<T extends keyof EventType> = (data: EventType[T]) => void;
-
-export type EventLists = { type: keyof EventType; callback: EventCallback<keyof EventType> }[];
+export type EventCallback<T extends keyof EventsList> = (data: EventsList[T]) => void;
 
 export interface DevErrorExtra {
   path: string;

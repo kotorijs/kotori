@@ -3,12 +3,15 @@ dist
 lib
 .husky/_
 
+.vscode/*
+.vs/*
+!.vscode/extensions.json
+
 *.tgz
 tsconfig.tsbuildinfo
-pnpm-lock.yaml
-kotori.dev.yml
+*.log
 
-scripts/*.js
+kotori.dev.yml
 
 modules2
 modules3

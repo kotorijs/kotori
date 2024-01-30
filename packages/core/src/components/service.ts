@@ -2,25 +2,25 @@ import { none } from '@kotori-bot/tools';
 import { ServiceImpl, ServiceType } from '../types';
 
 export abstract class Service implements ServiceImpl {
-  public handle(...data: unknown[]): void {
+  handle(...data: unknown[]): void {
     return none(this, data);
   }
 
-  public start(): void {
+  start(): void {
     return none(this);
   }
 
-  public stop(): void {
+  stop(): void {
     return none(this);
   }
 
-  public readonly serviceType: ServiceType;
+  readonly serviceType: ServiceType;
 
-  public readonly service: string;
+  readonly service: string;
 
-  public readonly config: object;
+  readonly config: object;
 
-  public constructor(serviceType: ServiceType, service: string, config: object = {}) {
+  constructor(serviceType: ServiceType, service: string, config: object = {}) {
     this.serviceType = serviceType;
     this.config = config;
     if (serviceType === 'adapter') {

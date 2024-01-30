@@ -4,25 +4,9 @@
     "moduleResolution": "NodeNext",
     "target": "ESNext",
     "strict": true,
-    /* "jsx": "preserve",
-        "jsxFactory": "DOMcreateElement",
-        "jsxFragmentFactory": "DOMcreateFragment",*/
     "declaration": true,
     "experimentalDecorators": true,
-    /* optional */
-    /* about spawn .js */
-    // "skipLibCheck": true,
-    // "noEmitOnError": true,
-    /* about tsc build mode */
     "composite": true,
     "incremental": true,
   },
-  /* optional */
-  // "exclude": [
-  //   "./dist/**/*.ts",
-  //   "./lib/**/*.ts",
-  //   "*.d.ts",
-  //   "node_modules",
-  //   "*.test.ts"
-  // ]
 }
