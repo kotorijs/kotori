@@ -16,4 +16,4 @@ adapter:
 
 plugin:
   console:
-    test: 1
+    test: 2
