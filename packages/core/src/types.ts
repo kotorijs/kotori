@@ -1,12 +1,12 @@
 import type { StringTempArgs, obj } from '@kotori-bot/tools';
 import Tsu from 'tsukiko';
-import { LocaleType } from '@kotori-bot/i18n';
+import I18n, { DEFAULT_LANG, DEFAULT_SUPPORTS, LocaleType } from '@kotori-bot/i18n';
 import type Api from './components/api';
 import type Adapter from './components/adapter';
 import type Context from './context';
 import { defaultConfig } from './base/core';
 import type Elements from './components/elements';
-import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from './consts';
+import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from './consts';
 import type Service from './components/service';
 import type Database from './components/database';
 
@@ -28,10 +28,9 @@ export const packageInfoSchema = Tsu.Object({
 
 export type PackageInfo = Tsu.infer<typeof packageInfoSchema>;
 
-export const localeTypeSchema = Tsu.Union([
-  Tsu.Union([Tsu.Literal('en_US'), Tsu.Literal('ja_JP')]),
-  Tsu.Union([Tsu.Literal('zh_CN'), Tsu.Literal('zh_TW')])
-]);
+export const localeTypeSchema = Tsu.Custom<LocaleType>(
+  (val) => typeof val === 'string' && DEFAULT_SUPPORTS.includes(val as LocaleType)
+);
 
 export const globalOptions = Tsu.Object({
   env: Tsu.Union([Tsu.Literal('dev'), Tsu.Literal('build')]).default('dev')
@@ -411,7 +410,7 @@ export interface EventDataApiBase<T extends keyof EventsList, M extends MessageS
   userId: EventDataTargetId;
   messageType: M;
   send(message: MessageRaw): void;
-  locale(val: string): string;
+  i18n: I18n;
   quick(message: MessageQuick): void;
   error<T extends keyof CommandResult>(type: T, data?: Omit<CommandResultExtra[T], 'type'>): CommandResultExtra[T];
   extra?: unknown;

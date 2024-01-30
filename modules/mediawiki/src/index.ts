@@ -7,12 +7,12 @@ export const lang = [__dirname, '../locales'];
 const defaultData = [
   {
     name: '萌娘百科',
-    api: 'https://mzh.moegirl.org.cn/api.php',
+    api: 'https://mzh.moegirl.org.cn/api.php'
   },
   {
     name: 'MCWIKI',
-    api: 'https://minecraft.fandom.com/zh/api.php',
-  },
+    api: 'https://minecraft.fandom.com/zh/api.php'
+  }
 ];
 
 // const getPath()  path.join(Main.Consts.CONFIG_PLUGIN_PATH, 'wiki.json');
@@ -24,7 +24,7 @@ const loadWikiData = () =>
 }; */ defaultData;
 
 export function main(ctx: Context) {
-  ctx.command('wiki <content> [order] - mediawiki.descr.wiki').action(async data => {
+  ctx.command('wiki <content> [order] - mediawiki.descr.wiki').action(async (data) => {
     const dataList = loadWikiData();
     if (dataList.length <= 0) return 'mediawiki.msg.wiki.empty';
 
@@ -49,7 +49,7 @@ export function main(ctx: Context) {
     if (!res) return ['mediawiki.msg.wiki.fail', { input: data.args[0] }];
     return [
       'mediawiki.msg.wiki',
-      { ...res, url: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name },
+      { ...res, url: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name }
     ];
   });
 
@@ -58,8 +58,8 @@ export function main(ctx: Context) {
     const dataList = loadWikiData();
     let list = '';
     let init = 1;
-    dataList.forEach(Element => {
-      list += stringTemp(events.locale('mediawiki.msg.wikil.list'), { num: init, ...Element });
+    dataList.forEach((Element) => {
+      list += stringTemp(events.i18n.locale('mediawiki.msg.wikil.list'), { num: init, ...Element });
       init += 1;
     });
     return ['mediawiki.msg.wikil', { list }];

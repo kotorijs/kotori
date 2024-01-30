@@ -93,13 +93,13 @@ export class Message extends Modules {
           const result = obj;
           Object.keys(result).forEach((key) => {
             if (!result[key] || typeof result[key] !== 'string') return;
-            result[key] = event.locale(result[key] as string);
+            result[key] = event.i18n.locale(result[key] as string);
           });
           return result;
         };
         const returnHandle = Array.isArray(executedResult)
-          ? stringTemp(event.locale(executedResult[0]), objectTemp(executedResult[1]))
-          : event.locale(executedResult ?? '');
+          ? stringTemp(event.i18n.locale(executedResult[0]), objectTemp(executedResult[1]))
+          : event.i18n.locale(executedResult ?? '');
         this.emit('command', {
           result: { type: 'success', return: returnHandle ?? undefined },
           ...commonParams,

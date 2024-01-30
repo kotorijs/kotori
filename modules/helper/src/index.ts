@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-01 17:14:53
+ * @LastEditTime: 2024-01-30 19:37:49
  */
 
 import { Context, stringTemp } from 'kotori-bot';
@@ -16,26 +16,26 @@ export function main(ctx: Context) {
     const commandStack = ctx.internal.getCommands();
     const filterResult = data.args[0]
       ? commandStack.filter(
-          command =>
+          (command) =>
             (data.args[0] as string).startsWith(command.root) ||
-            command.alias.filter(alias => (data.args[0] as string).startsWith(alias)).length > 0,
+            command.alias.filter((alias) => (data.args[0] as string).startsWith(alias)).length > 0
         )
       : commandStack;
     if (filterResult.length <= 0) return 'helper.msg.descr.fail';
     let commands = '';
-    const temp: typeof stringTemp = (template, args) => stringTemp(events.locale(template), args);
+    const temp: typeof stringTemp = (template, args) => stringTemp(events.i18n.locale(template), args);
 
-    filterResult.forEach(command => {
+    filterResult.forEach((command) => {
       const cmd = command;
       const alias =
         cmd.alias.length > 0
           ? temp('helper.template.alias', {
-              content: cmd.alias.join(events.locale('helper.template.alias.delimiter')),
+              content: cmd.alias.join(events.i18n.locale('helper.template.alias.delimiter'))
             })
           : '';
       let args = '';
       let options = '';
-      cmd.args.forEach(arg => {
+      cmd.args.forEach((arg) => {
         let defaultValue = '';
         if ('default' in arg) {
           const valueType = typeof arg.default;
@@ -46,10 +46,10 @@ export function main(ctx: Context) {
         args += temp(`helper.template.arg.${arg.optional ? 'optional' : 'required'}`, {
           name: arg.name,
           type: arg.type === 'string' ? '' : temp('helper.template.arg.type', { content: arg.type }),
-          default: defaultValue,
+          default: defaultValue
         });
       });
-      cmd.options.forEach(option => {
+      cmd.options.forEach((option) => {
         let defaultValue = '';
         if ('default' in option) {
           const valueType = typeof option.default;
@@ -63,8 +63,8 @@ export function main(ctx: Context) {
           default: defaultValue,
 
           description: option.description
-            ? temp('helper.template.description', { content: events.locale(option.description) })
-            : '',
+            ? temp('helper.template.description', { content: events.i18n.locale(option.description) })
+            : ''
         });
       });
       if (cmd.options.length > 0) options = temp('helper.template.options', { content: options });
@@ -73,11 +73,11 @@ export function main(ctx: Context) {
         root: `${events.api.adapter.config['command-prefix']}${cmd.root}`,
         args,
         description: cmd.description
-          ? temp('helper.template.description', { content: events.locale(cmd.description) })
+          ? temp('helper.template.description', { content: events.i18n.locale(cmd.description) })
           : '',
         options,
-        help: cmd.help ? temp('helper.template.help', { content: events.locale(cmd.help) }) : '',
-        alias,
+        help: cmd.help ? temp('helper.template.help', { content: events.i18n.locale(cmd.help) }) : '',
+        alias
       });
     });
     return ['helper.msg.help', { content: commands }];

@@ -1,6 +1,7 @@
 import { loadConfig, obj } from '@kotori-bot/tools';
 import path from 'path';
 import { Parser } from 'tsukiko';
+import { DEFAULT_LANG } from '@kotori-bot/i18n';
 import {
   type BaseDir,
   type GlobalConfig,
@@ -13,7 +14,7 @@ import {
 } from '../types';
 import type Api from '../components/api';
 import { CoreError } from '../utils/errror';
-import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from '../consts';
+import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_MODULES_DIR, DEFAULT_ROOT_DIR } from '../consts';
 
 export const defaultConfig = {
   baseDir: {

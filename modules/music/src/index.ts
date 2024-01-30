@@ -8,9 +8,9 @@ const musicSchema = Tsu.Object({
       title: Tsu.String(),
       author: Tsu.String(),
       url: Tsu.String(),
-      pic: Tsu.String(),
-    }),
-  ).optional(),
+      pic: Tsu.String()
+    })
+  ).optional()
 });
 
 const MAX_LIST = 10;
@@ -25,8 +25,8 @@ export function main(ctx: Context) {
       // const cache = `music${data.args[0]}`;
       const res = /* Cache.get(cache) ||  */ musicSchema.parse(
         await ctx.http.get('https://api.hotaru.icu/api/netease', {
-          name: data.args[0],
-        }),
+          name: data.args[0]
+        })
       );
       // Cache.set(cache, res);
       if (!res.data) return ['music.msg.music.fail', { input: data.args[0] }];
@@ -35,10 +35,10 @@ export function main(ctx: Context) {
         let list = '';
         for (let init = 0; init < (res.data.length > MAX_LIST ? MAX_LIST : res.data.length); init += 1) {
           const song = res.data[init];
-          list += stringTemp(session.locale('music.msg.music.list'), {
+          list += stringTemp(session.i18n.locale('music.msg.music.list'), {
             num: init + 1,
             title: song.title ?? '',
-            author: song.author ?? '',
+            author: song.author ?? ''
           });
         }
         return ['music.msg.music.lists', { list }];
@@ -53,8 +53,8 @@ export function main(ctx: Context) {
         'music.msg.music',
         {
           ...song,
-          image: session.el.image(song.pic),
-        },
+          image: session.el.image(song.pic)
+        }
       ];
     })
     .help('music.help.music');

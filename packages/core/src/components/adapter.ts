@@ -86,7 +86,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
   protected emit<N extends keyof EventApiType>(
     type: N,
-    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'locale' | 'quick' | 'error' | 'el' | 'messageType'>
+    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'i18n' | 'quick' | 'error' | 'el' | 'messageType'>
   ) {
     const messageType = type.includes('group') ? 'group' : 'private';
     const send = (message: MessageRaw) => {
@@ -96,20 +96,20 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
         this.api.send_private_msg(message, data.userId, data.extra);
       }
     };
-    const locale = (val: string) => this.ctx.i18n.locale(val, this.config.lang);
+    const i18n = this.ctx.i18n.extends(this.config.lang);
     const quick: MessageQuickFunc = async (message) => {
       const msg = await message;
       if (!msg) return;
       if (typeof msg === 'string') {
-        send(locale(msg));
+        send(i18n.locale(msg));
         return;
       }
       const params = msg[1];
       Object.keys(params).forEach((key) => {
         if (typeof params[key] !== 'string') return;
-        params[key] = locale(params[key] as string);
+        params[key] = i18n.locale(params[key] as string);
       });
-      send(stringTemp(locale(msg[0]), params));
+      send(stringTemp(i18n.locale(msg[0]), params));
     };
     const error = <T extends keyof CommandResult>(
       type: T,
@@ -123,7 +123,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
       ...data,
       api: this.api,
       send,
-      locale,
+      i18n,
       quick,
       error,
       el: this.api.elements,

@@ -1,6 +1,6 @@
 import Logger from '@kotori-bot/logger';
 import { Http } from '@kotori-bot/tools';
-import Locale from './utils/i18n';
+import I18n from '@kotori-bot/i18n';
 import Internal from './base/internal';
 import { KotoriConfig } from './types';
 
@@ -16,7 +16,7 @@ export class Context extends Internal {
     })
   );
 
-  readonly i18n: Locale;
+  readonly i18n: I18n;
 
   private initialize() {
     this.registeMessageEvent();
@@ -29,7 +29,7 @@ export class Context extends Internal {
 
   constructor(Config?: KotoriConfig) {
     super(Config);
-    this.i18n = new Locale(this.config.global.lang);
+    this.i18n = new I18n({ lang: this.config.global.lang });
     this.initialize();
   }
 }

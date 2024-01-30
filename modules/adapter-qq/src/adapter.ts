@@ -129,7 +129,7 @@ export class QQAdapter extends Adapter<QQApi> {
               timerId = timer();
               return;
             }
-            req['file_info'] = { file_info: this.imageStack[this.msg_seq] };
+            req.file_info = { file_info: this.imageStack[this.msg_seq] };
             req.msg_type = 7;
             this.ctx.http.post(`${API_ADDRESS}${address}`, req, {
               headers: {
