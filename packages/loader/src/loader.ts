@@ -7,21 +7,21 @@
  */
 import {
   KotoriError,
-  type EventType,
+  type EventsList,
   ContextInstance,
   Tsu,
   AdapterConfig,
   KotoriConfig,
   Adapter,
   Parser,
-  AdapterConstructor,
+  AdapterConstructor
 } from '@kotori-bot/core';
 import Modules from './modules';
 import { getBaseDir, getGlobalConfig, isDev } from './global';
 import loadInfo from './log';
 
 const enum GLOBAL {
-  REPO = 'https://github.com/kotorijs/kotori',
+  REPO = 'https://github.com/kotorijs/kotori'
 }
 
 const kotoriConfig = (): KotoriConfig => {
@@ -31,8 +31,8 @@ const kotoriConfig = (): KotoriConfig => {
     baseDir,
     config: getGlobalConfig(baseDir),
     options: {
-      env: isDev() ? 'dev' : 'build',
-    },
+      env: isDev() ? 'dev' : 'build'
+    }
   };
   return result;
 };
@@ -40,14 +40,14 @@ const kotoriConfig = (): KotoriConfig => {
 class Main extends ContextInstance {
   private ctx: Modules;
 
-  public constructor() {
+  constructor() {
     super();
     ContextInstance.setInstance(new Modules(kotoriConfig()));
     this.ctx = ContextInstance.getInstance() as Modules;
     // 静态类型继续居然她妈是隔离的
   }
 
-  public run() {
+  run() {
     loadInfo(this.ctx.package, this.ctx);
     this.catchError();
     this.listenMessage();
@@ -70,8 +70,8 @@ class Main extends ContextInstance {
   }
 
   private catchError() {
-    process.on('uncaughtExceptionMonitor', err => this.handleError(err, 'UCE'));
-    process.on('unhandledRejection', err => this.handleError(err, 'UHR'));
+    process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'UCE'));
+    process.on('unhandledRejection', (err) => this.handleError(err, 'UHR'));
     process.on('SIGINT', () => {
       process.exit();
     });
@@ -79,32 +79,32 @@ class Main extends ContextInstance {
   }
 
   private listenMessage() {
-    const handleConnectInfo = (data: EventType['connect'] | EventType['disconnect']) => {
+    const handleConnectInfo = (data: EventsList['connect'] | EventsList['disconnect']) => {
       if (!data.info) return;
       if (data.service instanceof Adapter) {
         this.ctx.logger[data.normal ? 'log' : 'warn'](
           `[${data.service.platform}]`,
           `${data.service.identity}:`,
-          data.info,
+          data.info
         );
       }
     };
 
     this.ctx.on('connect', handleConnectInfo);
     this.ctx.on('disconnect', handleConnectInfo);
-    this.ctx.on('ready', data => {
+    this.ctx.on('ready', (data) => {
       if (!data.module || !data.result) return;
       const { name, version, author } = data.module.package;
       this.ctx.logger.info(
         `Loaded ${name} Version: ${version} ${
           Array.isArray(author) ? `Authors: ${author.join(',')}` : `Author: ${author}`
-        }`,
+        }`
       );
     });
-    this.ctx.on('ready_all', data => {
+    this.ctx.on('ready_all', (data) => {
       const failed = data.expected - data.reality;
       this.ctx.logger.info(
-        `Loaded ${data.reality} modules (plugins)${failed > 0 ? `, failed to load ${failed} modules` : ''}`,
+        `Loaded ${data.reality} modules (plugins)${failed > 0 ? `, failed to load ${failed} modules` : ''}`
       );
       this.startAllService();
     });
@@ -118,8 +118,8 @@ class Main extends ContextInstance {
   private startAllService() {
     const services = this.ctx.internal.getServices();
     /* start adapters */
-    const adapters = Object.keys(services).filter(key => Modules.isAdapterConstructor(services[key][0]));
-    Object.keys(this.ctx.config.adapter).forEach(botName => {
+    const adapters = Object.keys(services).filter((key) => Modules.isAdapterConstructor(services[key][0]));
+    Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
       if (!adapters.includes(botConfig.extends)) {
         this.ctx.logger.warn(`Cannot find adapter '${botConfig.extends}' for ${botName}`);
@@ -142,7 +142,7 @@ class Main extends ContextInstance {
     const { version } = this.ctx.package;
     const res = await this.ctx.http
       .get(
-        'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json',
+        'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json'
       )
       .catch(() => this.ctx.logger.error('Get update failed, please check your network'));
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
@@ -151,7 +151,7 @@ class Main extends ContextInstance {
       this.ctx.logger.log('Kotori is currently the latest version');
     } else {
       this.ctx.logger.warn(
-        `The current version of Kotori is ${version}, and the latest version is ${res.version}. Please go to ${GLOBAL.REPO} to update`,
+        `The current version of Kotori is ${version}, and the latest version is ${res.version}. Please go to ${GLOBAL.REPO} to update`
       );
     }
   }

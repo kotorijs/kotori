@@ -9,16 +9,16 @@ export * from '@kotori-bot/i18n';
 export class Locale {
   private readonly instance: LocaleOrigin;
 
-  public readonly locale: LocaleOrigin['locale'];
+  readonly locale: LocaleOrigin['locale'];
 
-  public readonly set: LocaleOrigin['set'];
+  readonly set: LocaleOrigin['set'];
 
-  public readonly get: LocaleOrigin['get'];
+  readonly get: LocaleOrigin['get'];
 
-  public constructor(lang: LocaleType = 'en_US') {
+  constructor(lang: LocaleType = 'en_US') {
     this.instance = new LocaleOrigin(lang);
     this.locale = (val, lang?) => this.instance.locale(val, lang);
-    this.set = lang => this.instance.set(lang);
+    this.set = (lang) => this.instance.set(lang);
     this.get = () => this.instance.get();
   }
 
@@ -26,7 +26,7 @@ export class Locale {
 
   private loader(file: string) {
     let state = true;
-    Object.values(LocaleIdentifier).forEach(type => {
+    Object.values(LocaleIdentifier).forEach((type) => {
       if (typeof type !== 'string') return;
       const locales = loadConfig(path.join(file, `${type}.json`), 'json');
       if (!Tsu.Object({}).index(Tsu.String()).check(locales)) {
@@ -38,7 +38,7 @@ export class Locale {
     return state;
   }
 
-  public use(data: Parameters<typeof this.instance.use>[0] | string) {
+  use(data: Parameters<typeof this.instance.use>[0] | string) {
     if (typeof data !== 'string') {
       this.instance.use(data);
       return true;

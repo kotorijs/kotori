@@ -18,7 +18,7 @@ export class NodeFs {
 		return this.fs;
 	}
 
-	public static get() {
+	static get() {
 		if (!isenv) throw new Error('is not nodejs environment,cant load locale file');
 		return this.require();
 	}

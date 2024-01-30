@@ -14,7 +14,7 @@ import {
   PLUGIN_PREFIX,
   clearObject,
   none,
-  stringRightSplit,
+  stringRightSplit
 } from '@kotori-bot/core';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 
@@ -33,7 +33,7 @@ export class Modules extends Context {
   private getDirFiles(rootDir: string) {
     const files = fs.readdirSync(rootDir);
     const list: string[] = [];
-    files.forEach(fileName => {
+    files.forEach((fileName) => {
       const file = path.join(rootDir, fileName);
       if (fs.statSync(file).isDirectory()) {
         list.push(...this.getDirFiles(file));
@@ -45,14 +45,14 @@ export class Modules extends Context {
   }
 
   private getModuleRootDir() {
-    Object.assign(this.config.global.dirs, [this.baseDir.modules]).forEach(dir => {
+    Object.assign(this.config.global.dirs, [this.baseDir.modules]).forEach((dir) => {
       if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) this.moduleRootDir.push(dir);
     });
   }
 
   private getModuleList(rootDir: string) {
     const files = fs.readdirSync(rootDir);
-    files.forEach(fileName => {
+    files.forEach((fileName) => {
       const dir = path.join(rootDir, fileName);
       if (!fs.statSync(dir).isDirectory()) return;
       if (rootDir !== this.baseDir.modules && fileName.startsWith(PLUGIN_PREFIX)) return;
@@ -77,10 +77,10 @@ export class Modules extends Context {
         package: packageJson,
         config: Object.assign(
           packageJson.kotori.config || {},
-          clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {}),
+          clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {})
         ),
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
-        mainPath: path.resolve(mainPath),
+        mainPath: path.resolve(mainPath)
       });
     });
   }
@@ -89,9 +89,9 @@ export class Modules extends Context {
     this.use(moduleData, this, moduleData.config);
   }
 
-  public readonly moduleAll = async () => {
+  readonly moduleAll = async () => {
     this.getModuleRootDir();
-    this.moduleRootDir.forEach(dir => {
+    this.moduleRootDir.forEach((dir) => {
       this.getModuleList(dir);
     });
     const handle = (pkg: ModulePackage) => {
@@ -101,13 +101,15 @@ export class Modules extends Context {
       if (pkg.kotori.enforce === 'pre') return 4;
       if (!pkg.kotori.enforce) return 5;
       return 5;
-    }
-    this.moduleStack.sort((el1, el2) => handle(el1.package) - handle(el2.package)).forEach(moduleData => {
-      this.moduleQuick(moduleData);
-    })
+    };
+    this.moduleStack
+      .sort((el1, el2) => handle(el1.package) - handle(el2.package))
+      .forEach((moduleData) => {
+        this.moduleQuick(moduleData);
+      });
   };
 
-  public readonly watchFile = async () => {
+  readonly watchFile = async () => {
     /* this.moduleStack.forEach(moduleData =>
       moduleData.fileList.forEach(file =>
         fs.watchFile(file, () => (this.dispose(moduleData) as unknown) && this.moduleQuick(moduleData)),

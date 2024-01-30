@@ -11,7 +11,7 @@ import {
   type ModuleData,
   type ModuleInstanceConstructor,
   type ModuleInstanceFunction,
-  DatabaseConstructor,
+  DatabaseConstructor
 } from '../types';
 import { DevError, ModuleError } from '../utils/errror';
 import { ADAPTER_PREFIX, DATABASE_PREFIX } from '../consts';
@@ -19,15 +19,15 @@ import Service from '../components/service';
 import { Database } from '../components/database';
 
 export class Modules extends Events {
-  public static isServiceConsructor(Obj: object): Obj is ServiceConstructor {
+  static isServiceConsructor(Obj: object): Obj is ServiceConstructor {
     return Service.isPrototypeOf.call(Service, Obj);
   }
 
-  public static isAdapterConstructor(Obj: object): Obj is AdapterConstructor {
+  static isAdapterConstructor(Obj: object): Obj is AdapterConstructor {
     return Adapter.isPrototypeOf.call(Adapter, Obj);
   }
 
-  public static isDatabaseConstructor(Obj: object): Obj is DatabaseConstructor {
+  static isDatabaseConstructor(Obj: object): Obj is DatabaseConstructor {
     return Database.isPrototypeOf.call(Database, Obj);
   }
 
@@ -103,16 +103,16 @@ export class Modules extends Events {
     if (!isLast) return;
     this.emit('ready_all', {
       reality: this.moduleStack.length - this.failedLoadCount,
-      expected: this.moduleStack.length,
+      expected: this.moduleStack.length
     });
   }
 
   protected readonly moduleStack: ModuleData[] = [];
 
-  public async use(
+  async use(
     modules: string | ModuleData | ModuleInstanceFunction | ModuleInstanceConstructor,
     ctx: Context = this as unknown as Context,
-    config: object = {},
+    config: object = {}
   ) {
     const isString = typeof modules === 'string';
     const isFunc = modules instanceof Function;
@@ -133,13 +133,13 @@ export class Modules extends Events {
     if (err) throw err;
   }
 
-  public dispose(module: string | ModuleData) {
+  dispose(module: string | ModuleData) {
     /* need more... */
     const isString = typeof module === 'string';
     const modulePath = isString ? module : module.mainPath;
     this.emit('dispose', { module: isString ? null : module });
     if (!isString) {
-      module.fileList.forEach(file => delete require.cache[require.resolve(file)]);
+      module.fileList.forEach((file) => delete require.cache[require.resolve(file)]);
       for (let index = 0; index < this.moduleStack.length; index += 1) {
         if (this.moduleStack[index] === module) delete this.moduleStack[index];
       }

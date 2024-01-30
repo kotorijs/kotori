@@ -9,7 +9,7 @@ import {
   type PackageInfo,
   packageInfoSchema,
   kotoriConfigSchema,
-  type ServiceConstructor,
+  type ServiceConstructor
 } from '../types';
 import type Api from '../components/api';
 import { CoreError } from '../utils/errror';
@@ -18,18 +18,18 @@ import { DEFAULT_COMMAND_PREFIX, DEFAULT_ENV, DEFAULT_LANG, DEFAULT_MODULES_DIR,
 export const defaultConfig = {
   baseDir: {
     root: path.resolve(DEFAULT_ROOT_DIR),
-    modules: path.resolve(DEFAULT_MODULES_DIR),
+    modules: path.resolve(DEFAULT_MODULES_DIR)
   },
   config: {
     global: {
       lang: DEFAULT_LANG,
-      'command-prefix': DEFAULT_COMMAND_PREFIX,
+      'command-prefix': DEFAULT_COMMAND_PREFIX
     },
-    adapter: {},
+    adapter: {}
   },
   options: {
-    env: DEFAULT_ENV,
-  },
+    env: DEFAULT_ENV
+  }
 };
 
 export class Core {
@@ -37,15 +37,15 @@ export class Core {
 
   protected readonly botStack: obj<Api[]> = {};
 
-  public readonly baseDir: BaseDir;
+  readonly baseDir: BaseDir;
 
-  public readonly config: GlobalConfig;
+  readonly config: GlobalConfig;
 
-  public readonly options: GlobalOptions;
+  readonly options: GlobalOptions;
 
-  public readonly package: PackageInfo;
+  readonly package: PackageInfo;
 
-  public constructor(config?: KotoriConfig) {
+  constructor(config?: KotoriConfig) {
     const info = loadConfig(path.join(__dirname, '../../package.json')) as unknown;
     if (!info || Object.values(info).length === 0) throw new CoreError('Cannot find kotori-bot package.json');
     const result = packageInfoSchema.parseSafe(info);

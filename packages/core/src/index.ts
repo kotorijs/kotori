@@ -25,11 +25,11 @@ export class ContextInstance {
     this.instance = ctx;
   }
 
-  public static getInstance() {
+  static getInstance() {
     return this.instance;
   }
 
-  public static getMixin() {
+  static getMixin() {
     return Object.assign(ContextInstance.getInstance() /* , Context */);
   }
 }

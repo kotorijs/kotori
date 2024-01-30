@@ -4,18 +4,9 @@
     "airbnb-base",
     "prettier"
   ],
-  "overrides": [
-    {
-      "files": [
-        "*.ts",
-        "*.vue"
-      ],
-      "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ]
-      }
-    }
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
   ],
   "rules": {
     // "@typescript-eslint/no-explicit-any": 0,
@@ -23,9 +14,14 @@
     // "no-console": 0,
     // "space-before-function-paren": 0,
     /* typescript need */
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
     "no-use-before-define": 0,
     "no-unused-vars": 0,
     "no-shadow": 0,
     "no-redeclare": 0
-  }
+  },
+  "ignorePatterns": [
+    "*.js"
+  ]
 }

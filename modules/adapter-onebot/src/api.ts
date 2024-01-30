@@ -8,7 +8,7 @@
 import { Api, MessageRaw } from 'kotori-bot';
 
 export class OnebotApi extends Api {
-  public send_private_msg(message: MessageRaw, userId: number) {
+  send_private_msg(message: MessageRaw, userId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
@@ -20,7 +20,7 @@ export class OnebotApi extends Api {
    * @param {groupId} groupId 群号
    * @return {void}
    */
-  public send_group_msg(message: MessageRaw, groupId: number) {
+  send_group_msg(message: MessageRaw, groupId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
@@ -31,7 +31,7 @@ export class OnebotApi extends Api {
    * @param {number} messageId 消息id
    * @return {void}
    */
-  public delete_msg(messageId: number) {
+  delete_msg(messageId: number) {
     this.adapter.send('delete_msg', { messageId });
   }
 
@@ -41,7 +41,7 @@ export class OnebotApi extends Api {
    * @param {string} groupName 新群名
    * @return {void}
    */
-  public set_group_name(groupId: number, groupName: string) {
+  set_group_name(groupId: number, groupName: string) {
     this.adapter.send('set_group_name', { group_id: groupId, group_name: groupName });
   }
 
@@ -51,7 +51,7 @@ export class OnebotApi extends Api {
    * @param {string} image 图片路径
    * @return {void}
    */
-  public set_group_avatar(groupId: number, image: string) {
+  set_group_avatar(groupId: number, image: string) {
     this.adapter.send('set_group_portrait', { group_id: groupId, file: image, cache: false });
   }
 
@@ -62,7 +62,7 @@ export class OnebotApi extends Api {
    * @param {boolean} enable true为设置,false取消,默认true
    * @return {void}
    */
-  public set_group_admin(groupId: number, userId: number, enable: boolean = true) {
+  set_group_admin(groupId: number, userId: number, enable: boolean = true) {
     this.adapter.send('set_group_admin', { group_id: groupId, user_id: userId, enable });
   }
 
@@ -73,7 +73,7 @@ export class OnebotApi extends Api {
    * @param {string} card 群名片内容,不填或空字符串表示删除群名片
    * @return {void}
    */
-  public set_group_card(groupId: number, userId: number, card: string) {
+  set_group_card(groupId: number, userId: number, card: string) {
     this.adapter.send('set_group_card', { group_id: groupId, user_id: userId, card });
   }
 
@@ -84,7 +84,7 @@ export class OnebotApi extends Api {
    * @param {number} time 禁言时长,单位秒,0表示取消禁言
    * @return {void}
    */
-  public set_group_ban(groupId: number, userId?: number, time: number = 0) {
+  set_group_ban(groupId: number, userId?: number, time: number = 0) {
     if (userId) {
       this.adapter.send('set_group_ban', { group_id: groupId, user_id: userId, duration: time });
     } else {
@@ -99,7 +99,7 @@ export class OnebotApi extends Api {
    * @param {string} image 图片路径(可选)
    * @return {void}
    */
-  public send_group_notice(groupId: number, content: string, image?: string) {
+  send_group_notice(groupId: number, content: string, image?: string) {
     this.adapter.send('_send_group_notice', { group_id: groupId, content, image });
   }
 
@@ -109,7 +109,7 @@ export class OnebotApi extends Api {
    * @param {number} userId 要踢的QQ号
    * @return {void}
    */
-  public set_group_kick(groupId: number, userId: number) {
+  set_group_kick(groupId: number, userId: number) {
     this.adapter.send('set_group_kick', { group_id: groupId, user_id: userId, reject_add_request: false });
   }
 
@@ -118,11 +118,11 @@ export class OnebotApi extends Api {
    * @param {number} groupId 群号
    * @return {void}
    */
-  public set_group_leave(groupId: number) {
+  set_group_leave(groupId: number) {
     this.adapter.send('set_group_leave', { group_id: groupId, is_dismiss: false });
   }
 
-  /* public extra: ApiExtraValue = { type: 'onebot', image, at, poke }; */
+  /* extra: ApiExtraValue = { type: 'onebot', image, at, poke }; */
 }
 
 export default OnebotApi;

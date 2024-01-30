@@ -27,7 +27,7 @@ const todayLength = (session: EventDataMsg): MessageQuick => {
   const todayLength = penisData[session.userId];
   const params = {
     at: session.el.at(session.userId),
-    length: todayLength,
+    length: todayLength
   };
   if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];
   if (todayLength > 0 && todayLength <= config.joke) return ['newnew.msg.today_length.info.1', params];
@@ -35,12 +35,12 @@ const todayLength = (session: EventDataMsg): MessageQuick => {
 };
 
 export class Main {
-  public constructor(Ctx: Context) {
+  constructor(Ctx: Context) {
     Ctx.command('今日长度').action((_, session) => todayLength(session));
 
     Ctx.regexp(
       /^今日长度$/,
-      (_, session) => todayLength(session), // {
+      (_, session) => todayLength(session) // {
 
       /* 加载数据 */
       // const today = loadTodayData();

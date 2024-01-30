@@ -6,11 +6,11 @@ import {
   MessageRaw,
   MessageScope,
   EventDataMsg,
-  EventType,
+  EventsList,
   MidwareStack,
   RegexpStack,
   MidwareCallback,
-  RegexpCallback,
+  RegexpCallback
 } from '../types';
 import Modules from './modules';
 import type Api from '../components/api';
@@ -41,13 +41,13 @@ export class Message extends Modules {
     this.emit('midwares', { isPass, event: session });
   }
 
-  private async handleMidwaresEvent(session: EventType['midwares']) {
+  private async handleMidwaresEvent(session: EventsList['midwares']) {
     const { isPass, event } = session;
     event.api.adapter.status.receivedMsg += 1;
     if (!isPass) return;
 
     /* Handle regexp */
-    this.regexpStack.forEach(element => {
+    this.regexpStack.forEach((element) => {
       const match = event.message.match(element.match);
       if (!match) return;
       event.quick(element.callback(match, event));
@@ -58,7 +58,7 @@ export class Message extends Modules {
     if (!params[0].startsWith(params[1])) return;
     const commonParams = {
       event,
-      command: stringRightSplit(params[0], params[1]),
+      command: stringRightSplit(params[0], params[1])
     };
     this.emit('before_parse', commonParams);
     let isCancel = false;
@@ -67,7 +67,7 @@ export class Message extends Modules {
     };
     const commandParams = {
       scope: event.type === 'group_msg' ? 'group' : ('private' as MessageScope),
-      access: event.userId === event.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER,
+      access: event.userId === event.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER
     };
     this.emit('before_command', { cancel, ...commonParams, ...commandParams });
     if (isCancel) return;
@@ -83,7 +83,7 @@ export class Message extends Modules {
       try {
         const executedResult = await parseResult.action(
           { args: parseResult.args, options: parseResult.options },
-          event,
+          event
         );
         if (Tsu.Object({}).index(Tsu.Unknown()).check(executedResult)) {
           this.emit('command', { result: executedResult, ...commonParams, ...commandParams });
@@ -91,7 +91,7 @@ export class Message extends Modules {
         }
         const objectTemp = (obj: obj<string | number | void>) => {
           const result = obj;
-          Object.keys(result).forEach(key => {
+          Object.keys(result).forEach((key) => {
             if (!result[key] || typeof result[key] !== 'string') return;
             result[key] = event.locale(result[key] as string);
           });
@@ -103,66 +103,66 @@ export class Message extends Modules {
         this.emit('command', {
           result: { type: 'success', return: returnHandle ?? undefined },
           ...commonParams,
-          ...commandParams,
+          ...commandParams
         });
         if (returnHandle) event.send(returnHandle);
       } catch (executeErr) {
         this.emit('command', {
           result: { type: 'error', error: executeErr },
           ...commonParams,
-          ...commandParams,
+          ...commandParams
         });
       }
     }
   }
 
   protected registeMessageEvent() {
-    this.on('midwares', session => this.handleMidwaresEvent(session));
-    this.on('group_msg', session => this.handleMessageEvent(session));
-    this.on('private_msg', session => this.handleMessageEvent(session));
-    this.before('send', session => {
+    this.on('midwares', (session) => this.handleMidwaresEvent(session));
+    this.on('group_msg', (session) => this.handleMessageEvent(session));
+    this.on('private_msg', (session) => this.handleMessageEvent(session));
+    this.before('send', (session) => {
       const { api } = session;
       api.adapter.status.sentMsg += 1;
     });
   }
 
-  public midware(callback: MidwareCallback, priority: number = 100) {
-    if (this.midwareStack.filter(Element => Element.callback === callback).length) return false;
+  midware(callback: MidwareCallback, priority: number = 100) {
+    if (this.midwareStack.filter((Element) => Element.callback === callback).length) return false;
     this.midwareStack.push({ callback, priority });
     this.midwareStack.sort((first, second) => first.priority - second.priority);
     return true;
   }
 
-  public command(template: string, config?: CommandConfig) {
+  command(template: string, config?: CommandConfig) {
     none(this);
     return new Command(template, config);
   }
 
-  public regexp(match: RegExp, callback: RegexpCallback) {
-    if (this.regexpStack.filter(Element => Element.match === match).length) return false;
+  regexp(match: RegExp, callback: RegexpCallback) {
+    if (this.regexpStack.filter((Element) => Element.match === match).length) return false;
     this.regexpStack.push({ match, callback });
     return true;
   }
 
-  public boardcast(type: MessageScope, message: MessageRaw) {
+  boardcast(type: MessageScope, message: MessageRaw) {
     const send =
       type === 'private'
         ? (api: Api) => api.send_private_msg(message, 1)
         : (api: Api) => api.send_group_msg(message, 1);
     /* this need support of database... */
-    Object.values(this.botStack).forEach(apis => {
+    Object.values(this.botStack).forEach((apis) => {
       /* feating... */
-      apis.forEach(api => send(api));
+      apis.forEach((api) => send(api));
     });
   }
 
-  public notify(message: MessageRaw) {
+  notify(message: MessageRaw) {
     const mainAdapterIdentity = Object.keys(this.config.adapter)[0];
-    Object.values(this.botStack).forEach(apis =>
-      apis.forEach(api => {
+    Object.values(this.botStack).forEach((apis) =>
+      apis.forEach((api) => {
         if (api.adapter.identity !== mainAdapterIdentity) return;
         api.send_private_msg(message, api.adapter.config.master);
-      }),
+      })
     );
   }
 }
