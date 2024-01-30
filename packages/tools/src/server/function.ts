@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
-import { ConfigFileType } from './types';
+import { ConfigFileType } from '../types';
 
 export function loadConfig(
   filename: string,
   type: ConfigFileType = 'json',
   init: object | string = {},
-  autoCreate: boolean = false,
+  autoCreate: boolean = false
 ): object | null | unknown[] | string {
   const dirname: string = path.dirname(filename);
   if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
