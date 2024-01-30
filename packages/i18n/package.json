@@ -3,6 +3,7 @@
   "version": "1.1.2",
   "description": "i18n For Kotori",
   "main": "dist/index.js",
+  "browser": "dist/common.js",
   "scripts": {
     "build": "tsc --build"
   },

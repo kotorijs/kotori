@@ -5,28 +5,28 @@ const bgm1Schema = Tsu.Object({
   results: Tsu.Number().optional(),
   list: Tsu.Array(
     Tsu.Object({
-      id: Tsu.Number(),
-    }),
-  ),
+      id: Tsu.Number()
+    })
+  )
 });
 
 const bgm2Schema = Tsu.Union([
   Tsu.Object({
     images: Tsu.Object({
-      large: Tsu.String(),
+      large: Tsu.String()
     }),
     summary: Tsu.String(),
     name: Tsu.String(),
     name_cn: Tsu.String(),
     tags: Tsu.Array(
       Tsu.Object({
-        name: Tsu.String(),
-      }),
-    ),
+        name: Tsu.String()
+      })
+    )
   }),
   Tsu.Object({
-    title: Tsu.String(),
-  }),
+    title: Tsu.String()
+  })
 ]);
 
 const bgmcSchema = Tsu.Array(
@@ -34,7 +34,7 @@ const bgmcSchema = Tsu.Array(
     weekday: Tsu.Object({
       en: Tsu.String(),
       cn: Tsu.String(),
-      ja: Tsu.String(),
+      ja: Tsu.String()
     }),
     items: Tsu.Array(
       Tsu.Object({
@@ -42,11 +42,11 @@ const bgmcSchema = Tsu.Array(
         name_cn: Tsu.String(),
         air_date: Tsu.String(),
         images: Tsu.Object({
-          large: Tsu.String(),
-        }),
-      }),
-    ),
-  }),
+          large: Tsu.String()
+        })
+      })
+    )
+  })
 );
 
 const MAX_LIST = 10;
@@ -65,9 +65,9 @@ export function main(ctx: Context) {
       let list = '';
       for (let init = 0; init < (res.list.length > MAX_LIST ? MAX_LIST : res.list.length); init += 1) {
         const result = res.list[init];
-        list += stringTemp(session.locale('bangumi.msg.bgm.list'), {
+        list += stringTemp(session.i18n.locale('bangumi.msg.bgm.list'), {
           ...result,
-          num: init + 1,
+          num: init + 1
         });
       }
       return ['bangumi.msg.bgm.lists', { list }];
@@ -83,10 +83,10 @@ export function main(ctx: Context) {
         name: res2.name,
         name_cn: res2.name_cn,
         summary: res2.summary,
-        tags: res2.tags.map(el => el.name).join(' '),
+        tags: res2.tags.map((el) => el.name).join(' '),
         url: `https://bgm.tv/subject/${result.id}`,
-        image: session.el.image(res2.images.large),
-      },
+        image: session.el.image(res2.images.large)
+      }
     ];
   });
 
@@ -99,19 +99,14 @@ export function main(ctx: Context) {
     let list = '';
     for (let init = 0; init < 3; init += 1) {
       const item = items[init];
-      list += stringTemp(session.locale('bangumi.msg.bgmc.list'), {
+      list += stringTemp(session.i18n.locale('bangumi.msg.bgmc.list'), {
         name: item.name,
         name_cn: item.name_cn,
         air_date: item.air_date,
-        image: session.el.image(item.images.large),
+        image: session.el.image(item.images.large)
       });
     }
-    const weekday = {
-      ja_JP: res[dayNum].weekday.ja,
-      en_US: res[dayNum].weekday.en,
-      zh_TW: res[dayNum].weekday.ja,
-      zh_CN: res[dayNum].weekday.ja,
-    }[session.api.adapter.ctx.i18n.get()];
+    const weekday = session.api.adapter.ctx.i18n.get().includes('en') ? res[dayNum].weekday.en : res[dayNum].weekday.ja;
     return ['bangumi.msg.bgmc', { weekday, list }];
   });
 }

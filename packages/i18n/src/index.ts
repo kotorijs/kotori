@@ -1,54 +1,40 @@
-export enum LocaleIdentifier {
-  ja_JP,
-  en_US,
-  zh_TW,
-  zh_CN
-}
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
+import { I18n as I18nCommon, LocaleType, localeData } from './common';
+import { DEFAULT_EXT, DEFAULT_LANG } from './const';
 
-export type LocaleType = keyof typeof LocaleIdentifier;
+export * from './common';
 
-export interface localeData {
-  [propName: string]: string;
-}
+export class I18n<T extends LocaleType = LocaleType> extends I18nCommon<T> {
+  private ext: string;
 
-export type LocaleDataList = {
-  [K in LocaleType]: localeData;
-};
-
-export class Locale {
-  private readonly localeDataList: LocaleDataList = {
-    ja_JP: {},
-    en_US: {},
-    zh_TW: {},
-    zh_CN: {}
-  };
-
-  private lang: LocaleIdentifier;
-
-  constructor(type: LocaleType = 'en_US') {
-    this.lang = LocaleIdentifier[type];
-  }
-
-  use(data: { type: LocaleType; locales: localeData }) {
-    Object.keys(this.localeDataList[data.type]).forEach((locale) => {
-      if (!(locale in data.locales)) return;
-      delete this.localeDataList[data.type][locale];
+  private loader(dir: string) {
+    this.supports.forEach((lang) => {
+      const file = join(dir, `${lang}${this.ext}`);
+      if (!existsSync(file)) return;
+      try {
+        const locales = JSON.parse(readFileSync(file).toString());
+        this.use(locales, lang);
+      } catch {
+        JSON.stringify('');
+      }
     });
-    this.localeDataList[data.type] = Object.assign(this.localeDataList[data.type], data.locales);
   }
 
-  locale(val: string, type: LocaleType = LocaleIdentifier[this.lang] as LocaleType) {
-    if (!(type in this.localeDataList)) return val;
-    return val in this.localeDataList[type] ? this.localeDataList[type][val] : val;
+  constructor(config: ConstructorParameters<typeof I18nCommon<T>>[0] & { ext?: string } = { lang: DEFAULT_LANG as T }) {
+    super(config);
+    this.ext = config.ext ?? DEFAULT_EXT;
   }
 
-  set(lang: LocaleType) {
-    this.lang = LocaleIdentifier[lang];
-  }
-
-  get() {
-    return LocaleIdentifier[this.lang] as LocaleType;
+  use(locales: localeData | string, lang: T = this.lang) {
+    if (typeof locales === 'string') {
+      this.loader(locales);
+      return;
+    }
+    Object.keys(locales).forEach((locale) => {
+      this.localesData.get(lang!)!.set(locale, locales[locale]);
+    });
   }
 }
 
-export default Locale;
+export default I18n;

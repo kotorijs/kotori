@@ -2,6 +2,7 @@
   "extends": "./tsconfig.node.json",
   "compilerOptions": {
     /* Path mapping for module imports */
+    "baseUrl": ".",
     "paths": {
       "@kotori-bot/*": [
         "packages/*/src"
