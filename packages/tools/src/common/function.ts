@@ -1,4 +1,4 @@
-import { obj } from './types';
+import { obj } from '../types';
 
 /* export const initialize: MethodDecorator = (_, __, val) => {
 	if (val.value instanceof Function) val.value();
@@ -39,7 +39,7 @@ export function isClass(obj: unknown, strict: boolean = true): obj is new (...ar
 
 export function clearObject(val: obj, strict: boolean = false, stacks: Set<unknown> = new Set()) {
   const handle = val;
-  Object.keys(handle).forEach(key => {
+  Object.keys(handle).forEach((key) => {
     if (handle[key] !== undefined && (strict || handle[key] !== null)) {
       if (typeof handle[key] === 'object' && stacks.has(handle[key])) handle[key] = clearObject(handle[key]);
       return;
@@ -107,7 +107,7 @@ export function stringTemp(template: string, args: obj<string | number | void>) 
   const params = Object.assign(args, { break: '\n' });
   let templateString = template;
   if (!params || typeof params !== 'object') return templateString;
-  Object.keys(params).forEach(param => {
+  Object.keys(params).forEach((param) => {
     if (typeof params[param] !== 'string' && typeof args[param] !== 'number') params[param] = '';
     if (params[param]?.toString instanceof Function) params[param] = (params[param] as number).toString();
     templateString = templateString.replace(new RegExp(`%${param}%`, 'g'), params[param] as string);
@@ -137,7 +137,7 @@ export function getDate() {
 }
 
 export function getSpecStr(template: string) {
-  return template.replace(/[xy]/g, char => {
+  return template.replace(/[xy]/g, (char) => {
     const r = Math.random() * 16;
     let v: number | string;
     if (char === 'x') {
@@ -170,7 +170,7 @@ export function createProxy<T extends object>(val: T | (() => T)) {
       let value = val;
       if (typeof val === 'function') value = val();
       return value[property as keyof typeof val];
-    },
+    }
   });
 }
 

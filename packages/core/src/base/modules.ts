@@ -2,7 +2,6 @@ import { isClass, none } from '@kotori-bot/tools';
 import fs from 'fs';
 import { Parser, TsuError } from 'tsukiko';
 import { resolve } from 'path';
-import Events from './events';
 import Context from '../context';
 import Adapter from '../components/adapter';
 import {
@@ -17,8 +16,9 @@ import { DevError, ModuleError } from '../utils/errror';
 import { ADAPTER_PREFIX, DATABASE_PREFIX } from '../consts';
 import Service from '../components/service';
 import { Database } from '../components/database';
+import Core from './core';
 
-export class Modules extends Events {
+export class Modules extends Core {
   static isServiceConsructor(Obj: object): Obj is ServiceConstructor {
     return Service.isPrototypeOf.call(Service, Obj);
   }

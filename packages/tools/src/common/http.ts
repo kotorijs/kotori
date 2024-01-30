@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { FuncStringProcessStr } from './types';
+import { FuncStringProcessStr } from '../types';
 
 type HttpMethod<T = unknown> = (
   url: string,
