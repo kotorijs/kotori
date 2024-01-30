@@ -1,25 +1,35 @@
-import { ElementsParam, none } from 'kotori-bot';
+import { Elements, EventDataTargetId, none } from 'kotori-bot';
 
-export const CmdElements: ElementsParam = {
-  at(target) {
+export class CmdElements extends Elements {
+  at(target: EventDataTargetId) {
+    none(this);
     return `@${target} `;
-  },
-  image(url) {
+  }
+
+  image(url: string) {
+    none(this);
     return `[image,${url}]`;
-  },
-  voice(url) {
+  }
+
+  voice(url: string) {
+    none(this);
     return `[voice,${url}]`;
-  },
-  video(url) {
+  }
+
+  video(url: string) {
+    none(this);
     return `[video,${url}]`;
-  },
-  face(id) {
+  }
+
+  face(id: string) {
+    none(this);
     return `[face,${id}]`;
-  },
-  file(data) {
-    none(data);
+  }
+
+  file(data: string) {
+    none(data, this);
     return `[file]`;
-  },
-};
+  }
+}
 
 export default CmdElements;

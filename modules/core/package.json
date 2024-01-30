@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "core plugin",
   "main": "lib/index.js",
   "scripts": {
@@ -14,5 +14,15 @@
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "meta": {
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    }
   }
 }

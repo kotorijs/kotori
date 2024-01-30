@@ -4,10 +4,10 @@ import { FuncStringProcessStr } from './types';
 type HttpMethod<T = unknown> = (
   url: string,
   params?: { [key: string]: FuncStringProcessStr },
-  config?: AxiosRequestConfig<any>,
+  config?: AxiosRequestConfig<any>
 ) => Promise<T>;
 
-type Method = 'get' | 'post' | 'patch' | 'put' | 'delete' | 'head';
+type Method = 'get' | 'delete' | 'head';
 
 export class Http {
   private config: AxiosRequestConfig;
@@ -16,34 +16,35 @@ export class Http {
     url: string,
     params?: { [key: string]: string | number },
     config?: AxiosRequestConfig,
-    method: Method = 'get',
+    method: Method = 'get'
   ) => {
     const response = (await axios[method](url, Object.assign(this.config, config || {}, { params }))).data;
     return response;
   };
 
-  public constructor(config?: AxiosRequestConfig<any>) {
+  constructor(config?: AxiosRequestConfig<any>) {
     this.config = config || {};
   }
 
-  public extend(config: AxiosRequestConfig<any>) {
+  extend(config: AxiosRequestConfig<any>) {
     const NewHttp = new Http(Object.assign(this.config, config));
     return NewHttp;
   }
 
-  public readonly get: HttpMethod = (url, params, config) => this.method(url, params, config, 'get');
+  readonly get: HttpMethod = (url, params, config) => this.method(url, params, config, 'get');
 
-  public readonly post: HttpMethod = async (url, params, config) =>
+  readonly post: HttpMethod = async (url, params, config) =>
     (await axios.post(url, params, Object.assign(this.config, config))).data;
 
-  /* here need update */
-  public readonly patch: HttpMethod = (url, params, config) => this.method(url, params, config, 'patch');
+  readonly patch: HttpMethod = async (url, params, config) =>
+    (await axios.patch(url, params, Object.assign(this.config, config))).data;
 
-  public readonly put: HttpMethod = (url, params, config) => this.method(url, params, config, 'put');
+  readonly put: HttpMethod = async (url, params, config) =>
+    (await axios.put(url, params, Object.assign(this.config, config))).data;
 
-  public readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
+  readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
 
-  public readonly head: HttpMethod = (url, params, config) => this.method(url, params, config, 'head');
+  readonly head: HttpMethod = (url, params, config) => this.method(url, params, config, 'head');
 }
 
 export default Http;

@@ -14,5 +14,16 @@
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "enforce": "pre",
+    "meta": {
+      "languages": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    }
   }
 }

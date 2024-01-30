@@ -1,3 +1,3 @@
-import { OneBotAdapter } from './adapter';
+import { OnebotAdapter } from './adapter';
 
-export default OneBotAdapter;
+export default OnebotAdapter;

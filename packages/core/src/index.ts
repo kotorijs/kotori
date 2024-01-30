@@ -1,7 +1,10 @@
 import { none } from '@kotori-bot/tools';
 import Context from './context';
 
+export * from './components/service';
+export * from './components/database';
 export * from './components/adapter';
+export * from './components/service';
 export * from './components/api';
 export * from './components/elements';
 export * from './context';
@@ -22,11 +25,11 @@ export class ContextInstance {
     this.instance = ctx;
   }
 
-  public static getInstance() {
+  static getInstance() {
     return this.instance;
   }
 
-  public static getMixin() {
+  static getMixin() {
     return Object.assign(ContextInstance.getInstance() /* , Context */);
   }
 }

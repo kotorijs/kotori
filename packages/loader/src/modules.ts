@@ -1,14 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import {
+  ADAPTER_PREFIX,
+  CORE_MODULES,
+  CUSTOM_PREFIX,
   Context,
+  DATABASE_PREFIX,
   DevError,
   ModuleData,
   ModulePackage,
   ModulePackageSchema,
   OFFICIAL_MODULES_SCOPE,
   PLUGIN_PREFIX,
-  stringRightSplit,
+  clearObject,
+  none,
+  stringRightSplit
 } from '@kotori-bot/core';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 
@@ -27,7 +33,7 @@ export class Modules extends Context {
   private getDirFiles(rootDir: string) {
     const files = fs.readdirSync(rootDir);
     const list: string[] = [];
-    files.forEach(fileName => {
+    files.forEach((fileName) => {
       const file = path.join(rootDir, fileName);
       if (fs.statSync(file).isDirectory()) {
         list.push(...this.getDirFiles(file));
@@ -39,14 +45,14 @@ export class Modules extends Context {
   }
 
   private getModuleRootDir() {
-    Object.assign(this.config.global.dirs, [this.baseDir.modules]).forEach(dir => {
+    Object.assign(this.config.global.dirs, [this.baseDir.modules]).forEach((dir) => {
       if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) this.moduleRootDir.push(dir);
     });
   }
 
   private getModuleList(rootDir: string) {
     const files = fs.readdirSync(rootDir);
-    files.forEach(fileName => {
+    files.forEach((fileName) => {
       const dir = path.join(rootDir, fileName);
       if (!fs.statSync(dir).isDirectory()) return;
       if (rootDir !== this.baseDir.modules && fileName.startsWith(PLUGIN_PREFIX)) return;
@@ -59,44 +65,57 @@ export class Modules extends Context {
         throw new DevError(`illegal package.json ${packagePath}`);
       }
       const result = ModulePackageSchema.parseSafe(packageJson);
-      if (!result.value && rootDir === this.baseDir.modules) {
+      if (!result.value) {
+        if (rootDir !== this.baseDir.modules) return;
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
+      packageJson = result.data;
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
       const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
       this.moduleStack.push({
         package: packageJson,
+        config: Object.assign(
+          packageJson.kotori.config || {},
+          clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {})
+        ),
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
-        mainPath: path.resolve(mainPath),
+        mainPath: path.resolve(mainPath)
       });
     });
   }
 
   private moduleQuick(moduleData: ModuleData) {
-    return this.use(
-      moduleData,
-      this,
-      this.config.plugin[stringRightSplit(moduleData.package.name, PLUGIN_PREFIX)] ?? {},
-    );
+    this.use(moduleData, this, moduleData.config);
   }
 
-  public readonly moduleAll = async () => {
+  readonly moduleAll = async () => {
     this.getModuleRootDir();
-    this.moduleRootDir.forEach(dir => {
+    this.moduleRootDir.forEach((dir) => {
       this.getModuleList(dir);
     });
-    const array = this.moduleStack.filter(data => data.package.name.startsWith(OFFICIAL_MODULES_SCOPE));
-    array.push(...this.moduleStack.filter(data => !array.includes(data)));
-    array.forEach(moduleData => this.moduleQuick(moduleData));
+    const handle = (pkg: ModulePackage) => {
+      if (pkg.name.includes(DATABASE_PREFIX)) return 1;
+      if (pkg.name.includes(ADAPTER_PREFIX)) return 2;
+      if (CORE_MODULES.includes(pkg.name)) return 3;
+      if (pkg.kotori.enforce === 'pre') return 4;
+      if (!pkg.kotori.enforce) return 5;
+      return 5;
+    };
+    this.moduleStack
+      .sort((el1, el2) => handle(el1.package) - handle(el2.package))
+      .forEach((moduleData) => {
+        this.moduleQuick(moduleData);
+      });
   };
 
-  public readonly watchFile = async () => {
-    this.moduleStack.forEach(moduleData =>
+  readonly watchFile = async () => {
+    /* this.moduleStack.forEach(moduleData =>
       moduleData.fileList.forEach(file =>
         fs.watchFile(file, () => (this.dispose(moduleData) as unknown) && this.moduleQuick(moduleData)),
       ),
-    );
+    ); */
+    none(this);
   };
 }
 

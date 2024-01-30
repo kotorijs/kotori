@@ -1,0 +1,17 @@
+{
+  "helper.descr.help": "查看指令幫助信息",
+  "helper.msg.help": "查詢到以下相關指令：%content%",
+  "helper.msg.descr.fail": "未查詢到相關指令",
+  "helper.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",
+  "helper.template.help": "\n  %content%",
+  "helper.template.alias": "\n  別名：%content%",
+  "helper.template.alias.delimiter": "，",
+  "helper.template.arg.required": " <%name%%type%%default%>",
+  "helper.template.arg.optional": " [%name%%type%%default%]",
+  "helper.template.arg.type": "：%content%",
+  "helper.template.default": "=%content%",
+  "helper.template.description": " - %content%",
+  "helper.template.options": "\n  參數說明：%content%",
+  "helper.template.option": "\n  -%name%%type%%default%%description%",
+  "helper.template.option.type": " 類型：%type%"
+}

@@ -1,0 +1,14 @@
+{
+  "mediawiki.descr.wiki": "MediaWikiを検索",
+  "mediawiki.msg.wiki.empty": "まだwikiリストがありません。 \"/wikio add\"を使用して新しいMediaWikiを追加してください",
+  "mediawiki.msg.wiki.error": "無効な番号、wikiが存在しません。 \"/wikil\"を使用して現在のMediaWikiリストを表示してください",
+  "mediawiki.msg.wiki.fail": "関連コンテンツが見つかりませんでした: %input%",
+  "mediawiki.msg.wiki": "タイトル: %title%\n内容: %extract%\n%url%\nソース: %name%",
+  "mediawiki.descr.wikil": "MediaWikiリストを表示",
+  "mediawiki.msg.wikil": "MediaWikiリスト: %list%",
+  "mediawiki.msg.wikil.list": "\n%num%. %name% - %api%",
+  "mediawiki.descr.wikio.del": "MediaWikiを削除",
+  "mediawiki.descr.wikio.add": "MediaWikiを追加",
+  "mediawiki.msg.wikio.del": "MediaWikiを削除しました: %input%",
+  "mediawiki.msg.wikio.add": "MediaWikiを追加しました: %input%"
+}

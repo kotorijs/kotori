@@ -7,7 +7,7 @@
 [开发指南](https://kotori.js.org/develop/)  
 [接口文档](https://kotori.js.org/api/)
 
-![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/biyuehu/biyuehu) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/kotorijs/kotori/master) ![GitHub contributors](https://img.shields.io/github/contributors/biyuehu/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
+[![Build](https://github.com/kotorijs/kotori/actions/workflows/build.yml/badge.svg)](https://github.com/kotorijs/kotori/actions/workflows/build.yml) ![GitHub last commit (by committer)](https://img.shields.io/github/last-commit/biyuehu/biyuehu) ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/kotorijs/kotori/master) ![GitHub contributors](https://img.shields.io/github/contributors/biyuehu/kotori-bot) ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen) ![npm](https://img.shields.io/npm/v/kotori-bot) ![GitHub Repo stars](https://img.shields.io/github/stars/biyuehu/kotori-bot?style=social)
 
 </div>
 
