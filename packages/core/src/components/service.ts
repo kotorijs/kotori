@@ -1,5 +1,5 @@
 import { none } from '@kotori-bot/tools';
-import { ServiceImpl, ServiceType } from '../types';
+import { ServiceImpl, ServiceType } from '../types2';
 
 export abstract class Service implements ServiceImpl {
   handle(...data: unknown[]): void {

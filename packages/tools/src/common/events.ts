@@ -1,4 +1,4 @@
-export interface EventsList {
+interface EventsList {
   ready: { type: 'ready' };
   error: { type: 'type' };
   dispose: { type: 'dispose' };

@@ -7,7 +7,7 @@ import {
   Context,
   DATABASE_PREFIX,
   DevError,
-  ModuleData,
+  ModuleInstance,
   ModulePackage,
   ModulePackageSchema,
   OFFICIAL_MODULES_SCOPE,
@@ -85,7 +85,7 @@ export class Modules extends Context {
     });
   }
 
-  private moduleQuick(moduleData: ModuleData) {
+  private moduleQuick(moduleData: ModuleInstance) {
     this.use(moduleData, this, moduleData.config);
   }
 

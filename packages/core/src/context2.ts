@@ -1,8 +1,8 @@
 import Logger from '@kotori-bot/logger';
 import { Http } from '@kotori-bot/tools';
 import I18n from '@kotori-bot/i18n';
-import Internal from './base/internal';
-import { KotoriConfig } from './types';
+import Internal from './base_old/internal';
+import { KotoriConfig } from './types2';
 
 export class Context extends Internal {
   http = new Http({ validateStatus: () => true });
