@@ -1,4 +1,4 @@
-import type { CommandParseResultExtra } from '../types';
+import type { CommandParseResultExtra } from '../types2';
 
 export class CommandExtra {
   value: CommandParseResultExtra[keyof CommandParseResultExtra];

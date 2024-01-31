@@ -1,6 +1,6 @@
 import { ArrayValue, ObjectValue, none } from '@kotori-bot/tools';
 import Message from './message';
-import Command from './command';
+import Command from '../components/command';
 
 export class Internal extends Message {
   private getModules() {

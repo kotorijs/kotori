@@ -1,150 +1,122 @@
 import { isClass, none } from '@kotori-bot/tools';
-import fs from 'fs';
 import { Parser, TsuError } from 'tsukiko';
-import { resolve } from 'path';
-import Context from '../context';
-import Adapter from '../components/adapter';
-import {
-  type ServiceConstructor,
-  type AdapterConstructor,
-  type ModuleData,
-  type ModuleInstanceConstructor,
-  type ModuleInstanceFunction,
-  DatabaseConstructor
-} from '../types';
 import { DevError, ModuleError } from '../utils/errror';
-import { ADAPTER_PREFIX, DATABASE_PREFIX } from '../consts';
-import Service from '../components/service';
-import { Database } from '../components/database';
-import Core from './core';
+import { ModuleConfig, ModuleInstance, moduleConfigBaseSchema } from '../types';
+import { Context } from '../context';
 
-export class Modules extends Core {
-  static isServiceConsructor(Obj: object): Obj is ServiceConstructor {
+type ModuleInstanceClass = new (ctx: Context, config: object) => void;
+type ModuleInstanceFunction = (ctx: Context, config: object) => void;
+
+export interface Modules {
+  // use(file: string, config?: ModuleConfig): void;
+  use(modules: ModuleInstance, config?: ModuleConfig): void;
+  use(func: ModuleInstanceFunction, config?: ModuleConfig): void;
+  use(Fnuc: ModuleInstanceClass, config?: ModuleConfig): void;
+  dispose(modules: ModuleInstance): void;
+}
+
+declare module '../context' {
+  interface Context extends Modules {}
+}
+
+export class Modules implements Modules {
+  /*   static isServiceConsructor(Obj: object): Obj is ServiceClass {
     return Service.isPrototypeOf.call(Service, Obj);
   }
 
-  static isAdapterConstructor(Obj: object): Obj is AdapterConstructor {
+  static isAdapterClass(Obj: object): Obj is AdapterClass {
     return Adapter.isPrototypeOf.call(Adapter, Obj);
   }
 
-  static isDatabaseConstructor(Obj: object): Obj is DatabaseConstructor {
+  static isDatabaseClass(Obj: object): Obj is DatabaseClass {
     return Database.isPrototypeOf.call(Database, Obj);
-  }
+  } */
 
-  private static modulesFunction(func: ModuleInstanceFunction, ctx: Context, config: object) {
+  private static handleFunction(func: ModuleInstanceFunction, ctx: Context, config: object) {
     func(ctx, config);
   }
 
-  private static modulesCconstructor(Constructor: ModuleInstanceConstructor, ctx: Context, config: object) {
-    none(new Constructor(ctx, config));
+  private static handleCconstructor(Class: ModuleInstanceClass, ctx: Context, config: object) {
+    none(new Class(ctx, config));
   }
 
-  private static async modulesFile(modulesDir: string, modulesName: string, ctx: Context, config: object = {}) {
-    if (!fs.existsSync(modulesDir)) return new ModuleError(`Cannot find ${modulesName}`);
-    let exportObj;
-    let modulesConfig = config;
-    try {
-      exportObj = (await import(`file://${modulesDir}`)).default;
-      /* it's so fucked, here need fix... */
-    } catch (err) {
-      return err;
-    }
-    /* before handle */
-    if (exportObj.lang) {
-      ctx.i18n.use(exportObj.lang instanceof Array ? resolve(...exportObj.lang) : resolve(exportObj.lang));
-    }
-    const schema = exportObj && exportObj.config instanceof Parser ? (exportObj.config as Parser<object>) : undefined;
-    /* handle */
-    if (exportObj.default !== undefined) {
-      /* service */
-      if (this.isServiceConsructor(exportObj.default)) {
-        /* adapter */
-        const adapterName = modulesName.split(ADAPTER_PREFIX)[1];
-        const databaseName = modulesName.split(DATABASE_PREFIX)[1];
-        if (adapterName && this.isAdapterConstructor(exportObj.default)) {
-          ctx.serviceStack[adapterName] = [exportObj.default, schema];
-        } else if (databaseName && this.isDatabaseConstructor(exportObj.default)) {
-          /* here need more service type support... */
-        }
-        return undefined;
-      }
-      /* plugin: check config */
-      if (schema) {
-        const resultSchema = schema.parseSafe(config);
-        if (!resultSchema.value) return resultSchema.error;
-        modulesConfig = resultSchema.data;
-      }
-      /* plugin */
-      if (isClass(exportObj.default)) return this.modulesCconstructor(exportObj.default, ctx, modulesConfig);
-      if (exportObj.default instanceof Function) return this.modulesFunction(exportObj.default, ctx, modulesConfig);
-      return new DevError(`Module instance of default export is not function or constructor at ${modulesName}`);
-    }
+  private static checkConfig(schema: unknown, config: object) {
+    const resultSchema1 = moduleConfigBaseSchema.parseSafe(config);
+    if (!resultSchema1.value) return resultSchema1.error;
+    if (!(schema instanceof Parser)) return resultSchema1.data;
+    const resultSchema2 = (schema as typeof moduleConfigBaseSchema).parseSafe(resultSchema1.data);
+    if (resultSchema2 && !resultSchema2.value) return resultSchema2.error;
+    return resultSchema2.data;
+  }
 
-    if (exportObj.main instanceof Function) {
-      if (isClass(exportObj.main)) {
-        return new DevError(`Module instance is constructor,export name should be 'Main' not 'main' at ${modulesName}`);
+  private handleObj(modules: ModuleInstance, config: object) {
+    /* before handle */
+    /* if (exportObj.lang) {
+      ctxni18n.use(exportObj.lang instanceof Array ? resolve(...exportObj.lang) : resolve(exportObj.lang));
+    } */
+    const moduleName = modules.package.name;
+    /* handle */
+    /* service */
+    // if (this.isServiceConsructor(moduleMethod)) {
+    //   /* adapter */
+    //   const adapterName = modulesName.split(ADAPTER_PREFIX)[1];
+    //   const databaseName = modulesName.split(DATABASE_PREFIX)[1];
+    //   if (adapterName && this.isAdapterClass(moduleMethod)) {
+    //     ctx.serviceStack[adapterName] = [moduleMethod, schema];
+    //   } else if (databaseName && this.isDatabaseClass(moduleMethod)) {
+    //     /* here need more service type support... */
+    //   }
+    //   return undefined;
+    // }
+    /* plugin */
+    const moduleConfig = Modules.checkConfig(modules.exports.schema, config);
+    if (moduleConfig instanceof TsuError)
+      return new ModuleError(`Config format of module ${moduleName} is error: ${moduleConfig.message}`);
+    if (modules.exports.default !== undefined) {
+      if (isClass(modules.exports.default)) {
+        return Modules.handleCconstructor(modules.exports.default, this.ctx, moduleConfig);
       }
-      return this.modulesFunction(exportObj.main, ctx, modulesConfig);
+      if (modules.exports.default instanceof Function) {
+        return Modules.handleFunction(modules.exports.default, this.ctx, moduleConfig);
+      }
+      return new DevError(`Module instance of default export is not function or constructor at ${moduleName}`);
     }
-    if (exportObj.Main instanceof Function) {
-      if (!isClass(exportObj.Main)) {
-        return new DevError(`Module instance is function,export name should be 'main' not 'Main' at ${modulesName}`);
+    if (modules.exports.main instanceof Function) {
+      if (isClass(modules.exports.main)) {
+        return new DevError(`Module instance is constructor,export name should be 'Main' not 'main' at ${moduleName}`);
       }
-      return this.modulesCconstructor(exportObj.Main, ctx, modulesConfig);
+      return Modules.handleFunction(modules.exports.main, this.ctx, moduleConfig);
+    }
+    if (modules.exports.Main instanceof Function) {
+      if (!isClass(modules.exports.Main)) {
+        return new DevError(`Module instance is function,export name should be 'main' not 'Main' at ${moduleName}`);
+      }
+      return Modules.handleCconstructor(modules.exports.Main, this.ctx, moduleConfig);
     }
     return undefined;
   }
 
-  private failedLoadCount = 0;
+  private readonly ctx: Context;
 
-  private emitModuleEvent(modules: ModuleData | null, result: boolean, isLast: boolean) {
-    if (!result) this.failedLoadCount += 1;
-    this.emit('ready', { module: modules, result });
-    if (!isLast) return;
-    this.emit('ready_all', {
-      reality: this.moduleStack.length - this.failedLoadCount,
-      expected: this.moduleStack.length
-    });
+  constructor(ctx: Context) {
+    this.ctx = ctx;
   }
 
-  protected readonly moduleStack: ModuleData[] = [];
-
-  async use(
-    modules: string | ModuleData | ModuleInstanceFunction | ModuleInstanceConstructor,
-    ctx: Context = this as unknown as Context,
-    config: object = {}
-  ) {
-    const isString = typeof modules === 'string';
-    const isFunc = modules instanceof Function;
-    const isLast = isString || isFunc ? false : modules === this.moduleStack[this.moduleStack.length - 1];
-    const handleModule = isString || isFunc ? null : modules;
-    let err;
-    if (isClass(modules)) Modules.modulesCconstructor(modules, ctx, config);
-    else if (isFunc) Modules.modulesFunction(modules as ModuleInstanceFunction, ctx, config);
-    else {
-      const modulesDir = isString ? modules : modules.mainPath;
-      const modulesName = isString ? modules : modules.package.name;
-      err = await Modules.modulesFile(modulesDir, modulesName, ctx, config);
-      if (err instanceof TsuError) {
-        err = new ModuleError(`Config format of module ${modulesName} is error: ${err.message}`);
-      }
+  load(modules: ModuleInstance | ModuleInstanceFunction | ModuleInstanceClass, config: object = {}) {
+    if (modules instanceof Function) {
+      if (isClass(modules)) return Modules.handleCconstructor(modules, this.ctx, {});
+      return Modules.handleFunction(modules as ModuleInstanceFunction, this.ctx, {});
     }
-    this.emitModuleEvent(handleModule, !err, isLast);
-    if (err) throw err;
+
+    const error = this.handleObj(modules, config);
+    this.ctx.emit('ready', { module: modules });
+    if (error) this.ctx.emit('error', { error });
+    return undefined;
   }
 
-  dispose(module: string | ModuleData) {
-    /* need more... */
-    const isString = typeof module === 'string';
-    const modulePath = isString ? module : module.mainPath;
-    this.emit('dispose', { module: isString ? null : module });
-    if (!isString) {
-      module.fileList.forEach((file) => delete require.cache[require.resolve(file)]);
-      for (let index = 0; index < this.moduleStack.length; index += 1) {
-        if (this.moduleStack[index] === module) delete this.moduleStack[index];
-      }
-    }
-    delete require.cache[require.resolve(modulePath)];
+  dispose(modules: /*  string | */ ModuleInstance) {
+    modules.fileList.forEach((file) => delete require.cache[require.resolve(file)]);
+    this.ctx.emit('dispose', { module: modules });
   }
 }
 

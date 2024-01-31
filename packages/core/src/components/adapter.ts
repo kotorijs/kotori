@@ -1,6 +1,6 @@
 import { stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
-import type Context from '../context';
+import { Context } from '../context';
 import type {
   EventDataApiBase,
   MessageQuickFunc,
@@ -10,7 +10,7 @@ import type {
   EventDataTargetId,
   CommandResult,
   CommandResultExtra,
-  ApiConstructor,
+  ApiClass,
   MessageScope,
   AdapterImpl,
   AdapterStatus
@@ -56,7 +56,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     ctx: Context,
     config: AdapterConfig,
     identity: string,
-    ApiConstructor: ApiConstructor<T>,
+    ApiClass: ApiClass<T>,
     El: new (adapter: Adapter) => Elements = Elements
   ) {
     super('adapter', '');
@@ -64,7 +64,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     this.config = config;
     this.identity = identity;
     this.platform = config.extends;
-    this.api = Adapter.apiProxy(new ApiConstructor(this, new El(this)), this.ctx);
+    this.api = Adapter.apiProxy(new ApiClass(this, new El(this)), this.ctx);
     if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
     this.ctx.internal.getBots()[this.platform].push(this.api);
   }

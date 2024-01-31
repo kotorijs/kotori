@@ -1,50 +1,44 @@
 import Tsu from 'tsukiko';
-import { none, stringRightSplit } from '@kotori-bot/tools';
-import { Context, Symbols } from '../context';
-import type {
-  CommandAction,
+import { none, obj, stringRightSplit, stringTemp } from '@kotori-bot/tools';
+import {
+  CommandAccess,
   CommandConfig,
+  MessageRaw,
+  MessageScope,
   EventDataMsg,
   EventsList,
-  MessageScope,
+  MidwareStack,
+  RegexpStack,
   MidwareCallback,
   RegexpCallback
-} from '../types';
-import { disposeFactory } from '../utils/factory';
+} from '../types2';
+import Modules from './modules';
+import type Api from '../components/api';
+import Command from '../components/command';
+import { CommandError } from '../utils/errror';
+import CommandExtra from '../utils/commandExtra';
 
-interface MidwareData {
-  callback: MidwareCallback;
-  priority: number;
-}
+export class Message extends Modules {
+  protected readonly midwareStack: MidwareStack[] = [];
 
-interface RegexpData {
-  match: RegExp;
-  callback: RegexpCallback;
-}
+  protected readonly commandStack = Command.dataList;
 
-export class Message {
-  readonly [Symbols.midware]: Set<MidwareData> = new Set();
-
-  readonly [Symbols.command]: Set<[CommandAction]> = new Set();
-
-  readonly [Symbols.regexp]: Set<RegexpData> = new Set();
+  protected readonly regexpStack: RegexpStack[] = [];
 
   private handleMessageEvent(session: EventDataMsg) {
     /* Handle middle wares */
     let isPass = true;
-    let midwares: MidwareData[] = [];
-    this[Symbols.midware].forEach((val) => midwares.push(val));
-    midwares = midwares.sort((first, second) => first.priority - second.priority);
+    const midwareStack = Object.create(this.midwareStack);
     let lastMidwareNum = -1;
-    while (midwares.length > 0) {
-      if (lastMidwareNum === midwares.length) {
+    while (midwareStack.length > 0) {
+      if (lastMidwareNum === midwareStack.length) {
         isPass = false;
         break;
       }
-      lastMidwareNum = midwares.length;
-      session.quick(midwares[0].callback(() => midwares.shift(), session));
+      lastMidwareNum = midwareStack.length;
+      session.quick(midwareStack[0].callback(() => midwareStack.shift(), session));
     }
-    this.ctx.emit('midwares', { isPass, event: session });
+    this.emit('midwares', { isPass, event: session });
   }
 
   private async handleMidwaresEvent(session: EventsList['midwares']) {
@@ -53,23 +47,20 @@ export class Message {
     if (!isPass) return;
 
     /* Handle regexp */
-    this[Symbols.regexp].forEach((data) => {
-      const match = event.message.match(data.match);
+    this.regexpStack.forEach((element) => {
+      const match = event.message.match(element.match);
       if (!match) return;
-      event.quick(data.callback(match, event));
+      event.quick(element.callback(match, event));
     });
 
     /* Handle command */
-    const params = [
-      event.message,
-      event.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
-    ];
+    const params = [event.message, event.api.adapter.config['command-prefix']];
     if (!params[0].startsWith(params[1])) return;
     const commonParams = {
       event,
       command: stringRightSplit(params[0], params[1])
     };
-    this.ctx.emit('before_parse', commonParams);
+    this.emit('before_parse', commonParams);
     let isCancel = false;
     const cancel = () => {
       isCancel = true;
@@ -78,7 +69,7 @@ export class Message {
       scope: event.type === 'group_msg' ? 'group' : ('private' as MessageScope),
       access: event.userId === event.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER
     };
-    this.ctx.emit('before_command', { cancel, ...commonParams, ...commandParams });
+    this.emit('before_command', { cancel, ...commonParams, ...commandParams });
     if (isCancel) return;
     try {
       Command.parse(commonParams.command);
@@ -125,26 +116,21 @@ export class Message {
     }
   }
 
-  private ctx: Context;
-
-  constructor(ctx: Context) {
-    this.ctx = ctx;
-    this.ctx.on('midwares', (session) => this.handleMidwaresEvent(session));
-    this.ctx.on('group_msg', (session) => this.handleMessageEvent(session));
-    this.ctx.on('private_msg', (session) => this.handleMessageEvent(session));
-    this.ctx.before('send', (session) => {
+  protected registeMessageEvent() {
+    this.on('midwares', (session) => this.handleMidwaresEvent(session));
+    this.on('group_msg', (session) => this.handleMessageEvent(session));
+    this.on('private_msg', (session) => this.handleMessageEvent(session));
+    this.before('send', (session) => {
       const { api } = session;
       api.adapter.status.sentMsg += 1;
     });
   }
 
   midware(callback: MidwareCallback, priority: number = 100) {
-    const data = { callback, priority };
-    this[Symbols.midware].add(data);
-    const dispose = () => this[Symbols.midware].delete(data);
-    disposeFactory(this.ctx, dispose);
-    return dispose;
-    // this[Symbols.midware].add((first, second) => first.priority - second.priority);
+    if (this.midwareStack.filter((Element) => Element.callback === callback).length) return false;
+    this.midwareStack.push({ callback, priority });
+    this.midwareStack.sort((first, second) => first.priority - second.priority);
+    return true;
   }
 
   command(template: string, config?: CommandConfig) {
@@ -153,34 +139,32 @@ export class Message {
   }
 
   regexp(match: RegExp, callback: RegexpCallback) {
-    const data = { match, callback };
-    this[Symbols.regexp].add(data);
-    const dispose = () => this[Symbols.regexp].delete(data);
-    disposeFactory(this.ctx, dispose);
-    return dispose;
+    if (this.regexpStack.filter((Element) => Element.match === match).length) return false;
+    this.regexpStack.push({ match, callback });
+    return true;
   }
 
-  // boardcast(type: MessageScope, message: MessageRaw) {
-  //   const send =
-  //     type === 'private'
-  //       ? (api: Api) => api.send_private_msg(message, 1)
-  //       : (api: Api) => api.send_group_msg(message, 1);
-  //   /* this need support of database... */
-  //   Object.values(this.botStack).forEach((apis) => {
-  //     /* feating... */
-  //     apis.forEach((api) => send(api));
-  //   });
-  // }
+  boardcast(type: MessageScope, message: MessageRaw) {
+    const send =
+      type === 'private'
+        ? (api: Api) => api.send_private_msg(message, 1)
+        : (api: Api) => api.send_group_msg(message, 1);
+    /* this need support of database... */
+    Object.values(this.botStack).forEach((apis) => {
+      /* feating... */
+      apis.forEach((api) => send(api));
+    });
+  }
 
-  // notify(message: MessageRaw) {
-  //   const mainAdapterIdentity = Object.keys(this.config.adapter)[0];
-  //   Object.values(this.botStack).forEach((apis) =>
-  //     apis.forEach((api) => {
-  //       if (api.adapter.identity !== mainAdapterIdentity) return;
-  //       api.send_private_msg(message, api.adapter.config.master);
-  //     })
-  //   );
-  // }
+  notify(message: MessageRaw) {
+    const mainAdapterIdentity = Object.keys(this.config.adapter)[0];
+    Object.values(this.botStack).forEach((apis) =>
+      apis.forEach((api) => {
+        if (api.adapter.identity !== mainAdapterIdentity) return;
+        api.send_private_msg(message, api.adapter.config.master);
+      })
+    );
+  }
 }
 
 export default Message;

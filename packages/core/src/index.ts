@@ -10,7 +10,7 @@ export * from './components/elements';
 export * from './context';
 export * from './utils/errror';
 export * from './consts';
-export * from './types';
+export * from './types2';
 export * from '@kotori-bot/tools';
 export * from 'tsukiko';
 

@@ -1,43 +1,79 @@
-import { obj } from '@kotori-bot/tools';
 import Symbols from './symbols';
 
-export class Context {
-  private static handler(): ProxyHandler<Context> {
-    return {
-      get(target, prop, receiver) {
-        if (typeof prop !== 'string' || prop in target) return Reflect.get(target, prop, receiver);
-        return Reflect.get(target, Symbols.mixins)[prop];
-      }
-    };
-  }
+export interface Context {
+  readonly [Symbols.container]: Map<string | symbol, object>;
+  root: Context;
+  identity?: string;
+  get<T extends object = object>(prop: string): T | undefined;
+  inject<T extends object = object>(prop: string, value: T): void;
+  provide<T extends object>(prop: string | symbol, value: T): void;
+  mixin<K extends keyof Omit<Context, ContextOriginKey> & string>(prop: string, keys: K[]): void;
+  extends<T extends object>(meta?: T, identity?: string): Context;
+}
 
-  private readonly container: obj<object> = {};
+type ContextOriginKey = 'root' | 'identity' | 'inject' | 'provide' | 'mixin' | 'extends';
 
-  readonly [Symbols.mixins]: obj<object> = {};
+export class Context implements Context {
+  readonly [Symbols.container]: Map<string | symbol, object> = new Map();
 
   root: Context;
 
-  constructor(config: { root?: Context; mixins?: obj<object> }) {
-    this.root = config.root || this;
+  constructor(root?: Context) {
+    this.root = root || this;
   }
 
-  inject(prop: string): unknown {
-    return this.container[prop];
+  get(prop: string) {
+    return this[Symbols.container].get(prop);
   }
 
-  provide(prop: string, value: object) {
-    if (this.container[prop]) return;
-    this.container[prop] = value;
+  inject<T extends object>(prop: string, value?: T) {
+    const key = value ? Symbols.containerKey(prop) : prop;
+    if (value) {
+      if (this[Symbols.container].has(key)) return;
+      this.provide(key, value);
+    } else if (!this[Symbols.container].has(key)) return;
+    if (key in this) return;
+    const val = this[prop as keyof typeof this];
+    this[prop as keyof typeof this] = this.get(key as string) as typeof val;
   }
 
-  mixin(value: object) {
-    Object.keys(value).forEach((key) => {
-      this[Symbols.mixins][key] = value[key as keyof typeof value];
+  provide<T extends object>(prop: string, value: T) {
+    if (this[Symbols.container].has(prop)) return;
+    this[Symbols.container].set(prop, value);
+  }
+
+  mixin<K extends keyof Omit<Context, ContextOriginKey> & string>(prop: K, keys: K[]) {
+    if (!this[Symbols.container].has(prop)) return;
+    keys.forEach((key) => {
+      if (typeof key === 'symbol') return;
+      if (key in this) return;
+      const instance = this.get(prop);
+      if (!instance) return;
+      if (!(key in instance)) return;
+      if (typeof instance[key as keyof typeof instance] === 'function') {
+        this[key] = (instance[key as keyof typeof instance] as Function).bind(instance);
+        return;
+      }
+      this[key] = instance[key as keyof typeof instance];
     });
   }
 
-  extends() {
-    return new Proxy(this, Context.handler());
+  extends<T extends object = {}>(meta: T = {} as T, identity: string = 'sub') {
+    const metaHandle = meta;
+    Object.keys(metaHandle).forEach((key) => {
+      if (typeof this[key as keyof typeof this] === 'function') delete metaHandle[key as keyof T];
+    });
+    const ctx = Object.assign(new Context(this.root), this, meta, { identity });
+
+    ctx[Symbols.container].forEach((value, key) => {
+      if (!('ctx' in value)) {
+        ctx[Symbols.container].set(key, value);
+        return;
+      }
+      const instance = Object.assign(value, { ctx });
+      ctx[Symbols.container].set(key, instance);
+    });
+    return ctx;
   }
 }
 

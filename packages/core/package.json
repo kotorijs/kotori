@@ -25,6 +25,8 @@
     "@kotori-bot/i18n": "workspace:^",
     "@kotori-bot/logger": "workspace:^",
     "@kotori-bot/tools": "workspace:^",
+    "@types/minimist": "^1.2.5",
+    "minimist": "^1.2.8",
     "tsukiko": "^1.2.1"
   }
 }

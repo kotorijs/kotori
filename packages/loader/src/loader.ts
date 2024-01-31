@@ -14,7 +14,7 @@ import {
   KotoriConfig,
   Adapter,
   Parser,
-  AdapterConstructor
+  AdapterClass
 } from '@kotori-bot/core';
 import Modules from './modules';
 import { getBaseDir, getGlobalConfig, isDev } from './global';
@@ -118,14 +118,14 @@ class Main extends ContextInstance {
   private startAllService() {
     const services = this.ctx.internal.getServices();
     /* start adapters */
-    const adapters = Object.keys(services).filter((key) => Modules.isAdapterConstructor(services[key][0]));
+    const adapters = Object.keys(services).filter((key) => Modules.isAdapterClass(services[key][0]));
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
       if (!adapters.includes(botConfig.extends)) {
         this.ctx.logger.warn(`Cannot find adapter '${botConfig.extends}' for ${botName}`);
         return;
       }
-      const array = services[botConfig.extends] as unknown as [AdapterConstructor, Parser<unknown>?];
+      const array = services[botConfig.extends] as unknown as [AdapterClass, Parser<unknown>?];
       const isSchema = array[1]?.parseSafe(botConfig);
       if (isSchema && !isSchema.value) {
         return;
