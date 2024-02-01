@@ -1,6 +1,6 @@
 import { none } from '@kotori-bot/tools';
-import { EventDataTargetId } from '../types2';
-import { Adapter } from '../components/adapter';
+import { EventDataTargetId } from '../types/index';
+import { Adapter } from '../components';
 
 export class Elements<T extends Adapter = Adapter> {
   private default(...args: unknown[]) {
@@ -8,7 +8,11 @@ export class Elements<T extends Adapter = Adapter> {
     return '';
   }
 
-  constructor(protected adapter: T) {}
+  protected adapter: T;
+
+  constructor(adapter: T) {
+    this.adapter = adapter;
+  }
 
   at(target: EventDataTargetId, extra?: unknown) {
     return this.default(target, extra);

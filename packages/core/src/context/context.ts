@@ -1,17 +1,17 @@
 import Symbols from './symbols';
 
-export interface Context {
+interface ContextOrigin {
   readonly [Symbols.container]: Map<string | symbol, object>;
   root: Context;
   identity?: string;
-  get<T extends object = object>(prop: string): T | undefined;
+  get(prop: string): object | undefined;
   inject<T extends object = object>(prop: string, value: T): void;
   provide<T extends object>(prop: string | symbol, value: T): void;
-  mixin<K extends keyof Omit<Context, ContextOriginKey> & string>(prop: string, keys: K[]): void;
+  mixin<K extends keyof Omit<Context, keyof ContextOrigin>>(prop: string, keys: K[]): void;
   extends<T extends object>(meta?: T, identity?: string): Context;
 }
 
-type ContextOriginKey = 'root' | 'identity' | 'inject' | 'provide' | 'mixin' | 'extends';
+export interface Context extends ContextOrigin {}
 
 export class Context implements Context {
   readonly [Symbols.container]: Map<string | symbol, object> = new Map();
@@ -37,12 +37,12 @@ export class Context implements Context {
     this[prop as keyof typeof this] = this.get(key as string) as typeof val;
   }
 
-  provide<T extends object>(prop: string, value: T) {
+  provide<T extends object>(prop: string | symbol, value: T) {
     if (this[Symbols.container].has(prop)) return;
     this[Symbols.container].set(prop, value);
   }
 
-  mixin<K extends keyof Omit<Context, ContextOriginKey> & string>(prop: K, keys: K[]) {
+  mixin<K extends keyof Omit<Context, keyof ContextOrigin>>(prop: string, keys: K[]) {
     if (!this[Symbols.container].has(prop)) return;
     keys.forEach((key) => {
       if (typeof key === 'symbol') return;

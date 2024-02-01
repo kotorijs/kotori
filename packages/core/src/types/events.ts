@@ -1,16 +1,9 @@
 import Tsu from 'tsukiko';
 import I18n from '@kotori-bot/i18n';
-import type {
-  CommandAccess,
-  CommandParseResultExtra,
-  CommandResult,
-  CommandResultExtra,
-  MessageQuick,
-  MessageRaw,
-  MessageScope
-} from './message';
-import type { Adapter, Api, Elements } from '../components';
+import type { CommandAccess, CommandAction, MessageQuick, MessageRaw, MessageScope } from './message';
+import type { Adapter, Api, Elements, Service } from '../components';
 import type { EventDataBase, EventsList } from './context';
+import CommandError from '../utils/commandError';
 
 /* interface EventDataReadyAll extends EventDataBase<'ready_all'> {
   reality: number;
@@ -27,7 +20,7 @@ export interface EventDataMsgSender {
 }
 
 export interface EventDataServiceBase<T extends keyof EventsList> extends EventDataBase<T> {
-  // service: Service;
+  service: Service; // fix question
 }
 
 interface EventDataConnect extends EventDataServiceBase<'connect'> {
@@ -64,7 +57,7 @@ interface EventDataBeforeParse extends EventDataBase<'before_parse'> {
 interface EventDataParse extends EventDataBase<'parse'> {
   event: EventDataMsg;
   command: string;
-  result: CommandParseResultExtra[keyof CommandParseResultExtra];
+  result: CommandError | Parameters<CommandAction>[0];
   cancel(): void;
 }
 
@@ -81,7 +74,7 @@ interface EventDataCommand extends EventDataBase<'command'> {
   command: string;
   scope: MessageScope;
   access: CommandAccess;
-  result: CommandResultExtra[keyof CommandResultExtra];
+  result: EventDataParse['result'];
 }
 
 export const eventDataTargetIdSchema = Tsu.Union([Tsu.String(), Tsu.Number()]);
@@ -110,10 +103,9 @@ export interface EventDataApiBase<T extends keyof EventsList, M extends MessageS
   el: Elements;
   userId: EventDataTargetId;
   messageType: M;
-  send(message: MessageRaw): void;
   i18n: I18n;
+  send(message: MessageRaw): void;
   quick(message: MessageQuick): void;
-  error<T extends keyof CommandResult>(type: T, data?: Omit<CommandResultExtra[T], 'type'>): CommandResultExtra[T];
   extra?: unknown;
 }
 

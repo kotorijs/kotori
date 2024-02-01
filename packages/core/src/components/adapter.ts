@@ -1,57 +1,49 @@
-import { stringTemp } from '@kotori-bot/tools';
+import I18n from '@kotori-bot/i18n';
 import type Api from './api';
-import { Context } from '../context';
+import { Context, Symbols } from '../context/index';
 import type {
   EventDataApiBase,
-  MessageQuickFunc,
   AdapterConfig,
   EventsList,
-  MessageRaw,
   EventDataTargetId,
-  CommandResult,
-  CommandResultExtra,
-  ApiClass,
   MessageScope,
   AdapterImpl,
   AdapterStatus
-} from '../types';
+} from '../types/index';
 import Service from './service';
 import Elements from './elements';
+import { cancelFactory, qucikFactory, sendMessageFactory } from '../utils/factory';
 
 type EventApiType = {
   [K in Extract<EventsList[keyof EventsList], EventDataApiBase<keyof EventsList, MessageScope>>['type']]: EventsList[K];
 };
 
-export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
-  private static apiProxy<T extends Api>(api: T, ctx: Context): T {
-    const apiProxy = Object.create(api) as T;
-    apiProxy.send_private_msg = new Proxy(api.send_private_msg, {
-      apply(_, __, argArray) {
-        const { '0': message, '1': targetId } = argArray;
-        let isCancel = false;
-        const cancel = () => {
-          isCancel = true;
-        };
-        ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel });
-        if (isCancel) return;
-        api.send_private_msg(message, targetId, argArray[2]);
-      }
-    });
-    apiProxy.send_group_msg = new Proxy(api.send_group_msg, {
-      apply(_, __, argArray) {
-        const { '0': message, '1': targetId } = argArray;
-        let isCancel = false;
-        const cancel = () => {
-          isCancel = true;
-        };
-        ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel });
-        if (isCancel) return;
-        api.send_group_msg(message, targetId, argArray[2]);
-      }
-    });
-    return apiProxy;
-  }
+type ApiClass<T extends Api> = new (adapter: Adapter, el: Elements) => T;
 
+function setProxy<T extends Api>(api: T, ctx: Context): T {
+  const proxy = Object.create(api) as T;
+  proxy.send_private_msg = new Proxy(api.send_private_msg, {
+    apply(_, __, argArray) {
+      const { '0': message, '1': targetId } = argArray;
+      const cancel = cancelFactory();
+      ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel: cancel.get() });
+      if (cancel.value) return;
+      api.send_private_msg(message, targetId, argArray[2]);
+    }
+  });
+  proxy.send_group_msg = new Proxy(api.send_group_msg, {
+    apply(_, __, argArray) {
+      const { '0': message, '1': targetId } = argArray;
+      const cancel = cancelFactory();
+      ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel: cancel.get() });
+      if (cancel.value) return;
+      api.send_group_msg(message, targetId, argArray[2]);
+    }
+  });
+  return proxy;
+}
+
+export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
   constructor(
     ctx: Context,
     config: AdapterConfig,
@@ -64,12 +56,12 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     this.config = config;
     this.identity = identity;
     this.platform = config.extends;
-    this.api = Adapter.apiProxy(new ApiClass(this, new El(this)), this.ctx);
-    if (!this.ctx.internal.getBots()[this.platform]) this.ctx.internal.setBots(this.platform, []);
-    this.ctx.internal.getBots()[this.platform].push(this.api);
+    this.api = setProxy(new ApiClass(this, new El(this)), this.ctx);
+    if (!this.ctx[Symbols.bot].get(this.platform)) this.ctx[Symbols.bot].set(this.platform, new Set());
+    this.ctx[Symbols.bot].get(this.platform)!.add(this.api);
   }
 
-  abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
+  protected abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
 
   protected online() {
     if (this.status.value !== 'offline') return;
@@ -86,49 +78,15 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
   protected emit<N extends keyof EventApiType>(
     type: N,
-    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'i18n' | 'quick' | 'error' | 'el' | 'messageType'>
+    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'i18n' | 'quick' | 'el' | 'messageType'>
   ) {
     const messageType = type.includes('group') ? 'group' : 'private';
-    const send = (message: MessageRaw) => {
-      if (messageType === 'group') {
-        this.api.send_group_msg(message, (data as unknown as { groupId: EventDataTargetId }).groupId, data.extra);
-      } else {
-        this.api.send_private_msg(message, data.userId, data.extra);
-      }
-    };
     const i18n = this.ctx.i18n.extends(this.config.lang);
-    const quick: MessageQuickFunc = async (message) => {
-      const msg = await message;
-      if (!msg) return;
-      if (typeof msg === 'string') {
-        send(i18n.locale(msg));
-        return;
-      }
-      const params = msg[1];
-      Object.keys(params).forEach((key) => {
-        if (typeof params[key] !== 'string') return;
-        params[key] = i18n.locale(params[key] as string);
-      });
-      send(stringTemp(i18n.locale(msg[0]), params));
-    };
-    const error = <T extends keyof CommandResult>(
-      type: T,
-      data?: Omit<CommandResultExtra[T], 'type'>
-    ): CommandResultExtra[T] =>
-      ({
-        type,
-        ...data
-      }) as CommandResultExtra[T];
-    this.ctx.emit(type, {
-      ...data,
-      api: this.api,
-      send,
-      i18n,
-      quick,
-      error,
-      el: this.api.elements,
-      messageType
-    } as unknown as EventsList[N]);
+    const send = sendMessageFactory(this, messageType, data);
+    const quick = qucikFactory(send, i18n as I18n);
+    const { api } = this;
+    const { elements: el } = this.api;
+    this.ctx.emit<N>(type, { ...data, api, send, i18n, quick, el, messageType } as unknown as EventsList[N]);
   }
 
   readonly ctx: Context;

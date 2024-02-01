@@ -1,26 +1,35 @@
 import { join } from 'path';
 import { loadConfig } from '@kotori-bot/tools';
-import { KotoriConfig as KotoriConfigType, PackageInfo, kotoriConfigSchema, packageInfoSchema } from '../types';
+import { CoreConfig, PackageInfo, coreConfigSchema, packageInfoSchema } from '../types/index';
 import { CoreError } from '../utils/errror';
 
-type ConfigType = KotoriConfigType & { pkg: PackageInfo };
+type ConfigType = CoreConfig & { pkg: PackageInfo };
 
-export class KotoriConfig implements ConfigType {
+declare module '../context/index' {
+  interface Context {
+    readonly pkg: PackageInfo;
+    readonly baseDir: CoreConfig['baseDir'];
+    readonly config: CoreConfig['config'];
+    readonly options: CoreConfig['options'];
+  }
+}
+
+export class Config implements ConfigType {
   readonly pkg: PackageInfo;
 
-  readonly baseDir: KotoriConfigType['baseDir'];
+  readonly baseDir: CoreConfig['baseDir'];
 
-  readonly config: KotoriConfigType['config'];
+  readonly config: CoreConfig['config'];
 
-  readonly options: KotoriConfigType['options'];
+  readonly options: CoreConfig['options'];
 
-  constructor(config?: KotoriConfigType) {
+  constructor(config?: CoreConfig) {
     const info = loadConfig(join(__dirname, '../../package.json')) as unknown;
     if (!info || Object.values(info).length === 0) throw new CoreError('Cannot find kotori-bot package.json');
     const result = packageInfoSchema.parseSafe(info);
     if (!result.value) throw new CoreError(`File package.json format error: ${result.error.message}`);
     this.pkg = result.data;
-    const handle = kotoriConfigSchema.parseSafe(config);
+    const handle = coreConfigSchema.parseSafe(config);
     if (!handle.value) throw new CoreError('Unexpected error in parsing config (baseDir,kotori,options)');
     this.baseDir = handle.data.baseDir;
     this.config = handle.data.config;
@@ -28,4 +37,4 @@ export class KotoriConfig implements ConfigType {
   }
 }
 
-export default KotoriConfig;
+export default Config;

@@ -1,9 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { FuncStringProcessStr } from '../types';
 
 type HttpMethod<T = unknown> = (
   url: string,
-  params?: { [key: string]: FuncStringProcessStr },
+  params?: { [key: string]: string | number },
   config?: AxiosRequestConfig<any>
 ) => Promise<T>;
 

@@ -38,18 +38,22 @@ const defaultBaseDir = {
   modules: path.resolve(DEFAULT_MODULES_DIR)
 };
 
-const baseDirSchema = Tsu.Object({
+export const baseDirSchema = Tsu.Object({
   root: Tsu.String().default(DEFAULT_ROOT_DIR),
   modules: Tsu.String().default(DEFAULT_MODULES_DIR)
 }).default(defaultBaseDir);
+
+export type BaseDir = Tsu.infer<typeof baseDirSchema>;
 
 const defaultOptions = {
   env: DEFAULT_ENV as typeof DEFAULT_ENV
 };
 
-const optionsSchema = Tsu.Object({
+export const optionsSchema = Tsu.Object({
   env: Tsu.Union([Tsu.Literal('dev'), Tsu.Literal('build')]).default(DEFAULT_ENV)
 }).default(defaultOptions);
+
+export type Options = Tsu.infer<typeof optionsSchema>;
 
 const defaultConfig = {
   global: {
@@ -61,7 +65,7 @@ const defaultConfig = {
   plugin: {}
 };
 
-const configSchema = Tsu.Object({
+export const kotoriConfigSchema = Tsu.Object({
   global: Tsu.Object({
     dirs: Tsu.Array(Tsu.String()).default([]),
     lang: localeTypeSchema.default(DEFAULT_LANG),
@@ -71,9 +75,11 @@ const configSchema = Tsu.Object({
   plugin: Tsu.Object({}).index(moduleConfigBaseSchema).default({})
 }).default(defaultConfig);
 
-export const kotoriConfigSchema = Tsu.Object({
+export type KotoriConfig = Tsu.infer<typeof kotoriConfigSchema>;
+
+export const coreConfigSchema = Tsu.Object({
   baseDir: baseDirSchema,
-  config: configSchema,
+  config: kotoriConfigSchema,
   options: optionsSchema
 }).default({
   baseDir: defaultBaseDir,
@@ -81,4 +87,4 @@ export const kotoriConfigSchema = Tsu.Object({
   options: defaultOptions
 });
 
-export type KotoriConfig = Tsu.infer<typeof kotoriConfigSchema>;
+export type CoreConfig = Tsu.infer<typeof coreConfigSchema>;

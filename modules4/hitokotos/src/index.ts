@@ -1,18 +1,18 @@
-import { Context, MessageQuickReal, Tsu } from 'kotori-bot';
+import { Context, MessageQuick, MessageQuickReal, Tsu } from 'kotori-bot';
 
 const hitokotoSchema = Tsu.Object({
   data: Tsu.Object({
     msg: Tsu.String(),
     from: Tsu.String().optional(),
     likes: Tsu.Number(),
-    type: Tsu.String(),
-  }),
+    type: Tsu.String()
+  })
 });
 
 const hitokotosSchema = Tsu.Object({
   data: Tsu.Object({
-    msg: Tsu.String(),
-  }),
+    msg: Tsu.String()
+  })
 });
 
 export const lang = [__dirname, '../locales'];
@@ -30,7 +30,7 @@ export function main(ctx: Context) {
         '\n网抑云 毒鸡汤' +
         '\n舔狗语录 爱情语录' +
         '\n温柔语录 个性签名' +
-        '\n经典语录 英汉语录',
+        '\n经典语录 英汉语录'
     );
 
   ctx.command('hitokoto - hitokotos.descr.hitokoto.help').action(async () => {
@@ -46,9 +46,10 @@ export function main(ctx: Context) {
   };
 
   ctx.midware((next, session) => {
-    if (session.message === '一言') session.message = `${session.api.adapter.config['command-prefix']}hitokoto`;
+    const s = session;
+    if (s.message === '一言') s.message = `${s.api.adapter.config['command-prefix']}hitokoto`;
     next();
-  })
+  });
   ctx.regexp(/^一言2$/, () => hitokotoT(1));
   ctx.regexp(/^骚话$/, () => hitokotoT(2));
   ctx.regexp(/^情话$/, () => hitokotoT(3));

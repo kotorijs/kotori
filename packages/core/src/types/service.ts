@@ -1,6 +1,8 @@
 import type { EventDataTargetId } from './events';
-import type { Context } from '../context';
-import type { Api } from '../components';
+import type { Context } from '../context/index';
+import type { Api, Adapter } from '../components';
+import type { AdapterConfig } from './config';
+import { Service } from '../components';
 
 export type ModuleType = 'database' | 'adapter' | 'service' | 'plugin';
 export type ServiceType = Exclude<ModuleType, 'plugin' | 'service'> | 'custom';
@@ -31,3 +33,7 @@ export interface AdapterStatus {
   sentMsg: number;
   offlineTimes: number;
 }
+
+export type ServiceClass = new (config: object) => Service;
+export type AdapterClass = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
+// export type DatabaseClass = new (config: /* DatabaseConfig , identity: string */ /*  object) => Database;

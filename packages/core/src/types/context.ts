@@ -5,7 +5,8 @@ export interface EventDataBase<T extends keyof EventsList> {
 }
 
 interface EventDataReady extends EventDataBase<'ready'> {
-  module?: ModuleInstance | string;
+  module?: ModuleInstance /* | string */;
+  state?: boolean;
 }
 
 interface EventDataError extends EventDataBase<'error'> {
@@ -13,7 +14,7 @@ interface EventDataError extends EventDataBase<'error'> {
 }
 
 interface EventDataDispose extends EventDataBase<'dispose'> {
-  module?: ModuleInstance | string;
+  module?: ModuleInstance /* | string */;
 }
 
 export interface EventsList {

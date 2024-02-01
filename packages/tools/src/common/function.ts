@@ -48,62 +48,13 @@ export function clearObject(val: obj, strict: boolean = false, stacks: Set<unkno
   });
   return handle;
 }
-/* export function stringProcess(
-	string: FuncStringProcessStr,
-	keyString: FuncStringProcessKey,
-	mode: FuncStringProcessMode = 0,
-): boolean {
-	let str = string;
-	let key = keyString;
-	if (typeof str === 'number') str = str.toString();
-	if (typeof key === 'string' || typeof key === 'number') {
-		key = key.toString();
-		if (mode === 2) {
-			return str === key;
-		}
-		if (mode === 1) {
-			return str.includes(key);
-		}
-		return str.startsWith(key);
-	}
-	if (Array.isArray(key)) {
-		for (let i = 0; i < key.length; i += 1) {
-			let element = key[i];
-			if (typeof element === 'string' || typeof element === 'number') {
-				element = element.toString();
-			}
-			if (mode === 2) {
-				if (str === element) {
-					return true;
-				}
-			} else if (mode === 1 && str.includes(element)) {
-				return true;
-			} else if (mode === 0 && str.startsWith(element)) {
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-export function arrayProcess(
-	str: FuncStringProcessStr,
-	key: FuncStringProcessKey[],
-	mode: FuncStringProcessMode = 0,
-): boolean {
-	for (let a = 0; a < key.length; a += 1) {
-		if (stringProcess(str, key[a], mode)) return true;
-	}
-	return false;
-}
-*/
 
 export function stringRightSplit(str: string, key: string): string {
   const index = str.indexOf(key);
   return str.slice(index + key.length);
 }
 
-export function stringTemp(template: string, args: obj<string | number | void>) {
+export function stringTemp(template: string, args: obj<string | number>) {
   const params = Object.assign(args, { break: '\n' });
   let templateString = template;
   if (!params || typeof params !== 'object') return templateString;
@@ -172,6 +123,45 @@ export function createProxy<T extends object>(val: T | (() => T)) {
       return value[property as keyof typeof val];
     }
   });
+}
+
+export function parseArgs(command: string) {
+  const args: string[] = [];
+  let current = '';
+  let inQuote = false;
+  let quoteChar: null | string = null;
+  let lastQuoteChar: null | string = null;
+  for (let i = 0; i < command.length; i += 1) {
+    let c = command[i];
+    if (inQuote) {
+      if (c === quoteChar) {
+        inQuote = false;
+        quoteChar = null;
+      } else if (c === '\\' && i + 1 < command.length) {
+        i += 1;
+        c = command[i];
+        if (c === '"' || c === "'") {
+          current += c;
+        } else {
+          current += `\\${c}`;
+        }
+      } else {
+        current += c;
+      }
+    } else if (c === '"' || c === "'") {
+      inQuote = true;
+      quoteChar = c;
+      lastQuoteChar = c;
+    } else if (c === ' ' && current) {
+      args.push(current);
+      current = '';
+    } else {
+      current += c;
+    }
+  }
+  if (inQuote || quoteChar) return { char: lastQuoteChar!, index: command.lastIndexOf(lastQuoteChar!)! };
+  if (current) args.push(current);
+  return args;
 }
 
 /* export const isObj = <T = any>(data: unknown): data is obj<T> => {

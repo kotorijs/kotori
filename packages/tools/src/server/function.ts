@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import YAML from 'yaml';
-import { ConfigFileType } from '../types';
+
+type ConfigFileType = 'json' | 'yaml' /* | 'xml' | 'ini'  */ | 'txt';
 
 export function loadConfig(
   filename: string,

@@ -1,14 +1,11 @@
 import { none } from '@kotori-bot/tools';
 import type Adapter from './adapter';
-import type { EventDataTargetId, MessageRaw } from '../types2';
+import type { EventDataTargetId, MessageRaw } from '../types/index';
 import Elements from './elements';
 
 interface ApiImpl {
   readonly adapter: Adapter<this>;
 
-  /* Adapter Api */
-  // locale(val: string): string;
-  /* Platform Api */
   send_private_msg(message: MessageRaw, userId: EventDataTargetId): /* Promise<unknown> | */ void;
 
   send_group_msg(message: MessageRaw, groupId: EventDataTargetId): /* Promise<unknown> | */ void;
