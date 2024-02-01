@@ -1,8 +1,8 @@
-import { Context, ContextInstance } from '@kotori-bot/core';
+import { Container } from '@kotori-bot/core';
 
 export * from '@kotori-bot/core';
 
-// const ctx = ContextInstance.get();
+// const ctx = Container.get();
 
 // namespace KotoriSpace {
 // 	/* Core Class */
@@ -27,12 +27,12 @@ export * from '@kotori-bot/core';
 // 	export const { http } = ctx;
 // }
 
-export const Kotori: typeof Context & Context = new Proxy(ContextInstance.getMixin(), {
+export const Kotori = new Proxy(Container.getMixin(), {
   get: (_, prop) => {
-    const target = ContextInstance.getMixin();
+    const target = Container.getMixin();
     if (prop === undefined) return target;
     return target[prop as keyof typeof target];
-  },
+  }
 });
 
 export default Kotori;

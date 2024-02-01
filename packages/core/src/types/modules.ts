@@ -1,6 +1,6 @@
 import Tsu from 'tsukiko';
-import { obj } from '@kotori-bot/tools';
-import { type ModuleConfig, localeTypeSchema, moduleConfigBaseSchema } from './config';
+import type { obj } from '@kotori-bot/tools';
+import { type ModuleConfig, localeTypeSchema, moduleConfigBaseSchema, type AdapterConfig } from './config';
 
 const moduleEnforceSchema = Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')]);
 
@@ -37,8 +37,3 @@ export interface ModuleInstance {
   fileList: string[];
   // main: string;
 }
-
-/* export type ServiceClass = new (config: object) => Service;
-export type AdapterClass = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
-export type DatabaseClass = new (config: /* DatabaseConfig , identity: string */ /*  object) => Database;
-export type ApiClass<T extends Api> = new (adapter: Adapter, el: Elements) => T; */

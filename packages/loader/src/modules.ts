@@ -1,17 +1,16 @@
 import fs from 'fs';
-import path from 'path';
+import path, { resolve } from 'path';
 import {
   ADAPTER_PREFIX,
   CORE_MODULES,
-  CUSTOM_PREFIX,
-  Context,
+  Core,
   DATABASE_PREFIX,
   DevError,
   ModuleInstance,
   ModulePackage,
   ModulePackageSchema,
-  OFFICIAL_MODULES_SCOPE,
   PLUGIN_PREFIX,
+  Symbols,
   clearObject,
   none,
   stringRightSplit
@@ -20,15 +19,18 @@ import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 
 declare module '@kotori-bot/core' {
   interface Context {
+    readonly [Symbols.module]?: Set<ModuleInstance>;
     readonly moduleAll?: () => void;
     readonly watchFile?: () => void;
   }
 }
 
-export class Modules extends Context {
+export class Modules extends Core {
   private isDev = this.options.env === 'dev';
 
   private readonly moduleRootDir: string[] = [];
+
+  readonly [Symbols.module]: Set<ModuleInstance> = new Set();
 
   private getDirFiles(rootDir: string) {
     const files = fs.readdirSync(rootDir);
@@ -50,7 +52,7 @@ export class Modules extends Context {
     });
   }
 
-  private getModuleList(rootDir: string) {
+  private async getModuleList(rootDir: string) {
     const files = fs.readdirSync(rootDir);
     files.forEach((fileName) => {
       const dir = path.join(rootDir, fileName);
@@ -73,20 +75,20 @@ export class Modules extends Context {
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
       const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
-      this.moduleStack.push({
+      this[Symbols.module].add({
         package: packageJson,
         config: Object.assign(
           packageJson.kotori.config || {},
           clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {})
         ),
-        fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : [],
-        mainPath: path.resolve(mainPath)
+        exports: import(resolve(mainPath)),
+        fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : []
       });
     });
   }
 
   private moduleQuick(moduleData: ModuleInstance) {
-    this.use(moduleData, this, moduleData.config);
+    this.load(moduleData, moduleData.config);
   }
 
   readonly moduleAll = async () => {
@@ -102,7 +104,10 @@ export class Modules extends Context {
       if (!pkg.kotori.enforce) return 5;
       return 5;
     };
-    this.moduleStack
+
+    const modules: ModuleInstance[] = [];
+    this[Symbols.module].forEach((val) => modules.push(val));
+    modules
       .sort((el1, el2) => handle(el1.package) - handle(el2.package))
       .forEach((moduleData) => {
         this.moduleQuick(moduleData);

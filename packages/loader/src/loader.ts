@@ -3,33 +3,34 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-01 17:10:00
+ * @LastEditTime: 2024-02-01 21:15:23
  */
 import {
   KotoriError,
   type EventsList,
-  ContextInstance,
+  Container,
   Tsu,
   AdapterConfig,
-  KotoriConfig,
+  CoreConfig,
   Adapter,
   Parser,
-  AdapterClass
+  AdapterClass,
+  Symbols
 } from '@kotori-bot/core';
 import Modules from './modules';
-import { getBaseDir, getGlobalConfig, isDev } from './global';
+import { getBaseDir, getCoreConfig, isDev } from './global';
 import loadInfo from './log';
 
 const enum GLOBAL {
   REPO = 'https://github.com/kotorijs/kotori'
 }
 
-const kotoriConfig = (): KotoriConfig => {
-  let result = {} as KotoriConfig;
+const kotoriConfig = (): CoreConfig => {
+  let result = {} as CoreConfig;
   const baseDir = getBaseDir();
   result = {
     baseDir,
-    config: getGlobalConfig(baseDir),
+    config: getCoreConfig(baseDir),
     options: {
       env: isDev() ? 'dev' : 'build'
     }
@@ -37,18 +38,22 @@ const kotoriConfig = (): KotoriConfig => {
   return result;
 };
 
-class Main extends ContextInstance {
+class Main extends Container {
   private ctx: Modules;
+
+  private loadCount: number = 0;
+
+  private failLoadCount: number = 0;
 
   constructor() {
     super();
-    ContextInstance.setInstance(new Modules(kotoriConfig()));
-    this.ctx = ContextInstance.getInstance() as Modules;
+    Container.setInstance(new Modules(kotoriConfig()));
+    this.ctx = Container.getInstance() as Modules;
     // 静态类型继续居然她妈是隔离的
   }
 
   run() {
-    loadInfo(this.ctx.package, this.ctx);
+    loadInfo(this.ctx.pkg, this.ctx);
     this.catchError();
     this.listenMessage();
     this.loadAllModule();
@@ -93,21 +98,29 @@ class Main extends ContextInstance {
     this.ctx.on('connect', handleConnectInfo);
     this.ctx.on('disconnect', handleConnectInfo);
     this.ctx.on('ready', (data) => {
-      if (!data.module || !data.result) return;
-      const { name, version, author } = data.module.package;
+      if (!data.module) return;
+      this.loadCount += 1;
+      if (data.state) {
+        const { name, version, author } = data.module.package;
+        this.ctx.logger.info(
+          `Loaded ${name} Version: ${version} ${
+            Array.isArray(author) ? `Authors: ${author.join(',')}` : `Author: ${author}`
+          }`
+        );
+      } else {
+        this.failLoadCount += 1;
+      }
+      if (this.loadCount !== this.ctx[Symbols.module].size) return;
       this.ctx.logger.info(
-        `Loaded ${name} Version: ${version} ${
-          Array.isArray(author) ? `Authors: ${author.join(',')}` : `Author: ${author}`
-        }`
-      );
-    });
-    this.ctx.on('ready_all', (data) => {
-      const failed = data.expected - data.reality;
-      this.ctx.logger.info(
-        `Loaded ${data.reality} modules (plugins)${failed > 0 ? `, failed to load ${failed} modules` : ''}`
+        `Loaded ${this.loadCount} modules (plugins)${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''}`
       );
       this.startAllService();
     });
+    /*     this.ctx.on('ready_all', (data) => {
+      const failed = data.expected - data.reality;
+
+      this.startAllService();
+    }); */
   }
 
   private loadAllModule() {
@@ -116,20 +129,20 @@ class Main extends ContextInstance {
   }
 
   private startAllService() {
-    const services = this.ctx.internal.getServices();
+    // const services = this.ctx[Symbols.adapter];
+    /* 看一下这里 */
     /* start adapters */
-    const adapters = Object.keys(services).filter((key) => Modules.isAdapterClass(services[key][0]));
+    // const adapters = Object.keys(services).filter((key) => Modules.isAdapterClass(services[key][0]));
+    const adapters = this.ctx[Symbols.adapter];
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
-      if (!adapters.includes(botConfig.extends)) {
+      if (!adapters.has(botConfig.extends)) {
         this.ctx.logger.warn(`Cannot find adapter '${botConfig.extends}' for ${botName}`);
         return;
       }
-      const array = services[botConfig.extends] as unknown as [AdapterClass, Parser<unknown>?];
+      const array: [AdapterClass, Parser<unknown>?] = adapters.get(botConfig.extends);
       const isSchema = array[1]?.parseSafe(botConfig);
-      if (isSchema && !isSchema.value) {
-        return;
-      }
+      if (isSchema && !isSchema.value) return;
       const bot = new array[0](this.ctx, isSchema ? (isSchema.data as AdapterConfig) : botConfig, botName);
       // if (!(botConfig.extend in Adapter)) Adapter.apis[botConfig.extend] = []; // I dont know whats this
       // this.ctx.botStack[botConfig.extend].push(bot.api);
@@ -139,7 +152,7 @@ class Main extends ContextInstance {
   }
 
   private async checkUpdate() {
-    const { version } = this.ctx.package;
+    const { version } = this.ctx.pkg;
     const res = await this.ctx.http
       .get(
         'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json'

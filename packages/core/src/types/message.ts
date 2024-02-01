@@ -1,6 +1,8 @@
-import type { StringTempArgs, obj } from '@kotori-bot/tools';
+import type { obj } from '@kotori-bot/tools';
+import Tsu from 'tsukiko';
 import type { EventDataMsg } from './events';
 import type { EventsList } from './context';
+import CommandError from '../utils/commandError';
 
 export const enum CommandAccess {
   MEMBER,
@@ -11,12 +13,14 @@ export const enum CommandAccess {
 export type CommandAction = (
   data: { args: CommandArgType[]; options: obj<CommandArgType> },
   session: EventsList['group_msg' | 'private_msg']
-) =>
-  | MessageQuick
-  | CommandResultExtra[keyof CommandResultExtra]
-  | Promise<MessageQuick | CommandResultExtra[keyof CommandResultExtra]>;
-export type CommandArgType = string | number;
-export type CommandArgTypeSign = 'string' | 'number';
+) => MessageQuick;
+
+export type CommandArgType = string | number | boolean /* object<json> */;
+export const commandArgTypeSignSchema = Tsu.Union([
+  Tsu.Union([Tsu.Literal('string'), Tsu.Literal('number')]),
+  Tsu.Literal('boolean')
+]);
+export type CommandArgTypeSign = Tsu.infer<typeof commandArgTypeSignSchema>;
 
 export interface CommandConfig {
   alias?: string[];
@@ -35,10 +39,9 @@ export interface CommandArg {
 }
 
 export interface CommandOption {
-  name: string;
+  name: string; // short name
   type: CommandArgTypeSign;
-  default?: CommandArgType;
-  realname: string;
+  realname: string; // full name
   description?: string;
 }
 
@@ -53,27 +56,17 @@ export interface CommandData {
   action?: CommandAction;
   description?: string;
 }
-/* 
-export enum CommandResult {
-  SUCCESS = 0,
-  OPTION_ERROR,
-  ARG_ERROR,
-  MANY_ARG,
-  FEW_ARG,
-  SYNTAX,
-  UNKNOWN,
-  ERROR,
-} */
-export interface CommandParseResult {
-  parsed: {
+
+interface CommandParseResult {
+  /*   parsed: {
     action: CommandAction;
     args: CommandArgType[];
     options: obj<CommandArgType>;
-  };
-  option_error: { expected: string; reality: string; target: string };
+  }; */
+  option_error: { expected: CommandArgTypeSign; reality: CommandArgTypeSign; target: string };
+  arg_error: { expected: CommandArgTypeSign; reality: CommandArgTypeSign; index: number };
   arg_many: { expected: number; reality: number };
   arg_few: CommandParseResult['arg_many'];
-  arg_error: CommandParseResult['option_error'];
   syntax: { index: number; char: string };
   unknown: { input: string };
 }
@@ -83,20 +76,13 @@ export interface CommandResult extends CommandParseResult {
   error: { error: unknown };
 }
 
-export type CommandParseResultExtra = Pick<CommandResultExtra, keyof CommandParseResult>;
-export type CommandExecuteResultExtra = Pick<
-  CommandResultExtra,
-  Exclude<keyof CommandResult, keyof CommandParseResult>
->;
-
 export type CommandResultExtra = {
   [K in keyof CommandResult]: { type: K } & CommandResult[K];
 };
 
 export type MessageRaw = string;
 export type MessageScope = 'private' | 'group';
-export type MessageQuickFunc = (msg: MessageQuick) => void;
-export type MessageQuickReal = MessageRaw | [string, StringTempArgs] | void;
+export type MessageQuickReal = MessageRaw | [string, obj<CommandArgType | void>] | CommandError | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 
 export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick;

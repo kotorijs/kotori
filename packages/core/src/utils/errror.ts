@@ -1,5 +1,7 @@
-import type { DevErrorExtra } from '../types2';
-import CommandExtra from './commandExtra';
+interface DevErrorExtra {
+  path: string;
+  type: 'warning' | 'info' | 'error';
+}
 
 type KotoriErrorType =
   /* 'AdapterError' | */
@@ -44,7 +46,6 @@ export class KotoriError<T extends object = object> extends Error implements Kot
 
 export const ModuleError = new KotoriError(undefined, undefined, 'ModuleError', 'normal').extend();
 export const CoreError = new KotoriError(undefined, undefined, 'CoreError', 'normal').extend();
-export const CommandError = new KotoriError<CommandExtra>(undefined, undefined, 'CommandError', 'normal').extend();
 export const DevError = new KotoriError<DevErrorExtra>(undefined, undefined, 'DevError', 'debug').extend();
 
 export default KotoriError;

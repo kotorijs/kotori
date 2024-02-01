@@ -1,97 +1,97 @@
 import { isClass, none } from '@kotori-bot/tools';
 import { Parser, TsuError } from 'tsukiko';
+import { resolve } from 'path';
 import { DevError, ModuleError } from '../utils/errror';
-import { ModuleConfig, ModuleInstance, moduleConfigBaseSchema } from '../types';
-import { Context } from '../context';
+import { type ModuleInstance, moduleConfigBaseSchema, type AdapterClass, ServiceClass } from '../types/index';
+import { Symbols, type Context } from '../context/index';
+import { Adapter, Service } from '../components';
+import { ADAPTER_PREFIX } from '../consts';
+import { disposeFactory } from '../utils/factory';
 
 type ModuleInstanceClass = new (ctx: Context, config: object) => void;
 type ModuleInstanceFunction = (ctx: Context, config: object) => void;
 
-export interface Modules {
-  // use(file: string, config?: ModuleConfig): void;
-  use(modules: ModuleInstance, config?: ModuleConfig): void;
-  use(func: ModuleInstanceFunction, config?: ModuleConfig): void;
-  use(Fnuc: ModuleInstanceClass, config?: ModuleConfig): void;
-  dispose(modules: ModuleInstance): void;
+declare module '../context/index' {
+  interface Context {
+    load(modules: ModuleInstance | ModuleInstanceFunction | ModuleInstanceClass, config?: object): void;
+    dispose(modules: ModuleInstance): void;
+  }
 }
 
-declare module '../context' {
-  interface Context extends Modules {}
+function isServiceConsructor(Fn: Function): Fn is ServiceClass {
+  return Service.isPrototypeOf.call(Service, Fn);
 }
 
-export class Modules implements Modules {
-  /*   static isServiceConsructor(Obj: object): Obj is ServiceClass {
-    return Service.isPrototypeOf.call(Service, Obj);
-  }
+function isAdapterClass(Fn: Function): Fn is AdapterClass {
+  return Adapter.isPrototypeOf.call(Adapter, Fn);
+}
 
-  static isAdapterClass(Obj: object): Obj is AdapterClass {
-    return Adapter.isPrototypeOf.call(Adapter, Obj);
-  }
-
-  static isDatabaseClass(Obj: object): Obj is DatabaseClass {
+/*   static isDatabaseClass(Obj: object): Obj is DatabaseClass {
     return Database.isPrototypeOf.call(Database, Obj);
   } */
 
-  private static handleFunction(func: ModuleInstanceFunction, ctx: Context, config: object) {
-    func(ctx, config);
-  }
+function handleFunction(func: ModuleInstanceFunction, ctx: Context, config: object) {
+  func(ctx, config);
+}
 
-  private static handleCconstructor(Class: ModuleInstanceClass, ctx: Context, config: object) {
-    none(new Class(ctx, config));
-  }
+function handleCconstructor(Class: ModuleInstanceClass, ctx: Context, config: object) {
+  none(new Class(ctx, config));
+}
 
-  private static checkConfig(schema: unknown, config: object) {
-    const resultSchema1 = moduleConfigBaseSchema.parseSafe(config);
-    if (!resultSchema1.value) return resultSchema1.error;
-    if (!(schema instanceof Parser)) return resultSchema1.data;
-    const resultSchema2 = (schema as typeof moduleConfigBaseSchema).parseSafe(resultSchema1.data);
-    if (resultSchema2 && !resultSchema2.value) return resultSchema2.error;
-    return resultSchema2.data;
-  }
+function checkConfig(schema: unknown, config: object) {
+  const resultSchema1 = moduleConfigBaseSchema.parseSafe(config);
+  if (!resultSchema1.value) return resultSchema1.error;
+  if (!(schema instanceof Parser)) return resultSchema1.data;
+  const resultSchema2 = (schema as typeof moduleConfigBaseSchema).parseSafe(resultSchema1.data);
+  if (resultSchema2 && !resultSchema2.value) return resultSchema2.error;
+  return resultSchema2.data;
+}
 
+export class Modules {
   private handleObj(modules: ModuleInstance, config: object) {
     /* before handle */
-    /* if (exportObj.lang) {
-      ctxni18n.use(exportObj.lang instanceof Array ? resolve(...exportObj.lang) : resolve(exportObj.lang));
-    } */
+    const { lang, config: schema, default: defaults, main, Main } = modules.exports;
+    if (lang) {
+      this.ctx.i18n.use(Array.isArray(lang) ? resolve(...lang) : resolve(lang));
+    }
     const moduleName = modules.package.name;
     /* handle */
     /* service */
-    // if (this.isServiceConsructor(moduleMethod)) {
-    //   /* adapter */
-    //   const adapterName = modulesName.split(ADAPTER_PREFIX)[1];
-    //   const databaseName = modulesName.split(DATABASE_PREFIX)[1];
-    //   if (adapterName && this.isAdapterClass(moduleMethod)) {
-    //     ctx.serviceStack[adapterName] = [moduleMethod, schema];
-    //   } else if (databaseName && this.isDatabaseClass(moduleMethod)) {
-    //     /* here need more service type support... */
-    //   }
-    //   return undefined;
-    // }
+    if (isServiceConsructor(defaults)) {
+      /* adapter */
+      const adapterName = moduleName.split(ADAPTER_PREFIX)[1];
+      // const databaseName = moduleName.split(DATABASE_PREFIX)[1];
+      if (adapterName && isAdapterClass(defaults)) {
+        this.ctx[Symbols.adapter].set(adapterName, [defaults, schema]);
+      } /* else if (databaseName && isDatabaseClass(default)) {
+        
+      } */
+      return undefined;
+    }
     /* plugin */
-    const moduleConfig = Modules.checkConfig(modules.exports.schema, config);
+    const moduleConfig = checkConfig(schema, config);
     if (moduleConfig instanceof TsuError)
       return new ModuleError(`Config format of module ${moduleName} is error: ${moduleConfig.message}`);
-    if (modules.exports.default !== undefined) {
-      if (isClass(modules.exports.default)) {
-        return Modules.handleCconstructor(modules.exports.default, this.ctx, moduleConfig);
+    if (defaults !== undefined) {
+      if (isClass(defaults)) {
+        return handleCconstructor(defaults, this.ctx, moduleConfig);
       }
-      if (modules.exports.default instanceof Function) {
-        return Modules.handleFunction(modules.exports.default, this.ctx, moduleConfig);
+      if (defaults instanceof Function) {
+        return handleFunction(defaults, this.ctx, moduleConfig);
       }
       return new DevError(`Module instance of default export is not function or constructor at ${moduleName}`);
     }
-    if (modules.exports.main instanceof Function) {
-      if (isClass(modules.exports.main)) {
+    if (main instanceof Function) {
+      if (isClass(main)) {
         return new DevError(`Module instance is constructor,export name should be 'Main' not 'main' at ${moduleName}`);
       }
-      return Modules.handleFunction(modules.exports.main, this.ctx, moduleConfig);
+      return handleFunction(main, this.ctx, moduleConfig);
     }
-    if (modules.exports.Main instanceof Function) {
-      if (!isClass(modules.exports.Main)) {
+    if (Main instanceof Function) {
+      if (!isClass(Main)) {
         return new DevError(`Module instance is function,export name should be 'main' not 'Main' at ${moduleName}`);
       }
-      return Modules.handleCconstructor(modules.exports.Main, this.ctx, moduleConfig);
+      return handleCconstructor(Main, this.ctx, moduleConfig);
     }
     return undefined;
   }
@@ -104,12 +104,12 @@ export class Modules implements Modules {
 
   load(modules: ModuleInstance | ModuleInstanceFunction | ModuleInstanceClass, config: object = {}) {
     if (modules instanceof Function) {
-      if (isClass(modules)) return Modules.handleCconstructor(modules, this.ctx, {});
-      return Modules.handleFunction(modules as ModuleInstanceFunction, this.ctx, {});
+      if (isClass(modules)) return handleCconstructor(modules, this.ctx, {});
+      return handleFunction(modules as ModuleInstanceFunction, this.ctx, {});
     }
-
+    disposeFactory(this.ctx, () => this.dispose(modules));
     const error = this.handleObj(modules, config);
-    this.ctx.emit('ready', { module: modules });
+    this.ctx.emit('ready', { module: modules, state: !!error });
     if (error) this.ctx.emit('error', { error });
     return undefined;
   }
