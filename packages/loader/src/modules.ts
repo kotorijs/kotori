@@ -8,7 +8,7 @@ import {
   DevError,
   ModuleInstance,
   ModulePackage,
-  ModulePackageSchema,
+  modulePackageSchema,
   PLUGIN_PREFIX,
   Symbols,
   clearObject,
@@ -71,7 +71,7 @@ export class Modules extends Core {
       } catch {
         throw new DevError(`illegal package.json ${packagePath}`);
       }
-      const result = ModulePackageSchema.parseSafe(packageJson);
+      const result = modulePackageSchema.parseSafe(packageJson);
       if (!result.value) {
         if (rootDir !== this.baseDir.modules) return;
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
@@ -84,10 +84,7 @@ export class Modules extends Core {
       const exports = await import(`file://${resolve(mainPath)}`);
       this[Symbols.module].add({
         package: packageJson,
-        config: Object.assign(
-          packageJson.kotori.config || {},
-          clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {})
-        ),
+        config: Object.assign(clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {})),
         exports,
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : []
       }); // 改回来放到原来那里 顺便恢复对路径use的支持 条一下各个组件的以来关系解耦合
