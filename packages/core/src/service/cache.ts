@@ -1,4 +1,4 @@
-import { obj } from '@kotori-bot/tools';
+import { none, obj } from '@kotori-bot/tools';
 import Service from './service';
 
 export class Cache extends Service {
@@ -9,7 +9,7 @@ export class Cache extends Service {
   }
 
   handle(data: unknown[]): void {
-    // this.
+    none(this);
   }
 
   start(): void {

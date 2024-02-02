@@ -1,1 +1,0 @@
-./packages/kotori/README.md

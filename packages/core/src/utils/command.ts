@@ -9,8 +9,8 @@ import {
   type CommandData,
   CommandArg,
   commandArgTypeSignSchema
-} from '../types/index';
-import { CommandError } from '../utils/commandError';
+} from '../types';
+import { CommandError } from './commandError';
 
 const requiredParamMatch = /<(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?>/;
 

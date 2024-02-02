@@ -20,8 +20,12 @@ import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 declare module '@kotori-bot/core' {
   interface Context {
     readonly [Symbols.module]?: Set<ModuleInstance>;
-    readonly moduleAll?: () => void;
+    moduleAll(): void; // Symbols
     readonly watchFile?: () => void;
+  }
+
+  interface EventsList {
+    'internal:loader_all_modules': { type: 'internal:loader_all_modules' };
   }
 }
 
@@ -52,9 +56,10 @@ export class Modules extends Core {
     });
   }
 
-  private async getModuleList(rootDir: string) {
+  private getModuleList(rootDir: string) {
     const files = fs.readdirSync(rootDir);
-    files.forEach((fileName) => {
+
+    files.forEach(async (fileName) => {
       const dir = path.join(rootDir, fileName);
       if (!fs.statSync(dir).isDirectory()) return;
       if (rootDir !== this.baseDir.modules && fileName.startsWith(PLUGIN_PREFIX)) return;
@@ -75,15 +80,18 @@ export class Modules extends Core {
       const mainPath = path.join(dir, this.isDev ? DEV_IMPORT : packageJson.main);
       if (!fs.existsSync(mainPath)) throw new DevError(`cannot find ${mainPath}`);
       const codeDirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(packageJson.main));
+      // 先判断有没有src/在加寨 没有就走默认路径
+      const exports = await import(`file://${resolve(mainPath)}`);
       this[Symbols.module].add({
         package: packageJson,
         config: Object.assign(
           packageJson.kotori.config || {},
           clearObject(this.config.plugin[stringRightSplit(packageJson.name, PLUGIN_PREFIX)] || {})
         ),
-        exports: import(resolve(mainPath)),
+        exports,
         fileList: fs.statSync(codeDirs).isDirectory() ? this.getDirFiles(codeDirs) : []
-      });
+      }); // 改回来放到原来那里 顺便恢复对路径use的支持 条一下各个组件的以来关系解耦合
+      // index.html Function还没有应用
     });
   }
 
@@ -91,7 +99,7 @@ export class Modules extends Core {
     this.load(moduleData, moduleData.config);
   }
 
-  readonly moduleAll = async () => {
+  moduleAll() {
     this.getModuleRootDir();
     this.moduleRootDir.forEach((dir) => {
       this.getModuleList(dir);
@@ -112,7 +120,7 @@ export class Modules extends Core {
       .forEach((moduleData) => {
         this.moduleQuick(moduleData);
       });
-  };
+  }
 
   readonly watchFile = async () => {
     /* this.moduleStack.forEach(moduleData =>

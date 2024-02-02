@@ -1,9 +1,9 @@
-import Tsu from 'tsukiko';
 import I18n from '@kotori-bot/i18n';
 import type { CommandAccess, CommandAction, MessageQuick, MessageRaw, MessageScope } from './message';
-import type { Adapter, Api, Elements, Service } from '../components';
+import type { Adapter, Api, Elements, Service } from '../service';
 import type { EventDataBase, EventsList } from './context';
 import CommandError from '../utils/commandError';
+import { EventDataTargetId } from '.';
 
 /* interface EventDataReadyAll extends EventDataBase<'ready_all'> {
   reality: number;
@@ -42,7 +42,7 @@ interface EventDataOffline extends EventDataBase<'offline'> {
   adapter: Adapter;
 }
 
-export type EventDataMsg = EventDataPrivateMsg | EventDataGroupMsg;
+type EventDataMsg = EventDataPrivateMsg | EventDataGroupMsg;
 
 interface EventDataMidwares extends EventDataBase<'midwares'> {
   isPass: boolean;
@@ -76,10 +76,6 @@ interface EventDataCommand extends EventDataBase<'command'> {
   access: CommandAccess;
   result: EventDataParse['result'];
 }
-
-export const eventDataTargetIdSchema = Tsu.Union([Tsu.String(), Tsu.Number()]);
-
-export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>;
 
 interface EventDataBeforeSend extends EventDataBase<'before_send'> {
   api: Api;

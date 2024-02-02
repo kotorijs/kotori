@@ -13,7 +13,7 @@ export const getBaseDir = () => {
   let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
   let count = 0;
   while (!fs.existsSync(path.join(root, CONFIG_FILE()))) {
-    if (count > 5) throw new CoreError(`cannot find kotori-bot global ${CONFIG_FILE}`);
+    if (count > 5) throw new CoreError(`cannot find kotori-bot global ${CONFIG_FILE()}`);
     root = path.join(root, '..');
     count += 1;
   }

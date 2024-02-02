@@ -1,5 +1,5 @@
 import { none } from '@kotori-bot/tools';
-import { Context } from '../context/index';
+import { Context } from '../context';
 
 export class Container {
   protected constructor() {
