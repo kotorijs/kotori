@@ -7,8 +7,6 @@ import type {
   EventsList,
   EventDataTargetId,
   MessageScope,
-  AdapterImpl,
-  AdapterStatus,
   MessageRaw,
   MessageQuick,
   AdapterConfig
@@ -21,6 +19,24 @@ import CommandError from '../utils/commandError';
 type EventApiType = {
   [K in Extract<EventsList[keyof EventsList], EventDataApiBase<keyof EventsList, MessageScope>>['type']]: EventsList[K];
 };
+
+interface AdapterStatus {
+  value: 'online' | 'offline';
+  createTime: Date;
+  lastMsgTime: Date | null;
+  receivedMsg: number;
+  sentMsg: number;
+  offlineTimes: number;
+}
+
+interface AdapterImpl<T extends Api = Api> extends Service {
+  readonly ctx: Context;
+  readonly platform: string;
+  readonly selfId: EventDataTargetId;
+  readonly identity: string;
+  readonly api: T;
+  readonly status: AdapterStatus;
+}
 
 type ApiClass<T extends Api> = new (adapter: Adapter, el: Elements) => T;
 

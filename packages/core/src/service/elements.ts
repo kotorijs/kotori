@@ -1,6 +1,6 @@
 import { none } from '@kotori-bot/tools';
-import { EventDataTargetId } from '../types';
-import { Adapter } from '.';
+import type { EventDataTargetId } from '../types';
+import type { Adapter } from './adapter';
 
 export class Elements<T extends Adapter = Adapter> {
   private default(...args: unknown[]) {

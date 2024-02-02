@@ -28,7 +28,7 @@ declare module '../context' {
     command(
       template: Parameters<Message['command']>[0],
       config?: Parameters<Message['command']>[1]
-    ): ReturnType<Message['midware']>;
+    ): ReturnType<Message['command']>;
     regexp(match: Parameters<Message['regexp']>[0], callback: Parameters<Message['regexp']>[1]): () => void;
     /* Inject */
     http: Http;

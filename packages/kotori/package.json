@@ -6,6 +6,7 @@
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "scripts": {
+    "start": "node ./lib/dev.js",
     "dev": "ts-node --esm -r tsconfig-paths/register ./src/dev.ts --no-signale",
     "build": "tsc --build"
   },

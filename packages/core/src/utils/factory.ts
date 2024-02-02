@@ -1,9 +1,4 @@
-import type I18n from '@kotori-bot/i18n';
-import { stringTemp, type obj } from '@kotori-bot/tools';
 import type { Context } from '../context';
-import { CommandError } from './commandError';
-import type { EventDataTargetId, MessageQuick, MessageRaw, MessageScope } from '../types';
-import type { Adapter } from '../service/adapter';
 
 export function disposeFactory(ctx: Context, dispose: Function) {
   ctx.on('dispose', (session) => {

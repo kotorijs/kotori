@@ -6,7 +6,7 @@
   "scripts": {
     "kotori": "pnpm --filter kotori-bot",
     "build": "pnpm -r build",
-    "serve": "kotori serve",
+    "start": "pnpm kotori start",
     "dev:only": "pnpm kotori dev",
     "dev": "pnpm kotori build && pnpm kotori dev",
     "test": "echo testing",

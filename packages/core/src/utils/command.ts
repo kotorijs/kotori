@@ -6,11 +6,36 @@ import {
   type CommandArgType,
   type CommandArgTypeSign,
   type CommandConfig,
-  type CommandData,
-  CommandArg,
   commandArgTypeSignSchema
 } from '../types';
 import { CommandError } from './commandError';
+
+interface CommandArg {
+  name: string;
+  type: CommandArgTypeSign;
+  optional: boolean;
+  default?: CommandArgType;
+  rest: boolean;
+}
+
+interface CommandOption {
+  name: string; // short name
+  type: CommandArgTypeSign;
+  realname: string; // full name
+  description?: string;
+}
+
+interface CommandData {
+  root: string;
+  alias: string[];
+  args: CommandArg[];
+  options: CommandOption[];
+  scope: CommandConfig['scope'];
+  access: CommandAccess;
+  help?: string;
+  action?: CommandAction;
+  description?: string;
+}
 
 const requiredParamMatch = /<(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?>/;
 
@@ -30,6 +55,7 @@ function handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
   }
   return value.toString();
 }
+
 export class Command {
   static run(input: string, data: CommandData) {
     /* find start string */
