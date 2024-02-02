@@ -1,8 +1,39 @@
-import type { EventDataTargetId } from './events';
 import type { Context } from '../context';
-import type { Api, Adapter } from '../service';
+import type { Api, Adapter, Service } from '../service';
 import type { AdapterConfig } from './config';
-import { Service } from '../service';
+import type { EventDataBase, EventsList } from './core';
+
+declare module './core' {
+  interface EventsList {
+    connect: EventDataConnect;
+    disconnect: EventDataDisconnect;
+    online: EventDataOnline;
+    offline: EventDataOffline;
+  }
+}
+
+interface EventDataServiceBase<T extends keyof EventsList> extends EventDataBase<T> {
+  service: Service; // fix question
+}
+
+interface EventDataConnect extends EventDataServiceBase<'connect'> {
+  normal: boolean;
+  info: string;
+  onlyStart?: boolean;
+}
+
+interface EventDataDisconnect extends EventDataServiceBase<'disconnect'> {
+  normal: boolean;
+  info: string;
+}
+
+interface EventDataOnline extends EventDataBase<'online'> {
+  adapter: Api['adapter'];
+}
+
+interface EventDataOffline extends EventDataBase<'offline'> {
+  adapter: Api['adapter'];
+}
 
 export type ModuleType = 'database' | 'adapter' | 'service' | 'plugin';
 export type ServiceType = Exclude<ModuleType, 'plugin' | 'service'> | 'custom';

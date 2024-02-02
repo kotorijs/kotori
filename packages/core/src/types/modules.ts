@@ -1,10 +1,30 @@
 import Tsu from 'tsukiko';
 import type { obj } from '@kotori-bot/tools';
-import { type ModuleConfig, localeTypeSchema, moduleConfigBaseSchema, type AdapterConfig } from './config';
+import { type ModuleConfig, localeTypeSchema } from './config';
+import type { EventDataBase } from './core';
 
-const moduleEnforceSchema = Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')]);
+declare module './core' {
+  interface EventsList {
+    ready: EventDataReady;
+    error: EventDataError;
+    dispose: EventDataDispose;
+  }
+}
 
-export const ModulePackageSchema = Tsu.Object({
+interface EventDataReady extends EventDataBase<'ready'> {
+  module?: ModuleInstance /* | string */;
+  state?: boolean;
+}
+
+interface EventDataError extends EventDataBase<'error'> {
+  error: Error;
+}
+
+interface EventDataDispose extends EventDataBase<'dispose'> {
+  module?: ModuleInstance /* | string */;
+}
+
+export const modulePackageSchema = Tsu.Object({
   name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
   version: Tsu.String(),
   description: Tsu.String(),
@@ -15,20 +35,18 @@ export const ModulePackageSchema = Tsu.Object({
     'kotori-bot': Tsu.String()
   }),
   kotori: Tsu.Object({
-    enforce: moduleEnforceSchema.optional(),
-    config: moduleConfigBaseSchema,
+    enforce: Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')]).optional(),
     meta: Tsu.Object({
       language: Tsu.Array(localeTypeSchema).default([]),
       service: Tsu.Array(Tsu.String()).default([])
     }).default({ language: [], service: [] })
   }).default({
     enforce: undefined,
-    config: { filter: {} },
     meta: { language: [], service: [] }
   })
 });
 
-export type ModulePackage = Tsu.infer<typeof ModulePackageSchema>;
+export type ModulePackage = Tsu.infer<typeof modulePackageSchema>;
 
 export interface ModuleInstance {
   package: ModulePackage;
