@@ -7,16 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      '@types/minimist':
-        specifier: ^1.2.5
-        version: 1.2.5
-      minimist:
-        specifier: ^1.2.8
-        version: 1.2.8
-      tsukiko:
-        specifier: ^1.2.1
-        version: 1.2.1
     devDependencies:
       '@manypkg/get-packages':
         specifier: ^2.2.0
@@ -70,133 +60,13 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
-  modules/adapter-onebot:
-    dependencies:
-      '@types/ws':
-        specifier: ^8.5.8
-        version: 8.5.8
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-      ws:
-        specifier: ^8.14.2
-        version: 8.14.2
-
-  modules/adapter-qq:
-    dependencies:
-      '@types/ws':
-        specifier: ^8.5.8
-        version: 8.5.8
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-      ws:
-        specifier: ^8.14.2
-        version: 8.14.2
-
-  modules/bangumi:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/better-join:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/bilibili:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/core:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/github:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/goodnight:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/grouper:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/helper:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/hitokotos:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/i18n-command:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/mediawiki:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/menu:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/music:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/newnew:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
   modules/nmsl:
     dependencies:
       kotori-bot:
         specifier: workspace:^
         version: link:../../packages/kotori
 
-  modules/random-img:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
   modules/testing:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/weather:
     dependencies:
       kotori-bot:
         specifier: workspace:^
@@ -491,6 +361,7 @@ packages:
     resolution: {integrity: sha512-21TKHHh3eUHIi2MloeptJWALuCu5H7HQTdTrWIFReA8ad+aggoX+lRes3ex7/FtpC+sVUpFMQ+QTfYr74mruiQ==}
     dependencies:
       undici-types: 5.25.3
+    dev: true
 
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -505,12 +376,6 @@ packages:
     dependencies:
       '@types/node': 20.8.7
     dev: true
-
-  /@types/ws@8.5.8:
-    resolution: {integrity: sha512-flUksGIQCnJd6sZ1l5dqCEG/ksaoAg/eUwiLAGTJQcfgvZJKF++Ta4bJA6A5aPSJmsr+xlseHn4KLgVlNnvPTg==}
-    dependencies:
-      '@types/node': 20.8.7
-    dev: false
 
   /@typescript-eslint/eslint-plugin@6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.2.2):
     resolution: {integrity: sha512-DUCUkQNklCQYnrBSSikjVChdc84/vMPDQSgJTHBZ64G9bA9w0Crc0rd2diujKbTdp6w2J47qkeHQLoi0rpLCdg==}
@@ -3131,6 +2996,7 @@ packages:
 
   /undici-types@5.25.3:
     resolution: {integrity: sha512-Ga1jfYwRn7+cP9v8auvEXN1rX3sWqlayd4HP7OKk4mZWylEmu3KzXDUGrQUN6Ol7qo1gPvB2e5gX6udnyEPgdA==}
+    dev: true
 
   /universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
@@ -3215,19 +3081,6 @@ packages:
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
-
-  /ws@8.14.2:
-    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
 
   /yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}

@@ -1,18 +1,22 @@
 import I18n from '@kotori-bot/i18n';
+import { obj, stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
-import { Context, Symbols } from '../context/index';
+import { Context, Symbols } from '../context';
 import type {
   EventDataApiBase,
-  AdapterConfig,
   EventsList,
   EventDataTargetId,
   MessageScope,
   AdapterImpl,
-  AdapterStatus
-} from '../types/index';
+  AdapterStatus,
+  MessageRaw,
+  MessageQuick,
+  AdapterConfig
+} from '../types';
 import Service from './service';
 import Elements from './elements';
-import { cancelFactory, qucikFactory, sendMessageFactory } from '../utils/factory';
+import { cancelFactory } from '../utils/factory';
+import CommandError from '../utils/commandError';
 
 type EventApiType = {
   [K in Extract<EventsList[keyof EventsList], EventDataApiBase<keyof EventsList, MessageScope>>['type']]: EventsList[K];
@@ -43,6 +47,34 @@ function setProxy<T extends Api>(api: T, ctx: Context): T {
   return proxy;
 }
 
+function sendMessageFactory(adapter: Adapter, type: MessageScope, data: Parameters<Adapter['emit']>[1]) {
+  if (type === 'group' && 'groupId' in data) {
+    return (message: MessageRaw) => {
+      adapter.api.send_group_msg(message, data.groupId as EventDataTargetId, data.extra);
+    };
+  }
+  return (message: MessageRaw) => {
+    adapter.api.send_private_msg(message, data.userId, data.extra);
+  };
+}
+
+function qucikFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
+  return async (message: MessageQuick) => {
+    const msg = await message;
+    if (!msg || msg instanceof CommandError) return;
+    if (typeof msg === 'string') {
+      send(i18n.locale(msg));
+      return;
+    }
+    const params = msg[1];
+    Object.keys(params).forEach((key) => {
+      if (typeof params[key] !== 'string') return;
+      params[key] = i18n.locale(params[key] as string);
+    });
+    send(stringTemp(i18n.locale(msg[0]), params as obj<string>));
+  };
+}
+
 export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
   constructor(
     ctx: Context,
@@ -61,7 +93,7 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     this.ctx[Symbols.bot].get(this.platform)!.add(this.api);
   }
 
-  protected abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
+  abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
 
   protected online() {
     if (this.status.value !== 'offline') return;

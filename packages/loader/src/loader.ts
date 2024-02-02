@@ -6,15 +6,16 @@
  * @LastEditTime: 2024-02-01 21:15:23
  */
 import {
+  Context,
   KotoriError,
   type EventsList,
   Container,
   Tsu,
-  AdapterConfig,
-  CoreConfig,
+  type AdapterConfig,
+  type CoreConfig,
   Adapter,
   Parser,
-  AdapterClass,
+  type AdapterClass,
   Symbols
 } from '@kotori-bot/core';
 import Modules from './modules';
@@ -94,6 +95,9 @@ class Main extends Container {
         );
       }
     };
+    this.ctx.on('error', (data) => {
+      throw data.error;
+    });
 
     this.ctx.on('connect', handleConnectInfo);
     this.ctx.on('disconnect', handleConnectInfo);
@@ -134,6 +138,7 @@ class Main extends Container {
     /* start adapters */
     // const adapters = Object.keys(services).filter((key) => Modules.isAdapterClass(services[key][0]));
     const adapters = this.ctx[Symbols.adapter];
+    console.log(adapters);
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
       if (!adapters.has(botConfig.extends)) {

@@ -1,8 +1,8 @@
 import type { EventDataTargetId } from './events';
-import type { Context } from '../context/index';
-import type { Api, Adapter } from '../components';
+import type { Context } from '../context';
+import type { Api, Adapter } from '../service';
 import type { AdapterConfig } from './config';
-import { Service } from '../components';
+import { Service } from '../service';
 
 export type ModuleType = 'database' | 'adapter' | 'service' | 'plugin';
 export type ServiceType = Exclude<ModuleType, 'plugin' | 'service'> | 'custom';

@@ -1,4 +1,4 @@
-import { CommandResultExtra } from '../types/index';
+import { CommandResultExtra } from '../types';
 import { KotoriError } from './errror';
 
 export class CommandError extends KotoriError {

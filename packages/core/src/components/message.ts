@@ -1,5 +1,6 @@
 import { obj, stringRightSplit, stringTemp } from '@kotori-bot/tools';
-import { Context, Symbols } from '../context/index';
+import I18n from '@kotori-bot/i18n';
+import { Context, Symbols } from '../context';
 import {
   CommandAccess,
   type CommandConfig,
@@ -8,9 +9,9 @@ import {
   type MessageScope,
   type MidwareCallback,
   type RegexpCallback
-} from '../types/index';
-import { cancelFactory, disposeFactory, objectTempFactory } from '../utils/factory';
-import { Command } from '../components';
+} from '../types';
+import { cancelFactory, disposeFactory } from '../utils/factory';
+import { Command } from '../service';
 import CommandError from '../utils/commandError';
 
 interface MidwareData {
@@ -23,12 +24,15 @@ interface RegexpData {
   callback: RegexpCallback;
 }
 
-declare module '../context/index' {
-  interface Context {
-    midware(callback: MidwareCallback, priority?: number): () => void;
-    command(template: string, config?: CommandConfig): Command;
-    regexp(match: RegExp, callback: RegexpCallback): () => void;
-  }
+function objectTempFactory(i18n: I18n) {
+  return (obj: obj<string | number>) => {
+    const result = obj;
+    Object.keys(result).forEach((key) => {
+      if (!result[key] || typeof result[key] !== 'string') return;
+      result[key] = i18n.locale(result[key] as string);
+    });
+    return result;
+  };
 }
 
 export class Message {
