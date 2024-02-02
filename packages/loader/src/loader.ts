@@ -138,7 +138,6 @@ class Main extends Container {
     /* start adapters */
     // const adapters = Object.keys(services).filter((key) => Modules.isAdapterClass(services[key][0]));
     const adapters = this.ctx[Symbols.adapter];
-    console.log(adapters);
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
       if (!adapters.has(botConfig.extends)) {

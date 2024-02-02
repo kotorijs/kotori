@@ -1,11 +1,9 @@
 import type { obj } from '@kotori-bot/tools';
 import Tsu from 'tsukiko';
-import I18n from '@kotori-bot/i18n';
+import type I18n from '@kotori-bot/i18n';
 import type { EventDataBase, EventsList } from './core';
-import CommandError from '../utils/commandError';
-import { Api, EventDataTargetId } from '.';
-
-export * from './core';
+import type CommandError from '../utils/commandError';
+import type { Api } from '../service';
 
 declare module './core' {
   interface EventsList {
@@ -56,33 +54,6 @@ export interface CommandConfig {
   action?: CommandAction;
 }
 
-export interface CommandArg {
-  name: string;
-  type: CommandArgTypeSign;
-  optional: boolean;
-  default?: CommandArgType;
-  rest: boolean;
-}
-
-export interface CommandOption {
-  name: string; // short name
-  type: CommandArgTypeSign;
-  realname: string; // full name
-  description?: string;
-}
-
-export interface CommandData {
-  root: string;
-  alias: string[];
-  args: CommandArg[];
-  options: CommandOption[];
-  scope: CommandConfig['scope'];
-  access: CommandAccess;
-  help?: string;
-  action?: CommandAction;
-  description?: string;
-}
-
 interface CommandParseResult {
   /*   parsed: {
     action: CommandAction;
@@ -114,6 +85,7 @@ export type MidwareCallback = (next: () => void, session: EventDataMsg) => Messa
 export type RegexpCallback = (match: RegExpMatchArray, session: EventDataMsg) => MessageQuick;
 
 type EventDataMsg = EventsList['group_msg'] | EventsList['private_msg'];
+export type EventDataTargetId = number | string;
 
 interface EventDataMidwares extends EventDataBase<'midwares'> {
   isPass: boolean;
@@ -163,8 +135,6 @@ interface EventDataSend extends EventDataBase<'send'> {
   targetId: EventDataTargetId; */
   messageId: EventDataTargetId;
 }
-
-type EventDataOperation = 'set' | 'unset';
 
 interface EventDataMsgSender {
   nickname: string;
@@ -237,7 +207,7 @@ interface EventDataGroupDecrease extends EventDataApiBase<'group_decrease', 'gro
 
 interface EventDataGroupAdmin extends EventDataApiBase<'group_admin', 'group'> {
   userId: EventDataTargetId;
-  operation: EventDataOperation;
+  operation: 'set' | 'unset';
   groupId: EventDataTargetId;
 }
 

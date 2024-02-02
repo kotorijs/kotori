@@ -1,7 +1,7 @@
 import { none } from '@kotori-bot/tools';
 import type Adapter from './adapter';
 import type { EventDataTargetId, MessageRaw } from '../types';
-import Elements from './elements';
+import type Elements from './elements';
 
 interface ApiImpl {
   readonly adapter: Adapter<this>;

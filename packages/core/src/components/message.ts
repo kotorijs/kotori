@@ -4,14 +4,13 @@ import { Context, Symbols } from '../context';
 import {
   CommandAccess,
   type CommandConfig,
-  type EventDataMsg,
   type EventsList,
   type MessageScope,
   type MidwareCallback,
   type RegexpCallback
 } from '../types';
 import { cancelFactory, disposeFactory } from '../utils/factory';
-import { Command } from '../service';
+import { Command } from '../utils/command';
 import CommandError from '../utils/commandError';
 
 interface MidwareData {
@@ -42,7 +41,7 @@ export class Message {
 
   readonly [Symbols.regexp]: Set<RegexpData> = new Set();
 
-  private handleMidware(session: EventDataMsg) {
+  private handleMidware(session: EventsList['group_msg'] | EventsList['private_msg']) {
     const { api } = session;
     api.adapter.status.receivedMsg += 1;
     let isPass = true;
