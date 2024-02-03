@@ -21,7 +21,7 @@ declare module '../context' {
     readonly config: Config['config'];
     readonly options: Config['options'];
     /* Modules */
-    load(modules: Parameters<Modules['load']>[0], config?: Parameters<Modules['load']>[1]): void;
+    use(modules: Parameters<Modules['use']>[0], config?: Parameters<Modules['use']>[1]): void;
     dispose(modules: Parameters<Modules['dispose']>[0]): void;
     /* Message */
     midware(callback: Parameters<Message['midware']>[0], priority?: Parameters<Message['midware']>[1]): () => void;
@@ -49,7 +49,7 @@ export class Core extends Context {
     this.provide('events', new Events<EventsList>());
     this.mixin('events', ['emit', 'on', 'once', 'off', 'offAll', 'before']);
     this.provide('modules', new Modules(this));
-    this.mixin('modules', ['load', 'dispose']);
+    this.mixin('modules', ['use', 'dispose']);
     this.provide('message', new Message(this));
     this.mixin('message', ['midware', 'command', 'regexp']);
     this.inject('http', new Http({ validateStatus: () => true }));

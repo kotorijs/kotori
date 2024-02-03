@@ -1,4 +1,4 @@
-import { plugin, Tsu, ModuleConfig, EventsList, CommandAccess, CommandAction } from 'kotori-bot';
+import { plugin, Tsu, ModuleConfig, EventsList, CommandAccess, CommandAction, Context, MessageScope } from 'kotori-bot';
 
 const test = plugin({
   name: 'kotori-plugin-testing',
@@ -41,8 +41,9 @@ class Test {
   /* 中间件注册 */
   @test.midware(/* {priority: 10}  设置*/)
   midware(next: () => void, session: EventsList['midwares']) {
-    if (session.message.startWith === '说' || session.message.includes('说')) {
-      session.message = `${session.api.adapter.config['command-prefix']}echo`;
+    const s = session;
+    if (s.message.startsWith('说') || s.message.includes('说')) {
+      s.message = `${s.api.adapter.config['command-prefix']}echo`;
     }
     next();
   };
@@ -50,7 +51,7 @@ class Test {
   /* 指令注册 */
   @test.command({
     template: 'echo <content> [num:number=3]',
-    scope: CommandAccess.GROUP
+    scope: MessageScope.GROUP
     /* 可在此处传入额外配置也可以链式 */
   }).alias('print')
   echo(data: Parameters<CommandAction>[0], session: Parameters<CommandAction>[1]) {

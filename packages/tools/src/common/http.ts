@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 type HttpMethod<T = unknown> = (
   url: string,
-  params?: { [key: string]: string | number },
+  params?: { [key: string]: string | number | boolean },
   config?: AxiosRequestConfig<any>
 ) => Promise<T>;
 
@@ -13,19 +13,19 @@ export class Http {
 
   private method = async (
     url: string,
-    params?: { [key: string]: string | number },
-    config?: AxiosRequestConfig,
+    params?: Parameters<HttpMethod>[1],
+    config?: Parameters<HttpMethod>[2],
     method: Method = 'get'
   ) => {
     const response = (await axios[method](url, Object.assign(this.config, config || {}, { params }))).data;
     return response;
   };
 
-  constructor(config?: AxiosRequestConfig<any>) {
+  constructor(config?: Parameters<HttpMethod>[2]) {
     this.config = config || {};
   }
 
-  extend(config: AxiosRequestConfig<any>) {
+  extend(config: Parameters<HttpMethod>[2]) {
     const NewHttp = new Http(Object.assign(this.config, config));
     return NewHttp;
   }

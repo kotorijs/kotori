@@ -113,13 +113,6 @@ export class Logger {
     );
     return this;
   }
-  /* 
-	static extend(...content: string[])  {
-		const CloneLogger = Object.create(Logger) as typeof Logger;
-		CloneLogger.tags = content;
-		console.log(CloneLogger.tags);
-		return CloneLogger;
-	}; */
 
   static log(...args: unknown[]) {
     Logger.tag('LOG', 'cyan', 'default').print(args, LoggerLevel.LOG);

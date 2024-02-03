@@ -8,7 +8,7 @@ export class Container {
 
   private static instance: Context = {} as Context;
 
-  protected static setInstance(ctx: Context) {
+  static setInstance(ctx: Context) {
     this.instance = ctx;
   }
 

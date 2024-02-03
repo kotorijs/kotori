@@ -3,8 +3,8 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-10-29 16:20:51
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-30 17:32:51
+ * @LastEditTime: 2024-02-03 17:12:47
  */
-import loader from './loader';
 
-export default loader;
+export * from './loader';
+export * from './consts';

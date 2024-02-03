@@ -2,14 +2,15 @@ import I18n from '@kotori-bot/i18n';
 import { obj, stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
 import { Context, Symbols } from '../context';
-import type {
+import {
   EventDataApiBase,
   EventsList,
   EventDataTargetId,
   MessageScope,
   MessageRaw,
   MessageQuick,
-  AdapterConfig
+  AdapterConfig,
+  CommandResult
 } from '../types';
 import Service from './service';
 import Elements from './elements';
@@ -46,7 +47,7 @@ function setProxy<T extends Api>(api: T, ctx: Context): T {
     apply(_, __, argArray) {
       const { '0': message, '1': targetId } = argArray;
       const cancel = cancelFactory();
-      ctx.emit('before_send', { api, message, messageType: 'private', targetId, cancel: cancel.get() });
+      ctx.emit('before_send', { api, message, messageType: MessageScope.PRIVATE, targetId, cancel: cancel.get() });
       if (cancel.value) return;
       api.send_private_msg(message, targetId, argArray[2]);
     }
@@ -55,7 +56,7 @@ function setProxy<T extends Api>(api: T, ctx: Context): T {
     apply(_, __, argArray) {
       const { '0': message, '1': targetId } = argArray;
       const cancel = cancelFactory();
-      ctx.emit('before_send', { api, message, messageType: 'group', targetId, cancel: cancel.get() });
+      ctx.emit('before_send', { api, message, messageType: MessageScope.PRIVATE, targetId, cancel: cancel.get() });
       if (cancel.value) return;
       api.send_group_msg(message, targetId, argArray[2]);
     }
@@ -64,7 +65,7 @@ function setProxy<T extends Api>(api: T, ctx: Context): T {
 }
 
 function sendMessageFactory(adapter: Adapter, type: MessageScope, data: Parameters<Adapter['emit']>[1]) {
-  if (type === 'group' && 'groupId' in data) {
+  if (type === MessageScope.GROUP && 'groupId' in data) {
     return (message: MessageRaw) => {
       adapter.api.send_group_msg(message, data.groupId as EventDataTargetId, data.extra);
     };
@@ -89,6 +90,10 @@ function qucikFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
     });
     send(stringTemp(i18n.locale(msg[0]), params as obj<string>));
   };
+}
+
+function error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) {
+  return new CommandError(Object.assign(data ?? {}, { type }) as ConstructorParameters<typeof CommandError>[0]);
 }
 
 export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
@@ -126,15 +131,15 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
   protected emit<N extends keyof EventApiType>(
     type: N,
-    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'i18n' | 'quick' | 'el' | 'messageType'>
+    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'i18n' | 'quick' | 'el' | 'error' | 'messageType'>
   ) {
-    const messageType = type.includes('group') ? 'group' : 'private';
-    const i18n = this.ctx.i18n.extends(this.config.lang);
+    const messageType = type.includes('group') ? MessageScope.GROUP : MessageScope.PRIVATE;
+    const i18n = this.ctx.i18n.extends(this.config.lang ?? this.ctx.config.global.lang);
     const send = sendMessageFactory(this, messageType, data);
     const quick = qucikFactory(send, i18n as I18n);
     const { api } = this;
     const { elements: el } = this.api;
-    this.ctx.emit<N>(type, { ...data, api, send, i18n, quick, el, messageType } as unknown as EventsList[N]);
+    this.ctx.emit<N>(type, { ...data, api, send, i18n, quick, el, messageType, error } as unknown as EventsList[N]);
   }
 
   readonly ctx: Context;

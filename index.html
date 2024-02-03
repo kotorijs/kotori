@@ -147,12 +147,12 @@
       // const ctx4 = ctx.extends();
       // ctx2.inject('event').emit();
       // console.log(ctx3.options, ctx4.options, ctx4);
-      console.log(ctx.identity, ctx2.get('event'), ctx2[Symbols.container]);
+      // console.log(ctx.identity, ctx2.get('event'), ctx2[Symbols.container]);
 
       /*       ctx2.provide('cc', { f: () => console.log('cc') }); */
       const ctx3 = ctx2.extends({ options: 3, emit: 1 }, 'ccc');
       ctx2.inject('cc', () => console.log('cc'));
-      console.log(ctx2, ctx, ctx3, ctx2.extends());
+      console.log(ctx2.identity, ctx.identity, ctx3.identity, ctx2.extends().identity);
     </script>
   </body>
 </html>

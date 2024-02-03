@@ -1,5 +1,5 @@
 import type { obj } from '@kotori-bot/tools';
-import Tsu from 'tsukiko';
+import Tsu, { TsuError } from 'tsukiko';
 import type I18n from '@kotori-bot/i18n';
 import type { EventDataBase, EventsList } from './core';
 import type CommandError from '../utils/commandError';
@@ -69,23 +69,36 @@ interface CommandParseResult {
 }
 
 export interface CommandResult extends CommandParseResult {
-  success: { return?: string };
   error: { error: unknown };
+  res_error: { error: TsuError };
+  num_error: null;
+  num_choose: null;
+  no_access_manger: null;
+  no_access_admin: null;
+  disable: null;
+  exists: { target: string };
+  no_exists: CommandResult['exists'];
 }
 
+type CommandResultNoArgs = 'num_error' | 'num_choose' | 'no_access_manger' | 'no_access_admin' | 'disable';
+
 export type CommandResultExtra = {
-  [K in keyof CommandResult]: { type: K } & CommandResult[K];
+  [K in keyof CommandResult]: { type: K } & (K extends CommandResultNoArgs ? {} : CommandResult[K]);
 };
 
+export enum MessageScope {
+  PRIVATE,
+  GROUP
+}
 export type MessageRaw = string;
-export type MessageScope = 'private' | 'group';
 export type MessageQuickReal = MessageRaw | [string, obj<CommandArgType | void>] | CommandError | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 export type MidwareCallback = (next: () => void, session: EventDataMsg) => MessageQuick;
 export type RegexpCallback = (match: RegExpMatchArray, session: EventDataMsg) => MessageQuick;
 
-type EventDataMsg = EventsList['group_msg'] | EventsList['private_msg'];
-export type EventDataTargetId = number | string;
+export type EventDataMsg = EventsList['group_msg'] | EventsList['private_msg'];
+export const eventDataTargetIdSchema = Tsu.Union([Tsu.Number(), Tsu.String()]);
+export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>;
 
 interface EventDataMidwares extends EventDataBase<'midwares'> {
   isPass: boolean;
@@ -117,7 +130,7 @@ interface EventDataCommand extends EventDataBase<'command'> {
   command: string;
   scope: MessageScope;
   access: CommandAccess;
-  result: EventDataParse['result'];
+  result: EventDataParse['result'] | MessageQuick;
 }
 
 interface EventDataBeforeSend extends EventDataBase<'before_send'> {
@@ -130,9 +143,6 @@ interface EventDataBeforeSend extends EventDataBase<'before_send'> {
 
 interface EventDataSend extends EventDataBase<'send'> {
   api: Api;
-  /* 	message: MessageRaw;
-  messageType: MessageScope;
-  targetId: EventDataTargetId; */
   messageId: EventDataTargetId;
 }
 
@@ -151,10 +161,15 @@ export interface EventDataApiBase<T extends keyof EventsList, M extends MessageS
   i18n: I18n;
   send(message: MessageRaw): void;
   quick(message: MessageQuick): void;
+  error<T extends Exclude<keyof CommandResult, CommandResultNoArgs>>(
+    type: T,
+    data: CommandResult[T] extends object ? CommandResult[T] : never
+  ): CommandError;
+  error<T extends CommandResultNoArgs>(type: T): CommandError;
   extra?: unknown;
 }
 
-interface EventDataPrivateMsg extends EventDataApiBase<'private_msg', 'private'> {
+interface EventDataPrivateMsg extends EventDataApiBase<'private_msg', MessageScope.PRIVATE> {
   messageId: EventDataTargetId;
   message: MessageRaw;
   // messageH?: object /* what is this? */;
@@ -162,56 +177,56 @@ interface EventDataPrivateMsg extends EventDataApiBase<'private_msg', 'private'>
   groupId?: EventDataTargetId;
 }
 
-interface EventDataGroupMsg extends EventDataApiBase<'group_msg', 'group'> {
+interface EventDataGroupMsg extends EventDataApiBase<'group_msg', MessageScope.GROUP> {
   messageId: EventDataTargetId;
   message: MessageRaw;
   sender: EventDataMsgSender;
   groupId: EventDataTargetId;
 }
 
-interface EventDataPrivateRecall extends EventDataApiBase<'private_recall', 'private'> {
+interface EventDataPrivateRecall extends EventDataApiBase<'private_recall', MessageScope.PRIVATE> {
   messageId: EventDataTargetId;
 }
 
-interface EventDataGroupRecall extends EventDataApiBase<'group_recall', 'group'> {
+interface EventDataGroupRecall extends EventDataApiBase<'group_recall', MessageScope.GROUP> {
   messageId: EventDataTargetId;
   operatorId: EventDataTargetId;
   groupId: EventDataTargetId;
 }
 
-interface EventDataPrivateRequest extends EventDataApiBase<'private_request', 'private'> {
+interface EventDataPrivateRequest extends EventDataApiBase<'private_request', MessageScope.PRIVATE> {
   userId: EventDataTargetId;
 }
 
-interface EventDataGroupRequest extends EventDataApiBase<'group_request', 'group'> {
-  userId: EventDataTargetId;
-  operatorId: EventDataTargetId;
-  groupId: EventDataTargetId;
-}
-
-interface EventDataPrivateAdd extends EventDataApiBase<'private_add', 'private'> {
-  userId: EventDataTargetId;
-}
-
-interface EventDataGroupIncrease extends EventDataApiBase<'group_increase', 'group'> {
+interface EventDataGroupRequest extends EventDataApiBase<'group_request', MessageScope.GROUP> {
   userId: EventDataTargetId;
   operatorId: EventDataTargetId;
   groupId: EventDataTargetId;
 }
 
-interface EventDataGroupDecrease extends EventDataApiBase<'group_decrease', 'group'> {
+interface EventDataPrivateAdd extends EventDataApiBase<'private_add', MessageScope.PRIVATE> {
+  userId: EventDataTargetId;
+}
+
+interface EventDataGroupIncrease extends EventDataApiBase<'group_increase', MessageScope.GROUP> {
   userId: EventDataTargetId;
   operatorId: EventDataTargetId;
   groupId: EventDataTargetId;
 }
 
-interface EventDataGroupAdmin extends EventDataApiBase<'group_admin', 'group'> {
+interface EventDataGroupDecrease extends EventDataApiBase<'group_decrease', MessageScope.GROUP> {
+  userId: EventDataTargetId;
+  operatorId: EventDataTargetId;
+  groupId: EventDataTargetId;
+}
+
+interface EventDataGroupAdmin extends EventDataApiBase<'group_admin', MessageScope.GROUP> {
   userId: EventDataTargetId;
   operation: 'set' | 'unset';
   groupId: EventDataTargetId;
 }
 
-interface EventDataGroupBan extends EventDataApiBase<'group_ban', 'group'> {
+interface EventDataGroupBan extends EventDataApiBase<'group_ban', MessageScope.GROUP> {
   userId: EventDataTargetId | 0;
   operatorId?: EventDataTargetId;
   time?: number | -1;

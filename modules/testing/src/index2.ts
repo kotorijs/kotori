@@ -1,4 +1,4 @@
-import { Context, CommandAccess, ModuleConfig, Tsu } from 'kotori-bot';
+import { Context, ModuleConfig, Tsu, MessageScope } from 'kotori-bot';
 
 /* 设置 i18n */
 export const lang = [__dirname, '../locales']; // or: const lang = path.join(__dirname, '../locales');
@@ -29,8 +29,9 @@ export function main(ctx: Context, config: Config) {
 
   /* 中间件注册 */
   ctx.midware((next, session) => {
-    if (session.message.startWith === '说' || session.message.includes('说')) {
-      session.message = `${session.api.adapter.config['command-prefix']}echo`;
+    const s = session;
+    if (s.message.startsWith('说') || s.message.includes('说')) {
+      s.message = `${s.api.adapter.config['command-prefix']}echo`;
     }
     next();
   }, 10);
@@ -40,11 +41,11 @@ export function main(ctx: Context, config: Config) {
     .command('echo <content> [num:number=3]')
     .action((data, session) => {
       ctx.logger.debug(data, data.args[0]);
-      ctx.logger.debug(message);
+      ctx.logger.debug(session.message);
       return [`返回消息:~%message%`, { message: data.args[0] }];
     })
     .alias('print')
-    .scope(CommandAccess.GROUP);
+    .scope(MessageScope.GROUP);
 
   /* 正则注册 */
   ctx.regexp(/^(.*)#print$/, (match) => match[1]);
