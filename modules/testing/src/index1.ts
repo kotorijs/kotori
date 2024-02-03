@@ -1,4 +1,4 @@
-import Kotori, { CommandAccess } from 'kotori-bot';
+import Kotori, { MessageScope } from 'kotori-bot';
 import { join } from 'path';
 
 /* 设置 i18n */
@@ -16,9 +16,10 @@ Kotori.on('group_decrease', (session) => {
 });
 
 /* 中间件注册 */
-ctx.midware((next, session) => {
-  if (session.message.startWith === '说' || session.message.includes('说')) {
-    session.message = `${session.api.adapter.config['command-prefix']}echo`;
+Kotori.midware((next, session) => {
+  const s = session;
+  if (s.message.startsWith('说') || s.message.includes('说')) {
+    s.message = `${s.api.adapter.config['command-prefix']}echo`;
   }
   next();
 }, 10);
@@ -27,11 +28,11 @@ ctx.midware((next, session) => {
 Kotori.command('echo <content> [num:number=3]')
   .action((data, session) => {
     Kotori.logger.debug(data, data.args[0]);
-    Kotori.logger.debug(message);
+    Kotori.logger.debug(session.message);
     return [`返回消息:~%message%`, { message: data.args[0] }];
   })
   .alias('print')
-  .scope(CommandAccess.GROUP);
+  .scope(MessageScope.GROUP);
 
 /* 正则注册 */
 Kotori.regexp(/^(.*)#print$/, (match) => match[1]);

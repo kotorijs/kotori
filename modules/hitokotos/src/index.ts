@@ -1,4 +1,4 @@
-import { Context, MessageQuick, MessageQuickReal, Tsu } from 'kotori-bot';
+import { Context, MessageQuickReal, Tsu } from 'kotori-bot';
 
 const hitokotoSchema = Tsu.Object({
   data: Tsu.Object({

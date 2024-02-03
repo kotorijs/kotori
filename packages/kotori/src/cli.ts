@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import cac from 'cac';
-import Loader from '@kotori-bot/loader';
+import { Loader } from '@kotori-bot/loader';
 import { readFileSync } from 'fs';
 
 const program = cac();

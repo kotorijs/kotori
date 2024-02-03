@@ -3,9 +3,9 @@ import I18n from '@kotori-bot/i18n';
 import { Context, Symbols } from '../context';
 import {
   CommandAccess,
+  MessageScope,
   type CommandConfig,
   type EventsList,
-  type MessageScope,
   type MidwareCallback,
   type RegexpCallback
 } from '../types';
@@ -81,7 +81,7 @@ export class Message {
     this.ctx.emit('before_parse', params);
     const cancel = cancelFactory();
     const cmdParams = {
-      scope: (event.type === 'group_msg' ? 'group' : 'private') as MessageScope,
+      scope: (event.type === 'group_msg' ? MessageScope.GROUP : MessageScope.PRIVATE) as MessageScope,
       access: event.userId === event.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER
     };
     this.ctx.emit('before_command', { cancel: cancel.get(), ...params, ...cmdParams });
@@ -89,8 +89,9 @@ export class Message {
     let matched = false;
     this[Symbols.command].forEach(async (cmd) => {
       if (matched || !cmd.meta.action) return;
-      matched = true;
       const result = Command.run(params.command, cmd.meta);
+      if (result instanceof CommandError && result.value.type === 'unknown') return;
+      matched = true;
       this.ctx.emit('parse', { result, ...params, cancel: cancel.get() });
       if (cancel.value || result instanceof CommandError) return;
       try {
@@ -107,7 +108,7 @@ export class Message {
           );
         }
         this.ctx.emit('command', {
-          result: executed instanceof CommandError ? result : new CommandError({ type: 'success' }),
+          result: executed instanceof CommandError ? result : executed,
           ...params,
           ...cmdParams
         });

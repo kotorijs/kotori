@@ -64,6 +64,7 @@ export class Context implements ContextImpl {
   }
 
   extends<T extends object = {}>(meta: T = {} as T, identity: string = 'sub') {
+    const selfIdentity = this.identity;
     const metaHandle = meta;
     Object.keys(metaHandle).forEach((key) => {
       if (typeof this[key as keyof typeof this] === 'function') delete metaHandle[key as keyof T];
@@ -78,6 +79,7 @@ export class Context implements ContextImpl {
       const instance = Object.assign(value, { ctx });
       ctx[Symbols.container].set(key, instance);
     });
+    if (selfIdentity !== this.identity) this.identity = selfIdentity;
     return ctx;
   }
 }

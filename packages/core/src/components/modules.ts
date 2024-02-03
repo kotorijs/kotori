@@ -41,12 +41,9 @@ function checkConfig(schema: unknown, config: ModuleConfig) {
 export class Modules {
   private handleExports(identity: string, ctx: Context, exports: obj, config: ModuleConfig) {
     /* before handle */
-    const { lang, config: schema, default: defaults, main, Main } = exports;
-    if (lang) {
-      this.ctx.i18n.use(Array.isArray(lang) ? resolve(...lang) : resolve(lang));
-    }
+    const { lang, config: schema, default: defaults, main, Main } = exports.default;
+    if (lang) this.ctx.i18n.use(Array.isArray(lang) ? resolve(...lang) : resolve(lang));
     /* handle */
-    /* service */
     if (isServiceConsructor(defaults)) {
       /* adapter */
       const adapterName = identity.split(ADAPTER_PREFIX)[1];
@@ -54,7 +51,7 @@ export class Modules {
       if (adapterName && isAdapterClass(defaults)) {
         this.ctx[Symbols.adapter].set(adapterName, [defaults, schema]);
       } /* else if (databaseName && isDatabaseClass(default)) {
-        
+        service and database
       } */
       return undefined;
     }
@@ -92,10 +89,7 @@ export class Modules {
     this.ctx = ctx;
   }
 
-  load(
-    modules: ModuleInstance | string | ModuleInstanceFunction | ModuleInstanceClass,
-    config: ModuleConfig = { filter: {} }
-  ) {
+  async use(modules: ModuleInstance | string | ModuleInstanceFunction | ModuleInstanceClass, config: ModuleConfig) {
     const isObject = typeof modules === 'object';
     const ctx = this.ctx.extends({}, !this.ctx.identity && isObject ? modules.pkg.name : this.ctx.identity);
     if (modules instanceof Function) {
@@ -105,14 +99,15 @@ export class Modules {
     }
     disposeFactory(ctx, () => this.dispose(modules));
     const identity = isObject ? modules.pkg.name : modules;
-    let error: unknown;
-    import(`file://${isObject ? modules.main : resolve(modules)}`)
-      .then((exports) => this.handleExports(identity, ctx, exports, config))
-      .catch((err) => {
-        error = err;
-        this.ctx.emit('error', { error });
-      })
-      .finally(() => this.ctx.emit('ready', { module: modules, state: !error }));
+    try {
+      const exports = await import(`file://${isObject ? modules.main : resolve(modules)}`);
+      const error = this.handleExports(identity, ctx, exports, config);
+      if (error) throw error;
+      this.ctx.emit('ready', { module: modules, state: true });
+    } catch (error) {
+      this.ctx.emit('ready', { module: modules, state: false });
+      if (error) this.ctx.emit('error', { error });
+    }
   }
 
   dispose(modules: ModuleInstance | string) {

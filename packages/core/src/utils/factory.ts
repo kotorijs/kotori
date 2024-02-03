@@ -1,7 +1,7 @@
 import type { Context } from '../context';
 
 export function disposeFactory(ctx: Context, dispose: Function) {
-  ctx.on('dispose', (session) => {
+  ctx.once('dispose', (session) => {
     if (!session.module) {
       dispose();
       return;

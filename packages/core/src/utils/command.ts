@@ -87,7 +87,7 @@ export class Command {
     };
     if (nums.reality < nums.expected) return new CommandError({ type: 'arg_few', ...nums });
     nums.expected = data.args.length;
-    if (!data.args[data.args.length - 1].rest && nums.reality > nums.expected)
+    if ((data.args.length <= 0 || !data.args[data.args.length - 1].rest) && nums.reality > nums.expected)
       return new CommandError({ type: 'arg_many', ...nums });
     let error: CommandError | undefined;
     data.args.forEach((val, index) => {
@@ -118,7 +118,7 @@ export class Command {
     });
     if (error) return error;
     return {
-      args: data.args[data.args.length - 1].rest ? args : args.slice(0, data.args.length),
+      args: data.args.length > 0 && data.args[data.args.length - 1].rest ? args : args.slice(0, data.args.length),
       options
     };
   }

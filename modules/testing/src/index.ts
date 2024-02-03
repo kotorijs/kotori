@@ -1,4 +1,4 @@
-import Kotori from 'kotori-bot';
+import Kotori, { MessageScope } from 'kotori-bot';
 
 Kotori.command('echo <content> [num:number=3]')
   .action((data, session) => {
@@ -12,7 +12,7 @@ Kotori.command('echo <content> [num:number=3]')
     ];
   })
   .alias('print')
-  .scope('group');
+  .scope(MessageScope.GROUP);
 
 Kotori.regexp(/^(.*)#print$/, (match) => match[1]);
 
