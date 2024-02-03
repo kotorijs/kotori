@@ -35,7 +35,7 @@ export class Profile {
 			if (role === 'member') titleRaw[1] = 'BlueViolet';
 		}
 
-		const { 0: level, 1: totalExp, 2: avg } = Profile.getLevel(this.exp);
+		const [ level,  totalExp, avg ] = Profile.getLevel(this.exp);
 		const progress = Profile.renderProgress(level >= config.maxLevel ? 100 : avg);
 		return { titleRaw, nickname, sexColor, level, totalExp: level >= config.maxLevel ? '~' : totalExp, progress };
 	};

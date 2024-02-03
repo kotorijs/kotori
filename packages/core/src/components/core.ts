@@ -23,7 +23,7 @@ declare module '../context' {
     /* Modules */
     load(modules: Parameters<Modules['load']>[0], config?: Parameters<Modules['load']>[1]): void;
     dispose(modules: Parameters<Modules['dispose']>[0]): void;
-    /* message */
+    /* Message */
     midware(callback: Parameters<Message['midware']>[0], priority?: Parameters<Message['midware']>[1]): () => void;
     command(
       template: Parameters<Message['command']>[0],

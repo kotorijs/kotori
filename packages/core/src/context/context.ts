@@ -3,7 +3,6 @@ import Symbols from './symbols';
 interface ContextOrigin {
   readonly [Symbols.container]: Map<string | symbol, object>;
   root: Context;
-  identity?: string;
   get(prop: string): object | undefined;
   inject<T extends object = object>(prop: string, value: T): void;
   provide<T extends object>(prop: string | symbol, value: T): void;
@@ -11,9 +10,15 @@ interface ContextOrigin {
   extends<T extends object>(meta?: T, identity?: string): Context;
 }
 
-export interface Context extends ContextOrigin {}
+interface ContextImpl extends ContextOrigin {}
 
-export class Context implements Context {
+declare module './context' {
+  interface Context {
+    identity?: string;
+  }
+}
+
+export class Context implements ContextImpl {
   readonly [Symbols.container]: Map<string | symbol, object> = new Map();
 
   root: Context;

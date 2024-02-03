@@ -189,7 +189,7 @@ export class OnebotAdapter extends Adapter {
   private async connectWss() {
     if (this.config.mode === 'ws-reverse') {
       const wss = await WsServer(this.config.port);
-      const { 0: socket } = wss;
+      const [socket] = wss;
       this.socket = socket;
       this.ctx.emit('connect', {
         service: this,

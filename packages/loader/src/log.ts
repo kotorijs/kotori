@@ -1,6 +1,6 @@
-import type { Context, PackageInfo } from '@kotori-bot/core';
+import type { Context } from '@kotori-bot/core';
 
-export function loadInfo(info: PackageInfo, ctx: Context) {
+export function loadInfo(info: Context['pkg'], ctx: Context) {
   console.info('Kotori Bot is loading...');
   console.info(`
 ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗

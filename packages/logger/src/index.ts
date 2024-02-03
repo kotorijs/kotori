@@ -67,7 +67,6 @@ export class Logger {
 
   /* whole logger need to feat */
   static print(args: unknown[], level: LoggerLevel) {
-    /* global globalThis */
     if ((globalThis as unknown as { env_mode: string }).env_mode !== 'dev' && level === LoggerLevel.DEBUG) return;
 
     let message = '';
