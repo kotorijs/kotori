@@ -1,6 +1,4 @@
-import Tsu from 'tsukiko';
-import type { obj } from '@kotori-bot/tools';
-import { type ModuleConfig, localeTypeSchema } from './config';
+import { LocaleType } from '@kotori-bot/i18n';
 import type { EventDataBase } from './core';
 
 declare module './core' {
@@ -12,46 +10,39 @@ declare module './core' {
 }
 
 interface EventDataReady extends EventDataBase<'ready'> {
-  module?: ModuleInstance /* | string */;
+  module?: ModuleInstance | string;
   state?: boolean;
 }
 
 interface EventDataError extends EventDataBase<'error'> {
-  error: Error;
+  error: unknown;
 }
 
 interface EventDataDispose extends EventDataBase<'dispose'> {
-  module?: ModuleInstance /* | string */;
+  module?: ModuleInstance | string;
 }
 
-export const modulePackageSchema = Tsu.Object({
-  name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
-  version: Tsu.String(),
-  description: Tsu.String(),
-  main: Tsu.String(),
-  license: Tsu.Literal('GPL-3.0'),
-  author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
-  peerDependencies: Tsu.Object({
-    'kotori-bot': Tsu.String()
-  }),
-  kotori: Tsu.Object({
-    enforce: Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')]).optional(),
-    meta: Tsu.Object({
-      language: Tsu.Array(localeTypeSchema).default([]),
-      service: Tsu.Array(Tsu.String()).default([])
-    }).default({ language: [], service: [] })
-  }).default({
-    enforce: undefined,
-    meta: { language: [], service: [] }
-  })
-});
-
-export type ModulePackage = Tsu.infer<typeof modulePackageSchema>;
+export interface ModulePackage {
+  name: string;
+  version: string;
+  description: string;
+  main: string;
+  license: 'GPL-3.0';
+  author: string | string[];
+  peerDependencies: {
+    'kotori-bot': string;
+    [propName: string]: string;
+  };
+  kotori: {
+    enforce?: 'pre' | 'post';
+    meta: {
+      language: LocaleType[];
+    };
+  };
+}
 
 export interface ModuleInstance {
-  package: ModulePackage;
-  config: ModuleConfig;
-  exports: obj;
-  fileList: string[];
-  // main: string;
+  pkg: ModulePackage;
+  files: string[];
+  main: string;
 }

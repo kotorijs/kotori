@@ -1,5 +1,30 @@
 import { obj } from '../types';
 
+/* declare global {
+  interface Function {
+    before(fn: Function): Function;
+    after(fn: Function): Function;
+  }
+} */
+
+/* eslint no-extend-native: 0 */
+/* eslint func-names: 0 */
+/* Function.prototype.before = function (fn) {
+  const self = this;
+  return function (...args: unknown[]) {
+    fn();
+    self.apply(this, args);
+  };
+};
+
+Function.prototype.after = function (fn) {
+  const self = this;
+  return function (...args: unknown[]) {
+    self.apply(this, args);
+    fn();
+  };
+}; */
+
 /* export const initialize: MethodDecorator = (_, __, val) => {
 	if (val.value instanceof Function) val.value();
 }; */

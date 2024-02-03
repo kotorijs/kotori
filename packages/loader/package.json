@@ -6,7 +6,8 @@
   "main": "lib/index.js",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "dependencies": {
-    "@kotori-bot/core": "workspace:^"
+    "@kotori-bot/core": "workspace:^",
+    "@kotori-bot/i18n": "workspace:^"
   },
   "files": [
     "lib"

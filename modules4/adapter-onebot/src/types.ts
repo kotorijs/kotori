@@ -3,10 +3,10 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-02 21:03:06
+ * @LastEditTime: 2023-12-02 13:50:39
  */
 
-import { EventsList } from 'kotori-bot';
+import { EventDataMsgSender } from 'kotori-bot';
 
 export interface BotInfo {
   self_id: number;
@@ -464,7 +464,7 @@ export type EvenetSenderRoleType = 'owner' | 'admin' | 'member';
 export interface EventSenderType {
   user_id: number;
   nickname: string;
-  sex: EventsList['group_msg']['sender']['sex'];
+  sex: EventDataMsgSender['sex'];
   age: number;
   group_id?: number;
   card?: string;

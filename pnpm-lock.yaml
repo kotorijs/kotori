@@ -119,6 +119,9 @@ importers:
       '@kotori-bot/core':
         specifier: workspace:^
         version: link:../core
+      '@kotori-bot/i18n':
+        specifier: workspace:^
+        version: link:../i18n
 
   packages/logger:
     dependencies:

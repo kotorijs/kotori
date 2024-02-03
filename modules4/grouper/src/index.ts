@@ -212,7 +212,7 @@ Alias('猜', (_send, data) => {
 	const at = SDK.cq_at(data.userId);
 	if (!Guess.guessData[data.userId]) return ['%at%哎呀~你还有没有开始游戏哦<(＿.＿)>,发送"猜数字"开始游戏', { at }];
 	const guess = parseInt(Core.args[1], 10);
-	const { 0: answer, 1: count } = Guess.guessData[data.userId];
+	const [answer,  count ] = Guess.guessData[data.userId];
 	const result = Guess.guess(data.userId, guess);
 
 	if (!result) {

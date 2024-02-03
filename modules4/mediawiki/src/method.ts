@@ -7,14 +7,14 @@ export function fetchWiki(wikiUrl: string, action: string, params: object) {
     explaintext: '',
     prop: 'extracts',
     format: 'json',
-    ...params,
+    ...params
   });
 }
 
 export async function wikiSearch(api: string, keyword: string) {
   const result = (await fetchWiki(api, 'query', {
     list: 'search',
-    srsearch: keyword,
+    srsearch: keyword
   })) as any;
   if (
     !result ||
@@ -26,7 +26,7 @@ export async function wikiSearch(api: string, keyword: string) {
 
   let searchData = result.query.search;
   if (Array.isArray(searchData)) {
-    const { 0: temp } = searchData;
+    const [temp] = searchData;
     searchData = temp;
   }
   const data = (await fetchWiki(api, 'query', { pageids: searchData.pageid })) as any;

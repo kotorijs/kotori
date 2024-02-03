@@ -141,7 +141,7 @@ export class Command {
   }
 
   private parse() {
-    const { 0: str, 1: description } = this.template.trim().split(' - ');
+    const [str, description] = this.template.trim().split(' - ');
     this.meta.description = description; // set description
     /* handle root */
     const requiredIndex = str.indexOf(' <');
@@ -204,8 +204,8 @@ export class Command {
   }
 
   option(name: string, template: string) {
-    const { 0: str, 1: description } = template.trim().split(' ');
-    const { 0: realname, 1: type } = str.split(':');
+    const [str, description] = template.trim().split(' ');
+    const [realname, type] = str.split(':');
     this.meta.options.push({
       realname,
       description,

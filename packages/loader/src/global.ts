@@ -1,16 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  CoreError,
-  CoreConfig,
-  TsuError,
-  loadConfig,
-  obj,
-  Tsu,
-  localeTypeSchema,
-  DEFAULT_CORE_CONFIG
-} from '@kotori-bot/core';
-import { DEFAULT_LANG } from '../../i18n/src';
+import { CoreError, CoreConfig, TsuError, loadConfig, obj, Tsu, DEFAULT_CORE_CONFIG } from '@kotori-bot/core';
+import { DEFAULT_LANG, DEFAULT_SUPPORTS, LocaleType } from '@kotori-bot/i18n';
+
+export const localeTypeSchema = Tsu.Custom<LocaleType>(
+  (val) => typeof val === 'string' && DEFAULT_SUPPORTS.includes(val as LocaleType)
+);
 
 export function isDev() {
   return (globalThis as obj).env_mode === 'dev';
