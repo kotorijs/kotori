@@ -25,6 +25,7 @@
     "no-redeclare": 0
   },
   "ignorePatterns": [
-    "*.js"
+    "*.js",
+    "*.d.ts"
   ]
 }

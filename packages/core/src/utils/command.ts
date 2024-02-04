@@ -62,7 +62,7 @@ export class Command {
     let starts = '';
     [data.root, ...data.alias].forEach((el) => {
       if (starts) return;
-      if (input.startsWith(el)) starts = el;
+      if (input.startsWith(`${el} `) || input === el) starts = el;
     });
     if (!starts) return new CommandError({ type: 'unknown', input });
     /* handle CommandOption[] to minimist.opts */
@@ -76,7 +76,7 @@ export class Command {
       opts.alias[option.realname] = option.name;
     });
     /* parse by minimist */
-    const arr = parseArgs(input.split(starts)[1].trim());
+    const arr = parseArgs(input.slice(starts.length).trim());
     if (!Array.isArray(arr)) return new CommandError({ type: 'syntax', ...arr });
     const result = minimist(arr, opts);
     /* handle args */
@@ -150,9 +150,9 @@ export class Command {
       this.meta.root = str.trim();
       return;
     }
-    if ((optionalIndex === -1 && requiredIndex !== -1) || requiredIndex < optionalIndex) {
+    if (requiredIndex !== -1 && (optionalIndex === -1 || requiredIndex < optionalIndex)) {
       this.meta.root = str.substring(0, requiredIndex).trim();
-    } else if ((optionalIndex !== -1 && requiredIndex === -1) || optionalIndex < requiredIndex) {
+    } else {
       this.meta.root = str.substring(0, optionalIndex).trim();
     }
     /* handle args */

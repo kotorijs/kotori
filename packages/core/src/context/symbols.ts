@@ -1,6 +1,8 @@
 export class Symbols {
   static readonly container = Symbol.for('kotori.context.container');
 
+  static readonly table = Symbol.for('kotori.context.table');
+
   static readonly containerKey = (prop: string) => Symbol.for(`kotori.context.container.${prop}`);
 
   /* custom */
@@ -16,7 +18,7 @@ export class Symbols {
 
   static readonly regexp = Symbol.for('kotori.core.regexp');
 
-  static readonly module = Symbol.for('kotori.loader.module');
+  static readonly modules = Symbol.for('kotori.loader.module');
 }
 
 export default Symbols;

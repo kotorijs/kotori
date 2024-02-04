@@ -1,10 +1,10 @@
 {
-  "bangumi.descr.bgm": "番组計劃搜索遊戲/動漫",
+  "bangumi.descr.bgm": "番組計劃搜索遊戲/動漫",
   "bangumi.descr.bgmc": "獲取番組計劃今日放送",
-  "bangumi.msg.bgm": "原名： %name%\n中文名： %name_cn%\n介紹： %summary%\n標簽： %tags%\n詳情： %url%\n%image%",
-  "bangumi.msg.bgm.list": "%num%。%name%%name_cn%\n",
+  "bangumi.msg.bgm": "原名：%name%\n中文名：%name_cn%\n介紹：%summary%\n標簽：%tags%\n詳情：%url%\n%image%",
+  "bangumi.msg.bgm.list": "%num%.%name%%name_cn%\n",
   "bangumi.msg.bgm.lists": "%list%再次發送指令並傳入參數[序號]以選擇對應內容\n示例：/指令 內容 2",
-  "bangumi.msg.bgm.fail": "未找到相關條目： %input%",
-  "bangumi.msg.bgmc": "日期： %weekday%~%list%",
-  "bangumi.msg.bgmc.list": "\n原名： %name%\n中文名： %name_cn%\n開播時間： %air_date%\n%image%"
+  "bangumi.msg.bgm.fail": "未找到相關條目：%input%",
+  "bangumi.msg.bgmc": "日期：%weekday%~%list%",
+  "bangumi.msg.bgmc.list": "\n原名：%name%\n中文名：%name_cn%\n開播時間：%air_date%\n%image%"
 }

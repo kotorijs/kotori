@@ -1,6 +1,7 @@
 import { Container } from '@kotori-bot/core';
 
 export * from '@kotori-bot/core';
+export * from '@kotori-bot/loader';
 
 // const ctx = Container.get();
 

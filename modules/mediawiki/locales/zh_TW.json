@@ -2,13 +2,13 @@
   "mediawiki.descr.wiki": "搜索MediaWiki",
   "mediawiki.msg.wiki.empty": "暫時還沒有wiki列表，使用\"/wikio add\"以添加新的MediaWiki",
   "mediawiki.msg.wiki.error": "錯誤的序號不存在該WIKI，使用\"/wikil\"查看當前MediaWiki列表",
-  "mediawiki.msg.wiki.fail": "未查詢到相關內容： %input%",
-  "mediawiki.msg.wiki": "標題： %title%\n內容： %extract%\n%url%\n來源： %name%",
+  "mediawiki.msg.wiki.fail": "未查詢到相關內容：%input%",
+  "mediawiki.msg.wiki": "標題：%title%\n內容：%extract%\n%url%\n來源：%name%",
   "mediawiki.descr.wikil": "查看MediaWiki列表",
   "mediawiki.msg.wikil": "MediaWiki列表：%list%",
   "mediawiki.msg.wikil.list": "\n%num%.%name% - %api%",
   "mediawiki.descr.wikio.del": "刪除MediaWiki",
   "mediawiki.descr.wikio.add": "添加MediaWiki",
-  "mediawiki.msg.wikio.del": "成功刪除MediaWiki： %input%",
-  "mediawiki.msg.wikio.add": "成功添加MediaWiki： %input%"
+  "mediawiki.msg.wikio.del": "成功刪除MediaWiki：%input%",
+  "mediawiki.msg.wikio.add": "成功添加MediaWiki：%input%"
 }

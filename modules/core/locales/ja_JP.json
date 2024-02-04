@@ -2,17 +2,10 @@
   "core.descr.core": "インスタンスの統計を表示",
   "core.descr.bot": "現在のbotの情報と実行状態を表示",
   "core.descr.bots": "すべてのbotの情報と実行状態を表示",
-  "core.descr.version": "バージョン情報を表示",
-  "core.descr.about": "ヘルプ情報",
-  "core.descr.update": "更新をチェックする",
-  "core.msg.bot": "ID:%identity%\n言語:%lang%\nプラットフォーム:%platform%\nセルフID:%self_id%\n接続時間:%create_time%\n受信メッセージ数:%received_msg%\n送信メッセージ数:%sent_msg%\nオフライン回数:%offline_times%\n最終メッセージ時間:%last_msg_time%",
-  "core.msg.core": "グローバル言語:%lang%\nルートディレクトリ:%root%\n実行モード:%mode%\nモジュール数:%modules%\nサービス数:%services%\nボットインスタンス数:%bots%\nミドルウェア数:%midwares%\nコマンド数:%commands%\n正規表現数:%regexps%",
-  "core.msg.bots": "ボットリスト:%list%",
-  "core.msg.bots.list": "\n----------\nID:%identity%\n言語:%lang%\nプラットフォーム:%platform%\n状態:%status%",
-  "core.msg.version": "Kotoriバージョン:%version%\nライセンス:%license%\nNodeJSバージョン:%node_version%",
-  "core.msg.about": "kotoriはNodeJS上で稼働するクロスプラットフォームのチャットボットフレームワークです。",
-  "core.msg.update": "現在のバージョン:%version%\n%content%",
-  "core.msg.update.yes": "最新版です!",
-  "core.msg.update.no": "更新があります!\n最新バージョン:%version%\nGithubのリポジトリから最新版を取得してください:%repo%",
-  "core.msg.update.fail": "更新のチェックに失敗しました!"
+  "core.descr.about": "バージョン情報を表示",
+  "core.msg.bot": "ID：%identity%\n言語：%lang%\nプラットフォーム：%platform%\nセルフID：%self_id%\n接続時間：%create_time%\n受信メッセージ数：%received_msg%\n送信メッセージ数：%sent_msg%\nオフライン回数：%offline_times%\n最終メッセージ時間：%last_msg_time%",
+  "core.msg.core": "グローバル言語：%lang%\nルートディレクトリ：%root%\n実行モード：%mode%\nモジュール数：%modules%\nサービス数：%services%\nボットインスタンス数：%bots%\nミドルウェア数：%midwares%\nコマンド数：%commands%\n正規表現数：%regexps%",
+  "core.msg.bots": "ボットリスト：%list%",
+  "core.msg.bots.list": "\n----------\nID：%identity%\n言語：%lang%\nプラットフォーム：%platform%\n状態：%status%",
+  "core.msg.about": "Kotoriバージョン：%version%\nライセンス：%license%\nNodeJSバージョン：%node_version%"
 }

@@ -3,7 +3,6 @@ import data from './data';
 
 export class Main {
   constructor(Ctx: Context) {
-    console.log(Ctx.identity);
     Ctx.on('group_increase', (data) => Main.handle(data));
   }
 

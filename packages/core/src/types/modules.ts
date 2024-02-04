@@ -27,6 +27,7 @@ export interface ModulePackage {
   version: string;
   description: string;
   main: string;
+  keywords: string[];
   license: 'GPL-3.0';
   author: string | string[];
   peerDependencies: {

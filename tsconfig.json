@@ -8,9 +8,5 @@
         "packages/*/src"
       ]
     },
-  },
-  "include": [
-    "packages/*/src/**/*.ts",
-    "modules/*/src/**/*.ts"
-  ],
+  }
 }

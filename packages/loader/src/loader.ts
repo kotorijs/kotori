@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-03 20:37:57
+ * @LastEditTime: 2024-02-04 21:17:05
  */
 import {
   KotoriError,
@@ -13,28 +13,24 @@ import {
   type AdapterConfig,
   type CoreConfig,
   Adapter,
-  Parser,
-  type AdapterClass,
   Symbols,
   DEFAULT_CORE_CONFIG,
   loadConfig,
   TsuError,
-  CoreError,
   obj,
   Core,
-  Context,
-  ModuleInstance,
-  ModuleConfig
+  Context
 } from '@kotori-bot/core';
 import { DEFAULT_LANG } from '@kotori-bot/i18n';
 import path, { join } from 'path';
 import { existsSync } from 'fs';
 import Modules, { localeTypeSchema } from './modules';
 import loadInfo from './log';
+import { SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from '.';
 
 declare module '@kotori-bot/core' {
   interface Context {
-    readonly [Symbols.module]?: Set<[ModuleInstance, ModuleConfig]>;
+    readonly [Symbols.modules]?: Modules[typeof Symbols.modules];
     useAll(): void; // Symbols
     watcher(): void;
   }
@@ -60,13 +56,18 @@ function getBaseDir() {
   let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
   let count = 0;
   while (!existsSync(path.join(root, CONFIG_FILE()))) {
-    if (count > 5) throw new CoreError(`cannot find kotori-bot global ${CONFIG_FILE()}`);
+    if (count > 5) {
+      /* eslint no-console: 0 */
+      console.error(`cannot find kotori-bot global ${CONFIG_FILE()}`);
+      process.exit();
+    }
     root = path.join(root, '..');
     count += 1;
   }
   return { root, modules: path.join(root, 'modules') };
 }
 
+/* eslint consistent-return: 0 */
 function getCoreConfig(baseDir: CoreConfig['baseDir']) {
   try {
     const result1 = Tsu.Object({
@@ -99,7 +100,8 @@ function getCoreConfig(baseDir: CoreConfig['baseDir']) {
     }).parse(result1) as CoreConfig['config'];
   } catch (err) {
     if (!(err instanceof TsuError)) throw err;
-    throw new CoreError(`kotori-bot global ${CONFIG_FILE} format error: ${err.message}`);
+    console.error(`kotori-bot global ${CONFIG_FILE} format error: ${err.message}`);
+    process.exit();
   }
 }
 
@@ -190,12 +192,23 @@ export class Loader extends Container {
             Array.isArray(author) ? `Authors: ${author.join(',')}` : `Author: ${author}`
           }`
         );
+        const requiredVersion = data.module.pkg.peerDependencies['kotori-bot'];
+        if (
+          !requiredVersion.includes('workspace') &&
+          (!SUPPORTS_VERSION.exec(requiredVersion) || requiredVersion !== this.ctx.pkg.version)
+        ) {
+          this.ctx.logger.warn(
+            SUPPORTS_HALF_VERSION.exec(requiredVersion)
+              ? `Incomplete supported module version: ${requiredVersion}`
+              : `Unsupported module version: ${requiredVersion}`
+          );
+        }
       } else {
         this.failLoadCount += 1;
       }
-      if (this.loadCount !== this.ctx[Symbols.module]!.size) return;
+      if (this.loadCount !== this.ctx.get('modulesall')![Symbols.modules].size) return;
       this.ctx.logger.info(
-        `Loaded ${this.loadCount} modules (plugins)${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''}`
+        `Loaded ${this.loadCount - this.failLoadCount} modules ${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''}`
       );
       this.loadAllService();
       this.ctx.emit('ready', {});
@@ -212,11 +225,11 @@ export class Loader extends Container {
     const adapters = this.ctx[Symbols.adapter];
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
-      if (!adapters.has(botConfig.extends)) {
+      const array = adapters.get(botConfig.extends);
+      if (!array) {
         this.ctx.logger.warn(`Cannot find adapter '${botConfig.extends}' for ${botName}`);
         return;
       }
-      const array: [AdapterClass, Parser<unknown>?] = adapters.get(botConfig.extends);
       const isSchema = array[1]?.parseSafe(botConfig);
       if (isSchema && !isSchema.value) return;
       /* adapter donot support hot reload, so no extends for context */
@@ -225,7 +238,6 @@ export class Loader extends Container {
         if (data.module) return;
         bot.start();
       });
-      bot.start();
     });
     /* load custom services after adapters */
   }

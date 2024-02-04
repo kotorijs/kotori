@@ -1,7 +1,7 @@
 import { Elements, EventDataTargetId, none } from 'kotori-bot';
 import QQAdapter from './adapter';
 
-export class QQElements extends Elements /* <QQAdapter>*/ {
+export class QQElements extends Elements /* <QQAdapter> */ {
   image(url: string) {
     const seq = (this.adapter as QQAdapter).msg_seq;
     (this.adapter as QQAdapter).imageStack[seq] = true;

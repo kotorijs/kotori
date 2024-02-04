@@ -3,39 +3,45 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-24 22:18:10
+ * @LastEditTime: 2024-02-04 20:22:39
  */
-import { Context, EventDataMsg, MessageQuick, obj } from 'kotori-bot';
-import config from './config';
+import { Context, EventDataMsg, MessageQuick, Tsu, obj } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
 const penisData: obj<number> = {};
 
-function getNewLength() {
-  const { max, min } = config;
-  const range = max - min + 1;
-  const index = Math.floor(Math.random() * range);
-  const result = min + index;
-  return result;
-}
-
-const todayLength = (session: EventDataMsg): MessageQuick => {
-  if (!(session.userId in penisData)) {
-    penisData[session.userId] = getNewLength();
-  }
-  const todayLength = penisData[session.userId];
-  const params = {
-    at: session.el.at(session.userId),
-    length: todayLength
-  };
-  if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];
-  if (todayLength > 0 && todayLength <= config.joke) return ['newnew.msg.today_length.info.1', params];
-  return ['newnew.msg.today_length.info.0', params];
-};
+export const config = Tsu.Object({
+  max: Tsu.Number().default(30),
+  min: Tsu.Number().default(-30),
+  joke: Tsu.Number().default(10),
+  avgMinNum: Tsu.Number().default(5)
+});
 
 export class Main {
-  constructor(Ctx: Context) {
+  constructor(Ctx: Context, Config: Tsu.infer<typeof config>) {
+    function getNewLength() {
+      const { max, min } = Config;
+      const range = max - min + 1;
+      const index = Math.floor(Math.random() * range);
+      const result = min + index;
+      return result;
+    }
+
+    const todayLength = (session: EventDataMsg): MessageQuick => {
+      if (!(session.userId in penisData)) {
+        penisData[session.userId] = getNewLength();
+      }
+      const todayLength = penisData[session.userId];
+      const params = {
+        at: session.el.at(session.userId),
+        length: todayLength
+      };
+      if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];
+      if (todayLength > 0 && todayLength <= Config.joke) return ['newnew.msg.today_length.info.1', params];
+      return ['newnew.msg.today_length.info.0', params];
+    };
+
     Ctx.command('今日长度').action((_, session) => todayLength(session));
 
     Ctx.regexp(

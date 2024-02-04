@@ -1,6 +1,6 @@
 {
     "querytool.descr.github": "查詢Github倉庫信息",
-    "querytool.msg.github": "地址: %name%\n描述: %description%\n語言： %language%\n所有者： %author%\n創建時間：\n %create%\n最後更新時間： %update%\n最後推送時間： %push%\n開源協議： %license%",
+    "querytool.msg.github": "地址：%name%\n描述：%description%\n語言：%language%\n所有者：%author%\n創建時間：\n %create%\n最後更新時間：%update%\n最後推送時間：%push%\n開源協議：%license%",
     "querytool.msg.github.image": "%image%",
-    "querytool.msg.github.fail": "未找到倉庫： %input%"
+    "querytool.msg.github.fail": "未找到倉庫：%input%"
 }

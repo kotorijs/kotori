@@ -13,8 +13,8 @@ declare module '../context' {
   interface Context extends Events<EventsList> {}
   interface Context {
     /* Core */
-    readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]>;
-    readonly [Symbols.bot]: Map<string, Set<Api>>;
+    readonly [Symbols.adapter]: Core[typeof Symbols.adapter];
+    readonly [Symbols.bot]: Core[typeof Symbols.bot];
     /* Config */
     readonly pkg: Config['pkg'];
     readonly baseDir: Config['baseDir'];
@@ -24,6 +24,11 @@ declare module '../context' {
     use(modules: Parameters<Modules['use']>[0], config?: Parameters<Modules['use']>[1]): void;
     dispose(modules: Parameters<Modules['dispose']>[0]): void;
     /* Message */
+    readonly [Symbols.midware]: Message[typeof Symbols.midware];
+
+    readonly [Symbols.command]: Message[typeof Symbols.command];
+
+    readonly [Symbols.regexp]: Message[typeof Symbols.regexp];
     midware(callback: Parameters<Message['midware']>[0], priority?: Parameters<Message['midware']>[1]): () => void;
     command(
       template: Parameters<Message['command']>[0],
@@ -38,9 +43,9 @@ declare module '../context' {
 }
 
 export class Core extends Context {
-  readonly [Symbols.adapter] = new Map();
+  readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]> = new Map();
 
-  readonly [Symbols.bot] = new Map();
+  readonly [Symbols.bot]: Map<string, Set<Api>> = new Map();
 
   constructor(config?: ConstructorParameters<typeof Config>[0]) {
     super();
@@ -52,8 +57,10 @@ export class Core extends Context {
     this.mixin('modules', ['use', 'dispose']);
     this.provide('message', new Message(this));
     this.mixin('message', ['midware', 'command', 'regexp']);
-    this.inject('http', new Http({ validateStatus: () => true }));
-    this.inject('i18n', new I18n({ lang: this.config.global.lang }));
+    this.provide('http', new Http({ validateStatus: () => true }));
+    this.inject('http');
+    this.provide('i18n', new I18n({ lang: this.config.global.lang }));
+    this.inject('i18n');
     const logger = Object.assign(
       Logger,
       new Proxy(Logger.debug, {
@@ -62,7 +69,8 @@ export class Core extends Context {
         }
       })
     );
-    this.inject('logger', logger);
+    this.provide('logger', logger);
+    this.inject('logger');
   }
 }
 

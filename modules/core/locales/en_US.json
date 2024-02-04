@@ -2,17 +2,10 @@
   "core.descr.core": "View instance statistics",
   "core.descr.bot": "View current bot info and running status",
   "core.descr.bots": "View all bots info and running status",
-  "core.descr.version": "View version info",
-  "core.descr.about": "Help information",
-  "core.descr.update": "Check for updates",
+  "core.descr.about": "View about info",
   "core.msg.bot": "ID: %identity%\nLanguage: %lang%\nPlatform: %platform%\nSelf ID: %self_id%\nConnect Time: %create_time%\nMessages Received: %received_msg%\nMessages Sent: %sent_msg%\nOffline Times: %offline_times%\nLast Message Time: %last_msg_time%",
-  "core.msg.core": "Global Language: %lang%\nRoot Directory: %root%\nRunning Mode: %mode%\n# of Modules: %modules%\n# of Services: %services%\n# of Bots: %bots%\n# of Middlewares: %midwares%\n# of Commands: %commands%\n# of Regexps: %regexps%",
+  "core.msg.core": "Global Language: %lang%\nRoot Directory: %root%\nRunning Mode: %mode%\nNumber of Modules: %modules%\nNumber of Services: %services%\nNumber of Bots: %bots%\nNumber of Middlewares: %midwares%\nNumber of Commands: %commands%\nNumber of Regexps: %regexps%",
   "core.msg.bots": "Bot List: %list%",
   "core.msg.bots.list": "\n----------\nID: %identity%\nLanguage: %lang%\nPlatform: %platform%\nStatus: %status%",
-  "core.msg.version": "Kotori Version: %version%\nLicense: %license%\nNodeJS Version: %node_version%",
-  "core.msg.about": "Kotori is a cross-platform, decoupled, and modern chatbot framework running on NodeJS using TypeScript.",
-  "core.msg.update": "Current Version: %version%\n%content%",
-  "core.msg.update.yes": "Already the latest version!",
-  "core.msg.update.no": "Update detected!\nLatest Version:%version%\nPlease get the latest version from Github repo: %repo%",
-  "core.msg.update.fail": "Failed to check for updates!"
+  "core.msg.about": "Kotori Version: %version%\nLicense: %license%\nNodeJS Version: %node_version%"
 }

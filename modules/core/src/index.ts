@@ -3,93 +3,74 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-30 19:39:05
+ * @LastEditTime: 2024-02-04 18:37:11
  */
 
-import Kotori, { Tsu, formatTime, stringTemp } from 'kotori-bot';
-import { resolve } from 'path';
+import { Context, Symbols, formatTime, stringTemp } from 'kotori-bot';
 
-Kotori.i18n.use(resolve(__dirname, '../locales'));
+export const lang = [__dirname, '../locales'];
 
-Kotori.command('core - core.descr.core').action((_, events) => {
-  const { config, baseDir, options, internal } = events.api.adapter.ctx;
-  let botsLength = 0;
-  Object.values(internal.getBots()).forEach((bots) =>
-    bots.forEach(() => {
-      botsLength += 1;
-    })
-  );
-  return [
-    'core.msg.core',
-    {
-      lang: config.global.lang,
-      root: baseDir.root,
-      mode: options.env,
-      modules: internal.getModules().length,
-      services: Object.values(internal.getServices()).length,
-      bots: botsLength,
-      midwares: internal.getMidwares().length,
-      commands: internal.getCommands().length,
-      regexps: internal.getRegexps().length
-    }
-  ];
-});
+export function main(ctx: Context) {
+  ctx.command('core - core.descr.core').action((_, events) => {
+    const { config, baseDir, options } = events.api.adapter.ctx;
+    let botsLength = 0;
+    ctx[Symbols.bot].forEach((bots) =>
+      bots.forEach(() => {
+        botsLength += 1;
+      })
+    );
+    return [
+      'core.msg.core',
+      {
+        lang: config.global.lang,
+        root: baseDir.root,
+        mode: options.env,
+        modules: ctx[Symbols.modules] ? ctx[Symbols.modules]!.size : 0,
+        services: ctx[Symbols.adapter].size,
+        bots: botsLength,
+        midwares: ctx[Symbols.midware].size,
+        commands: ctx[Symbols.command].size,
+        regexps: ctx[Symbols.regexp].size
+      }
+    ];
+  });
 
-Kotori.command('bot - core.descr.bot').action((_, events) => {
-  const { identity, platform, selfId, config, status } = events.api.adapter;
-  return [
-    'core.msg.bot',
-    {
-      identity,
-      lang: config.lang,
-      platform,
-      self_id: selfId,
-      create_time: formatTime(status.createTime),
-      last_msg_time: formatTime(status.lastMsgTime),
-      received_msg: status.receivedMsg,
-      sent_msg: status.sentMsg,
-      offline_times: status.offlineTimes
-    }
-  ];
-});
-
-Kotori.command('bots - core.descr.bots').action((_, events) => {
-  let list = '';
-  Object.values(events.api.adapter.ctx.internal.getBots()).forEach((bots) =>
-    bots.forEach((bot) => {
-      const { identity, platform, config, status } = bot.adapter;
-      list += stringTemp(events.i18n.locale('core.msg.bots.list'), {
+  ctx.command('bot - core.descr.bot').action((_, events) => {
+    const { identity, platform, selfId, config, status } = events.api.adapter;
+    return [
+      'core.msg.bot',
+      {
         identity,
         lang: config.lang,
         platform,
-        status: status.value
-      });
-    })
-  );
-  return ['core.msg.bots', { list }];
-});
+        self_id: selfId,
+        create_time: formatTime(status.createTime),
+        last_msg_time: formatTime(status.lastMsgTime),
+        received_msg: status.receivedMsg,
+        sent_msg: status.sentMsg,
+        offline_times: status.offlineTimes
+      }
+    ];
+  });
 
-Kotori.command('version - core.descr.version').action((_, events) => {
-  const { version, license } = events.api.adapter.ctx.package;
-  return ['core.msg.version', { version, license, node_version: process.version }];
-});
+  ctx.command('bots - core.descr.bots').action((_, events) => {
+    let list = '';
+    ctx[Symbols.bot].forEach((bots) =>
+      bots.forEach((bot) => {
+        const { identity, platform, config, status } = bot.adapter;
+        list += stringTemp(events.i18n.locale('core.msg.bots.list'), {
+          identity,
+          lang: config.lang,
+          platform,
+          status: status.value
+        });
+      })
+    );
+    return ['core.msg.bots', { list }];
+  });
 
-Kotori.command('about - core.descr.about').action(() => 'core.msg.about');
-
-Kotori.command('update - core.descr.update').action(async (_, events) => {
-  const { version } = events.api.adapter.ctx.package;
-  let content: string;
-  const res = await Kotori.http.get(
-    'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json'
-  );
-  if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
-    content = events.i18n.locale('core.msg.update.fail');
-  } else if (version === res.version) {
-    content = events.i18n.locale('core.msg.update.yes');
-  } else {
-    content = stringTemp(events.i18n.locale('core.msg.update.fail'), {
-      repo: 'https://github.com/kotorijs/kotori'
-    });
-  }
-  return ['core.msg.update', { version, content }];
-});
+  ctx.command('about - core.descr.about').action((_, events) => {
+    const { version, license } = events.api.adapter.ctx.pkg;
+    return ['core.msg.about', { version, license, node_version: process.version }];
+  });
+}

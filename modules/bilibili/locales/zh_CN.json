@@ -1,8 +1,8 @@
 {
   "bilibili.descr.bili": "B站视频信息查询",
   "bilibili.descr.bilier": "B站用户信息查询",
-  "bilibili.msg.bili": "BV号：%id%\n视频标题：%title%\n视频简介：%description%\n作者：%name%\n分类：%sort%\n发布时间： %time%\n播放量： %view%\n投币数： %coin%\n点赞数： %like%\n收藏数： %collect%\n视频封面： %image%",
-  "bilibili.msg.bili.fail": "未找到该视频： %input%",
-  "bilibili.msg.bilier": "UID：%uid%\n名字：%name%\n等级： LV%level%\n性别： %sex%\n简介： %description%\n关注数： %following%\n粉丝数： %follower%\n头像： %image%",
-  "bilibili.msg.bilier.fail": "未找到该用户： %input%"
+  "bilibili.msg.bili": "BV号：%id%\n视频标题：%title%\n视频简介：%description%\n作者：%name%\n分类：%sort%\n发布时间：%time%\n播放量：%view%\n投币数：%coin%\n点赞数：%like%\n收藏数：%collect%\n视频封面：%image%",
+  "bilibili.msg.bili.fail": "未找到该视频：%input%",
+  "bilibili.msg.bilier": "UID：%uid%\n名字：%name%\n等级：LV%level%\n性别：%sex%\n简介：%description%\n关注数：%following%\n粉丝数：%follower%\n头像：%image%",
+  "bilibili.msg.bilier.fail": "未找到该用户：%input%"
 }

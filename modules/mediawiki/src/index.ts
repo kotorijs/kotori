@@ -24,7 +24,7 @@ const loadWikiData = () =>
 }; */ defaultData;
 
 export function main(ctx: Context) {
-  ctx.command('wiki <content> [order] - mediawiki.descr.wiki').action(async (data) => {
+  ctx.command('wiki <content> [order:number] - mediawiki.descr.wiki').action(async (data) => {
     const dataList = loadWikiData();
     if (dataList.length <= 0) return 'mediawiki.msg.wiki.empty';
 
