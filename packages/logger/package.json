@@ -9,10 +9,10 @@
     "@kotori-bot/tools": "workspace:^"
   },
   "keywords": [
+    "kotori",
     "chatbot",
-    "bot",
-    "robotics",
-    "kotori"
+    "tools",
+    "logger"
   ],
   "files": [
     "lib"

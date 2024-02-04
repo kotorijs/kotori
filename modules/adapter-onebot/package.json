@@ -1,28 +1,28 @@
 {
-  "name": "@kotori-bot/kotori-plugin-core",
+  "name": "@kotori-bot/kotori-plugin-adapter-onebot",
   "version": "1.1.1",
-  "description": "core plugin",
+  "description": "Adapter For Onebot (go-cqhttp)",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
   },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
   "license": "GPL-3.0",
   "files": [
     "lib",
+    "LICENSE",
     "README.md"
   ],
   "author": "Hotaru <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
-  "kotori": {
-    "meta": {
-      "language": [
-        "en_US",
-        "ja_JP",
-        "zh_TW",
-        "zh_CN"
-      ]
-    }
+  "dependencies": {
+    "@types/ws": "^8.5.8",
+    "ws": "^8.14.2"
   }
 }

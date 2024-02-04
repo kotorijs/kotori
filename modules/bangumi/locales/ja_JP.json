@@ -1,10 +1,10 @@
 {
     "bangumi.descr.bgm": "Bangumiでゲーム/アニメを検索",
     "bangumi.descr.bgmc": "今日のBangumiの番組表を取得",
-    "bangumi.msg.bgm": "オリジナル名: %name%\n中国語名: %name_cn%\n概要: %summary%\nタグ: %tags%\n詳細: %url%\n%image%",
+    "bangumi.msg.bgm": "オリジナル名：%name%\n概要：%summary%\nタグ：%tags%\n詳細：%url%\n%image%",
     "bangumi.msg.bgm.list": "%num%.%name%%name_cn%\n",
-    "bangumi.msg.bgm.lists": "%list%コマンドを再送信し、対応するコンテンツを選択するために[番号]を入力してください。\n例: /コマンド コンテンツ 2",
-    "bangumi.msg.bgm.fail": "一致するアイテムが見つかりません: %input%",
-    "bangumi.msg.bgmc": "日付: %weekday%~%list%",
-    "bangumi.msg.bgmc.list": "\nオリジナル名: %name%\n中国語名: %name_cn%\n放送時間: %air_date%\n%image%"
+    "bangumi.msg.bgm.lists": "%list%コマンドを再送信し、対応するコンテンツを選択するために[番号]を入力してください。\n例：/コマンド コンテンツ 2",
+    "bangumi.msg.bgm.fail": "一致するアイテムが見つかりません：%input%",
+    "bangumi.msg.bgmc": "日付：%weekday%~%list%",
+    "bangumi.msg.bgmc.list": "\nオリジナル名：%name%\n中国語名：%name_cn%\n放送時間：%air_date%\n%image%"
 }

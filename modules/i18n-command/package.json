@@ -6,9 +6,15 @@
   "scripts": {
     "build": "tsc --build"
   },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
   "license": "GPL-3.0",
   "files": [
     "lib",
+    "LICENSE",
     "README.md"
   ],
   "author": "Hotaru <biyuehuya@gmail.com>",

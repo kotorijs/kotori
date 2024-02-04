@@ -12,10 +12,9 @@
     "yaml": "^2.3.3"
   },
   "keywords": [
+    "kotori",
     "chatbot",
-    "bot",
-    "robotics",
-    "kotori"
+    "tools"
   ],
   "files": [
     "dist"

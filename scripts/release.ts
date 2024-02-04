@@ -1,5 +1,6 @@
 #!/usr/bin/env ts-node
 
+/* eslint import/no-extraneous-dependencies: 0 */
 import { Package, getPackagesSync } from '@manypkg/get-packages';
 import { error, log } from 'console';
 import { writeFileSync } from 'fs';
@@ -18,16 +19,16 @@ const config = {
       'pnpm run lint',
       'pnpm run format',
       'pnpm run version',
-      'prettier --config .prettierrc "{{packages,modules}/*/package.json,package.json}" --write',
-    ],
-  },
+      'prettier --config .prettierrc "{{packages,modules}/*/package.json,package.json}" --write'
+    ]
+  }
 };
 
 const ROOT_DIR = resolve(__dirname, '../');
 const WORKSPACE = getPackagesSync(ROOT_DIR);
 
 function getTargetPackage(pkgName: string, pkgs: Package[]) {
-  const filterPackages = pkgs.filter(pkg => pkg.packageJson.name === pkgName);
+  const filterPackages = pkgs.filter((pkg) => pkg.packageJson.name === pkgName);
   if (filterPackages.length === 0) return null;
   return filterPackages[0];
 }
@@ -75,16 +76,16 @@ type Option = {
       name: 'value',
       message: 'Select the package you need to update',
       choices: packages
-        .filter(pkg => !config.sync.includes(pkg.packageJson.name))
-        .map(pkg => ({ name: `${pkg.packageJson.name}@${pkg.packageJson.version}`, value: pkg.relativeDir })),
+        .filter((pkg) => !config.sync.includes(pkg.packageJson.name))
+        .map((pkg) => ({ name: `${pkg.packageJson.name}@${pkg.packageJson.version}`, value: pkg.relativeDir }))
     });
-    return packages.filter(pkg => value.includes(pkg.relativeDir));
+    return packages.filter((pkg) => value.includes(pkg.relativeDir));
   }
 
   function parseVersion(version: string): number[] {
     let handle = version;
     if (handle.startsWith('v') || handle.startsWith('V')) handle = handle.substring(1);
-    return handle.split('.').map(val => parseInt(val, 10));
+    return handle.split('.').map((val) => parseInt(val, 10));
   }
 
   function isUpdateVersion(version: Version) {
@@ -92,7 +93,7 @@ type Option = {
       type: 'confirm',
       name: 'value',
       message: `Do you want to update ${version} version?`,
-      default: false,
+      default: false
     });
   }
 
@@ -112,7 +113,7 @@ type Option = {
     const getVersion = await genVersion();
     const mainPkg = getTargetPackage(config.main, pkgs);
     if (mainPkg) {
-      config.sync.forEach(pkgName => {
+      config.sync.forEach((pkgName) => {
         const pkg = getTargetPackage(pkgName, WORKSPACE.packages);
         if (!pkg) return;
         pkg.packageJson.version = mainPkg.packageJson.version;
@@ -120,7 +121,7 @@ type Option = {
       });
       if (WORKSPACE.rootPackage) pkgs.push(WORKSPACE.rootPackage);
     }
-    pkgs.forEach(pkg => {
+    pkgs.forEach((pkg) => {
       const pkgJson = pkg.packageJson;
       pkgJson.version = getVersion(parseVersion(pkg.packageJson.version));
       setVersion(pkg);
@@ -168,7 +169,7 @@ type Option = {
       type: 'confirm',
       name: 'value',
       message: 'Do you need zip main package?',
-      default: true,
+      default: true
     });
     if (answer.value) await step('pnpm pack --pack-destination', [ROOT_DIR], { cwd: mainPkg.dir });
   }
@@ -179,14 +180,14 @@ type Option = {
       type: 'confirm',
       name: 'push',
       message: 'Do you need push to remote branch?',
-      default: true,
+      default: true
     },
     {
       type: 'confirm',
       name: 'publish',
       message: 'Do you need publish all updated package?',
-      default: true,
-    },
+      default: true
+    }
   ]);
   const pushCommand = `git push ${config.remote} ${config.branch} ${mainPkg ? '--tags' : ''}`;
   if (answer.push) await step(pushCommand);
@@ -196,7 +197,7 @@ type Option = {
     log('Publish...');
     const originRegistry = (await execa('pnpm config get registry')).stdout;
     await execa('pnpm config set registry', [config.registry ?? originRegistry]);
-    await publishPackages(packages.filter(pkg => pkg.packageJson.private !== true));
+    await publishPackages(packages.filter((pkg) => pkg.packageJson.private !== true));
     await execa(`pnpm config set registry`, [originRegistry]);
   }
 

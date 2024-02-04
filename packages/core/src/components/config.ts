@@ -25,8 +25,8 @@ interface KotoriConfig {
     [propName: string]: {
       extends: string;
       master: EventDataTargetId;
-      lang?: LocaleType;
-      'command-prefix'?: string;
+      lang: LocaleType;
+      'command-prefix': string;
     };
   };
   plugin: {

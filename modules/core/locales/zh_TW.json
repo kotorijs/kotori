@@ -2,17 +2,10 @@
   "core.descr.core": "查看實例統計信息",
   "core.descr.bot": "查看當前 bot 信息與運行狀態",
   "core.descr.bots": "查看所有 bot 信息與運行狀態",
-  "core.descr.version": "查看版本信息",
-  "core.descr.about": "幫助信息",
-  "core.descr.update": "檢查更新",
-  "core.msg.bot": "ID：%identity%\n語言：%lang%\n平台：%platform%\nid：%self_id%\n連接時間： %create_time%\n接收消息數量：%received_msg%\n發送消息數量：%sent_msg%\n實例下線次數：%offline_times%\n最後消息時間：%last_msg_time%",
+  "core.descr.about": "查看關于信息",
+  "core.msg.bot": "ID：%identity%\n語言：%lang%\n平台：%platform%\nid：%self_id%\n連接時間：%create_time%\n接收消息數量：%received_msg%\n發送消息數量：%sent_msg%\n實例下線次數：%offline_times%\n最後消息時間：%last_msg_time%",
   "core.msg.core": "全局語言：%lang%\n實例目錄：%root%\n運行模式：%mode%\n模塊數量：%modules%\n服務數量：%services%\nbot 實例數量：%bots%\n中間件數量：%midwares%\n指令數量：%commands%\n正則數量：%regexps%",
   "core.msg.bots": "實例列表：%list%",
   "core.msg.bots.list": "\n----------\nID：%identity%\n語言：%lang%\n平台：%platform%\n狀態：%status%",
-  "core.msg.version": "Kotori 版本：%version%\n協議：%license%\nNodeJS 版本：%node_version%",
-  "core.msg.about": "kotori 是壹個跨平台、解藕合、現代化于壹體的聊天機器人框架，運行于 NodeJS 環境並使用 TypeScript 語言開發。\n官網：kotori.js.org",
-  "core.msg.update": "當前版本：%version%\n%content%",
-  "core.msg.update.yes": "當前爲最新版本！",
-  "core.msg.update.no": "檢測到有更新！\n最新版本： %version%\n請前往Github倉庫獲取最新版本：%repo%",
-  "core.msg.update.fail": "獲取更新失敗！"
+  "core.msg.about": "Kotori 版本：%version%\n協議：%license%\nNodeJS 版本：%node_version%"
 }

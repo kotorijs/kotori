@@ -6,13 +6,29 @@
   "scripts": {
     "build": "tsc --build"
   },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
   "license": "GPL-3.0",
   "files": [
     "lib",
+    "LICENSE",
     "README.md"
   ],
   "author": "Himeno <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "meta": {
+      "languages": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    }
   }
 }

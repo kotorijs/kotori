@@ -19,19 +19,20 @@ export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx
-    .command('music <name> [order:number=1] - music.descr.music')
+    .command('music <...name> - music.descr.music')
+    .option('o', 'order:number music.option.music.order')
     .action(async (data, session) => {
+      const name = data.args.join('');
+      const order = data.options.order ?? 1;
       /* here need cache */
       // const cache = `music${data.args[0]}`;
       const res = /* Cache.get(cache) ||  */ musicSchema.parse(
-        await ctx.http.get('https://api.hotaru.icu/api/netease', {
-          name: data.args[0]
-        })
+        await ctx.http.get('https://api.hotaru.icu/api/netease', { name })
       );
       // Cache.set(cache, res);
       if (!res.data) return ['music.msg.music.fail', { input: data.args[0] }];
 
-      if (data.args[1] === 0) {
+      if (order === 0) {
         let list = '';
         for (let init = 0; init < (res.data.length > MAX_LIST ? MAX_LIST : res.data.length); init += 1) {
           const song = res.data[init];
@@ -44,7 +45,7 @@ export function main(ctx: Context) {
         return ['music.msg.music.lists', { list }];
       }
 
-      const song = res.data[(data.args[1] as number) - 1];
+      const song = res.data[(order as number) - 1];
       if (!song) return 'music.msg.music.fail.order';
 
       if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songid}]`);

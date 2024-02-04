@@ -1,5 +1,5 @@
 import fs, { existsSync } from 'fs';
-import path from 'path';
+import path, { resolve } from 'path';
 import {
   ADAPTER_PREFIX,
   CORE_MODULES,
@@ -27,6 +27,9 @@ const modulePackageSchema = Tsu.Object({
   description: Tsu.String(),
   main: Tsu.String(),
   license: Tsu.Literal('GPL-3.0'),
+  keywords: Tsu.Custom<string[]>(
+    (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
+  ),
   author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
   peerDependencies: Tsu.Object({
     'kotori-bot': Tsu.String()
@@ -56,14 +59,14 @@ export class Modules {
 
   private isDev: Boolean;
 
-  readonly [Symbols.module]: Set<[ModuleInstance, ModuleConfig]> = new Set();
+  readonly [Symbols.modules]: Set<[ModuleInstance, ModuleConfig]> = new Set();
 
   constructor(ctx: Context) {
     this.ctx = ctx;
     this.isDev = this.ctx.options.env === 'dev';
   }
 
-  getDirFiles(rootDir: string) {
+  private getDirFiles(rootDir: string) {
     const files = fs.readdirSync(rootDir);
     const list: string[] = [];
     files.forEach((fileName) => {
@@ -79,19 +82,20 @@ export class Modules {
 
   private getModuleRootDir() {
     const moduleRootDir: string[] = [];
-    Object.assign(this.ctx.config.global.dirs, [this.ctx.baseDir.modules]).forEach((dir) => {
+    [
+      ...this.ctx.config.global.dirs.map((dir) => resolve(this.ctx.baseDir.root, dir)),
+      this.ctx.baseDir.modules
+    ].forEach((dir) => {
       if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) moduleRootDir.push(dir);
     });
     return moduleRootDir;
   }
 
   private getModuleList(rootDir: string) {
-    const files = fs.readdirSync(rootDir);
-
-    files.forEach(async (fileName) => {
+    fs.readdirSync(rootDir).forEach(async (fileName) => {
       const dir = path.join(rootDir, fileName);
       if (!fs.statSync(dir).isDirectory()) return;
-      if (rootDir !== this.ctx.baseDir.modules && fileName.startsWith(PLUGIN_PREFIX)) return;
+      if (rootDir !== this.ctx.baseDir.modules && !fileName.startsWith(PLUGIN_PREFIX)) return;
       const packagePath = path.join(dir, 'package.json');
       let pkg: ModulePackage;
       if (!fs.existsSync(packagePath)) return;
@@ -106,11 +110,12 @@ export class Modules {
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
       pkg = result.data;
-      const main = path.resolve(dir, this.isDev && existsSync(path.resolve(dir, DEV_IMPORT)) ? DEV_IMPORT : pkg.main);
+      const devMode = this.isDev && existsSync(path.resolve(dir, DEV_IMPORT));
+      const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main);
       if (!fs.existsSync(main)) throw new DevError(`cannot find ${main}`);
-      const dirs = path.join(dir, this.isDev ? DEV_CODE_DIRS : path.dirname(pkg.main));
+      const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
       const files = fs.statSync(dirs).isDirectory() ? this.getDirFiles(dirs) : [];
-      this[Symbols.module].add([
+      this[Symbols.modules].add([
         { pkg, main, files },
         this.ctx.config.plugin[stringRightSplit(pkg.name, PLUGIN_PREFIX)] || {}
       ]);
@@ -124,14 +129,14 @@ export class Modules {
   useAll() {
     this.getModuleRootDir().forEach((dir) => this.getModuleList(dir));
     const modules: [ModuleInstance, ModuleConfig][] = [];
-    this[Symbols.module].forEach((val) => modules.push(val));
+    this[Symbols.modules].forEach((val) => modules.push(val));
     modules
       .sort((el1, el2) => moduleLoadOrder(el1[0].pkg) - moduleLoadOrder(el2[0].pkg))
       .forEach((el) => this.moduleQuick(...el));
   }
 
   watcher() {
-    this[Symbols.module].forEach((data) =>
+    this[Symbols.modules].forEach((data) =>
       data[0].files.forEach((file) =>
         fs.watchFile(file, () => {
           this.ctx.dispose(data[0]);

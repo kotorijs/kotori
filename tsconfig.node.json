@@ -8,5 +8,5 @@
     "experimentalDecorators": true,
     "composite": true,
     "incremental": true,
-  },
+  }
 }

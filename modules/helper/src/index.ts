@@ -3,28 +3,29 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-30 19:37:49
+ * @LastEditTime: 2024-02-04 20:15:37
  */
 
-import { Context, stringTemp } from 'kotori-bot';
+import { Command, Context, Symbols, stringTemp } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  /* rest paramter */
-  ctx.command('help [command] - helper.descr.help').action((data, events) => {
-    const commandStack = ctx.internal.getCommands();
-    const filterResult = data.args[0]
-      ? commandStack.filter(
-          (command) =>
-            (data.args[0] as string).startsWith(command.root) ||
-            command.alias.filter((alias) => (data.args[0] as string).startsWith(alias)).length > 0
-        )
-      : commandStack;
+  ctx.command('help [...command] - helper.descr.help').action((data, events) => {
+    const filterResult: Command['meta'][] = [];
+    const args = (data.args as string[]).join('');
+    ctx[Symbols.command].forEach((command) => {
+      if (
+        !args ||
+        args.startsWith(command.meta.root) ||
+        command.meta.alias.filter((alias) => args.startsWith(alias)).length > 0
+      ) {
+        filterResult.push(command.meta);
+      }
+    });
     if (filterResult.length <= 0) return 'helper.msg.descr.fail';
     let commands = '';
     const temp: typeof stringTemp = (template, args) => stringTemp(events.i18n.locale(template), args);
-
     filterResult.forEach((command) => {
       const cmd = command;
       const alias =
@@ -35,40 +36,36 @@ export function main(ctx: Context) {
           : '';
       let args = '';
       let options = '';
-      cmd.args.forEach((arg) => {
-        let defaultValue = '';
-        if ('default' in arg) {
-          const valueType = typeof arg.default;
-          if (valueType === 'string' || valueType === 'number') {
-            defaultValue = temp('helper.template.default', { content: arg.default });
+      const handle = (values: Command['meta']['args'] | Command['meta']['options']) => {
+        values.forEach((value) => {
+          let defaultValue = '';
+          if ('rest' in value) {
+            const valueType = typeof value.default;
+            if (valueType === 'string' || valueType === 'number') {
+              defaultValue = temp('helper.template.default', { content: value.default as string });
+            } else if (valueType === 'boolean') {
+              defaultValue = temp('helper.template.default', { content: value.default ? 'true' : 'false' });
+            }
+            args += temp(`helper.template.arg.${value.optional ? 'optional' : 'required'}`, {
+              name: value.rest ? `...${value.name}` : value.name,
+              type: value.type === 'string' ? '' : temp('helper.template.arg.type', { content: value.type }),
+              default: defaultValue
+            });
           }
-        }
-        args += temp(`helper.template.arg.${arg.optional ? 'optional' : 'required'}`, {
-          name: arg.name,
-          type: arg.type === 'string' ? '' : temp('helper.template.arg.type', { content: arg.type }),
-          default: defaultValue
+          if (!('realname' in value) || !('description' in value)) return;
+          options += temp('helper.template.option', {
+            name: value.name,
+            realname: value.realname,
+            type: value.type === 'string' ? '' : temp('helper.template.arg.type', { content: value.type }),
+            description: value.description
+              ? temp('helper.template.description', { content: events.i18n.locale(value.description) })
+              : ''
+          });
         });
-      });
-      cmd.options.forEach((option) => {
-        let defaultValue = '';
-        if ('default' in option) {
-          const valueType = typeof option.default;
-          if (valueType === 'string' || valueType === 'number') {
-            defaultValue = temp('helper.template.default', { content: option.default });
-          }
-        }
-        options += temp('helper.template.option', {
-          name: option.realname,
-          type: option.type === 'string' ? '' : temp('helper.template.option.type', { content: option.type }),
-          default: defaultValue,
-
-          description: option.description
-            ? temp('helper.template.description', { content: events.i18n.locale(option.description) })
-            : ''
-        });
-      });
-      if (cmd.options.length > 0) options = temp('helper.template.options', { content: options });
-
+      };
+      handle(command.args);
+      handle(command.options);
+      if (options) options = temp('helper.template.options', { content: options });
       commands += temp('helper.msg.descr.command', {
         root: `${events.api.adapter.config['command-prefix']}${cmd.root}`,
         args,

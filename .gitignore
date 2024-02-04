@@ -21,3 +21,5 @@ modules3
 !modules/helper
 !modules/i18n-command
 !modules/menu
+
+index.html

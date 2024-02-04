@@ -3,10 +3,10 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-03 19:02:42
+ * @LastEditTime: 2024-02-04 19:48:44
  */
 
-import { Context, EventDataMsg, MessageQuick, Tsu } from 'kotori-bot';
+import { Context, EventDataMsg, MessageQuick, ModuleConfig, Tsu } from 'kotori-bot';
 
 export const config = Tsu.Object({
   alias: Tsu.String().optional(),
@@ -16,7 +16,7 @@ export const config = Tsu.Object({
 
 export const lang = [__dirname, '../locales'];
 
-export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
+export function main(ctx: Context, conf: Tsu.infer<typeof config> & ModuleConfig) {
   const handle = (session: EventDataMsg): MessageQuick => [conf.content, { at: session.el.at(session.userId) }];
 
   const cmd = ctx.command('menu - menu.descr.menu').action((_, session) => handle(session));

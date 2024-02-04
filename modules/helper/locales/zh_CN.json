@@ -12,6 +12,6 @@
   "helper.template.default": "=%content%",
   "helper.template.description": " - %content%",
   "helper.template.options": "\n  参数说明：%content%",
-  "helper.template.option": "\n  -%name%%type%%default%%description%",
+  "helper.template.option": "\n  -%name%, --%realname%%type%%description%",
   "helper.template.option.type": " 类型：%type%"
 }

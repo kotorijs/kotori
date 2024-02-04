@@ -3,7 +3,6 @@ import { CommandError, Context, TsuError } from 'kotori-bot';
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  console.log(ctx.identity);
   ctx.on('parse', (session) => {
     if (!(session.result instanceof CommandError)) return;
     const { value } = session.result;

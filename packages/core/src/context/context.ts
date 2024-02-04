@@ -1,13 +1,18 @@
 import Symbols from './symbols';
 
+interface obj {
+  [propName: string | number | symbol]: any;
+}
+
 interface ContextOrigin {
-  readonly [Symbols.container]: Map<string | symbol, object>;
+  readonly [Symbols.container]: Map<string, obj>;
+  readonly [Symbols.table]: Map<string, string[]>;
   root: Context;
-  get(prop: string): object | undefined;
-  inject<T extends object = object>(prop: string, value: T): void;
-  provide<T extends object>(prop: string | symbol, value: T): void;
-  mixin<K extends keyof Omit<Context, keyof ContextOrigin>>(prop: string, keys: K[]): void;
-  extends<T extends object>(meta?: T, identity?: string): Context;
+  get(prop: string): obj | undefined;
+  inject<T extends Keys>(prop: T): void;
+  provide<T extends obj>(prop: string, value: T): void;
+  mixin<K extends Keys>(prop: string, keys: K[]): void;
+  extends<T extends obj>(meta?: T, identity?: string): Context;
 }
 
 interface ContextImpl extends ContextOrigin {}
@@ -18,8 +23,12 @@ declare module './context' {
   }
 }
 
+type Keys = keyof Omit<Context, keyof ContextOrigin> & string;
+
 export class Context implements ContextImpl {
-  readonly [Symbols.container]: Map<string | symbol, object> = new Map();
+  readonly [Symbols.container]: Map<string, obj> = new Map();
+
+  readonly [Symbols.table]: Map<string, string[]> = new Map();
 
   root: Context;
 
@@ -31,55 +40,66 @@ export class Context implements ContextImpl {
     return this[Symbols.container].get(prop);
   }
 
-  inject<T extends object>(prop: string, value?: T) {
-    const key = value ? Symbols.containerKey(prop) : prop;
-    if (value) {
-      if (this[Symbols.container].has(key)) return;
-      this.provide(key, value);
-    } else if (!this[Symbols.container].has(key)) return;
-    if (key in this) return;
-    const val = this[prop as keyof typeof this];
-    this[prop as keyof typeof this] = this.get(key as string) as typeof val;
+  inject<T extends Keys>(prop: T) {
+    if (this[prop] && !this[Symbols.container].has(prop)) return;
+    this[prop] = this.get(prop) as (typeof this)[T];
   }
 
-  provide<T extends object>(prop: string | symbol, value: T) {
+  provide<T extends obj>(prop: string, value: T) {
     if (this[Symbols.container].has(prop)) return;
     this[Symbols.container].set(prop, value);
   }
 
-  mixin<K extends keyof Omit<Context, keyof ContextOrigin>>(prop: string, keys: K[]) {
-    if (!this[Symbols.container].has(prop)) return;
+  mixin<K extends Keys>(prop: string, keys: K[]) {
+    this[Symbols.table].set(prop, keys);
+    const instance = this.get(prop);
+    if (!instance) return;
+    this[Symbols.table].set(prop, keys);
     keys.forEach((key) => {
-      if (typeof key === 'symbol') return;
-      if (key in this) return;
-      const instance = this.get(prop);
-      if (!instance) return;
-      if (!(key in instance)) return;
-      if (typeof instance[key as keyof typeof instance] === 'function') {
-        this[key] = (instance[key as keyof typeof instance] as Function).bind(instance);
-        return;
-      }
-      this[key] = instance[key as keyof typeof instance];
+      if (this[key] || !instance[key]) return;
+      this[key] = instance[key];
+      if (typeof this[key] === 'function') this[key] = (this[key] as Function).bind(instance);
     });
   }
 
-  extends<T extends object = {}>(meta: T = {} as T, identity: string = 'sub') {
-    const selfIdentity = this.identity;
+  extends<T extends obj = {}>(meta: T = {} as T, identity: string = 'sub') {
     const metaHandle = meta;
+    /* clear function */
     Object.keys(metaHandle).forEach((key) => {
-      if (typeof this[key as keyof typeof this] === 'function') delete metaHandle[key as keyof T];
+      if (typeof this[key as keyof this] === 'function') delete metaHandle[key];
     });
-    const ctx = Object.assign(new Context(this.root), this, meta, { identity });
-
-    ctx[Symbols.container].forEach((value, key) => {
-      if (!('ctx' in value)) {
-        ctx[Symbols.container].set(key, value);
-        return;
+    const handler = <T>(value: T, ctx: Context): T => {
+      if (!value || typeof value !== 'object' || !(value as T & { ctx: unknown }).ctx) return value;
+      return new Proxy(value, {
+        get(target, prop, receiver) {
+          if (prop === 'ctx') return ctx;
+          return Reflect.get(target, prop, receiver);
+        }
+      });
+    };
+    /* set proxy */
+    const ctx: Context = new Proxy(new Context(this.root), {
+      get: <T>(target: T, prop: keyof T) => {
+        if (prop === 'identity') return identity;
+        if (target[prop]) return target[prop];
+        let value: unknown;
+        this[Symbols.table].forEach((keys, key) => {
+          if (value || (typeof prop === 'string' && !keys.includes(prop))) return;
+          value = ctx[Symbols.container].get(key)![prop];
+          if (typeof value === 'function') value = value.bind(ctx[Symbols.container].get(key));
+        });
+        if (value !== undefined) return value;
+        if (meta[prop]) return handler(meta[prop], ctx);
+        return handler(this[prop as keyof this], ctx);
       }
-      const instance = Object.assign(value, { ctx });
-      ctx[Symbols.container].set(key, instance);
     });
-    if (selfIdentity !== this.identity) this.identity = selfIdentity;
+    /* set table */
+    this[Symbols.table].forEach((value, key) => ctx[Symbols.table].set(key, value));
+    /* set container */
+    this[Symbols.container].forEach((value, key) => {
+      if (!value.ctx) return ctx[Symbols.container].set(key, value);
+      return ctx[Symbols.container].set(key, handler(value, ctx));
+    });
     return ctx;
   }
 }

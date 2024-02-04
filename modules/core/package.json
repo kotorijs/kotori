@@ -1,14 +1,20 @@
 {
-  "name": "@kotori-bot/kotori-plugin-helper",
-  "version": "1.1.0",
-  "description": "helper plugin",
+  "name": "@kotori-bot/kotori-plugin-core",
+  "version": "1.1.1",
+  "description": "core plugin",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
   },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
   "license": "GPL-3.0",
   "files": [
     "lib",
+    "LICENSE",
     "README.md"
   ],
   "author": "Hotaru <biyuehuya@gmail.com>",

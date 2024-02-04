@@ -1,5 +1,5 @@
 global:
-  lang: zh_CN
+  lang: en_US
   command-prefix: /
   dirs:
     - ./node_modules/
@@ -15,5 +15,5 @@ adapter:
     self-id: 720
 
 plugin:
-  console:
-    test: 2
+  menu:
+    content: test menu

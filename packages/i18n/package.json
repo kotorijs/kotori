@@ -10,10 +10,10 @@
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "keywords": [
+    "kotori",
     "chatbot",
-    "bot",
-    "robotics",
-    "kotori"
+    "i18n",
+    "tools"
   ],
   "files": [
     "dist"
