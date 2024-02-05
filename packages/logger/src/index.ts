@@ -1,11 +1,16 @@
 /* import fs from 'fs';
 import path from 'path'; */
-
+/* eslint import/no-extraneous-dependencies: 0 */
+import pino from 'pino';
 import { formatTime, obj } from '@kotori-bot/tools';
 
 export enum LoggerLevel {
-  LOG,
-  DEBUG
+  TRACE = 'trace',
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error',
+  FATAL = 'fatal'
 }
 
 interface LoggerOptions {

@@ -1,25 +1,19 @@
 import { LocaleType } from '@kotori-bot/i18n';
-import type { EventDataBase } from './core';
 
 declare module './core' {
-  interface EventsList {
-    ready: EventDataReady;
-    error: EventDataError;
-    dispose: EventDataDispose;
+  interface EventsMapping {
+    ready_module(data: EventDataReadyModule): void;
+    dispose_module(data: EventDataDisposeModule): void;
   }
 }
 
-interface EventDataReady extends EventDataBase<'ready'> {
-  module?: ModuleInstance | string;
-  state?: boolean;
+interface EventDataReadyModule {
+  module: ModuleInstance | string;
+  state: boolean;
 }
 
-interface EventDataError extends EventDataBase<'error'> {
-  error: unknown;
-}
-
-interface EventDataDispose extends EventDataBase<'dispose'> {
-  module?: ModuleInstance | string;
+interface EventDataDisposeModule {
+  module: ModuleInstance | string;
 }
 
 export interface ModulePackage {

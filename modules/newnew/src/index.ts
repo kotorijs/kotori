@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-02-04 20:22:39
  */
-import { Context, EventDataMsg, MessageQuick, Tsu, obj } from 'kotori-bot';
+import { Context, SessionData, MessageQuick, Tsu, obj } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
@@ -28,7 +28,7 @@ export class Main {
       return result;
     }
 
-    const todayLength = (session: EventDataMsg): MessageQuick => {
+    const todayLength = (session: SessionData): MessageQuick => {
       if (!(session.userId in penisData)) {
         penisData[session.userId] = getNewLength();
       }

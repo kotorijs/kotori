@@ -1,8 +1,7 @@
 import fs, { existsSync } from 'fs';
-import path, { resolve } from 'path';
+import path from 'path';
 import {
   ADAPTER_PREFIX,
-  CORE_MODULES,
   Context,
   DATABASE_PREFIX,
   DevError,
@@ -16,6 +15,21 @@ import {
 } from '@kotori-bot/core';
 import { DEFAULT_SUPPORTS, LocaleType } from '@kotori-bot/i18n';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
+
+interface BaseDir {
+  root: string;
+  modules: string;
+  logs: string;
+}
+
+interface Options {
+  env: 'dev' | 'build';
+}
+
+interface RunnerConfig {
+  baseDir: BaseDir;
+  options: Options;
+}
 
 export const localeTypeSchema = Tsu.Custom<LocaleType>(
   (val) => typeof val === 'string' && DEFAULT_SUPPORTS.includes(val as LocaleType)
@@ -48,22 +62,29 @@ const modulePackageSchema = Tsu.Object({
 function moduleLoadOrder(pkg: ModulePackage) {
   if (pkg.name.includes(DATABASE_PREFIX)) return 1;
   if (pkg.name.includes(ADAPTER_PREFIX)) return 2;
-  if (CORE_MODULES.includes(pkg.name)) return 3;
+  // if (CORE_MODULES.includes(pkg.name)) return 3;
   if (pkg.kotori.enforce === 'pre') return 4;
   if (!pkg.kotori.enforce) return 5;
-  return 5;
+  return 6;
 }
 
-export class Modules {
+export class Runner {
+  readonly baseDir: BaseDir;
+
+  readonly options: Options;
+
   private ctx: Context;
 
   private isDev: Boolean;
 
   readonly [Symbols.modules]: Set<[ModuleInstance, ModuleConfig]> = new Set();
 
-  constructor(ctx: Context) {
+  constructor(ctx: Context, config: RunnerConfig) {
     this.ctx = ctx;
-    this.isDev = this.ctx.options.env === 'dev';
+    /* handle config */
+    this.baseDir = config.baseDir;
+    this.options = config.options;
+    this.isDev = this.options.env === 'dev';
   }
 
   private getDirFiles(rootDir: string) {
@@ -83,7 +104,7 @@ export class Modules {
   private getModuleRootDir() {
     const moduleRootDir: string[] = [];
     [
-      ...this.ctx.config.global.dirs.map((dir) => resolve(this.ctx.baseDir.root, dir)),
+      ...this.ctx.config.global.dirs.map((dir) => path.resolve(this.ctx.baseDir.root, dir)),
       this.ctx.baseDir.modules
     ].forEach((dir) => {
       if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) moduleRootDir.push(dir);
@@ -138,7 +159,8 @@ export class Modules {
   watcher() {
     this[Symbols.modules].forEach((data) =>
       data[0].files.forEach((file) =>
-        fs.watchFile(file, () => {
+        fs.watchFile(file, async () => {
+          this.ctx.logger.debug(`file happen changed, module ${data[0].pkg.name} is reloading...`);
           this.ctx.dispose(data[0]);
           this.moduleQuick(...data);
         })
@@ -147,4 +169,4 @@ export class Modules {
   }
 }
 
-export default Modules;
+export default Runner;

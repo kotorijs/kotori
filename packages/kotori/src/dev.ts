@@ -1,6 +1,7 @@
 import { Loader } from '@kotori-bot/loader';
+import { obj } from '@kotori-bot/core';
 
-(globalThis as unknown as { env_mode: string }).env_mode = 'dev';
+(globalThis as obj).env_mode = 'dev';
 
 const kotori = new Loader();
 kotori.run();

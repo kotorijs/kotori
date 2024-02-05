@@ -3,11 +3,11 @@ import { CommandError, Context, TsuError } from 'kotori-bot';
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  ctx.on('parse', (session) => {
-    if (!(session.result instanceof CommandError)) return;
-    const { value } = session.result;
-    session.cancel();
-    const { quick } = session.event;
+  ctx.on('parse', (data) => {
+    if (!(data.result instanceof CommandError)) return;
+    const { value } = data.result;
+    data.cancel();
+    const { quick } = data.session;
     switch (value.type) {
       case 'arg_error':
         quick(['corei18n.template.args_error', value]);
@@ -31,10 +31,10 @@ export function main(ctx: Context) {
     }
   });
 
-  ctx.on('command', (session) => {
-    if (!(session.result instanceof CommandError)) return;
-    const { value } = session.result;
-    const { quick } = session.event;
+  ctx.on('command', (data) => {
+    if (!(data.result instanceof CommandError)) return;
+    const { value } = data.result;
+    const { quick } = data.session;
     switch (value.type) {
       case 'res_error':
         quick(['corei18n.template.res_error', { content: value.error.message }]);

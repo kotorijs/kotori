@@ -97,22 +97,26 @@ export class Modules {
       else handleFunction(modules as ModuleInstanceFunction, ctx, config);
       return;
     }
-    disposeFactory(ctx, () => this.dispose(modules));
+    disposeFactory(this.ctx, () => this.dispose(modules));
     const identity = isObject ? modules.pkg.name : modules;
     try {
       const exports = await import(`file://${isObject ? modules.main : resolve(modules)}`);
       const error = this.handleExports(identity, ctx, exports, config);
       if (error) throw error;
-      this.ctx.emit('ready', { module: modules, state: true });
+      this.ctx.emit('ready_module', { module: modules, state: true });
     } catch (error) {
-      this.ctx.emit('ready', { module: modules, state: false });
+      this.ctx.emit('ready_module', { module: modules, state: false });
       if (error) this.ctx.emit('error', { error });
     }
   }
 
   dispose(modules: ModuleInstance | string) {
-    if (typeof modules === 'object') modules.files.forEach((file) => delete require.cache[require.resolve(file)]);
-    this.ctx.emit('dispose', { module: modules });
+    if (typeof modules === 'object') {
+      modules.files.forEach((file) => delete require.cache[require.resolve(file)]);
+    } else {
+      delete require.cache[require.resolve(modules)];
+    }
+    this.ctx.emit('dispose_module', { module: modules });
   }
 }
 

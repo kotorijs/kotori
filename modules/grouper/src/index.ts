@@ -57,7 +57,7 @@ export const addExp(group: number, user: number, exp: number, tips: boolean = tr
 	data.group.exp += exp;
 	data[user as keyof typeof data].exp += exp;
 	saveData(data, group);
-	if (tips) Main.Api.send_group_msg(`${SDK.cq_at(user)}经验+${exp}`, group);
+	if (tips) Main.Api.sendGroupMsg(`${SDK.cq_at(user)}经验+${exp}`, group);
 };
 
 const Alias(keyword: CoreKeyword, callback: CoreVal)  {
@@ -291,7 +291,7 @@ export class Main {
 			{},
 		) as obj<userInfo>;
 		Main.UserInfo = Main.UserInfo || {};
-		event.listen('on_group_msg', data => console.log(data.sender));
+		event.listen('on_on_message', data => console.log(data.sender));
 	}
 }
 

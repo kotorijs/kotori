@@ -1,7 +1,6 @@
 import type { Context } from '@kotori-bot/core';
 
 export function loadInfo(info: Context['pkg'], ctx: Context) {
-  /* eslint no-console: 0 */
   console.info('Kotori Bot is loading...');
   console.info(`
 ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗

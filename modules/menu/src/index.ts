@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-02-04 19:48:44
  */
 
-import { Context, EventDataMsg, MessageQuick, ModuleConfig, Tsu } from 'kotori-bot';
+import { Context, SessionData, MessageQuick, ModuleConfig, Tsu } from 'kotori-bot';
 
 export const config = Tsu.Object({
   alias: Tsu.String().optional(),
@@ -17,7 +17,7 @@ export const config = Tsu.Object({
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context, conf: Tsu.infer<typeof config> & ModuleConfig) {
-  const handle = (session: EventDataMsg): MessageQuick => [conf.content, { at: session.el.at(session.userId) }];
+  const handle = (session: SessionData): MessageQuick => [conf.content, { at: session.el.at(session.userId) }];
 
   const cmd = ctx.command('menu - menu.descr.menu').action((_, session) => handle(session));
   if (conf.alias) cmd.alias(conf.alias);

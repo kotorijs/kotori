@@ -1,12 +1,12 @@
 import type { Context } from '../context';
 
 export function disposeFactory(ctx: Context, dispose: Function) {
-  ctx.once('dispose', (session) => {
-    if (!session.module) {
-      dispose();
+  ctx.once('dispose_module', (data) => {
+    if ((typeof data.module === 'object' ? data.module.pkg.name : data.module) !== ctx.identity) {
+      disposeFactory(ctx, dispose);
       return;
     }
-    if (typeof session.module === 'object' ? session.module.pkg.name : session.module === ctx.identity) dispose();
+    dispose();
   });
 }
 

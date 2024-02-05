@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-01 16:44:32
+ * @LastEditTime: 2024-02-05 17:56:37
  */
-import { Adapter, AdapterConfig, Context, Tsu, eventDataTargetIdSchema } from 'kotori-bot';
+import { Adapter, AdapterConfig, Context, MessageScope, Tsu, eventDataTargetIdSchema } from 'kotori-bot';
 import CmdApi from './api';
 import CmdElements from './elements';
 
@@ -25,7 +25,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
   config: CmdConfig;
 
   constructor(ctx: Context, config: CmdConfig, identity: string) {
-    super(ctx, config, identity, CmdApi, CmdElements);
+    super(ctx, config, identity, CmdApi, new CmdElements());
     this.config = config;
     this.selfId = config['self-id'];
     process.stdin.on('data', (data) => this.handle(data));
@@ -36,8 +36,8 @@ export class CmdAdapter extends Adapter<CmdApi> {
     let message = data.toString();
     if (message === '\n' || message === '\r\n') return;
     message = message.replace('\r\n', '').replace('\n', '');
-
-    this.emit('private_msg', {
+    this.session('on_message', {
+      type: MessageScope.PRIVATE,
       messageId: this.messageId,
       message,
       userId: this.config.master,
@@ -52,18 +52,22 @@ export class CmdAdapter extends Adapter<CmdApi> {
 
   start() {
     this.ctx.emit('connect', {
-      service: this,
+      type: 'connect',
+      adapter: this,
       normal: true,
-      info: `start cmd-line listen`
+      mode: 'other',
+      address: 'command line'
     });
     this.online();
   }
 
   stop() {
-    this.ctx.emit('disconnect', {
-      service: this,
+    this.ctx.emit('connect', {
+      type: 'disconnect',
+      adapter: this,
       normal: true,
-      info: `stop cmd-line listen`
+      mode: 'other',
+      address: 'command line'
     });
     this.offline();
   }
