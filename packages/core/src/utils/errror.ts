@@ -3,9 +3,7 @@ interface DevErrorExtra {
   type: 'warning' | 'info' | 'error';
 }
 
-type KotoriErrorType =
-  /* 'AdapterError' | */
-  'DatabaseError' | 'ModuleError' | 'CoreError' | 'UnknownError' | 'CommandError' | 'DevError';
+type KotoriErrorType = 'DatabaseError' | 'ModuleError' | 'UnknownError' | 'DevError';
 type KotoriErrorLevel = 'debug' | 'normal' | 'log';
 
 interface KotoriErrorImpl {
@@ -45,7 +43,6 @@ export class KotoriError<T extends object = object> extends Error implements Kot
 }
 
 export const ModuleError = new KotoriError(undefined, undefined, 'ModuleError', 'normal').extend();
-export const CoreError = new KotoriError(undefined, undefined, 'CoreError', 'normal').extend();
 export const DevError = new KotoriError<DevErrorExtra>(undefined, undefined, 'DevError', 'debug').extend();
 
 export default KotoriError;

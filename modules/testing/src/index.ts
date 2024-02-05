@@ -1,41 +1,52 @@
-import Kotori, { MessageScope } from 'kotori-bot';
+import { Context, ModuleConfig, Tsu, MessageScope } from 'kotori-bot';
 
-Kotori.command('echo <content> [num:number=3]')
-  .action((data, session) => {
-    Kotori.logger.debug(data, data.args[0]);
-    Kotori.logger.debug(session);
-    return [
-      `返回消息:~%message%`,
+/* 设置 i18n */
+export const lang = [__dirname, '../locales']; // or: const lang = path.join(__dirname, '../locales');
+
+/* 自定义插件配置 */
+export const kotoriConfigSchema = Tsu.Object({
+  config1: Tsu.Number().range(0, 10),
+  config2: Tsu.Boolean(),
+  config3: Tsu.Union([Tsu.Literal('on'), Tsu.Literal('off')])
+});
+export type Config = ModuleConfig & Tsu.infer<typeof kotoriConfigSchema>;
+
+/* 设置依赖服务 */
+export const inject = ['database'];
+
+/* 插件入口 */
+export function main(ctx: Context, config: Config) {
+  /* 事件监听 */
+  ctx.on('on_group_decrease', (session) => {
+    session.quick([
+      session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
       {
-        message: data.args[0]
+        target: session.userId,
+        operator: session.operatorId
       }
-    ];
-  })
-  .alias('print')
-  .scope(MessageScope.GROUP);
+    ]);
+  });
 
-Kotori.regexp(/^(.*)#print$/, (match) => match[1]);
-
-Kotori.command('ison').action((_, events) => {
-  if (events.api.adapter.config.master === events.userId) return `在的哟主人~`;
-  return '你是...谁?';
-});
-
-/* 
-Kotori.on('poke', session => {
-	if (session.api.adapter.platform !== 'onebot') return '';
-	if (session.userId === session.api.adapter.selfId || session.targetId !== session.api.adapter.selfId) return '';
-	// session.api.extra.poke(session.userId);
-	session.send(`[CQ:poke,qq=${session.userId}]`)
-	return '戳回去！！';
-}); */
-
-Kotori.on('group_decrease', (session) => {
-  session.quick([
-    session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
-    {
-      target: session.userId,
-      operator: session.operatorId
+  /* 中间件注册 */
+  ctx.midware((next, session) => {
+    const s = session;
+    if (s.message.startsWith('说') || s.message.includes('说')) {
+      s.message = `${s.api.adapter.config['command-prefix']}echo`;
     }
-  ]);
-});
+    next();
+  }, 10);
+
+  /* 指令注册 */
+  ctx
+    .command('echo <content> [num:number=3]')
+    .action((data, session) => {
+      ctx.logger.debug(data, data.args[0]);
+      ctx.logger.debug(session.message);
+      return [`返回消息:~%message%`, { message: data.args[0] }];
+    })
+    .alias('print')
+    .scope(MessageScope.GROUP);
+
+  /* 正则注册 */
+  ctx.regexp(/^(.*)#print$/, (match) => match[1]);
+}

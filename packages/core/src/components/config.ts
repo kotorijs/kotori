@@ -1,9 +1,7 @@
-import path from 'path';
-import { loadConfig } from '@kotori-bot/tools';
 import Tsu from 'tsukiko';
-import { LocaleType } from '@kotori-bot/i18n';
-import { EventDataTargetId } from '../types';
-import { CoreError } from '../utils/errror';
+import { join } from 'path';
+import { loadConfig } from '@kotori-bot/tools';
+import { CoreConfig } from '../types';
 import { DEFAULT_CORE_CONFIG } from '../consts';
 
 const packageInfoSchema = Tsu.Object({
@@ -15,56 +13,25 @@ const packageInfoSchema = Tsu.Object({
   author: Tsu.String()
 });
 
-interface KotoriConfig {
-  global: {
-    dirs: string[];
-    lang: LocaleType;
-    'command-prefix': string;
-  };
-  adapter: {
-    [propName: string]: {
-      extends: string;
-      master: EventDataTargetId;
-      lang: LocaleType;
-      'command-prefix': string;
-    };
-  };
-  plugin: {
-    [propName: string]: {
-      filter: object;
-    };
-  };
-}
-
-interface CoreConfig {
-  baseDir: {
-    root: string;
-    modules: string;
-  };
-  config: KotoriConfig;
-  options: {
-    env: 'dev' | 'build';
-  };
-}
-
 export class Config {
+  readonly config: CoreConfig;
+
   readonly pkg: Tsu.infer<typeof packageInfoSchema>;
 
-  readonly baseDir: CoreConfig['baseDir'];
-
-  readonly config: CoreConfig['config'];
-
-  readonly options: CoreConfig['options'];
-
   constructor(config: CoreConfig = DEFAULT_CORE_CONFIG) {
-    const info = loadConfig(path.join(__dirname, '../../package.json')) as unknown;
-    if (!info || Object.values(info).length === 0) throw new CoreError('Cannot find kotori-bot package.json');
+    this.config = config;
+    /* load package.json */
+    const info = loadConfig(join(__dirname, '../../package.json')) as unknown;
+    if (!info || Object.values(info).length === 0) {
+      console.error(`Cannot find kotori-bot package.json`);
+      process.exit();
+    }
     const result = packageInfoSchema.parseSafe(info);
-    if (!result.value) throw new CoreError(`File package.json format error: ${result.error.message}`);
+    if (!result.value) {
+      console.error(`File package.json format error: ${result.error.message}`);
+      process.exit();
+    }
     this.pkg = result.data;
-    this.baseDir = config.baseDir;
-    this.config = config.config;
-    this.options = config.options;
   }
 }
 

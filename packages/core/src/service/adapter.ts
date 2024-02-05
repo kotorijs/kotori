@@ -18,7 +18,7 @@ import { cancelFactory } from '../utils/factory';
 import CommandError from '../utils/commandError';
 
 type EventApiType = {
-  [K in Extract<EventsList[keyof EventsList], EventDataApiBase<keyof EventsList, MessageScope>>['type']]: EventsList[K];
+  [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never;
 };
 
 interface AdapterStatus {
@@ -36,42 +36,41 @@ interface AdapterImpl<T extends Api = Api> extends Service {
   readonly selfId: EventDataTargetId;
   readonly identity: string;
   readonly api: T;
+  readonly elements: Elements;
   readonly status: AdapterStatus;
 }
 
-type ApiClass<T extends Api> = new (adapter: Adapter, el: Elements) => T;
-
-function setProxy<T extends Api>(api: T, ctx: Context): T {
+function setProxy<T extends Api>(api: Api, ctx: Context): T {
   const proxy = Object.create(api) as T;
-  proxy.send_private_msg = new Proxy(api.send_private_msg, {
+  proxy.sendPrivateMsg = new Proxy(api.sendPrivateMsg, {
     apply(_, __, argArray) {
       const { '0': message, '1': targetId } = argArray;
       const cancel = cancelFactory();
       ctx.emit('before_send', { api, message, messageType: MessageScope.PRIVATE, targetId, cancel: cancel.get() });
       if (cancel.value) return;
-      api.send_private_msg(message, targetId, argArray[2]);
+      api.sendPrivateMsg(message, targetId, argArray[2]);
     }
   });
-  proxy.send_group_msg = new Proxy(api.send_group_msg, {
+  proxy.sendGroupMsg = new Proxy(api.sendGroupMsg, {
     apply(_, __, argArray) {
       const { '0': message, '1': targetId } = argArray;
       const cancel = cancelFactory();
       ctx.emit('before_send', { api, message, messageType: MessageScope.PRIVATE, targetId, cancel: cancel.get() });
       if (cancel.value) return;
-      api.send_group_msg(message, targetId, argArray[2]);
+      api.sendGroupMsg(message, targetId, argArray[2]);
     }
   });
   return proxy;
 }
 
-function sendMessageFactory(adapter: Adapter, type: MessageScope, data: Parameters<Adapter['emit']>[1]) {
-  if (type === MessageScope.GROUP && 'groupId' in data) {
+function sendMessageFactory(adapter: Adapter, data: Parameters<Adapter['session']>[1]) {
+  if (data.type === MessageScope.GROUP && 'groupId' in data) {
     return (message: MessageRaw) => {
-      adapter.api.send_group_msg(message, data.groupId as EventDataTargetId, data.extra);
+      adapter.api.sendGroupMsg(message, data.groupId as EventDataTargetId, data.extra);
     };
   }
   return (message: MessageRaw) => {
-    adapter.api.send_private_msg(message, data.userId, data.extra);
+    adapter.api.sendPrivateMsg(message, data.userId, data.extra);
   };
 }
 
@@ -101,15 +100,16 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     ctx: Context,
     config: AdapterConfig,
     identity: string,
-    ApiClass: ApiClass<T>,
-    El: new (adapter: Adapter) => Elements = Elements
+    Api: new (adapter: Adapter) => T,
+    el: Elements = new Elements()
   ) {
     super('adapter', '');
     this.ctx = ctx;
     this.config = config;
     this.identity = identity;
     this.platform = config.extends;
-    this.api = setProxy(new ApiClass(this, new El(this)), this.ctx);
+    this.api = setProxy(new Api(this), this.ctx);
+    this.elements = el;
     if (!this.ctx[Symbols.bot].get(this.platform)) this.ctx[Symbols.bot].set(this.platform, new Set());
     this.ctx[Symbols.bot].get(this.platform)!.add(this.api);
   }
@@ -118,28 +118,26 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
 
   protected online() {
     if (this.status.value !== 'offline') return;
-    this.ctx.emit('online', { adapter: this });
+    this.ctx.emit('status', { adapter: this, status: 'online' });
     this.status.value = 'online';
   }
 
   protected offline() {
     if (this.status.value !== 'online') return;
-    this.ctx.emit('offline', { adapter: this });
+    this.ctx.emit('status', { adapter: this, status: 'offline' });
     this.status.value = 'offline';
     this.status.offlineTimes += 1;
   }
 
-  protected emit<N extends keyof EventApiType>(
+  protected session<N extends keyof EventApiType>(
     type: N,
-    data: Omit<EventApiType[N], 'type' | 'api' | 'send' | 'i18n' | 'quick' | 'el' | 'error' | 'messageType'>
+    data: Omit<EventApiType[N], 'api' | 'send' | 'i18n' | 'quick' | 'el' | 'error'>
   ) {
-    const messageType = type.includes('group') ? MessageScope.GROUP : MessageScope.PRIVATE;
     const i18n = this.ctx.i18n.extends(this.config.lang ?? this.ctx.config.global.lang);
-    const send = sendMessageFactory(this, messageType, data);
+    const send = sendMessageFactory(this, data);
     const quick = qucikFactory(send, i18n as I18n);
-    const { api } = this;
-    const { elements: el } = this.api;
-    this.ctx.emit<N>(type, { ...data, api, send, i18n, quick, el, messageType, error } as unknown as EventsList[N]);
+    const { api, elements: el } = this;
+    (this.ctx.emit as Function)(type, { ...data, api, el, send, i18n, quick, error });
   }
 
   readonly ctx: Context;
@@ -151,6 +149,8 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
   readonly platform: string;
 
   readonly api: T;
+
+  readonly elements: Elements;
 
   readonly status: AdapterStatus = {
     value: 'offline',

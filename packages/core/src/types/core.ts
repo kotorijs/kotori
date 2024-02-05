@@ -1,5 +1,15 @@
-export interface EventDataBase<T extends keyof EventsList> {
-  type: T;
+export type EventsList = {
+  [K in keyof EventsMapping]: Parameters<EventsMapping[K]>[1] extends never | undefined | null
+    ? Parameters<EventsMapping[K]>[0]
+    : [...Parameters<EventsMapping[K]>];
+};
+
+export interface EventsMapping {
+  ready(): void;
+  error(data: EventDataError): void;
+  dispose(): void;
 }
 
-export interface EventsList {}
+interface EventDataError {
+  error: unknown;
+}

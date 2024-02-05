@@ -6,7 +6,10 @@
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "dependencies": {
-    "@kotori-bot/tools": "workspace:^"
+    "@kotori-bot/tools": "workspace:^",
+    "colorette": "^2.0.20",
+    "fast-safe-stringify": "^2.1.1",
+    "js-beautify": "^1.14.11"
   },
   "keywords": [
     "kotori",
@@ -24,5 +27,9 @@
     "type": "git",
     "url": "git+https://github.com/kotorijs/kotori.git"
   },
-  "homepage": "https://kotori.js.org  "
+  "homepage": "https://kotori.js.org  ",
+  "devDependencies": {
+    "pino": "^8.18.0",
+    "pino-pretty": "^10.3.1"
+  }
 }

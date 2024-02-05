@@ -62,8 +62,8 @@ export class Context implements ContextImpl {
     });
   }
 
-  extends<T extends obj = {}>(meta: T = {} as T, identity: string = 'sub') {
-    const metaHandle = meta;
+  extends<T extends obj = {}>(meta?: T, identity?: string) {
+    const metaHandle = meta ?? ({} as T);
     /* clear function */
     Object.keys(metaHandle).forEach((key) => {
       if (typeof this[key as keyof this] === 'function') delete metaHandle[key];
@@ -80,7 +80,7 @@ export class Context implements ContextImpl {
     /* set proxy */
     const ctx: Context = new Proxy(new Context(this.root), {
       get: <T>(target: T, prop: keyof T) => {
-        if (prop === 'identity') return identity;
+        if (prop === 'identity') return identity ?? this.identity ?? 'sub';
         if (target[prop]) return target[prop];
         let value: unknown;
         this[Symbols.table].forEach((keys, key) => {
@@ -89,7 +89,7 @@ export class Context implements ContextImpl {
           if (typeof value === 'function') value = value.bind(ctx[Symbols.container].get(key));
         });
         if (value !== undefined) return value;
-        if (meta[prop]) return handler(meta[prop], ctx);
+        if (metaHandle[prop]) return handler(metaHandle[prop], ctx);
         return handler(this[prop as keyof this], ctx);
       }
     });

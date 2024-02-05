@@ -3,12 +3,12 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:13
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-03 16:55:35
+ * @LastEditTime: 2024-02-05 17:15:06
  */
 import { Api, MessageRaw } from 'kotori-bot';
 
 export class OnebotApi extends Api {
-  send_private_msg(message: MessageRaw, userId: number) {
+  sendPrivateMsg(message: MessageRaw, userId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
@@ -20,7 +20,7 @@ export class OnebotApi extends Api {
    * @param {groupId} groupId 群号
    * @return {void}
    */
-  send_group_msg(message: MessageRaw, groupId: number) {
+  sendGroupMsg(message: MessageRaw, groupId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
@@ -84,9 +84,9 @@ export class OnebotApi extends Api {
    * @param {number} time 禁言时长,单位秒,0表示取消禁言
    * @return {void}
    */
-  set_group_ban(groupId: number, userId?: number, time: number = 0) {
+  setGroupBan(groupId: number, userId?: number, time: number = 0) {
     if (userId) {
-      this.adapter.send('set_group_ban', { group_id: groupId, user_id: userId, duration: time });
+      this.adapter.send('setGroupBan', { group_id: groupId, user_id: userId, duration: time });
     } else {
       this.adapter.send('set_group_whole_ban', { group_id: groupId, enable: !!time });
     }
@@ -99,8 +99,8 @@ export class OnebotApi extends Api {
    * @param {string} image 图片路径(可选)
    * @return {void}
    */
-  send_group_notice(groupId: number, content: string, image?: string) {
-    this.adapter.send('_send_group_notice', { group_id: groupId, content, image });
+  sendGroupNotice(groupId: number, content: string, image?: string) {
+    this.adapter.send('_sendGroupNotice', { group_id: groupId, content, image });
   }
 
   /**
@@ -109,8 +109,8 @@ export class OnebotApi extends Api {
    * @param {number} userId 要踢的QQ号
    * @return {void}
    */
-  set_group_kick(groupId: number, userId: number) {
-    this.adapter.send('set_group_kick', { group_id: groupId, user_id: userId, reject_add_request: false });
+  setGroupKick(groupId: number, userId: number) {
+    this.adapter.send('setGroupKick', { group_id: groupId, user_id: userId, reject_add_request: false });
   }
 
   /**
@@ -118,8 +118,8 @@ export class OnebotApi extends Api {
    * @param {number} groupId 群号
    * @return {void}
    */
-  set_group_leave(groupId: number) {
-    this.adapter.send('set_group_leave', { group_id: groupId, is_dismiss: false });
+  setGroupLeave(groupId: number) {
+    this.adapter.send('setGroupLeave', { group_id: groupId, is_dismiss: false });
   }
 
   /* extra: ApiExtraValue = { type: 'onebot', image, at, poke }; */

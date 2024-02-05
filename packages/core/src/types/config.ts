@@ -1,6 +1,27 @@
-import type { Core } from '../components';
+import { LocaleType } from '@kotori-bot/i18n';
+import { EventDataTargetId } from '.';
 
-export type CoreConfig = Exclude<ConstructorParameters<typeof Core>[0], undefined>;
-export type KotoriConfig = CoreConfig['config'];
-export type AdapterConfig = KotoriConfig['adapter'][0];
-export type ModuleConfig = KotoriConfig['plugin'][0];
+export interface CoreConfig {
+  global: GlobalConfig;
+  adapter: {
+    [propName: string]: AdapterConfig;
+  };
+  plugin: {
+    [propName: string]: ModuleConfig;
+  };
+}
+
+export interface GlobalConfig {
+  lang: LocaleType;
+  'command-prefix': string;
+}
+
+export interface AdapterConfig {
+  extends: string;
+  master: EventDataTargetId;
+  lang: LocaleType;
+  'command-prefix': string;
+}
+export interface ModuleConfig {
+  filter: object;
+}

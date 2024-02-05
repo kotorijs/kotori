@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-01-14 17:45:01
+ * @LastEditTime: 2024-02-05 17:47:26
  */
-import { Adapter, AdapterConfig, Context, Tsu, obj } from 'kotori-bot';
+import { Adapter, AdapterConfig, Context, MessageScope, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
 import { PlayloadData } from './types';
@@ -37,7 +37,7 @@ export class QQAdapter extends Adapter<QQApi> {
   readonly config: QQConfig;
 
   constructor(ctx: Context, config: QQConfig, identity: string) {
-    super(ctx, config, identity, QQApi, QQElements);
+    super(ctx, config, identity, QQApi, new QQElements());
     this.config = config;
   }
 
@@ -51,21 +51,18 @@ export class QQAdapter extends Adapter<QQApi> {
           shard: [0, 1]
         }
       });
-      this.ctx.emit('connect', {
-        service: this,
-        normal: true,
-        onlyStart: true,
-        info: `logging in qqbot...`
-      });
     } else if (data.t === 'READY') {
       this.ctx.emit('connect', {
-        service: this,
+        type: 'connect',
+        adapter: this,
         normal: true,
-        info: `logged in qqbot successfully`
+        mode: 'ws',
+        address: WS_ADDRESS
       });
       this.heartbeat();
     } else if (data.t === 'GROUP_AT_MESSAGE_CREATE') {
-      this.emit('group_msg', {
+      this.session('on_message', {
+        type: MessageScope.GROUP,
         userId: data.d.author.member_openid,
         messageId: data.d.id,
         extra: data.d.id,
@@ -93,10 +90,12 @@ export class QQAdapter extends Adapter<QQApi> {
   }
 
   stop() {
-    this.ctx.emit('disconnect', {
-      service: this,
+    this.ctx.emit('connect', {
+      type: 'disconnect',
+      adapter: this,
       normal: true,
-      info: `disconnect from ${WS_ADDRESS}`
+      mode: 'ws',
+      address: WS_ADDRESS
     });
     this.socket?.close();
     this.offline();
@@ -148,7 +147,6 @@ export class QQAdapter extends Adapter<QQApi> {
         url: params.url,
         srv_send_msg: false
       };
-      console.log(req);
       this.msg_seq += 1;
     }
     if (cancel) return undefined;
@@ -166,18 +164,22 @@ export class QQAdapter extends Adapter<QQApi> {
   private async connect() {
     this.socket = new WebSocket(WS_ADDRESS);
     this.socket.on('close', () => {
-      this.ctx.emit('disconnect', {
-        service: this,
+      this.ctx.emit('connect', {
+        type: 'disconnect',
+        adapter: this,
         normal: false,
-        info: `unexpected disconnect server from ${WS_ADDRESS}, will reconnect in ${this.config.retry} seconds`
+        address: WS_ADDRESS,
+        mode: 'ws'
       });
       setTimeout(() => {
         if (!this.socket) return;
         this.socket.close();
         this.ctx.emit('connect', {
-          service: this,
+          type: 'connect',
+          adapter: this,
           normal: false,
-          info: `reconnect server to ${WS_ADDRESS}`
+          mode: 'ws',
+          address: WS_ADDRESS
         });
         this.start();
       }, this.config.retry * 1000);
@@ -192,12 +194,7 @@ export class QQAdapter extends Adapter<QQApi> {
     })) as any;
     if (!data.access_token) {
       this.offline();
-
-      this.ctx.emit('disconnect', {
-        service: this,
-        normal: false,
-        info: `got token error!`
-      });
+      this.ctx.logger.error('got token error!');
       return;
     }
     this.token = data.access_token;

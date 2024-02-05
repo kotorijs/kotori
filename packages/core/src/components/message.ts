@@ -3,11 +3,11 @@ import I18n from '@kotori-bot/i18n';
 import { Context, Symbols } from '../context';
 import {
   CommandAccess,
-  MessageScope,
   type CommandConfig,
   type EventsList,
   type MidwareCallback,
-  type RegexpCallback
+  type RegexpCallback,
+  SessionData
 } from '../types';
 import { cancelFactory, disposeFactory } from '../utils/factory';
 import { Command } from '../utils/command';
@@ -41,7 +41,7 @@ export class Message {
 
   readonly [Symbols.regexp]: Set<RegexpData> = new Set();
 
-  private handleMidware(session: EventsList['group_msg'] | EventsList['private_msg']) {
+  private handleMidware(session: SessionData) {
     const { api } = session;
     api.adapter.status.receivedMsg += 1;
     let isPass = true;
@@ -57,32 +57,32 @@ export class Message {
       lastMidwareNum = midwares.length;
       session.quick(midwares[0].callback(() => midwares.shift(), session));
     }
-    this.ctx.emit('midwares', { isPass, event: session });
+    this.ctx.emit('midwares', { isPass, session });
   }
 
-  private async handleRegexp(session: EventsList['midwares']) {
-    const { event } = session;
-    if (!session.isPass) return;
+  private async handleRegexp(data: EventsList['midwares']) {
+    const { session } = data;
+    if (!data.isPass) return;
     this[Symbols.regexp].forEach((data) => {
-      const match = event.message.match(data.match);
+      const match = session.message.match(data.match);
       if (!match) return;
-      event.quick(data.callback(match, event));
+      session.quick(data.callback(match, session));
     });
   }
 
-  private handleCommand(session: EventsList['midwares']) {
-    const { event } = session;
-    const prefix = event.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix'];
-    if (!event.message.startsWith(prefix)) return;
+  private handleCommand(data: EventsList['midwares']) {
+    const { session } = data;
+    const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix'];
+    if (!session.message.startsWith(prefix)) return;
     const params = {
-      event,
-      command: stringRightSplit(event.message, prefix)
+      session,
+      command: stringRightSplit(session.message, prefix)
     };
     this.ctx.emit('before_parse', params);
     const cancel = cancelFactory();
     const cmdParams = {
-      scope: (event.type === 'group_msg' ? MessageScope.GROUP : MessageScope.PRIVATE) as MessageScope,
-      access: event.userId === event.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER
+      scope: session.type,
+      access: session.userId === session.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER
     };
     this.ctx.emit('before_command', { cancel: cancel.get(), ...params, ...cmdParams });
     if (cancel.value) return;
@@ -95,16 +95,19 @@ export class Message {
       this.ctx.emit('parse', { result, ...params, cancel: cancel.get() });
       if (cancel.value || result instanceof CommandError) return;
       try {
-        const executed = await cmd.meta.action({ args: result.args, options: result.options }, event);
+        const executed = await cmd.meta.action({ args: result.args, options: result.options }, session);
         if (executed instanceof CommandError) {
           this.ctx.emit('command', { result, ...params, ...cmdParams });
           return;
         }
         if (executed !== undefined) {
-          event.send(
+          session.send(
             Array.isArray(executed)
-              ? stringTemp(event.i18n.locale(executed[0]), objectTempFactory(event.i18n)(executed[1] as obj<string>))
-              : event.i18n.locale(executed)
+              ? stringTemp(
+                  session.i18n.locale(executed[0]),
+                  objectTempFactory(session.i18n)(executed[1] as obj<string>)
+                )
+              : session.i18n.locale(executed)
           );
         }
         this.ctx.emit('command', {
@@ -132,12 +135,11 @@ export class Message {
 
   constructor(ctx: Context) {
     this.ctx = ctx;
-    this.ctx.on('private_msg', (session) => this.handleMidware(session));
-    this.ctx.on('group_msg', (session) => this.handleMidware(session));
-    this.ctx.on('midwares', (session) => this.handleCommand(session));
-    this.ctx.on('midwares', (session) => this.handleRegexp(session));
-    this.ctx.before('send', (session) => {
-      const { api } = session;
+    this.ctx.on('on_message', (data) => this.handleMidware(data));
+    this.ctx.on('midwares', (data) => this.handleCommand(data));
+    this.ctx.on('midwares', (data) => this.handleRegexp(data));
+    this.ctx.on('before_send', (data) => {
+      const { api } = data;
       api.adapter.status.sentMsg += 1;
     });
   }
@@ -169,8 +171,8 @@ export class Message {
   // boardcast(type: MessageScope, message: MessageRaw) {
   //   const send =
   //     type === 'private'
-  //       ? (api: Api) => api.send_private_msg(message, 1)
-  //       : (api: Api) => api.send_group_msg(message, 1);
+  //       ? (api: Api) => api.send_on_message(message, 1)
+  //       : (api: Api) => api.send_on_message(message, 1);
   //   /* this need support of database... */
   //   Object.values(this.botStack).forEach((apis) => {
   //     /* feating... */
@@ -183,7 +185,7 @@ export class Message {
   //   Object.values(this.botStack).forEach((apis) =>
   //     apis.forEach((api) => {
   //       if (api.adapter.identity !== mainAdapterIdentity) return;
-  //       api.send_private_msg(message, api.adapter.config.master);
+  //       api.send_on_message(message, api.adapter.config.master);
   //     })
   //   );
   // }
