@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies: 0 */
 import stringify from 'fast-safe-stringify';
 import { createColors } from 'colorette';
 import dayjs from 'dayjs';
@@ -54,7 +53,7 @@ function format(template: string, args: Record<string, string>) {
 export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
   private c: ReturnType<typeof createColors>;
 
-  private render(data: LoggerData) {
+  render(data: LoggerData) {
     const { options, c } = this;
     const handle = (content: string, color: Color | undefined) => (color ? c[color](content) : content);
     const time = handle(

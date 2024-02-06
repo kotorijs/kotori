@@ -1,5 +1,3 @@
-/* eslint max-classes-per-file: 0 */
-
 import Logger, { ConsoleTransport, LoggerLevel } from '..';
 
 const logger = new Logger({
@@ -40,4 +38,4 @@ const b = () => {};
 logger
   .label('label father')
   .label('label child')
-  .warn(`function and class`, a, A, b, class {}, () => {}, new A());
+  .warn(`function and class`, a, A, b, () => {}, new A());

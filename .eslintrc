@@ -12,6 +12,8 @@
     "@typescript-eslint"
   ],
   "rules": {
+    /* 经常发癫 */
+    "import/no-extraneous-dependencies": 0,
     // "@typescript-eslint/no-explicit-any": 0,
     // "@typescript-eslint/no-namespace": 0,
     // "no-console": 0,
