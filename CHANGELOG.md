@@ -1,3 +1,25 @@
+# [1.2.0](https://github.com/kotorijs/kotori/compare/v1.1.0...v1.2.0) (2024-02-06)
+
+
+### Bug Fixes
+
+* module load logic ([8b4c508](https://github.com/kotorijs/kotori/commit/8b4c508e24315f167ed5cd02d505134586de7259))
+
+
+### Features
+
+* events class move to @kotori-bot/tools ([a4e016d](https://github.com/kotorijs/kotori/commit/a4e016d9e898932af8017f0251a5a1d951ab2a7b))
+* new @kotori-bot/i18n ([b2bf016](https://github.com/kotorijs/kotori/commit/b2bf0161f10b2dec494ca3d109fc36ff853d8377))
+* new command parse ([85f1ea0](https://github.com/kotorijs/kotori/commit/85f1ea031073f636c2e0374e7bce979d91d3648c))
+* new context ([4843569](https://github.com/kotorijs/kotori/commit/4843569e9242aba4c1af48c0ccf6f532e229c392))
+* new logger ([f2cfd06](https://github.com/kotorijs/kotori/commit/f2cfd067bbd20e70eed00d6e8d662b15b7baf1a8))
+* qqadapter send image ([be9e966](https://github.com/kotorijs/kotori/commit/be9e966c8c44e0057a8a22110c979b2502d753c8))
+* service, cache, module config ([8a347ec](https://github.com/kotorijs/kotori/commit/8a347ec0b8c4225914847009d17573c6dadfc6a3))
+* service, cache, module config ([83bf83e](https://github.com/kotorijs/kotori/commit/83bf83eba328ac55adcebf2b4387ec5277c2c385))
+* service, cache, module config ([d42ec69](https://github.com/kotorijs/kotori/commit/d42ec69cf53450ffc776e1aaf28a360da758f389))
+
+
+
 # [1.1.0](https://github.com/kotorijs/kotori/compare/v1.0.0...v1.1.0) (2023-12-31)
 
 
