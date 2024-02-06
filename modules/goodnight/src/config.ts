@@ -4,5 +4,5 @@ export default {
   sleepTimeLess: 3,
   sleepTimeLater: [1, 7],
   sleepTimeLate: [23, 1],
-  sleepTimeNormal: [20, 23],
+  sleepTimeNormal: [20, 23]
 };

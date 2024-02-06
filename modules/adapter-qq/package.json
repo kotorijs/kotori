@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-qq",
-  "version": "1.0.0",
+  "version": "v1.1.0",
   "description": "Adapter For QQ Base On Tencent Api",
   "main": "lib/index.js",
   "scripts": {

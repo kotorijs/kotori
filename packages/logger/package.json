@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/logger",
-  "version": "1.0.0",
+  "version": "v1.1.0",
   "description": "Logger For Kotori",
   "main": "lib/index.js",
   "license": "GPL-3.0",
