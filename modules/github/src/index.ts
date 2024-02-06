@@ -6,16 +6,16 @@ const githubSchema = Tsu.Union([
     description: Tsu.String().default('corei18n.template.empty'),
     language: Tsu.String().default('corei18n.template.empty'),
     owner: Tsu.Object({ login: Tsu.String().default('corei18n.template.empty') }).default({
-      login: 'corei18n.template.empty',
+      login: 'corei18n.template.empty'
     }),
     created_at: Tsu.String(),
     updated_at: Tsu.String(),
     pushed_at: Tsu.String(),
     license: Tsu.Object({ name: Tsu.String().default('corei18n.template.empty') }).default({
-      name: 'corei18n.template.empty',
-    }),
+      name: 'corei18n.template.empty'
+    })
   }),
-  Tsu.Object({}),
+  Tsu.Object({})
 ]);
 
 export const lang = [__dirname, '../locales'];
@@ -34,11 +34,11 @@ export function main(ctx: Context) {
         create: res.created_at || 'BOT_RESULT.EMPTY',
         update: res.updated_at || 'BOT_RESULT.EMPTY',
         push: res.pushed_at || 'BOT_RESULT.EMPTY',
-        license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
-      },
+        license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY'
+      }
     ]);
     return session.el.image(
-      `https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`,
+      `https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`
     );
   });
 }

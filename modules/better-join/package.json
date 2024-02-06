@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-better-join",
-  "version": "1.0.0",
+  "version": "v1.1.0",
   "description": "better join tips,before close manger's join welcome",
   "main": "lib/index.js",
   "scripts": {

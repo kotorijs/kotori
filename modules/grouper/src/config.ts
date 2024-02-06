@@ -4,6 +4,6 @@ export default {
   guess: {
     max: 1000,
     min: 1,
-    range: 100,
-  },
+    range: 100
+  }
 };

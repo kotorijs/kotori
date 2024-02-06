@@ -1,7 +1,7 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.1.0",
+  "version": "v1.2.0",
   "private": true,
   "scripts": {
     "kotori": "pnpm --filter kotori-bot",

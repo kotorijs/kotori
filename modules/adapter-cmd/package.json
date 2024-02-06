@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-cmd",
-  "version": "1.0.0",
+  "version": "v1.1.0",
   "description": "Adapter For Cmd",
   "main": "lib/index.js",
   "scripts": {

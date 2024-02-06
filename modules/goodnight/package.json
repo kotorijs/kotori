@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-goodnight",
-  "version": "1.1.0",
+  "version": "v1.2.0",
   "description": "And in case i don't see you,good afternoon,good evening,and good night!",
   "main": "lib/index.js",
   "scripts": {
