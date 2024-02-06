@@ -1,7 +1,6 @@
 import cac from 'cac';
-import { Loader } from '@kotori-bot/loader';
+import { Loader, Logger } from '@kotori-bot/loader';
 import { readFileSync } from 'fs';
-import { obj } from '.';
 
 const program = cac();
 
@@ -13,18 +12,18 @@ program
   .command('')
   .option('--dir [path]', 'Set running root dir of program')
   .action((options) => {
-    (globalThis as obj).env_mode = 'build';
-    new Loader().run();
+    Logger.info(options);
+    new Loader({ mode: 'build' }).run();
   });
 
 program
   .command('ui')
   .option('-l, --lang', 'Set view language of ui')
   .action((options) => {
-    console.log('ui');
+    Logger.info('ui', options);
   });
 
-program.command('module').action(() => console.log('module'));
-program.command('module search <name>').action(() => console.log('module search'));
-program.command('module download <name>').action(() => console.log('module download'));
+program.command('module').action(() => Logger.info('module'));
+program.command('module search <name>').action(() => Logger.info('module search'));
+program.command('module download <name>').action(() => Logger.info('module download'));
 program.parse();

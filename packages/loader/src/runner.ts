@@ -14,6 +14,7 @@ import {
   stringRightSplit
 } from '@kotori-bot/core';
 import { DEFAULT_SUPPORTS, LocaleType } from '@kotori-bot/i18n';
+import Logger, { ConsoleTransport, LoggerLevel } from '@kotori-bot/logger';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 
 interface BaseDir {
@@ -23,7 +24,7 @@ interface BaseDir {
 }
 
 interface Options {
-  env: 'dev' | 'build';
+  mode: 'dev' | 'build';
 }
 
 interface RunnerConfig {
@@ -84,7 +85,28 @@ export class Runner {
     /* handle config */
     this.baseDir = config.baseDir;
     this.options = config.options;
-    this.isDev = this.options.env === 'dev';
+    this.isDev = this.options.mode === 'dev';
+    if (this.isDev) this.watcher();
+    const loggerOptions = {
+      level: this.isDev ? LoggerLevel.TRACE : LoggerLevel.INFO,
+      label: [],
+      transports: new ConsoleTransport()
+    };
+    const logger: Logger & { ctx: Context } = Object.assign(new Logger(), { ctx: this.ctx });
+    ctx.provide(
+      'logger',
+      logger.extends(
+        new Proxy(loggerOptions, {
+          get: (target, prop, receiver) => {
+            if (prop === 'label') {
+              return logger.ctx.identity ? [logger.ctx.identity, ...target.label] : target.label;
+            }
+            return Reflect.get(target, prop, receiver);
+          }
+        })
+      )
+    );
+    ctx.inject('logger');
   }
 
   private getDirFiles(rootDir: string) {

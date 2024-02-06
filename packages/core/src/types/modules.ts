@@ -9,7 +9,7 @@ declare module './core' {
 
 interface EventDataReadyModule {
   module: ModuleInstance | string;
-  state: boolean;
+  error?: unknown;
 }
 
 interface EventDataDisposeModule {

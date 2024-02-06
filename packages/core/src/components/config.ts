@@ -23,12 +23,12 @@ export class Config {
     /* load package.json */
     const info = loadConfig(join(__dirname, '../../package.json')) as unknown;
     if (!info || Object.values(info).length === 0) {
-      console.error(`Cannot find kotori-bot package.json`);
+      process.stderr.write(`Cannot find kotori-bot package.json\n`);
       process.exit();
     }
     const result = packageInfoSchema.parseSafe(info);
     if (!result.value) {
-      console.error(`File package.json format error: ${result.error.message}`);
+      process.stderr.write(`File package.json format error: ${result.error.message}\n`);
       process.exit();
     }
     this.pkg = result.data;

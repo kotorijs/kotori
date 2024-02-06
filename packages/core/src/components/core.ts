@@ -1,5 +1,4 @@
-import { Events, Http, obj } from '@kotori-bot/tools';
-import Logger from '@kotori-bot/logger';
+import { Events, Http } from '@kotori-bot/tools';
 import I18n from '@kotori-bot/i18n';
 import type { Parser } from 'tsukiko';
 import { Context, Symbols } from '../context';
@@ -33,7 +32,6 @@ declare module '../context' {
     /* Inject */
     http: Http;
     i18n: I18n;
-    logger: typeof Logger;
   }
 }
 
@@ -57,16 +55,6 @@ export class Core extends Context {
     this.provide('i18n', new I18n({ lang: this.config.global.lang }));
     this.inject('i18n');
     this.inject('i18n');
-    const logger = Object.assign(
-      Logger,
-      new Proxy(Logger.debug, {
-        apply: (target, _, argArray) => {
-          if ((globalThis as obj).env_mode === 'dev') target(argArray);
-        }
-      })
-    );
-    this.provide('logger', logger);
-    this.inject('logger');
   }
 }
 

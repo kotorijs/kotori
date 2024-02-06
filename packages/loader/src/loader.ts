@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-05 18:45:51
+ * @LastEditTime: 2024-02-06 20:01:10
  */
 import {
   KotoriError,
@@ -22,9 +22,10 @@ import {
 import { DEFAULT_LANG } from '@kotori-bot/i18n';
 import path from 'path';
 import fs from 'fs';
+import Logger from '@kotori-bot/logger';
 import Runner, { localeTypeSchema } from './runner';
 import loadInfo from './log';
-import { SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './consts';
+import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './consts';
 
 declare module '@kotori-bot/core' {
   interface Context {
@@ -33,6 +34,7 @@ declare module '@kotori-bot/core' {
     readonly [Symbols.modules]: Runner[typeof Symbols.modules];
     useAll(): void; // Symbols
     watcher(): void;
+    logger: Logger;
   }
 
   interface GlobalConfig {
@@ -44,35 +46,38 @@ const enum GLOBAL {
   REPO = 'https://github.com/kotorijs/kotori'
 }
 
-function isDev() {
-  return (globalThis as obj).env_mode === 'dev';
-}
-
-const CONFIG_FILE = () => (isDev() ? 'kotori.dev.yml' : 'kotori.yml');
-
-function getBaseDir() {
+function getRunnerConfig(file: string, dir?: string) {
   const handle = (baseDir: Runner['baseDir']) => {
     if (!fs.existsSync(baseDir.modules)) fs.mkdirSync(baseDir.modules);
     if (!fs.existsSync(baseDir.logs)) fs.mkdirSync(baseDir.logs);
     return baseDir;
   };
-  const { env_dir: envDir } = globalThis as obj;
-  if (envDir) return handle({ root: envDir, modules: path.join(envDir, 'modules'), logs: path.join(envDir, 'logs') });
+  const options = {
+    mode: file === DEV_CONFIG_NAME ? 'dev' : 'build'
+  } as const;
+  if (dir)
+    return {
+      baseDir: handle({ root: dir, modules: path.join(dir, 'modules'), logs: path.join(dir, 'logs') }),
+      options
+    };
   let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
   let count = 0;
-  while (!fs.existsSync(path.join(root, CONFIG_FILE()))) {
+  while (!fs.existsSync(path.join(root, file))) {
     if (count > 5) {
-      console.error(`cannot find kotori-bot global ${CONFIG_FILE()}`);
+      Logger.fatal(`cannot find file ${file} `);
       process.exit();
     }
     root = path.join(root, '..');
     count += 1;
   }
-  return handle({ root, modules: path.join(root, 'modules'), logs: path.join(root, 'logs') });
+  return {
+    baseDir: handle({ root, modules: path.join(root, 'modules'), logs: path.join(root, 'logs') }),
+    options
+  };
 }
 
 /* eslint consistent-return: 0 */
-function getCoreConfig(baseDir: Runner['baseDir']) {
+function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
   try {
     const result1 = Tsu.Object({
       global: Tsu.Object({
@@ -89,7 +94,7 @@ function getCoreConfig(baseDir: Runner['baseDir']) {
         .default({})
     })
       .default({ global: Object.assign(DEFAULT_CORE_CONFIG.global), plugin: DEFAULT_CORE_CONFIG.plugin })
-      .parse(loadConfig(path.join(baseDir.root, CONFIG_FILE()), 'yaml'));
+      .parse(loadConfig(path.join(baseDir.root, file), 'yaml'));
     return Tsu.Object({
       adapter: Tsu.Object({})
         .index(
@@ -104,7 +109,7 @@ function getCoreConfig(baseDir: Runner['baseDir']) {
     }).parse(result1) as CoreConfig;
   } catch (err) {
     if (!(err instanceof TsuError)) throw err;
-    console.error(`kotori-bot global ${CONFIG_FILE} format error: ${err.message}`);
+    Logger.fatal(`file ${file} format error: ${err.message}`);
     process.exit();
   }
 }
@@ -116,13 +121,13 @@ export class Loader extends Container {
 
   private failLoadCount: number = 0;
 
-  constructor() {
+  constructor(options?: { dir?: string; mode?: string }) {
     super();
-    const baseDir = getBaseDir();
-    const options = { env: isDev() ? 'dev' : 'build' } as const;
-    const ctx = new Core(getCoreConfig(baseDir));
-    ctx.provide('modulesall', new Runner(ctx, { baseDir, options }));
-    ctx.mixin('modulesall', ['baseDir', 'options', 'useAll', 'watcher']);
+    const file = options && options.mode ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
+    const runnerConfig = getRunnerConfig(file, options?.dir);
+    const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
+    ctx.provide('runner', new Runner(ctx, runnerConfig));
+    ctx.mixin('runner', ['baseDir', 'options', 'useAll', 'watcher']);
     Container.setInstance(ctx);
     this.ctx = Container.getInstance();
   }
@@ -137,71 +142,75 @@ export class Loader extends Container {
 
   private handleError(err: Error | unknown, prefix: string) {
     if (!(err instanceof KotoriError)) {
-      this.ctx.logger.tag(prefix, 'default', prefix === 'UCE' ? 'cyanBG' : 'greenBG').error(err);
+      this.ctx.logger.label(prefix).error(err);
       return;
     }
-    this.ctx.logger
-      .tag(err.name.split('Error')[0].toUpperCase(), 'yellow', 'default')
-      [err.level === 'normal' ? 'error' : err.level](err.message, err.stack);
+    ({
+      DatabaseError: () => this.ctx.logger.label('database').warn(err.message, err.stack),
+      ModuleError: () => this.ctx.logger.label('module').error(err.message, err.stack),
+      UnknownError: () => this.ctx.logger.error(err.name, err.stack),
+      DevError: () => this.ctx.logger.label('error').debug(err.name, err.stack)
+    })[err.name]();
   }
 
   private catchError() {
-    process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'UCE'));
-    process.on('unhandledRejection', (err) => this.handleError(err, 'UHR'));
-    process.on('SIGINT', () => {
-      process.exit();
-    });
+    process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'sync'));
+    process.on('unhandledRejection', (err) => this.handleError(err, 'async'));
+    process.on('SIGINT', () => process.exit());
     this.ctx.logger.debug('run info: develop with debuing...');
   }
 
   private listenMessage() {
-    this.ctx.on('error', (data) => {
-      throw data.error;
-    });
     this.ctx.on('connect', (data) => {
       const { type, mode, normal, address, adapter } = data;
-      let info: string;
+      let msg: string;
       if (type === 'connect') {
         switch (mode) {
           case 'ws':
-            info = `${normal ? 'Connect' : 'Reconnect'} server to ${address}`;
+            msg = `${normal ? 'Connect' : 'Reconnect'} server to ${address}`;
             break;
           case 'ws-reverse':
-            info = `server ${normal ? 'start' : 'restart'} at ${address}`;
+            msg = `server ${normal ? 'start' : 'restart'} at ${address}`;
             break;
           default:
-            info = `ready completed about ${address}`;
+            msg = `ready completed about ${address}`;
         }
       } else {
         switch (mode) {
           case 'ws':
-            info = `disconnect server from ${address}${normal ? '' : ' unexpectedly'}`;
+            msg = `disconnect server from ${address}${normal ? '' : ' unexpectedly'}`;
             break;
           case 'ws-reverse':
-            info = `server stop at ${address}${normal ? '' : ' unexpectedly'}`;
+            msg = `server stop at ${address}${normal ? '' : ' unexpectedly'}`;
             break;
           default:
-            info = `dispose completed about ${address}`;
+            msg = `dispose completed about ${address}`;
         }
       }
-      this.ctx.logger[normal ? 'log' : 'warn'](`[${adapter.platform}]`, `${adapter.identity}:`, info);
+      this.ctx.logger.label([adapter.platform, adapter.identity])[normal ? 'info' : 'warn'](msg);
     });
     this.ctx.on('status', (data) => {
       const { status, adapter } = data;
-      this.ctx.logger.log(`[${adapter.platform}]`, `${adapter.identity}:`, status);
+      this.ctx.logger.label([adapter.platform, adapter.identity]).info(status);
     });
     this.ctx.on('ready_module', (data) => {
       if (!data.module || typeof data.module === 'string') return;
       this.loadCount += 1;
-      if (data.state) {
-        const { name, version, author } = data.module.pkg;
+      const { name, version, author } = data.module.pkg;
+      if (data.error) {
+        this.failLoadCount += 1;
+        this.ctx.logger.warn(`failed to load module ${name}`);
+        if (data.error instanceof KotoriError) {
+          process.emit('uncaughtExceptionMonitor', data.error);
+        } else {
+          this.ctx.logger.warn(data.error);
+        }
+      } else {
         this.ctx.logger.info(
-          `loaded ${name} version: ${version} ${
+          `loaded module ${name} version: ${version} ${
             Array.isArray(author) ? `authors: ${author.join(',')}` : `author: ${author}`
           }`
         );
-      } else {
-        this.failLoadCount += 1;
       }
       const requiredVersion = data.module.pkg.peerDependencies['kotori-bot'];
       if (
@@ -214,9 +223,9 @@ export class Loader extends Container {
           this.ctx.logger.error(`unsupported module version: ${requiredVersion}`);
         }
       }
-      if (this.loadCount !== this.ctx.get('modulesall')![Symbols.modules].size) return;
+      if (this.loadCount !== this.ctx.get('runner')![Symbols.modules].size) return;
       this.ctx.logger.info(
-        `loaded ${this.loadCount - this.failLoadCount} modules ${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''}`
+        `loaded ${this.loadCount - this.failLoadCount} modules successfully${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''} `
       );
       this.loadAllService();
       this.ctx.emit('ready');
@@ -225,7 +234,6 @@ export class Loader extends Container {
 
   private loadAllModule() {
     this.ctx.useAll();
-    if (isDev()) this.ctx.watcher();
   }
 
   private loadAllService() {
@@ -255,9 +263,9 @@ export class Loader extends Container {
       )
       .catch(() => this.ctx.logger.error('get update failed, please check your network'));
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
-      this.ctx.logger.error(`detection update failed`);
+      this.ctx.logger.warn(`detection update failed`);
     } else if (version === res.version) {
-      this.ctx.logger.log('kotori is currently the latest version');
+      this.ctx.logger.info('kotori is currently the latest version');
     } else {
       this.ctx.logger.warn(
         `the current version of Kotori is ${version}, and the latest version is ${res.version}. please go to ${GLOBAL.REPO} to update`
