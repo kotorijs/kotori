@@ -6,10 +6,5 @@ export type EventsList = {
 
 export interface EventsMapping {
   ready(): void;
-  error(data: EventDataError): void;
   dispose(): void;
-}
-
-interface EventDataError {
-  error: unknown;
 }

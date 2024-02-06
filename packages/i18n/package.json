@@ -16,7 +16,9 @@
     "tools"
   ],
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
@@ -25,5 +27,5 @@
     "type": "git",
     "url": "git+https://github.com/kotorijs/kotori.git"
   },
-  "homepage": "https://kotori.js.org  "
+  "homepage": "https://kotori.js.org"
 }

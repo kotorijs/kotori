@@ -11,7 +11,9 @@
     "bot"
   ],
   "files": [
-    "lib"
+    "lib",
+    "LICENSE",
+    "README.md"
   ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
@@ -23,7 +25,6 @@
   "homepage": "https://kotori.js.org",
   "dependencies": {
     "@kotori-bot/i18n": "workspace:^",
-    "@kotori-bot/logger": "workspace:^",
     "@kotori-bot/tools": "workspace:^",
     "@types/minimist": "^1.2.5",
     "minimist": "^1.2.8",

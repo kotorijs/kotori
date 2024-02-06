@@ -103,10 +103,9 @@ export class Modules {
       const exports = await import(`file://${isObject ? modules.main : resolve(modules)}`);
       const error = this.handleExports(identity, ctx, exports, config);
       if (error) throw error;
-      this.ctx.emit('ready_module', { module: modules, state: true });
+      this.ctx.emit('ready_module', { module: modules });
     } catch (error) {
-      this.ctx.emit('ready_module', { module: modules, state: false });
-      if (error) this.ctx.emit('error', { error });
+      this.ctx.emit('ready_module', { module: modules, error });
     }
   }
 

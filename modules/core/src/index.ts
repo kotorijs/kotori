@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-04 18:37:11
+ * @LastEditTime: 2024-02-06 20:01:48
  */
 
 import { Context, Symbols, formatTime, stringTemp } from 'kotori-bot';
@@ -24,7 +24,7 @@ export function main(ctx: Context) {
       {
         lang: config.global.lang,
         root: baseDir.root,
-        mode: options.env,
+        mode: options.mode,
         modules: ctx[Symbols.modules] ? ctx[Symbols.modules]!.size : 0,
         services: ctx[Symbols.adapter].size,
         bots: botsLength,

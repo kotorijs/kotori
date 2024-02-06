@@ -1,145 +1,101 @@
-/* import fs from 'fs';
-import path from 'path'; */
-/* eslint import/no-extraneous-dependencies: 0 */
-import pino from 'pino';
-import { formatTime, obj } from '@kotori-bot/tools';
+import type { LoggerData, LoggerFilter, LoggerOptions } from './types/internal';
+import { LoggerLevel } from './types/common';
+import { escaper } from './utils/escaper';
+import { DEFAULT_LOGGER_OPTIONS } from './const';
+import type Transport from './utils/transport';
+import { ConsoleTransport } from './transport';
 
-export enum LoggerLevel {
-  TRACE = 'trace',
-  DEBUG = 'debug',
-  INFO = 'info',
-  WARN = 'warn',
-  ERROR = 'error',
-  FATAL = 'fatal'
+function runTransport(transport: Transport, data: LoggerData, filter?: LoggerFilter) {
+  if (filter && !filter(data)) return;
+  if (transport.options.filter && !transport.options.filter(data)) return;
+  transport.handle(data);
 }
-
-interface LoggerOptions {
-  prefixs: (string | (() => string))[];
-  tags: string[];
-}
-
-type color = keyof typeof Logger.colorList;
-
-type prefixFunc<T = Logger> = (content: string | (() => string), startColor: color, endColor: color) => T;
 
 export class Logger {
-  static readonly colorList = {
-    default: '\x1B[0m', // 默认
-    bright: '\x1B[1m', // 亮色
-    grey: '\x1B[2m', // 灰色
-    italic: '\x1B[3m', // 斜体
-    underline: '\x1B[4m', // 下划线
-    reverse: '\x1B[7m', // 反向
-    hidden: '\x1B[8m', // 隐藏
-    black: '\x1B[30m', // 黑色
-    red: '\x1B[31m', // 红色
-    green: '\x1B[32m', // 绿色
-    yellow: '\x1B[33m', // 黄色
-    blue: '\x1B[34m', // 蓝色
-    magenta: '\x1B[35m', // 品红
-    cyan: '\x1B[36m', // 青色
-    white: '\x1B[37m', // 白色
-    blackBG: '\x1B[40m', // 背景色为黑色
-    redBG: '\x1B[41m', // 背景色为红色
-    greenBG: '\x1B[42m', // 背景色为绿色
-    yellowBG: '\x1B[43m', // 背景色为黄色
-    blueBG: '\x1B[44m', // 背景色为蓝色
-    magentaBG: '\x1B[45m', // 背景色为品红
-    cyanBG: '\x1B[46m', // 背景色为青色
-    whiteBG: '\x1B[47m' // 背景色为白色
-  };
+  private readonly options: LoggerOptions;
 
-  // private static logsFilePath = CONST.LOGS;
-
-  private static handlePrefix(prefixs: LoggerOptions['prefixs']) {
-    const handle: string[] = [];
-    prefixs.forEach((element) => {
-      if (element instanceof Function) {
-        handle.push(element());
+  private creator(level: LoggerLevel, args: unknown[]) {
+    const { label, transports, filter } = this.options;
+    const baseData = { level, time: new Date().getTime(), pid: process.pid, label };
+    if (!Array.isArray(transports)) {
+      runTransport(transports, { ...baseData, msg: (transports.escaper ?? escaper)(args) }, filter);
+      return;
+    }
+    let msg: string;
+    transports.forEach((transport) => {
+      if (transport.escaper) {
+        runTransport(transport, { ...baseData, msg: transport.escaper(args) }, filter);
         return;
       }
-      handle.push(element);
+      if (!msg) msg = escaper(args);
+      runTransport(transport, { ...baseData, msg }, filter);
     });
-    return handle;
   }
 
-  protected static readonly prefixs: LoggerOptions['prefixs'] = [];
+  constructor(options: Partial<LoggerOptions> = DEFAULT_LOGGER_OPTIONS) {
+    this.options = Object.assign(DEFAULT_LOGGER_OPTIONS, options);
+  }
 
-  static readonly prefix: prefixFunc = (content, startColor, endColor) => {
-    this.prefixs.push(Logger.colorList[startColor], content, Logger.colorList[endColor]);
-    return this;
-  };
-
-  /* whole logger need to feat */
-  static print(args: unknown[], level: LoggerLevel) {
-    if ((globalThis as unknown as { env_mode: string }).env_mode !== 'dev' && level === LoggerLevel.DEBUG) return;
-
-    let message = '';
-    args.forEach((value) => {
-      let Element = value;
-      if (Element && typeof Element === 'object') {
-        const cache: obj[] = [];
-        if (Element instanceof Error) {
-          Element = Element.toString();
-        } else {
-          Element = JSON.stringify(Element, (key, value) => {
-            if (typeof value !== 'object' || value === null) return value;
-            if (cache.indexOf(value) === -1) return undefined;
-            cache.push(value);
-            return value;
-          });
-        }
+  extends(options: Partial<LoggerOptions> = {}) {
+    const proxy = new Proxy(options, {
+      get: (_, prop) => {
+        if (options[prop as keyof typeof options] !== undefined) return options[prop as keyof typeof options];
+        return this.options[prop as keyof typeof this.options];
       }
-      if (typeof Element === 'string' && Element.length > 1000) Element = `${Element.substring(0, 999)}...`;
-      message += `${Element} `;
-      message.slice(0, -1);
     });
-    console.log(...this.handlePrefix(this.prefixs), ...this.tags, ...args, this.colorList.default);
-    // Write Logs
-    /* 		const logFile: string = path.join(this.logsFilePath, `${formatTime(null, 1)}.log`);
-		if (!fs.existsSync(logFile)) {
-			fs.writeFileSync(logFile, '');
-		}
-		const content: string = `${time} ${type} ${message}`;
-		fs.appendFileSync(logFile, `${content}\n`); */
+    return new Proxy(new Logger(), {
+      get: (target, prop, receiver) => {
+        if (prop === 'options') return proxy;
+        return Reflect.get(target, prop, receiver);
+      }
+    });
   }
 
-  private static Tags: string[] = [];
-
-  private static get tags() {
-    const tags = Object.create(this.Tags);
-    this.Tags = [];
-    return tags;
+  label(label: string | string[]) {
+    return this.extends({ label: [...this.options.label, ...(typeof label === 'string' ? [label] : label)] });
   }
 
-  static tag(tag: string, typeColor: color, textColor: color) {
-    this.Tags.push(
-      `${Logger.colorList.default}[${Logger.colorList[typeColor]}${tag}${Logger.colorList.default}]${Logger.colorList[textColor]}`
-    );
-    return this;
+  fatal(...args: unknown[]) {
+    if (this.options.level > LoggerLevel.FATAL) return;
+    this.creator(LoggerLevel.FATAL, args);
   }
 
-  static log(...args: unknown[]) {
-    Logger.tag('LOG', 'cyan', 'default').print(args, LoggerLevel.LOG);
+  error(...args: unknown[]) {
+    if (this.options.level > LoggerLevel.ERROR) return;
+    this.creator(LoggerLevel.ERROR, args);
   }
 
-  static info(...args: unknown[]) {
-    Logger.tag('INFO', 'green', 'bright').print(args, LoggerLevel.LOG);
+  warn(...args: unknown[]) {
+    if (this.options.level > LoggerLevel.WARN) return;
+    this.creator(LoggerLevel.WARN, args);
   }
 
-  static warn(...args: unknown[]) {
-    Logger.tag('WARM', 'yellow', 'yellow').print(args, LoggerLevel.LOG);
+  info(...args: unknown[]) {
+    if (this.options.level > LoggerLevel.INFO) return;
+    this.creator(LoggerLevel.INFO, args);
   }
 
-  static error(...args: unknown[]) {
-    Logger.tag('ERROR', 'red', 'red').print(args, LoggerLevel.LOG);
+  debug(...args: unknown[]) {
+    if (this.options.level > LoggerLevel.DEBUG) return;
+    this.creator(LoggerLevel.DEBUG, args);
   }
 
-  static debug(...args: unknown[]) {
-    Logger.tag('DEBUG', 'magenta', 'red').print(args, LoggerLevel.DEBUG);
+  trace(...args: unknown[]) {
+    if (this.options.level > LoggerLevel.TRACE) return;
+    this.creator(LoggerLevel.TRACE, args);
   }
 }
 
-Logger.prefix(() => formatTime(), 'blue', 'default');
+export namespace Logger {
+  const logger = new Logger({ level: LoggerLevel.INFO, transports: new ConsoleTransport() });
+  export const fatal = logger.fatal.bind(logger);
+  export const error = logger.error.bind(logger);
+  export const warn = logger.warn.bind(logger);
+  export const info = logger.info.bind(logger);
+}
 
+export * from './utils/escaper';
+export * from './types/common';
+export * from './transport';
+export * from './const';
 export default Logger;
