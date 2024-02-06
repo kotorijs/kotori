@@ -8,7 +8,9 @@
   "dependencies": {
     "colorette": "^2.0.20",
     "dayjs": "^1.11.10",
-    "fast-safe-stringify": "^2.1.1"
+    "fast-safe-stringify": "^2.1.1",
+    "pump": "^3.0.0",
+    "readable-stream": "^4.5.2"
   },
   "keywords": [
     "kotori",
@@ -17,7 +19,9 @@
     "logger"
   ],
   "files": [
-    "lib"
+    "lib",
+    "LICENSE",
+    "README.md"
   ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"

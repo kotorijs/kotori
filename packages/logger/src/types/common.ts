@@ -1,5 +1,3 @@
-/* eslint import/prefer-default-export: 0 */
-
 import { LoggerFilter } from './internal';
 
 export enum LoggerLevel {

@@ -13,15 +13,15 @@
 
 ---
 
-kotori 是一个**跨平台、解耦合、现代化**于一体的 ChatBot 聊天机器人 框架，运行于 NodeJS 环境并使用 TypeScript 语言开发。
+kotori 是一个**跨平台、解耦合、现代化**于一体的聊天机器人框架，运行于 NodeJS 环境并使用 TypeScript 语言开发。
 
 ---
 
 ## Summary
 
-**Kotori**是一个罗马字，在日语中是**ことり(小鳥)**的意思，该名字取自于[Key](http://key.visualarts.gr.jp/)公式游戏[《Rewrite》](https://bgm.tv/subject/4022)及其衍生作品中的主要女性角色之一的**[神户小鸟](https://bgm.tv/character/12063)**(神戸（かんべ） 小鳥（ことり）)。
+「Kotori」是一个罗马字，在日语中是「ことり」（小鳥）的意思，发音为 `/kotoɾʲi‾/` <Voice />，该名字取自于 [Key 公式](http://key.visualarts.gr.jp/) 的游戏 [《Rewrite》](https://bgm.tv/subject/4022) 及其衍生作品中的主要女性角色之一的 [神户小鸟](https://bgm.tv/character/12063) (神戸（かんべ） 小鳥（ことり）)。
 
-### Advantages
+### Advantage
 
 - **跨平台**
   得益于模块化支持，通过编写各种模块实现不同的功能与聊天平台接入
@@ -30,8 +30,30 @@ kotori 是一个**跨平台、解耦合、现代化**于一体的 ChatBot 聊天
   对底层事件封装实现核心功能，减少代码冗余与复杂度，提升开发效率
 
 - **现代化**
-  Kotori 使用现代化的 ECMAScript 语法规范与强大的 TypeScript 类型检查
+  使用现代化的 ECMAScript 语法规范与强大的 TypeScript 类型检查
+
+### Supports
+
+#### Platform
+
+- QQ（基于 Tencent 官方 API）
+- QQ（基于 Onebot 标准的 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 项目）
+- CMD 命令行
+  即将支持：
+- Telegram
+- Kook/开黑啦
+- MinecraftBedrock（基于 Websocket）
+- WeChat/微信
+- Discord
+
+#### Database（待支持）
+
+- Memory
+- Sqlite
+- Mysql
+
+---
 
 ## Reference
 
-- [变更日志](CHANGELOG.md)
+- [Kotori Docs](https://kotori.js.org/)

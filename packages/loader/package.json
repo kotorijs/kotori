@@ -9,7 +9,22 @@
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/logger": "workspace:^"
   },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "loader"
+  ],
   "files": [
-    "lib"
-  ]
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "bugs": {
+    "url": "https://github.com/kotorijs/kotori/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotorijs/kotori.git"
+  },
+  "homepage": "https://kotori.js.org"
 }

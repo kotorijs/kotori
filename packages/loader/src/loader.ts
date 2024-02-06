@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-06 20:01:10
+ * @LastEditTime: 2024-02-06 21:05:17
  */
 import {
   KotoriError,
@@ -19,7 +19,6 @@ import {
   Core,
   Context
 } from '@kotori-bot/core';
-import { DEFAULT_LANG } from '@kotori-bot/i18n';
 import path from 'path';
 import fs from 'fs';
 import Logger from '@kotori-bot/logger';
@@ -82,7 +81,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
     const result1 = Tsu.Object({
       global: Tsu.Object({
         dirs: Tsu.Array(Tsu.String()).default([]),
-        lang: localeTypeSchema.default(DEFAULT_LANG),
+        lang: localeTypeSchema.default(DEFAULT_CORE_CONFIG.global.lang),
         'command-prefix': Tsu.String().default(DEFAULT_CORE_CONFIG.global['command-prefix'])
       }),
       plugin: Tsu.Object({})
@@ -91,7 +90,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
             filter: Tsu.Object({}).default({})
           }).default({ filter: {} })
         )
-        .default({})
+        .default(DEFAULT_CORE_CONFIG.plugin)
     })
       .default({ global: Object.assign(DEFAULT_CORE_CONFIG.global), plugin: DEFAULT_CORE_CONFIG.plugin })
       .parse(loadConfig(path.join(baseDir.root, file), 'yaml'));
@@ -105,7 +104,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
             'command-prefix': Tsu.String().default(result1.global['command-prefix'])
           })
         )
-        .default({})
+        .default(DEFAULT_CORE_CONFIG.adapter)
     }).parse(result1) as CoreConfig;
   } catch (err) {
     if (!(err instanceof TsuError)) throw err;
@@ -123,7 +122,7 @@ export class Loader extends Container {
 
   constructor(options?: { dir?: string; mode?: string }) {
     super();
-    const file = options && options.mode ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
+    const file = options && options.mode === 'dev' ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
     const runnerConfig = getRunnerConfig(file, options?.dir);
     const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
     ctx.provide('runner', new Runner(ctx, runnerConfig));

@@ -1,6 +1,5 @@
 #!/usr/bin/env ts-node
 
-/* eslint import/no-extraneous-dependencies: 0 */
 import { Package, getPackagesSync } from '@manypkg/get-packages';
 import { error, log } from 'console';
 import { writeFileSync } from 'fs';
