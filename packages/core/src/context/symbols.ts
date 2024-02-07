@@ -6,7 +6,7 @@ export class Symbols {
   static readonly containerKey = (prop: string) => Symbol.for(`kotori.context.container.${prop}`);
 
   /* custom */
-  static readonly service = Symbol.for('kotori.core.service');
+  // static readonly service = Symbol.for('kotori.core.service');
 
   static readonly adapter = Symbol.for('kotori.core.adapter');
 

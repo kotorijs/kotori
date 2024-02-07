@@ -1,3 +1,10 @@
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: https://hotaru.icu
+ * @Date: 2024-02-07 13:44:38
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2024-02-07 14:47:52
+ */
 import type { LoggerData, LoggerFilter, LoggerOptions } from './types/internal';
 import { LoggerLevel } from './types/common';
 import { escaper } from './utils/escaper';

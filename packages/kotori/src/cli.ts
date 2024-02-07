@@ -1,6 +1,7 @@
 import cac from 'cac';
 import { Loader, Logger } from '@kotori-bot/loader';
 import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
 const program = cac();
 
@@ -12,8 +13,7 @@ program
   .command('')
   .option('--dir [path]', 'Set running root dir of program')
   .action((options) => {
-    Logger.info(options);
-    new Loader({ mode: 'build' }).run();
+    new Loader({ mode: 'build', dir: resolve(process.cwd(), options.dir ?? '') }).run();
   });
 
 program

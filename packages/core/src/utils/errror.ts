@@ -1,4 +1,4 @@
-type KotoriErrorType = 'DatabaseError' | 'ModuleError' | 'UnknownError' | 'DevError';
+type KotoriErrorType = 'ServiceError' | 'ModuleError' | 'UnknownError' | 'DevError';
 
 interface KotoriErrorImpl {
   readonly name: KotoriErrorType;

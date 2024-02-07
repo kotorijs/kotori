@@ -16,6 +16,10 @@ export const inject = ['database'];
 
 /* 插件入口 */
 export function main(ctx: Context, config: Config) {
+  ctx.on('ready', () => {
+    ctx.logger.debug(ctx.db);
+  });
+
   /* 事件监听 */
   ctx.on('on_group_decrease', (session) => {
     session.quick([

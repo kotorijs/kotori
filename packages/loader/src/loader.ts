@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-06 21:05:17
+ * @LastEditTime: 2024-02-07 17:28:10
  */
 import {
   KotoriError,
@@ -15,9 +15,9 @@ import {
   DEFAULT_CORE_CONFIG,
   loadConfig,
   TsuError,
-  obj,
   Core,
-  Context
+  Context,
+  Service
 } from '@kotori-bot/core';
 import path from 'path';
 import fs from 'fs';
@@ -25,15 +25,20 @@ import Logger from '@kotori-bot/logger';
 import Runner, { localeTypeSchema } from './runner';
 import loadInfo from './log';
 import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './consts';
+import Server from './service/server';
+import Database from './service/database';
 
 declare module '@kotori-bot/core' {
   interface Context {
     readonly baseDir: Runner['baseDir'];
     readonly options: Runner['options'];
     readonly [Symbols.modules]: Runner[typeof Symbols.modules];
-    useAll(): void; // Symbols
+    useAll(): void;
     watcher(): void;
     logger: Logger;
+    /* Service */
+    server: Server;
+    db: Database;
   }
 
   interface GlobalConfig {
@@ -42,7 +47,8 @@ declare module '@kotori-bot/core' {
 }
 
 const enum GLOBAL {
-  REPO = 'https://github.com/kotorijs/kotori'
+  REPO = 'https://github.com/kotorijs/kotori',
+  UPDATE = 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json'
 }
 
 function getRunnerConfig(file: string, dir?: string) {
@@ -135,6 +141,7 @@ export class Loader extends Container {
     loadInfo(this.ctx.pkg, this.ctx);
     this.catchError();
     this.listenMessage();
+    this.setPreService();
     this.loadAllModule();
     this.checkUpdate();
   }
@@ -145,7 +152,7 @@ export class Loader extends Container {
       return;
     }
     ({
-      DatabaseError: () => this.ctx.logger.label('database').warn(err.message, err.stack),
+      ServiceError: () => this.ctx.logger.label('service').warn(err.message, err.stack),
       ModuleError: () => this.ctx.logger.label('module').error(err.message, err.stack),
       UnknownError: () => this.ctx.logger.error(err.name, err.stack),
       DevError: () => this.ctx.logger.label('error').debug(err.name, err.stack)
@@ -186,11 +193,11 @@ export class Loader extends Container {
             msg = `dispose completed about ${address}`;
         }
       }
-      this.ctx.logger.label([adapter.platform, adapter.identity])[normal ? 'info' : 'warn'](msg);
+      adapter.ctx.logger[normal ? 'info' : 'warn'](msg);
     });
     this.ctx.on('status', (data) => {
       const { status, adapter } = data;
-      this.ctx.logger.label([adapter.platform, adapter.identity]).info(status);
+      adapter.ctx.logger.info(status);
     });
     this.ctx.on('ready_module', (data) => {
       if (!data.module || typeof data.module === 'string') return;
@@ -226,17 +233,25 @@ export class Loader extends Container {
       this.ctx.logger.info(
         `loaded ${this.loadCount - this.failLoadCount} modules successfully${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''} `
       );
-      this.loadAllService();
+      this.loadAllAdapter();
       this.ctx.emit('ready');
     });
+  }
+
+  private setPreService() {
+    this.ctx.provide('server', new Server(this.ctx));
+    this.ctx.on('ready', () => (this.ctx.get('server') as Server).start());
+    this.ctx.on('dispose', () => (this.ctx.get('server') as Server).stop());
+    this.ctx.provide('db', new Database(this.ctx));
+    this.ctx.on('ready', () => (this.ctx.get('db') as Database).start());
+    this.ctx.on('dispose', () => (this.ctx.get('db') as Database).stop());
   }
 
   private loadAllModule() {
     this.ctx.useAll();
   }
 
-  private loadAllService() {
-    /* load database before adapters */
+  private loadAllAdapter() {
     const adapters = this.ctx[Symbols.adapter];
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
@@ -247,19 +262,19 @@ export class Loader extends Container {
       }
       const isSchema = array[1]?.parseSafe(botConfig);
       if (isSchema && !isSchema.value) return;
-      /* adapter donot support hot reload, so no extends for context */
-      const bot = new array[0](this.ctx, isSchema ? (isSchema.data as AdapterConfig) : botConfig, botName);
+      const bot = new array[0](
+        this.ctx.extends({}, `${botConfig.extends}/${botName}`),
+        isSchema ? (isSchema.data as AdapterConfig) : botConfig,
+        botName
+      );
       this.ctx.on('ready', () => bot.start());
     });
-    /* load custom services after adapters */
   }
 
   private async checkUpdate() {
     const { version } = this.ctx.pkg;
     const res = await this.ctx.http
-      .get(
-        'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json'
-      )
+      .get(GLOBAL.UPDATE)
       .catch(() => this.ctx.logger.error('get update failed, please check your network'));
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
       this.ctx.logger.warn(`detection update failed`);

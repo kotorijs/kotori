@@ -24,4 +24,3 @@ interface EventDataStatus {
 
 export type ServiceClass = new (config: object) => Service;
 export type AdapterClass = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;
-// export type DatabaseClass = new (config: /* DatabaseConfig , identity: string */ /*  object) => Database;

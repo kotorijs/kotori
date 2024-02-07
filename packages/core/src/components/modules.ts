@@ -41,21 +41,28 @@ function checkConfig(schema: unknown, config: ModuleConfig) {
 export class Modules {
   private handleExports(identity: string, ctx: Context, exports: obj, config: ModuleConfig) {
     /* before handle */
-    const { lang, config: schema, default: defaults, main, Main } = exports.default;
+    const { lang, inject, config: schema, default: defaults, main, Main } = exports.default;
     if (lang) this.ctx.i18n.use(Array.isArray(lang) ? resolve(...lang) : resolve(lang));
     /* handle */
+    /* service */
     if (isServiceConsructor(defaults)) {
-      /* adapter */
+      return undefined;
+    }
+    /* adapter */
+    if (isAdapterClass(defaults)) {
       const adapterName = identity.split(ADAPTER_PREFIX)[1];
-      // const databaseName = moduleName.split(DATABASE_PREFIX)[1];
-      if (adapterName && isAdapterClass(defaults)) {
-        this.ctx[Symbols.adapter].set(adapterName, [defaults, schema]);
-      } /* else if (databaseName && isDatabaseClass(default)) {
-        service and database
-      } */
+      if (adapterName) this.ctx[Symbols.adapter].set(adapterName, [defaults, schema]);
       return undefined;
     }
     /* plugin */
+    if (inject && (typeof inject === 'string' || Array.isArray(inject))) {
+      (typeof inject === 'string' ? [inject] : (inject as string[])).forEach((identity) => {
+        this.ctx[Symbols.container].forEach((service, name) => {
+          if (!(service instanceof Service) || service.identity !== identity) return;
+          ctx.inject(name as Exclude<keyof Context, Symbols | number>);
+        });
+      });
+    }
     const moduleConfig = checkConfig(schema, config);
     if (moduleConfig instanceof TsuError)
       return new ModuleError(`Config format of module ${identity} is error: ${moduleConfig.message}`);

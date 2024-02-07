@@ -6,7 +6,7 @@ import Config from './config';
 import Message from './message';
 import Modules from './modules';
 import type { AdapterClass, EventsMapping } from '../types';
-import type { Api } from '../service';
+import { Cache, type Api } from '../service';
 
 declare module '../context' {
   interface Context extends Events<EventsMapping> {
@@ -32,6 +32,8 @@ declare module '../context' {
     /* Inject */
     http: Http;
     i18n: I18n;
+    /* Service */
+    cache: Cache;
   }
 }
 
@@ -54,7 +56,9 @@ export class Core extends Context {
     this.inject('http');
     this.provide('i18n', new I18n({ lang: this.config.global.lang }));
     this.inject('i18n');
-    this.inject('i18n');
+    this.provide('cache', new Cache(this));
+    this.on('ready', () => (this.get('cache') as Cache).start());
+    this.on('dispose', () => (this.get('cache') as Cache).stop());
   }
 }
 
