@@ -1,26 +1,31 @@
-import { none, obj } from '@kotori-bot/tools';
 import Service from './service';
 
+type CacheKey = string | symbol;
+type CacheValue = string | number | object;
+
 export class Cache extends Service {
-  private cacheStack?: obj;
+  private cache?: Map<CacheKey, CacheValue>;
 
-  constructor() {
-    super('custom', 'cache');
+  constructor(ctx: ConstructorParameters<typeof Service>[0]) {
+    super(ctx, {}, 'cache');
   }
 
-  handle(data: unknown[]): void {
-    none(this);
+  start() {
+    if (this.cache) return;
+    this.cache = new Map();
   }
 
-  start(): void {
-    this.cacheStack = {};
+  stop() {
+    this.cache?.clear();
+    delete this.cache;
   }
 
-  stop(): void {
-    Object.keys(this.cacheStack!).forEach((key) => {
-      delete this.cacheStack![key];
-    });
-    delete this.cacheStack;
+  get(prop: CacheKey) {
+    return this.cache!.get(prop);
+  }
+
+  set(prop: CacheKey, value: CacheValue) {
+    this.cache!.set(prop, value);
   }
 }
 

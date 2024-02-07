@@ -12,7 +12,6 @@ import {
   AdapterConfig,
   CommandResult
 } from '../types';
-import Service from './service';
 import Elements from './elements';
 import { cancelFactory } from '../utils/factory';
 import CommandError from '../utils/commandError';
@@ -30,8 +29,9 @@ interface AdapterStatus {
   offlineTimes: number;
 }
 
-interface AdapterImpl<T extends Api = Api> extends Service {
+interface AdapterImpl<T extends Api = Api> {
   readonly ctx: Context;
+  readonly config: AdapterConfig;
   readonly platform: string;
   readonly selfId: EventDataTargetId;
   readonly identity: string;
@@ -95,7 +95,7 @@ function error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) 
   return new CommandError(Object.assign(data ?? {}, { type }) as ConstructorParameters<typeof CommandError>[0]);
 }
 
-export abstract class Adapter<T extends Api = Api> extends Service implements AdapterImpl<T> {
+export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
   constructor(
     ctx: Context,
     config: AdapterConfig,
@@ -103,7 +103,6 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     Api: new (adapter: Adapter) => T,
     el: Elements = new Elements()
   ) {
-    super('adapter', '');
     this.ctx = ctx;
     this.config = config;
     this.identity = identity;
@@ -113,6 +112,12 @@ export abstract class Adapter<T extends Api = Api> extends Service implements Ad
     if (!this.ctx[Symbols.bot].get(this.platform)) this.ctx[Symbols.bot].set(this.platform, new Set());
     this.ctx[Symbols.bot].get(this.platform)!.add(this.api);
   }
+
+  abstract handle(...data: unknown[]): void;
+
+  abstract start(): void;
+
+  abstract stop(): void;
 
   abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
 

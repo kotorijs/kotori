@@ -13,9 +13,9 @@ import {
   Tsu,
   stringRightSplit
 } from '@kotori-bot/core';
-import { DEFAULT_SUPPORTS, LocaleType } from '@kotori-bot/i18n';
 import Logger, { ConsoleTransport, LoggerLevel } from '@kotori-bot/logger';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
+import KotoriLogger from './utils/logger';
 
 interface BaseDir {
   root: string;
@@ -32,9 +32,10 @@ interface RunnerConfig {
   options: Options;
 }
 
-export const localeTypeSchema = Tsu.Custom<LocaleType>(
-  (val) => typeof val === 'string' && DEFAULT_SUPPORTS.includes(val as LocaleType)
-);
+export const localeTypeSchema = Tsu.Union([
+  Tsu.Union([Tsu.Literal('en_US'), Tsu.Literal('ja_JP')]),
+  Tsu.Union([Tsu.Literal('zh_TW'), Tsu.Any()])
+]);
 
 const modulePackageSchema = Tsu.Object({
   name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
@@ -92,20 +93,7 @@ export class Runner {
       label: [],
       transports: new ConsoleTransport()
     };
-    const logger: Logger & { ctx: Context } = Object.assign(new Logger(), { ctx: this.ctx });
-    ctx.provide(
-      'logger',
-      logger.extends(
-        new Proxy(loggerOptions, {
-          get: (target, prop, receiver) => {
-            if (prop === 'label') {
-              return logger.ctx.identity ? [logger.ctx.identity, ...target.label] : target.label;
-            }
-            return Reflect.get(target, prop, receiver);
-          }
-        })
-      )
-    );
+    ctx.provide('logger', new KotoriLogger(loggerOptions, this.ctx));
     ctx.inject('logger');
   }
 

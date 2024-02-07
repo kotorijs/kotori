@@ -46,10 +46,11 @@ kotori 是一个**跨平台、解耦合、现代化**于一体的聊天机器人
 - WeChat/微信
 - Discord
 
-#### Database（待支持）
+#### Database
 
-- Memory
 - Sqlite
+  即将支持：
+- Memory
 - Mysql
 
 ---

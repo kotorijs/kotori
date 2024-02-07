@@ -23,6 +23,8 @@
   ],
   "files": [
     "lib",
+    "kotori.yml",
+    "bin.js",
     "LICENSE",
     "README.md"
   ],

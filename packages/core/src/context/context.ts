@@ -1,3 +1,10 @@
+/*
+ * @Author: Hotaru biyuehuya@gmail.com
+ * @Blog: https://hotaru.icu
+ * @Date: 2024-02-07 13:44:38
+ * @LastEditors: Hotaru biyuehuya@gmail.com
+ * @LastEditTime: 2024-02-07 16:40:35
+ */
 import Symbols from './symbols';
 
 interface obj {
@@ -57,7 +64,7 @@ export class Context implements ContextImpl {
     this[Symbols.table].set(prop, keys);
     keys.forEach((key) => {
       if (this[key] || !instance[key]) return;
-      this[key] = instance[key];
+      this[key] = instance[key] as this[K];
       if (typeof this[key] === 'function') this[key] = (this[key] as Function).bind(instance);
     });
   }
@@ -79,9 +86,9 @@ export class Context implements ContextImpl {
     };
     /* set proxy */
     const ctx: Context = new Proxy(new Context(this.root), {
-      get: <T>(target: T, prop: keyof T) => {
+      get: <T extends Context>(target: T, prop: keyof T) => {
         if (prop === 'identity') return identity ?? this.identity ?? 'sub';
-        if (target[prop]) return target[prop];
+        if (target[prop]) return handler(target[prop], target);
         let value: unknown;
         this[Symbols.table].forEach((keys, key) => {
           if (value || (typeof prop === 'string' && !keys.includes(prop))) return;
