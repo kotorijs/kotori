@@ -3,13 +3,13 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-04 20:22:39
+ * @LastEditTime: 2024-02-08 21:45:08
  */
-import { Context, SessionData, MessageQuick, Tsu, obj } from 'kotori-bot';
+import { Context, Tsu, stringTemp } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
-const penisData: obj<number> = {};
+export const inject = ['file', 'server'];
 
 export const config = Tsu.Object({
   max: Tsu.Number().default(30),
@@ -18,165 +18,122 @@ export const config = Tsu.Object({
   avgMinNum: Tsu.Number().default(5)
 });
 
-export class Main {
-  constructor(Ctx: Context, Config: Tsu.infer<typeof config>) {
-    function getNewLength() {
-      const { max, min } = Config;
-      const range = max - min + 1;
-      const index = Math.floor(Math.random() * range);
-      const result = min + index;
-      return result;
+type Config = Tsu.infer<typeof config>;
+type TodayData = Record<string | number, number>;
+type StatData = Record<string, [number, number, number, number]>;
+
+export function main(ctx: Context, config: Config) {
+  const getNewLength = () => config.min + Math.floor(Math.random() * (config.max - config.min + 1));
+  const getTodayPath = () => `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay()}.json`;
+  const loadTodayData = () => (ctx.file.load(getTodayPath(), 'json', {}, true) as TodayData) || {};
+  const saveTodayData = (data: TodayData) => ctx.file.save(getTodayPath(), data);
+  const loadStatData = (): StatData => (ctx.file.load('stat.json', 'json', {}, true) as StatData) || {};
+  const saveStatData = (data: StatData) => ctx.file.save('stat.json', data);
+
+  ctx.midware((next, session) => {
+    const s = session;
+    if (s.message === `${s.api.adapter.config['command-prefix']}今日长度`) s.message = '今日长度';
+    next();
+  });
+
+  ctx.regexp(/^今日长度$/, (_, session) => {
+    /* 加载数据 */
+    const today = loadTodayData();
+    const todayLength = typeof today[session.userId] === 'number' ? today[session.userId] : getNewLength();
+
+    /* 发送消息 */
+    let message = '';
+    const params = { at: session.el.at(session.userId), length: todayLength };
+    if (todayLength <= 0) message = stringTemp('newnew.msg.today_length.info.2', params);
+    else if (todayLength > 0 && todayLength <= config.joke)
+      message = stringTemp('newnew.msg.today_length.info.1', params);
+    else message = stringTemp('newnew.msg.today_length.info.0', params);
+    session.quick(message);
+
+    /* 如果数据中不存在则更新数据 */
+    if (typeof today[session.userId] === 'number') return;
+    // const result = parseInt((((todayLength + 20) / 10) * 2).toFixed(), 10);
+    // addExp(session.groupId!, session.userId, result < 0 ? 0 : result); custom service
+    today[session.userId] = todayLength;
+    saveTodayData(today);
+    /* 更新stat */
+    const stat = loadStatData();
+    const person = stat[session.userId];
+    if (Array.isArray(person) /* && person.length === 4 */) {
+      if (todayLength <= person[0]) person[0] = todayLength;
+      if (todayLength >= person[1]) person[1] = todayLength;
+      person[2] += 1;
+      person[3] += todayLength;
+    } else {
+      stat[session.userId] = [todayLength, todayLength, 1, todayLength];
     }
+    saveStatData(stat);
+  });
 
-    const todayLength = (session: SessionData): MessageQuick => {
-      if (!(session.userId in penisData)) {
-        penisData[session.userId] = getNewLength();
-      }
-      const todayLength = penisData[session.userId];
-      const params = {
+  ctx.regexp(/^我的长度$/, (_, session) => {
+    const stat = loadStatData();
+    const person = stat[session.userId];
+    if (!person || person.length <= 0) return ['newnew.msg.my_length.fail', { at: session.el.at(session.userId) }];
+    return [
+      'newnew.msg.my_length',
+      {
         at: session.el.at(session.userId),
-        length: todayLength
-      };
-      if (todayLength <= 0) return ['newnew.msg.today_length.info.2', params];
-      if (todayLength > 0 && todayLength <= Config.joke) return ['newnew.msg.today_length.info.1', params];
-      return ['newnew.msg.today_length.info.0', params];
-    };
+        max_length: person[1],
+        min_length: person[0],
+        total_length: person[3],
+        avg_length: (person[3] / person[2]).toFixed(1),
+        nums: person[2]
+      }
+    ];
+  });
 
-    Ctx.command('今日长度').action((_, session) => todayLength(session));
-
-    Ctx.regexp(
-      /^今日长度$/,
-      (_, session) => todayLength(session) // {
-
-      /* 加载数据 */
-      // const today = loadTodayData();
-      // const todayLength = typeof today[data.user_id] === 'number' ? today[data.user_id] : getNewLength();
-
-      /* 发送消息 */
-      // let message = '';
-      // const params = {
-      // 	at: SDK.cq_at(data.user_id),
-      // 	length: todayLength,
-      // };
-      // if (todayLength <= 0) message = temp('newnew.msg.today_length.info.2', params);
-      // else if (todayLength > 0 && todayLength <= config.joke) message = temp('newnew.msg.today_length.info.1', params);
-      // else message = temp('newnew.msg.today_length.info.0', params);
-      // send(message);
-
-      // /* 如果数据中不存在则更新数据 */
-      // if (typeof today[data.user_id] === 'number') return;
-      // const result = parseInt((((todayLength + 20) / 10) * 2).toFixed(), 10);
-      // addExp(data.group_id!, data.user_id, result < 0 ? 0 : result);
-      // today[data.user_id] = todayLength;
-      // saveTodayData(today);
-      // /* 更新stat */
-      // const stat = loadStatData();
-      // const person = stat[data.user_id];
-      // if (Array.isArray(person) /* && person.length === 4 */) {
-      // 	if (todayLength <= person[0]) person[0] = todayLength;
-      // 	if (todayLength >= person[1]) person[1] = todayLength;
-      // 	person[2] += 1;
-      // 	person[3] += todayLength;
-      // } else {
-      // 	stat[data.user_id] = [todayLength, todayLength, 1, todayLength];
-      // }
-      // saveStatData(stat);}
-    );
-
-    Ctx.regexp(/^我的长度$/, () => {
-      const result = '该功能维护中';
-      return result;
-      /* 	const stat = loadStatData();
-	const person = stat[data.user_id];
-	if (!person || person.length <= 0) return ['newnew.msg.my_length.fail', { at: SDK.cq_at(data.user_id) }];
-	return [
-		'newnew.msg.my_length',
-		{
-			at: SDK.cq_at(data.user_id),
-			max_length: person[1],
-			min_length: person[0],
-			total_length: person[3],
-			avg_length: (person[3] / person[2]).toFixed(1),
-			nums: person[2],
-		},
-	]; */
+  ctx.regexp(/^平均排行$/, () => {
+    const stat = loadStatData();
+    const statOrigin = loadStatData();
+    if (Object.keys(stat).length <= 0) return 'newnew.msg.avg_ranking.fail';
+    Object.keys(stat).forEach((key) => {
+      const item = stat[key as unknown as number];
+      item[3] /= item[2];
     });
+    const entries = Object.entries(stat);
+    entries.sort((a, b) => b[1][3] - a[1][3]);
 
-    Ctx.regexp(/^平均排行$/, () => {
-      const result = '该功能维护中';
-      return result;
-      /* 	const stat = loadStatData();
-	const statOrigin = loadStatData();
-	if (stat.length <= 0) return 'newnew.msg.avg_ranking.fail';
-	Object.keys(stat).forEach(key => {
-		const item = stat[key as unknown as number];
-		item[3] /= item[2];
-	});
-	const entries = Object.entries(stat);
-	entries.sort((a, b) => b[1][3] - a[1][3]);
-
-	let list = '';
-	let num = 1;
-	entries.forEach(entry => {
-		if (num > 20) return;
-		const nums = entry[1][2];
-		if (nums < config.avgMinNum) return;
-		list += temp('newnew.msg.avg_ranking.list', {
-			num,
-			name: queryUserInfo(parseInt(entry[0], 10)).nickname,
-			nums,
-			avg_length: entry[1][3].toFixed(1),
-			total_length: statOrigin[entry[0] as unknown as number][3],
-		});
-		num += 1;
-	});
-	return ['newnew.msg.avg_ranking', { list }]; */
+    let list = '';
+    let num = 1;
+    entries.forEach((entry) => {
+      if (num > 20) return;
+      const nums = entry[1][2];
+      if (nums < config.avgMinNum) return;
+      list += stringTemp('newnew.msg.avg_ranking.list', {
+        num,
+        name: /* queryUserInfo(parseInt(entry[0], 10)).nickname */ entry[0],
+        nums,
+        avg_length: entry[1][3].toFixed(1),
+        total_length: statOrigin[entry[0] as unknown as number][3]
+      });
+      num += 1;
     });
+    return ['newnew.msg.avg_ranking', { list }];
+  });
 
-    Ctx.regexp(/^今日排行$/, () => {
-      const result = '该功能维护中';
-      return result;
-      /* const today = loadTodayData();
-	if (today.length <= 0) return 'newnew.msg.today_ranking.fail';
+  ctx.regexp(/^今日排行$/, () => {
+    const today = loadTodayData();
+    if (today.length <= 0) return 'newnew.msg.today_ranking.fail';
 
-	const newEntries = Object.entries(today);
-	newEntries.sort((a, b) => b[1] - a[1]);
+    const newEntries = Object.entries(today);
+    newEntries.sort((a, b) => b[1] - a[1]);
 
-	let list = '';
-	let num = 1;
-	newEntries.forEach(entry => {
-		if (num > 20) return;
-		list += temp('newnew.msg.today_ranking.list', {
-			num,
-			name: queryUserInfo(parseInt(entry[0], 10)).nickname,
-			length: entry[1],
-		});
-		num += 1;
-	});
-	return ['newnew.msg.today_ranking', { list }]; */
+    let list = '';
+    let num = 1;
+    newEntries.forEach((entry) => {
+      if (num > 20) return;
+      list += stringTemp('newnew.msg.today_ranking.list', {
+        num,
+        name: entry[0],
+        length: entry[1]
+      });
+      num += 1;
     });
-
-    /* 
-const getTodayPath()  {
-	const TIME = new Date();
-	const time = `${TIME.getFullYear()}-${TIME.getMonth() + 1}-${TIME.getDate()}`;
-	return path.join(CONST.DATA_PLUGIN_PATH, `${time}.json`);
-};
-
-const loadTodayData = (): number[] => (loadConfig(getTodayPath()) as number[]) || [];
-
-const saveTodayData(data: number[])  saveConfig(getTodayPath(), data);
-
-const loadStatData = (): arrData => {
-	const PATH = path.join(CONST.DATA_PLUGIN_PATH, `stat.json`);
-	return (loadConfig(PATH) as arrData) || [];
-};
-
-const saveStatData(data: arrData)  {
-	const PATH = path.join(CONST.DATA_PLUGIN_PATH, `stat.json`);
-	saveConfig(PATH, data);
-}; */
-
-    // type arrData = [number, number, number, number][];
-  }
+    return ['newnew.msg.today_ranking', { list }];
+  });
 }

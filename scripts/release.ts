@@ -82,8 +82,7 @@ type Option = {
   }
 
   function parseVersion(version: string): number[] {
-    let handle = version;
-    if (handle.startsWith('v') || handle.startsWith('V')) handle = handle.substring(1);
+    const handle = version;
     return handle.split('.').map((val) => parseInt(val, 10));
   }
 
@@ -98,9 +97,9 @@ type Option = {
 
   async function genVersion() {
     if ((await isUpdateVersion(/* pkg.packageJson.name,  */ 'Major')).value)
-      return (version: number[]) => `v${version[0] + 1}.0.0`;
-    if ((await isUpdateVersion('Minor')).value) return (version: number[]) => `v${version[0]}.${version[1] + 1}.0`;
-    return (version: number[]) => `v${version[0]}.${version[1]}.${version[2] + 1}`;
+      return (version: number[]) => `${version[0] + 1}.0.0`;
+    if ((await isUpdateVersion('Minor')).value) return (version: number[]) => `${version[0]}.${version[1] + 1}.0`;
+    return (version: number[]) => `${version[0]}.${version[1]}.${version[2] + 1}`;
   }
 
   function setVersion(pkg: Package) {
@@ -133,7 +132,7 @@ type Option = {
     }
     await step('git add .');
     await step(`git commit -m "release: ${version}"`);
-    await step(`git tag ${version}`);
+    await step(`git tag v${version}`);
   }
 
   function publishPackages(pkgs: Package[]) {

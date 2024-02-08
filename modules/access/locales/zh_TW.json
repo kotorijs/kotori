@@ -1,0 +1,9 @@
+{
+    "access.descr.access.query": "查詢群BOT管理員",
+    "access.descr.access.add": "添加群BOT管理員",
+    "access.descr.access.del": "刪除群BOT管理員",
+    "access.msg.access.query": "當前群管理員列表：\n%content%\b ",
+    "access.msg.access.list": "%content%，",
+    "access.msg.access.add": "已添加“%target%”至當前群管理員",
+    "access.msg.access.del": "已刪除“%target%”從當前群管理員"
+}

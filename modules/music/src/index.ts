@@ -17,6 +17,8 @@ const MAX_LIST = 10;
 
 export const lang = [__dirname, '../locales'];
 
+export const inject = ['cache'];
+
 export function main(ctx: Context) {
   ctx
     .command('music <...name> - music.descr.music')
@@ -24,13 +26,12 @@ export function main(ctx: Context) {
     .action(async (data, session) => {
       const name = data.args.join('');
       const order = data.options.order ?? 1;
-      /* here need cache */
-      // const cache = `music${data.args[0]}`;
-      const res = /* Cache.get(cache) ||  */ musicSchema.parse(
-        await ctx.http.get('https://api.hotaru.icu/api/netease', { name })
-      );
-      // Cache.set(cache, res);
-      if (!res.data) return ['music.msg.music.fail', { input: data.args[0] }];
+      const prop = `music_${name}`;
+      const res =
+        ctx.cache.get<Tsu.infer<typeof musicSchema>>(prop) ??
+        musicSchema.parse(await ctx.http.get('https://api.hotaru.icu/api/netease', { name }));
+      ctx.cache.set(prop, res);
+      if (!res.data) return ['music.msg.music.fail', { input: name }];
 
       if (order === 0) {
         let list = '';

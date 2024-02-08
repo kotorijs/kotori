@@ -56,7 +56,7 @@ export class Core extends Context {
     this.inject('http');
     this.provide('i18n', new I18n({ lang: this.config.global.lang }));
     this.inject('i18n');
-    this.provide('cache', new Cache(this));
+    this.provide('cache', new Cache(this.extends()));
     this.on('ready', () => (this.get('cache') as Cache).start());
     this.on('dispose', () => (this.get('cache') as Cache).stop());
   }

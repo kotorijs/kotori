@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-05 17:47:26
+ * @LastEditTime: 2024-02-08 18:33:57
  */
 import { Adapter, AdapterConfig, Context, MessageScope, Tsu, obj } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -70,7 +70,10 @@ export class QQAdapter extends Adapter<QQApi> {
         sender: {
           nickname: '',
           age: 0,
-          sex: 'unknown'
+          sex: 'unknown',
+          level: '0',
+          role: 'member',
+          title: ''
         },
         groupId: data.d.group_openid
       });

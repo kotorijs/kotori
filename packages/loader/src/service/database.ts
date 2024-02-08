@@ -11,13 +11,24 @@ export class Database extends Service {
 
   start() {
     if (this.db) return;
-    this.db = knex({
-      client: 'sqlite',
-      connection: {
-        filename: resolve(this.ctx.baseDir.root, 'kotori.db')
-      },
-      useNullAsDefault: true
-    });
+    this.db = knex(
+      {
+        client: 'sqlite',
+        connection: {
+          filename: resolve(this.ctx.baseDir.root, 'kotori.db')
+        },
+        useNullAsDefault: true
+      } /*  {
+        client: 'mysql',
+        connection: {
+          host: '127.0.0.1',
+          port: 3306,
+          user: 'kotori',
+          password: 'kotori',
+          database: 'kotori'
+        }
+      } */
+    );
   }
 
   stop() {
@@ -30,7 +41,7 @@ export class Database extends Service {
   }
 
   select(...args: Parameters<ReturnType<typeof knex>['select']>) {
-    return this.db!.select(args);
+    return this.db!.select(...args);
   }
 
   insert(...args: Parameters<ReturnType<typeof knex>['insert']>) {

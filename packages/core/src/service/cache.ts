@@ -20,8 +20,8 @@ export class Cache extends Service {
     delete this.cache;
   }
 
-  get(prop: CacheKey) {
-    return this.cache!.get(prop);
+  get<T = CacheValue>(prop: CacheKey) {
+    return this.cache!.get(prop) as T;
   }
 
   set(prop: CacheKey, value: CacheValue) {
