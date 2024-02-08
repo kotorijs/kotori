@@ -1,13 +1,27 @@
-import { CommandError, Context, TsuError } from 'kotori-bot';
+import { CommandAccess, CommandError, Context, MessageScope, TsuError } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
   ctx.on('parse', (data) => {
-    if (!(data.result instanceof CommandError)) return;
+    const { quick } = data.session;
+    if (!(data.result instanceof CommandError)) {
+      const { scope, access } = data.command.meta;
+      if (scope && scope !== 'all' && data.session.type !== scope) {
+        quick('corei18n.template.scope');
+      } else if (access === CommandAccess.ADMIN && data.session.userId !== data.session.api.adapter.config.master) {
+        quick('corei18n.template.no_access_admin');
+      } else if (access === CommandAccess.MANGER && data.session.userId !== data.session.api.adapter.config.master) {
+        if (data.session.type === MessageScope.PRIVATE) {
+          quick('corei18n.template.no_access_manger');
+        } else if (data.session.sender.role === 'member') {
+          quick('corei18n.template.no_access_manger');
+        }
+      }
+      return;
+    }
     const { value } = data.result;
     data.cancel();
-    const { quick } = data.session;
     switch (value.type) {
       case 'arg_error':
         quick(['corei18n.template.args_error', value]);
@@ -48,9 +62,6 @@ export function main(ctx: Context) {
       case 'no_access_admin':
         quick('corei18n.template.no_access_admin');
         break;
-      case 'num_choose':
-        quick('corei18n.template.num_choose');
-        break;
       case 'disable':
         quick('corei18n.template.disable');
         break;
@@ -75,6 +86,12 @@ export function main(ctx: Context) {
           return;
         }
         quick(['corei18n.template.error', { error: value.error as string }]);
+        break;
+      case 'data_error':
+        quick([
+          `corei18n.template.data_error.${typeof value.target === 'string' ? 'options' : 'args'}`,
+          { target: value.target }
+        ]);
         break;
       default:
     }

@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-onebot",
-  "version": "v1.2.0",
+  "version": "1.2.0",
   "description": "Adapter For Onebot (go-cqhttp)",
   "main": "lib/index.js",
   "scripts": {

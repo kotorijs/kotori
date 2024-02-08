@@ -55,9 +55,9 @@ export class Modules {
       return undefined;
     }
     /* plugin */
-    if (inject && (typeof inject === 'string' || Array.isArray(inject))) {
-      (typeof inject === 'string' ? [inject] : (inject as string[])).forEach((identity) => {
-        this.ctx[Symbols.container].forEach((service, name) => {
+    if (inject && Array.isArray(inject)) {
+      inject.forEach((identity) => {
+        ctx[Symbols.container].forEach((service, name) => {
           if (!(service instanceof Service) || service.identity !== identity) return;
           ctx.inject(name as Exclude<keyof Context, Symbols | number>);
         });

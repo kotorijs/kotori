@@ -4,6 +4,7 @@ import type I18n from '@kotori-bot/i18n';
 import type { EventsList } from './core';
 import type CommandError from '../utils/commandError';
 import type { Api, Elements } from '../service';
+import { Command } from '../utils/command';
 
 declare module './core' {
   interface EventsMapping {
@@ -52,11 +53,6 @@ export interface CommandConfig {
 }
 
 interface CommandParseResult {
-  /*   parsed: {
-    action: CommandAction;
-    args: CommandArgType[];
-    options: obj<CommandArgType>;
-  }; */
   option_error: { expected: CommandArgTypeSign; reality: CommandArgTypeSign; target: string };
   arg_error: { expected: CommandArgTypeSign; reality: CommandArgTypeSign; index: number };
   arg_many: { expected: number; reality: number };
@@ -67,9 +63,9 @@ interface CommandParseResult {
 
 export interface CommandResult extends CommandParseResult {
   error: { error: unknown };
+  data_error: { target: string | number };
   res_error: { error: TsuError };
   num_error: null;
-  num_choose: null;
   no_access_manger: null;
   no_access_admin: null;
   disable: null;
@@ -77,7 +73,7 @@ export interface CommandResult extends CommandParseResult {
   no_exists: CommandResult['exists'];
 }
 
-type CommandResultNoArgs = 'num_error' | 'num_choose' | 'no_access_manger' | 'no_access_admin' | 'disable';
+type CommandResultNoArgs = 'num_error' | 'no_access_manger' | 'no_access_admin' | 'disable';
 
 export type CommandResultExtra = {
   [K in keyof CommandResult]: { type: K } & (K extends CommandResultNoArgs ? {} : CommandResult[K]);
@@ -104,29 +100,27 @@ interface EventDataMidwares {
 
 interface EventDataBeforeParse {
   session: SessionData;
-  command: string;
+  raw: string;
 }
 
 interface EventDataParse {
   session: SessionData;
-  command: string;
+  command: Command;
+  raw: string;
   result: CommandError | Parameters<CommandAction>[0];
   cancel(): void;
 }
 
 interface EventDataBeforeCommand {
   session: SessionData;
-  command: string;
-  scope: MessageScope;
-  access: CommandAccess;
+  raw: string;
   cancel(): void;
 }
 
 interface EventDataCommand {
   session: SessionData;
-  command: string;
-  scope: MessageScope;
-  access: CommandAccess;
+  raw: string;
+  command: Command;
   result: EventDataParse['result'] | MessageQuick;
 }
 
@@ -179,7 +173,7 @@ interface EventDataGroupMsg extends EventDataApiBase {
   type: MessageScope.GROUP;
   messageId: EventDataTargetId;
   message: MessageRaw;
-  sender: SessionDataSender;
+  sender: SessionDataSender & { level: string; role: 'owner' | 'admin' | 'member'; title: string };
   groupId: EventDataTargetId;
 }
 

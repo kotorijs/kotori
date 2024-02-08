@@ -1,4 +1,5 @@
-import { Context, obj, stringTemp } from 'kotori-bot';
+import { CommandAccess, Context, loadConfig, obj, saveConfig, stringTemp } from 'kotori-bot';
+import { join } from 'path';
 import wikiData from './type';
 import { wikiSearch } from './method';
 
@@ -15,15 +16,14 @@ const defaultData = [
   }
 ];
 
-// const getPath()  path.join(Main.Consts.CONFIG_PLUGIN_PATH, 'wiki.json');
-
-const loadWikiData = () =>
-  /* {
-	const data = (loadConfig(getPath(), 'json', defaultData) as wikiData[]) || defaultData;
-	return data;
-}; */ defaultData;
-
 export function main(ctx: Context) {
+  const getPath = () => join(ctx.baseDir.data, './mediawiki.json');
+
+  const loadWikiData = () => {
+    const data = loadConfig(getPath(), 'json', defaultData) as wikiData[];
+    return data;
+  };
+
   ctx.command('wiki <content> [order:number] - mediawiki.descr.wiki').action(async (data) => {
     const dataList = loadWikiData();
     if (dataList.length <= 0) return 'mediawiki.msg.wiki.empty';
@@ -49,7 +49,7 @@ export function main(ctx: Context) {
     if (!res) return ['mediawiki.msg.wiki.fail', { input: data.args[0] }];
     return [
       'mediawiki.msg.wiki',
-      { ...res, url: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name }
+      { ...res, api: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name }
     ];
   });
 
@@ -64,49 +64,29 @@ export function main(ctx: Context) {
     });
     return ['mediawiki.msg.wikil', { list }];
   });
-}
 
-/* ctx.command('wikio')
-	.action(() => {
-		const oldData = loadWikiData();
-		const newData = oldData.filter(Element => Element.name !== data.args[1]);
-		const result = oldData.length === newData.length;
-		if (data.args[0] === 'del') {
-			if (result) return 'BOT_RESULT.NO_EXIST';
-			saveConfig(getPath(), newData);
-			return ['mediawiki.msg.wikio.del', { input: data.args[1] }];
-		}
-		if (data.args[0] === 'add') {
-			if (!Core.args[3].includes('//') || !Core.args[3].includes('api.php')) return BOT_RESULT.ARGS_ERROR;
-			if (!result) return BOT_RESULT.EXIST;
-			oldData.push({ name: data.args[1], api: Core.args[3] });
-			saveConfig(getPath(), oldData);
-			return ['mediawiki.msg.wikio.add', { input: data.args[1] }];
-		}
-		return BOT_RESULT.ARGS_ERROR;
-	})
-	.access(ACCESS.MANGER)
-	.params({
-		add: {
-			help: 'mediawiki.descr.wikio.add',
-			args: [
-				{
-					must: true,
-					name: 'name',
-				},
-				{
-					must: true,
-					name: 'url',
-				},
-			],
-		},
-		del: {
-			help: 'mediawiki.descr.wikio.del',
-			args: [
-				{
-					must: true,
-					name: 'name',
-				},
-			],
-		},
-	}); */
+  ctx
+    .command('wikio add <name> <url> - mediawiki.descr.wikio.add')
+    .action((data, session) => {
+      const [name, api] = data.args as string[];
+      const list = loadWikiData();
+      if (!api.includes('//') || !api.includes('api.php')) return session.error('data_error', { target: 1 });
+      list.push({ name, api });
+      saveConfig(getPath(), list);
+      return ['mediawiki.msg.wikio.add', { input: api }];
+    })
+    .access(CommandAccess.MANGER);
+
+  ctx
+    .command('wikio del <name> - mediawiki.descr.wikio.del')
+    .action((data, session) => {
+      const list = loadWikiData();
+      const [name] = data.args as string[];
+      saveConfig(
+        getPath(),
+        list.filter((content) => content.name !== name)
+      );
+      return ['mediawiki.msg.wikio.del', { input: name }];
+    })
+    .access(CommandAccess.MANGER);
+}

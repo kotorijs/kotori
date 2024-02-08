@@ -20,6 +20,7 @@ import KotoriLogger from './utils/logger';
 interface BaseDir {
   root: string;
   modules: string;
+  data: string;
   logs: string;
 }
 

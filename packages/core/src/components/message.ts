@@ -76,28 +76,24 @@ export class Message {
     if (!session.message.startsWith(prefix)) return;
     const params = {
       session,
-      command: stringRightSplit(session.message, prefix)
+      raw: stringRightSplit(session.message, prefix)
     };
     this.ctx.emit('before_parse', params);
     const cancel = cancelFactory();
-    const cmdParams = {
-      scope: session.type,
-      access: session.userId === session.api.adapter.config.master ? CommandAccess.ADMIN : CommandAccess.MEMBER
-    };
-    this.ctx.emit('before_command', { cancel: cancel.get(), ...params, ...cmdParams });
+    this.ctx.emit('before_command', { cancel: cancel.get(), ...params });
     if (cancel.value) return;
-    let matched = false;
+    let matched: undefined | Command;
     this[Symbols.command].forEach(async (cmd) => {
       if (matched || !cmd.meta.action) return;
-      const result = Command.run(params.command, cmd.meta);
+      const result = Command.run(params.raw, cmd.meta);
       if (result instanceof CommandError && result.value.type === 'unknown') return;
-      matched = true;
-      this.ctx.emit('parse', { result, ...params, cancel: cancel.get() });
+      matched = cmd;
+      this.ctx.emit('parse', { command: cmd, result, ...params, cancel: cancel.get() });
       if (cancel.value || result instanceof CommandError) return;
       try {
         const executed = await cmd.meta.action({ args: result.args, options: result.options }, session);
         if (executed instanceof CommandError) {
-          this.ctx.emit('command', { result, ...params, ...cmdParams });
+          this.ctx.emit('command', { command: cmd, result, ...params });
           return;
         }
         if (executed !== undefined) {
@@ -111,21 +107,22 @@ export class Message {
           );
         }
         this.ctx.emit('command', {
+          command: cmd,
           result: executed instanceof CommandError ? result : executed,
-          ...params,
-          ...cmdParams
+          ...params
         });
       } catch (error) {
         this.ctx.emit('command', {
+          command: matched,
           result: new CommandError({ type: 'error', error }),
-          ...params,
-          ...cmdParams
+          ...params
         });
       }
     });
     if (matched) return;
     this.ctx.emit('parse', {
-      result: new CommandError({ type: 'unknown', input: params.command }),
+      command: new Command(''),
+      result: new CommandError({ type: 'unknown', input: params.raw }),
       ...params,
       cancel: cancel.get()
     });

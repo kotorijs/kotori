@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-07 17:28:10
+ * @LastEditTime: 2024-02-08 21:35:56
  */
 import {
   KotoriError,
@@ -27,6 +27,7 @@ import loadInfo from './log';
 import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './consts';
 import Server from './service/server';
 import Database from './service/database';
+import File from './service/file';
 
 declare module '@kotori-bot/core' {
   interface Context {
@@ -39,6 +40,7 @@ declare module '@kotori-bot/core' {
     /* Service */
     server: Server;
     db: Database;
+    file: File;
   }
 
   interface GlobalConfig {
@@ -52,19 +54,22 @@ const enum GLOBAL {
 }
 
 function getRunnerConfig(file: string, dir?: string) {
-  const handle = (baseDir: Runner['baseDir']) => {
-    if (!fs.existsSync(baseDir.modules)) fs.mkdirSync(baseDir.modules);
-    if (!fs.existsSync(baseDir.logs)) fs.mkdirSync(baseDir.logs);
+  const handle = (root: string) => {
+    const baseDir = {
+      root,
+      modules: path.join(root, 'modules'),
+      data: path.join(root, 'data'),
+      logs: path.join(root, 'logs')
+    };
+    Object.values(baseDir).forEach((val) => {
+      if (!fs.existsSync(val)) fs.mkdirSync(val);
+    });
     return baseDir;
   };
   const options = {
     mode: file === DEV_CONFIG_NAME ? 'dev' : 'build'
   } as const;
-  if (dir)
-    return {
-      baseDir: handle({ root: dir, modules: path.join(dir, 'modules'), logs: path.join(dir, 'logs') }),
-      options
-    };
+  if (dir) return { baseDir: handle(path.resolve(dir)), options };
   let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
   let count = 0;
   while (!fs.existsSync(path.join(root, file))) {
@@ -75,10 +80,7 @@ function getRunnerConfig(file: string, dir?: string) {
     root = path.join(root, '..');
     count += 1;
   }
-  return {
-    baseDir: handle({ root, modules: path.join(root, 'modules'), logs: path.join(root, 'logs') }),
-    options
-  };
+  return { baseDir: handle(root), options };
 }
 
 /* eslint consistent-return: 0 */
@@ -148,15 +150,19 @@ export class Loader extends Container {
 
   private handleError(err: Error | unknown, prefix: string) {
     if (!(err instanceof KotoriError)) {
-      this.ctx.logger.label(prefix).error(err);
+      if (err instanceof Error) {
+        this.ctx.logger.label(prefix).error(err.message, err.stack);
+      } else {
+        this.ctx.logger.label(prefix).error(err);
+      }
       return;
     }
     ({
-      ServiceError: () => this.ctx.logger.label('service').warn(err.message, err.stack),
-      ModuleError: () => this.ctx.logger.label('module').error(err.message, err.stack),
-      UnknownError: () => this.ctx.logger.error(err.name, err.stack),
-      DevError: () => this.ctx.logger.label('error').debug(err.name, err.stack)
-    })[err.name]();
+      ServiceError: () => this.ctx.logger.label('service').warn,
+      ModuleError: () => this.ctx.logger.label('module').error,
+      UnknownError: () => this.ctx.logger.error,
+      DevError: () => this.ctx.logger.label('error').debug
+    })[err.name]()(err.message, err.stack);
   }
 
   private catchError() {
@@ -239,12 +245,13 @@ export class Loader extends Container {
   }
 
   private setPreService() {
-    this.ctx.provide('server', new Server(this.ctx));
+    this.ctx.provide('server', new Server(this.ctx.extends()));
     this.ctx.on('ready', () => (this.ctx.get('server') as Server).start());
     this.ctx.on('dispose', () => (this.ctx.get('server') as Server).stop());
-    this.ctx.provide('db', new Database(this.ctx));
+    this.ctx.provide('db', new Database(this.ctx.extends()));
     this.ctx.on('ready', () => (this.ctx.get('db') as Database).start());
     this.ctx.on('dispose', () => (this.ctx.get('db') as Database).stop());
+    this.ctx.provide('file', new File(this.ctx.extends()));
   }
 
   private loadAllModule() {

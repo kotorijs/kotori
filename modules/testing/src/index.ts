@@ -16,14 +16,21 @@ export const inject = ['database'];
 
 /* 插件入口 */
 export function main(ctx: Context, config: Config) {
-  ctx.on('ready', () => {
-    ctx.logger.debug(ctx.db);
+  ctx.on('ready', async () => {
+    await ctx.db
+      .createTable('test', (table) => {
+        table.increments();
+        table.string('name');
+        table.timestamps();
+      })
+      .catch(() => {});
+    await ctx.db.insert({ name: 'a' }).into('test');
   });
 
   /* 事件监听 */
   ctx.on('on_group_decrease', (session) => {
     session.quick([
-      session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
+      session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %operator% 制裁了...',
       {
         target: session.userId,
         operator: session.operatorId

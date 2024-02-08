@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-nmsl",
-  "version": "v2.1.0",
+  "version": "2.1.0",
   "description": "孙笑川在线帮你翻译成抽象话",
   "main": "lib/index.js",
   "scripts": {

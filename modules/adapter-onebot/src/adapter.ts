@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-05 17:40:51
+ * @LastEditTime: 2024-02-08 18:31:53
  */
 import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -76,7 +76,10 @@ export class OnebotAdapter extends Adapter {
         sender: {
           nickname: data.sender.nickname,
           age: data.sender.age,
-          sex: data.sender.sex
+          sex: data.sender.sex,
+          level: data.sender.level!,
+          role: data.sender.role,
+          title: data.sender.title
         },
         groupId: data.group_id!
       });

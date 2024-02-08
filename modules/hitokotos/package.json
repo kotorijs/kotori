@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-hitokotos",
-  "version": "v1.2.0",
+  "version": "1.2.0",
   "description": "Seventeen kind of different sentences",
   "main": "lib/index.js",
   "scripts": {

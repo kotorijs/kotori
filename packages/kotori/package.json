@@ -1,6 +1,6 @@
 {
   "name": "kotori-bot",
-  "version": "v1.2.0",
+  "version": "1.2.0",
   "description": "ChatBot Framework Base For NodeJS And TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",

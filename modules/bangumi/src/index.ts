@@ -53,13 +53,16 @@ const MAX_LIST = 10;
 
 export const lang = [__dirname, '../locales'];
 
+export const inject = [''];
+
 export function main(ctx: Context) {
   ctx.command('bgm <content> [order:number=1] - bangumi.descr.bgm').action(async (data, session) => {
-    // const cache = `bgm${data.args[0]}`;
-    /* here need cache */
-    const res = /* Cache.get(cache) || */ bgm1Schema.parse(await http(`search/subject/${data.args[0]}`));
+    const prop = `bgm_${data.args[0]}`;
+    const res =
+      ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(prop) ??
+      bgm1Schema.parse(await http(`search/subject/${data.args[0]}`));
     if (!res || !Array.isArray(res.list)) return ['bangumi.msg.bgm.fail', { input: data.args[0] }];
-    // Cache.set(cache, res);
+    ctx.cache.set(prop, res);
 
     if (data.args[1] === 0) {
       let list = '';

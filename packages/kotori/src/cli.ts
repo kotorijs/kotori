@@ -6,14 +6,19 @@ import { resolve } from 'path';
 const program = cac();
 
 const pkg = JSON.parse(readFileSync(`${__dirname}/../package.json`).toString());
-
 program.version(pkg.verion, '-v, --version');
+program.help();
 
 program
   .command('')
-  .option('--dir [path]', 'Set running root dir of program')
+  .option('-D, --dir [path]', 'Set running root dir of program', {
+    default: ''
+  })
+  .option('-M, --mode [name]', 'Set running mode of program,build or dev', {
+    default: 'build'
+  })
   .action((options) => {
-    new Loader({ mode: 'build', dir: resolve(process.cwd(), options.dir ?? '') }).run();
+    new Loader({ mode: options.mode, dir: resolve(process.cwd(), options.dir) }).run();
   });
 
 program
@@ -26,4 +31,5 @@ program
 program.command('module').action(() => Logger.info('module'));
 program.command('module search <name>').action(() => Logger.info('module search'));
 program.command('module download <name>').action(() => Logger.info('module download'));
+
 program.parse();
