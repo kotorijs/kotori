@@ -32,6 +32,16 @@ declare module './context' {
 
 type Keys = keyof Omit<Context, keyof ContextOrigin> & string;
 
+const handler = <T>(value: T, ctx: Context): T => {
+  if (!value || typeof value !== 'object' || !(value as T & { ctx: unknown }).ctx) return value;
+  return new Proxy(value, {
+    get(target, prop, receiver) {
+      if (prop === 'ctx') return ctx;
+      return Reflect.get(target, prop, receiver);
+    }
+  });
+};
+
 export class Context implements ContextImpl {
   readonly [Symbols.container]: Map<string, obj> = new Map();
 
@@ -65,7 +75,7 @@ export class Context implements ContextImpl {
     keys.forEach((key) => {
       if (this[key] || !instance[key]) return;
       this[key] = instance[key] as this[K];
-      if (typeof this[key] === 'function') this[key] = (this[key] as Function).bind(instance);
+      if (typeof this[key] === 'function') this[key] = (this[key] as unknown as Function).bind(instance);
     });
   }
 
@@ -75,20 +85,11 @@ export class Context implements ContextImpl {
     Object.keys(metaHandle).forEach((key) => {
       if (typeof this[key as keyof this] === 'function') delete metaHandle[key];
     });
-    const handler = <T>(value: T, ctx: Context): T => {
-      if (!value || typeof value !== 'object' || !(value as T & { ctx: unknown }).ctx) return value;
-      return new Proxy(value, {
-        get(target, prop, receiver) {
-          if (prop === 'ctx') return ctx;
-          return Reflect.get(target, prop, receiver);
-        }
-      });
-    };
     /* set proxy */
     const ctx: Context = new Proxy(new Context(this.root), {
       get: <T extends Context>(target: T, prop: keyof T) => {
         if (prop === 'identity') return identity ?? this.identity ?? 'sub';
-        if (target[prop]) return handler(target[prop], target);
+        if (target[prop]) return handler(target[prop], ctx);
         let value: unknown;
         this[Symbols.table].forEach((keys, key) => {
           if (value || (typeof prop === 'string' && !keys.includes(prop))) return;

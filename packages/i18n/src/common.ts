@@ -47,15 +47,27 @@ export class I18n<T extends LocaleType = LocaleType> {
     return sonInstance;
   }
 
-  date(date: Date | number, style?: Intl.DateTimeFormatOptions['dateStyle'], lang: T = this.lang) {
+  date(
+    date: Date | number = new Date(),
+    style: Intl.DateTimeFormatOptions['dateStyle'] = undefined,
+    lang: T = this.lang
+  ) {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { timeStyle: style }).format(date);
   }
 
-  time(time: Date | number, style?: Intl.DateTimeFormatOptions['timeStyle'], lang: T = this.lang) {
+  time(
+    time: Date | number = new Date(),
+    style: Intl.DateTimeFormatOptions['timeStyle'] = undefined,
+    lang: T = this.lang
+  ) {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { timeStyle: style }).format(time);
   }
 
-  period(time: Date | number, style?: Intl.DateTimeFormatOptions['dayPeriod'], lang: T = this.lang) {
+  period(
+    time: Date | number = new Date(),
+    style: Intl.DateTimeFormatOptions['dayPeriod'] = undefined,
+    lang: T = this.lang
+  ) {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { dayPeriod: style }).format(time);
   }
 

@@ -1,9 +1,10 @@
-import { CommandAccess, Context, loadConfig, obj, saveConfig, stringTemp } from 'kotori-bot';
-import { join } from 'path';
+import { CommandAccess, Context } from 'kotori-bot';
 import wikiData from './type';
 import { wikiSearch } from './method';
 
 export const lang = [__dirname, '../locales'];
+
+export const inject = ['file'];
 
 const defaultData = [
   {
@@ -17,18 +18,14 @@ const defaultData = [
 ];
 
 export function main(ctx: Context) {
-  const getPath = () => join(ctx.baseDir.data, './mediawiki.json');
-
-  const loadWikiData = () => {
-    const data = loadConfig(getPath(), 'json', defaultData) as wikiData[];
-    return data;
-  };
+  const loadWikiData = () => ctx.file.load('mediawiki.json', 'json', defaultData) as wikiData[];
+  const saveWikiData = (data: wikiData[]) => ctx.file.save('mediawiki.json', data);
 
   ctx.command('wiki <content> [order:number] - mediawiki.descr.wiki').action(async (data) => {
     const dataList = loadWikiData();
     if (dataList.length <= 0) return 'mediawiki.msg.wiki.empty';
 
-    let res: obj | null = null;
+    let res: Record<string, any> | null = null;
     let wiki: wikiData | null = null;
     const num = parseInt(data.args[1] as string, 10);
     if (num) {
@@ -37,7 +34,7 @@ export function main(ctx: Context) {
       res = await wikiSearch(wiki.api, data.args[0] as string);
     } else {
       let init = 0;
-      const query = async (): Promise<obj | null> => {
+      const query = async (): Promise<Record<string, any> | null> => {
         wiki = dataList[init];
         const res = await wikiSearch(wiki.api, data.args[0] as string);
         if (res || init >= dataList.length - 1) return res;
@@ -53,13 +50,12 @@ export function main(ctx: Context) {
     ];
   });
 
-  /* here nedd feat: 二级参数 */
-  ctx.command('wikil - mediawiki.descr.wikil').action((_, events) => {
+  ctx.command('wiki query - mediawiki.descr.wikil').action((_, session) => {
     const dataList = loadWikiData();
     let list = '';
     let init = 1;
     dataList.forEach((Element) => {
-      list += stringTemp(events.i18n.locale('mediawiki.msg.wikil.list'), { num: init, ...Element });
+      list += session.format('mediawiki.msg.wikil.list', { num: init, ...Element });
       init += 1;
     });
     return ['mediawiki.msg.wikil', { list }];
@@ -72,7 +68,7 @@ export function main(ctx: Context) {
       const list = loadWikiData();
       if (!api.includes('//') || !api.includes('api.php')) return session.error('data_error', { target: 1 });
       list.push({ name, api });
-      saveConfig(getPath(), list);
+      saveWikiData(list);
       return ['mediawiki.msg.wikio.add', { input: api }];
     })
     .access(CommandAccess.MANGER);
@@ -82,10 +78,7 @@ export function main(ctx: Context) {
     .action((data, session) => {
       const list = loadWikiData();
       const [name] = data.args as string[];
-      saveConfig(
-        getPath(),
-        list.filter((content) => content.name !== name)
-      );
+      saveWikiData(list.filter((content) => content.name !== name));
       return ['mediawiki.msg.wikio.del', { input: name }];
     })
     .access(CommandAccess.MANGER);

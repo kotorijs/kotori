@@ -1,14 +1,6 @@
-import { obj, stringRightSplit, stringTemp } from '@kotori-bot/tools';
-import I18n from '@kotori-bot/i18n';
+import { stringRightSplit } from '@kotori-bot/tools';
 import { Context, Symbols } from '../context';
-import {
-  CommandAccess,
-  type CommandConfig,
-  type EventsList,
-  type MidwareCallback,
-  type RegexpCallback,
-  SessionData
-} from '../types';
+import { type CommandConfig, type EventsList, type MidwareCallback, type RegexpCallback, SessionData } from '../types';
 import { cancelFactory, disposeFactory } from '../utils/factory';
 import { Command } from '../utils/command';
 import CommandError from '../utils/commandError';
@@ -21,17 +13,6 @@ interface MidwareData {
 interface RegexpData {
   match: RegExp;
   callback: RegexpCallback;
-}
-
-function objectTempFactory(i18n: I18n) {
-  return (obj: obj<string | number>) => {
-    const result = obj;
-    Object.keys(result).forEach((key) => {
-      if (!result[key] || typeof result[key] !== 'string') return;
-      result[key] = i18n.locale(result[key] as string);
-    });
-    return result;
-  };
 }
 
 export class Message {
@@ -96,16 +77,7 @@ export class Message {
           this.ctx.emit('command', { command: cmd, result, ...params });
           return;
         }
-        if (executed !== undefined) {
-          session.send(
-            Array.isArray(executed)
-              ? stringTemp(
-                  session.i18n.locale(executed[0]),
-                  objectTempFactory(session.i18n)(executed[1] as obj<string>)
-                )
-              : session.i18n.locale(executed)
-          );
-        }
+        if (executed !== undefined) session.quick(executed);
         this.ctx.emit('command', {
           command: cmd,
           result: executed instanceof CommandError ? result : executed,

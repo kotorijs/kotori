@@ -1,4 +1,4 @@
-import Kotori, { Tsu, getDate } from 'kotori-bot';
+import Kotori, { Tsu } from 'kotori-bot';
 
 const hitokotoSchema = Tsu.Object({
   data: Tsu.Object({
@@ -74,7 +74,7 @@ Alias('资料卡', async (_send, data) => {
 const signData: string[] = [];
 
 Kotori.regexp(/^(签到|打卡)$/, async (data, session) => {
-  const time = getDate();
+  const time = session.i18n.date();
   if (!session.groupId) return '';
   // const groupData = queryExp(data.groupId!, data.userId)[1];
   const at = session.el.at(session.userId);

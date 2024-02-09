@@ -1,4 +1,4 @@
-import { obj, parseArgs } from '@kotori-bot/tools';
+import { parseArgs } from '@kotori-bot/tools';
 import minimist from 'minimist';
 import {
   CommandAccess,
@@ -66,7 +66,11 @@ export class Command {
     });
     if (!starts) return new CommandError({ type: 'unknown', input });
     /* handle CommandOption[] to minimist.opts */
-    const opts: { string: string[]; boolean: string[]; alias: obj<string> } = { string: [], boolean: [], alias: {} };
+    const opts: { string: string[]; boolean: string[]; alias: Record<string, string> } = {
+      string: [],
+      boolean: [],
+      alias: {}
+    };
     data.options.forEach((option) => {
       if (option.type === 'string') {
         opts.string.push(option.realname);
@@ -106,7 +110,7 @@ export class Command {
     });
     if (error) return error;
     /* handle options */
-    const options: obj<CommandArgType> = {};
+    const options: Record<string, CommandArgType> = {};
     data.options.forEach((val) => {
       if (!(val.realname in result)) return;
       options[val.realname] = Array.isArray(result[val.realname])
