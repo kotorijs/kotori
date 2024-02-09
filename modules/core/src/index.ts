@@ -3,16 +3,16 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-06 20:01:48
+ * @LastEditTime: 2024-02-09 21:33:48
  */
 
-import { Context, Symbols, formatTime, stringTemp } from 'kotori-bot';
+import { Context, Symbols } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  ctx.command('core - core.descr.core').action((_, events) => {
-    const { config, baseDir, options } = events.api.adapter.ctx;
+  ctx.command('core - core.descr.core').action((_, session) => {
+    const { config, baseDir, options } = session.api.adapter.ctx;
     let botsLength = 0;
     ctx[Symbols.bot].forEach((bots) =>
       bots.forEach(() => {
@@ -35,8 +35,8 @@ export function main(ctx: Context) {
     ];
   });
 
-  ctx.command('bot - core.descr.bot').action((_, events) => {
-    const { identity, platform, selfId, config, status } = events.api.adapter;
+  ctx.command('bot - core.descr.bot').action((_, session) => {
+    const { identity, platform, selfId, config, status } = session.api.adapter;
     return [
       'core.msg.bot',
       {
@@ -44,8 +44,8 @@ export function main(ctx: Context) {
         lang: config.lang,
         platform,
         self_id: selfId,
-        create_time: formatTime(status.createTime),
-        last_msg_time: formatTime(status.lastMsgTime),
+        create_time: session.i18n.time(status.createTime),
+        last_msg_time: status.lastMsgTime ? session.i18n.time(status.lastMsgTime) : '',
         received_msg: status.receivedMsg,
         sent_msg: status.sentMsg,
         offline_times: status.offlineTimes
@@ -53,12 +53,12 @@ export function main(ctx: Context) {
     ];
   });
 
-  ctx.command('bots - core.descr.bots').action((_, events) => {
+  ctx.command('bots - core.descr.bots').action((_, session) => {
     let list = '';
     ctx[Symbols.bot].forEach((bots) =>
       bots.forEach((bot) => {
         const { identity, platform, config, status } = bot.adapter;
-        list += stringTemp(events.i18n.locale('core.msg.bots.list'), {
+        list += session.format('core.msg.bots.list', {
           identity,
           lang: config.lang,
           platform,
@@ -69,8 +69,8 @@ export function main(ctx: Context) {
     return ['core.msg.bots', { list }];
   });
 
-  ctx.command('about - core.descr.about').action((_, events) => {
-    const { version, license } = events.api.adapter.ctx.pkg;
+  ctx.command('about - core.descr.about').action((_, session) => {
+    const { version, license } = session.api.adapter.ctx.pkg;
     return ['core.msg.about', { version, license, node_version: process.version }];
   });
 }

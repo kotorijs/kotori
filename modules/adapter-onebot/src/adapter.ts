@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-08 18:31:53
+ * @LastEditTime: 2024-02-09 21:37:40
  */
 import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -27,7 +27,9 @@ declare module 'kotori-bot' {
 export const config = Tsu.Intersection([
   Tsu.Object({
     port: Tsu.Number().int().range(1, 65535),
-    address: Tsu.String().regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/),
+    address: Tsu.String()
+      .regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/)
+      .default('ws://127.0.0.1'),
     retry: Tsu.Number().int().min(1).default(10)
   }),
   Tsu.Union([
@@ -50,7 +52,7 @@ export class OnebotAdapter extends Adapter {
   constructor(ctx: Context, config: OnebotConfig, identity: string) {
     super(ctx, config, identity, OnebotApi, new OnebotElements());
     this.config = config;
-    this.address = `${this.config.address}:${this.config.port}`;
+    this.address = `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}`;
   }
 
   handle(data: EventDataType) {
@@ -100,7 +102,6 @@ export class OnebotAdapter extends Adapter {
     } else if (data.post_type === 'request' && data.request_type === 'private') {
       this.session('on_request', {
         type: MessageScope.PRIVATE,
-
         userId: data.user_id
       });
     } else if (data.post_type === 'request' && data.request_type === 'group') {

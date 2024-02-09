@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/i18n",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "i18n For Kotori",
   "main": "dist/index.js",
   "browser": "dist/common.js",

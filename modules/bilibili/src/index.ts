@@ -1,4 +1,4 @@
-import { Context, Tsu, formatTime } from 'kotori-bot';
+import { Context, Tsu } from 'kotori-bot';
 
 const biliSchema = Tsu.Object({
   data: Tsu.Object({
@@ -43,7 +43,7 @@ export function main(ctx: Context) {
       'bilibili.msg.bili',
       {
         ...res.data,
-        time: formatTime(new Date(res.data.time)),
+        time: session.i18n.time(res.data.time),
         image: session.el.image(res.data.cover)
       }
     ];

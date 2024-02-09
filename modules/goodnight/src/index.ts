@@ -1,72 +1,84 @@
-import { Context } from 'kotori-bot';
+import { Context, Tsu, getRandomInt } from 'kotori-bot';
+
+interface Good {
+  morning: Record<string, number>;
+  night: Record<string, number>;
+}
 
 export const lang = [__dirname, '../locales'];
 
-export class Main {
-  /* 
-    private static getTodayPath(yesterday: boolean = false)  {
-        const TIME = new Date();
-        const date = TIME.getDate();
-        const time = `${TIME.getFullYear()}-${TIME.getMonth() + 1}-${yesterday ? date - 1 : date}`;
-        return path.join(Main.Consts.DATA_PLUGIN_PATH, `${time}.json`);
-    };
-    
-    private static defaultData: good = { morning: {}, night: {} };
-    
-    private static loadTodayData(yesterday: boolean = false) 
-        (loadConfig(this.getTodayPath(yesterday), 'json', this.defaultData) as good) || this.defaultData;
-    
-    private static saveTodayData(data: good)  this.saveConfig(this.getTodayPath(), data); */
+export const inject = ['file'];
 
-  constructor(Ctx: Context) {
-    Ctx.regexp(
-      /^(早|早安|早上好)$/,
-      () => '早安~'
-      /* 			const record = loadTodayData();
-			const at = SDK.cq_at(data.user_id);
-			if (data.user_id in record.morning) return ['goodnight.msg.morning.already', { at }];
+export const config = Tsu.Object({
+  getupTimeLess: Tsu.Number().default(6),
+  getupTimeLate: Tsu.Number().default(18),
+  sleepTimeLess: Tsu.Number().default(3),
+  sleepTimeLater: Tsu.Tuple([Tsu.Number(), Tsu.Number()]).default([1, 7]),
+  sleepTimeLate: Tsu.Tuple([Tsu.Number(), Tsu.Number()]).default([23, 1]),
+  sleepTimeNormal: Tsu.Tuple([Tsu.Number(), Tsu.Number()]).default([20, 23])
+});
 
-			const hours = new Date().getHours();
-			if (hours < config.getupTimeLess)
-				return ['goodnight.msg.morning.early', { at, hour: config.getupTimeLess }];
+export type Config = Tsu.infer<typeof config>;
 
-			record.morning[data.user_id] = new Date().getTime();
-			saveTodayData(record);
-			const count = Object.keys(record.morning).length;
-			if (count <= 10) addExp(data.group_id!, data.user_id, 15);
-			if (count > 10 && count <= 20) addExp(data.group_id!, data.user_id, 5);
-			const sex = getSex(data.sender.sex);
-			if (hours < 12) return ['goodnight.msg.morning.morning', { at, count, sex }];
-			if (hours >= 12 && hours < config.getupTimeLate)
-				return ['goodnight.msg.morning.afternoon', { at, count, sex }];
-			return ['goodnight.msg.morning.late', { at, count, sex }]; */
-    );
-
-    Ctx.regexp(
-      /^(晚|晚安|晚上好)$/,
-      () => '晚安~'
-      /* 			const record = loadTodayData();
-			const at = SDK.cq_at(data.user_id);
-			if (data.user_id in record.night) return ['goodnight.msg.night.already', { at }];
-
-			const record2 = loadTodayData(true);
-			if (!(data.user_id in record.morning) && !(data.user_id in record2.morning))
-				return ['goodnight.msg.night.not', { at }];
-
-			const nowTime = new Date().getTime();
-			const timecal = nowTime - (record.morning[data.user_id] || record2.morning[data.user_id]);
-			if (timecal < config.sleepTimeLess * 60 * 60 * 1000) return ['goodnight.msg.night.less', { at }];
-
-			record.night[data.user_id] = nowTime;
-			saveTodayData(record);
-			const time = formatTime(timecal);
-			const hours = new Date().getHours();
-			const { sleepTimeLater: later, sleepTimeLate: late, sleepTimeNormal: normal } = config;
-			if (hours >= later[0] && hours < later[1]) return ['goodnight.msg.night.later', { at, time }];
-			if (hours >= late[0] || hours < late[1]) return ['goodnight.msg.night.late', { at, time }];
-			if (hours >= normal[0] && hours < normal[1]) return ['goodnight.msg.night.normal', { at, time }];
-			return ['goodnight.msg.night.early', { at, time }]; */
-    );
+function getSex(val: string) {
+  switch (val) {
+    case 'male':
+      return 'goodnight.msg.morning.male';
+    case 'female':
+      return 'goodnight.msg.morning.female';
+    default:
+      return getSex(getRandomInt(1) === 1 ? 'male' : 'femal');
   }
 }
-export default Main;
+
+export function main(ctx: Context, config: Config) {
+  const getTodayPath = (yesterday: boolean = false) =>
+    `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${yesterday ? new Date().getDate() - 1 : new Date().getDate()}.json`;
+  const defaultData: Good = { morning: {}, night: {} };
+  const loadTodayData = (yesterday: boolean = false) =>
+    (ctx.file.load(getTodayPath(yesterday), 'json', defaultData) as Good) || defaultData;
+  const saveTodayData = (data: Good) => ctx.file.save(getTodayPath(), data);
+
+  ctx.regexp(/^(早|早安|早上好)$/, (_, session) => {
+    const record = loadTodayData();
+    const at = session.el.at(session.userId);
+    if (session.userId in record.morning) return ['goodnight.msg.morning.already', { at }];
+
+    const hours = new Date().getHours();
+    if (hours < config.getupTimeLess) return ['goodnight.msg.morning.early', { at, hour: config.getupTimeLess }];
+
+    record.morning[session.userId] = new Date().getTime();
+    saveTodayData(record);
+    const count = Object.keys(record.morning).length;
+    // if (count <= 10) addExp(data.group_id!, session.userId, 15);
+    // if (count > 10 && count <= 20) addExp(data.group_id!, session.userId, 5);
+    const sex = getSex(session.sender.sex);
+    if (hours < 12) return ['goodnight.msg.morning.morning', { at, count, sex }];
+    if (hours >= 12 && hours < config.getupTimeLate) return ['goodnight.msg.morning.afternoon', { at, count, sex }];
+    return ['goodnight.msg.morning.late', { at, count, sex }];
+  });
+
+  ctx.regexp(/^(晚|晚安|晚上好)$/, (_, session) => {
+    const record = loadTodayData();
+    const at = session.el.at(session.userId)!;
+    if (session.userId in record.night) return ['goodnight.msg.night.already', { at }];
+
+    const record2 = loadTodayData(true);
+    if (!(session.userId in record.morning) && !(session.userId in record2.morning))
+      return ['goodnight.msg.night.not', { at }];
+
+    const nowTime = new Date().getTime();
+    const timecal = nowTime - (record.morning[session.userId] || record2.morning[session.userId]);
+    if (timecal < config.sleepTimeLess * 60 * 60 * 1000) return ['goodnight.msg.night.less', { at }];
+
+    record.night[session.userId] = nowTime;
+    saveTodayData(record);
+    const time = ctx.i18n.rtime(timecal, 'hours');
+    const hours = new Date().getHours();
+    const { sleepTimeLater: later, sleepTimeLate: late, sleepTimeNormal: normal } = config;
+    if (hours >= later[0] && hours < later[1]) return ['goodnight.msg.night.later', { at, time }];
+    if (hours >= late[0] || hours < late[1]) return ['goodnight.msg.night.late', { at, time }];
+    if (hours >= normal[0] && hours < normal[1]) return ['goodnight.msg.night.normal', { at, time }];
+    return ['goodnight.msg.night.early', { at, time }];
+  });
+}

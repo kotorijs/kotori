@@ -1,5 +1,5 @@
 import I18n from '@kotori-bot/i18n';
-import { obj, stringTemp } from '@kotori-bot/tools';
+import { stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
 import { Context, Symbols } from '../context';
 import {
@@ -74,6 +74,17 @@ function sendMessageFactory(adapter: Adapter, data: Parameters<Adapter['session'
   };
 }
 
+function formatFactory(i18n: I18n) {
+  return (template: string, data: Record<string, unknown>) => {
+    const params = data;
+    Object.keys(params).forEach((key) => {
+      if (typeof params[key] !== 'string') params[key] = String(params[key]);
+      params[key] = i18n.locale(params[key] as string);
+    });
+    return stringTemp(i18n.locale(template), params as Record<string, string>);
+  };
+}
+
 function qucikFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
   return async (message: MessageQuick) => {
     const msg = await message;
@@ -82,12 +93,7 @@ function qucikFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
       send(i18n.locale(msg));
       return;
     }
-    const params = msg[1];
-    Object.keys(params).forEach((key) => {
-      if (typeof params[key] !== 'string') return;
-      params[key] = i18n.locale(params[key] as string);
-    });
-    send(stringTemp(i18n.locale(msg[0]), params as obj<string>));
+    send(formatFactory(i18n)(...msg));
   };
 }
 
@@ -136,13 +142,14 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 
   protected session<N extends keyof EventApiType>(
     type: N,
-    data: Omit<EventApiType[N], 'api' | 'send' | 'i18n' | 'quick' | 'el' | 'error'>
+    data: Omit<EventApiType[N], 'api' | 'send' | 'i18n' | 'format' | 'quick' | 'el' | 'error'>
   ) {
-    const i18n = this.ctx.i18n.extends(this.config.lang ?? this.ctx.config.global.lang);
+    const i18n = this.ctx.i18n.extends(this.config.lang);
     const send = sendMessageFactory(this, data);
+    const format = formatFactory(i18n as I18n);
     const quick = qucikFactory(send, i18n as I18n);
     const { api, elements: el } = this;
-    (this.ctx.emit as Function)(type, { ...data, api, el, send, i18n, quick, error });
+    (this.ctx.emit as Function)(type, { ...data, api, el, send, i18n, format, quick, error });
   }
 
   readonly ctx: Context;

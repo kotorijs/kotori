@@ -1,4 +1,4 @@
-import { isClass, none, obj } from '@kotori-bot/tools';
+import { isClass, none } from '@kotori-bot/tools';
 import { Parser, TsuError } from 'tsukiko';
 import { resolve } from 'path';
 import { DevError, ModuleError } from '../utils/errror';
@@ -39,7 +39,7 @@ function checkConfig(schema: unknown, config: ModuleConfig) {
 }
 
 export class Modules {
-  private handleExports(identity: string, ctx: Context, exports: obj, config: ModuleConfig) {
+  private handleExports(identity: string, ctx: Context, exports: Record<string, any>, config: ModuleConfig) {
     /* before handle */
     const { lang, inject, config: schema, default: defaults, main, Main } = exports.default;
     if (lang) this.ctx.i18n.use(Array.isArray(lang) ? resolve(...lang) : resolve(lang));

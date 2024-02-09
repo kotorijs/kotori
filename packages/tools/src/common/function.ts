@@ -1,5 +1,3 @@
-import { obj } from '../types';
-
 /* declare global {
   interface Function {
     before(fn: Function): Function;
@@ -23,10 +21,6 @@ Function.prototype.after = function (fn) {
     self.apply(this, args);
     fn();
   };
-}; */
-
-/* export const initialize: MethodDecorator = (_, __, val) => {
-	if (val.value instanceof Function) val.value();
 }; */
 
 export function none(..._: unknown[]) {
@@ -62,58 +56,23 @@ export function isClass(obj: unknown, strict: boolean = true): obj is new (...ar
   return false;
 }
 
-export function clearObject(val: obj, strict: boolean = false, stacks: Set<unknown> = new Set()) {
-  const handle = val;
-  Object.keys(handle).forEach((key) => {
-    if (handle[key] !== undefined && (strict || handle[key] !== null)) {
-      if (typeof handle[key] === 'object' && stacks.has(handle[key])) handle[key] = clearObject(handle[key]);
-      return;
-    }
-    delete handle[key];
-  });
-  return handle;
-}
-
 export function stringRightSplit(str: string, key: string): string {
   const index = str.indexOf(key);
   return str.slice(index + key.length);
 }
 
-export function stringTemp(template: string, args: obj<string | number>) {
+export function stringTemp(template: string, args: Record<string, string | number>) {
   const params = Object.assign(args, { break: '\n' });
   let templateString = template;
-  if (!params || typeof params !== 'object') return templateString;
   Object.keys(params).forEach((param) => {
-    if (typeof params[param] !== 'string' && typeof args[param] !== 'number') params[param] = '';
-    if (params[param]?.toString instanceof Function) params[param] = (params[param] as number).toString();
-    templateString = templateString.replace(new RegExp(`%${param}%`, 'g'), params[param] as string);
+    if (typeof params[param] !== 'string') params[param] = String(params[param]);
+    templateString = templateString.replaceAll(`%${param}%`, params[param] as string);
   });
   return templateString;
 }
 
-export function formatTime(date?: Date | null, format: number = 0) {
-  /* Rewrite Base on Locale */
-  const time = date || new Date();
-  let result: string = '';
-  if (format === 0) {
-    result += `${time.getFullYear().toString().substring(2)}/`;
-    result += `${time.getMonth() + 1}/${time.getDate()} `;
-    result += `${time.getHours()}:${time.getMinutes()}:${time.getMinutes()}`;
-  } else if (format === 1) {
-    result += `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`;
-  }
-  return result;
-}
-
-export function getDate() {
-  const TIME = new Date();
-  const date = TIME.getDate();
-  const time = `${TIME.getFullYear()}-${TIME.getMonth() + 1}-${date}`;
-  return time;
-}
-
-export function getSpecStr(template: string) {
-  return template.replace(/[xy]/g, (char) => {
+export function getUuid(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
     const r = Math.random() * 16;
     let v: number | string;
     if (char === 'x') {
@@ -125,29 +84,11 @@ export function getSpecStr(template: string) {
   });
 }
 
-export function getUuid(): string {
-  return getSpecStr('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx');
-}
-
-export function getRandomStr(): string {
-  return getSpecStr('xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx');
-}
-
 export function getRandomInt(max: number, min: number = 0): number {
   const range = max - min + 1;
   const index = Math.floor(Math.random() * range);
   const result = min + index;
   return result;
-}
-
-export function createProxy<T extends object>(val: T | (() => T)) {
-  return new Proxy({} as T, {
-    get: (_target, property) => {
-      let value = val;
-      if (typeof val === 'function') value = val();
-      return value[property as keyof typeof val];
-    }
-  });
 }
 
 export function parseArgs(command: string) {
@@ -188,12 +129,3 @@ export function parseArgs(command: string) {
   if (current) args.push(current);
   return args;
 }
-
-/* export const isObj = <T = any>(data: unknown): data is obj<T> => {
-	const result = data && typeof data === 'object' && !Array.isArray(data);
-	if (!result) return false;
-  	for (const element of Object.keys(result)) {
-		if (!element as T) return false;
-	}
-	return true;
-}; */

@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-08 18:33:57
+ * @LastEditTime: 2024-02-09 21:17:42
  */
-import { Adapter, AdapterConfig, Context, MessageScope, Tsu, obj } from 'kotori-bot';
+import { Adapter, AdapterConfig, Context, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
 import { PlayloadData } from './types';
@@ -111,7 +111,7 @@ export class QQAdapter extends Adapter<QQApi> {
     }
     let address = '/';
     let cancel = false;
-    let req: obj = {};
+    let req: Record<string, any> = {};
     if (action === 'send_group_msg' && 'groupId' in params && 'message' in params && 'id' in params) {
       if (!params.message) return null;
       address += `groups/${params.groupId}/messages`;

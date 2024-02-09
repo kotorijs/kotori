@@ -3,9 +3,9 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-08 21:45:08
+ * @LastEditTime: 2024-02-09 21:31:55
  */
-import { Context, Tsu, stringTemp } from 'kotori-bot';
+import { Context, Tsu } from 'kotori-bot';
 
 export const lang = [__dirname, '../locales'];
 
@@ -42,13 +42,10 @@ export function main(ctx: Context, config: Config) {
     const todayLength = typeof today[session.userId] === 'number' ? today[session.userId] : getNewLength();
 
     /* 发送消息 */
-    let message = '';
     const params = { at: session.el.at(session.userId), length: todayLength };
-    if (todayLength <= 0) message = stringTemp('newnew.msg.today_length.info.2', params);
-    else if (todayLength > 0 && todayLength <= config.joke)
-      message = stringTemp('newnew.msg.today_length.info.1', params);
-    else message = stringTemp('newnew.msg.today_length.info.0', params);
-    session.quick(message);
+    if (todayLength <= 0) session.quick(['newnew.msg.today_length.info.2', params]);
+    else if (todayLength > 0 && todayLength <= config.joke) session.quick(['newnew.msg.today_length.info.1', params]);
+    else session.quick(['newnew.msg.today_length.info.0', params]);
 
     /* 如果数据中不存在则更新数据 */
     if (typeof today[session.userId] === 'number') return;
@@ -87,7 +84,7 @@ export function main(ctx: Context, config: Config) {
     ];
   });
 
-  ctx.regexp(/^平均排行$/, () => {
+  ctx.regexp(/^平均排行$/, (_, session) => {
     const stat = loadStatData();
     const statOrigin = loadStatData();
     if (Object.keys(stat).length <= 0) return 'newnew.msg.avg_ranking.fail';
@@ -104,7 +101,7 @@ export function main(ctx: Context, config: Config) {
       if (num > 20) return;
       const nums = entry[1][2];
       if (nums < config.avgMinNum) return;
-      list += stringTemp('newnew.msg.avg_ranking.list', {
+      list += session.format('newnew.msg.avg_ranking.list', {
         num,
         name: /* queryUserInfo(parseInt(entry[0], 10)).nickname */ entry[0],
         nums,
@@ -116,7 +113,7 @@ export function main(ctx: Context, config: Config) {
     return ['newnew.msg.avg_ranking', { list }];
   });
 
-  ctx.regexp(/^今日排行$/, () => {
+  ctx.regexp(/^今日排行$/, (_, session) => {
     const today = loadTodayData();
     if (today.length <= 0) return 'newnew.msg.today_ranking.fail';
 
@@ -127,7 +124,7 @@ export function main(ctx: Context, config: Config) {
     let num = 1;
     newEntries.forEach((entry) => {
       if (num > 20) return;
-      list += stringTemp('newnew.msg.today_ranking.list', {
+      list += session.format('newnew.msg.today_ranking.list', {
         num,
         name: entry[0],
         length: entry[1]

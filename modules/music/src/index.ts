@@ -1,4 +1,4 @@
-import { Context, Tsu, stringTemp } from 'kotori-bot';
+import { Context, Tsu } from 'kotori-bot';
 
 const musicSchema = Tsu.Object({
   data: Tsu.Array(
@@ -37,7 +37,7 @@ export function main(ctx: Context) {
         let list = '';
         for (let init = 0; init < (res.data.length > MAX_LIST ? MAX_LIST : res.data.length); init += 1) {
           const song = res.data[init];
-          list += stringTemp(session.i18n.locale('music.msg.music.list'), {
+          list += session.format('music.msg.music.list', {
             num: init + 1,
             title: song.title ?? '',
             author: song.author ?? ''

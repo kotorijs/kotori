@@ -1,4 +1,4 @@
-import { Context, Tsu, stringTemp } from 'kotori-bot';
+import { Context, Tsu } from 'kotori-bot';
 import http from './http';
 
 const bgm1Schema = Tsu.Object({
@@ -68,7 +68,7 @@ export function main(ctx: Context) {
       let list = '';
       for (let init = 0; init < (res.list.length > MAX_LIST ? MAX_LIST : res.list.length); init += 1) {
         const result = res.list[init];
-        list += stringTemp(session.i18n.locale('bangumi.msg.bgm.list'), {
+        list += session.format('bangumi.msg.bgm.list', {
           ...result,
           num: init + 1
         });
@@ -102,7 +102,7 @@ export function main(ctx: Context) {
     let list = '';
     for (let init = 0; init < 3; init += 1) {
       const item = items[init];
-      list += stringTemp(session.i18n.locale('bangumi.msg.bgmc.list'), {
+      list += session.format('bangumi.msg.bgmc.list', {
         name: item.name,
         name_cn: item.name_cn,
         air_date: item.air_date,
