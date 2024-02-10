@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-10 11:38:20
+ * @LastEditTime: 2024-02-10 20:25:58
  */
 import { Context, Tsu } from 'kotori-bot';
 
@@ -74,7 +74,7 @@ export function main(ctx: Context, config: Config) {
     if (!person || person.length <= 0) return ['newnew.msg.my_length.fail', [session.el.at(session.userId)]];
     return [
       'newnew.msg.my_length',
-      [session.el.at(session.userId), person[1], person[0], person[3], person[3] / person[2], person[2]]
+      [session.el.at(session.userId), person[1], person[0], person[2], person[3], person[3] / person[2]]
     ];
   });
 
@@ -97,9 +97,9 @@ export function main(ctx: Context, config: Config) {
       if (nums < config.avgMinNum) return;
       list += session.format('newnew.msg.avg_ranking.list', [
         num,
-        entry[0],
-        nums,
+        entry[0].slice(session.api.adapter.platform.length),
         entry[1][3],
+        nums,
         statOrigin[entry[0]][3]
       ]);
       num += 1;
@@ -111,14 +111,18 @@ export function main(ctx: Context, config: Config) {
     const today = loadTodayData();
     if (today.length <= 0) return 'newnew.msg.today_ranking.fail';
 
-    const newEntries = Object.entries(today);
-    newEntries.sort((a, b) => b[1] - a[1]);
+    const entries = Object.entries(today).filter((val) => val[0].startsWith(session.api.adapter.platform));
+    entries.sort((a, b) => b[1] - a[1]);
 
     let list = '';
     let num = 1;
-    newEntries.forEach((entry) => {
+    entries.forEach((entry) => {
       if (num > 20) return;
-      list += session.format('newnew.msg.today_ranking.list', [num, entry[0], entry[1]]);
+      list += session.format('newnew.msg.today_ranking.list', [
+        num,
+        entry[0].slice(session.api.adapter.platform.length),
+        entry[1]
+      ]);
       num += 1;
     });
     return ['newnew.msg.today_ranking', [list]];

@@ -4,14 +4,14 @@
   "newnew.msg.today_length.info.1": "{0}今日的牛~牛長度是{1} cm",
   "newnew.msg.today_length.info.2": "{0}今日的牛~牛長度是...今天是可愛的女孩子噢( •̀ ω •́ )✧({1}cm)",
   "newnew.descr.my_length": "獲取自己的牛牛信息",
-  "newnew.msg.my_length": "{0}\n最大長度：{1} cm 最深長度：{2} cm\n使用次數：{3}次 累計長度：{4} cm\n平均長度：{5} cm",
+  "newnew.msg.my_length": "{0}\n最大長度：{1} cm 最深長度：{2} cm\n使用次數：{3} 次 累計長度：{4} cm\n平均長度：{5} cm",
   "newnew.msg.my_length.fail": "{0}妳的牛牛丟了...找不到妳的牛牛數據呢/(ㄒoㄒ)/~~對不起",
   "newnew.descr.avg_ranking": "獲取平均牛牛排行",
-  "newnew.msg.avg_ranking": "平均長度排行：",
+  "newnew.msg.avg_ranking": "平均長度排行：{0}",
   "newnew.msg.avg_ranking.list": "\n{0}.{1} {2} cm ({3} 次 總長{4} cm)",
   "newnew.msg.avg_ranking.fail": "當前還沒有數據噢~(≧﹏ ≦)",
   "newnew.descr.today_ranking": "獲取今日牛牛排行",
-  "newnew.msg.today_ranking": "今日長度排行：",
+  "newnew.msg.today_ranking": "今日長度排行：{0}",
   "newnew.msg.today_ranking.list": "\n{0}.{1} {2} cm",
   "newnew.msg.today_ranking.fail": "當前還沒有數據噢~(≧﹏ ≦)"
 }

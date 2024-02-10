@@ -1,11 +1,11 @@
 {
-    "querytool.descr.sed": "Social engineering info query",
-    "querytool.msg.sed": "Query content: {0}\nTime consumed: {1} secs\nRecords found: {2}{3}",
-    "querytool.msg.sed.list": "\n{0}: {1}",
-    "querytool.msg.sed.key.qq": "QQ number",
-    "querytool.msg.sed.key.phone": "Phone number",
-    "querytool.msg.sed.key.location": "Carrier",
-    "querytool.msg.sed.key.id": "LOL ID",
-    "querytool.msg.sed.key.area": "LOL area",
-    "querytool.msg.sed.fail": "No relevant records found: {0}"
+    "sed.descr.sed": "Social engineering info query",
+    "sed.msg.sed": "Query content: {0}\nTime consumed: {1} secs\nRecords found: {2}{3}",
+    "sed.msg.sed.list": "\n{0}: {1}",
+    "sed.msg.sed.key.qq": "QQ number",
+    "sed.msg.sed.key.phone": "Phone number",
+    "sed.msg.sed.key.location": "Carrier",
+    "sed.msg.sed.key.id": "LOL ID",
+    "sed.msg.sed.key.area": "LOL area",
+    "sed.msg.sed.fail": "No relevant records found: {0}"
 }

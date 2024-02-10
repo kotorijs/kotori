@@ -7,11 +7,11 @@
     "newnew.msg.my_length": "{0}Max length: {1} cm Min length: {2} cm\nUsed {3} times Total length: {4} cm\nAverage length: {5} cm",
     "newnew.msg.my_length.fail": "{0}Your bull is lost...Can't find your bull data 😭 Sorry",
     "newnew.descr.avg_ranking": "Get average bull ranking",
-    "newnew.msg.avg_ranking": "Average length ranking:",
+    "newnew.msg.avg_ranking": "Average length ranking:{0}",
     "newnew.msg.avg_ranking.list": "\n{0}.{1} {2} cm ({3} times, Total {4} cm)",
     "newnew.msg.avg_ranking.fail": "No data now (≧_ ≦)",
     "newnew.descr.today_ranking": "Get today's bull ranking",
-    "newnew.msg.today_ranking": "Today's length ranking:",
+    "newnew.msg.today_ranking": "Today's length ranking:{0}",
     "newnew.msg.today_ranking.list": "\n{0}.{1} {2} cm",
     "newnew.msg.today_ranking.fail": "No data now (≧_ ≦)"
 }

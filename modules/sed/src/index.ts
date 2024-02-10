@@ -1,57 +1,19 @@
 import { Context } from 'kotori-bot';
+import Sed from './utils';
 
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  ctx
-    .command('sed <id>')
-    .action(async (data, session) => {
-      if (data.args[0] === session.api.adapter.selfId.toString())
-        return ['querytool.msg.sed.fail', { input: data.args[0] }];
-
-      const res = await ctx.http.get('https://api.sed', { msg: data.args[0] });
-      if (!isObj(res)) return ['BOT_RESULT.SERVER_ERROR', { res }];
-      if (res.code === 501 || !isObj(res.data)) return ['querytool.msg.sed.fail', { input: data.args[0] }];
-      let list = '';
-      list += res.data.qq
-        ? stringTemp('querytool.msg.sed.list', {
-            key: message.locale('querytool.msg.sed.key.qq'),
-            content: res.data.qq
-          })
-        : '';
-      list += res.data.phone
-        ? stringTemp('querytool.msg.sed.list', {
-            key: message.locale('querytool.msg.sed.key.phone'),
-            content: res.data.phone
-          })
-        : '';
-      list += res.data.location
-        ? stringTemp('querytool.msg.sed.list', {
-            key: message.locale('querytool.msg.sed.key.location'),
-            content: res.data.location
-          })
-        : '';
-      list += res.data.id
-        ? stringTemp('querytool.msg.sed.list', {
-            key: message.locale('querytool.msg.sed.key.id'),
-            content: res.data.id
-          })
-        : '';
-      list += res.data.area
-        ? stringTemp('querytool.msg.sed.list', {
-            key: message.locale('querytool.msg.sed.key.area'),
-            content: res.data.area
-          })
-        : '';
-      return [
-        'querytool.msg.sed',
-        {
-          input: data.args[0],
-          time: Math.floor(res.takeTime),
-          count: res.count,
-          list
-        }
-      ];
-    })
-    .help('querytool.descr.sed');
+  ctx.command('sed <id> - sed.descr.sed').action(async (data, session) => {
+    if (data.args[0] === session.api.adapter.selfId.toString()) return ['sed.msg.sed.fail', [data.args[0]]];
+    const res = await new Sed(String(data.args[0])).query();
+    let list = '';
+    list += res.qq ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.qq', res.qq]) : '';
+    list += res.phone ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.phone', res.phone]) : '';
+    list += res.location ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.location', res.location]) : '';
+    list += res.lol ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.id', res.lol]) : '';
+    list += res.area ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.area', res.area]) : '';
+    const count = Object.values(res).filter((el) => !!el).length;
+    return ['sed.msg.sed', [data.args[0], count === 0 ? count - 1 : 0, list]];
+  });
 }

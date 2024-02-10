@@ -58,39 +58,43 @@ export const lang = [__dirname, '../locales'];
 export const inject = ['cache'];
 
 export function main(ctx: Context) {
-  ctx.command('bgm <content> [order:number=1] - bangumi.descr.bgm').action(async (data, session) => {
-    const prop = `bgm_${data.args[0]}`;
-    const res =
-      ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(prop) ??
-      bgm1Schema.parse(await http(`search/subject/${data.args[0]}`));
-    if (!res || !Array.isArray(res.list)) return ['bangumi.msg.bgm.fail', [data.args[0]]];
-    ctx.cache.set(prop, res);
+  ctx
+    .command('bgm <...content> - bangumi.descr.bgm')
+    .option('o', 'order:number bangumi.option.bangumi.order')
+    .action(async (data, session) => {
+      const name = data.args.join('');
+      const order = data.options.order ?? 1;
+      const prop = `bgm_${name}`;
+      const res =
+        ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(prop) ?? bgm1Schema.parse(await http(`search/subject/${name}`));
+      if (!res || !Array.isArray(res.list)) return ['bangumi.msg.bgm.fail', [name]];
+      ctx.cache.set(prop, res);
 
-    if (data.args[1] === 0) {
-      let list = '';
-      for (let init = 0; init < (res.list.length > MAX_LIST ? MAX_LIST : res.list.length); init += 1) {
-        const result = res.list[init];
-        list += session.format('bangumi.msg.bgm.list', [init + 1, result.name, result.name_cn]);
+      if (order === 0) {
+        let list = '';
+        for (let init = 0; init < (res.list.length > MAX_LIST ? MAX_LIST : res.list.length); init += 1) {
+          const result = res.list[init];
+          list += session.format('bangumi.msg.bgm.list', [init + 1, result.name, result.name_cn]);
+        }
+        return list;
       }
-      return list;
-    }
 
-    const result = res.list[(data.args[1] as number) - 1];
-    if (!result) return session.error('num_error');
-    const res2 = bgm2Schema.parse(await http(`v0/subjects/${result.id}`));
-    if ('title' in res2) return ['bangumi.msg.bgm.fail', [data.args[0]]];
-    return [
-      'bangumi.msg.bgm',
-      [
-        res2.name,
-        res2.name_cn,
-        res2.summary,
-        res2.tags.map((el) => el.name).join(' '),
-        `https://bgm.tv/subject/${result.id}`,
-        session.el.image(res2.images.large)
-      ]
-    ];
-  });
+      const result = res.list[(order as number) - 1];
+      if (!result) return session.error('num_error');
+      const res2 = bgm2Schema.parse(await http(`v0/subjects/${result.id}`));
+      if ('title' in res2) return ['bangumi.msg.bgm.fail', [name]];
+      return [
+        'bangumi.msg.bgm',
+        [
+          res2.name,
+          res2.name_cn,
+          res2.summary,
+          res2.tags.map((el) => el.name).join(' '),
+          `https://bgm.tv/subject/${result.id}`,
+          session.el.image(res2.images.large)
+        ]
+      ];
+    });
 
   ctx.command('bgmc - bangumi.descr.bgmc').action(async (_, session) => {
     const res = bgmcSchema.parse(await http(`calendar`));

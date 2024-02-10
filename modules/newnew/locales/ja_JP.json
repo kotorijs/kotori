@@ -7,11 +7,11 @@
     "newnew.msg.my_length": "{0}最大の長さ:{1} cm 最深の長さ:{2} cm\n使用回数:{3} 回 総長:{4} cm\n平均の長さ:{5} cm",
     "newnew.msg.my_length.fail": "{0}あなたの牛牛が見つかりませんでした...牛牛のデータが見つかりません😭 ごめんなさい",
     "newnew.descr.avg_ranking": "平均牛牛ランキングを取得",
-    "newnew.msg.avg_ranking": "平均の長さランキング:",
+    "newnew.msg.avg_ranking": "平均の長さランキング:{0}",
     "newnew.msg.avg_ranking.list": "\n{0}.{1} {2} cm ({3}回、総長{4} cm)",
     "newnew.msg.avg_ranking.fail": "現在データがありません(≧_ ≦)",
     "newnew.descr.today_ranking": "今日の牛牛ランキングを取得",
-    "newnew.msg.today_ranking": "今日の長さランキング:",
+    "newnew.msg.today_ranking": "今日の長さランキング:{0}",
     "newnew.msg.today_ranking.list": "\n{0}.{1} {2} cm",
     "newnew.msg.today_ranking.fail": "現在データがありません(≧_ ≦)"
 }
