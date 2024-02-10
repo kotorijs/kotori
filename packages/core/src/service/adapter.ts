@@ -79,7 +79,7 @@ function formatFactory(i18n: I18n) {
   return (template: string, data: Record<string, unknown> | CommandArgType[]) => {
     const params = data;
     if (Array.isArray(params)) {
-      let str = template;
+      let str = i18n.locale(template);
       params.forEach((value, index) => {
         str = str.replaceAll(`{${index}}`, i18n.locale(typeof value === 'string' ? value : String(value)));
       });

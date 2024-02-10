@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-08 21:35:56
+ * @LastEditTime: 2024-02-10 19:47:05
  */
 import {
   KotoriError,
@@ -16,8 +16,7 @@ import {
   loadConfig,
   TsuError,
   Core,
-  Context,
-  Service
+  Context
 } from '@kotori-bot/core';
 import path from 'path';
 import fs from 'fs';
@@ -162,7 +161,9 @@ export class Loader extends Container {
       ModuleError: () => this.ctx.logger.label('module').error,
       UnknownError: () => this.ctx.logger.error,
       DevError: () => this.ctx.logger.label('error').debug
-    })[err.name]()(err.message, err.stack);
+    })
+      [err.name]()
+      .bind(this.ctx.logger)(err.message, err.stack);
   }
 
   private catchError() {

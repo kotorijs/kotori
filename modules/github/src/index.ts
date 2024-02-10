@@ -21,11 +21,11 @@ const githubSchema = Tsu.Union([
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  ctx.command('github <repository> - querytool.descr.github').action(async (data, session) => {
+  ctx.command('github <repository> - github.descr.github').action(async (data, session) => {
     const res = githubSchema.parse(await ctx.http.get(`https://api.github.com/repos/${data.args[0]}`));
-    if (!('full_name' in res)) return ['querytool.msg.github.fail', { input: data.args[0] }];
+    if (!('full_name' in res)) return ['github.msg.github.fail', { input: data.args[0] }];
     session.quick([
-      'querytool.msg.github',
+      'github.msg.github',
       {
         name: res.full_name || 'BOT_RESULT.EMPTY',
         description: res.description || 'BOT_RESULT.EMPTY',

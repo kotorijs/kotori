@@ -39,7 +39,7 @@ export const localeTypeSchema = Tsu.Union([
 ]);
 
 const modulePackageSchema = Tsu.Object({
-  name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{3,13})\b/),
+  name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{2,13})\b/),
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),

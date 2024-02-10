@@ -22,6 +22,7 @@ export function main(ctx: Context) {
     }
     const { value } = data.result;
     data.cancel();
+    ctx.logger.debug(data);
     switch (value.type) {
       case 'arg_error':
         quick(['corei18n.template.args_error', value]);

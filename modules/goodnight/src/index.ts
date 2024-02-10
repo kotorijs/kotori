@@ -42,12 +42,13 @@ export function main(ctx: Context, config: Config) {
   ctx.regexp(/^(早|早安|早上好)$/, (_, session) => {
     const record = loadTodayData();
     const at = session.el.at(session.userId);
-    if (session.userId in record.morning) return ['goodnight.msg.morning.already', { at }];
+    const prop = `${session.api.adapter.platform}${session.userId}`;
+    if (prop in record.morning) return ['goodnight.msg.morning.already', { at }];
 
     const hours = new Date().getHours();
     if (hours < config.getupTimeLess) return ['goodnight.msg.morning.early', { at, hour: config.getupTimeLess }];
 
-    record.morning[session.userId] = new Date().getTime();
+    record.morning[prop] = new Date().getTime();
     saveTodayData(record);
     const count = Object.keys(record.morning).length;
     // if (count <= 10) addExp(data.group_id!, session.userId, 15);
@@ -61,17 +62,17 @@ export function main(ctx: Context, config: Config) {
   ctx.regexp(/^(晚|晚安|晚上好)$/, (_, session) => {
     const record = loadTodayData();
     const at = session.el.at(session.userId)!;
-    if (session.userId in record.night) return ['goodnight.msg.night.already', { at }];
+    const prop = `${session.api.adapter.platform}${session.userId}`;
+    if (prop in record.night) return ['goodnight.msg.night.already', { at }];
 
     const record2 = loadTodayData(true);
-    if (!(session.userId in record.morning) && !(session.userId in record2.morning))
-      return ['goodnight.msg.night.not', { at }];
+    if (!(prop in record.morning) && !(prop in record2.morning)) return ['goodnight.msg.night.not', { at }];
 
     const nowTime = new Date().getTime();
-    const timecal = nowTime - (record.morning[session.userId] || record2.morning[session.userId]);
+    const timecal = nowTime - (record.morning[prop] || record2.morning[prop]);
     if (timecal < config.sleepTimeLess * 60 * 60 * 1000) return ['goodnight.msg.night.less', { at }];
 
-    record.night[session.userId] = nowTime;
+    record.night[prop] = nowTime;
     saveTodayData(record);
     const time = ctx.i18n.rtime(timecal, 'hours');
     const hours = new Date().getHours();

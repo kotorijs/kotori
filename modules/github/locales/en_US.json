@@ -1,6 +1,6 @@
 {
-    "querytool.descr.github": "Query Github repository info",
-    "querytool.msg.github": "URL: %name%\nDescription: %description%\nLanguage: %language%\nOwner: %author%\nCreated: %create%\nLast updated: %update%\nLast push: %push%\nOpen source license: %license%",
-    "querytool.msg.github.image": "%image%",
-    "querytool.msg.github.fail": "Repository not found: %input%"
+    "github.descr.github": "Query Github repository info",
+    "github.msg.github": "URL: %name%\nDescription: %description%\nLanguage: %language%\nOwner: %author%\nCreated: %create%\nLast updated: %update%\nLast push: %push%\nOpen source license: %license%",
+    "github.msg.github.image": "%image%",
+    "github.msg.github.fail": "Repository not found: %input%"
 }

@@ -24,10 +24,6 @@ const quick = (url: string, el: Elements) => el.image(url) || 'corei18n.template
 export const lang = [__dirname, '../locales'];
 
 export function main(ctx: Context) {
-  ctx.on('ready', () => {
-    ctx.logger.debug(ctx.db);
-  });
-
   ctx.command('sex [tags] - random_img.descr.sex').action(async (data, session) => {
     session.quick('random_img.msg.sex.tips');
     const res = sexSchema.parse(
