@@ -1,9 +1,8 @@
 {
-  "music.descr.music": "NetEase Cloud music",
-  "music.help.music": "Order default is 1, set 0 to view music list",
+  "music.descr.music": "NetEase Cloud music search",
+  "music.help.music": "Default order number is 1, input 0 to show song list",
   "music.option.music.order": "Order number",
-  "music.msg.music": "Song ID: %songid%\nSong Title: %title%\nSong Author: %author%\nSong Download: %url%\nSong Cover: %image%",
-  "music.msg.music.list": "%num%.%title% - %author%\n",
-  "music.msg.music.lists": "%list%Resend command and input [number] to choose corresponding content\nExample: /command content 2",
-  "music.msg.music.fail": "Can't find music: %input%"
+  "music.msg.music": "Song ID: {0}\nSong title: {1}\nArtist: {2}\nDownload: {3}\nCover: {4}",
+  "music.msg.music.list": "{0}.{1} - {2}\n",
+  "music.msg.music.fail": "No related songs found: {0}"
 }

@@ -1,0 +1,11 @@
+{
+    "querytool.descr.sed": "社工信息查询",
+    "querytool.msg.sed": "查询内容：{0}\n消耗时间：{1} 秒\n记录数量：{2}{3}",
+    "querytool.msg.sed.list": "\n{0}：{1}",
+    "querytool.msg.sed.key.qq": "QQ",
+    "querytool.msg.sed.key.phone": "手机号",
+    "querytool.msg.sed.key.location": "运营商",
+    "querytool.msg.sed.key.id": "LOLID",
+    "querytool.msg.sed.key.area": "LOL区域",
+    "querytool.msg.sed.fail": "未查询到相关记录：{0}"
+}

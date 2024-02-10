@@ -186,6 +186,12 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
+  modules/sed:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
   modules/testing:
     dependencies:
       kotori-bot:

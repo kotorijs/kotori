@@ -1,9 +1,8 @@
 {
-  "music.descr.music": "NetEaseクラウドミュージック",
-  "music.help.music": "シーケンス番号のデフォルトは1で、0を入力して曲のリストを表示します",
-  "music.option.music.order": "番号",
-  "music.msg.music": "楽曲ID：%songid%\n曲名：%title%\nアーティスト：%author%\nダウンロード：%url%\nジャケット：%image%",
-  "music.msg.music.list": "%num%.%title% - %author%\n",
-  "music.msg.music.lists": "%list%コマンドを再送信し、対応するコンテンツを選択するために[番号]を入力してください。\n例：/コマンド コンテンツ 2",
-  "music.msg.music.fail": "楽曲が見つかりません：%input%"
+  "music.descr.music": "ネットイーズ音楽検索",
+  "music.help.music": "順序番号のデフォルトは1、0を入力すると曲目リストを表示",
+  "music.option.music.order": "順序番号",
+  "music.msg.music": "楽曲ID:{0}\n楽曲タイトル:{1}\nアーティスト:{2}\nダウンロード:{3}\nジャケ写:{4}",
+  "music.msg.music.list": "{0}.{1} - {2}\n",
+  "music.msg.music.fail": "関連楽曲が見つかりませんでした:{0}"
 }

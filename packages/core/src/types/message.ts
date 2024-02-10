@@ -84,7 +84,11 @@ export enum MessageScope {
   GROUP
 }
 export type MessageRaw = string;
-export type MessageQuickReal = MessageRaw | [string, Record<string, CommandArgType>] | CommandError | void;
+export type MessageQuickReal =
+  | MessageRaw
+  | [string, Record<string, CommandArgType> | CommandArgType[]]
+  | CommandError
+  | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 export type MidwareCallback = (next: () => void, session: SessionData) => MessageQuick;
 export type RegexpCallback = (match: RegExpMatchArray, session: SessionData) => MessageQuick;
@@ -151,7 +155,7 @@ export interface EventDataApiBase {
   operatorId?: EventDataTargetId;
   i18n: I18n;
   send(message: MessageRaw): void;
-  format(template: string, data: Record<string, unknown>): string;
+  format(template: string, data: Record<string, unknown> | CommandArgType[]): string;
   quick(message: MessageQuick): void;
   error<T extends Exclude<keyof CommandResult, CommandResultNoArgs>>(
     type: T,
