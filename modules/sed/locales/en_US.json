@@ -1,0 +1,11 @@
+{
+    "querytool.descr.sed": "Social engineering info query",
+    "querytool.msg.sed": "Query content: {0}\nTime consumed: {1} secs\nRecords found: {2}{3}",
+    "querytool.msg.sed.list": "\n{0}: {1}",
+    "querytool.msg.sed.key.qq": "QQ number",
+    "querytool.msg.sed.key.phone": "Phone number",
+    "querytool.msg.sed.key.location": "Carrier",
+    "querytool.msg.sed.key.id": "LOL ID",
+    "querytool.msg.sed.key.area": "LOL area",
+    "querytool.msg.sed.fail": "No relevant records found: {0}"
+}

@@ -5,7 +5,9 @@ const bgm1Schema = Tsu.Object({
   results: Tsu.Number().optional(),
   list: Tsu.Array(
     Tsu.Object({
-      id: Tsu.Number()
+      id: Tsu.Number(),
+      name: Tsu.String(),
+      name_cn: Tsu.String()
     })
   )
 });
@@ -53,7 +55,7 @@ const MAX_LIST = 10;
 
 export const lang = [__dirname, '../locales'];
 
-export const inject = [''];
+export const inject = ['cache'];
 
 export function main(ctx: Context) {
   ctx.command('bgm <content> [order:number=1] - bangumi.descr.bgm').action(async (data, session) => {
@@ -61,35 +63,32 @@ export function main(ctx: Context) {
     const res =
       ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(prop) ??
       bgm1Schema.parse(await http(`search/subject/${data.args[0]}`));
-    if (!res || !Array.isArray(res.list)) return ['bangumi.msg.bgm.fail', { input: data.args[0] }];
+    if (!res || !Array.isArray(res.list)) return ['bangumi.msg.bgm.fail', [data.args[0]]];
     ctx.cache.set(prop, res);
 
     if (data.args[1] === 0) {
       let list = '';
       for (let init = 0; init < (res.list.length > MAX_LIST ? MAX_LIST : res.list.length); init += 1) {
         const result = res.list[init];
-        list += session.format('bangumi.msg.bgm.list', {
-          ...result,
-          num: init + 1
-        });
+        list += session.format('bangumi.msg.bgm.list', [init + 1, result.name, result.name_cn]);
       }
-      return ['bangumi.msg.bgm.lists', { list }];
+      return list;
     }
 
     const result = res.list[(data.args[1] as number) - 1];
     if (!result) return session.error('num_error');
     const res2 = bgm2Schema.parse(await http(`v0/subjects/${result.id}`));
-    if ('title' in res2) return ['bangumi.msg.bgm.fail', { input: data.args[0] }];
+    if ('title' in res2) return ['bangumi.msg.bgm.fail', [data.args[0]]];
     return [
       'bangumi.msg.bgm',
-      {
-        name: res2.name,
-        name_cn: res2.name_cn,
-        summary: res2.summary,
-        tags: res2.tags.map((el) => el.name).join(' '),
-        url: `https://bgm.tv/subject/${result.id}`,
-        image: session.el.image(res2.images.large)
-      }
+      [
+        res2.name,
+        res2.name_cn,
+        res2.summary,
+        res2.tags.map((el) => el.name).join(' '),
+        `https://bgm.tv/subject/${result.id}`,
+        session.el.image(res2.images.large)
+      ]
     ];
   });
 
@@ -102,14 +101,14 @@ export function main(ctx: Context) {
     let list = '';
     for (let init = 0; init < 3; init += 1) {
       const item = items[init];
-      list += session.format('bangumi.msg.bgmc.list', {
-        name: item.name,
-        name_cn: item.name_cn,
-        air_date: item.air_date,
-        image: session.el.image(item.images.large)
-      });
+      list += session.format('bangumi.msg.bgmc.list', [
+        item.name,
+        item.name_cn,
+        item.air_date,
+        session.el.image(item.images.large)
+      ]);
     }
     const weekday = session.api.adapter.ctx.i18n.get().includes('en') ? res[dayNum].weekday.en : res[dayNum].weekday.ja;
-    return ['bangumi.msg.bgmc', { weekday, list }];
+    return ['bangumi.msg.bgmc', [weekday, list]];
   });
 }

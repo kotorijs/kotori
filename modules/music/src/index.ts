@@ -31,19 +31,15 @@ export function main(ctx: Context) {
         ctx.cache.get<Tsu.infer<typeof musicSchema>>(prop) ??
         musicSchema.parse(await ctx.http.get('https://api.hotaru.icu/api/netease', { name }));
       ctx.cache.set(prop, res);
-      if (!res.data) return ['music.msg.music.fail', { input: name }];
+      if (!res.data) return ['music.msg.music.fail', [name]];
 
       if (order === 0) {
         let list = '';
         for (let init = 0; init < (res.data.length > MAX_LIST ? MAX_LIST : res.data.length); init += 1) {
           const song = res.data[init];
-          list += session.format('music.msg.music.list', {
-            num: init + 1,
-            title: song.title ?? '',
-            author: song.author ?? ''
-          });
+          list += session.format('music.msg.music.list', [init + 1, song.title ?? '', song.author ?? '']);
         }
-        return ['music.msg.music.lists', { list }];
+        return list;
       }
 
       const song = res.data[(order as number) - 1];
@@ -51,13 +47,7 @@ export function main(ctx: Context) {
 
       if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songid}]`);
 
-      return [
-        'music.msg.music',
-        {
-          ...song,
-          image: session.el.image(song.pic)
-        }
-      ];
+      return ['music.msg.music', [song.songid, song.title, song.author, song.url, session.el.image(song.pic)]];
     })
     .help('music.help.music');
 }

@@ -10,7 +10,8 @@ import {
   MessageRaw,
   MessageQuick,
   AdapterConfig,
-  CommandResult
+  CommandResult,
+  CommandArgType
 } from '../types';
 import Elements from './elements';
 import { cancelFactory } from '../utils/factory';
@@ -63,8 +64,8 @@ function setProxy<T extends Api>(api: Api, ctx: Context): T {
   return proxy;
 }
 
-function sendMessageFactory(adapter: Adapter, data: Parameters<Adapter['session']>[1]) {
-  if (data.type === MessageScope.GROUP && 'groupId' in data) {
+function sendMessageFactory(adapter: Adapter, type: keyof EventApiType, data: Parameters<Adapter['session']>[1]) {
+  if ((data.type === MessageScope.GROUP || type.includes('group')) && 'groupId' in data) {
     return (message: MessageRaw) => {
       adapter.api.sendGroupMsg(message, data.groupId as EventDataTargetId, data.extra);
     };
@@ -75,8 +76,15 @@ function sendMessageFactory(adapter: Adapter, data: Parameters<Adapter['session'
 }
 
 function formatFactory(i18n: I18n) {
-  return (template: string, data: Record<string, unknown>) => {
+  return (template: string, data: Record<string, unknown> | CommandArgType[]) => {
     const params = data;
+    if (Array.isArray(params)) {
+      let str = template;
+      params.forEach((value, index) => {
+        str = str.replaceAll(`{${index}}`, i18n.locale(typeof value === 'string' ? value : String(value)));
+      });
+      return str;
+    }
     Object.keys(params).forEach((key) => {
       if (typeof params[key] !== 'string') params[key] = String(params[key]);
       params[key] = i18n.locale(params[key] as string);
@@ -145,7 +153,7 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
     data: Omit<EventApiType[N], 'api' | 'send' | 'i18n' | 'format' | 'quick' | 'el' | 'error'>
   ) {
     const i18n = this.ctx.i18n.extends(this.config.lang);
-    const send = sendMessageFactory(this, data);
+    const send = sendMessageFactory(this, type, data);
     const format = formatFactory(i18n as I18n);
     const quick = qucikFactory(send, i18n as I18n);
     const { api, elements: el } = this;

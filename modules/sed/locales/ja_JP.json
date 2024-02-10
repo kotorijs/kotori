@@ -1,0 +1,11 @@
+{
+    "querytool.descr.sed": "ソーシャルエンジニアリング情報検索",
+    "querytool.msg.sed": "検索内容:{0}\n処理時間:{1} 秒\nレコード数:{2}{3}",
+    "querytool.msg.sed.list": "\n{0}:{1}",
+    "querytool.msg.sed.key.qq": "QQ番号",
+    "querytool.msg.sed.key.phone": "電話番号",
+    "querytool.msg.sed.key.location": "キャリア",
+    "querytool.msg.sed.key.id": "LOL ID",
+    "querytool.msg.sed.key.area": "LOLエリア",
+    "querytool.msg.sed.fail": "関連レコードが見つかりませんでした:{0}"
+}
