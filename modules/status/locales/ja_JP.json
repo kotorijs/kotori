@@ -1,0 +1,4 @@
+{
+    "status.descr.status": "サーバーの稼働状態を表示",
+    "status.msg.status": "サーバ稼働状態\nシステムコア：%type%\nシステムプラットフォーム：%platform%\nCPUアーキテクチャ：%arch%\nCPUモデル：%model%\nCPU周波数：%speed%GHz \nCPUコア数：%num%\nCPU使用率：%cpu_rate%\nメモリ総量：%total%GB \n使用可能内部記憶：%used%GB \nメモリ使用率：%ram_rate%\nネットワークカード数：%network%\n電源投入時間：%time%\nホスト名前：%hostname%\nシステムディレクトリ：%homedir%"
+}

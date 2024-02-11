@@ -162,6 +162,12 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
+  modules/minecraft:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
   modules/music:
     dependencies:
       kotori-bot:
@@ -187,6 +193,12 @@ importers:
         version: link:../../packages/kotori
 
   modules/sed:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/status:
     dependencies:
       kotori-bot:
         specifier: workspace:^

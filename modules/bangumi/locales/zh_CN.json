@@ -3,6 +3,7 @@
   "bangumi.descr.bgmc": "获取番组计划今日放送",
   "bangumi.msg.bgm": "原名：{0}\n中文名：{1}\n介绍：{2}\n标签：{3}\n详情：{4}\n{5}",
   "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
+  "bangumi.option.bangumi.order": "序号",
   "bangumi.msg.bgm.fail": "未找到相关条目：{0}",
   "bangumi.msg.bgmc": "日期：{0}~{1}",
   "bangumi.msg.bgmc.list": "\n原名：{0}\n中文名：{1}\n开播时间：{2}\n{3}"

@@ -10,7 +10,7 @@ export class KotoriLogger extends Logger {
   }
 
   private setLabel() {
-    const label = this.ctx.identity ? [this.ctx.identity, ...this.optionsSelf.label] : this.optionsSelf.label;
+    const label = this.ctx.identity ? [this.ctx.identity, ...this.optionsSelf.label] : [];
     (this[(() => 'options')() as keyof this] as { label: string[] }).label = label;
   }
 

@@ -4,6 +4,7 @@
   "bangumi.msg.bgm": "原名：{0}\n中文名：{1}\n介紹：{2}\n標簽：{3}\n詳情：{4}\n{5}",
   "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
   "bangumi.msg.bgm.fail": "未找到相關條目：{0}",
+  "bangumi.option.bangumi.order": "番号",
   "bangumi.msg.bgmc": "日期：{0}~{1}",
   "bangumi.msg.bgmc.list": "\n原名：{0}\n中文名：{1}\n開播時間：{2}\n{3}"
 }

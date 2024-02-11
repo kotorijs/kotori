@@ -1,0 +1,4 @@
+{
+    "status.descr.status": "查看服務器運行狀態",
+    "status.msg.status": "服務器運行狀態\n系統內核：%type%\n系統平台：%platform%\nCPU架構：%arch%\nCPU型號：%model%\nCPU頻率：%speed%GHz\nCPU核心數：%num%\nCPU使用率：%cpu_rate%%\n內存總量：%total%GB\n可用內存：%used%GB\n內存使用率：%ram_rate%%\n網卡數量：%network%\n開機時間：%time%\n主機名字：%hostname%\n系統目錄：%homedir%"
+}

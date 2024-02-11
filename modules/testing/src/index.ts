@@ -41,7 +41,7 @@ export function main(ctx: Context, config: Config) {
   /* 中间件注册 */
   ctx.midware((next, session) => {
     const s = session;
-    if (s.message.startsWith('说') || s.message.includes('说')) {
+    if (s.message.startsWith('/说') || s.message.includes('/说')) {
       s.message = `${s.api.adapter.config['command-prefix']}echo`;
     }
     next();
