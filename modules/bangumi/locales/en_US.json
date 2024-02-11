@@ -4,6 +4,7 @@
     "bangumi.msg.bgm": "Original name: {0}\nChinese name: {1}\nIntroduction: {2}\nTags: {3}\nDetails: {4}\n{5}",
     "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
     "bangumi.msg.bgm.fail": "No relevant items found: {0}",
+    "bangumi.option.bangumi.order": "Order number",
     "bangumi.msg.bgmc": "Date: {0}~{1}",
     "bangumi.msg.bgmc.list": "\nOriginal name: {0}\nChinese name: {1}\nBroadcast time: {2}\n{3}"
 }

@@ -1,0 +1,35 @@
+{
+  "name": "kotori-plugin-minecraft",
+  "version": "1.0.0",
+  "description": "Plugin Of For Minecraft!",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "meta": {
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    }
+  }
+}

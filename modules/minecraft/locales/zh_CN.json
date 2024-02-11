@@ -1,0 +1,13 @@
+{
+    "minecraft.descr.motd": "MCJE服务器信息查询",
+    "minecraft.descr.motdbe": "MCBE服务器信息查询",
+    "minecraft.descr.mcskin": "MC正版账号皮肤查询",
+    "minecraft.descr.mcv": "查询Minecraft版本信息",
+    "minecraft.msg.motd": "状态：在线\nIP：{0}\n端口：{1}\n物理地址：{2}\nMOTD：{3}\n协议版本：{4}\n游戏版本：{5}\n在线人数：{6} / {7}\n延迟：{8} ms\n图标：{9}",
+    "minecraft.msg.motd.fail": "状态：离线\nIP：{0}\n端口：{1}",
+    "minecraft.msg.motdbe": "状态：在线\nIP：{0}\n端口：{1}\n物理地址：{2}\nMOTD：{3}\n游戏模式：{4}\n协议版本：{5}\n游戏版本：{6}\n在线人数：{7} / {8}\n延迟： {9} ms",
+    "minecraft.msg.motdbe.fail": "状态：离线\nIP：{0}\n端口：{1}",
+    "minecraft.msg.mcskin": "玩家：{0}\n皮肤：{1}\n披风：{2}\n头颅：{3}",
+    "minecraft.msg.mcskin.fail": "{0}查无此人！",
+    "minecraft.msg.mcv": "MinecraftJava：\n最新版：{0}\n发布时间：{1}\n最新快照：{2}\n发布时间：{3}\nMinecraftBedrock：\n最新版：{4}\n发布时间：{5}"
+}
