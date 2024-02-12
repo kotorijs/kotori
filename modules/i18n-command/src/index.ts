@@ -22,25 +22,24 @@ export function main(ctx: Context) {
     }
     const { value } = data.result;
     data.cancel();
-    ctx.logger.debug(data);
     switch (value.type) {
       case 'arg_error':
-        quick(['corei18n.template.args_error', value]);
+        quick(['corei18n.template.args_error', [value.index, value.expected, value.reality]]);
         break;
       case 'arg_few':
-        quick(['corei18n.template.args_few', value]);
+        quick(['corei18n.template.args_few', [value.expected, value.reality]]);
         break;
       case 'arg_many':
-        quick(['corei18n.template.args_many', value]);
+        quick(['corei18n.template.args_many', [value.expected, value.reality]]);
         break;
       case 'option_error':
-        quick(['corei18n.template.option_error', value]);
+        quick(['corei18n.template.option_error', [value.target, value.expected, value.reality]]);
         break;
       case 'syntax':
-        quick(['corei18n.template.syntax', value]);
+        quick(['corei18n.template.syntax', [value.index, value.char]]);
         break;
       case 'unknown':
-        quick(['corei18n.template.unknown', value]);
+        quick(['corei18n.template.unknown', [value.input]]);
         break;
       default:
     }
@@ -52,10 +51,10 @@ export function main(ctx: Context) {
     const { quick } = data.session;
     switch (value.type) {
       case 'res_error':
-        quick(['corei18n.template.res_error', { content: value.error.message }]);
+        quick(['corei18n.template.res_error', [value.error.message]]);
         break;
       case 'num_error':
-        quick(['corei18n.template.num_error', value]);
+        quick('corei18n.template.num_error');
         break;
       case 'no_access_manger':
         quick('corei18n.template.no_access_manger');
@@ -67,31 +66,31 @@ export function main(ctx: Context) {
         quick('corei18n.template.disable');
         break;
       case 'exists':
-        quick(['corei18n.template.exists', value]);
+        quick(['corei18n.template.exists', [value.target]]);
         break;
       case 'no_exists':
-        quick(['corei18n.template.no_exists', value]);
+        quick(['corei18n.template.no_exists', [value.target]]);
         break;
       case 'error':
         ctx.logger.error(value.error);
         if (value.error instanceof TsuError) {
-          quick(['corei18n.template.res_error', { content: value.error.message }]);
+          quick(['corei18n.template.res_error', [value.error.message]]);
           return;
         }
         if (value.error instanceof Error) {
-          quick(['corei18n.template.error', { error: `${value.error.name} ${value.error.message}` }]);
+          quick(['corei18n.template.error', [`${value.error.name} ${value.error.message}`]]);
           return;
         }
         if (typeof value.error === 'object') {
-          quick(['corei18n.template.error', { error: JSON.stringify(value.error) }]);
+          quick(['corei18n.template.error', [JSON.stringify(value.error)]]);
           return;
         }
-        quick(['corei18n.template.error', { error: value.error as string }]);
+        quick(['corei18n.template.error', [String(value.error)]]);
         break;
       case 'data_error':
         quick([
           `corei18n.template.data_error.${typeof value.target === 'string' ? 'options' : 'args'}`,
-          { target: value.target }
+          [value.target]
         ]);
         break;
       default:

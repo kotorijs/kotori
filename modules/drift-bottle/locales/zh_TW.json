@@ -1,0 +1,9 @@
+{
+	"drift_bottle.descr.pick": "撿取壹個漂流瓶",
+	"drift_bottle.msg.pick.none": "暫時還沒有壹個漂流瓶",
+	"drift_bottle.msg.pick.info": "瓶子內容：{0}\n時間：{1}\n來源群號：{2}",
+	"drift_bottle.descr.throw": "投擲壹個漂流瓶~",
+	"drift_bottle.msg.throw.info": "{0}妳的瓶子已投擲大海~",
+	"drift_bottle.msg.throw.fail": "{0}今天的投擲次數已超過 {1} 次，明天再來吧~",
+	"drift_bottle.msg.throw.empty": "{0}內容不能爲空"
+}

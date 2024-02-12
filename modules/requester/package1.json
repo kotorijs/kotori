@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-minecraft",
+  "name": "kotori-plugin-requester",
   "version": "1.0.0",
-  "description": "Plugin Of For Minecraft!",
+  "description": "Listen delete message and request event call to master",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -18,7 +18,7 @@
     "LICENSE",
     "README.md"
   ],
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Himeno <biyuehuya@gmail.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },

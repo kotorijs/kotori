@@ -114,6 +114,12 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
+  modules/drift-bottle:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
   modules/github:
     dependencies:
       kotori-bot:
@@ -191,6 +197,21 @@ importers:
       kotori-bot:
         specifier: workspace:^
         version: link:../../packages/kotori
+
+  modules/requester:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/run-code:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+      lua-in-js:
+        specifier: ^2.2.4
+        version: 2.2.4
 
   modules/sed:
     dependencies:
@@ -2974,6 +2995,18 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /lua-in-js@2.2.4:
+    resolution: {integrity: sha512-xGS6nVeE65MJTSkSHZln4zfieNpwEAwPyk7YJAUepD7DhIrKi5tG43R5hnZkNU/t+LbFRhmIq7kJ5sYbFeVxmw==}
+    dependencies:
+      luaparse: 0.3.1
+      printj: 1.3.1
+    dev: false
+
+  /luaparse@0.3.1:
+    resolution: {integrity: sha512-b21h2bFEbtGXmVqguHogbyrMAA0wOHyp9u/rx+w6Yc9pW1t9YjhGUsp87lYcp7pFRqSWN/PhFkrdIqKEUzRjjQ==}
+    hasBin: true
+    dev: false
+
   /make-error@1.3.6:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
     requiresBuild: true
@@ -3576,6 +3609,12 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
+
+  /printj@1.3.1:
+    resolution: {integrity: sha512-GA3TdL8szPK4AQ2YnOe/b+Y1jUFwmmGMMK/qbY7VcE3Z7FU8JstbKiKRzO6CIiAKPhTO8m01NoQ0V5f3jc4OGg==}
+    engines: {node: '>=0.8'}
+    hasBin: true
+    dev: false
 
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}

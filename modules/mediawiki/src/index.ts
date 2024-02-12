@@ -46,11 +46,11 @@ export function main(ctx: Context) {
     if (!res) return ['mediawiki.msg.wiki.fail', { input: data.args[0] }];
     return [
       'mediawiki.msg.wiki',
-      { ...res, api: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name }
+      { ...res, url: `${wiki!.api.split('api.php')[0]}index.php?curid=${res.pageid}`, name: wiki!.name }
     ];
   });
 
-  ctx.command('wiki query - mediawiki.descr.wikil').action((_, session) => {
+  ctx.command('wikio query - mediawiki.descr.wikil').action((_, session) => {
     const dataList = loadWikiData();
     let list = '';
     let init = 1;
