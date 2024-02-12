@@ -17,9 +17,7 @@ export function main(ctx: Context) {
       .catch(() => {});
   });
 
-  ctx.on('parse', (data) => {
-    // ctx.db.select('userId').from()
-  });
+  ctx.on('parse', (data) => {});
 }
 
 // const message = controlParams(`${data.group_id}\\accessList.json`

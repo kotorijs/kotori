@@ -14,6 +14,6 @@ export function main(ctx: Context) {
     list += res.lol ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.id', res.lol]) : '';
     list += res.area ? session.format('sed.msg.sed.list', ['sed.msg.sed.key.area', res.area]) : '';
     const count = Object.values(res).filter((el) => !!el).length;
-    return ['sed.msg.sed', [data.args[0], count === 0 ? count - 1 : 0, list]];
+    return ['sed.msg.sed', [data.args[0], count > 0 ? count - 1 : 0, list]];
   });
 }

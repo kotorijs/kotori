@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-i18n-command",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "i18n for command",
   "main": "lib/index.js",
   "scripts": {

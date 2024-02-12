@@ -1,0 +1,18 @@
+{
+	"requester.msg.increase.approve": "BOT被用户%operator%同意加入了群%group%",
+	"requester.msg.increase.invite": "BOT被用户%operator%拉入了群%group%",
+	"requester.msg.decrease.leave": "BOT退出了群%group%",
+	"requester.msg.decrease.kick": "BOT被管理员%operator%踢出了群%group%",
+	"requester.msg.admin.set": "BOT被用户%operator%设置为群%group%管理员",
+	"requester.msg.admin.unset": "BOT被用户%operator%取消了群%group%管理员",
+	"requester.msg.ban.ban": "BOT被用户%operator%禁言了%time%分钟在群%group%管理员",
+	"requester.msg.ban.lift_ban": "BOT被用户%operator%取消了禁言在群%group%管理员",
+	"requester.msg.recall.group.self": "用户%user%在群%group%撤回了消息: %message%",
+	"requester.msg.recall.group.other": "用户%user%被用户%operator%在群%group%撤回了消息: %message%",
+	"requester.msg.recall.private": "用户%user%撤回了消息: %message%",
+	"requester.msg.request.group.add": "BOT收到了来自用户%user%的加群%group%请求: %message%",
+	"requester.msg.request.group.invite": "BOT收到了来自用户%user%的加群%group%邀请",
+	"requester.msg.request.private": "BOT收到了来自用户%user%的加好友请求: %message%",
+	"requester.msg.msg.group": "用户%user%在群%group%艾特了BOT: %message%",
+	"requester.msg.msg.private": "用户%user%向BOT发来消息: %message%"
+}

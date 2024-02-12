@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-mediawiki",
-  "version": "1.2.1",
-  "description": "mediawiki search tool",
+  "name": "kotori-plugin-requester",
+  "version": "1.0.0",
+  "description": "Listen delete message and request event call to master",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -24,7 +24,7 @@
   },
   "kotori": {
     "meta": {
-      "languages": [
+      "language": [
         "en_US",
         "ja_JP",
         "zh_TW",

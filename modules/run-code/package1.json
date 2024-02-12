@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-mediawiki",
-  "version": "1.2.1",
-  "description": "mediawiki search tool",
+  "name": "kotori-plugin-run-code",
+  "version": "1.0.0",
+  "description": "Run code with javascript and lua",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -24,12 +24,15 @@
   },
   "kotori": {
     "meta": {
-      "languages": [
+      "language": [
         "en_US",
         "ja_JP",
         "zh_TW",
         "zh_CN"
       ]
     }
+  },
+  "dependencies": {
+    "lua-in-js": "^2.2.4"
   }
 }
