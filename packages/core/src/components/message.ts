@@ -104,7 +104,7 @@ export class Message {
 
   constructor(ctx: Context) {
     this.ctx = ctx;
-    this.ctx.on('on_message', (data) => this.handleMidware(data));
+    this.ctx.on('on_message', (session) => this.handleMidware(session));
     this.ctx.on('midwares', (data) => this.handleCommand(data));
     this.ctx.on('midwares', (data) => this.handleRegexp(data));
     this.ctx.on('before_send', (data) => {

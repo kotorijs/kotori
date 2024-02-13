@@ -5,8 +5,8 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-02-10 19:59:11
  */
-import type { LoggerData, LoggerFilter, LoggerOptions } from './types/internal';
-import { LoggerLevel } from './types/common';
+import type { LoggerFilter, LoggerOptions } from './types/internal';
+import { LoggerData, LoggerLevel } from './types/common';
 import { escaper } from './utils/escaper';
 import { DEFAULT_LOGGER_OPTIONS } from './const';
 import type Transport from './utils/transport';
@@ -102,6 +102,7 @@ export namespace Logger {
 }
 
 export * from './utils/escaper';
+export * from './utils/transport';
 export * from './types/common';
 export * from './transport';
 export * from './const';

@@ -157,6 +157,8 @@ export interface EventDataApiBase {
   send(message: MessageRaw): void;
   format(template: string, data: Record<string, unknown> | CommandArgType[]): string;
   quick(message: MessageQuick): void;
+  prompt(message?: MessageRaw): Promise<MessageRaw>;
+  confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<Boolean>;
   error<T extends Exclude<keyof CommandResult, CommandResultNoArgs>>(
     type: T,
     data: CommandResult[T] extends object ? CommandResult[T] : never

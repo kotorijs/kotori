@@ -11,7 +11,9 @@ import {
   MessageQuick,
   AdapterConfig,
   CommandResult,
-  CommandArgType
+  CommandArgType,
+  EventsMapping,
+  SessionData
 } from '../types';
 import Elements from './elements';
 import { cancelFactory } from '../utils/factory';
@@ -105,6 +107,54 @@ function qucikFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
   };
 }
 
+function isSameSender(adapter: Adapter, data: Parameters<Adapter['session']>[1], session: SessionData) {
+  return (
+    session.api.adapter.identity === adapter.identity &&
+    session.api.adapter.platform === adapter.platform &&
+    session.type === data.type &&
+    session.groupId === data.groupId &&
+    session.userId === data.userId &&
+    'messageId' in data &&
+    session.messageId !== data.messageId
+  );
+}
+
+function promptFactory(
+  quick: ReturnType<typeof qucikFactory>,
+  adapter: Adapter,
+  data: Parameters<Adapter['session']>[1]
+) {
+  return (message?: MessageRaw) =>
+    new Promise((resolve) => {
+      const handle: EventsMapping['on_message'] = (session) => {
+        if (isSameSender(adapter, data, session)) {
+          resolve(session.message);
+          return;
+        }
+        adapter.ctx.once('on_message', handle);
+      };
+      quick(message ?? 'corei18n.template.prompt').then(() => adapter.ctx.once('on_message', handle));
+    });
+}
+
+function confirmFactory(
+  quick: ReturnType<typeof qucikFactory>,
+  adapter: Adapter,
+  data: Parameters<Adapter['session']>[1]
+) {
+  return (options?: { message: MessageRaw; sure: MessageRaw }) =>
+    new Promise((resolve) => {
+      const handle: EventsMapping['on_message'] = (session) => {
+        if (isSameSender(adapter, data, session)) {
+          resolve(session.message === (options?.sure ?? 'corei18n.template.confirm.sure'));
+          return;
+        }
+        adapter.ctx.once('on_message', handle);
+      };
+      quick(options?.message ?? 'corei18n.template.confirm').then(() => adapter.ctx.once('on_message', handle));
+    });
+}
+
 function error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) {
   return new CommandError(Object.assign(data ?? {}, { type }) as ConstructorParameters<typeof CommandError>[0]);
 }
@@ -150,14 +200,21 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 
   protected session<N extends keyof EventApiType>(
     type: N,
-    data: Omit<EventApiType[N], 'api' | 'send' | 'i18n' | 'format' | 'quick' | 'el' | 'error'>
+    data: Omit<EventApiType[N], 'api' | 'send' | 'i18n' | 'format' | 'quick' | 'prompt' | 'confirm' | 'el' | 'error'>
   ) {
     const i18n = this.ctx.i18n.extends(this.config.lang);
     const send = sendMessageFactory(this, type, data);
     const format = formatFactory(i18n as I18n);
     const quick = qucikFactory(send, i18n as I18n);
+    const prompt = promptFactory(quick, this, data);
+    const confirm = confirmFactory(quick, this, data);
     const { api, elements: el } = this;
-    (this.ctx.emit as Function)(type, { ...data, api, el, send, i18n, format, quick, error });
+    this.ctx.emit(
+      type,
+      ...([{ ...data, api, el, send, i18n, format, quick, prompt, confirm, error }] as unknown as [
+        ...Parameters<(typeof this)['ctx']['emit']>
+      ])
+    );
   }
 
   readonly ctx: Context;

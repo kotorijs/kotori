@@ -13,3 +13,11 @@ export enum LoggerLevel {
 export interface TransportOptionsBase {
   filter?: LoggerFilter;
 }
+
+export interface LoggerData {
+  level: LoggerLevel;
+  time: number;
+  pid: number;
+  label: string[];
+  msg: string;
+}

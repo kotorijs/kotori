@@ -1,13 +1,5 @@
 import { Transport } from '../utils/transport';
-import { LoggerLevel } from './common';
-
-export interface LoggerData {
-  level: LoggerLevel;
-  time: number;
-  pid: number;
-  label: string[];
-  msg: string;
-}
+import { LoggerData, LoggerLevel } from './common';
 
 export type LoggerFilter = (data: LoggerData) => boolean;
 

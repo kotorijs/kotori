@@ -16,5 +16,9 @@
   "corei18n.template.no_access_manger": "该指令仅群管理员与群BOT管理员可使用！",
   "corei18n.template.no_access_admin": "该指令仅BOT最高管理员可使用！",
   "corei18n.template.empty": "无",
-  "corei18n.template.unsupported": "当前平台不支持该消息元素"
+  "corei18n.template.unsupported": "当前平台不支持该消息元素",
+  "corei18n.template.": "当前平台不支持该消息元素",
+  "corei18n.template.prompt": "请输入一个值：",
+  "corei18n.template.confirm": "是否确认？(是/否)",
+  "corei18n.template.confirm.sure": "是"
 }
