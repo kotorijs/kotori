@@ -1,8 +1,7 @@
 /* eslint no-console: 0 */
 import stringify from 'fast-safe-stringify';
-import { LoggerData } from '../types/internal';
 import Transport from '../utils/transport';
-import { LoggerLevel } from '../types/common';
+import { LoggerData, LoggerLevel } from '../types/common';
 
 export class IOTransport extends Transport<{ method: 'process' | 'vanilla' }> {
   handle(data: LoggerData) {

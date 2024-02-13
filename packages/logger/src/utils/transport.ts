@@ -1,5 +1,5 @@
-import { TransportOptionsBase } from '../types/common';
-import type { LoggerData, LoggerFilter } from '../types/internal';
+import { LoggerData, TransportOptionsBase } from '../types/common';
+import type { LoggerFilter } from '../types/internal';
 import type { escaper } from './escaper';
 
 interface TransportImpl<C extends object> {

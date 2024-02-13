@@ -1,10 +1,9 @@
 import stringify from 'fast-safe-stringify';
 import { createColors } from 'colorette';
 import dayjs from 'dayjs';
-import { LoggerData } from '../types/internal';
 import Transport from '../utils/transport';
 import { escaperSingle } from '../utils/escaper';
-import { LoggerLevel, TransportOptionsBase } from '../types/common';
+import { LoggerData, LoggerLevel, TransportOptionsBase } from '../types/common';
 
 type Level = Exclude<keyof typeof LoggerLevel, 'SILENT'>;
 type Color = keyof ReturnType<typeof createColors>;

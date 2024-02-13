@@ -1,6 +1,8 @@
 {
-	"runcode.help.runjs": "运行JavaScript代码",
-	"runcode.msg.runjs.info": "Console Output:\n%content%",
-	"runcode.help.runlua": "运行Lua代码",
-	"runcode.msg.runlua.info": "Print Output:\n%content%"
+	"runcode.descr.runjs": "运行 JavaScript 代码",
+	"runcode.msg.runjs.prompt": "请输入 JavaScript 代码",
+	"runcode.msg.runjs.info": "Console Output:\n{0}",
+	"runcode.descr.runlua": "运行 Lua 代码",
+	"runcode.msg.runlua.prompt": "请输入 Lua 代码",
+	"runcode.msg.runlua.info": "Print Output:\n{0}"
 }
