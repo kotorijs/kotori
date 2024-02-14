@@ -53,10 +53,9 @@ export function main(ctx: Context, config: Config) {
     .action((data, session) => {
       ctx.logger.debug(data, data.args[0]);
       ctx.logger.debug(session.message);
-      return [`返回消息:~%message%`, { message: data.args[0] }];
+      return [`返回消息：~%message%`, { message: data.args[0] }];
     })
-    .alias('print')
-    .scope(MessageScope.GROUP);
+    .alias('print');
 
   /* 正则注册 */
   ctx.regexp(/^(.*)#print$/, (match) => match[1]);

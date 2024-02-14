@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-30 11:33:15
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-10 20:25:58
+ * @LastEditTime: 2024-02-14 14:20:08
  */
 import { Context, Tsu } from 'kotori-bot';
 
@@ -25,9 +25,9 @@ type StatData = Record<string, [number, number, number, number]>;
 export function main(ctx: Context, config: Config) {
   const getNewLength = () => config.min + Math.floor(Math.random() * (config.max - config.min + 1));
   const getTodayPath = () => `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay()}.json`;
-  const loadTodayData = () => (ctx.file.load(getTodayPath(), 'json', {}, true) as TodayData) || {};
+  const loadTodayData = () => (ctx.file.load(getTodayPath(), 'json', {}) as TodayData) || {};
   const saveTodayData = (data: TodayData) => ctx.file.save(getTodayPath(), data);
-  const loadStatData = (): StatData => (ctx.file.load('stat.json', 'json', {}, true) as StatData) || {};
+  const loadStatData = (): StatData => (ctx.file.load('stat.json', 'json', {}) as StatData) || {};
   const saveStatData = (data: StatData) => ctx.file.save('stat.json', data);
 
   ctx.midware((next, session) => {
@@ -74,7 +74,7 @@ export function main(ctx: Context, config: Config) {
     if (!person || person.length <= 0) return ['newnew.msg.my_length.fail', [session.el.at(session.userId)]];
     return [
       'newnew.msg.my_length',
-      [session.el.at(session.userId), person[1], person[0], person[2], person[3], person[3] / person[2]]
+      [session.el.at(session.userId), person[1], person[0], person[2], person[3], (person[3] / person[2]).toFixed(2)]
     ];
   });
 
@@ -98,7 +98,7 @@ export function main(ctx: Context, config: Config) {
       list += session.format('newnew.msg.avg_ranking.list', [
         num,
         entry[0].slice(session.api.adapter.platform.length),
-        entry[1][3],
+        entry[1][3].toFixed(2),
         nums,
         statOrigin[entry[0]][3]
       ]);

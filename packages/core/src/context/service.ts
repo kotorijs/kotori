@@ -1,5 +1,5 @@
 import { none } from '@kotori-bot/tools';
-import { Context } from '../context';
+import { Context } from './context';
 
 interface ServiceImpl<T extends object = object> {
   readonly identity: string;

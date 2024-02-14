@@ -1,5 +1,6 @@
-import { LocaleType } from '@kotori-bot/i18n';
-import { EventDataTargetId } from '.';
+import type { LocaleType } from '@kotori-bot/i18n';
+import type { EventDataTargetId } from './message';
+import { ModuleConfig } from '../context';
 
 export interface CoreConfig {
   global: GlobalConfig;
@@ -21,7 +22,4 @@ export interface AdapterConfig {
   master: EventDataTargetId;
   lang: LocaleType;
   'command-prefix': string;
-}
-export interface ModuleConfig {
-  filter: object;
 }

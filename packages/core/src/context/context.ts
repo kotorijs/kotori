@@ -3,9 +3,12 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-07 16:40:35
+ * @LastEditTime: 2024-02-14 19:39:40
  */
+import { Events } from '@kotori-bot/tools';
 import Symbols from './symbols';
+import { EventsMapping } from './events';
+import Modules from './modules';
 
 interface obj {
   [propName: string | number | symbol]: any;
@@ -33,7 +36,7 @@ declare module './context' {
 type Keys = keyof Omit<Context, keyof ContextOrigin> & string;
 
 const handler = <T>(value: T, ctx: Context): T => {
-  if (!value || typeof value !== 'object' || !(value as T & { ctx: unknown }).ctx) return value;
+  if (!value || typeof value !== 'object' || !((value as T & { ctx: unknown }).ctx instanceof Context)) return value;
   return new Proxy(value, {
     get(target, prop, receiver) {
       if (prop === 'ctx') return ctx;
@@ -51,10 +54,14 @@ export class Context implements ContextImpl {
 
   constructor(root?: Context) {
     this.root = root || this;
+    this.provide('events', root ? root.get('events')! : new Events<EventsMapping>());
+    this.mixin('events', ['emit', 'on', 'once', 'off', 'offAll']);
+    this.provide('modules', new Modules(this));
+    this.mixin('modules', ['load', 'unload', 'service']);
   }
 
-  get(prop: string) {
-    return this[Symbols.container].get(prop);
+  get<T = obj | undefined>(prop: string) {
+    return this[Symbols.container].get(prop) as T;
   }
 
   inject<T extends Keys>(prop: T) {
@@ -93,8 +100,10 @@ export class Context implements ContextImpl {
         let value: unknown;
         this[Symbols.table].forEach((keys, key) => {
           if (value || (typeof prop === 'string' && !keys.includes(prop))) return;
-          value = ctx[Symbols.container].get(key)![prop];
-          if (typeof value === 'function') value = value.bind(ctx[Symbols.container].get(key));
+          const instance = ctx[Symbols.container].get(key);
+          if (!instance) return;
+          value = instance[prop];
+          if (typeof value === 'function') value = value.bind(instance);
         });
         if (value !== undefined) return value;
         if (metaHandle[prop]) return handler(metaHandle[prop], ctx);

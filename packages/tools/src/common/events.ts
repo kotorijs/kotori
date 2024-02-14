@@ -1,5 +1,5 @@
 interface EventsList {
-  before_ready(): void;
+  // before_ready(): void;
   ready(): void;
   error(error: Error): void;
   dispose(): void;
@@ -20,7 +20,7 @@ export class Events<A = EventsList> {
     this.list.get(type)!.forEach((callback) => callback(...data));
   }
 
-  /*   async emitAsync<T extends keyof EventsMappingType<A>>(type: T, ...data: [...Parameters<EventsMappingType<A>[T]>]) {
+  async parallel<T extends keyof EventsMappingType<A>>(type: T, ...data: [...Parameters<EventsMappingType<A>[T]>]) {
     if (!this.list.has(type)) return;
     const tasks: Promise<unknown>[] = [];
     this.list.get(type)!.forEach((callback) =>
@@ -32,7 +32,7 @@ export class Events<A = EventsList> {
     );
     await Promise.all(tasks);
   }
- */
+
   on<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
     if (!this.list.has(type)) this.list.set(type, new Set());
     this.list.get(type)!.add(callback);

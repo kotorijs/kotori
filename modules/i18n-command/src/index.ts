@@ -9,19 +9,23 @@ export function main(ctx: Context) {
       const { scope, access } = data.command.meta;
       if (scope && scope !== 'all' && data.session.type !== scope) {
         quick('corei18n.template.scope');
+        data.cancel();
       } else if (access === CommandAccess.ADMIN && data.session.userId !== data.session.api.adapter.config.master) {
         quick('corei18n.template.no_access_admin');
+        data.cancel();
       } else if (access === CommandAccess.MANGER && data.session.userId !== data.session.api.adapter.config.master) {
         if (data.session.type === MessageScope.PRIVATE) {
           quick('corei18n.template.no_access_manger');
+          data.cancel();
         } else if (data.session.sender.role === 'member') {
           quick('corei18n.template.no_access_manger');
+          data.cancel();
         }
       }
       return;
     }
-    const { value } = data.result;
     data.cancel();
+    const { value } = data.result;
     switch (value.type) {
       case 'arg_error':
         quick(['corei18n.template.args_error', [value.index, value.expected, value.reality]]);

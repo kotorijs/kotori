@@ -1,11 +1,11 @@
 import Tsu, { TsuError } from 'tsukiko';
 import type I18n from '@kotori-bot/i18n';
-import type { EventsList } from './core';
+import type { EventsList } from '../context';
 import type CommandError from '../utils/commandError';
 import type { Api, Elements } from '../service';
 import { Command } from '../utils/command';
 
-declare module './core' {
+declare module '../context/events' {
   interface EventsMapping {
     midwares(data: EventDataMidwares): void;
     before_parse(data: EventDataBeforeParse): void;
@@ -171,7 +171,6 @@ interface EventDataPrivateMsg extends EventDataApiBase {
   type: MessageScope.PRIVATE;
   messageId: EventDataTargetId;
   message: MessageRaw;
-  // messageH?: object /* what is this? */;
   sender: SessionDataSender;
 }
 

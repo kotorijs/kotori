@@ -1,4 +1,4 @@
-import Service from './service';
+import { Service } from '../context';
 
 type CacheKey = string | symbol;
 type CacheValue = string | number | object;

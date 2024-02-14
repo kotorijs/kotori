@@ -1,6 +1,6 @@
 import { stringRightSplit } from '@kotori-bot/tools';
-import { Context, Symbols } from '../context';
-import { type CommandConfig, type EventsList, type MidwareCallback, type RegexpCallback, SessionData } from '../types';
+import { type Context, type EventsList, Symbols } from '../context';
+import { type CommandConfig, type MidwareCallback, type RegexpCallback, SessionData } from '../types';
 import { cancelFactory, disposeFactory } from '../utils/factory';
 import { Command } from '../utils/command';
 import CommandError from '../utils/commandError';
