@@ -2,7 +2,7 @@ import type { Context } from '../context';
 
 export function disposeFactory(ctx: Context, dispose: Function) {
   ctx.once('dispose_module', (data) => {
-    if ((typeof data.module === 'object' ? data.module.pkg.name : data.module) !== ctx.identity) {
+    if ((typeof data.instance === 'object' ? data.instance.name : data.instance) !== ctx.identity) {
       disposeFactory(ctx, dispose);
       return;
     }

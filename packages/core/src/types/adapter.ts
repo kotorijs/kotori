@@ -1,8 +1,8 @@
 import type { Context } from '../context';
-import type { Adapter, Service } from '../service';
+import type { Adapter } from '../service';
 import type { AdapterConfig } from './config';
 
-declare module './core' {
+declare module '../context/events' {
   interface EventsMapping {
     connect(data: EventDataConnect): void;
     status(data: EventDataStatus): void;
@@ -22,5 +22,4 @@ interface EventDataStatus {
   status: Adapter['status']['value'];
 }
 
-export type ServiceClass = new (config: object) => Service;
 export type AdapterClass = new (ctx: Context, config: AdapterConfig, identity: string) => Adapter;

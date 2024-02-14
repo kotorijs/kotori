@@ -4,7 +4,7 @@ import type { escaper } from './escaper';
 
 interface TransportImpl<C extends object> {
   readonly options: C & TransportOptionsBase;
-  readonly escaper?: typeof escaper;
+  escaper?: typeof escaper;
   handle(data: LoggerData): void;
 }
 
@@ -15,7 +15,7 @@ export abstract class Transport<C extends object = {}> implements TransportImpl<
 
   readonly options: C & { filter?: LoggerFilter };
 
-  readonly escaper?: typeof escaper;
+  escaper?: typeof escaper;
 
   abstract handle(data: LoggerData): void;
 }

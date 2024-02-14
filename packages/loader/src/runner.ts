@@ -1,19 +1,24 @@
+/* eslint import/no-dynamic-require: 0 */
+/* eslint global-require: 0 */
 import fs, { existsSync } from 'fs';
 import path from 'path';
 import {
   ADAPTER_PREFIX,
+  Adapter,
   Context,
   DATABASE_PREFIX,
   DevError,
+  LocaleType,
   ModuleConfig,
-  ModuleInstance,
-  ModulePackage,
+  ModuleError,
   PLUGIN_PREFIX,
+  Parser,
+  Service,
   Symbols,
   Tsu,
   stringRightSplit
 } from '@kotori-bot/core';
-import Logger, { ConsoleTransport, LoggerLevel } from '@kotori-bot/logger';
+import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger';
 import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
 import KotoriLogger from './utils/logger';
 
@@ -31,6 +36,32 @@ interface Options {
 interface RunnerConfig {
   baseDir: BaseDir;
   options: Options;
+}
+
+interface ModulePackage {
+  name: string;
+  version: string;
+  description: string;
+  main: string;
+  keywords: string[];
+  license: 'GPL-3.0';
+  author: string | string[];
+  peerDependencies: {
+    'kotori-bot': string;
+    [propName: string]: string;
+  };
+  kotori: {
+    enforce?: 'pre' | 'post';
+    meta: {
+      language: LocaleType[];
+    };
+  };
+}
+
+interface ModuleMeta {
+  pkg: ModulePackage;
+  files: string[];
+  main: string;
 }
 
 export const localeTypeSchema = Tsu.Union([
@@ -80,7 +111,7 @@ export class Runner {
 
   private isDev: Boolean;
 
-  readonly [Symbols.modules]: Set<[ModuleInstance, ModuleConfig]> = new Set();
+  readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map();
 
   constructor(ctx: Context, config: RunnerConfig) {
     this.ctx = ctx;
@@ -88,11 +119,13 @@ export class Runner {
     this.baseDir = config.baseDir;
     this.options = config.options;
     this.isDev = this.options.mode === 'dev';
-    if (this.isDev) this.watcher();
     const loggerOptions = {
       level: this.isDev ? LoggerLevel.TRACE : LoggerLevel.INFO,
       label: [],
-      transports: new ConsoleTransport()
+      transports: [
+        new ConsoleTransport(),
+        new FileTransport({ dir: this.baseDir.logs, filter: (data) => data.level >= LoggerLevel.WARN })
+      ]
     };
     ctx.provide('logger', new KotoriLogger(loggerOptions, this.ctx));
     ctx.inject('logger');
@@ -147,24 +180,49 @@ export class Runner {
       if (!fs.existsSync(main)) throw new DevError(`cannot find ${main}`);
       const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
       const files = fs.statSync(dirs).isDirectory() ? this.getDirFiles(dirs) : [];
-      this[Symbols.modules].add([
-        { pkg, main, files },
+      this[Symbols.modules].set(pkg.name, [
+        { pkg, files, main },
         this.ctx.config.plugin[stringRightSplit(pkg.name, PLUGIN_PREFIX)] || {}
       ]);
     });
   }
 
-  private moduleQuick(instance: ModuleInstance, config: ModuleConfig) {
-    this.ctx.use(instance, config);
+  private loadEx(instance: ModuleMeta, config: ModuleConfig) {
+    const { main, pkg } = instance;
+    let obj = require(main);
+    let handle = config;
+    const adapterName = pkg.name.split(ADAPTER_PREFIX)[1];
+    if (
+      Adapter.isPrototypeOf.call(Adapter, obj.default) &&
+      adapterName &&
+      (!obj.config || obj.config instanceof Parser)
+    ) {
+      this.ctx[Symbols.adapter].set(adapterName, [obj.default, obj.config]);
+      obj = {};
+    } else if (Service.isPrototypeOf.call(Service, obj.default)) {
+      obj = {};
+    } else if (obj.config instanceof Parser) {
+      const result = (obj.config as Parser<ModuleConfig>).parseSafe(handle);
+      if (!result.value) throw new ModuleError(`Config format of module ${pkg.name} is error: ${result.error.message}`);
+      handle = result.data;
+    }
+    if (obj.lang) this.ctx.i18n.use(Array.isArray(obj.lang) ? path.resolve(...obj.lang) : path.resolve(obj.lang));
+    this.ctx.load({ name: pkg.name, ...obj, config: handle });
   }
 
-  useAll() {
+  private unloadEx(instance: ModuleMeta) {
+    instance.files.forEach((file) => delete require.cache[require.resolve(file)]);
+    this.ctx.load({ name: instance.pkg.name });
+  }
+
+  loadAll() {
     this.getModuleRootDir().forEach((dir) => this.getModuleList(dir));
-    const modules: [ModuleInstance, ModuleConfig][] = [];
+    const modules: [ModuleMeta, ModuleConfig][] = [];
     this[Symbols.modules].forEach((val) => modules.push(val));
     modules
       .sort((el1, el2) => moduleLoadOrder(el1[0].pkg) - moduleLoadOrder(el2[0].pkg))
-      .forEach((el) => this.moduleQuick(...el));
+      .forEach((el) => this.loadEx(...el));
+    if (this.isDev) this.watcher();
   }
 
   watcher() {
@@ -172,8 +230,8 @@ export class Runner {
       data[0].files.forEach((file) =>
         fs.watchFile(file, async () => {
           this.ctx.logger.debug(`file happen changed, module ${data[0].pkg.name} is reloading...`);
-          this.ctx.dispose(data[0]);
-          this.moduleQuick(...data);
+          this.unloadEx(data[0]);
+          this.loadEx(...data);
         })
       )
     );

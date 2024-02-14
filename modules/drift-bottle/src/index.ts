@@ -27,7 +27,6 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
     .command('throw <content> - drift_bottle.descr.throw')
     .action((data, session) => {
       const at = session.el.at(session.userId);
-      if (!data.args[1]) return ['drift_bottle.msg.throw.empty', [at]];
       const bottles = getBottle(session.api.adapter.platform);
       const zero = getZero();
       let count = 0;
@@ -37,11 +36,10 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
         count += 1;
       });
       if (count > conf.max) return ['drift_bottle.msg.throw.fail', [at, conf.max]];
-      bottles.push([data.args[1] as string, new Date().getTime(), session.groupId!, session.userId!]);
+      bottles.push([data.args[0] as string, new Date().getTime(), session.groupId!, session.userId!]);
       setBottle(session.api.adapter.platform, bottles);
       return ['drift_bottle.msg.throw.info', [at]];
     })
-    .help('')
     .scope(MessageScope.GROUP);
 
   ctx

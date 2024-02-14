@@ -1,10 +1,9 @@
 import I18n from '@kotori-bot/i18n';
 import { stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
-import { Context, Symbols } from '../context';
+import { Context, EventsList, EventsMapping, Symbols } from '../context';
 import {
   EventDataApiBase,
-  EventsList,
   EventDataTargetId,
   MessageScope,
   MessageRaw,
@@ -12,7 +11,6 @@ import {
   AdapterConfig,
   CommandResult,
   CommandArgType,
-  EventsMapping,
   SessionData
 } from '../types';
 import Elements from './elements';

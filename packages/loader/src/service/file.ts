@@ -14,13 +14,8 @@ export class File extends Service {
     return join(this.getDir(), filename);
   }
 
-  load(
-    filename: string,
-    type?: Parameters<typeof loadConfig>[1],
-    init?: Parameters<typeof loadConfig>[2],
-    autoCreate: boolean = false
-  ) {
-    return loadConfig(this.getFile(filename), type, init, autoCreate);
+  load(filename: string, type?: Parameters<typeof loadConfig>[1], init?: Parameters<typeof loadConfig>[2]) {
+    return loadConfig(this.getFile(filename), type, init);
   }
 
   save(filename: string, data: Parameters<typeof saveConfig>[1], type?: Parameters<typeof saveConfig>[2]) {

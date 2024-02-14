@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-10 19:47:05
+ * @LastEditTime: 2024-02-14 19:41:59
  */
 import {
   KotoriError,
@@ -16,7 +16,8 @@ import {
   loadConfig,
   TsuError,
   Core,
-  Context
+  Context,
+  ModuleError
 } from '@kotori-bot/core';
 import path from 'path';
 import fs from 'fs';
@@ -33,7 +34,7 @@ declare module '@kotori-bot/core' {
     readonly baseDir: Runner['baseDir'];
     readonly options: Runner['options'];
     readonly [Symbols.modules]: Runner[typeof Symbols.modules];
-    useAll(): void;
+    loadAll(): void;
     watcher(): void;
     logger: Logger;
     /* Service */
@@ -125,15 +126,13 @@ export class Loader extends Container {
 
   private loadCount: number = 0;
 
-  private failLoadCount: number = 0;
-
   constructor(options?: { dir?: string; mode?: string }) {
     super();
     const file = options && options.mode === 'dev' ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
     const runnerConfig = getRunnerConfig(file, options?.dir);
     const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
     ctx.provide('runner', new Runner(ctx, runnerConfig));
-    ctx.mixin('runner', ['baseDir', 'options', 'useAll', 'watcher']);
+    ctx.mixin('runner', ['baseDir', 'options']);
     Container.setInstance(ctx);
     this.ctx = Container.getInstance();
   }
@@ -143,7 +142,7 @@ export class Loader extends Container {
     this.catchError();
     this.listenMessage();
     this.setPreService();
-    this.loadAllModule();
+    this.loadAllModules();
     this.checkUpdate();
   }
 
@@ -207,25 +206,19 @@ export class Loader extends Container {
       adapter.ctx.logger.info(status);
     });
     this.ctx.on('ready_module', (data) => {
-      if (!data.module || typeof data.module === 'string') return;
+      if (typeof data.instance !== 'object') return;
+      const pkg = data.instance.name
+        ? this.ctx.get<Runner>('runner')[Symbols.modules].get(data.instance.name)
+        : undefined;
+      if (!pkg) return;
       this.loadCount += 1;
-      const { name, version, author } = data.module.pkg;
-      if (data.error) {
-        this.failLoadCount += 1;
-        this.ctx.logger.warn(`failed to load module ${name}`);
-        if (data.error instanceof KotoriError) {
-          process.emit('uncaughtExceptionMonitor', data.error);
-        } else {
-          this.ctx.logger.warn(data.error);
-        }
-      } else {
-        this.ctx.logger.info(
-          `loaded module ${name} version: ${version} ${
-            Array.isArray(author) ? `authors: ${author.join(',')}` : `author: ${author}`
-          }`
-        );
-      }
-      const requiredVersion = data.module.pkg.peerDependencies['kotori-bot'];
+      const { name, version, author, peerDependencies } = pkg[0].pkg;
+      this.ctx.logger.info(
+        `loaded module ${name} version: ${version} ${
+          Array.isArray(author) ? `authors: ${author.join(',')}` : `author: ${author}`
+        }`
+      );
+      const requiredVersion = peerDependencies['kotori-bot'];
       if (
         !requiredVersion.includes('workspace') &&
         (!SUPPORTS_VERSION.exec(requiredVersion) || requiredVersion !== this.ctx.pkg.version)
@@ -236,27 +229,23 @@ export class Loader extends Container {
           this.ctx.logger.error(`unsupported module version: ${requiredVersion}`);
         }
       }
-      if (this.loadCount !== this.ctx.get('runner')![Symbols.modules].size) return;
-      this.ctx.logger.info(
-        `loaded ${this.loadCount - this.failLoadCount} modules successfully${this.failLoadCount > 0 ? `, failed to load ${this.failLoadCount} modules` : ''} `
-      );
-      this.loadAllAdapter();
-      this.ctx.emit('ready');
     });
   }
 
   private setPreService() {
-    this.ctx.provide('server', new Server(this.ctx.extends()));
-    this.ctx.on('ready', () => (this.ctx.get('server') as Server).start());
-    this.ctx.on('dispose', () => (this.ctx.get('server') as Server).stop());
-    this.ctx.provide('db', new Database(this.ctx.extends()));
-    this.ctx.on('ready', () => (this.ctx.get('db') as Database).start());
-    this.ctx.on('dispose', () => (this.ctx.get('db') as Database).stop());
-    this.ctx.provide('file', new File(this.ctx.extends()));
+    this.ctx.service('server', new Server(this.ctx.extends()));
+    this.ctx.service('db', new Database(this.ctx.extends()));
+    this.ctx.service('file', new File(this.ctx.extends()));
   }
 
-  private loadAllModule() {
-    this.ctx.useAll();
+  private loadAllModules() {
+    this.ctx.get<Runner>('runner').loadAll();
+    const failLoadCount = this.ctx.get<Runner>('runner')[Symbols.modules].size - this.loadCount;
+    this.ctx.logger.info(
+      `loaded ${this.loadCount} modules successfully${failLoadCount > 0 ? `, failed to load ${failLoadCount} modules` : ''} `
+    );
+    this.loadAllAdapter();
+    this.ctx.emit('ready');
   }
 
   private loadAllAdapter() {
@@ -268,14 +257,16 @@ export class Loader extends Container {
         this.ctx.logger.warn(`cannot find adapter '${botConfig.extends}' for ${botName}`);
         return;
       }
-      const isSchema = array[1]?.parseSafe(botConfig);
-      if (isSchema && !isSchema.value) return;
+      const result = array[1]?.parseSafe(botConfig);
+      if (result && !result.value)
+        throw new ModuleError(`Config format of adapter ${botName} is error: ${result.error.message}`);
       const bot = new array[0](
         this.ctx.extends({}, `${botConfig.extends}/${botName}`),
-        isSchema ? (isSchema.data as AdapterConfig) : botConfig,
+        result ? (result.data as AdapterConfig) : botConfig,
         botName
       );
       this.ctx.on('ready', () => bot.start());
+      this.ctx.on('dispose', () => bot.stop());
     });
   }
 

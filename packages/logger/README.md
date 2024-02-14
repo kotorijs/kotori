@@ -1,19 +1,28 @@
 # @kotori-bot/logger
 
-这是一个轻量级的日志记录器，主要用于 Node.js 环境中，可以灵活记录应用运行时的日志。
-
-## 🎯 What
-
-在Node.js后端服务器中,日志记录对于了解应用运行状态、追踪故障原因都至关重要。该模块提供适合Node环境的日志解决方案。
+Here are a simple logger,used mainly in Node.js environment,can record quickly log of application at runtime.
 
 ## 🚀 Advantage
 
-- 支持按级别过滤日志输出，支持自定义过滤器函数
-- 可扩展自定义日志处理逻辑
-- 模板化格式化日志，便于阅读解析
-- 支持 label 标识来源
-- 多传输通道输出，支持任意的可读流
-- 灵活的颜色与样式支持（ConsoleTransport）
+- Support output base on level of log,and custom filter function
+- Allow custom log handle logic
+- Template and format log improve read and parse
+- Support label marked origin of log
+- Number of transport divide,support any readable stream
+- Advanced colors and style (ConsoleTransport)
+
+## 🧩 Usage
+
+> `new Logger(options: LoggerOptions)`
+
+```typescript
+interface LoggerOptions {
+  level: LoggerLevel;
+  filter?: (data: LoggerData) => boolean;;
+  label: string[];
+  transports: Transport | Transport[];
+}
+```
 
 ## 🌰 Example
 
@@ -64,6 +73,40 @@ logger
 ```
 
 ![example1](https://pic.imgdb.cn/item/65c229869f345e8d032c998a.png)
+
+## 🛠️ Transport
+
+### Pre transports
+
+- IOTransport:
+- ConsoleTransport: pretty log input to console
+- FileTransport: save log to file system
+
+### Custom transport
+
+Reference source of pre-tansports,here are a simple example:
+
+```typescript
+import { LoggerData, Transport } from '@kotori-bot/logger';
+
+interface MyTransportConfig {
+  /* ... */
+}
+
+export class MyTransport extends Transport<MyTransportConfig> {
+  handle(data: LoggerData) {
+    /* here are some log handle logic... */
+  }
+
+  escaper = (...args: unknown): string => {
+    /* if need,you can custom escaper */
+    /* finally return a string as key msg of LoggerData */
+    /* it's optional */
+  };
+}
+
+export default MyTransport;
+```
 
 ## 📒 Reference
 
