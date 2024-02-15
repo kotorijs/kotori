@@ -1,0 +1,4 @@
+{
+	"kotori_bot_admin_server.help.login": "获取Kotori-Amdin后台一键登录地址",
+	"kotori_bot_admin_server.msg.login.info": "以下是您的BOT后台管理的一键登录地址:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\n登录地址将在[%expire_time%秒]后过期，请勿泄露给他人"
+}
