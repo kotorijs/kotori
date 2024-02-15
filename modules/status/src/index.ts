@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-11 20:20:33
+ * @LastEditTime: 2024-02-15 17:21:28
  */
 import { Context, Tsu } from 'kotori-bot';
 import os from 'os';
@@ -49,7 +49,7 @@ function dealRam() {
 
 function dealCpu() {
   const cpuData = os.cpus();
-  let rate: number = 0;
+  let rate = 0;
   const ratearr: number[] = [];
   cpuData.forEach((key) => {
     const { times } = key;
