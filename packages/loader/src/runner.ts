@@ -1,5 +1,3 @@
-/* eslint import/no-dynamic-require: 0 */
-/* eslint global-require: 0 */
 import fs, { existsSync } from 'fs';
 import path from 'path';
 import {
@@ -109,7 +107,7 @@ export class Runner {
 
   private ctx: Context;
 
-  private isDev: Boolean;
+  private isDev: boolean;
 
   readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map();
 
@@ -189,6 +187,7 @@ export class Runner {
 
   private loadEx(instance: ModuleMeta, config: ModuleConfig) {
     const { main, pkg } = instance;
+    /* eslint-disable-next-line import/no-dynamic-require, global-require, @typescript-eslint/no-var-requires */
     let obj = require(main);
     let handle = config;
     const adapterName = pkg.name.split(ADAPTER_PREFIX)[1];

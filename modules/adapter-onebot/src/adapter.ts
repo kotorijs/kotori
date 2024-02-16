@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-09 21:37:40
+ * @LastEditTime: 2024-02-16 15:33:09
  */
 import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -44,6 +44,8 @@ export const config = Tsu.Intersection([
 
 type OnebotConfig = Tsu.infer<typeof config> & AdapterConfig;
 
+const handleMsg = (msg: string) => msg.replace(/\[CQ:at,qq=(.*?)\]/g, '$1');
+
 export class OnebotAdapter extends Adapter {
   private readonly address: string;
 
@@ -61,7 +63,7 @@ export class OnebotAdapter extends Adapter {
         type: MessageScope.PRIVATE,
         userId: data.user_id,
         messageId: data.message_id,
-        message: data.message,
+        message: handleMsg(data.message),
         sender: {
           nickname: data.sender.nickname,
           age: data.sender.age,
@@ -74,7 +76,7 @@ export class OnebotAdapter extends Adapter {
         type: MessageScope.GROUP,
         userId: data.user_id,
         messageId: data.message_id,
-        message: data.message,
+        message: handleMsg(data.message),
         sender: {
           nickname: data.sender.nickname,
           age: data.sender.age,
@@ -137,7 +139,7 @@ export class OnebotAdapter extends Adapter {
       this.session('on_group_ban', {
         userId: data.user_id,
         groupId: data.group_id!,
-        operatorId: data.operator_id,
+        operatorId: data.operator_id!,
         time: data.duration!
       });
     } else if (data.post_type === 'meta_event' && data.meta_event_type === 'heartbeat') {

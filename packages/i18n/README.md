@@ -1,6 +1,6 @@
 # @kotori-bot/i18n
 
-这是一个轻量级的国际化（i18n）工具库，可以方便地实现JavaScript/TypeScript项目的本地化支持。
+这是一个轻量级的国际化（i18n）工具库，可以方便地实现 JavaScript/TypeScript 项目的本地化支持。
 
 ## 🎯 What
 

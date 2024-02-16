@@ -1,4 +1,4 @@
-import { Context, Service } from '@kotori-bot/core';
+import { Context, Service, Symbols } from '@kotori-bot/core';
 import express from 'express';
 
 interface ServerConfig {
@@ -14,9 +14,17 @@ export class Server extends Service<ServerConfig> {
     super(ctx, config, 'server');
 
     this.app = express();
-    this.app.get('/', (_, res) => {
-      res.setHeader('Content-type', 'text/html');
-      res.send(/* html */ `<h1>Welcome to kotori!</h1>`);
+    this.app.use('/', (_, res, next) => {
+      let isWebui = false;
+      ctx[Symbols.modules].forEach((module) => {
+        if (isWebui) return;
+        if (module[0].pkg.name === '@kotori-bot/kotori-plugin-webui') isWebui = true;
+      });
+      if (!isWebui) {
+        res.setHeader('Content-type', 'text/html');
+        res.send(/* html */ `<h1>Welcome to kotori!</h1>`);
+      }
+      next();
     });
     this.get = this.app.get.bind(this.app);
     this.post = this.app.post.bind(this.app);

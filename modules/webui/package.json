@@ -14,6 +14,7 @@
   "license": "GPL-3.0",
   "files": [
     "lib",
+    "dist",
     "locales",
     "LICENSE",
     "README.md"

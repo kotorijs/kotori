@@ -2,8 +2,8 @@
     "access.descr.access.query": "Query group bot admins",
     "access.descr.access.add": "Add group bot admin",
     "access.descr.access.del": "Remove group bot admin",
-    "access.msg.access.query": "Current group admins:\n%content%\b ",
-    "access.msg.access.list": "%content%,",
-    "access.msg.access.add": "Added “%target%” as current group admin",
-    "access.msg.access.del": "Removed “%target%” from current group admins"
+    "access.msg.access.query": "Current group admins:{0}",
+    "access.msg.access.list": "\n{0}",
+    "access.msg.access.add": "Added “{0}” as current group admin",
+    "access.msg.access.del": "Removed “{0}” from current group admins"
 }

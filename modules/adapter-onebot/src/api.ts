@@ -31,7 +31,7 @@ export class OnebotApi extends Api {
    * @param {number} messageId 消息id
    * @return {void}
    */
-  delete_msg(messageId: number) {
+  deleteMsg(messageId: number) {
     this.adapter.send('delete_msg', { messageId });
   }
 
@@ -41,7 +41,7 @@ export class OnebotApi extends Api {
    * @param {string} groupName 新群名
    * @return {void}
    */
-  set_group_name(groupId: number, groupName: string) {
+  setGroupName(groupId: number, groupName: string) {
     this.adapter.send('set_group_name', { group_id: groupId, group_name: groupName });
   }
 
@@ -51,7 +51,7 @@ export class OnebotApi extends Api {
    * @param {string} image 图片路径
    * @return {void}
    */
-  set_group_avatar(groupId: number, image: string) {
+  setGroupAvatar(groupId: number, image: string) {
     this.adapter.send('set_group_portrait', { group_id: groupId, file: image, cache: false });
   }
 
@@ -62,7 +62,7 @@ export class OnebotApi extends Api {
    * @param {boolean} enable true为设置,false取消,默认true
    * @return {void}
    */
-  set_group_admin(groupId: number, userId: number, enable: boolean = true) {
+  setGroupAdmin(groupId: number, userId: number, enable: boolean = true) {
     this.adapter.send('set_group_admin', { group_id: groupId, user_id: userId, enable });
   }
 
@@ -73,7 +73,7 @@ export class OnebotApi extends Api {
    * @param {string} card 群名片内容,不填或空字符串表示删除群名片
    * @return {void}
    */
-  set_group_card(groupId: number, userId: number, card: string) {
+  setGroupCard(groupId: number, userId: number, card: string) {
     this.adapter.send('set_group_card', { group_id: groupId, user_id: userId, card });
   }
 

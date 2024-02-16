@@ -9,7 +9,8 @@ type EventsMappingType<T> = {
   [K in keyof T]: T[K] extends EventsCallback ? T[K] : never;
 };
 
-type EventsCallback = (...args: any) => any;
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+type EventsCallback = (...args: any) => unknown;
 // type EventsBeforeKeys<T> = T extends `before_${infer U}` ? U : never;
 
 export class Events<A = EventsList> {

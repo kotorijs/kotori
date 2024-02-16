@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-10 19:59:11
+ * @LastEditTime: 2024-02-16 11:23:18
  */
 import type { LoggerFilter, LoggerOptions } from './types/internal';
 import { LoggerData, LoggerLevel } from './types/common';
@@ -93,6 +93,7 @@ export class Logger {
   }
 }
 
+/* eslint-disable-next-line @typescript-eslint/no-namespace */
 export namespace Logger {
   const logger = new Logger({ level: LoggerLevel.INFO, transports: new ConsoleTransport() });
   export const fatal = logger.fatal.bind(logger);
