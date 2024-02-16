@@ -1,5 +1,6 @@
 import { type Adapter, type Context, Symbols, ModuleConfig, Tsu, stringRightSplit, PLUGIN_PREFIX } from 'kotori-bot';
-import path from 'path';
+import path, { resolve } from 'path';
+import { readFileSync } from 'fs';
 import { getCpuRate, getRamRate, getToken } from './common';
 import { DEFAULT_PASSWORD, DEFAULT_USERNAME } from './const';
 
@@ -11,17 +12,25 @@ export const config = Tsu.Object({
 });
 
 export function main(ctx: Context, con: Tsu.infer<typeof config>) {
+  const loadToken = () => ctx.file.load('token', 'txt');
+  const updateToken = () => ctx.file.save('token', getToken(), 'txt');
+  const checkToken = (token: string) => token && token === loadToken();
+
   const app = ctx.server;
-  app.use(app.static(path.join('/web')));
+  app.use(app.static(path.resolve(__dirname, '/dist')));
   app.use(app.json());
 
-  /* eslint @typescript-eslint/no-explicit-any: 0 */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   app.all('*', (req: any, res: any, next: any) => {
     if (req.path !== '/api/info') ctx.logger.label(req.method).trace(req.path);
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json;charset=utf-8');
+    if (req.path !== '/api/login' && !checkToken(String(req.query.token))) {
+      res.status(200).json(200);
+      return;
+    }
     next();
   });
 
@@ -64,15 +73,20 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
   });
 
   router.get('/info', (_, res) => {
-    res.status(200).json({ cpu: getCpuRate(), ram: getRamRate() });
+    res.status(200).json({
+      cpu: getCpuRate(),
+      ram: getRamRate(),
+      version: JSON.parse(readFileSync(resolve(__dirname, '../package.json')).toString()).version
+    });
   });
 
   router.get('/login', (req, res) => {
     const { user, pwd } = req.query;
     if (user === con.username && pwd === con.password) {
-      const token = getToken();
-      ctx.file.save('token', token);
-      res.status(200).json({ token, default: con.username === DEFAULT_USERNAME && con.password === DEFAULT_PASSWORD });
+      updateToken();
+      res
+        .status(200)
+        .json({ token: loadToken(), default: con.username === DEFAULT_USERNAME && con.password === DEFAULT_PASSWORD });
     } else {
       res.status(200).json({});
     }

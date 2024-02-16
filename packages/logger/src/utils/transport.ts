@@ -8,7 +8,7 @@ interface TransportImpl<C extends object> {
   handle(data: LoggerData): void;
 }
 
-export abstract class Transport<C extends object = {}> implements TransportImpl<C> {
+export abstract class Transport<C extends object = object> implements TransportImpl<C> {
   constructor(options: C & { filter?: LoggerFilter }) {
     this.options = options;
   }

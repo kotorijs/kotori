@@ -2,8 +2,8 @@
     "access.descr.access.query": "查询群BOT管理员",
     "access.descr.access.add": "添加群BOT管理员",
     "access.descr.access.del": "删除群BOT管理员",
-    "access.msg.access.query": "当前群管理员列表：\n%content%\b ",
-    "access.msg.access.list": "%content%，",
-    "access.msg.access.add": "已添加“%target%”至当前群管理员",
-    "access.msg.access.del": "已删除“%target%”从当前群管理员"
+    "access.msg.access.query": "当前群管理员列表：{0}",
+    "access.msg.access.list": "\n{0}",
+    "access.msg.access.add": "已添加“{0}”至当前群管理员",
+    "access.msg.access.del": "已删除“{0}”从当前群管理员"
 }

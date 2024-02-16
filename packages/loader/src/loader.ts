@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-14 19:41:59
+ * @LastEditTime: 2024-02-16 11:30:33
  */
 import {
   KotoriError,
@@ -155,14 +155,13 @@ export class Loader extends Container {
       }
       return;
     }
-    ({
+    const list = {
       ServiceError: () => this.ctx.logger.label('service').warn,
       ModuleError: () => this.ctx.logger.label('module').error,
       UnknownError: () => this.ctx.logger.error,
       DevError: () => this.ctx.logger.label('error').debug
-    })
-      [err.name]()
-      .bind(this.ctx.logger)(err.message, err.stack);
+    };
+    list[err.name]().bind(this.ctx.logger)(err.message, err.stack);
   }
 
   private catchError() {

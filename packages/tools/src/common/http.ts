@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 type HttpMethod<T = unknown> = (
   url: string,
   params?: { [key: string]: string | number | boolean },
-  config?: AxiosRequestConfig<any>
+  config?: AxiosRequestConfig<unknown>
 ) => Promise<T>;
 
 type Method = 'get' | 'delete' | 'head';

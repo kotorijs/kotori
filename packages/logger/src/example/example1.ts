@@ -13,7 +13,7 @@ logger.fatal(`normal object (json):`, { value: 1, content: 'content', extends: {
   { value: false },
   'string'
 ]);
-const obj: any = {};
+const obj: { value: object } = { value: {} };
 obj.value = obj;
 logger.error(`loop object:`, obj);
 logger.warn(`javascript special type:`, Symbol(233), BigInt('1234567891011121314151617181920'));

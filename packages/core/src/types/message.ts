@@ -75,7 +75,7 @@ export interface CommandResult extends CommandParseResult {
 type CommandResultNoArgs = 'num_error' | 'no_access_manger' | 'no_access_admin' | 'disable';
 
 export type CommandResultExtra = {
-  [K in keyof CommandResult]: { type: K } & (K extends CommandResultNoArgs ? {} : CommandResult[K]);
+  [K in keyof CommandResult]: { type: K } & (K extends CommandResultNoArgs ? object : CommandResult[K]);
 };
 
 export type SessionData = EventsList['on_message'];
@@ -158,7 +158,7 @@ export interface EventDataApiBase {
   format(template: string, data: Record<string, unknown> | CommandArgType[]): string;
   quick(message: MessageQuick): void;
   prompt(message?: MessageRaw): Promise<MessageRaw>;
-  confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<Boolean>;
+  confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<boolean>;
   error<T extends Exclude<keyof CommandResult, CommandResultNoArgs>>(
     type: T,
     data: CommandResult[T] extends object ? CommandResult[T] : never
@@ -229,7 +229,7 @@ interface EventDataGroupAdmin extends EventDataApiBase {
 
 interface EventDataGroupBan extends EventDataApiBase {
   userId: EventDataTargetId | 0;
-  operatorId?: EventDataTargetId;
-  time?: number | -1;
+  operatorId: EventDataTargetId;
+  time: number | -1;
   groupId: EventDataTargetId;
 }

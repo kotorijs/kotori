@@ -1,0 +1,11 @@
+{
+    "core.descr.alias.query": "查询全部指令别名",
+    "core.descr.alias.add": "添加指令别名",
+    "core.descr.alias.del": "删除指令别名",
+    "core.msg.alias.query": "别名列表：{0}",
+    "core.msg.alias.list": "\n{0} -> {1}",
+    "core.msg.alias.add": "成功添加别名：{0}\n发送别名以查看效果",
+    "core.msg.alias.del": "成功删除别名：{0}",
+    "core.msg.alias.fail": "该别名已被注册",
+    "core.msg.alias.fail.2": "该指令无效"
+}
