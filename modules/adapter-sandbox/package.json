@@ -1,0 +1,29 @@
+{
+  "name": "@kotori-bot/kotori-plugin-adapter-sandbox",
+  "version": "1.0.0",
+  "description": "Kotori modules test environment,a visual sandbox",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <biyuehuya@gmail.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@types/ws": "^8.5.8",
+    "ws": "^8.14.2"
+  }
+}
