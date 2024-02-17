@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-09 21:17:42
+ * @LastEditTime: 2024-02-17 16:42:08
  */
 import { Adapter, AdapterConfig, Context, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
@@ -111,6 +111,7 @@ export class QQAdapter extends Adapter<QQApi> {
     }
     let address = '/';
     let cancel = false;
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     let req: Record<string, any> = {};
     if (action === 'send_group_msg' && 'groupId' in params && 'message' in params && 'id' in params) {
       if (!params.message) return null;
@@ -124,6 +125,7 @@ export class QQAdapter extends Adapter<QQApi> {
       if (this.imageStack[this.msg_seq]) {
         cancel = true;
         let timerId: NodeJS.Timeout;
+        /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
         const timer = () =>
           setTimeout(() => {
             if (timerId) clearTimeout(timerId);
@@ -194,7 +196,7 @@ export class QQAdapter extends Adapter<QQApi> {
     const data = (await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
       appId: this.config.appid,
       clientSecret: this.config.secret
-    })) as any;
+    })) as Record<string, string>;
     if (!data.access_token) {
       this.offline();
       this.ctx.logger.error('got token error!');

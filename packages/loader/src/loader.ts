@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-16 11:30:33
+ * @LastEditTime: 2024-02-17 18:40:20
  */
 import {
   KotoriError,
@@ -17,7 +17,8 @@ import {
   TsuError,
   Core,
   Context,
-  ModuleError
+  ModuleError,
+  DEFAULT_PORT
 } from '@kotori-bot/core';
 import path from 'path';
 import fs from 'fs';
@@ -45,6 +46,7 @@ declare module '@kotori-bot/core' {
 
   interface GlobalConfig {
     dirs: string[];
+    port: number;
   }
 }
 
@@ -89,6 +91,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
     const result1 = Tsu.Object({
       global: Tsu.Object({
         dirs: Tsu.Array(Tsu.String()).default([]),
+        port: Tsu.Number().default(DEFAULT_PORT),
         lang: localeTypeSchema.default(DEFAULT_CORE_CONFIG.global.lang),
         'command-prefix': Tsu.String().default(DEFAULT_CORE_CONFIG.global['command-prefix'])
       }),
@@ -232,7 +235,7 @@ export class Loader extends Container {
   }
 
   private setPreService() {
-    this.ctx.service('server', new Server(this.ctx.extends()));
+    this.ctx.service('server', new Server(this.ctx.extends(), { port: this.ctx.config.global.port }));
     this.ctx.service('db', new Database(this.ctx.extends()));
     this.ctx.service('file', new File(this.ctx.extends()));
   }

@@ -17,7 +17,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
   const checkToken = (token: string) => token && token === loadToken();
 
   const app = ctx.server;
-  app.use(app.static(path.resolve(__dirname, '/dist')));
+  app.use(app.static(path.resolve(__dirname, '../dist')));
   app.use(app.json());
 
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -28,7 +28,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json;charset=utf-8');
     if (req.path !== '/api/login' && !checkToken(String(req.query.token))) {
-      res.status(200).json(200);
+      res.status(200).json({});
       return;
     }
     next();

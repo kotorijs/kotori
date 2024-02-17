@@ -1,11 +1,11 @@
 {
-    "core.descr.alias.query": "すべてのコマンドエイリアスを照会",
-    "core.descr.alias.add": "コマンドエイリアスを追加、スラッシュ不要、パラメータ可能",
-    "core.descr.alias.del": "コマンドエイリアスを削除",
-    "core.msg.alias.query": "エイリアスリスト:{0}",
-    "core.msg.alias.list": "\n{0} -> {1}",
-    "core.msg.alias.add": "エイリアスが追加されました: {0}\nエイリアスを送信して効果を確認してください",
-    "core.msg.alias.del": "エイリアスが削除されました: {0}",
-    "core.msg.alias.fail": "そのコマンドまたはエイリアスは既に登録されています",
-    "core.msg.alias.fail.2": "そのコマンドは無効です"
+    "alias.descr.alias.query": "すべてのコマンドエイリアスを照会",
+    "alias.descr.alias.add": "コマンドエイリアスを追加、スラッシュ不要、パラメータ可能",
+    "alias.descr.alias.del": "コマンドエイリアスを削除",
+    "alias.msg.alias.query": "エイリアスリスト:{0}",
+    "alias.msg.alias.list": "\n{0} -> {1}",
+    "alias.msg.alias.add": "エイリアスが追加されました: {0}\nエイリアスを送信して効果を確認してください",
+    "alias.msg.alias.del": "エイリアスが削除されました: {0}",
+    "alias.msg.alias.fail": "そのコマンドまたはエイリアスは既に登録されています",
+    "alias.msg.alias.fail.2": "そのコマンドは無効です"
 }

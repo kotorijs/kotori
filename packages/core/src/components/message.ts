@@ -74,7 +74,7 @@ export class Message {
       try {
         const executed = await cmd.meta.action({ args: result.args, options: result.options }, session);
         if (executed instanceof CommandError) {
-          this.ctx.emit('command', { command: cmd, result, ...params });
+          this.ctx.emit('command', { command: cmd, result: executed, ...params });
           return;
         }
         if (executed !== undefined) session.quick(executed);
