@@ -154,7 +154,6 @@ export interface EventDataApiBase {
   groupId?: EventDataTargetId;
   operatorId?: EventDataTargetId;
   i18n: I18n;
-  time: number;
   send(message: MessageRaw): void;
   format(template: string, data: Record<string, unknown> | CommandArgType[]): string;
   quick(message: MessageQuick): void;
