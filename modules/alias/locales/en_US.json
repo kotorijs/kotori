@@ -1,11 +1,11 @@
 {
-    "core.descr.alias.query": "Query all command aliases",
-    "core.descr.alias.add": "Add command alias, supports parameters, no need for slash",
-    "core.descr.alias.del": "Delete command alias",
-    "core.msg.alias.query": "Alias list: {0}",
-    "core.msg.alias.list": "\n{0} -> {1}",
-    "core.msg.alias.add": "Succeeded in adding alias: {0}\nSend the alias to see the effect",
-    "core.msg.alias.del": "Succeeded in deleting alias: {0}",
-    "core.msg.alias.fail": "This command or alias is already registered",
-    "core.msg.alias.fail.2": "Invalid command"
+    "alias.descr.alias.query": "Query all command aliases",
+    "alias.descr.alias.add": "Add command alias, supports parameters, no need for slash",
+    "alias.descr.alias.del": "Delete command alias",
+    "alias.msg.alias.query": "Alias list: {0}",
+    "alias.msg.alias.list": "\n{0} -> {1}",
+    "alias.msg.alias.add": "Succeeded in adding alias: {0}\nSend the alias to see the effect",
+    "alias.msg.alias.del": "Succeeded in deleting alias: {0}",
+    "alias.msg.alias.fail": "This command or alias is already registered",
+    "alias.msg.alias.fail.2": "Invalid command"
 }

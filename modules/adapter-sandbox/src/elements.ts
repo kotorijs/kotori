@@ -1,30 +1,25 @@
 import { Elements, EventDataTargetId, none } from 'kotori-bot';
-import { MessageCqType } from './types';
 
 export class OnebotElements extends Elements {
-  cq(type: MessageCqType, data: string) {
+  cq(type: string, data: EventDataTargetId) {
     none(this);
-    return `[CQ:${type},${data}]`;
+    return `[${type},${data}]`;
   }
 
   at(target: EventDataTargetId) {
-    return this.cq('at', `qq=${target}`);
+    return this.cq('at', target);
   }
 
   image(url: string) {
-    return this.cq('image', `file=${url},cache=0`);
+    return this.cq('image', url);
   }
 
   voice(url: string) {
-    return this.cq('record', `file=${url}`);
+    return this.cq('record', url);
   }
 
   video(url: string) {
-    return this.cq('video', `file=${url}`);
-  }
-
-  face(id: number) {
-    return this.cq('face', `id=${id}`);
+    return this.cq('video', url);
   }
 }
 

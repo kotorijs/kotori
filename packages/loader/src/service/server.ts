@@ -10,7 +10,7 @@ export class Server extends Service<ServerConfig> {
 
   private server?: ReturnType<ReturnType<typeof express>['listen']>;
 
-  constructor(ctx: Context, config: ServerConfig = { port: 720 }) {
+  constructor(ctx: Context, config: ServerConfig) {
     super(ctx, config, 'server');
 
     this.app = express();

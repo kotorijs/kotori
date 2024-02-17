@@ -4,7 +4,7 @@
 
 - [√] @kotori-bot/webui
 - [√] @kotori-bot/kotori-plugin-webui
-- [x] @kotori-bot/kotori-plugin-adapter-sandbox
+- [√] @kotori-bot/kotori-plugin-adapter-sandbox
 - [x] @kotori-bot/kotori-plugin-adapter-mail
 - [x] @kotori-bot/kotori-plugin-adapter-telegram
 - [x] kotori-plugin-adapter-minecraft
