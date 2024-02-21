@@ -1,3 +1,29 @@
+## [1.3.1](https://github.com/kotorijs/kotori/compare/v1.2.0...v1.3.1) (2024-02-21)
+
+
+### Bug Fixes
+
+* alias,manger,requester,drift-bottle ([4b9deb5](https://github.com/kotorijs/kotori/commit/4b9deb5308d196c89c71d0ba8d22b280dd60d7ae))
+* async session events ([26f2915](https://github.com/kotorijs/kotori/commit/26f29157dd1db49e65c428bf570813a8ab684d00))
+* loader catch error ([d1914be](https://github.com/kotorijs/kotori/commit/d1914bee4d1b2adec136195004442706a8a97b85))
+* update service content ([dd7f912](https://github.com/kotorijs/kotori/commit/dd7f9122f50bcba3ad8669bbcd0f641aced0195e))
+
+
+### Features
+
+* database,cache,file and server service ([536a6b9](https://github.com/kotorijs/kotori/commit/536a6b92886af2e53d3b2b8375e3615da7a54968))
+* prompt, confirm and run-code plugin ([aa4848e](https://github.com/kotorijs/kotori/commit/aa4848e6bdf8a85af60125a7ac679ce3e83fa30c))
+* requester run-code modules ([f75a341](https://github.com/kotorijs/kotori/commit/f75a341642784e0bad6b4ea2266501055b721c15))
+* requester,manger,alias modules ([1f145c6](https://github.com/kotorijs/kotori/commit/1f145c6f9d060774edd02268194b3609b88cd7b8))
+* sandbox ([e98b4b4](https://github.com/kotorijs/kotori/commit/e98b4b48a5de66427456dce94758695f7a7b0703))
+* sed and access ([24b6549](https://github.com/kotorijs/kotori/commit/24b6549b9a8f4157ad302ad29f1df83e25d68db4))
+* service, cache, database and server ([58a0ae0](https://github.com/kotorijs/kotori/commit/58a0ae02b60493f2fc205c125856b8ed7a7d7d89))
+* status and minecraft modules ([f100467](https://github.com/kotorijs/kotori/commit/f100467a15ec95dcecaa52fcbeca530d9be49b8c))
+* webui ([3743694](https://github.com/kotorijs/kotori/commit/37436945c5ba6e2a8d18aad17d27613f6f975dd5))
+* webui websocket and sandbox ([f64e25f](https://github.com/kotorijs/kotori/commit/f64e25f196756287c9f0b0087493eb184e10201a))
+
+
+
 # [1.2.0](https://github.com/kotorijs/kotori/compare/v1.1.0...v1.2.0) (2024-02-06)
 
 
