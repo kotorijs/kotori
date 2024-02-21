@@ -1,8 +1,7 @@
-import { obj } from '@/tools';
 import config from '../config';
 
 class Guess {
-  static guessData: obj<[number, number]> = {};
+  static guessData: Record<string, [number, number]> = {};
 
   static start(qq: number) {
     const min = Math.floor(Math.random() * config.guess.max) + config.guess.min;
