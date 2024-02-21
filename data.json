@@ -1,0 +1,122 @@
+[
+  {
+    "name": "@kotori-bot/kotori-plugin-access",
+    "description": "权限插件，用于设置多个机器人管理员"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-adapter-onebot",
+    "description": "基于 Onebot 标准的 go-cqhttp 项目的适配器"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-adapter-qq",
+    "description": "基于 Tencent 官方 API 的适配器"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-adapter-sandbox",
+    "description": "模块测试环境，虚拟沙盒适配器"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-alias",
+    "description": "用户级别名设置"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-core",
+    "description": "核心插件"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-helper",
+    "description": "查看指令帮助"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-i18n-command",
+    "description": "友好的指令错误提示"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-menu",
+    "description": "菜单插件"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-status",
+    "description": "查看服务器运行状态"
+  },
+  {
+    "name": "@kotori-bot/kotori-plugin-webui",
+    "description": "网页控制台"
+  },
+  {
+    "name": "kotori-plugin-bangumi",
+    "description": "番组计划插件"
+  },
+  {
+    "name": "kotori-plugin-better-join",
+    "description": "趣味的进群欢迎提示"
+  },
+  {
+    "name": "kotori-plugin-bilibili",
+    "description": "哔哩哔哩插件"
+  },
+  {
+    "name": "kotori-plugin-drift-bottle",
+    "description": "漂流瓶插件"
+  },
+  {
+    "name": "kotori-plugin-github",
+    "description": "GitHub 仓库搜索"
+  },
+  {
+    "name": "kotori-plugin-goodnight",
+    "description": "早晚安插件"
+  },
+  {
+    "name": "kotori-plugin-grouper",
+    "description": "群聊活跃排行与小游戏"
+  },
+  {
+    "name": "kotori-plugin-hitokotos",
+    "description": "随机一言，十七种不同语录"
+  },
+  {
+    "name": "kotori-plugin-manger",
+    "description": "简易群管插件"
+  },
+  {
+    "name": "kotori-plugin-mediawiki",
+    "description": "维基搜索，支持自定义多个维基"
+  },
+  {
+    "name": "kotori-plugin-minecraft",
+    "description": "Minecraft JE/BE 服务器,账号皮肤,最新版本查询"
+  },
+  {
+    "name": "kotori-plugin-music",
+    "description": "网易云音乐搜索"
+  },
+  {
+    "name": "kotori-plugin-nmsl",
+    "description": "孙笑川在线帮你翻译成抽象话"
+  },
+  {
+    "name": "kotori-plugin-penis",
+    "description": "查看今日牛牛的长度和排行"
+  },
+  {
+    "name": "kotori-plugin-randomimg",
+    "description": "Pixiv 等多种随机图片"
+  },
+  {
+    "name": "kotori-plugin-requester",
+    "description": "给主人报告的插件"
+  },
+  {
+    "name": "kotori-plugin-run-code",
+    "description": "在线运行 JavaScript 和 Lua 代码"
+  },
+  {
+    "name": "kotori-plugin-sed",
+    "description": "社工查询插件"
+  },
+  {
+    "name": "kotori-plugin-weather",
+    "description": "天气查询"
+  }
+]

@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as t}from"./chunks/framework.Dy019jra.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"advanced/index.md","filePath":"advanced/index.md","lastUpdated":1707642172000}'),d={name:"advanced/index.md"};function n(c,r,o,s,i,p){return t(),a("div")}const f=e(d,[["render",n]]);export{m as __pageData,f as default};
