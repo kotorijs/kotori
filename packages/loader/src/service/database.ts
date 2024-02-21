@@ -3,15 +3,21 @@ import knex from 'knex';
 import { resolve } from 'path';
 
 export class Database extends Service {
-  private db?: ReturnType<typeof knex>;
+  internal: ReturnType<typeof knex>;
+
+  select: ReturnType<typeof knex>['select'];
+
+  delete: ReturnType<typeof knex>['delete'];
+
+  update: ReturnType<typeof knex>['update'];
+
+  insert: ReturnType<typeof knex>['insert'];
+
+  schema: ReturnType<typeof knex>['schema'];
 
   constructor(ctx: Context) {
     super(ctx, {}, 'database');
-  }
-
-  start() {
-    if (this.db) return;
-    this.db = knex(
+    this.internal = knex(
       {
         client: 'sqlite',
         connection: {
@@ -29,31 +35,11 @@ export class Database extends Service {
         }
       } */
     );
-  }
-
-  stop() {
-    if (!this.db) return;
-    delete this.db;
-  }
-
-  createTable(name: string, callback: Parameters<ReturnType<typeof knex>['schema']['createTable']>[1]) {
-    return this.db!.schema.createTable(name, callback);
-  }
-
-  select(...args: Parameters<ReturnType<typeof knex>['select']>) {
-    return this.db!.select(...args);
-  }
-
-  insert(...args: Parameters<ReturnType<typeof knex>['insert']>) {
-    return this.db!.insert(...args);
-  }
-
-  update(...args: Parameters<ReturnType<typeof knex>['update']>) {
-    return this.db!.update(...args);
-  }
-
-  delete(...args: Parameters<ReturnType<typeof knex>['delete']>) {
-    return this.db!.delete(...args);
+    this.select = this.internal.select.bind(this.internal);
+    this.delete = this.internal.delete.bind(this.internal);
+    this.update = this.internal.update.bind(this.internal);
+    this.insert = this.internal.insert.bind(this.internal);
+    this.schema = this.internal.schema;
   }
 }
 

@@ -10,6 +10,8 @@ export function loadInfo(info: Context['pkg'], ctx: Context) {
 ██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
 ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
 `);
+
+  ctx.logger.info('loader base dir:', ctx.baseDir.root);
   ctx.logger.info(`Kotori Bot Version: ${info.version} License: ${info.license}`);
   ctx.logger.info(`Kotori Bot By ${info.author}`);
   ctx.logger.info(`Copyright © 2023 - 2024 ${info.author} All rights reserved`);

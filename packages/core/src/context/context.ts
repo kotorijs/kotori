@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-14 19:39:40
+ * @LastEditTime: 2024-02-21 10:38:39
  */
 import { Events } from '@kotori-bot/tools';
 import Symbols from './symbols';
@@ -11,6 +11,7 @@ import { EventsMapping } from './events';
 import Modules from './modules';
 
 interface obj {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   [propName: string | number | symbol]: any;
 }
 
@@ -82,11 +83,13 @@ export class Context implements ContextImpl {
     keys.forEach((key) => {
       if (this[key] || !instance[key]) return;
       this[key] = instance[key] as this[K];
-      if (typeof this[key] === 'function') this[key] = (this[key] as unknown as Function).bind(instance);
+      if (typeof this[key] === 'function') {
+        this[key] = (this[key] as () => unknown)?.bind(instance) as unknown as this[K];
+      }
     });
   }
 
-  extends<T extends obj = {}>(meta?: T, identity?: string) {
+  extends<T extends obj = object>(meta?: T, identity?: string) {
     const metaHandle = meta ?? ({} as T);
     /* clear function */
     Object.keys(metaHandle).forEach((key) => {

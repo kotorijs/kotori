@@ -64,11 +64,10 @@ export function main(ctx: Context) {
     .action(async (data, session) => {
       const name = data.args.join('');
       const order = data.options.order ?? 1;
-      const prop = `bgm_${name}`;
       const res =
-        ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(prop) ?? bgm1Schema.parse(await http(`search/subject/${name}`));
+        ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(name) ?? bgm1Schema.parse(await http(`search/subject/${name}`));
       if (!res || !Array.isArray(res.list)) return ['bangumi.msg.bgm.fail', [name]];
-      ctx.cache.set(prop, res);
+      ctx.cache.set(name, res);
 
       if (order === 0) {
         let list = '';

@@ -67,11 +67,11 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     ctx.on('on_recall', (session) => {
       if (session.userId === session.api.adapter.selfId || session.operatorId === session.api.adapter.selfId) return;
       if (con.onPirvateRecall && session.type === MessageScope.PRIVATE) {
-        const message = ctx.cache.get<string>(`privatemsg${session.api.adapter.platform}${session.messageId}`);
+        const message = ctx.cache.get<string>(`${session.api.adapter.platform}${session.messageId}`);
         if (!message) return;
         send(session)([`requester.msg.recall.private`, { user: session.userId, message }]);
       } else if (con.onGroupRecall && session.type === MessageScope.GROUP) {
-        const message = ctx.cache.get<string>(`groupmsg${session.api.adapter.platform}${session.messageId}`);
+        const message = ctx.cache.get<string>(`${session.api.adapter.platform}${session.messageId}`);
         if (!message) return;
         send(session)([
           `requester.msg.recall.group.${session.operatorId === session.userId ? 'self' : 'other'}`,
@@ -96,20 +96,20 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       if (session.userId === session.api.adapter.selfId) return;
       if (session.type === MessageScope.GROUP) {
         if (con.onGroupRecall) {
-          ctx.cache.set(`groupmsg${session.api.adapter.platform}${session.messageId}`, session.messageId);
+          ctx.cache.set(`${session.api.adapter.platform}${session.messageId}`, session.message);
         }
-        if (con.onGroupMsg && session.message.includes(String(session.api.adapter.selfId))) {
+        /*         if (con.onGroupMsg && session.message.includes(String(session.api.adapter.selfId))) {
           send(session)([
             `requester.msg.msg.group`,
             { user: session.userId, group: session.groupId, message: session.message }
           ]);
         }
-        return;
+        return; */
       }
       if (con.onPirvateRecall) {
-        ctx.cache.set(`privatemsg${session.api.adapter.platform}${session.messageId}`, session.messageId);
+        ctx.cache.set(`${session.api.adapter.platform}${session.messageId}`, session.message);
       }
-      if (con.onPrivateMsg) {
+      if (con.onPrivateMsg && String(session.userId) !== String(session.api.adapter.config.master)) {
         send(session)([`requester.msg.msg.private`, { user: session.userId, message: session.message }]);
       }
     });

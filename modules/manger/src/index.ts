@@ -17,6 +17,14 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
   const saveBlack = (platform: string, data: string[], target: string = 'global') =>
     ctx.file.save(`${platform}_${target}`, data);
 
+  ctx.midware((next, session) => {
+    const blackGlobal = loadBlack(session.api.adapter.platform);
+    if (blackGlobal.includes(String(session.userId))) return;
+    const black = session.groupId ? loadBlack(session.api.adapter.platform, String(session.groupId)) : [];
+    if (black.includes(String(session.userId))) return;
+    next();
+  }, 80);
+
   ctx
     .command(`ban [userId] [time:number] - manger.descr.ban`)
     .action((data, session) => {

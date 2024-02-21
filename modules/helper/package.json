@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-helper",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "helper plugin",
   "main": "lib/index.js",
   "scripts": {

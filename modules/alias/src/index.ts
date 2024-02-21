@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-16 14:59:24
+ * @LastEditTime: 2024-02-21 11:07:52
  */
 import { Context, Symbols } from 'kotori-bot';
 
@@ -20,7 +20,7 @@ export function main(ctx: Context) {
   ctx.midware((next, session) => {
     const s = session;
     const list = load(s.api.adapter.platform);
-    if (s.message in list) s.message = list[s.message];
+    if (list[s.message] || s.message.trim() in list) s.message = list[s.message];
     next();
   }, 90);
 

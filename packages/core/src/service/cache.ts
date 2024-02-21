@@ -4,7 +4,7 @@ type CacheKey = string | symbol;
 type CacheValue = string | number | object;
 
 export class Cache extends Service {
-  private cache?: Map<CacheKey, CacheValue>;
+  private cache?: Map<string, Map<CacheKey, CacheValue>>;
 
   constructor(ctx: ConstructorParameters<typeof Service>[0]) {
     super(ctx, {}, 'cache');
@@ -16,16 +16,23 @@ export class Cache extends Service {
   }
 
   stop() {
+    this.cache?.forEach((el) => el.clear());
     this.cache?.clear();
     delete this.cache;
   }
 
+  getContainer() {
+    const key = this.ctx.identity ?? 'root';
+    if (!this.cache!.has(key)) this.cache!.set(key, new Map());
+    return this.cache!.get(key)!;
+  }
+
   get<T = CacheValue>(prop: CacheKey) {
-    return this.cache!.get(prop) as T;
+    return this.getContainer().get(prop) as T;
   }
 
   set(prop: CacheKey, value: CacheValue) {
-    this.cache!.set(prop, value);
+    this.getContainer().set(prop, value);
   }
 }
 

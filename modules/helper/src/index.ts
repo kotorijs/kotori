@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-09 21:32:57
+ * @LastEditTime: 2024-02-21 11:20:31
  */
 
 import { Command, Context, Symbols } from 'kotori-bot';
@@ -16,9 +16,8 @@ export function main(ctx: Context) {
     const args = (data.args as string[]).join('');
     ctx[Symbols.command].forEach((command) => {
       if (
-        !args ||
-        args.startsWith(command.meta.root) ||
-        command.meta.alias.filter((alias) => args.startsWith(alias)).length > 0
+        command.meta.root.startsWith(args) ||
+        command.meta.alias.filter((alias) => alias.startsWith(args)).length > 0
       ) {
         filterResult.push(command.meta);
       }

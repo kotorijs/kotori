@@ -46,7 +46,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
     .command('pick - drift_bottle.descr.pick')
     .action((_, session) => {
       const data = getBottle(session.api.adapter.platform);
-      if (!data || data.length < 0) return 'drift_bottle.msg.pick.none';
+      if (!data || data.length <= 0) return 'drift_bottle.msg.pick.none';
       const bottle = data[getRandomInt(data.length - 1)];
       return ['drift_bottle.msg.pick.info', [bottle[0], session.i18n.time(new Date(bottle[1])), bottle[2]]];
     })

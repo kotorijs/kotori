@@ -6,10 +6,11 @@
 	"requester.msg.admin.unset": "BOT 被取消了群 %group%",
 	"requester.msg.ban.ban": "BOT 被管理员 %operator% 禁言了 %time% 分钟在群 %group%",
 	"requester.msg.ban.lift_ban": "BOT 被管理员 %operator% 取消了禁言在群 %group%",
-	"requester.msg.recall.group": "用户 %user% 被管理员 %operator% 在群 %group% 撤回了消息：%message%",
+	"requester.msg.recall.group.other": "用户 %user% 被管理员 %operator% 在群 %group% 撤回了消息：%message%",
+	"requester.msg.recall.group.self": "用户 %user% 在群 %group% 撤回了消息：%message%",
 	"requester.msg.recall.private": "用户 %user% 撤回了消息: %message%",
 	"requester.msg.request.group": "BOT 收到了来自用户 %user% 的群请求",
-	"requester.msg.request.private": "BOT 收到了来自用户 %user% 的加好友请求%",
+	"requester.msg.request.private": "BOT 收到了来自用户 %user% 的加好友请求",
 	"requester.msg.msg.group": "用户 %user% 在群 %group% 艾特了BOT：%message%",
 	"requester.msg.msg.private": "用户 %user% 向BOT发来消息：%message%"
 }

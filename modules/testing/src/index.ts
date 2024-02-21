@@ -1,4 +1,4 @@
-import { Context, ModuleConfig, Tsu, MessageScope } from 'kotori-bot';
+import { Context, ModuleConfig, Tsu } from 'kotori-bot';
 
 /* 设置 i18n */
 export const lang = [__dirname, '../locales']; // or: const lang = path.join(__dirname, '../locales');
@@ -15,16 +15,14 @@ export type Config = ModuleConfig & Tsu.infer<typeof kotoriConfigSchema>;
 export const inject = ['database'];
 
 /* 插件入口 */
-export function main(ctx: Context, config: Config) {
+export function main(ctx: Context) {
   ctx.on('ready', async () => {
-    await ctx.db
-      .createTable('test', (table) => {
-        table.increments();
-        table.string('name');
-        table.timestamps();
-      })
-      .catch(() => {});
-    await ctx.db.insert({ name: 'a' }).into('test');
+    if (await ctx.db.schema.hasTable('test')) return;
+    await ctx.db.schema.createTable('test', (table) => {
+      table.increments();
+      table.string('name');
+      table.timestamps();
+    });
   });
 
   /* 事件监听 */
