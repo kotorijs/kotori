@@ -1,10 +1,22 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "private": true,
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
+  "scripts": {
+    "kotori": "pnpm --filter kotori-bot",
+    "build": "pnpm -r build",
+    "start": "pnpm kotori start",
+    "dev:only": "pnpm kotori dev",
+    "dev": "pnpm kotori build && pnpm kotori dev",
+    "test": "echo testing",
+    "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
+    "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
+    "version": "pnpm exec conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "release": "pnpm exec release"
+  },
   "files": [
     "{packages,modules}/*/locales/**/*",
     "{packages,modules}/*/{lib,dist}/**/*.js",
@@ -38,17 +50,5 @@
   "packageManager": "pnpm@8.7.4",
   "engines": {
     "node": ">=17.9.0"
-  },
-  "scripts": {
-    "kotori": "pnpm --filter kotori-bot",
-    "build": "pnpm -r build",
-    "start": "pnpm kotori start",
-    "dev:only": "pnpm kotori dev",
-    "dev": "pnpm kotori build && pnpm kotori dev",
-    "test": "echo testing",
-    "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
-    "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
-    "version": "pnpm exec conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "release": "pnpm exec release"
   }
 }
