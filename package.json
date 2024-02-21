@@ -35,7 +35,6 @@
   "devDependencies": {
     "@manypkg/get-packages": "^2.2.0",
     "@types/inquirer": "^9.0.7",
-    "@types/js-beautify": "^1.14.3",
     "@types/node": "^20.8.7",
     "conventional-changelog-cli": "^4.1.0",
     "eslint": "^8.47.0",

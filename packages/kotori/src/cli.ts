@@ -5,8 +5,8 @@ import { resolve } from 'path';
 
 const program = cac();
 
-const pkg = JSON.parse(readFileSync(`${__dirname}/../package.json`).toString());
-program.version(pkg.verion, '-v, --version');
+const { version } = JSON.parse(readFileSync(`${__dirname}/../package.json`).toString());
+program.version(version, '-v, --version');
 program.help();
 
 program
