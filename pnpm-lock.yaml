@@ -84,6 +84,18 @@ importers:
         specifier: ^8.14.2
         version: 8.16.0
 
+  modules/adapter-sandbox:
+    dependencies:
+      '@types/ws':
+        specifier: ^8.5.8
+        version: 8.5.10
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+      ws:
+        specifier: ^8.14.2
+        version: 8.16.0
+
   modules/alias:
     dependencies:
       kotori-bot:
@@ -199,6 +211,12 @@ importers:
         version: link:../../packages/kotori
 
   modules/random-img:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/requester:
     dependencies:
       kotori-bot:
         specifier: workspace:^
