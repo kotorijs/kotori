@@ -22,7 +22,14 @@
 - [ ] decorator plugin form
 - [ ] @kotori-bot/tools Events: protected list
 - [ ] @kotori-bot/i18n Node.js env: getLanguage(): LocaleType;
+- [ ] Kotori cli gui and modules search,install,uninstall,update
 
 ## Styles
 
 - [ ] Class member public
+
+## Fixs
+
+- [ ] Module Version with core tips
+- [ ] Kotori cli start
+- [ ] kotori-plugin-request: onGroupMsg and onPrivateMsg
