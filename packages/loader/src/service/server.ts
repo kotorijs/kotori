@@ -10,7 +10,7 @@ export class Server extends Service<ServerConfig> {
 
   private server?: ReturnType<ReturnType<typeof express>['listen']>;
 
-  constructor(ctx: Context, config: ServerConfig) {
+  public constructor(ctx: Context, config: ServerConfig) {
     super(ctx, config, 'server');
 
     this.app = express();
@@ -35,36 +35,36 @@ export class Server extends Service<ServerConfig> {
     this.all = this.app.all.bind(this.app);
   }
 
-  start() {
+  public start() {
     if (this.server) return;
     this.server = this.app.listen(this.config.port);
     this.ctx.logger.label('server').info(`server start at http://127.0.0.1:${this.config.port}`);
   }
 
-  stop() {
+  public stop() {
     if (!this.server) return;
     this.server.close();
   }
 
-  get: Server['app']['get'];
+  public get: Server['app']['get'];
 
-  post: Server['app']['post'];
+  public post: Server['app']['post'];
 
-  patch: Server['app']['patch'];
+  public patch: Server['app']['patch'];
 
-  put: Server['app']['put'];
+  public put: Server['app']['put'];
 
-  delete: Server['app']['delete'];
+  public delete: Server['app']['delete'];
 
-  all: Server['app']['all'];
+  public all: Server['app']['all'];
 
-  use: Server['app']['use'];
+  public use: Server['app']['use'];
 
-  router = express.Router;
+  public router = express.Router;
 
-  json = express.json;
+  public json = express.json;
 
-  static = express.static;
+  public static = express.static;
 }
 
 export default Server;

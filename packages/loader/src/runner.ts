@@ -101,17 +101,17 @@ function moduleLoadOrder(pkg: ModulePackage) {
 }
 
 export class Runner {
-  readonly baseDir: BaseDir;
+  public readonly baseDir: BaseDir;
 
-  readonly options: Options;
+  public readonly options: Options;
 
   private ctx: Context;
 
   private isDev: boolean;
 
-  readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map();
+  public readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map();
 
-  constructor(ctx: Context, config: RunnerConfig) {
+  public constructor(ctx: Context, config: RunnerConfig) {
     this.ctx = ctx;
     /* handle config */
     this.baseDir = config.baseDir;
@@ -214,7 +214,7 @@ export class Runner {
     this.ctx.load({ name: instance.pkg.name });
   }
 
-  loadAll() {
+  public loadAll() {
     this.getModuleRootDir().forEach((dir) => this.getModuleList(dir));
     const modules: [ModuleMeta, ModuleConfig][] = [];
     this[Symbols.modules].forEach((val) => modules.push(val));
@@ -224,7 +224,7 @@ export class Runner {
     if (this.isDev) this.watcher();
   }
 
-  watcher() {
+  public watcher() {
     this[Symbols.modules].forEach((data) =>
       data[0].files.forEach((file) =>
         fs.watchFile(file, async () => {
