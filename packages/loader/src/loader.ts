@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-21 11:35:04
+ * @LastEditTime: 2024-02-24 19:11:35
  */
 import {
   KotoriError,
@@ -27,7 +27,7 @@ import Runner, { localeTypeSchema } from './runner';
 import loadInfo from './log';
 import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './consts';
 import Server from './service/server';
-import Database from './service/database';
+import type Database from './service/database';
 import File from './service/file';
 
 declare module '@kotori-bot/core' {
@@ -129,7 +129,7 @@ export class Loader extends Container {
 
   private loadCount: number = 0;
 
-  constructor(options?: { dir?: string; mode?: string }) {
+  public constructor(options?: { dir?: string; mode?: string }) {
     super();
     const file = options && options.mode === 'dev' ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
     const runnerConfig = getRunnerConfig(file, options?.dir);
@@ -140,7 +140,7 @@ export class Loader extends Container {
     this.ctx = Container.getInstance();
   }
 
-  run() {
+  public run() {
     loadInfo(this.ctx.pkg, this.ctx);
     this.catchError();
     this.listenMessage();
@@ -236,7 +236,6 @@ export class Loader extends Container {
 
   private setPreService() {
     this.ctx.service('server', new Server(this.ctx.extends(), { port: this.ctx.config.global.port }));
-    this.ctx.service('db', new Database(this.ctx.extends()));
     this.ctx.service('file', new File(this.ctx.extends()));
   }
 

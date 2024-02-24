@@ -18,37 +18,37 @@ export class KotoriLogger extends Logger {
     };
   }
 
-  fatal(...args: unknown[]) {
+  public fatal(...args: unknown[]) {
     const dispose = this.setLabel();
     super.fatal(...args);
     dispose();
   }
 
-  error(...args: unknown[]) {
+  public error(...args: unknown[]) {
     const dispose = this.setLabel();
     super.error(...args);
     dispose();
   }
 
-  warn(...args: unknown[]) {
+  public warn(...args: unknown[]) {
     const dispose = this.setLabel();
     super.warn(...args);
     dispose();
   }
 
-  info(...args: unknown[]) {
+  public info(...args: unknown[]) {
     const dispose = this.setLabel();
     super.info(...args);
     dispose();
   }
 
-  debug(...args: unknown[]) {
+  public debug(...args: unknown[]) {
     const dispose = this.setLabel();
     super.debug(...args);
     dispose();
   }
 
-  trace(...args: unknown[]) {
+  public trace(...args: unknown[]) {
     const dispose = this.setLabel();
     super.trace(...args);
     dispose();
