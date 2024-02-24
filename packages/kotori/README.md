@@ -1,3 +1,5 @@
+<!-- markdownlint-disable -->
+
 <div align="center">
 <img src="https://kotori.js.org/favicon.svg" width="200px" height="200px" alt="logo"/>
 
@@ -13,7 +15,6 @@
 ![GitHub](https://img.shields.io/github/license/biyuehu/kotori-bot?color=deepgreen)
 ![npm](https://img.shields.io/npm/v/kotori-bot)
 [![wakatime](https://wakatime.com/badge/user/018dc603-712a-4205-a226-d4c9ccd0d02b/project/018dc605-aa92-43d3-b2a7-ed9829c0212e.svg)](https://wakatime.com/badge/user/018dc603-712a-4205-a226-d4c9ccd0d02b/project/018dc605-aa92-43d3-b2a7-ed9829c0212e)
-<!-- ![GitHub contributors](https://img.shields.io/github/contributors/biyuehu/kotori-bot) -->
 
 </div>
 
@@ -25,7 +26,7 @@ kotori 是一个**跨平台、解耦合、现代化**于一体的聊天机器人
 
 ## 🚀 Summary
 
-「Kotori」是一个罗马字，在日语中是「ことり」（小鳥）的意思，发音为 `/kotoɾʲi‾/` <Voice />，该名字取自于 [Key 公式](http://key.visualarts.gr.jp/) 的游戏 [《Rewrite》](https://bgm.tv/subject/4022) 及其衍生作品中的主要女性角色之一的 [神户小鸟](https://bgm.tv/character/12063) (神戸（かんべ） 小鳥（ことり）)。
+「Kotori」是一个罗马字，在日语中是「ことり」（小鳥）的意思，发音为 `/kotoliː/` 提交，该名字取自于 [Key 公式](http://key.visualarts.gr.jp/) 的游戏 [《Rewrite》](https://bgm.tv/subject/4022) 中主要女性角色之一：神户小鸟 (神戸（かんべ） 小鳥（ことり）)。借助 Kotori，可快速搭建一个多平台、功能强大的聊天机器人应用，通过安装不同模块为 Kotori 扩展功能、玩法和个性化配置等。同时，Kotori 为开发者提供了现成的 Cli 用于模块开发与 Kotori 二次开发。
 
 ### Advantage
 

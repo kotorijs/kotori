@@ -20,3 +20,9 @@
 - [ ] ctx.filter()
 - [ ] message.schedule()
 - [ ] decorator plugin form
+- [ ] @kotori-bot/tools Events: protected list
+- [ ] @kotori-bot/i18n Node.js env: getLanguage(): LocaleType;
+
+## Styles
+
+- [ ] Class member public

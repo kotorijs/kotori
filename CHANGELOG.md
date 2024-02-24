@@ -1,3 +1,13 @@
+## [1.3.2](https://github.com/kotorijs/kotori/compare/v1.3.1...v1.3.2) (2024-02-24)
+
+
+### Bug Fixes
+
+* cli version view and fucking packages ([cbaf26d](https://github.com/kotorijs/kotori/commit/cbaf26d43afa5b4dfef003cbf5f8fc2ef209cc51))
+* linux database install ([26d2c03](https://github.com/kotorijs/kotori/commit/26d2c03f32097ac5ab8d5a4e63e3444735f94c4f))
+
+
+
 ## [1.3.1](https://github.com/kotorijs/kotori/compare/v1.2.0...v1.3.1) (2024-02-21)
 
 
