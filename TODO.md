@@ -33,3 +33,4 @@
 - [ ] Module Version with core tips
 - [ ] Kotori cli start
 - [ ] kotori-plugin-request: onGroupMsg and onPrivateMsg
+- [ ] better-join: 因为遇到了你我的世界才充满颜色
