@@ -6,13 +6,13 @@ Kotori 贡献目前主要分为三种：
 - Webui 网页控制台
 - Kotori 模块开发
 
-基本要求：
+总要求：
 
 - 基本会使用 GitHub 与 git 工具
 
 ## Kotori 文档完善
 
-此处「文档」特指 [Kotori 开发文档](https://Kotori.js.org/guide)。文档为整个 Kotori 生态的重中之重，目前急需完善、准确、易懂的文档供给开发者参考。
+此处「文档」特指 [Kotori 开发文档](https://Kotori.js.org/guide/nav)。文档为整个 Kotori 生态的重中之重，目前急需完善、准确、易懂的文档供给开发者参考。
 
 ### 要求
 
@@ -78,7 +78,7 @@ Webui 是 Kotori 的网页控制台，分为前后端两部分，此处特指前
 
 与上文类似。
 
-> [kotorijs/webui](https://github.com/kotorijs/webui)
+> 仓库地址：[kotorijs/webui](https://github.com/kotorijs/webui)
 
 ## 模块开发
 
@@ -91,4 +91,19 @@ Webui 是 Kotori 的网页控制台，分为前后端两部分，此处特指前
 
 ### 步骤
 
-模块为你自己的开发成果，因此你不需要 fork 与提交 pull request 等操作。如果可以，当你的模块开发完毕时，请发布到 npm 与 GitHub。
+模块为你自己的开发成果，因此你不需要 fork 与提交 pull request 等操作。如果可以，当你的模块开发完毕时，请发布到 npm 与 GitHub。此外也请务必提交至 [Kotori Docs](https://github.com/kotorijs/docs) 仓库中的 `src/public/data.json` 文件，这会将你的插件集中展示在 [Kotori 模块中心](https://kotori.js.org/modules/) 便于用户下载。在该文件中写入模块的包名与描述：
+
+```json
+{
+  {
+    "name": "kotori-plugin-xxx",
+    "description": "这里是插件描述"
+  }
+}
+```
+
+- 包名 `name` 务必与发布到 npm 的包名一致
+- 请按照包名的字母依次排序，如若有命名空间（@xxxx/）请提到最前，并根据包命名空间、包名的字母依次排序
+- 描述不应过长，但务必大致概括模块内容
+- 请注意 JSON 格式规范
+- 完成文件更改后按照上文步骤提交 pull request
