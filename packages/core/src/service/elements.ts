@@ -7,31 +7,31 @@ export class Elements {
     return '';
   }
 
-  at(target: EventDataTargetId, ...extra: unknown[]) {
+  public at(target: EventDataTargetId, ...extra: unknown[]) {
     return this.default(target, extra);
   }
 
-  image(url: string, ...extra: unknown[]) {
+  public image(url: string, ...extra: unknown[]) {
     return this.default(url, extra);
   }
 
-  voice(url: string, ...extra: unknown[]) {
+  public voice(url: string, ...extra: unknown[]) {
     return this.default(url, extra);
   }
 
-  video(url: string, ...extra: unknown[]) {
+  public video(url: string, ...extra: unknown[]) {
     return this.default(url, extra);
   }
 
-  face(id: number | string, ...extra: unknown[]) {
+  public face(id: number | string, ...extra: unknown[]) {
     return this.default(id, extra);
   }
 
-  file(data: unknown, ...extra: unknown[]) {
+  public file(data: unknown, ...extra: unknown[]) {
     return this.default(data, extra);
   }
 
-  supports() {
+  public supports() {
     const supports: (keyof Elements)[] = [];
     const keys: (keyof Elements)[] = ['at', 'image', 'voice', 'video', 'face', 'file'];
     keys.forEach((key) => {

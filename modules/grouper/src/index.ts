@@ -78,9 +78,9 @@ Kotori.regexp(/^(签到|打卡)$/, async (data, session) => {
   if (!session.groupId) return '';
   // const groupData = queryExp(data.groupId!, data.userId)[1];
   const at = session.el.at(session.userId);
-  const identier = `${session.groupId}&${session.userId}&${time}`;
-  if (signData.includes(identier)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
-  signData.push(identier);
+  const identity = `${session.groupId}&${session.userId}&${time}`;
+  if (signData.includes(identity)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
+  signData.push(identity);
   const res = await Kotori.http.get('https://hotaru.icu/api/hitokoto/v2/');
   const hitokoto = hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '';
   const image = session.el.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images');
@@ -276,13 +276,13 @@ Core.hook(data => {
 }); */ /* 
 
 export class Main {
-	static Consts: Const;
+	public static Consts: Const;
 
-	static Api: Api;
+	public static Api: Api;
 
-	static UserInfo: obj<userInfo>;
+	public static UserInfo: obj<userInfo>;
 
-	constructor(event: Event, api: Api, consts: Const) {
+	public constructor(event: Event, api: Api, consts: Const) {
 		Main.Consts = consts;
 		Main.Api = api;
 		Main.UserInfo = loadConfig(

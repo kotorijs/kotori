@@ -1,9 +1,9 @@
 import { LoggerData, Transport } from 'kotori-bot';
 
 export class BoxTransport extends Transport {
-  result = '';
+  public result = '';
 
-  handle(data: LoggerData) {
+  public handle(data: LoggerData) {
     this.result += data.msg;
   }
 }

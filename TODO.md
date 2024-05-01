@@ -2,35 +2,37 @@
 
 ## Packages
 
-- [√] @kotori-bot/webui
-- [√] @kotori-bot/kotori-plugin-webui
-- [√] @kotori-bot/kotori-plugin-adapter-sandbox
+- [x] @kotori-bot/webui
+- [x] @kotori-bot/kotori-plugin-webui
+- [x] @kotori-bot/kotori-plugin-adapter-sandbox
 - [ ] @kotori-bot/kotori-plugin-adapter-mail
 - [ ] @kotori-bot/kotori-plugin-adapter-telegram
 - [ ] @kotori-bot/kotori-plugin-adapter-discord
 - [ ] kotori-plugin-adapter-minecraft
-- [√] kotori-plugin-requester
-- [√] kotori-plugin-grouper
-- [√] kotori-plugin-manger
-- [√] @kotori-bot/kotori-plugin-alias
-- [ ] create-kotori
+- [x] kotori-plugin-requester
+- [x] kotori-plugin-grouper
+- [x] kotori-plugin-manger
+- [x] @kotori-bot/kotori-plugin-alias
+- [x] create-kotori
 
 ## Features
 
-- [ ] ctx.filter()
-- [ ] message.schedule()
+~~- [ ] ctx.filter()~~
+~~- [ ] message.schedule()~~
+~~- [ ] Module System: load by filename (by import())~~
+~~- [ ] @kotori-bot/i18n Node.js env: getLanguage(): LocaleType~~
+~~- [ ] Kotori cli gui and modules search,install,uninstall,update~~
+
 - [ ] decorator plugin form
-- [ ] @kotori-bot/tools Events: protected list
-- [ ] @kotori-bot/i18n Node.js env: getLanguage(): LocaleType;
-- [ ] Kotori cli gui and modules search,install,uninstall,update
+- [x] @kotori-bot/tools Events: protected list
+- [x] Context: parent ctx
 
 ## Styles
 
-- [ ] Class member public
+- [x] Class member public
 
-## Fixs
+## Fixes
 
-- [ ] Module Version with core tips
+- [x] Module Version with core tips
 - [ ] Kotori cli start
-- [ ] kotori-plugin-request: onGroupMsg and onPrivateMsg
-- [ ] better-join: 因为遇到了你我的世界才充满颜色
+- [x] kotori-plugin-request: onGroupMsg and onPrivateMsg

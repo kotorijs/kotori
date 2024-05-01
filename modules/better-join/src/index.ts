@@ -2,7 +2,7 @@ import { Context, EventsList, getRandomInt } from 'kotori-bot';
 import data from './data';
 
 export class Main {
-  constructor(ctx: Context) {
+  public constructor(ctx: Context) {
     ctx.on('on_group_increase', (data) => Main.handle(data));
   }
 

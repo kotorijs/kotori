@@ -57,7 +57,7 @@ function handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
 }
 
 export class Command {
-  static run(input: string, data: CommandData) {
+  public static run(input: string, data: CommandData) {
     /* find start string */
     let starts = '';
     [data.root, ...data.alias].forEach((el) => {
@@ -85,14 +85,14 @@ export class Command {
     const result = minimist(arr, opts);
     /* handle args */
     const args: CommandArgType[] = result._;
-    const nums = {
+    const count = {
       expected: data.args.filter((el) => !el.optional).length,
       reality: args.length
     };
-    if (nums.reality < nums.expected) return new CommandError({ type: 'arg_few', ...nums });
-    nums.expected = data.args.length;
-    if ((data.args.length <= 0 || !data.args[data.args.length - 1].rest) && nums.reality > nums.expected)
-      return new CommandError({ type: 'arg_many', ...nums });
+    if (count.reality < count.expected) return new CommandError({ type: 'arg_few', ...count });
+    count.expected = data.args.length;
+    if ((data.args.length <= 0 || !data.args[data.args.length - 1].rest) && count.reality > count.expected)
+      return new CommandError({ type: 'arg_many', ...count });
     let error: CommandError | undefined;
     data.args.forEach((val, index) => {
       /* exit when happen error or last arg is empty */
@@ -129,7 +129,7 @@ export class Command {
 
   private template: string;
 
-  readonly meta: CommandData = {
+  public readonly meta: CommandData = {
     root: '',
     alias: [],
     scope: 'all',
@@ -138,7 +138,7 @@ export class Command {
     options: []
   };
 
-  constructor(template: string, config?: CommandConfig) {
+  public constructor(template: string, config?: CommandConfig) {
     this.template = template;
     this.meta = Object.assign(this.meta, config);
     this.parse();
@@ -191,23 +191,23 @@ export class Command {
     });
   }
 
-  alias(alias: string | string[]) {
+  public alias(alias: string | string[]) {
     if (typeof alias === 'string') this.meta.alias.push(alias);
     else this.meta.alias.push(...alias);
     return this;
   }
 
-  scope(scope: CommandConfig['scope']) {
+  public scope(scope: CommandConfig['scope']) {
     this.meta.scope = scope;
     return this;
   }
 
-  access(access: CommandAccess) {
+  public access(access: CommandAccess) {
     this.meta.access = access;
     return this;
   }
 
-  option(name: string, template: string) {
+  public option(name: string, template: string) {
     const [str, description] = template.trim().split(' ');
     const [realname, type] = str.split(':');
     this.meta.options.push({
@@ -219,12 +219,12 @@ export class Command {
     return this;
   }
 
-  action(callback: CommandAction) {
+  public action(callback: CommandAction) {
     this.meta.action = callback;
     return this;
   }
 
-  help(text: string) {
+  public help(text: string) {
     this.meta.help = text;
     return this;
   }

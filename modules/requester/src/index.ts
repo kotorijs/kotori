@@ -8,7 +8,7 @@ export const config = Tsu.Object({
   onBotGroupAdmin: Tsu.Boolean().default(true),
   onBotGroupBan: Tsu.Boolean().default(true),
   onGroupRecall: Tsu.Boolean().default(true),
-  onPirvateRecall: Tsu.Boolean().default(true),
+  onPrivateRecall: Tsu.Boolean().default(true),
   onGroupRequest: Tsu.Boolean().default(true),
   onPrivateRequest: Tsu.Boolean().default(true),
   onGroupMsg: Tsu.Boolean().default(true),
@@ -63,10 +63,10 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     });
   }
 
-  if (con.onPirvateRecall || con.onGroupRecall) {
+  if (con.onPrivateRecall || con.onGroupRecall) {
     ctx.on('on_recall', (session) => {
       if (session.userId === session.api.adapter.selfId || session.operatorId === session.api.adapter.selfId) return;
-      if (con.onPirvateRecall && session.type === MessageScope.PRIVATE) {
+      if (con.onPrivateRecall && session.type === MessageScope.PRIVATE) {
         const message = ctx.cache.get<string>(`${session.api.adapter.platform}${session.messageId}`);
         if (!message) return;
         send(session)([`requester.msg.recall.private`, { user: session.userId, message }]);
@@ -106,7 +106,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
         }
         return; */
       }
-      if (con.onPirvateRecall) {
+      if (con.onPrivateRecall) {
         ctx.cache.set(`${session.api.adapter.platform}${session.messageId}`, session.message);
       }
       if (con.onPrivateMsg && String(session.userId) !== String(session.api.adapter.config.master)) {

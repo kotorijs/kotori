@@ -8,7 +8,7 @@
 import { Adapter, AdapterConfig, Context, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
 import QQApi from './api';
-import { PlayloadData } from './types';
+import { PayloadData } from './types';
 import QQElements from './elements';
 
 const WS_ADDRESS = 'wss://api.sgroup.qq.com/websocket';
@@ -28,20 +28,20 @@ export class QQAdapter extends Adapter<QQApi> {
   private seq = 0;
 
   /* here need */
-  msg_seq = 0;
+  public msg_seq = 0;
 
   private groupId = '';
 
-  imageStack: (string | true)[] = [];
+  public imageStack: (string | true)[] = [];
 
-  readonly config: QQConfig;
+  public readonly config: QQConfig;
 
-  constructor(ctx: Context, config: QQConfig, identity: string) {
+  public constructor(ctx: Context, config: QQConfig, identity: string) {
     super(ctx, config, identity, QQApi, new QQElements());
     this.config = config;
   }
 
-  handle(data: PlayloadData) {
+  public handle(data: PayloadData) {
     if (data.op === 10) {
       this.send('ws', {
         op: 2,
@@ -78,7 +78,7 @@ export class QQAdapter extends Adapter<QQApi> {
         groupId: data.d.group_openid
       });
       this.groupId = data.d.group_openid;
-      /* here need imporve */
+      /* here need improve */
     } else if (data.op === 11) {
       this.online();
       // this.offlineCheck();
@@ -87,12 +87,12 @@ export class QQAdapter extends Adapter<QQApi> {
     // if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
   }
 
-  start() {
+  public start() {
     this.getToken();
     this.connect();
   }
 
-  stop() {
+  public stop() {
     this.ctx.emit('connect', {
       type: 'disconnect',
       adapter: this,
@@ -104,7 +104,7 @@ export class QQAdapter extends Adapter<QQApi> {
     this.offline();
   }
 
-  send(action: string, params: object) {
+  public send(action: string, params: object) {
     if (action === 'ws') {
       this.socket?.send(JSON.stringify(params));
       return undefined;

@@ -2,7 +2,7 @@ import type { Context } from '@kotori-bot/core';
 import { Logger } from '@kotori-bot/logger';
 
 export class KotoriLogger extends Logger {
-  constructor(
+  public constructor(
     private optionsSelf: Logger['options'],
     private ctx: Context
   ) {

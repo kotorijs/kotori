@@ -1,13 +1,14 @@
 import Kotori from 'kotori-bot';
 
 export class Sed {
-  message: string;
+  public message: string;
 
-  constructor(message: string) {
+  public constructor(message: string) {
     this.message = message;
   }
 
-  async qqToPhone() {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  public async qqToPhone() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqapi?qq=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return {
@@ -16,7 +17,7 @@ export class Sed {
     };
   }
 
-  async qqToLol() {
+  public async qqToLol() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqlol?qq=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return {
@@ -25,13 +26,13 @@ export class Sed {
     };
   }
 
-  async qqToOldPass() {
+  public async qqToOldPass() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqlm?qq=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return data.qqlm;
   }
 
-  async phoneToQq() {
+  public async phoneToQq() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqphone?phone=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return {
@@ -40,7 +41,7 @@ export class Sed {
     };
   }
 
-  async phoneToWeibo() {
+  public async phoneToWeibo() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/wbphone?phone=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return {
@@ -49,7 +50,7 @@ export class Sed {
     };
   }
 
-  async weiboToPhone() {
+  public async weiboToPhone() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/wbapi?id=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return {
@@ -58,7 +59,7 @@ export class Sed {
     };
   }
 
-  async lolToQq() {
+  public async lolToQq() {
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/lolname?id=${this.message}`)) as Record<string, any>;
     if (data.status !== 200) return null;
     return {
@@ -67,8 +68,9 @@ export class Sed {
       area: data.daqu
     };
   }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
-  async query() {
+  public async query() {
     let phone: string | undefined;
     let qq: string | undefined;
     let weibo: string | undefined;

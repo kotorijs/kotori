@@ -49,15 +49,15 @@ const handleMsg = (msg: string) => msg.replace(/\[CQ:at,qq=(.*?)\]/g, '$1');
 export class OnebotAdapter extends Adapter {
   private readonly address: string;
 
-  readonly config: OnebotConfig;
+  public readonly config: OnebotConfig;
 
-  constructor(ctx: Context, config: OnebotConfig, identity: string) {
+  public constructor(ctx: Context, config: OnebotConfig, identity: string) {
     super(ctx, config, identity, OnebotApi, new OnebotElements());
     this.config = config;
     this.address = `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}`;
   }
 
-  handle(data: EventDataType) {
+  public handle(data: EventDataType) {
     if (data.post_type === 'message' && data.message_type === 'private') {
       this.session('on_message', {
         type: MessageScope.PRIVATE,
@@ -171,7 +171,7 @@ export class OnebotAdapter extends Adapter {
     if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
   }
 
-  start() {
+  public start() {
     if (this.config.mode === 'ws-reverse') {
       this.ctx.emit('connect', {
         type: 'connect',
@@ -184,7 +184,7 @@ export class OnebotAdapter extends Adapter {
     this.connectWss();
   }
 
-  stop() {
+  public stop() {
     this.ctx.emit('connect', {
       type: 'disconnect',
       adapter: this,
@@ -196,7 +196,7 @@ export class OnebotAdapter extends Adapter {
     this.offline();
   }
 
-  send(action: string, params?: object) {
+  public send(action: string, params?: object) {
     this.socket?.send(JSON.stringify({ action, params }));
   }
 

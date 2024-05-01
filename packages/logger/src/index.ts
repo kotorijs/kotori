@@ -39,11 +39,11 @@ export class Logger {
     });
   }
 
-  constructor(options: Partial<LoggerOptions> = DEFAULT_LOGGER_OPTIONS) {
+  public constructor(options: Partial<LoggerOptions> = DEFAULT_LOGGER_OPTIONS) {
     this.options = Object.assign(DEFAULT_LOGGER_OPTIONS, options);
   }
 
-  extends(options: Partial<LoggerOptions> = {}) {
+  public extends(options: Partial<LoggerOptions> = {}) {
     const proxy = new Proxy(options, {
       get: (_, prop) => {
         if (options[prop as keyof typeof options] !== undefined) return options[prop as keyof typeof options];
@@ -58,36 +58,36 @@ export class Logger {
     });
   }
 
-  label(label: string | string[]) {
+  public label(label: string | string[]) {
     return this.extends({ label: [...this.options.label, ...(typeof label === 'string' ? [label] : label)] });
   }
 
-  fatal(...args: unknown[]) {
+  public fatal(...args: unknown[]) {
     if (this.options.level > LoggerLevel.FATAL) return;
     this.creator(LoggerLevel.FATAL, args);
   }
 
-  error(...args: unknown[]) {
+  public error(...args: unknown[]) {
     if (this.options.level > LoggerLevel.ERROR) return;
     this.creator(LoggerLevel.ERROR, args);
   }
 
-  warn(...args: unknown[]) {
+  public warn(...args: unknown[]) {
     if (this.options.level > LoggerLevel.WARN) return;
     this.creator(LoggerLevel.WARN, args);
   }
 
-  info(...args: unknown[]) {
+  public info(...args: unknown[]) {
     if (this.options.level > LoggerLevel.INFO) return;
     this.creator(LoggerLevel.INFO, args);
   }
 
-  debug(...args: unknown[]) {
+  public debug(...args: unknown[]) {
     if (this.options.level > LoggerLevel.DEBUG) return;
     this.creator(LoggerLevel.DEBUG, args);
   }
 
-  trace(...args: unknown[]) {
+  public trace(...args: unknown[]) {
     if (this.options.level > LoggerLevel.TRACE) return;
     this.creator(LoggerLevel.TRACE, args);
   }

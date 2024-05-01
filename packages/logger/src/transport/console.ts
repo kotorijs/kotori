@@ -52,7 +52,7 @@ function format(template: string, args: Record<string, string>) {
 export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
   private c: ReturnType<typeof createColors>;
 
-  render(data: LoggerData) {
+  public render(data: LoggerData) {
     const { options, c } = this;
     const handle = (content: string, color: Color | undefined) => (color ? c[color](content) : content);
     const time = handle(
@@ -70,12 +70,12 @@ export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
     return format((options.template ?? DEFAULT_OPTIONS.template) as string, { time, type, pid, label, msg });
   }
 
-  constructor(options?: ConsoleTransportConfig & TransportOptionsBase) {
+  public constructor(options?: ConsoleTransportConfig & TransportOptionsBase) {
     super(options ?? DEFAULT_OPTIONS);
     this.c = createColors({ useColor: !!this.options.useColor });
   }
 
-  escaper = (args: unknown[]) => {
+  public escaper = (args: unknown[]) => {
     const result = args
       .map((arg) => {
         if (arg && typeof arg === 'object') {
@@ -94,7 +94,7 @@ export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
       .replaceAll('false', this.c.yellow('false'));
   };
 
-  handle(data: LoggerData) {
+  public handle(data: LoggerData) {
     const result = typeof this.options.template === 'function' ? this.options.template(data) : this.render(data);
     if (data.level === LoggerLevel.FATAL || data.level === LoggerLevel.ERROR) {
       process.stderr.write(`${result}\n`);

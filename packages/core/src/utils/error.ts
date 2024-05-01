@@ -6,17 +6,17 @@ interface KotoriErrorImpl {
 }
 
 export class KotoriError<T extends object = object> extends Error implements KotoriErrorImpl {
-  constructor(message?: string, extra?: T, type: KotoriErrorType = 'UnknownError') {
+  public constructor(message?: string, extra?: T, type: KotoriErrorType = 'UnknownError') {
     super(message);
     this.name = type;
     this.extra = extra;
   }
 
-  readonly extra?: T;
+  public readonly extra?: T;
 
-  readonly name: KotoriErrorType;
+  public readonly name: KotoriErrorType;
 
-  extend(): typeof KotoriError<T> {
+  public extend(): typeof KotoriError<T> {
     const { message: fatherMessage, name: fatherType, extra: fatherExtra } = this;
     // const newClass: typeof KotoriError = Object.create(KotoriError);
     return new Proxy(KotoriError<T>, {

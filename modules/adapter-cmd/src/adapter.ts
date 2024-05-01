@@ -22,16 +22,16 @@ type CmdConfig = Tsu.infer<typeof config> & AdapterConfig;
 export class CmdAdapter extends Adapter<CmdApi> {
   private messageId = 1;
 
-  config: CmdConfig;
+  public readonly config: CmdConfig;
 
-  constructor(ctx: Context, config: CmdConfig, identity: string) {
+  public constructor(ctx: Context, config: CmdConfig, identity: string) {
     super(ctx, config, identity, CmdApi, new CmdElements());
     this.config = config;
     this.selfId = config['self-id'];
     process.stdin.on('data', (data) => this.handle(data));
   }
 
-  handle(data: Buffer) {
+  public handle(data: Buffer) {
     if (this.status.value !== 'online') return;
     let message = data.toString();
     if (message === '\n' || message === '\r\n') return;
@@ -50,7 +50,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
     this.messageId += 1;
   }
 
-  start() {
+  public start() {
     this.ctx.emit('connect', {
       type: 'connect',
       adapter: this,
@@ -61,7 +61,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
     this.online();
   }
 
-  stop() {
+  public stop() {
     this.ctx.emit('connect', {
       type: 'disconnect',
       adapter: this,
@@ -72,7 +72,7 @@ export class CmdAdapter extends Adapter<CmdApi> {
     this.offline();
   }
 
-  send(action: string, params?: object) {
+  public send(action: string, params?: object) {
     if (this.status.value !== 'online' || action !== 'send_private_msg' || !params) return;
     if (typeof (params as { message: string }).message !== 'string') return;
     if ((params as { user_id: unknown }).user_id !== this.config.master) return;

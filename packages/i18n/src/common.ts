@@ -15,39 +15,39 @@ export class I18n<T extends LocaleType = LocaleType> {
 
   protected lang: T;
 
-  readonly supports: T[];
+  public readonly supports: T[];
 
-  constructor(config: { supports?: T[]; lang: T } = { lang: DEFAULT_LANG as T }) {
+  public constructor(config: { supports?: T[]; lang: T } = { lang: DEFAULT_LANG as T }) {
     this.supports = config.supports ?? (DEFAULT_SUPPORTS as T[]);
     this.lang = config.lang;
     this.supports.forEach((locale) => this.localesData.set(locale, new Map()));
   }
 
-  use(locales: localeData, lang: T = this.lang) {
+  public use(locales: localeData, lang: T = this.lang) {
     Object.keys(locales).forEach((locale) => {
       this.localesData.get(lang)!.set(locale, locales[locale]);
     });
   }
 
-  locale(locale: string, lang: T = this.lang) {
+  public locale(locale: string, lang: T = this.lang) {
     return this.localesData.get(lang)!.get(locale) ?? locale;
   }
 
-  set(lang: T) {
+  public set(lang: T) {
     this.lang = lang;
   }
 
-  get() {
+  public get() {
     return this.lang;
   }
 
-  extends(lang?: T) {
+  public extends(lang?: T) {
     const sonInstance: I18n<T> = Object.create(this);
     if (lang) sonInstance.set(lang);
     return sonInstance;
   }
 
-  date(
+  public date(
     date: Date | number = new Date(),
     style: Intl.DateTimeFormatOptions['dateStyle'] = undefined,
     lang: T = this.lang
@@ -55,7 +55,7 @@ export class I18n<T extends LocaleType = LocaleType> {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { timeStyle: style }).format(date);
   }
 
-  time(
+  public time(
     time: Date | number = new Date(),
     style: Intl.DateTimeFormatOptions['timeStyle'] = undefined,
     lang: T = this.lang
@@ -63,7 +63,7 @@ export class I18n<T extends LocaleType = LocaleType> {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { timeStyle: style }).format(time);
   }
 
-  period(
+  public period(
     time: Date | number = new Date(),
     style: Intl.DateTimeFormatOptions['dayPeriod'] = undefined,
     lang: T = this.lang
@@ -71,15 +71,15 @@ export class I18n<T extends LocaleType = LocaleType> {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { dayPeriod: style }).format(time);
   }
 
-  number(number: number, options?: Intl.NumberFormatOptions, lang: T = this.lang) {
+  public number(number: number, options?: Intl.NumberFormatOptions, lang: T = this.lang) {
     return new Intl.NumberFormat(LocaleIdentifier[lang], options).format(number);
   }
 
-  list(list: Iterable<string>, options?: Intl.ListFormatOptions, lang: T = this.lang) {
+  public list(list: Iterable<string>, options?: Intl.ListFormatOptions, lang: T = this.lang) {
     return new Intl.ListFormat(LocaleIdentifier[lang], options).format(list);
   }
 
-  rtime(
+  public rtime(
     value: number,
     unit: Intl.RelativeTimeFormatUnit,
     options?: Intl.RelativeTimeFormatOptions,
@@ -88,7 +88,7 @@ export class I18n<T extends LocaleType = LocaleType> {
     return new Intl.RelativeTimeFormat(LocaleIdentifier[lang], options).format(value, unit);
   }
 
-  segmenter(input: string, options?: Intl.RelativeTimeFormatOptions, lang: T = this.lang) {
+  public segmenter(input: string, options?: Intl.RelativeTimeFormatOptions, lang: T = this.lang) {
     return new Intl.Segmenter(lang, options).segment(input);
   }
 }

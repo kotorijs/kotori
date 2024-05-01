@@ -4,7 +4,6 @@ import type { Parser } from 'tsukiko';
 import { Context, Symbols } from '../context';
 import Config from './config';
 import Message from './message';
-import Modules from '../context/modules';
 import type { AdapterClass } from '../types';
 import { Cache, type Api } from '../service';
 
@@ -32,11 +31,11 @@ declare module '../context' {
 }
 
 export class Core extends Context {
-  readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]> = new Map();
+  public readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]> = new Map();
 
-  readonly [Symbols.bot]: Map<string, Set<Api>> = new Map();
+  public readonly [Symbols.bot]: Map<string, Set<Api>> = new Map();
 
-  constructor(config?: ConstructorParameters<typeof Config>[0]) {
+  public constructor(config?: ConstructorParameters<typeof Config>[0]) {
     super();
     this.provide('config', new Config(config));
     this.mixin('config', ['config', 'pkg']);

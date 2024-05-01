@@ -9,23 +9,23 @@ interface ServiceImpl<T extends object = object> {
 }
 
 export abstract class Service<T extends object = object> implements ServiceImpl<T> {
-  readonly ctx: Context;
+  public readonly ctx: Context;
 
-  readonly config: T;
+  public readonly config: T;
 
-  readonly identity: string;
+  public readonly identity: string;
 
-  constructor(ctx: Context, config: T, identity: string) {
+  public constructor(ctx: Context, config: T, identity: string) {
     this.ctx = ctx;
     this.config = config;
     this.identity = identity;
   }
 
-  start(): void {
+  public start(): void {
     return none(this);
   }
 
-  stop(): void {
+  public stop(): void {
     return none(this);
   }
 }

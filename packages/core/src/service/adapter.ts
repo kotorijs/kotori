@@ -93,7 +93,7 @@ function formatFactory(i18n: I18n) {
   };
 }
 
-function qucikFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
+function quickFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
   return async (message: MessageQuick) => {
     const msg = await message;
     if (!msg || msg instanceof CommandError) return;
@@ -118,7 +118,7 @@ function isSameSender(adapter: Adapter, data: Parameters<Adapter['session']>[1],
 }
 
 function promptFactory(
-  quick: ReturnType<typeof qucikFactory>,
+  quick: ReturnType<typeof quickFactory>,
   adapter: Adapter,
   data: Parameters<Adapter['session']>[1]
 ) {
@@ -136,7 +136,7 @@ function promptFactory(
 }
 
 function confirmFactory(
-  quick: ReturnType<typeof qucikFactory>,
+  quick: ReturnType<typeof quickFactory>,
   adapter: Adapter,
   data: Parameters<Adapter['session']>[1]
 ) {
@@ -158,7 +158,7 @@ function error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) 
 }
 
 export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
-  constructor(
+  public constructor(
     ctx: Context,
     config: AdapterConfig,
     identity: string,
@@ -175,13 +175,13 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
     this.ctx[Symbols.bot].get(this.platform)!.add(this.api);
   }
 
-  abstract handle(...data: unknown[]): void;
+  public abstract handle(...data: unknown[]): void;
 
-  abstract start(): void;
+  public abstract start(): void;
 
-  abstract stop(): void;
+  public abstract stop(): void;
 
-  abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
+  public abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined;
 
   protected online() {
     if (this.status.value !== 'offline') return;
@@ -203,7 +203,7 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
     const i18n = this.ctx.i18n.extends(this.config.lang);
     const send = sendMessageFactory(this, type, data);
     const format = formatFactory(i18n as I18n);
-    const quick = qucikFactory(send, i18n as I18n);
+    const quick = quickFactory(send, i18n as I18n);
     const prompt = promptFactory(quick, this, data);
     const confirm = confirmFactory(quick, this, data);
     const { api, elements: el } = this;
@@ -215,19 +215,19 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
     );
   }
 
-  readonly ctx: Context;
+  public readonly ctx: Context;
 
-  readonly config: AdapterConfig;
+  public readonly config: AdapterConfig;
 
-  readonly identity: string;
+  public readonly identity: string;
 
-  readonly platform: string;
+  public readonly platform: string;
 
-  readonly api: T;
+  public readonly api: T;
 
-  readonly elements: Elements;
+  public readonly elements: Elements;
 
-  readonly status: AdapterStatus = {
+  public readonly status: AdapterStatus = {
     value: 'offline',
     createTime: new Date(),
     lastMsgTime: null,
