@@ -2,7 +2,7 @@ import Tsu from 'tsukiko';
 import { join } from 'path';
 import { loadConfig } from '@kotori-bot/tools';
 import { CoreConfig } from '../types';
-import { DEFAULT_CORE_CONFIG } from '../consts';
+import { DEFAULT_CORE_CONFIG } from '../constants';
 
 const packageInfoSchema = Tsu.Object({
   name: Tsu.String(),
@@ -14,11 +14,11 @@ const packageInfoSchema = Tsu.Object({
 });
 
 export class Config {
-  readonly config: CoreConfig;
+  public readonly config: CoreConfig;
 
-  readonly pkg: Tsu.infer<typeof packageInfoSchema>;
+  public readonly pkg: Tsu.infer<typeof packageInfoSchema>;
 
-  constructor(config: CoreConfig = DEFAULT_CORE_CONFIG) {
+  public constructor(config: CoreConfig = DEFAULT_CORE_CONFIG) {
     this.config = config;
     /* load package.json */
     const info = loadConfig(join(__dirname, '../../package.json')) as unknown;

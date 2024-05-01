@@ -9,15 +9,15 @@ interface TransportImpl<C extends object> {
 }
 
 export abstract class Transport<C extends object = object> implements TransportImpl<C> {
-  constructor(options: C & { filter?: LoggerFilter }) {
+  public constructor(options: C & { filter?: LoggerFilter }) {
     this.options = options;
   }
 
-  readonly options: C & { filter?: LoggerFilter };
+  public readonly options: C & { filter?: LoggerFilter };
 
-  escaper?: typeof escaper;
+  public escaper?: typeof escaper;
 
-  abstract handle(data: LoggerData): void;
+  public abstract handle(data: LoggerData): void;
 }
 
 export default Transport;

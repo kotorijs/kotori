@@ -8,15 +8,15 @@ export class Container {
 
   private static instance: Context = {} as Context;
 
-  static setInstance(ctx: Context) {
+  public static setInstance(ctx: Context) {
     this.instance = ctx;
   }
 
-  static getInstance() {
+  public static getInstance() {
     return this.instance;
   }
 
-  static getMixin(): Context {
+  public static getMixin(): Context {
     return Object.assign(Container.getInstance() /* , Context */);
   }
 }

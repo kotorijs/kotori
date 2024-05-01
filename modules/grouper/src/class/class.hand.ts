@@ -1,5 +1,5 @@
 class Hand {
-  static start(hand: Hand) {
+  public static start(hand: Hand) {
     const hands: Hand[] = ['石头', '剪刀', '布'];
     const computerHand = hands[Math.floor(Math.random() * 3)];
 

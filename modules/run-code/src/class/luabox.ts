@@ -3,7 +3,7 @@ import { createEnv } from 'lua-in-js';
 import JsBox from './jsbox';
 
 class LuaBox extends JsBox {
-  async run() {
+  public async run() {
     const backupLog = console.log;
     try {
       const timer = setTimeout(() => {

@@ -4,7 +4,7 @@ import Transport from '../utils/transport';
 import { LoggerData, LoggerLevel } from '../types/common';
 
 export class IOTransport extends Transport<{ method: 'process' | 'vanilla' }> {
-  handle(data: LoggerData) {
+  public handle(data: LoggerData) {
     if (this.options.method === 'vanilla') {
       if (data.level === LoggerLevel.FATAL || data.level === LoggerLevel.ERROR) {
         console.error(data);

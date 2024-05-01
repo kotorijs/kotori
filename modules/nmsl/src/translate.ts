@@ -5,13 +5,13 @@ interface EmoticonMap {
 }
 
 export class Translate {
-  result = '';
+  public result = '';
 
-  score = 0;
+  public score = 0;
 
   private emoticons: EmoticonMap;
 
-  constructor(text: string, emoticons: EmoticonMap = nmsl) {
+  public constructor(text: string, emoticons: EmoticonMap = nmsl) {
     this.emoticons = emoticons;
     this.convert(text);
   }

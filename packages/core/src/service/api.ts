@@ -29,53 +29,53 @@ interface ApiImpl {
 }
 
 export abstract class Api implements ApiImpl {
-  readonly adapter: Adapter<this>;
+  public readonly adapter: Adapter<this>;
 
-  constructor(adapter: Adapter) {
+  public constructor(adapter: Adapter) {
     this.adapter = adapter as Adapter<this>;
   }
 
-  sendPrivateMsg(message: MessageRaw, userId: EventDataTargetId, ...extra: unknown[]) {
+  public sendPrivateMsg(message: MessageRaw, userId: EventDataTargetId, ...extra: unknown[]) {
     none(this, message, userId, extra);
   }
 
-  sendGroupMsg(message: MessageRaw, groupId: EventDataTargetId, ...extra: unknown[]) {
+  public sendGroupMsg(message: MessageRaw, groupId: EventDataTargetId, ...extra: unknown[]) {
     none(this, message, groupId, extra, extra);
   }
 
-  deleteMsg(messageId: EventDataTargetId, ...extra: unknown[]) {
+  public deleteMsg(messageId: EventDataTargetId, ...extra: unknown[]) {
     none(this, messageId, extra);
   }
 
-  setGroupName(groupId: EventDataTargetId, groupName: string, ...extra: unknown[]) {
+  public setGroupName(groupId: EventDataTargetId, groupName: string, ...extra: unknown[]) {
     none(this, groupId, groupName, extra);
   }
 
-  setGroupAvatar(groupId: EventDataTargetId, image: string, ...extra: unknown[]) {
+  public setGroupAvatar(groupId: EventDataTargetId, image: string, ...extra: unknown[]) {
     none(this, groupId, image, extra);
   }
 
-  setGroupAdmin(groupId: EventDataTargetId, userId: EventDataTargetId, enable: boolean, ...extra: unknown[]) {
+  public setGroupAdmin(groupId: EventDataTargetId, userId: EventDataTargetId, enable: boolean, ...extra: unknown[]) {
     none(this, groupId, userId, enable, extra);
   }
 
-  setGroupCard(groupId: EventDataTargetId, userId: EventDataTargetId, card: string, ...extra: unknown[]) {
+  public setGroupCard(groupId: EventDataTargetId, userId: EventDataTargetId, card: string, ...extra: unknown[]) {
     none(this, groupId, userId, card, extra);
   }
 
-  setGroupBan(groupId: EventDataTargetId, userId?: EventDataTargetId, time?: number, ...extra: unknown[]) {
+  public setGroupBan(groupId: EventDataTargetId, userId?: EventDataTargetId, time?: number, ...extra: unknown[]) {
     none(this, groupId, userId, time, extra);
   }
 
-  sendGroupNotice(groupId: EventDataTargetId, content: string, image?: string, ...extra: unknown[]) {
+  public sendGroupNotice(groupId: EventDataTargetId, content: string, image?: string, ...extra: unknown[]) {
     none(this, groupId, content, image, extra);
   }
 
-  setGroupKick(groupId: EventDataTargetId, userId: EventDataTargetId, ...extra: unknown[]) {
+  public setGroupKick(groupId: EventDataTargetId, userId: EventDataTargetId, ...extra: unknown[]) {
     none(this, groupId, userId, extra);
   }
 
-  setGroupLeave(groupId: EventDataTargetId, ...extra: unknown[]) {
+  public setGroupLeave(groupId: EventDataTargetId, ...extra: unknown[]) {
     none(this, groupId, groupId, extra);
   }
 }

@@ -22,15 +22,15 @@ type SandboxConfig = Tsu.infer<typeof config> & AdapterConfig;
 export class SandboxAdapter extends Adapter {
   private readonly address: string;
 
-  readonly config: SandboxConfig;
+  public readonly config: SandboxConfig;
 
-  constructor(ctx: Context, config: SandboxConfig, identity: string) {
+  public constructor(ctx: Context, config: SandboxConfig, identity: string) {
     super(ctx, config, identity, SandboxApi, new SandboxElements());
     this.config = config;
     this.address = `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}`;
   }
 
-  handle(data: Record<string, unknown>) {
+  public handle(data: Record<string, unknown>) {
     if ('selfId' in data) {
       this.selfId = data.selfId as string;
       return;
@@ -39,7 +39,7 @@ export class SandboxAdapter extends Adapter {
     (this.session as (type: string, d: typeof data) => void)(data.event as string, data);
   }
 
-  start() {
+  public start() {
     this.ctx.emit('connect', {
       type: 'connect',
       mode: 'ws-reverse',
@@ -50,7 +50,7 @@ export class SandboxAdapter extends Adapter {
     this.connectWss();
   }
 
-  stop() {
+  public stop() {
     this.ctx.emit('connect', {
       type: 'disconnect',
       adapter: this,
@@ -62,7 +62,7 @@ export class SandboxAdapter extends Adapter {
     this.offline();
   }
 
-  send(action: string, params?: object) {
+  public send(action: string, params?: object) {
     this.socket?.send(JSON.stringify({ action, params }));
   }
 

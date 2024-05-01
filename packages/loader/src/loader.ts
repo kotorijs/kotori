@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-24 19:11:35
+ * @LastEditTime: 2024-05-01 22:06:58
  */
 import {
   KotoriError,
@@ -52,7 +52,7 @@ declare module '@kotori-bot/core' {
 
 const enum GLOBAL {
   REPO = 'https://github.com/kotorijs/kotori',
-  UPDATE = 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/kotori/package.json'
+  UPDATE = 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/core/package.json'
 }
 
 function getRunnerConfig(file: string, dir?: string) {

@@ -46,7 +46,7 @@ export type PayloadList = {
   [K in keyof EventDataList]: Payload<K>;
 };
 
-export type PlayloadData = PayloadList[keyof PayloadList];
+export type PayloadData = PayloadList[keyof PayloadList];
 
 /* Object */
 

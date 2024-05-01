@@ -8,7 +8,7 @@
 import { Api, MessageRaw } from 'kotori-bot';
 
 export class OnebotApi extends Api {
-  sendPrivateMsg(message: MessageRaw, userId: number): void {
+  public sendPrivateMsg(message: MessageRaw, userId: number): void {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
@@ -20,7 +20,7 @@ export class OnebotApi extends Api {
    * @param {groupId} groupId 群号
    * @return {void}
    */
-  sendGroupMsg(message: MessageRaw, groupId: number): void {
+  public sendGroupMsg(message: MessageRaw, groupId: number): void {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
@@ -31,7 +31,7 @@ export class OnebotApi extends Api {
    * @param {number} messageId 消息id
    * @return {void}
    */
-  deleteMsg(messageId: number): void {
+  public deleteMsg(messageId: number): void {
     this.adapter.send('delete_msg', { messageId });
   }
 
@@ -41,7 +41,7 @@ export class OnebotApi extends Api {
    * @param {string} groupName 新群名
    * @return {void}
    */
-  setGroupName(groupId: number, groupName: string): void {
+  public setGroupName(groupId: number, groupName: string): void {
     this.adapter.send('set_group_name', { group_id: groupId, group_name: groupName });
   }
 
@@ -51,7 +51,7 @@ export class OnebotApi extends Api {
    * @param {string} image 图片路径
    * @return {void}
    */
-  setGroupAvatar(groupId: number, image: string): void {
+  public setGroupAvatar(groupId: number, image: string): void {
     this.adapter.send('set_group_portrait', { group_id: groupId, file: image, cache: false });
   }
 
@@ -62,7 +62,7 @@ export class OnebotApi extends Api {
    * @param {boolean} enable true为设置,false取消,默认true
    * @return {void}
    */
-  setGroupAdmin(groupId: number, userId: number, enable: boolean = true): void {
+  public setGroupAdmin(groupId: number, userId: number, enable: boolean = true): void {
     this.adapter.send('set_group_admin', { group_id: groupId, user_id: userId, enable });
   }
 
@@ -73,7 +73,7 @@ export class OnebotApi extends Api {
    * @param {string} card 群名片内容,不填或空字符串表示删除群名片
    * @return {void}
    */
-  setGroupCard(groupId: number, userId: number, card: string): void {
+  public setGroupCard(groupId: number, userId: number, card: string): void {
     this.adapter.send('set_group_card', { group_id: groupId, user_id: userId, card });
   }
 
@@ -84,7 +84,7 @@ export class OnebotApi extends Api {
    * @param {number} time 禁言时长,单位秒,0表示取消禁言
    * @return {void}
    */
-  setGroupBan(groupId: number, userId?: number, time: number = 0): void {
+  public setGroupBan(groupId: number, userId?: number, time: number = 0): void {
     if (userId) {
       this.adapter.send('setGroupBan', { group_id: groupId, user_id: userId, duration: time });
     } else {
@@ -99,7 +99,7 @@ export class OnebotApi extends Api {
    * @param {string} image 图片路径(可选)
    * @return {void}
    */
-  sendGroupNotice(groupId: number, content: string, image?: string): void {
+  public sendGroupNotice(groupId: number, content: string, image?: string): void {
     this.adapter.send('_sendGroupNotice', { group_id: groupId, content, image });
   }
 
@@ -109,7 +109,7 @@ export class OnebotApi extends Api {
    * @param {number} userId 要踢的QQ号
    * @return {void}
    */
-  setGroupKick(groupId: number, userId: number): void {
+  public setGroupKick(groupId: number, userId: number): void {
     this.adapter.send('setGroupKick', { group_id: groupId, user_id: userId, reject_add_request: false });
   }
 
@@ -118,7 +118,7 @@ export class OnebotApi extends Api {
    * @param {number} groupId 群号
    * @return {void}
    */
-  setGroupLeave(groupId: number): void {
+  public setGroupLeave(groupId: number): void {
     this.adapter.send('setGroupLeave', { group_id: groupId, is_dismiss: false });
   }
 

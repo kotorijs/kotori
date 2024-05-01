@@ -8,7 +8,7 @@
 import { Api, MessageRaw } from 'kotori-bot';
 
 export class SandboxApi extends Api {
-  sendPrivateMsg(message: MessageRaw, userId: number) {
+  public sendPrivateMsg(message: MessageRaw, userId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_private_msg', { userId, message });
@@ -20,7 +20,7 @@ export class SandboxApi extends Api {
    * @param {groupId} groupId 群号
    * @return {void}
    */
-  sendGroupMsg(message: MessageRaw, groupId: number) {
+  public sendGroupMsg(message: MessageRaw, groupId: number) {
     this.adapter.status.lastMsgTime = new Date();
     this.adapter.status.sentMsg += 1;
     this.adapter.send('send_group_msg', { groupId, message });

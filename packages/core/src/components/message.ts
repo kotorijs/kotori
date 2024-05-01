@@ -16,11 +16,11 @@ interface RegexpData {
 }
 
 export class Message {
-  readonly [Symbols.midware]: Set<MidwareData> = new Set();
+  public readonly [Symbols.midware]: Set<MidwareData> = new Set();
 
-  readonly [Symbols.command]: Set<Command> = new Set();
+  public readonly [Symbols.command]: Set<Command> = new Set();
 
-  readonly [Symbols.regexp]: Set<RegexpData> = new Set();
+  public readonly [Symbols.regexp]: Set<RegexpData> = new Set();
 
   private handleMidware(session: SessionData) {
     const { api } = session;
@@ -102,7 +102,7 @@ export class Message {
 
   private readonly ctx: Context;
 
-  constructor(ctx: Context) {
+  public constructor(ctx: Context) {
     this.ctx = ctx;
     this.ctx.on('on_message', (session) => this.handleMidware(session));
     this.ctx.on('midwares', (data) => this.handleCommand(data));
@@ -113,7 +113,7 @@ export class Message {
     });
   }
 
-  midware(callback: MidwareCallback, priority: number = 100) {
+  public midware(callback: MidwareCallback, priority: number = 100) {
     const data = { callback, priority };
     this[Symbols.midware].add(data);
     const dispose = () => this[Symbols.midware].delete(data);
@@ -121,7 +121,7 @@ export class Message {
     return dispose;
   }
 
-  command(template: string, config?: CommandConfig) {
+  public command(template: string, config?: CommandConfig) {
     const command = new Command(template, config);
     this[Symbols.command].add(command);
     const dispose = () => this[Symbols.command].delete(command);
@@ -129,7 +129,7 @@ export class Message {
     return command;
   }
 
-  regexp(match: RegExp, callback: RegexpCallback) {
+  public regexp(match: RegExp, callback: RegexpCallback) {
     const data = { match, callback };
     this[Symbols.regexp].add(data);
     const dispose = () => this[Symbols.regexp].delete(data);
@@ -144,7 +144,6 @@ export class Message {
   //       : (api: Api) => api.send_on_message(message, 1);
   //   /* this need support of database... */
   //   Object.values(this.botStack).forEach((apis) => {
-  //     /* feating... */
   //     apis.forEach((api) => send(api));
   //   });
   // }

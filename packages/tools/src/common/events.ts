@@ -14,14 +14,17 @@ type EventsCallback = (...args: any) => unknown;
 // type EventsBeforeKeys<T> = T extends `before_${infer U}` ? U : never;
 
 export class Events<A = EventsList> {
-  private list: Map<keyof EventsMappingType<A>, Set<EventsMappingType<A>[keyof EventsMappingType<A>]>> = new Map();
+  protected list: Map<keyof EventsMappingType<A>, Set<EventsMappingType<A>[keyof EventsMappingType<A>]>> = new Map();
 
-  emit<T extends keyof EventsMappingType<A>>(type: T, ...data: [...Parameters<EventsMappingType<A>[T]>]) {
+  public emit<T extends keyof EventsMappingType<A>>(type: T, ...data: [...Parameters<EventsMappingType<A>[T]>]) {
     if (!this.list.has(type)) return;
     this.list.get(type)!.forEach((callback) => callback(...data));
   }
 
-  async parallel<T extends keyof EventsMappingType<A>>(type: T, ...data: [...Parameters<EventsMappingType<A>[T]>]) {
+  public async parallel<T extends keyof EventsMappingType<A>>(
+    type: T,
+    ...data: [...Parameters<EventsMappingType<A>[T]>]
+  ) {
     if (!this.list.has(type)) return;
     const tasks: Promise<unknown>[] = [];
     this.list.get(type)!.forEach((callback) =>
@@ -34,12 +37,12 @@ export class Events<A = EventsList> {
     await Promise.all(tasks);
   }
 
-  on<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
+  public on<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
     if (!this.list.has(type)) this.list.set(type, new Set());
     this.list.get(type)!.add(callback);
   }
 
-  once<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
+  public once<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
     const fallback = ((...data: [...Parameters<EventsMappingType<A>[T]>]) => {
       this.off(type, fallback);
       return callback(...data);
@@ -51,12 +54,12 @@ export class Events<A = EventsList> {
     this.on(`before_${type}` as Parameters<typeof this.on>[0], callback as Parameters<typeof this.on>[1]);
   } */
 
-  off<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
+  public off<T extends keyof EventsMappingType<A>>(type: T, callback: EventsMappingType<A>[T]) {
     if (!this.list.has(type)) return;
     this.list.get(type)!.delete(callback);
   }
 
-  offAll<T extends keyof EventsMappingType<A>>(type: T) {
+  public offAll<T extends keyof EventsMappingType<A>>(type: T) {
     if (!this.list.has(type)) return;
     this.list.delete(type);
   }

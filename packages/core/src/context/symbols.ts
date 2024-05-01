@@ -1,24 +1,24 @@
 export class Symbols {
-  static readonly container = Symbol.for('kotori.context.container');
+  public static readonly container = Symbol.for('kotori.context.container');
 
-  static readonly table = Symbol.for('kotori.context.table');
+  public static readonly table = Symbol.for('kotori.context.table');
 
-  static readonly containerKey = (prop: string) => Symbol.for(`kotori.context.container.${prop}`);
+  public static readonly containerKey = (prop: string) => Symbol.for(`kotori.context.container.${prop}`);
 
   /* custom */
   // static readonly service = Symbol.for('kotori.core.service');
 
-  static readonly adapter = Symbol.for('kotori.core.adapter');
+  public static readonly adapter = Symbol.for('kotori.core.adapter');
 
-  static readonly bot = Symbol.for('kotori.core.bot');
+  public static readonly bot = Symbol.for('kotori.core.bot');
 
-  static readonly midware = Symbol.for('kotori.core.midware');
+  public static readonly midware = Symbol.for('kotori.core.midware');
 
-  static readonly command = Symbol.for('kotori.core.command');
+  public static readonly command = Symbol.for('kotori.core.command');
 
-  static readonly regexp = Symbol.for('kotori.core.regexp');
+  public static readonly regexp = Symbol.for('kotori.core.regexp');
 
-  static readonly modules = Symbol.for('kotori.loader.module');
+  public static readonly modules = Symbol.for('kotori.loader.module');
 }
 
 export default Symbols;

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-21 10:38:39
+ * @LastEditTime: 2024-05-01 21:32:19
  */
 import { Events } from '@kotori-bot/tools';
 import Symbols from './symbols';
@@ -46,14 +46,18 @@ const handler = <T>(value: T, ctx: Context): T => {
   });
 };
 
+const DEFAULT_EXTENDS_NAME = 'sub';
+
 export class Context implements ContextImpl {
-  readonly [Symbols.container]: Map<string, obj> = new Map();
+  public readonly [Symbols.container]: Map<string, obj> = new Map();
 
-  readonly [Symbols.table]: Map<string, string[]> = new Map();
+  public readonly [Symbols.table]: Map<string, string[]> = new Map();
 
-  root: Context;
+  public root: Context;
 
-  constructor(root?: Context) {
+  public parent: Context | null = null;
+
+  public constructor(root?: Context) {
     this.root = root || this;
     this.provide('events', root ? root.get('events')! : new Events<EventsMapping>());
     this.mixin('events', ['emit', 'on', 'once', 'off', 'offAll']);
@@ -61,21 +65,21 @@ export class Context implements ContextImpl {
     this.mixin('modules', ['load', 'unload', 'service']);
   }
 
-  get<T = obj | undefined>(prop: string) {
+  public get<T = obj | undefined>(prop: string) {
     return this[Symbols.container].get(prop) as T;
   }
 
-  inject<T extends Keys>(prop: T) {
+  public inject<T extends Keys>(prop: T) {
     if (this[prop] && !this[Symbols.container].has(prop)) return;
     this[prop] = this.get(prop) as (typeof this)[T];
   }
 
-  provide<T extends obj>(prop: string, value: T) {
+  public provide<T extends obj>(prop: string, value: T) {
     if (this[Symbols.container].has(prop)) return;
     this[Symbols.container].set(prop, value);
   }
 
-  mixin<K extends Keys>(prop: string, keys: K[]) {
+  public mixin<K extends Keys>(prop: string, keys: K[]) {
     this[Symbols.table].set(prop, keys);
     const instance = this.get(prop);
     if (!instance) return;
@@ -89,7 +93,7 @@ export class Context implements ContextImpl {
     });
   }
 
-  extends<T extends obj = object>(meta?: T, identity?: string) {
+  public extends<T extends obj = object>(meta?: T, identity?: string) {
     const metaHandle = meta ?? ({} as T);
     /* clear function */
     Object.keys(metaHandle).forEach((key) => {
@@ -98,7 +102,8 @@ export class Context implements ContextImpl {
     /* set proxy */
     const ctx: Context = new Proxy(new Context(this.root), {
       get: <T extends Context>(target: T, prop: keyof T) => {
-        if (prop === 'identity') return identity ?? this.identity ?? 'sub';
+        if (prop === 'identity') return identity ?? this.identity ?? DEFAULT_EXTENDS_NAME;
+        if (prop === 'parent') return this;
         if (target[prop]) return handler(target[prop], ctx);
         let value: unknown;
         this[Symbols.table].forEach((keys, key) => {
