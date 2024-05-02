@@ -57,6 +57,15 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
 
+  modules/adapter-minecraft:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+      mcwss:
+        specifier: ^2.1.1
+        version: 2.1.1
+
   modules/adapter-onebot:
     dependencies:
       '@types/ws':
@@ -467,6 +476,28 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
+
+  /@kotori-bot/i18n@1.2.1:
+    resolution: {integrity: sha512-wyeLAFcbc4fXhXU1/yc4WyMPfDd+0I5NSSBBZslG9hF5P8SmykXRoSzZMLna4pNwl3xzzaLoQAjayEF+/CgQtQ==}
+    dev: false
+
+  /@kotori-bot/logger@1.2.0:
+    resolution: {integrity: sha512-Jio/EtC5FyNtSuCu1MsmX6IGgmJI4KxgVR22jwNKblJ6mk3+UxxZ9mpsbDsSKrNBJpEKBMteSZ1sC8w2Gk+WtA==}
+    dependencies:
+      colorette: 2.0.20
+      dayjs: 1.11.10
+      fast-safe-stringify: 2.1.1
+    dev: false
+
+  /@kotori-bot/tools@1.2.1:
+    resolution: {integrity: sha512-OkDPmFDIuyAkGlO2h6KWQ/vDXs3tRqxUXXwP8v20CAoW10mVkKMULjru7j4ilhLwYT3KJYctycH7jJ8p33+U9Q==}
+    dependencies:
+      axios: 1.6.1
+      node-fetch: 3.3.2
+      yaml: 2.3.3
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /@ljharb/through@2.3.11:
     resolution: {integrity: sha512-ccfcIDlogiXNq5KcbAwbaO7lMh3Tm1i3khMPYpxlK8hH/W53zN81KM9coerRLOnTGu3nfXIniAmQbRI9OxbC0w==}
@@ -2673,6 +2704,22 @@ packages:
     requiresBuild: true
     dev: true
 
+  /mcwss@2.1.1:
+    resolution: {integrity: sha512-ro9Xk6lfsXIVYJW/mlYTeyA1gk/5zFfoCFrVpgZNlXX/4VMx8fY5y7lkDInIsJRu/M/pgBWgsRDOWx+OJGVwFg==}
+    hasBin: true
+    dependencies:
+      '@kotori-bot/i18n': 1.2.1
+      '@kotori-bot/logger': 1.2.0
+      '@kotori-bot/tools': 1.2.1
+      cac: 6.7.14
+      tsukiko: 1.2.2
+      ws: 8.16.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
+    dev: false
+
   /media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
@@ -3588,6 +3635,12 @@ packages:
 
   /tsukiko@1.2.1:
     resolution: {integrity: sha512-q6d9OV+sPl0x0eqSamBJcynzcAqCVtULQX299XMlTzC8wK05Df5Gat1ylIyss7Gv7zVq3PEVyhnx1OuKoTEl1w==}
+    dev: false
+
+  /tsukiko@1.2.2:
+    resolution: {integrity: sha512-o6ye/ZrjwEAqNuCwlhzdWKfBPjfu7zcu6RmaFyFcNxdAtks6k7IOCTAtO5AvL3ggcO0quk/A3MYtPVHRvuFtHQ==}
+    dependencies:
+      '@kotori-bot/i18n': 1.2.1
     dev: false
 
   /type-check@0.4.0:
