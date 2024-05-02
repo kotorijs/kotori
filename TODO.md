@@ -8,7 +8,7 @@
 - [ ] @kotori-bot/kotori-plugin-adapter-mail
 - [ ] @kotori-bot/kotori-plugin-adapter-telegram
 - [ ] @kotori-bot/kotori-plugin-adapter-discord
-- [ ] kotori-plugin-adapter-minecraft
+- [x] kotori-plugin-adapter-minecraft
 - [x] kotori-plugin-requester
 - [x] kotori-plugin-grouper
 - [x] kotori-plugin-manger

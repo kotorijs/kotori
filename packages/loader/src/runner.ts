@@ -17,7 +17,7 @@ import {
   stringRightSplit
 } from '@kotori-bot/core';
 import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger';
-import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './consts';
+import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './constants';
 import KotoriLogger from './utils/logger';
 
 interface BaseDir {

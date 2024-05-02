@@ -25,7 +25,7 @@ import fs from 'fs';
 import Logger from '@kotori-bot/logger';
 import Runner, { localeTypeSchema } from './runner';
 import loadInfo from './log';
-import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './consts';
+import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './constants';
 import Server from './service/server';
 import type Database from './service/database';
 import File from './service/file';
