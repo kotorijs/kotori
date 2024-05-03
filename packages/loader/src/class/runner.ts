@@ -34,6 +34,7 @@ interface Options {
 interface RunnerConfig {
   baseDir: BaseDir;
   options: Options;
+  log: number;
 }
 
 interface ModulePackage {
@@ -121,7 +122,7 @@ export class Runner {
     this.isDev = this.options.mode.startsWith(DEV_MODE);
     this.isSourceDev = this.options.mode === DEV_SOURCE_MODE;
     const loggerOptions = {
-      level: this.isDev ? LoggerLevel.TRACE : LoggerLevel.INFO,
+      level: config.log,
       label: [],
       transports: [
         new ConsoleTransport(),
@@ -158,6 +159,7 @@ export class Runner {
   }
 
   private getModuleList(rootDir: string) {
+    this.ctx.logger.trace('load dirs:', rootDir);
     fs.readdirSync(rootDir).forEach(async (fileName) => {
       const dir = path.join(rootDir, fileName);
       if (!fs.statSync(dir).isDirectory()) return;
@@ -188,7 +190,19 @@ export class Runner {
     });
   }
 
+  private loadLang(lang?: string | string[]) {
+    if (lang) this.ctx.i18n.use(resolve(...(Array.isArray(lang) ? lang : [lang])));
+  }
+
   private loadEx(instance: ModuleMeta, origin: ModuleConfig) {
+    this.ctx.logger.trace('module:', instance, origin);
+
+    const parsed = (schema: Parser<unknown>) => {
+      const result = (obj.config as Parser<ModuleConfig>).parseSafe(config);
+      if (!result.value) throw new ModuleError(`Config format of module ${pkg.name} is error: ${result.error.message}`);
+      return result.data;
+    };
+
     const { main, pkg } = instance;
     /* eslint-disable-next-line import/no-dynamic-require, global-require, @typescript-eslint/no-var-requires */
     let obj = require(main);
@@ -199,16 +213,23 @@ export class Runner {
       adapterName &&
       (!obj.config || obj.config instanceof Parser)
     ) {
+      /* Adapter Class */
       this.ctx[Symbols.adapter].set(adapterName, [obj.default, obj.config]);
       obj = {};
     } else if (Service.isPrototypeOf.call(Service, obj.default)) {
+      /* Service Class */
       obj = {};
     } else if (obj.config instanceof Parser) {
-      const result = (obj.config as Parser<ModuleConfig>).parseSafe(config);
-      if (!result.value) throw new ModuleError(`Config format of module ${pkg.name} is error: ${result.error.message}`);
-      config = result.data;
+      config = parsed(obj.config);
     }
-    if (obj.lang) this.ctx.i18n.use(resolve(...(Array.isArray(obj.lang) ? obj.lang : [obj.lang])));
+    if (obj.lang) this.loadLang(obj.lang);
+    if (obj.default) {
+      if (obj.default.lang) this.loadLang(obj.default.lang);
+      if (obj.default.config instanceof Parser) config = parsed(obj.default.config);
+    } else if (obj.Main) {
+      if (obj.Main.lang) this.loadLang(obj.Main.lang);
+      if (obj.Main.config instanceof Parser) config = parsed(obj.Main.config);
+    }
     this.ctx.load({ name: pkg.name, ...obj, config: config });
   }
 

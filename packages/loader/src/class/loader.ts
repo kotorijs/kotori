@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-03 13:35:00
+ * @LastEditTime: 2024-05-03 17:36:22
  */
 import {
   KotoriError,
@@ -22,7 +22,7 @@ import {
 } from '@kotori-bot/core';
 import path from 'path';
 import fs from 'fs';
-import Logger from '@kotori-bot/logger';
+import Logger, { LoggerLevel } from '@kotori-bot/logger';
 import Runner, { localeTypeSchema } from './runner';
 import loadInfo from '../utils/log';
 import {
@@ -133,18 +133,26 @@ export class Loader extends Container {
 
   private loadCount: number = 0;
 
-  public constructor(options?: { dir?: string; mode?: string }) {
+  public constructor(options?: { dir?: string; mode?: string; log?: number }) {
     super();
     const file = options && options.mode?.startsWith(DEV_MODE) ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
     const runnerConfig = {
       baseDir: getBaseDir(file, options?.dir),
-      options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE }
+      options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE },
+      log: options?.log || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.INFO
     };
     const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
     ctx.provide('runner', new Runner(ctx, runnerConfig));
     ctx.mixin('runner', ['baseDir', 'options']);
     Container.setInstance(ctx);
     this.ctx = Container.getInstance();
+    this.ctx.logger.trace(`options:`, options);
+    this.ctx.logger.trace(`runnerConfig:`, runnerConfig);
+    this.ctx.logger.trace(`baseDir:`, this.ctx.baseDir);
+    this.ctx.logger.trace(`options:`, this.ctx.options);
+    this.ctx.logger.trace(`config:`, this.ctx.config);
+    this.ctx.logger.trace(`where:`, __dirname, __filename);
+    this.ctx.logger.trace(`running:`, process.cwd());
   }
 
   public run() {

@@ -1,4 +1,3 @@
-import { none } from '@kotori-bot/tools';
 import { Context } from './context';
 
 interface ServiceImpl<T extends object = object> {
@@ -21,13 +20,9 @@ export abstract class Service<T extends object = object> implements ServiceImpl<
     this.identity = identity;
   }
 
-  public start(): void {
-    return none(this);
-  }
+  public start(): void {}
 
-  public stop(): void {
-    return none(this);
-  }
+  public stop(): void {}
 }
 
 export default Service;
