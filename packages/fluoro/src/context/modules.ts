@@ -68,6 +68,15 @@ export class Modules {
       {},
       !this.ctx.identity && typeof instance === 'object' ? instance.name : this.ctx.identity
     );
+
+    const injected = (arr: string[]) =>
+      arr.forEach((identity) => {
+        ctx[Tokens.container].forEach((service, name) => {
+          if (!(service instanceof Service) || service.identity !== identity) return;
+          ctx.inject(name as Exclude<keyof Context, Tokens | number>);
+        });
+      });
+
     if (instance instanceof Function) {
       if (isClass(instance)) handleConstructor(instance, ctx, DEFAULT_MODULE_CONFIG);
       else handleFunction(instance as ModuleInstanceFunction, ctx, DEFAULT_MODULE_CONFIG);
@@ -75,18 +84,18 @@ export class Modules {
       return;
     }
     const { main, Main, inject, default: defaults, config } = instance;
-    inject?.forEach((identity) => {
-      ctx[Tokens.container].forEach((service, name) => {
-        if (!(service instanceof Service) || service.identity !== identity) return;
-        ctx.inject(name as Exclude<keyof Context, Tokens | number>);
-      });
-    });
-    if (defaults) {
-      if (isClass(defaults)) handleConstructor(defaults, ctx, config ?? DEFAULT_MODULE_CONFIG);
-      else handleFunction(defaults as ModuleInstanceFunction, ctx, config ?? DEFAULT_MODULE_CONFIG);
+    if (inject) injected(inject);
+    if (defaults && isClass(defaults)) {
+      const { inject: inject1 } = defaults as { inject?: string[] };
+      if (inject1) injected(inject1);
+      handleConstructor(defaults, ctx, config ?? DEFAULT_MODULE_CONFIG);
+    } else if (defaults && !isClass(defaults)) {
+      handleFunction(defaults as ModuleInstanceFunction, ctx, config ?? DEFAULT_MODULE_CONFIG);
     } else if (main) {
       handleFunction(main, ctx, config ?? DEFAULT_MODULE_CONFIG);
     } else if (Main) {
+      const { inject: inject1 } = Main as { inject?: string[] };
+      if (inject1) injected(inject1);
       handleConstructor(Main, ctx, config ?? DEFAULT_MODULE_CONFIG);
     }
     this.ctx.emit('ready_module', { instance });

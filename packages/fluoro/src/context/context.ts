@@ -3,11 +3,10 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-01 21:32:19
+ * @LastEditTime: 2024-05-03 17:25:02
  */
-import { Events } from '@kotori-bot/tools';
 import Tokens from './tokens';
-import { EventsMapping } from './events';
+import { Events, EventsMapping } from './events';
 import Modules from './modules';
 
 interface obj {

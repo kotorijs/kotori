@@ -29,8 +29,5 @@
     "type": "git",
     "url": "git+https://github.com/kotorijs/kotori.git"
   },
-  "homepage": "https://kotori.js.org",
-  "dependencies": {
-    "@kotori-bot/tools": "workspace:^"
-  }
+  "homepage": "https://kotori.js.org"
 }
