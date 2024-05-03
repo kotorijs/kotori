@@ -1,11 +1,11 @@
 import Tsu, { TsuError } from 'tsukiko';
 import type I18n from '@kotori-bot/i18n';
-import type { EventsList } from '../context';
+import type { EventsList } from 'fluoro';
 import type CommandError from '../utils/commandError';
 import type { Api, Elements } from '../service';
 import { Command } from '../utils/command';
 
-declare module '../context/events' {
+declare module 'fluoro' {
   interface EventsMapping {
     midwares(data: EventDataMidwares): void;
     before_parse(data: EventDataBeforeParse): void;

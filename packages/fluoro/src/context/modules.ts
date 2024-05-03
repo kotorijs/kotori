@@ -2,7 +2,7 @@
 /* eslint global-require: 0 */
 import { isClass, none } from '@kotori-bot/tools';
 import { type Context } from './context';
-import { Symbols } from './symbols';
+import { Tokens } from './tokens';
 import { Service } from './service';
 
 type ModuleInstanceClass = new (ctx: Context, config: ModuleConfig) => void;
@@ -75,14 +75,12 @@ export class Modules {
       return;
     }
     const { main, Main, inject, default: defaults, config } = instance;
-    if (Array.isArray(inject)) {
-      inject.forEach((identity) => {
-        ctx[Symbols.container].forEach((service, name) => {
-          if (!(service instanceof Service) || service.identity !== identity) return;
-          ctx.inject(name as Exclude<keyof Context, Symbols | number>);
-        });
+    inject?.forEach((identity) => {
+      ctx[Tokens.container].forEach((service, name) => {
+        if (!(service instanceof Service) || service.identity !== identity) return;
+        ctx.inject(name as Exclude<keyof Context, Tokens | number>);
       });
-    }
+    });
     if (defaults) {
       if (isClass(defaults)) handleConstructor(defaults, ctx, config ?? DEFAULT_MODULE_CONFIG);
       else handleFunction(defaults as ModuleInstanceFunction, ctx, config ?? DEFAULT_MODULE_CONFIG);

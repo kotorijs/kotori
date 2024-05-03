@@ -278,12 +278,21 @@ importers:
       '@types/minimist':
         specifier: ^1.2.5
         version: 1.2.5
+      fluoro:
+        specifier: workspace:^
+        version: link:../fluoro
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
       tsukiko:
         specifier: ^1.2.1
         version: 1.2.1
+
+  packages/fluoro:
+    dependencies:
+      '@kotori-bot/tools':
+        specifier: workspace:^
+        version: link:../tools
 
   packages/i18n: {}
 
@@ -317,6 +326,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      fluoro:
+        specifier: workspace:^
+        version: link:../fluoro
       knex:
         specifier: ^3.1.0
         version: 3.1.0

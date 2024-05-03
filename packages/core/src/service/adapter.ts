@@ -1,7 +1,7 @@
 import I18n from '@kotori-bot/i18n';
 import { stringTemp } from '@kotori-bot/tools';
 import type Api from './api';
-import { Context, EventsList, EventsMapping, Symbols } from '../context';
+import { Context, EventsList, EventsMapping } from 'fluoro';
 import {
   EventDataApiBase,
   EventDataTargetId,
@@ -16,6 +16,7 @@ import {
 import Elements from './elements';
 import { cancelFactory } from '../utils/factory';
 import CommandError from '../utils/commandError';
+import { Symbols } from '../global';
 
 type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never;

@@ -1,13 +1,14 @@
 import { Http } from '@kotori-bot/tools';
 import I18n from '@kotori-bot/i18n';
 import type { Parser } from 'tsukiko';
-import { Context, Symbols } from '../context';
+import { Context } from 'fluoro';
 import Config from './config';
 import Message from './message';
 import type { AdapterClass } from '../types';
 import { Cache, type Api } from '../service';
+import { Symbols } from '../global';
 
-declare module '../context' {
+declare module 'fluoro' {
   interface Context {
     /* Core */
     readonly [Symbols.adapter]: Core[typeof Symbols.adapter];

@@ -6,6 +6,7 @@
  * @LastEditTime: 2024-05-02 10:44:55
  */
 
-export * from './loader';
+export * from './class/loader';
 export * from './constants';
+export * from './decorators';
 export * from '@kotori-bot/logger';

@@ -1,8 +1,8 @@
-import type { Context } from '../context';
+import type { Context } from 'fluoro';
 import type { Adapter } from '../service';
 import type { AdapterConfig } from './config';
 
-declare module '../context/events' {
+declare module 'fluoro' {
   interface EventsMapping {
     connect(data: EventDataConnect): void;
     status(data: EventDataStatus): void;

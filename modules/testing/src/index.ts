@@ -1,60 +1,58 @@
-import { Context, ModuleConfig, Tsu } from 'kotori-bot';
+import { Tsu, CommandAction, Context, MessageScope, plugins, SessionData } from 'kotori-bot';
 
-/* 设置 i18n */
-export const lang = [__dirname, '../locales']; // or: const lang = path.join(__dirname, '../locales');
+const plugin = plugins([__dirname, '../']);
 
-/* 自定义插件配置 */
-export const kotoriConfigSchema = Tsu.Object({
-  config1: Tsu.Number().range(0, 10),
-  config2: Tsu.Boolean(),
-  config3: Tsu.Union([Tsu.Literal('on'), Tsu.Literal('off')])
-});
-export type Config = ModuleConfig & Tsu.infer<typeof kotoriConfigSchema>;
+@plugin.import
+export default class Plugin {
+  @plugin.lang
+  public static lang = [__dirname, '../locales'];
 
-/* 设置依赖服务 */
-export const inject = ['database'];
-
-/* 插件入口 */
-export function main(ctx: Context) {
-  ctx.on('ready', async () => {
-    if (await ctx.db.schema.hasTable('test')) return;
-    await ctx.db.schema.createTable('test', (table) => {
-      table.increments();
-      table.string('name');
-      table.timestamps();
-    });
+  @plugin.schema
+  public static schema = Tsu.Object({
+    config1: Tsu.Number().range(0, 10).optional(),
+    config2: Tsu.Boolean().optional(),
+    config3: Tsu.Union([Tsu.Literal('on'), Tsu.Literal('off')]).optional()
   });
 
-  /* 事件监听 */
-  ctx.on('on_group_decrease', (session) => {
+  @plugin.inject
+  public static inject = ['database'];
+
+  public constructor(
+    private ctx: Context,
+    private config: Tsu.infer<typeof Plugin.schema>
+  ) {}
+
+  @plugin.on({ type: 'on_group_decrease' })
+  public groupDecrease(session: SessionData) {
     session.quick([
-      session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %operator% 制裁了...',
+      session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
       {
         target: session.userId,
-        operator: session.operatorId
+        operator: session.operatorId!
       }
     ]);
-  });
+  }
 
-  /* 中间件注册 */
-  ctx.midware((next, session) => {
-    const s = session;
-    if (s.message.startsWith('/说') || s.message.includes('/说')) {
-      s.message = `${s.api.adapter.config['command-prefix']}echo`;
+  @plugin.midware({ priority: 10 })
+  public midware(next: () => void, s: SessionData) {
+    if (s.message.startsWith('说')) {
+      s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`;
     }
     next();
-  }, 10);
+  }
 
-  /* 指令注册 */
-  ctx
-    .command('echo <content> [num:number=3]')
-    .action((data, session) => {
-      ctx.logger.debug(data, data.args[0]);
-      ctx.logger.debug(session.message);
-      return [`返回消息：~%message%`, { message: data.args[0] }];
-    })
-    .alias('print');
+  @plugin.command({
+    template: 'echo <content> [num:number=3]',
+    scope: MessageScope.GROUP
+  })
+  public echo(data: Parameters<CommandAction>[0], session: SessionData) {
+    this.ctx.logger.debug(data, data.args[0]);
+    this.ctx.logger.debug(session);
+    return [`返回消息:~%message%`, { message: data.args[0] }];
+  }
 
-  /* 正则注册 */
-  ctx.regexp(/^(.*)#print$/, (match) => match[1]);
+  @plugin.regexp({ match: /^(.*)#print$/ })
+  public print(match: RegExpExecArray) {
+    return match[1];
+  }
 }

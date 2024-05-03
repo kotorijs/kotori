@@ -1,5 +1,5 @@
 import fs, { existsSync } from 'fs';
-import path from 'path';
+import path, { resolve } from 'path';
 import {
   ADAPTER_PREFIX,
   Adapter,
@@ -17,8 +17,8 @@ import {
   stringRightSplit
 } from '@kotori-bot/core';
 import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger';
-import { BUILD_FILE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT } from './constants';
-import KotoriLogger from './utils/logger';
+import { BUILD_FILE, BUILD_MODE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT, DEV_MODE, DEV_SOURCE_MODE } from '../constants';
+import KotoriLogger from '../utils/logger';
 
 interface BaseDir {
   root: string;
@@ -28,7 +28,7 @@ interface BaseDir {
 }
 
 interface Options {
-  mode: 'dev' | 'build';
+  mode: typeof BUILD_MODE | typeof DEV_MODE | typeof DEV_SOURCE_MODE;
 }
 
 interface RunnerConfig {
@@ -105,9 +105,11 @@ export class Runner {
 
   public readonly options: Options;
 
-  private ctx: Context;
+  private readonly ctx: Context;
 
-  private isDev: boolean;
+  private readonly isDev: boolean;
+
+  private readonly isSourceDev: boolean;
 
   public readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map();
 
@@ -116,7 +118,8 @@ export class Runner {
     /* handle config */
     this.baseDir = config.baseDir;
     this.options = config.options;
-    this.isDev = this.options.mode === 'dev';
+    this.isDev = this.options.mode.startsWith(DEV_MODE);
+    this.isSourceDev = this.options.mode === DEV_SOURCE_MODE;
     const loggerOptions = {
       level: this.isDev ? LoggerLevel.TRACE : LoggerLevel.INFO,
       label: [],
@@ -137,7 +140,7 @@ export class Runner {
       if (fs.statSync(file).isDirectory()) {
         list.push(...this.getDirFiles(file));
       }
-      if (path.parse(file).ext !== (this.isDev ? DEV_FILE : BUILD_FILE)) return;
+      if (path.parse(file).ext !== (this.isSourceDev ? DEV_FILE : BUILD_FILE)) return;
       list.push(path.resolve(file));
     });
     return list;
@@ -173,7 +176,7 @@ export class Runner {
         throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
       }
       pkg = result.data;
-      const devMode = this.isDev && existsSync(path.resolve(dir, DEV_IMPORT));
+      const devMode = this.isSourceDev && existsSync(path.resolve(dir, DEV_IMPORT));
       const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main);
       if (!fs.existsSync(main)) throw new DevError(`cannot find ${main}`);
       const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
@@ -185,11 +188,11 @@ export class Runner {
     });
   }
 
-  private loadEx(instance: ModuleMeta, config: ModuleConfig) {
+  private loadEx(instance: ModuleMeta, origin: ModuleConfig) {
     const { main, pkg } = instance;
     /* eslint-disable-next-line import/no-dynamic-require, global-require, @typescript-eslint/no-var-requires */
     let obj = require(main);
-    let handle = config;
+    let config = origin;
     const adapterName = pkg.name.split(ADAPTER_PREFIX)[1];
     if (
       Adapter.isPrototypeOf.call(Adapter, obj.default) &&
@@ -201,12 +204,12 @@ export class Runner {
     } else if (Service.isPrototypeOf.call(Service, obj.default)) {
       obj = {};
     } else if (obj.config instanceof Parser) {
-      const result = (obj.config as Parser<ModuleConfig>).parseSafe(handle);
+      const result = (obj.config as Parser<ModuleConfig>).parseSafe(config);
       if (!result.value) throw new ModuleError(`Config format of module ${pkg.name} is error: ${result.error.message}`);
-      handle = result.data;
+      config = result.data;
     }
-    if (obj.lang) this.ctx.i18n.use(Array.isArray(obj.lang) ? path.resolve(...obj.lang) : path.resolve(obj.lang));
-    this.ctx.load({ name: pkg.name, ...obj, config: handle });
+    if (obj.lang) this.ctx.i18n.use(resolve(...(Array.isArray(obj.lang) ? obj.lang : [obj.lang])));
+    this.ctx.load({ name: pkg.name, ...obj, config: config });
   }
 
   private unloadEx(instance: ModuleMeta) {

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-01 22:06:58
+ * @LastEditTime: 2024-05-03 13:35:00
  */
 import {
   KotoriError,
@@ -24,11 +24,18 @@ import path from 'path';
 import fs from 'fs';
 import Logger from '@kotori-bot/logger';
 import Runner, { localeTypeSchema } from './runner';
-import loadInfo from './log';
-import { BUILD_CONFIG_NAME, DEV_CONFIG_NAME, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from './constants';
-import Server from './service/server';
-import type Database from './service/database';
-import File from './service/file';
+import loadInfo from '../utils/log';
+import {
+  BUILD_CONFIG_NAME,
+  BUILD_MODE,
+  DEV_CONFIG_NAME,
+  DEV_MODE,
+  SUPPORTS_HALF_VERSION,
+  SUPPORTS_VERSION
+} from '../constants';
+import Server from '../service/server';
+import type Database from '../service/database';
+import File from '../service/file';
 
 declare module '@kotori-bot/core' {
   interface Context {
@@ -55,7 +62,7 @@ const enum GLOBAL {
   UPDATE = 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/core/package.json'
 }
 
-function getRunnerConfig(file: string, dir?: string) {
+function getBaseDir(file: string, dir?: string) {
   const handle = (root: string) => {
     const baseDir = {
       root,
@@ -68,10 +75,7 @@ function getRunnerConfig(file: string, dir?: string) {
     });
     return baseDir;
   };
-  const options = {
-    mode: file === DEV_CONFIG_NAME ? 'dev' : 'build'
-  } as const;
-  if (dir) return { baseDir: handle(path.resolve(dir)), options };
+  if (dir) return handle(path.resolve(dir));
   let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
   let count = 0;
   while (!fs.existsSync(path.join(root, file))) {
@@ -82,7 +86,7 @@ function getRunnerConfig(file: string, dir?: string) {
     root = path.join(root, '..');
     count += 1;
   }
-  return { baseDir: handle(root), options };
+  return handle(root);
 }
 
 /* eslint consistent-return: 0 */
@@ -125,14 +129,17 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
 }
 
 export class Loader extends Container {
-  private ctx: Context;
+  private readonly ctx: Context;
 
   private loadCount: number = 0;
 
   public constructor(options?: { dir?: string; mode?: string }) {
     super();
-    const file = options && options.mode === 'dev' ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
-    const runnerConfig = getRunnerConfig(file, options?.dir);
+    const file = options && options.mode?.startsWith(DEV_MODE) ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
+    const runnerConfig = {
+      baseDir: getBaseDir(file, options?.dir),
+      options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE }
+    };
     const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
     ctx.provide('runner', new Runner(ctx, runnerConfig));
     ctx.mixin('runner', ['baseDir', 'options']);
@@ -171,7 +178,7 @@ export class Loader extends Container {
     process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'sync'));
     process.on('unhandledRejection', (err) => this.handleError(err, 'async'));
     process.on('SIGINT', () => process.exit());
-    this.ctx.logger.debug('run info: develop with debuing...');
+    this.ctx.logger.debug('run info: develop with debugging...');
   }
 
   private listenMessage() {

@@ -21,3 +21,5 @@ kotori.dev.yml
 !modules/menu
 
 data
+
+request.http

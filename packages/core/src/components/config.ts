@@ -2,7 +2,7 @@ import Tsu from 'tsukiko';
 import { join } from 'path';
 import { loadConfig } from '@kotori-bot/tools';
 import { CoreConfig } from '../types';
-import { DEFAULT_CORE_CONFIG } from '../constants';
+import { DEFAULT_CORE_CONFIG } from '../global';
 
 const packageInfoSchema = Tsu.Object({
   name: Tsu.String(),

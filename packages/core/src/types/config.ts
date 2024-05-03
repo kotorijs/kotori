@@ -1,6 +1,6 @@
 import type { LocaleType } from '@kotori-bot/i18n';
 import type { EventDataTargetId } from './message';
-import { ModuleConfig } from '../context';
+import { ModuleConfig } from 'fluoro';
 
 export interface CoreConfig {
   global: GlobalConfig;
