@@ -4,9 +4,6 @@
   "description": "i18n For Kotori",
   "main": "dist/index.js",
   "browser": "dist/common.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "keywords": [

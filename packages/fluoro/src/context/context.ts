@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-05-01 21:32:19
  */
 import { Events } from '@kotori-bot/tools';
-import Symbols from './symbols';
+import Tokens from './tokens';
 import { EventsMapping } from './events';
 import Modules from './modules';
 
@@ -16,8 +16,8 @@ interface obj {
 }
 
 interface ContextOrigin {
-  readonly [Symbols.container]: Map<string, obj>;
-  readonly [Symbols.table]: Map<string, string[]>;
+  readonly [Tokens.container]: Map<string, obj>;
+  readonly [Tokens.table]: Map<string, string[]>;
   root: Context;
   get(prop: string): obj | undefined;
   inject<T extends Keys>(prop: T): void;
@@ -49,9 +49,9 @@ const handler = <T>(value: T, ctx: Context): T => {
 const DEFAULT_EXTENDS_NAME = 'sub';
 
 export class Context implements ContextImpl {
-  public readonly [Symbols.container]: Map<string, obj> = new Map();
+  public readonly [Tokens.container]: Map<string, obj> = new Map();
 
-  public readonly [Symbols.table]: Map<string, string[]> = new Map();
+  public readonly [Tokens.table]: Map<string, string[]> = new Map();
 
   public root: Context;
 
@@ -66,24 +66,24 @@ export class Context implements ContextImpl {
   }
 
   public get<T = obj | undefined>(prop: string) {
-    return this[Symbols.container].get(prop) as T;
+    return this[Tokens.container].get(prop) as T;
   }
 
   public inject<T extends Keys>(prop: T) {
-    if (this[prop] && !this[Symbols.container].has(prop)) return;
+    if (this[prop] && !this[Tokens.container].has(prop)) return;
     this[prop] = this.get(prop) as (typeof this)[T];
   }
 
   public provide<T extends obj>(prop: string, value: T) {
-    if (this[Symbols.container].has(prop)) return;
-    this[Symbols.container].set(prop, value);
+    if (this[Tokens.container].has(prop)) return;
+    this[Tokens.container].set(prop, value);
   }
 
   public mixin<K extends Keys>(prop: string, keys: K[]) {
-    this[Symbols.table].set(prop, keys);
+    this[Tokens.table].set(prop, keys);
     const instance = this.get(prop);
     if (!instance) return;
-    this[Symbols.table].set(prop, keys);
+    this[Tokens.table].set(prop, keys);
     keys.forEach((key) => {
       if (this[key] || !instance[key]) return;
       this[key] = instance[key] as this[K];
@@ -106,9 +106,9 @@ export class Context implements ContextImpl {
         if (prop === 'parent') return this;
         if (target[prop]) return handler(target[prop], ctx);
         let value: unknown;
-        this[Symbols.table].forEach((keys, key) => {
+        this[Tokens.table].forEach((keys, key) => {
           if (value || (typeof prop === 'string' && !keys.includes(prop))) return;
-          const instance = ctx[Symbols.container].get(key);
+          const instance = ctx[Tokens.container].get(key);
           if (!instance) return;
           value = instance[prop];
           if (typeof value === 'function') value = value.bind(instance);
@@ -119,11 +119,11 @@ export class Context implements ContextImpl {
       }
     });
     /* set table */
-    this[Symbols.table].forEach((value, key) => ctx[Symbols.table].set(key, value));
+    this[Tokens.table].forEach((value, key) => ctx[Tokens.table].set(key, value));
     /* set container */
-    this[Symbols.container].forEach((value, key) => {
-      if (!value.ctx) return ctx[Symbols.container].set(key, value);
-      return ctx[Symbols.container].set(key, handler(value, ctx));
+    this[Tokens.container].forEach((value, key) => {
+      if (!value.ctx) return ctx[Tokens.container].set(key, value);
+      return ctx[Tokens.container].set(key, handler(value, ctx));
     });
     return ctx;
   }

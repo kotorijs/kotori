@@ -2,20 +2,11 @@
   "extends": "../../tsconfig.node.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./lib"
+    "outDir": "./dist"
   },
   "references": [
     {
-      "path": "../i18n"
-    },
-    {
-      "path": "../logger"
-    },
-    {
       "path": "../tools"
-    },
-    {
-      "path": "../fluoro"
     }
   ]
 }

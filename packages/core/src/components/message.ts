@@ -1,9 +1,10 @@
 import { stringRightSplit } from '@kotori-bot/tools';
-import { type Context, type EventsList, Symbols } from '../context';
+import { type Context, type EventsList } from 'fluoro';
 import { type CommandConfig, type MidwareCallback, type RegexpCallback, SessionData } from '../types';
 import { cancelFactory, disposeFactory } from '../utils/factory';
 import { Command } from '../utils/command';
 import CommandError from '../utils/commandError';
+import { Symbols } from '../global';
 
 interface MidwareData {
   callback: MidwareCallback;
@@ -55,6 +56,7 @@ export class Message {
     const { session } = data;
     const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix'];
     if (!session.message.startsWith(prefix)) return;
+
     const params = {
       session,
       raw: stringRightSplit(session.message, prefix)
@@ -63,6 +65,7 @@ export class Message {
     const cancel = cancelFactory();
     this.ctx.emit('before_command', { cancel: cancel.get(), ...params });
     if (cancel.value) return;
+
     let matched: undefined | Command;
     this[Symbols.command].forEach(async (cmd) => {
       if (matched || !cmd.meta.action) return;
@@ -91,6 +94,7 @@ export class Message {
         });
       }
     });
+
     if (matched) return;
     this.ctx.emit('parse', {
       command: new Command(''),

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-21 11:20:31
+ * @LastEditTime: 2024-05-03 13:24:35
  */
 
 import { Command, Context, Symbols } from 'kotori-bot';

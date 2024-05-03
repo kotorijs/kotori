@@ -1,5 +1,5 @@
 import { none } from '@kotori-bot/tools';
-import { Context } from '../context';
+import { Context } from 'fluoro';
 
 export class Container {
   protected constructor() {
@@ -20,4 +20,5 @@ export class Container {
     return Object.assign(Container.getInstance() /* , Context */);
   }
 }
+
 export default Container;

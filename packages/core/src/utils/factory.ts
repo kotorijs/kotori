@@ -1,4 +1,4 @@
-import type { Context } from '../context';
+import type { Context } from 'fluoro';
 
 export function disposeFactory(ctx: Context, dispose: () => void) {
   ctx.once('dispose_module', (data) => {

@@ -23,7 +23,7 @@
 ~~- [ ] @kotori-bot/i18n Node.js env: getLanguage(): LocaleType~~
 ~~- [ ] Kotori cli gui and modules search,install,uninstall,update~~
 
-- [ ] decorator plugin form
+- [x] decorator plugin form
 - [x] @kotori-bot/tools Events: protected list
 - [x] Context: parent ctx
 

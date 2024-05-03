@@ -1,14 +1,14 @@
 {
   "name": "kotori-bot",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "scripts": {
-    "start": "node ./lib/start.js",
-    "dev": "ts-node --esm -r tsconfig-paths/register ./src/dev.ts --no-signale",
-    "cli:dev": "ts-node --esm -r tsconfig-paths/register ./src/cli.ts --no-signale",
+    "start": "node ./lib/start/build.js",
+    "cli-dev": "node ./lib/start/dev.js",
+    "dev": "ts-node --esm -r tsconfig-paths/register ./src/start/source.ts",
     "build": "tsc --build"
   },
   "bin": {
