@@ -17,11 +17,11 @@ program
   .option('-M, --mode [name]', 'Set running mode of program,build or dev', {
     default: 'build'
   })
-  .option('-L, --log [name]', 'Set level of log output', {
+  .option('-L, --level [name]', 'Set level of log output', {
     default: 'build'
   })
   .action((options) => {
-    new Loader({ mode: options.mode, dir: resolve(process.cwd(), options.dir), log: Number(options.log) }).run();
+    new Loader({ mode: options.mode, dir: resolve(process.cwd(), options.dir), level: Number(options.log) }).run();
   });
 
 program

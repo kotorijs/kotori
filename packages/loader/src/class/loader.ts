@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-03 17:36:22
+ * @LastEditTime: 2024-05-03 22:05:36
  */
 import {
   KotoriError,
@@ -75,9 +75,11 @@ function getBaseDir(file: string, dir?: string) {
     });
     return baseDir;
   };
+
   if (dir) return handle(path.resolve(dir));
   let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
   let count = 0;
+
   while (!fs.existsSync(path.join(root, file))) {
     if (count > 5) {
       Logger.fatal(`cannot find file ${file} `);
@@ -86,6 +88,7 @@ function getBaseDir(file: string, dir?: string) {
     root = path.join(root, '..');
     count += 1;
   }
+
   return handle(root);
 }
 
@@ -109,6 +112,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
     })
       .default({ global: Object.assign(DEFAULT_CORE_CONFIG.global), plugin: DEFAULT_CORE_CONFIG.plugin })
       .parse(loadConfig(path.join(baseDir.root, file), 'yaml'));
+
     return Tsu.Object({
       adapter: Tsu.Object({})
         .index(
@@ -133,18 +137,20 @@ export class Loader extends Container {
 
   private loadCount: number = 0;
 
-  public constructor(options?: { dir?: string; mode?: string; log?: number }) {
+  public constructor(options?: { dir?: string; mode?: string; level?: number }) {
     super();
     const file = options && options.mode?.startsWith(DEV_MODE) ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
     const runnerConfig = {
       baseDir: getBaseDir(file, options?.dir),
       options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE },
-      log: options?.log || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.INFO
+      level: options?.level || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.INFO
     };
     const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
+
     ctx.provide('runner', new Runner(ctx, runnerConfig));
     ctx.mixin('runner', ['baseDir', 'options']);
     Container.setInstance(ctx);
+
     this.ctx = Container.getInstance();
     this.ctx.logger.trace(`options:`, options);
     this.ctx.logger.trace(`runnerConfig:`, runnerConfig);
@@ -173,6 +179,7 @@ export class Loader extends Container {
       }
       return;
     }
+
     const list = {
       ServiceError: () => this.ctx.logger.label('service').warn,
       ModuleError: () => this.ctx.logger.label('module').error,
@@ -224,10 +231,12 @@ export class Loader extends Container {
     });
     this.ctx.on('ready_module', (data) => {
       if (typeof data.instance !== 'object') return;
+
       const pkg = data.instance.name
         ? this.ctx.get<Runner>('runner')[Symbols.modules].get(data.instance.name)
         : undefined;
       if (!pkg) return;
+
       this.loadCount += 1;
       const { name, version, author, peerDependencies } = pkg[0].pkg;
       this.ctx.logger.info(
@@ -235,6 +244,7 @@ export class Loader extends Container {
           Array.isArray(author) ? `authors: ${author.join(',')}` : `author: ${author}`
         }`
       );
+
       const requiredVersion = peerDependencies['kotori-bot'];
       if (
         !requiredVersion.includes('workspace') &&
@@ -269,18 +279,22 @@ export class Loader extends Container {
     Object.keys(this.ctx.config.adapter).forEach((botName) => {
       const botConfig = this.ctx.config.adapter[botName];
       const array = adapters.get(botConfig.extends);
+
       if (!array) {
         this.ctx.logger.warn(`cannot find adapter '${botConfig.extends}' for ${botName}`);
         return;
       }
+
       const result = array[1]?.parseSafe(botConfig);
       if (result && !result.value)
         throw new ModuleError(`Config format of adapter ${botName} is error: ${result.error.message}`);
+
       const bot = new array[0](
         this.ctx.extends({}, `${botConfig.extends}/${botName}`),
         result ? (result.data as AdapterConfig) : botConfig,
         botName
       );
+
       this.ctx.on('ready', () => bot.start());
       this.ctx.on('dispose', () => bot.stop());
     });

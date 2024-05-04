@@ -65,6 +65,7 @@ export class Command {
       if (input.startsWith(`${el} `) || input === el) starts = el;
     });
     if (!starts) return new CommandError({ type: 'unknown', input });
+
     /* handle CommandOption[] to minimist.opts */
     const opts: { string: string[]; boolean: string[]; alias: Record<string, string> } = {
       string: [],
@@ -79,10 +80,12 @@ export class Command {
       }
       opts.alias[option.realname] = option.name;
     });
+
     /* parse by minimist */
     const arr = parseArgs(input.slice(starts.length).trim());
     if (!Array.isArray(arr)) return new CommandError({ type: 'syntax', ...arr });
     const result = minimist(arr, opts);
+
     /* handle args */
     const args: CommandArgType[] = result._;
     const count = {
@@ -94,6 +97,7 @@ export class Command {
     if ((data.args.length <= 0 || !data.args[data.args.length - 1].rest) && count.reality > count.expected)
       return new CommandError({ type: 'arg_many', ...count });
     let error: CommandError | undefined;
+
     data.args.forEach((val, index) => {
       /* exit when happen error or last arg is empty */
       if (error || (index > 0 && !args[index - 1])) return;
@@ -109,6 +113,7 @@ export class Command {
       error = new CommandError({ type: 'arg_error', expected: 'number', reality: 'string', index });
     });
     if (error) return error;
+
     /* handle options */
     const options: Record<string, CommandArgType> = {};
     data.options.forEach((val) => {
@@ -121,6 +126,7 @@ export class Command {
         error = new CommandError({ type: 'option_error', expected: 'number', reality: 'string', target: val.realname });
     });
     if (error) return error;
+
     return {
       args: data.args.length > 0 && data.args[data.args.length - 1].rest ? args : args.slice(0, data.args.length),
       options
@@ -147,6 +153,7 @@ export class Command {
   private parse() {
     const [str, description] = this.template.trim().split(' - ');
     this.meta.description = description; // set description
+
     /* handle root */
     const requiredIndex = str.indexOf(' <');
     const optionalIndex = str.indexOf(' [');
@@ -159,6 +166,7 @@ export class Command {
     } else {
       this.meta.root = str.substring(0, optionalIndex).trim();
     }
+
     /* handle args */
     const args = minimist(str.split(' '))._;
     args.forEach((arg) => {

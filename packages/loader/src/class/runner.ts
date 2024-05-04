@@ -34,7 +34,7 @@ interface Options {
 interface RunnerConfig {
   baseDir: BaseDir;
   options: Options;
-  log: number;
+  level: number;
 }
 
 interface ModulePackage {
@@ -121,14 +121,16 @@ export class Runner {
     this.options = config.options;
     this.isDev = this.options.mode.startsWith(DEV_MODE);
     this.isSourceDev = this.options.mode === DEV_SOURCE_MODE;
+
     const loggerOptions = {
-      level: config.log,
+      level: this.ctx.config.global.level ?? config.level,
       label: [],
       transports: [
         new ConsoleTransport(),
         new FileTransport({ dir: this.baseDir.logs, filter: (data) => data.level >= LoggerLevel.WARN })
       ]
     };
+
     ctx.provide('logger', new KotoriLogger(loggerOptions, this.ctx));
     ctx.inject('logger');
   }
@@ -136,6 +138,7 @@ export class Runner {
   private getDirFiles(rootDir: string) {
     const files = fs.readdirSync(rootDir);
     const list: string[] = [];
+
     files.forEach((fileName) => {
       const file = path.join(rootDir, fileName);
       if (fs.statSync(file).isDirectory()) {
@@ -158,35 +161,44 @@ export class Runner {
     return moduleRootDir;
   }
 
+  private async checkModuleFiles(rootDir: string, filename: string) {
+    const dir = path.join(rootDir, filename);
+    if (!fs.statSync(dir).isDirectory()) return;
+    if (rootDir !== this.ctx.baseDir.modules && !filename.startsWith(PLUGIN_PREFIX)) return;
+
+    const packagePath = path.join(dir, 'package.json');
+    let pkg: ModulePackage;
+
+    if (!fs.existsSync(packagePath)) return;
+    try {
+      pkg = JSON.parse(fs.readFileSync(packagePath).toString());
+    } catch {
+      throw new DevError(`illegal package.json ${packagePath}`);
+    }
+
+    const result = modulePackageSchema.parseSafe(pkg);
+    if (!result.value) {
+      if (rootDir !== this.ctx.baseDir.modules) return;
+      throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
+    }
+
+    pkg = result.data;
+    const devMode = this.isSourceDev && existsSync(path.resolve(dir, DEV_IMPORT));
+    const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main);
+    if (!fs.existsSync(main)) throw new DevError(`cannot find ${main}`);
+    const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
+    const files = fs.statSync(dirs).isDirectory() ? this.getDirFiles(dirs) : [];
+
+    this[Symbols.modules].set(pkg.name, [
+      { pkg, files, main },
+      this.ctx.config.plugin[stringRightSplit(pkg.name, PLUGIN_PREFIX)] || {}
+    ]);
+  }
+
   private getModuleList(rootDir: string) {
     this.ctx.logger.trace('load dirs:', rootDir);
-    fs.readdirSync(rootDir).forEach(async (fileName) => {
-      const dir = path.join(rootDir, fileName);
-      if (!fs.statSync(dir).isDirectory()) return;
-      if (rootDir !== this.ctx.baseDir.modules && !fileName.startsWith(PLUGIN_PREFIX)) return;
-      const packagePath = path.join(dir, 'package.json');
-      let pkg: ModulePackage;
-      if (!fs.existsSync(packagePath)) return;
-      try {
-        pkg = JSON.parse(fs.readFileSync(packagePath).toString());
-      } catch {
-        throw new DevError(`illegal package.json ${packagePath}`);
-      }
-      const result = modulePackageSchema.parseSafe(pkg);
-      if (!result.value) {
-        if (rootDir !== this.ctx.baseDir.modules) return;
-        throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
-      }
-      pkg = result.data;
-      const devMode = this.isSourceDev && existsSync(path.resolve(dir, DEV_IMPORT));
-      const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main);
-      if (!fs.existsSync(main)) throw new DevError(`cannot find ${main}`);
-      const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
-      const files = fs.statSync(dirs).isDirectory() ? this.getDirFiles(dirs) : [];
-      this[Symbols.modules].set(pkg.name, [
-        { pkg, files, main },
-        this.ctx.config.plugin[stringRightSplit(pkg.name, PLUGIN_PREFIX)] || {}
-      ]);
+    fs.readdirSync(rootDir).forEach(async (filename) => {
+      await this.checkModuleFiles(rootDir, filename);
     });
   }
 
@@ -198,7 +210,7 @@ export class Runner {
     this.ctx.logger.trace('module:', instance, origin);
 
     const parsed = (schema: Parser<unknown>) => {
-      const result = (obj.config as Parser<ModuleConfig>).parseSafe(config);
+      const result = (schema as Parser<ModuleConfig>).parseSafe(config);
       if (!result.value) throw new ModuleError(`Config format of module ${pkg.name} is error: ${result.error.message}`);
       return result.data;
     };
@@ -208,6 +220,7 @@ export class Runner {
     let obj = require(main);
     let config = origin;
     const adapterName = pkg.name.split(ADAPTER_PREFIX)[1];
+
     if (
       Adapter.isPrototypeOf.call(Adapter, obj.default) &&
       adapterName &&
@@ -222,6 +235,7 @@ export class Runner {
     } else if (obj.config instanceof Parser) {
       config = parsed(obj.config);
     }
+
     if (obj.lang) this.loadLang(obj.lang);
     if (obj.default) {
       if (obj.default.lang) this.loadLang(obj.default.lang);
@@ -230,7 +244,8 @@ export class Runner {
       if (obj.Main.lang) this.loadLang(obj.Main.lang);
       if (obj.Main.config instanceof Parser) config = parsed(obj.Main.config);
     }
-    this.ctx.load({ name: pkg.name, ...obj, config: config });
+
+    this.ctx.load({ name: pkg.name, ...obj, config });
   }
 
   private unloadEx(instance: ModuleMeta) {

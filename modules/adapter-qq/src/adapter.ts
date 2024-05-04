@@ -88,7 +88,7 @@ export class QQAdapter extends Adapter<QQApi> {
   }
 
   public start() {
-    this.getToken();
+    this.generateToken();
     this.connect();
   }
 
@@ -192,7 +192,7 @@ export class QQAdapter extends Adapter<QQApi> {
     this.socket.on('message', (data) => this.handle(JSON.parse(data.toString())));
   }
 
-  private async getToken() {
+  private async generateToken() {
     const data = (await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
       appId: this.config.appid,
       clientSecret: this.config.secret
@@ -203,10 +203,10 @@ export class QQAdapter extends Adapter<QQApi> {
       return;
     }
     this.token = data.access_token;
-    this.getTokenTimerId = setTimeout(
+    this.generateTokenTimerId = setTimeout(
       () => {
-        if (this.getTokenTimerId) clearInterval(this.getTokenTimerId);
-        this.getToken();
+        if (this.generateTokenTimerId) clearInterval(this.generateTokenTimerId);
+        this.generateToken();
       },
       (parseInt(data.expires_in, 10) - 30) * 1000
     );
@@ -224,7 +224,7 @@ export class QQAdapter extends Adapter<QQApi> {
   }
 
   /* global NodeJS */
-  private getTokenTimerId?: NodeJS.Timeout;
+  private generateTokenTimerId?: NodeJS.Timeout;
 
   private heartbeatTimerId?: NodeJS.Timeout;
 }

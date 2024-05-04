@@ -1,7 +1,7 @@
 import I18n from '@kotori-bot/i18n';
 import { stringTemp } from '@kotori-bot/tools';
-import type Api from './api';
 import { Context, EventsList, EventsMapping } from 'fluoro';
+import type Api from './api';
 import {
   EventDataApiBase,
   EventDataTargetId,
@@ -46,7 +46,7 @@ function setProxy<T extends Api>(api: Api, ctx: Context): T {
   const proxy = Object.create(api) as T;
   proxy.sendPrivateMsg = new Proxy(api.sendPrivateMsg, {
     apply(_, __, argArray) {
-      const { '0': message, '1': targetId } = argArray;
+      const [message, targetId] = argArray;
       const cancel = cancelFactory();
       ctx.emit('before_send', { api, message, messageType: MessageScope.PRIVATE, targetId, cancel: cancel.get() });
       if (cancel.value) return;
@@ -55,7 +55,7 @@ function setProxy<T extends Api>(api: Api, ctx: Context): T {
   });
   proxy.sendGroupMsg = new Proxy(api.sendGroupMsg, {
     apply(_, __, argArray) {
-      const { '0': message, '1': targetId } = argArray;
+      const [message, targetId] = argArray;
       const cancel = cancelFactory();
       ctx.emit('before_send', { api, message, messageType: MessageScope.PRIVATE, targetId, cancel: cancel.get() });
       if (cancel.value) return;

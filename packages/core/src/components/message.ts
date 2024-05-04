@@ -25,11 +25,13 @@ export class Message {
 
   private handleMidware(session: SessionData) {
     const { api } = session;
-    api.adapter.status.receivedMsg += 1;
     let isPass = true;
     let midwares: MidwareData[] = [];
+
+    api.adapter.status.receivedMsg += 1;
     this[Symbols.midware].forEach((val) => midwares.push(val));
     midwares = midwares.sort((first, second) => first.priority - second.priority);
+
     let lastMidwareNum = -1;
     while (midwares.length > 0) {
       if (lastMidwareNum === midwares.length) {
@@ -39,12 +41,14 @@ export class Message {
       lastMidwareNum = midwares.length;
       session.quick(midwares[0].callback(() => midwares.shift(), session));
     }
+
     this.ctx.emit('midwares', { isPass, session });
   }
 
   private async handleRegexp(data: EventsList['midwares']) {
     const { session } = data;
     if (!data.isPass) return;
+
     this[Symbols.regexp].forEach((data) => {
       const match = session.message.match(data.match);
       if (!match) return;
@@ -62,6 +66,7 @@ export class Message {
       raw: stringRightSplit(session.message, prefix)
     };
     this.ctx.emit('before_parse', params);
+
     const cancel = cancelFactory();
     this.ctx.emit('before_command', { cancel: cancel.get(), ...params });
     if (cancel.value) return;
@@ -69,11 +74,14 @@ export class Message {
     let matched: undefined | Command;
     this[Symbols.command].forEach(async (cmd) => {
       if (matched || !cmd.meta.action) return;
+
       const result = Command.run(params.raw, cmd.meta);
       if (result instanceof CommandError && result.value.type === 'unknown') return;
+
       matched = cmd;
       this.ctx.emit('parse', { command: cmd, result, ...params, cancel: cancel.get() });
       if (cancel.value || result instanceof CommandError) return;
+
       try {
         const executed = await cmd.meta.action({ args: result.args, options: result.options }, session);
         if (executed instanceof CommandError) {
