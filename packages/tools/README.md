@@ -1,6 +1,5 @@
 # @kotori-bot/tools
 
-- Events
 - Http
 - functions
 

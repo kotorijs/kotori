@@ -21,7 +21,7 @@
 - 设置 `lang` 属性切换语言,扩展新实例添加语言
 
 ```typescript
-import I18n from 'i18n';
+import I18n from '@kotori-bot/i18n';
 
 const i18n = new I18n();
 

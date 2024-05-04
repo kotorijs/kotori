@@ -1,6 +1,6 @@
 import type { LocaleType } from '@kotori-bot/i18n';
-import type { EventDataTargetId } from './message';
 import { ModuleConfig } from 'fluoro';
+import type { EventDataTargetId } from './message';
 
 export interface CoreConfig {
   global: GlobalConfig;
@@ -13,6 +13,7 @@ export interface CoreConfig {
 }
 
 export interface GlobalConfig {
+  level?: number;
   lang: LocaleType;
   'command-prefix': string;
 }

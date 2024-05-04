@@ -10,16 +10,10 @@ import {
   ModuleConfig,
   ModuleError,
   PLUGIN_PREFIX,
-  Tokens,
-  none,
-  ModuleExport
+  Tokens
 } from '@kotori-bot/core';
 
-interface ImportData {
-  lang?: string | string[];
-  inject?: string[];
-  config?: Parser<unknown>;
-}
+type Fn = (...args: unknown[]) => void;
 
 export class Decorators {
   private readonly ctx: Context;
@@ -88,22 +82,19 @@ export class Decorators {
 
   public on<T extends keyof EventsList>(meta: { type: T }) {
     return this.register(<T extends object>(target: T, property: keyof T) =>
-      this.ctx.on(meta.type, (...args: unknown[]) => (target[property] as Function).bind(this.object)(...args))
+      this.ctx.on(meta.type, (...args: unknown[]) => (target[property] as Fn).bind(this.object)(...args))
     );
   }
 
   public once<T extends keyof EventsList>(meta: { type: T }) {
     return this.register(<T extends object>(target: T, property: keyof T) =>
-      this.ctx.once(meta.type, (...args: unknown[]) => (target[property] as Function).bind(this.object)(...args))
+      this.ctx.once(meta.type, (...args: unknown[]) => (target[property] as Fn).bind(this.object)(...args))
     );
   }
 
   public midware(meta?: { priority: number }) {
     return this.register(<T extends object>(target: T, property: keyof T) =>
-      this.ctx.midware(
-        (next, session) => (target[property] as Function).bind(this.object)(next, session),
-        meta?.priority
-      )
+      this.ctx.midware((next, session) => (target[property] as Fn).bind(this.object)(next, session), meta?.priority)
     );
   }
 
@@ -119,14 +110,16 @@ export class Decorators {
     return this.register(<T extends object>(target: T, property: keyof T) => {
       const command = this.ctx
         .command(meta.template, meta)
-        .action((data, session) => (target[property] as Function).bind(this.object)(data, session));
+        .action((data, session) => (target[property] as Fn).bind(this.object)(data, session));
       meta.options?.forEach(([name, template]) => command.option(name, template));
     });
   }
 
   public regexp(meta: { match: RegExp }) {
     return this.register(<T extends object>(target: T, property: keyof T) =>
-      this.ctx.regexp(meta.match, (match, session) => (target[property] as Function).bind(this.object)(match, session))
+      this.ctx.regexp(meta.match, (match, session) => (target[property] as Fn).bind(this.object)(match, session))
     );
   }
 }
+
+export default Decorators;

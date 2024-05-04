@@ -83,6 +83,7 @@ export class Modules {
       this.ctx.emit('ready_module', { instance });
       return;
     }
+
     const { main, Main, inject, default: defaults, config } = instance;
     if (inject) injected(inject);
     if (defaults && isClass(defaults)) {

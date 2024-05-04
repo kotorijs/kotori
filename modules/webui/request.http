@@ -1,0 +1,218 @@
+###
+## @Author: Hotaru biyuehuya@gmail.com
+## @Blog: https://hotaru.icu
+## @Date: 2024-05-03 19:13:44
+## @LastEditors: Hotaru biyuehuya@gmail.com
+## @LastEditTime: 2024-05-04 16:49:18
+###
+
+# Kotori Bot - WebUI Api Documentation
+
+@URL = http://localhost:720
+@KEY = 43cd1101c9ea4285a7baff52336adaad
+
+### 获取所有插件配置信息
+
+GET {{URL}}/api/config/plugins HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+[
+  {
+    "name": "menu",
+    "origin": {
+      "content": "请发送 /help",
+      "filter": {}
+    },
+    "schema": {}
+  }
+  // ...
+]
+
+### 获取插件配置信息
+
+@pluginName = @kotori-bot/kotori-plugin-webui
+GET {{URL}}/api/config/plugins/{{pluginName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+{
+  "name": "webui",
+  "origin": {
+    "username": "himeno",
+    "password": "0517",
+    "filter": {}
+  },
+  "schema": {}
+}
+
+### 获取所有机器人实例配置信息
+
+GET {{URL}}/api/config/bots HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+[
+  {
+    "id": "cmd-test",
+    "origin": {
+      "extends": "cmd",
+      "master": 2333,
+    },
+    "schema": {}
+  }
+  // ...
+]
+
+### 获取单个机器人实例配置信息
+
+@botName = cmd-test
+GET {{URL}}/api/config/bots/{{botName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+{
+  "id": "cmd-test",
+  "origin": {
+    "extends": "cmd",
+    "master": 2333,
+  },
+  "schema": {}
+}
+
+### 获取全局配置信息
+GET {{URL}}/api/config/global HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+{
+  "port": 720,
+  "lang": "zh_CN",
+  "command-prefix": "/",
+  "dirs": []
+}
+
+### 获取所有模块信息
+
+GET {{URL}}/api/data/modules HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+[
+  {
+    "name": "@kotori-bot/kotori-plugin-webui",
+    "version": "1.1.0",
+    "description": "webui plugin",
+    "main": "lib/index.js",
+  }
+  // ...
+]
+
+### 获取单个模块信息
+
+@moduleName = kotori-plugin-adapter-minecraft
+GET {{URL}}/api/data/modules/{{moduleName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+{
+  "name": "@kotori-bot/kotori-plugin-webui",
+  "version": "1.1.0",
+  "description": "webui plugin",
+  "main": "lib/index.js",
+}
+
+### 获取所有机器人实例信息
+
+GET {{URL}}/api/data/bots HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+[
+  {
+    "status": {},
+    "platform": "cmd",
+    "identity": "cmd-test",
+    "id": "720",
+    "lang": "zh_CN"
+  }
+]
+
+### 获取单个机器人实例信息
+
+@botName2 = cmd-test
+GET {{URL}}/api/data/bots/{{botName2}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+{
+  "status": {},
+  "platform": "cmd",
+  "identity": "cmd-test",
+  "id": "720",
+  "lang": "zh_CN"
+}
+
+### 获取统计数据
+
+GET {{URL}}/api/data/stats HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+Response:
+{
+  "chats": {
+    "received": [0,0,0,0,0,0,0],
+    "sent": [0,0,0,0,0,0,0]
+  },
+  "count": {
+    "midwares": 5,
+    "commands": 51,
+    "regexps": 25,
+    "bots": 4,
+    "adapters": 5,
+    "modules": 33
+  },
+  "env": {
+    "dirs": {
+      "root": "F:\\project-self\\javascript\\nodejs\\kotori-bot",
+      "modules": "F:\\project-self\\javascript\\nodejs\\kotori-bot\\modules",
+      "data": "F:\\project-self\\javascript\\nodejs\\kotori-bot\\data",
+      "logs": "F:\\project-self\\javascript\\nodejs\\kotori-bot\\logs"
+    },
+    "options": {
+      "mode": "dev-source"
+    }
+  },
+  "version": {
+    "node": "v18.18.1",
+    "core": "1.4.0"
+  },
+  "system": {
+    "type": "Windows_NT",
+    "platform": "win32",
+    "arch": "x64",
+    "uptime": 38815.64,
+    "hostname": "BIYUEHU",
+    "homedir": "C:\\Users\\BIYUEHU"
+  },
+  "status": {
+    "ram": {
+      "total": 23.89745330810547,
+      "unused": 13.024009704589844,
+      "used": 10.873443603515625,
+      "rate": 45.500428281316495
+    },
+    "cpu": {
+      "rate": 47.57456763586952,
+      "speed": 2592
+    },
+    "chats": {
+      "received": 0,
+      "sent": 0
+    }
+  }
+}
+
+### WebSocket 连接
+
+

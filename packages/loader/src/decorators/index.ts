@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { PLUGIN_PREFIX, Container } from '@kotori-bot/core';
-import { Decorators } from './utils';
+import Decorators from './utils';
 
 export function plugins(plugin: string | string[] | { name: string }) {
   let pkgName: string;

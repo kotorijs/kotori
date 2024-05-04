@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-03 17:25:02
+ * @LastEditTime: 2024-05-03 22:06:15
  */
 import Tokens from './tokens';
 import { Events, EventsMapping } from './events';
@@ -37,7 +37,7 @@ type Keys = keyof Omit<Context, keyof ContextOrigin> & string;
 
 const handler = <T>(value: T, ctx: Context): T => {
   if (!value || typeof value !== 'object' || !((value as T & { ctx: unknown }).ctx instanceof Context)) return value;
-  return new Proxy(value, {
+return new Proxy(value, {
     get(target, prop, receiver) {
       if (prop === 'ctx') return ctx;
       return Reflect.get(target, prop, receiver);
@@ -82,6 +82,7 @@ export class Context implements ContextImpl {
     this[Tokens.table].set(prop, keys);
     const instance = this.get(prop);
     if (!instance) return;
+
     this[Tokens.table].set(prop, keys);
     keys.forEach((key) => {
       if (this[key] || !instance[key]) return;
@@ -104,6 +105,7 @@ export class Context implements ContextImpl {
         if (prop === 'identity') return identity ?? this.identity ?? DEFAULT_EXTENDS_NAME;
         if (prop === 'parent') return this;
         if (target[prop]) return handler(target[prop], ctx);
+
         let value: unknown;
         this[Tokens.table].forEach((keys, key) => {
           if (value || (typeof prop === 'string' && !keys.includes(prop))) return;
@@ -112,6 +114,7 @@ export class Context implements ContextImpl {
           value = instance[prop];
           if (typeof value === 'function') value = value.bind(instance);
         });
+
         if (value !== undefined) return value;
         if (metaHandle[prop]) return handler(metaHandle[prop], ctx);
         return handler(this[prop as keyof this], ctx);

@@ -17,6 +17,7 @@ Inversion of Control and Dependency Injection.
 ## 🛠️ Class & Interface
 
 - Context
+- Events
 - Modules
 - Services
 - Tokens

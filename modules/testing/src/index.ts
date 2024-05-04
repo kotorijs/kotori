@@ -4,6 +4,10 @@ const plugin = plugins([__dirname, '../']);
 
 @plugin.import
 export default class Plugin {
+  private ctx: Context;
+
+  private config: Tsu.infer<typeof Plugin.schema>;
+
   @plugin.lang
   public static lang = [__dirname, '../locales'];
 
@@ -17,13 +21,13 @@ export default class Plugin {
   @plugin.inject
   public static inject = ['database'];
 
-  public constructor(
-    private ctx: Context,
-    private config: Tsu.infer<typeof Plugin.schema>
-  ) {}
+  public constructor(ctx: Context, config: Tsu.infer<typeof Plugin.schema>) {
+    this.ctx = ctx;
+    this.config = config;
+  }
 
   @plugin.on({ type: 'on_group_decrease' })
-  public groupDecrease(session: SessionData) {
+  public static groupDecrease(session: SessionData) {
     session.quick([
       session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
       {
@@ -34,7 +38,8 @@ export default class Plugin {
   }
 
   @plugin.midware({ priority: 10 })
-  public midware(next: () => void, s: SessionData) {
+  public static midware(next: () => void, session: SessionData) {
+    const s = session;
     if (s.message.startsWith('说')) {
       s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`;
     }
@@ -52,7 +57,7 @@ export default class Plugin {
   }
 
   @plugin.regexp({ match: /^(.*)#print$/ })
-  public print(match: RegExpExecArray) {
+  public static print(match: RegExpExecArray) {
     return match[1];
   }
 }
