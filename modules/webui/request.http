@@ -9,7 +9,22 @@
 # Kotori Bot - WebUI Api Documentation
 
 @URL = http://localhost:720
-@KEY = 43cd1101c9ea4285a7baff52336adaad
+@KEY = 37cf9b760ffe4928b5bc8552261aa458
+
+### 登录
+
+POST {{URL}}/api/accounts/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "himeno",
+  "password": "0517"
+}
+
+### 退出登录
+
+POST {{URL}}/api/accounts/logout HTTP/1.1
+Authorization: Bearer {{KEY}}
 
 ### 获取所有插件配置信息
 
@@ -29,7 +44,7 @@ Response:
   // ...
 ]
 
-### 获取插件配置信息
+### 获取单个插件配置信息
 
 @pluginName = @kotori-bot/kotori-plugin-webui
 GET {{URL}}/api/config/plugins/{{pluginName}} HTTP/1.1
@@ -45,6 +60,18 @@ Response:
   },
   "schema": {}
 }
+
+### 更新单个插件配置信息
+
+@pluginName = @kotori-bot/kotori-plugin-webui
+PUT {{URL}}/api/config/plugins/{{pluginName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+Content-Type: application/json
+
+{
+  "username": "himeno"
+}
+
 
 ### 获取所有机器人实例配置信息
 
@@ -80,6 +107,17 @@ Response:
   "schema": {}
 }
 
+### 更新单个机器人实例配置信息
+
+@botName = cmd-test
+PUT {{URL}}/api/config/bots/{{botName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+Content-Type: application/json
+
+{
+  "master": 24444
+}
+
 ### 获取全局配置信息
 GET {{URL}}/api/config/global HTTP/1.1
 Authorization: Bearer {{KEY}}
@@ -90,6 +128,15 @@ Response:
   "lang": "zh_CN",
   "command-prefix": "/",
   "dirs": []
+}
+
+### 更新全局配置信息
+PUT {{URL}}/api/config/global HTTP/1.1
+Authorization: Bearer {{KEY}}
+Content-Type: application/json
+
+{
+  "port": 721,
 }
 
 ### 获取所有模块信息
@@ -161,58 +208,114 @@ Authorization: Bearer {{KEY}}
 Response:
 {
   "chats": {
-    "received": [0,0,0,0,0,0,0],
-    "sent": [0,0,0,0,0,0,0]
+    "received": [5,0,0,0,0,0,0],
+    "sent": [3,0,0,0,0,0,0]
   },
   "count": {
-    "midwares": 5,
+    "midwares": 6,
     "commands": 51,
     "regexps": 25,
     "bots": 4,
     "adapters": 5,
     "modules": 33
   },
-  "env": {
-    "dirs": {
-      "root": "F:\\project-self\\javascript\\nodejs\\kotori-bot",
-      "modules": "F:\\project-self\\javascript\\nodejs\\kotori-bot\\modules",
-      "data": "F:\\project-self\\javascript\\nodejs\\kotori-bot\\data",
-      "logs": "F:\\project-self\\javascript\\nodejs\\kotori-bot\\logs"
-    },
-    "options": {
-      "mode": "dev-source"
-    }
-  },
-  "version": {
-    "node": "v18.18.1",
-    "core": "1.4.0"
-  },
   "system": {
     "type": "Windows_NT",
-    "platform": "win32",
     "arch": "x64",
-    "uptime": 38815.64,
+    "uptime": 16443.781,
     "hostname": "BIYUEHU",
-    "homedir": "C:\\Users\\BIYUEHU"
+    "homedir": "C:\\Users\\BIYUEHU",
+    "node": "v18.18.1"
   },
-  "status": {
-    "ram": {
-      "total": 23.89745330810547,
-      "unused": 13.024009704589844,
-      "used": 10.873443603515625,
-      "rate": 45.500428281316495
+  "info": [
+    {
+      "name": "累计消息收:发量",
+      "value": "5:3"
     },
-    "cpu": {
-      "rate": 47.57456763586952,
-      "speed": 2592
+    {
+      "name": "实例在线数/总数",
+      "value": "1/4"
     },
-    "chats": {
-      "received": 0,
-      "sent": 0
+    {
+      "name": "登录成功:失败次数",
+      "value": "2:1"
+    },
+    {
+      "name": "内存使用量",
+      "value": "205 MB"
     }
-  }
+  ]
+}
+
+### 获取实时状态
+
+GET {{URL}}/api/data/status HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+
+Response:
+{
+  "ram": {
+    "total": 23.89745330810547,
+    "unused": 12.575305938720703,
+    "used": 11.322147369384766,
+    "rate": 47.3780499679627
+  },
+  "cpu": {
+    "rate": 66.13230389904861,
+    "speed": 2592
+  },
+  "mode": "dev-source",
+  "core": "1.4.0"
 }
 
 ### WebSocket 连接
 
+### ws://localhost:{{port + 1}}/webui
+### WS 端口为 http 端口 + 1
 
+
+#### 【Server】实时状态（默认每隔 5 秒发送一次）
+
+Response:
+
+{
+  "type": "stats",
+  "data": {
+    "ram": {
+      "total": 23.89745330810547,
+      "unused": 12.823219299316406,
+      "used": 11.074234008789062,
+      "rate": 46.34064503029256
+    },
+    "cpu": {
+      "rate": 71.71194182482655,
+      "speed": 2592
+    }
+  }
+}
+
+#### 【Server】控制台日志输出
+
+Response:
+
+{
+  "type": "console_output",
+  "data": {
+    "level": 30,
+    "time": 1714895679747,
+    "pid": 14880,
+    "label": [],
+    "msg": "loaded module kotori-plugin-music version: 1.2.1 author: Himeno <biyuehuya@gmail.com>"
+  }
+}
+
+#### 【Client】远程执行控制台指令
+#### 无返回结果，通过控制台日志输出获取执行结果
+
+Request:
+
+{
+  "action": "command",
+  "command": "/status"
+}

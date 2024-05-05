@@ -8,15 +8,22 @@ export default function (ctx: Context, app: Context['server']) {
   router.post('/login', (req, res) => {
     const { username: user, password: pwd } = req.body;
     const { username, password } = ctx.webui.config;
+    const loginStats = ctx.webui.getLoginStats();
 
     if (user === username && pwd === password) {
+      ctx.logger.label('server').trace('Login successful');
+      loginStats.success += 1;
+      ctx.webui.setLoginStats(loginStats);
       ctx.webui.updateToken();
       return res.json({
         token: ctx.webui.generateToken,
         isDefault: username + password === DEFAULT_USERNAME + DEFAULT_PASSWORD
       });
     }
-    return res.status(401).json({ code: 401, message: 'Invalid username or password' });
+    ctx.logger.label('server').trace('Login failed');
+    loginStats.failed += 1;
+    ctx.webui.setLoginStats(loginStats);
+    return res.status(401).json({ message: 'Invalid username or password' });
   });
 
   router.post('/logout', (_, res) => {
