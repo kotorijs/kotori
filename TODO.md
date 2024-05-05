@@ -33,6 +33,6 @@
 
 ## Fixes
 
-- [x] Module Version with core tips
+- [ ] Module Version with core tips
 - [ ] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
