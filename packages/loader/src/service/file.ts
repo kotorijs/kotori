@@ -14,8 +14,13 @@ export class File extends Service {
     return join(this.getDir(), filename);
   }
 
-  public load(filename: string, type?: Parameters<typeof loadConfig>[1], init?: Parameters<typeof loadConfig>[2]) {
-    return loadConfig(this.getFile(filename), type, init);
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  public load<T = Parameters<typeof saveConfig>[1]>(
+    filename: string,
+    type?: Parameters<typeof loadConfig>[1],
+    init?: Parameters<typeof loadConfig>[2]
+  ) {
+    return loadConfig(this.getFile(filename), type, init) as T;
   }
 
   public save(filename: string, data: Parameters<typeof saveConfig>[1], type?: Parameters<typeof saveConfig>[2]) {

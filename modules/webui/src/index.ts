@@ -4,17 +4,21 @@ import { Context } from './types';
 import { Webui, config } from './utils/webui';
 import routers from './routers';
 import ws from './ws';
-
-// type obj = Record<string, any>;
+import router from './routers/router';
 
 export const inject = ['server', 'file', 'cache'];
 
 export { config } from './utils/webui';
 
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
+  /* Starts webui service */
   ctx.service('webui', new Webui(ctx, cfg));
   ctx.inject('webui');
+  ctx.on('ready', () => {
+    ws(ctx, ctx.server.wss('/webui')!);
+  });
 
+  /* Sets up routes */
   const app = ctx.server;
   app.use(app.static(path.resolve(__dirname, '../dist')));
   app.use(app.json());
@@ -26,20 +30,9 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
     res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json;charset=utf-8');
 
-    if (req.path === '/api/accounts/login' || ctx.webui.checkToken(String(req.headers.authorization))) return next();
+    if (!router.find((item) => item.path === req.path || req.path.startsWith(item.path))) return res.status(404).send();
+    if (req.path === '/api/accounts/login' || ctx.webui.checkToken(req.headers.authorization)) return next();
     return res.status(401);
   });
   app.use('/', routers(ctx, app));
-
-  ctx.on('ready', () => {
-    ws(ctx, ctx.server.wss('/webui')!);
-    const timer = setInterval(() => {}, cfg.interval * 1000);
-    ctx.on('dispose', () => clearInterval(timer));
-  });
-
-  /*   ctx.on('send', (data) => {
-    const { identity } = data.api.adapter;
-    const data = ctx.cache.set(KEY.MESSAGE_SENT, )
-    ctx.cache.set(KEY.MESSAGE_SENT,  || 0) + 1);
-  }); */
 }

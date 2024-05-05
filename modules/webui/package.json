@@ -32,5 +32,9 @@
         "zh_CN"
       ]
     }
+  },
+  "dependencies": {
+    "@types/date-fns": "^2.6.0",
+    "date-fns": "^3.6.0"
   }
 }

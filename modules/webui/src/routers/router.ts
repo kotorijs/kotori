@@ -1,8 +1,18 @@
+import { Context } from 'kotori-bot';
 import account from './api/accounts';
 import config from './api/config';
 import data from './api/data';
 
-export default [
+interface RouterRecord {
+  path: string;
+  handler: (ctx: Context, app: Context['server']) => ReturnType<Context['server']['router']>;
+}
+
+function defineRouter(config: RouterRecord[]) {
+  return config;
+}
+
+export default defineRouter([
   {
     path: '/api/accounts',
     handler: account
@@ -15,4 +25,4 @@ export default [
     path: '/api/data',
     handler: data
   }
-];
+]);

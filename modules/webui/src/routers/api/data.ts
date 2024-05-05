@@ -1,13 +1,14 @@
 import os from 'os';
-import { Symbols } from 'kotori-bot';
+import { Adapter, Symbols } from 'kotori-bot';
 import { Context } from '../../types';
+import { calcGrandRecord } from '../../utils/common';
 
 interface ModulePackage {
   name: string;
 }
 
 interface BotData {
-  status: object;
+  status: Adapter['status'];
   platform: string;
   identity: string;
   id: string;
@@ -58,11 +59,18 @@ export default function (ctx: Context, app: Context['server']) {
   });
 
   router.get('/stats', async (_, res) => {
+    const botsStatus = getBotData().map((bot) => bot.status.value === 'online');
+    const msgTotal = calcGrandRecord(ctx.webui.getMsgTotal().origin);
+    const { success: loginSuccess, failed: loginFailed } = ctx.webui.getLoginStats();
+    const chats: Record<'received' | 'sent', number[]> = { received: [], sent: [] };
+    [0, 1, 2, 3, 4, 5, 6, 7].forEach((day) => {
+      const { received, sent } = calcGrandRecord(ctx.webui.getMsgDay(day).origin);
+      chats.received.push(received || 0);
+      chats.sent.push(sent || 0);
+    });
+
     res.json({
-      chats: {
-        received: [0, 0, 0, 0, 0, 0, 0],
-        sent: [0, 0, 0, 0, 0, 0, 0]
-      },
+      chats,
       count: {
         midwares: ctx[Symbols.midware].size,
         commands: ctx[Symbols.command].size,
@@ -71,23 +79,28 @@ export default function (ctx: Context, app: Context['server']) {
         adapters: ctx[Symbols.adapter].size,
         modules: ctx[Symbols.modules].size
       },
-      env: {
-        dirs: ctx.baseDir,
-        options: ctx.options
-      },
-      version: {
-        node: process.version,
-        core: ctx.pkg.version
-      },
       system: {
         type: os.type(),
-        platform: os.platform(),
         arch: os.arch(),
         uptime: os.uptime(),
         hostname: os.hostname(),
-        homedir: os.homedir()
+        homedir: os.homedir(),
+        node: process.version
       },
-      status: ctx.webui.getStats()
+      info: [
+        { name: '累计消息收:发量', value: `${msgTotal.received}:${msgTotal.sent}` },
+        { name: '实例在线数/总数', value: `${botsStatus.filter((status) => status).length}/${botsStatus.length}` },
+        { name: '登录成功:失败次数', value: `${loginSuccess}:${loginFailed}` },
+        { name: '内存使用量', value: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)} MB` }
+      ]
+    });
+  });
+
+  router.get('/status', (_, res) => {
+    res.json({
+      ...ctx.webui.getStats(),
+      mode: ctx.options.mode,
+      core: ctx.pkg.version
     });
   });
 

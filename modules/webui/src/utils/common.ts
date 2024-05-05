@@ -1,5 +1,6 @@
 import { getUuid } from 'kotori-bot';
 import os from 'os';
+import { MsgRecord } from '../types';
 
 export function generateToken() {
   return getUuid().replaceAll('-', '');
@@ -25,10 +26,20 @@ export function getCpuData() {
   return { rate, speed };
 }
 
-export function generateMessage(type: string, data: object) {
-  return JSON.stringify({ type, data });
+export function generateMessage(type: string, data: object | string) {
+  return JSON.stringify(type === 'error' ? { type, message: data } : { type, data });
 }
 
 export function getDate() {
   return `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay()}`;
+}
+
+export function calcGrandRecord(data: Record<string, MsgRecord>) {
+  return Object.values(data).reduce(
+    (acc, cur) => ({
+      received: acc.received + cur.received,
+      sent: acc.sent + cur.sent
+    }),
+    { received: 0, sent: 0 }
+  );
 }
