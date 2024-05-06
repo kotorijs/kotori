@@ -62,7 +62,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     }, 10);
   }
 
-  public generateToken() {
+  public getToken() {
     return this.ctx.file.load('token', 'txt');
   }
 
@@ -71,7 +71,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
   }
 
   public checkToken(token?: string) {
-    return token && token === `Bearer ${this.generateToken()}`;
+    return token && token === `Bearer ${this.getToken()}`;
   }
 
   public getStats() {
