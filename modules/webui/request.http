@@ -10,6 +10,8 @@
 
 @URL = http://localhost:720
 @KEY = 37cf9b760ffe4928b5bc8552261aa458
+@USERNAME = 账号名字
+@PASSWORD = 账号密码
 
 ### 登录
 
@@ -17,8 +19,8 @@ POST {{URL}}/api/accounts/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "himeno",
-  "password": "0517"
+  "username": "{{USERNAME}}",
+  "password": "{{PASSWORD}}"
 }
 
 ### 退出登录

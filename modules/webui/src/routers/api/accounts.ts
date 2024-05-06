@@ -16,7 +16,7 @@ export default function (ctx: Context, app: Context['server']) {
       ctx.webui.setLoginStats(loginStats);
       ctx.webui.updateToken();
       return res.json({
-        token: ctx.webui.generateToken,
+        token: ctx.webui.getToken(),
         isDefault: username + password === DEFAULT_USERNAME + DEFAULT_PASSWORD
       });
     }
