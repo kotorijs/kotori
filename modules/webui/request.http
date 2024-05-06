@@ -9,7 +9,7 @@
 # Kotori Bot - WebUI Api Documentation
 
 @URL = http://localhost:720
-@KEY = 37cf9b760ffe4928b5bc8552261aa458
+@KEY = 此处填写 TOKEN
 @USERNAME = 账号名字
 @PASSWORD = 账号密码
 
@@ -21,6 +21,12 @@ Content-Type: application/json
 {
   "username": "{{USERNAME}}",
   "password": "{{PASSWORD}}"
+}
+
+Response:
+{
+  "token": "236b8cb0284240c88539e5595435253a",
+  "isDefault": true
 }
 
 ### 退出登录
