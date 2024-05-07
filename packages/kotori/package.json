@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node ./lib/start/build.js",
     "cli-dev": "node ./lib/start/dev.js",
-    "dev": "ts-node --esm -r tsconfig-paths/register ./src/start/source.ts",
+    "dev": "ts-node -r tsconfig-paths/register ./src/start/source.ts",
     "build": "tsc --build"
   },
   "bin": {
