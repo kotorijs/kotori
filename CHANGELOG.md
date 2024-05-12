@@ -1,3 +1,14 @@
+## [1.4.1](https://github.com/kotorijs/kotori/compare/v1.4.0...v1.4.1) (2024-05-12)
+
+
+### Bug Fixes
+
+* pnpm dev start ([c7cc457](https://github.com/kotorijs/kotori/commit/c7cc457b9d76184508cd2dc28f174f4ef83ff21f))
+* some bugs ([a870a6d](https://github.com/kotorijs/kotori/commit/a870a6dd783afb54d78bae789b38cd5f1d79faca))
+* webui login token ([35843e1](https://github.com/kotorijs/kotori/commit/35843e10eacbba61c0a9002c855cef0a2be49121))
+
+
+
 # [1.4.0](https://github.com/kotorijs/kotori/compare/v1.3.2...v1.4.0) (2024-05-05)
 
 
