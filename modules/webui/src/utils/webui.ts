@@ -63,11 +63,11 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
   }
 
   public getToken() {
-    return this.ctx.file.load('token', 'txt');
+    return this.ctx.file.load('token', 'text');
   }
 
   public updateToken() {
-    return this.ctx.file.save('token', generateToken(), 'txt');
+    return this.ctx.file.save('token', generateToken(), 'text');
   }
 
   public checkToken(token?: string) {

@@ -4,9 +4,7 @@
     /* Path mapping for module imports */
     "baseUrl": ".",
     "paths": {
-      "@kotori-bot/*": [
-        "packages/*/src"
-      ]
-    },
+      "@kotori-bot/*": ["packages/*/src"]
+    }
   }
 }

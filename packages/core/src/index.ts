@@ -12,6 +12,7 @@ export * from './utils/command';
 export * from './utils/error';
 export * from './utils/commandError';
 export * from './utils/container';
+export * from './utils/factory';
 export * from './global';
 export * from './types';
 export * from '@kotori-bot/tools';

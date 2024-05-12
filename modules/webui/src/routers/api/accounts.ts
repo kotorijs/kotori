@@ -28,7 +28,7 @@ export default function (ctx: Context, app: Context['server']) {
 
   router.post('/logout', (_, res) => {
     ctx.webui.updateToken();
-    res.status(204).send();
+    res.sendStatus(204);
   });
 
   return router;

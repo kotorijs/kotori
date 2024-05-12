@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import YAML from 'yaml';
 
-type ConfigFileType = 'json' | 'yaml' /* | 'xml' | 'ini'  */ | 'txt';
+type ConfigFileType = 'json' | 'toml' | 'yaml' /* | 'xml' | 'ini'  */ | 'text';
 
 export function loadConfig(
   filename: string,
@@ -16,7 +16,8 @@ export function loadConfig(
   if (!isExistsFile && init) fs.writeFileSync(filename, defaultValue);
   const data = isExistsFile ? fs.readFileSync(filename).toString() : defaultValue;
   if (type === 'yaml') return YAML.parse(data);
-  if (type === 'txt') return data;
+  if (type === 'toml') return data;
+  if (type === 'text') return data;
   return JSON.parse(data);
 }
 

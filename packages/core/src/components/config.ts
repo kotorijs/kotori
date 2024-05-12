@@ -1,5 +1,5 @@
 import Tsu from 'tsukiko';
-import { join } from 'path';
+import { join } from 'node:path';
 import { loadConfig } from '@kotori-bot/tools';
 import { CoreConfig } from '../types';
 import { DEFAULT_CORE_CONFIG } from '../global';

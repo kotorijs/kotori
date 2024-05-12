@@ -30,7 +30,7 @@ export class I18n<T extends LocaleType = LocaleType> {
   }
 
   public locale(locale: string, lang: T = this.lang) {
-    return this.localesData.get(lang)!.get(locale) ?? locale;
+    return this.localesData.get(lang)?.get(locale) ?? this.localesData.get('common' as T)?.get(locale) ?? locale;
   }
 
   public set(lang: T) {

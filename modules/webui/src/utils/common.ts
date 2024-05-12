@@ -1,5 +1,5 @@
 import { getUuid } from 'kotori-bot';
-import os from 'os';
+import os from 'node:os';
 import { MsgRecord } from '../types';
 
 export function generateToken() {
