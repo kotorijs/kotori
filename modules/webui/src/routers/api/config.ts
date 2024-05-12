@@ -30,7 +30,7 @@ export default function (ctx: Context, app: Context['server']) {
     Object.keys(body).forEach((key) => {
       if (key in pluginConfig) pluginConfig[key as keyof typeof pluginConfig] = body[key];
     });
-    return res.status(204).send();
+    return res.sendStatus(204);
   });
 
   router.get('/bots/:name?', (req, res) => {
@@ -53,7 +53,7 @@ export default function (ctx: Context, app: Context['server']) {
     Object.keys(body).forEach((key) => {
       if (key in botConfig) botConfig[key as keyof typeof botConfig] = body[key];
     });
-    return res.status(204).send();
+    return res.sendStatus(204);
   });
 
   router.get('/global', (_, res) => {
@@ -67,7 +67,7 @@ export default function (ctx: Context, app: Context['server']) {
     Object.keys(body).forEach((key) => {
       if (key in ctx.config.global) ctx.config.global[key as 'lang'] = body[key];
     });
-    return res.status(204).send();
+    return res.sendStatus(204);
   });
 
   return router;

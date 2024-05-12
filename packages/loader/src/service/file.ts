@@ -1,5 +1,5 @@
 import { Context, Service, createConfig, loadConfig, saveConfig } from '@kotori-bot/core';
-import { join } from 'path';
+import { join } from 'node:path';
 
 export class File extends Service {
   constructor(ctx: Context) {

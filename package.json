@@ -1,7 +1,7 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
@@ -10,7 +10,7 @@
     "build": "pnpm -r build",
     "start": "pnpm kotori start",
     "dev:only": "pnpm kotori dev",
-    "dev": "pnpm kotori build && pnpm kotori dev",
+    "dev": "nodemon --exec \"cd ./packages/kotori && pnpm build && pnpm dev\" --ext ts --watch {packages,modules}/*/src/",
     "test": "echo testing",
     "lint": "eslint \"{packages,modules}/*/src/*.{ts,tsx}\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
@@ -43,10 +43,12 @@
     "eslint-config-typescript": "^3.0.0",
     "execa": "^8.0.1",
     "inquirer": "^9.2.12",
+    "nodemon": "^3.1.0",
     "prettier": "^3.0.2",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@8.7.4",
+  "packageManager": "pnpm@8.7.4+",
   "engines": {
     "node": ">=17.9.0"
   }

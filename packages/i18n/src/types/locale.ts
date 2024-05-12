@@ -39,7 +39,8 @@ export enum LocaleIdentifier {
   mk_MK = 'mk-MK',
   sq_AL = 'sq-AL',
   et_EE = 'et-EE',
-  mt_MT = 'mt-MT'
+  mt_MT = 'mt-MT',
+  common = 'COMMON'
 }
 
 export default LocaleIdentifier;

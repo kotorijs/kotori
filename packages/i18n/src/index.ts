@@ -1,5 +1,5 @@
-import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { I18n as I18nCommon, LocaleType, localeData } from './common';
 import { DEFAULT_EXT, DEFAULT_LANG } from './const';
 
@@ -14,7 +14,7 @@ export class I18n<T extends LocaleType = LocaleType> extends I18nCommon<T> {
       if (!existsSync(file)) return;
       try {
         const locales = JSON.parse(readFileSync(file).toString());
-        this.use(locales, lang);
+        super.use(locales, lang);
       } catch {
         JSON.stringify('');
       }
@@ -29,13 +29,8 @@ export class I18n<T extends LocaleType = LocaleType> extends I18nCommon<T> {
   }
 
   public use(locales: localeData | string, lang: T = this.lang) {
-    if (typeof locales === 'string') {
-      this.loader(locales);
-      return;
-    }
-    Object.keys(locales).forEach((locale) => {
-      this.localesData.get(lang!)!.set(locale, locales[locale]);
-    });
+    if (typeof locales === 'string') return this.loader(locales);
+    return super.use(locales, lang);
   }
 }
 

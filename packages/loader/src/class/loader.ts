@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-03 22:05:36
+ * @LastEditTime: 2024-05-12 16:24:15
  */
 import {
   KotoriError,
@@ -18,10 +18,11 @@ import {
   Core,
   Context,
   ModuleError,
-  DEFAULT_PORT
+  DEFAULT_PORT,
+  formatFactory
 } from '@kotori-bot/core';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 import Logger, { LoggerLevel } from '@kotori-bot/logger';
 import Runner, { localeTypeSchema } from './runner';
 import loadInfo from '../utils/log';
@@ -49,6 +50,9 @@ declare module '@kotori-bot/core' {
     server: Server;
     db: Database;
     file: File;
+    /* Tool */
+    format: ReturnType<typeof formatFactory>;
+    locale: Context['i18n']['locale'];
   }
 
   interface GlobalConfig {
@@ -150,6 +154,10 @@ export class Loader extends Container {
     ctx.provide('runner', new Runner(ctx, runnerConfig));
     ctx.mixin('runner', ['baseDir', 'options']);
     Container.setInstance(ctx);
+    ctx.provide('loader-tools', { format: formatFactory(ctx.i18n), locale: ctx.i18n.locale.bind(ctx.i18n) });
+
+    ctx.mixin('loader-tools', ['locale', 'format']);
+    ctx.i18n.use(path.resolve(__dirname, '../../locales'));
 
     this.ctx = Container.getInstance();
     this.ctx.logger.trace(`options:`, options);
@@ -193,42 +201,39 @@ export class Loader extends Container {
     process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'sync'));
     process.on('unhandledRejection', (err) => this.handleError(err, 'async'));
     process.on('SIGINT', () => process.exit());
-    this.ctx.logger.debug('run info: develop with debugging...');
+    this.ctx.logger.debug(this.ctx.locale('loader.debug.info'));
   }
 
   private listenMessage() {
     this.ctx.on('connect', (data) => {
-      const { type, mode, normal, address, adapter } = data;
+      const { type, mode, normal, address: addr, adapter } = data;
       let msg: string;
       if (type === 'connect') {
         switch (mode) {
           case 'ws':
-            msg = `${normal ? 'Connect' : 'Reconnect'} server to ${address}`;
+            msg = this.ctx.format(`loader.bots.${normal ? 'connect' : 'reconnect'}`, [addr]);
             break;
           case 'ws-reverse':
-            msg = `server ${normal ? 'start' : 'restart'} at ${address}`;
+            msg = this.ctx.format(`loader.bots.${normal ? 'start' : 'restart'}`, [addr]);
             break;
           default:
-            msg = `ready completed about ${address}`;
+            msg = this.ctx.format('loader.bots.ready', [addr]);
         }
       } else {
         switch (mode) {
           case 'ws':
-            msg = `disconnect server from ${address}${normal ? '' : ' unexpectedly'}`;
+            msg = this.ctx.format(`loader.bots.disconnect${normal ? '' : '.error'}`, [addr]);
             break;
           case 'ws-reverse':
-            msg = `server stop at ${address}${normal ? '' : ' unexpectedly'}`;
+            msg = this.ctx.format(`loader.bots.stop${normal ? '' : '.error'}`, [addr]);
             break;
           default:
-            msg = `dispose completed about ${address}`;
+            msg = this.ctx.format('loader.bots.dispose', [addr]);
         }
       }
       adapter.ctx.logger[normal ? 'info' : 'warn'](msg);
     });
-    this.ctx.on('status', (data) => {
-      const { status, adapter } = data;
-      adapter.ctx.logger.info(status);
-    });
+    this.ctx.on('status', ({ status, adapter }) => adapter.ctx.logger.info(status));
     this.ctx.on('ready_module', (data) => {
       if (typeof data.instance !== 'object') return;
 
@@ -240,21 +245,20 @@ export class Loader extends Container {
       this.loadCount += 1;
       const { name, version, author, peerDependencies } = pkg[0].pkg;
       this.ctx.logger.info(
-        `loaded module ${name} version: ${version} ${
-          Array.isArray(author) ? `authors: ${author.join(',')}` : `author: ${author}`
-        }`
+        this.ctx.format('loader.modules.load', [name, version, Array.isArray(author) ? author.join(',') : author])
       );
 
       const requiredVersion = peerDependencies['kotori-bot'];
       if (
-        !requiredVersion.includes('workspace') &&
-        (!SUPPORTS_VERSION.exec(requiredVersion) || requiredVersion !== this.ctx.pkg.version)
-      ) {
-        if (SUPPORTS_HALF_VERSION.exec(requiredVersion)) {
-          this.ctx.logger.warn(`incomplete supported module version: ${requiredVersion}`);
-        } else {
-          this.ctx.logger.error(`unsupported module version: ${requiredVersion}`);
-        }
+        requiredVersion.includes('workspace') ||
+        SUPPORTS_VERSION.exec(requiredVersion) ||
+        requiredVersion.includes(this.ctx.pkg.version)
+      )
+        return;
+      if (SUPPORTS_HALF_VERSION.exec(requiredVersion)) {
+        this.ctx.logger.warn(this.ctx.format('loader.modules.incomplete', [requiredVersion]));
+      } else {
+        this.ctx.logger.error(this.ctx.format('loader.modules.unsupported', [requiredVersion]));
       }
     });
   }
@@ -268,7 +272,7 @@ export class Loader extends Container {
     this.ctx.get<Runner>('runner').loadAll();
     const failLoadCount = this.ctx.get<Runner>('runner')[Symbols.modules].size - this.loadCount;
     this.ctx.logger.info(
-      `loaded ${this.loadCount} modules successfully${failLoadCount > 0 ? `, failed to load ${failLoadCount} modules` : ''} `
+      this.ctx.format(`loader.modules.all${failLoadCount > 0 ? '.fail' : ''}`, [this.loadCount, failLoadCount])
     );
     this.loadAllAdapter();
     this.ctx.emit('ready');
@@ -280,14 +284,11 @@ export class Loader extends Container {
       const botConfig = this.ctx.config.adapter[botName];
       const array = adapters.get(botConfig.extends);
 
-      if (!array) {
-        this.ctx.logger.warn(`cannot find adapter '${botConfig.extends}' for ${botName}`);
-        return;
-      }
+      if (!array) return this.ctx.logger.warn(this.ctx.format('loader.adapter.notfound', [botConfig.extends, botName]));
 
       const result = array[1]?.parseSafe(botConfig);
       if (result && !result.value)
-        throw new ModuleError(`Config format of adapter ${botName} is error: ${result.error.message}`);
+        throw new ModuleError(this.ctx.format('error.module.config_bot', [botName, result.error.message]));
 
       const bot = new array[0](
         this.ctx.extends({}, `${botConfig.extends}/${botName}`),
@@ -304,15 +305,13 @@ export class Loader extends Container {
     const { version } = this.ctx.pkg;
     const res = await this.ctx.http
       .get(GLOBAL.UPDATE)
-      .catch(() => this.ctx.logger.error('get update failed, please check your network'));
+      .catch(() => this.ctx.logger.error(this.ctx.locale('loader.tips.update.failed')));
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
-      this.ctx.logger.warn(`detection update failed`);
+      this.ctx.logger.warn(this.ctx.locale('loader.tips.update.failed'));
     } else if (version === res.version) {
-      this.ctx.logger.info('kotori is currently the latest version');
+      this.ctx.logger.info(this.ctx.locale('loader.tips.update.latest'));
     } else {
-      this.ctx.logger.warn(
-        `the current version of Kotori is ${version}, and the latest version is ${res.version}. please go to ${GLOBAL.REPO} to update`
-      );
+      this.ctx.logger.warn(this.ctx.format('loader.tips.update.available', [version, res.version, GLOBAL.REPO]));
     }
   }
 }

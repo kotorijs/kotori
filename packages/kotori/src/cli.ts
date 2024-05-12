@@ -1,7 +1,7 @@
 import cac from 'cac';
 import { Loader, Logger } from '@kotori-bot/loader';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const program = cac();
 
@@ -21,7 +21,12 @@ program
     default: 'build'
   })
   .action((options) => {
-    new Loader({ mode: options.mode, dir: resolve(process.cwd(), options.dir), level: Number(options.log) }).run();
+    const Kotori = new Loader({
+      mode: options.mode,
+      dir: resolve(process.cwd(), options.dir),
+      level: Number(options.log)
+    });
+    Kotori.run();
   });
 
 program

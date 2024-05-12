@@ -1,9 +1,9 @@
 #!/usr/bin/env ts-node
 
 import { Package, getPackagesSync } from '@manypkg/get-packages';
-import { error, log } from 'console';
-import { writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { error, log } from 'node:console';
+import { writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const config = {
   branch: 'master',

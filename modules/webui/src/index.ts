@@ -1,5 +1,5 @@
 import { Tsu } from 'kotori-bot';
-import path from 'path';
+import path from 'node:path';
 import { Context } from './types';
 import { Webui, config } from './utils/webui';
 import routers from './routers';
@@ -22,17 +22,18 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   const app = ctx.server;
   app.use(app.static(path.resolve(__dirname, '../dist')));
   app.use(app.json());
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  app.all('*', (req: any, res: any, next: any) => {
-    ctx.logger.label(req.method).trace(req.path);
+  app.use('/', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.header('Access-Control-Allow-Methods', '*');
     res.header('Content-Type', 'application/json;charset=utf-8');
 
-    if (!router.find((item) => item.path === req.path || req.path.startsWith(item.path))) return res.status(404).send();
+    if (req.method === 'OPTIONS') return res.sendStatus(200);
+    ctx.logger.label(req.method).trace(req.path);
+
+    if (!router.find((item) => item.path === req.path || req.path.startsWith(item.path))) return res.sendStatus(404);
     if (req.path === '/api/accounts/login' || ctx.webui.checkToken(req.headers.authorization)) return next();
-    return res.status(401);
+    return res.sendStatus(401);
   });
   app.use('/', routers(ctx, app));
 }

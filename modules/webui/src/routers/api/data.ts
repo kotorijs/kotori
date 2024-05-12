@@ -1,4 +1,4 @@
-import os from 'os';
+import os from 'node:os';
 import { Adapter, Symbols } from 'kotori-bot';
 import { Context } from '../../types';
 import { calcGrandRecord } from '../../utils/common';
@@ -87,12 +87,12 @@ export default function (ctx: Context, app: Context['server']) {
         homedir: os.homedir(),
         node: process.version
       },
-      info: [
-        { name: '累计消息收:发量', value: `${msgTotal.received}:${msgTotal.sent}` },
-        { name: '实例在线数/总数', value: `${botsStatus.filter((status) => status).length}/${botsStatus.length}` },
-        { name: '登录成功:失败次数', value: `${loginSuccess}:${loginFailed}` },
-        { name: '内存使用量', value: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)} MB` }
-      ]
+      info: {
+        message: `${msgTotal.received}:${msgTotal.sent}`,
+        bots: `${botsStatus.filter((status) => status).length}/${botsStatus.length}`,
+        login: `${loginSuccess}:${loginFailed}`,
+        memory: `${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)} MB`
+      }
     });
   });
 

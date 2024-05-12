@@ -1,5 +1,4 @@
 import I18n from '@kotori-bot/i18n';
-import { stringTemp } from '@kotori-bot/tools';
 import { Context, EventsList, EventsMapping } from 'fluoro';
 import type Api from './api';
 import {
@@ -10,11 +9,10 @@ import {
   MessageQuick,
   AdapterConfig,
   CommandResult,
-  CommandArgType,
   SessionData
 } from '../types';
 import Elements from './elements';
-import { cancelFactory } from '../utils/factory';
+import { cancelFactory, formatFactory } from '../utils/factory';
 import CommandError from '../utils/commandError';
 import { Symbols } from '../global';
 
@@ -73,24 +71,6 @@ function sendMessageFactory(adapter: Adapter, type: keyof EventApiType, data: Pa
   }
   return (message: MessageRaw) => {
     adapter.api.sendPrivateMsg(message, data.userId, data.extra);
-  };
-}
-
-function formatFactory(i18n: I18n) {
-  return (template: string, data: Record<string, unknown> | CommandArgType[]) => {
-    const params = data;
-    if (Array.isArray(params)) {
-      let str = i18n.locale(template);
-      params.forEach((value, index) => {
-        str = str.replaceAll(`{${index}}`, i18n.locale(typeof value === 'string' ? value : String(value)));
-      });
-      return str;
-    }
-    Object.keys(params).forEach((key) => {
-      if (typeof params[key] !== 'string') params[key] = String(params[key]);
-      params[key] = i18n.locale(params[key] as string);
-    });
-    return stringTemp(i18n.locale(template), params as Record<string, string>);
   };
 }
 

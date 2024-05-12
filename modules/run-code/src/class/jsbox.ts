@@ -1,4 +1,4 @@
-import vm from 'vm';
+import vm from 'node:vm';
 import { Logger } from 'kotori-bot';
 import BoxTransport from './transports';
 

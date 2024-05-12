@@ -1,5 +1,5 @@
-import fs, { existsSync } from 'fs';
-import path, { resolve } from 'path';
+import fs, { existsSync } from 'node:fs';
+import path, { resolve } from 'node:path';
 import {
   ADAPTER_PREFIX,
   Adapter,
@@ -19,6 +19,7 @@ import {
 import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger';
 import { BUILD_FILE, BUILD_MODE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT, DEV_MODE, DEV_SOURCE_MODE } from '../constants';
 import KotoriLogger from '../utils/logger';
+import './loader';
 
 interface BaseDir {
   root: string;
@@ -173,19 +174,19 @@ export class Runner {
     try {
       pkg = JSON.parse(fs.readFileSync(packagePath).toString());
     } catch {
-      throw new DevError(`illegal package.json ${packagePath}`);
+      throw new DevError(this.ctx.format('error.dev.package.illegal', [packagePath]));
     }
 
     const result = modulePackageSchema.parseSafe(pkg);
     if (!result.value) {
       if (rootDir !== this.ctx.baseDir.modules) return;
-      throw new DevError(`package.json format error ${packagePath}: ${result.error.message}`);
+      throw new DevError(this.ctx.format('error.dev.package.missing', [packagePath, result.error.message]));
     }
 
     pkg = result.data;
     const devMode = this.isSourceDev && existsSync(path.resolve(dir, DEV_IMPORT));
     const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main);
-    if (!fs.existsSync(main)) throw new DevError(`cannot find ${main}`);
+    if (!fs.existsSync(main)) throw new DevError(this.ctx.format('error.dev.main_file', [main]));
     const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
     const files = fs.statSync(dirs).isDirectory() ? this.getDirFiles(dirs) : [];
 
@@ -211,7 +212,8 @@ export class Runner {
 
     const parsed = (schema: Parser<unknown>) => {
       const result = (schema as Parser<ModuleConfig>).parseSafe(config);
-      if (!result.value) throw new ModuleError(`Config format of module ${pkg.name} is error: ${result.error.message}`);
+      if (!result.value)
+        throw new ModuleError(this.ctx.format('error.module.config', [pkg.name, result.error.message]));
       return result.data;
     };
 
@@ -267,7 +269,7 @@ export class Runner {
     this[Symbols.modules].forEach((data) =>
       data[0].files.forEach((file) =>
         fs.watchFile(file, async () => {
-          this.ctx.logger.debug(`file happen changed, module ${data[0].pkg.name} is reloading...`);
+          this.ctx.logger.debug(this.ctx.format('loader.debug.reload', [data[0].pkg.name]));
           this.unloadEx(data[0]);
           this.loadEx(...data);
         })

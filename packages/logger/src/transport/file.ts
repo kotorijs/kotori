@@ -1,7 +1,7 @@
 import stringify from 'fast-safe-stringify';
 import dayjs from 'dayjs';
-import { existsSync, readFileSync, writeFileSync } from 'fs';
-import { resolve } from 'path';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import Transport from '../utils/transport';
 import { LoggerData, TransportOptionsBase } from '../types/common';
 
