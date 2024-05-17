@@ -1,0 +1,13 @@
+{
+    "minecraft.descr.motd": "MCJE服務器信息查詢",
+    "minecraft.descr.motdbe": "MCBE服務器信息查詢",
+    "minecraft.descr.mcskin": "MC正版賬號皮膚查詢",
+    "minecraft.descr.mcv": "查詢Minecraft版本信息",
+    "minecraft.msg.motd": "狀態：在線\nIP：{0}\n端口：{1}\n物理地址：{2}\nMOTD：{3}\n協議版本：{4}\n遊戲版本：{5}\n在線人數：{6} / {7}\n延遲：{8} ms\n圖標：{9}",
+    "minecraft.msg.motd.fail": "狀態：離線\nIP：{0}\n端口：{1}",
+    "minecraft.msg.motdbe": "狀態：在線\nIP：{0}\n端口：{1}\n物理地址：{2}\nMOTD：{3}\n遊戲模式：{4}\n協議版本：{5}\n遊戲版本：{6}\n在線人數：{7} / {8}\n延遲： {9} ms",
+    "minecraft.msg.motdbe.fail": "狀態：離線\nIP：{0}\n端口：{1}",
+    "minecraft.msg.mcskin": "玩家：{0}\n皮膚：{1}\n披風：{2}\n頭顱：{3}",
+    "minecraft.msg.mcskin.fail": "{0}查無此人！",
+    "minecraft.msg.mcv": "MinecraftJava：\n最新版：{0}\n發布時間：{1}\n最新快照：{2}\n發布時間：{3}\nMinecraftBedrock：\n最新版：{4}\n發布時間：{5}"
+}
