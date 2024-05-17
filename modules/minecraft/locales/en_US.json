@@ -1,0 +1,13 @@
+{
+  "minecraft.descr.motd": "MCJE server information inquiry",
+  "minecraft.descr.motdbe": "MCBE server information inquiry",
+  "minecraft.descr.mcskin": "MC legitimate account skin inquiry",
+  "minecraft.descr.mcv": "Inquiry of Minecraft version information",
+  "minecraft.msg.motd": "Status: Online\nIP: {0}\nPort: {1}\nPhysical Address: {2}\nMOTD: {3}\nProtocol Version: {4}\nGame Version: {5}\nOnline Players: {6} / {7}\nLatency: {8} ms\nIcon: {9}",
+  "minecraft.msg.motd.fail": "Status: Offline\nIP: {0}\nPort: {1}",
+  "minecraft.msg.motdbe": "Status: Online\nIP: {0}\nPort: {1}\nPhysical Address: {2}\nMOTD: {3}\nGame Mode: {4}\nProtocol Version: {5}\nGame Version: {6}\nOnline Players: {7} / {8}\nLatency: {9} ms",
+  "minecraft.msg.motdbe.fail": "Status: Offline\nIP: {0}\nPort: {1}",
+  "minecraft.msg.mcskin": "Player: {0}\nSkin: {1}\nCape: {2}\nHead: {3}",
+  "minecraft.msg.mcskin.fail": "No player found for {0}!",
+  "minecraft.msg.mcv": "Minecraft Java:\nLatest Version: {0}\nRelease Date: {1}\nLatest Snapshot: {2}\nRelease Date: {3}\nMinecraft Bedrock:\nLatest Version: {4}\nRelease Date: {5}"
+}
