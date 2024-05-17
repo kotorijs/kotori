@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-run-code",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Run code with javascript and lua",
   "main": "lib/index.js",
   "scripts": {
