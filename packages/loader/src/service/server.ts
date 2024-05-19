@@ -65,7 +65,7 @@ export class Server extends Service<ServerConfig> {
         callback(ws, Object.assign(req, { params: result.params }));
       }
       /* eslint-enable no-restricted-syntax,no-continue */
-      if (!triggered) ws.close(ws.CLOSED);
+      if (!triggered) ws.close(1002);
     });
   }
 
