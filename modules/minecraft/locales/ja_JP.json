@@ -1,0 +1,13 @@
+{
+  "minecraft.descr.motd": "MCJEサーバー情報の照会",
+  "minecraft.descr.motdbe": "MCBEサーバー情報の照会",
+  "minecraft.descr.mcskin": "MC正規アカウントのスキン照会",
+  "minecraft.descr.mcv": "Minecraftバージョン情報の照会",
+  "minecraft.msg.motd": "状態：オンライン\nIP：{0}\nポート：{1}\n物理アドレス：{2}\nMOTD：{3}\nプロトコルバージョン：{4}\nゲームバージョン：{5}\nオンライン人数：{6} / {7}\n遅延：{8} ms\nアイコン：{9}",
+  "minecraft.msg.motd.fail": "状態：オフライン\nIP：{0}\nポート：{1}",
+  "minecraft.msg.motdbe": "状態：オンライン\nIP：{0}\nポート：{1}\n物理アドレス：{2}\nMOTD：{3}\nゲームモード：{4}\nプロトコルバージョン：{5}\nゲームバージョン：{6}\nオンライン人数：{7} / {8}\n遅延： {9} ms",
+  "minecraft.msg.motdbe.fail": "状態：オフライン\nIP：{0}\nポート：{1}",
+  "minecraft.msg.mcskin": "プレイヤー：{0}\nスキン：{1}\nマント：{2}\n頭部：{3}",
+  "minecraft.msg.mcskin.fail": "{0}は存在しないプレイヤーです！",
+  "minecraft.msg.mcv": "MinecraftJava：\n最新版：{0}\nリリース日：{1}\n最新スナップショット：{2}\nリリース日：{3}\nMinecraftBedrock：\n最新版：{4}\nリリース日：{5}"
+}

@@ -1,6 +1,8 @@
 {
-	"runcode.help.runjs": "JavaScriptコードの実行",
-	"runcode.msg.runjs.info": "Console Output:\n%content%",
-	"runcode.help.runlua": "Luaコードの実行",
-	"runcode.msg.runlua.info": "Print Output:\n%content%"
+  "runcode.descr.runjs": "JavaScript コードを実行する",
+  "runcode.msg.runjs.prompt": "JavaScript コードを入力してください",
+  "runcode.msg.runjs.info": "コンソール出力:\n{0}",
+  "runcode.descr.runlua": "Lua コードを実行する",
+  "runcode.msg.runlua.prompt": "Lua コードを入力してください",
+  "runcode.msg.runlua.info": "出力結果:\n{0}"
 }

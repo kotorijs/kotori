@@ -1,6 +1,8 @@
 {
-	"runcode.help.runjs": "Run JavaScript code",
-	"runcode.msg.runjs.info": "Console Output:\n%content%",
-	"runcode.help.runlua": "Run Lua Code",
-	"runcode.msg.runlua.info": "Print Output:\n%content%"
+  "runcode.descr.runjs": "Run JavaScript code",
+  "runcode.msg.runjs.prompt": "Please enter JavaScript code",
+  "runcode.msg.runjs.info": "Console Output:\n{0}",
+  "runcode.descr.runlua": "Run Lua code",
+  "runcode.msg.runlua.prompt": "Please enter Lua code",
+  "runcode.msg.runlua.info": "Print Output:\n{0}"
 }
