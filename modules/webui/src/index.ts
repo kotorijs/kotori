@@ -3,7 +3,7 @@ import path from 'node:path';
 import { Context } from './types';
 import { Webui, config } from './utils/webui';
 import routers from './routers';
-import ws from './ws';
+import wsHandler from './ws';
 import router from './routers/router';
 
 export const inject = ['server', 'file', 'cache'];
@@ -15,7 +15,9 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   ctx.service('webui', new Webui(ctx, cfg));
   ctx.inject('webui');
   ctx.on('ready', () => {
-    ws(ctx, ctx.server.wss('/webui')!);
+    ctx.server.wss('/webui', (ws, req) => {
+      wsHandler(ctx, ws, req);
+    });
   });
 
   /* Sets up routes */

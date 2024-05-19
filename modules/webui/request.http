@@ -9,9 +9,9 @@
 # Kotori Bot - WebUI Api Documentation
 
 @URL = http://localhost:720
-@KEY = 此处填写 TOKEN
-@USERNAME = 账号名字
-@PASSWORD = 账号密码
+@KEY = TOKEN
+@USERNAME = 用户名
+@PASSWORD = 密码
 
 ### 登录
 
@@ -23,51 +23,23 @@ Content-Type: application/json
   "password": "{{PASSWORD}}"
 }
 
-Response:
-{
-  "token": "236b8cb0284240c88539e5595435253a",
-  "isDefault": true
-}
-
 ### 退出登录
 
 POST {{URL}}/api/accounts/logout HTTP/1.1
+Content-Type: application/json
 Authorization: Bearer {{KEY}}
 
 ### 获取所有插件配置信息
 
 GET {{URL}}/api/config/plugins HTTP/1.1
+Content-Type: application/json
 Authorization: Bearer {{KEY}}
-
-Response:
-[
-  {
-    "name": "menu",
-    "origin": {
-      "content": "请发送 /help",
-      "filter": {}
-    },
-    "schema": {}
-  }
-  // ...
-]
 
 ### 获取单个插件配置信息
 
 @pluginName = @kotori-bot/kotori-plugin-webui
 GET {{URL}}/api/config/plugins/{{pluginName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
-
-Response:
-{
-  "name": "webui",
-  "origin": {
-    "username": "himeno",
-    "password": "0517",
-    "filter": {}
-  },
-  "schema": {}
-}
 
 ### 更新单个插件配置信息
 
@@ -80,40 +52,16 @@ Content-Type: application/json
   "username": "himeno"
 }
 
-
 ### 获取所有机器人实例配置信息
 
 GET {{URL}}/api/config/bots HTTP/1.1
 Authorization: Bearer {{KEY}}
-
-Response:
-[
-  {
-    "id": "cmd-test",
-    "origin": {
-      "extends": "cmd",
-      "master": 2333,
-    },
-    "schema": {}
-  }
-  // ...
-]
 
 ### 获取单个机器人实例配置信息
 
 @botName = cmd-test
 GET {{URL}}/api/config/bots/{{botName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
-
-Response:
-{
-  "id": "cmd-test",
-  "origin": {
-    "extends": "cmd",
-    "master": 2333,
-  },
-  "schema": {}
-}
 
 ### 更新单个机器人实例配置信息
 
@@ -130,14 +78,6 @@ Content-Type: application/json
 GET {{URL}}/api/config/global HTTP/1.1
 Authorization: Bearer {{KEY}}
 
-Response:
-{
-  "port": 720,
-  "lang": "zh_CN",
-  "command-prefix": "/",
-  "dirs": []
-}
-
 ### 更新全局配置信息
 PUT {{URL}}/api/config/global HTTP/1.1
 Authorization: Bearer {{KEY}}
@@ -152,46 +92,16 @@ Content-Type: application/json
 GET {{URL}}/api/data/modules HTTP/1.1
 Authorization: Bearer {{KEY}}
 
-Response:
-[
-  {
-    "name": "@kotori-bot/kotori-plugin-webui",
-    "version": "1.1.0",
-    "description": "webui plugin",
-    "main": "lib/index.js",
-  }
-  // ...
-]
-
 ### 获取单个模块信息
 
 @moduleName = kotori-plugin-adapter-minecraft
 GET {{URL}}/api/data/modules/{{moduleName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
 
-Response:
-{
-  "name": "@kotori-bot/kotori-plugin-webui",
-  "version": "1.1.0",
-  "description": "webui plugin",
-  "main": "lib/index.js",
-}
-
 ### 获取所有机器人实例信息
 
 GET {{URL}}/api/data/bots HTTP/1.1
 Authorization: Bearer {{KEY}}
-
-Response:
-[
-  {
-    "status": {},
-    "platform": "cmd",
-    "identity": "cmd-test",
-    "id": "720",
-    "lang": "zh_CN"
-  }
-]
 
 ### 获取单个机器人实例信息
 
@@ -199,83 +109,17 @@ Response:
 GET {{URL}}/api/data/bots/{{botName2}} HTTP/1.1
 Authorization: Bearer {{KEY}}
 
-Response:
-{
-  "status": {},
-  "platform": "cmd",
-  "identity": "cmd-test",
-  "id": "720",
-  "lang": "zh_CN"
-}
-
 ### 获取统计数据
 
 GET {{URL}}/api/data/stats HTTP/1.1
 Authorization: Bearer {{KEY}}
 
-Response:
-{
-  "chats": {
-    "received": [5,0,0,0,0,0,0],
-    "sent": [3,0,0,0,0,0,0]
-  },
-  "count": {
-    "midwares": 6,
-    "commands": 51,
-    "regexps": 25,
-    "bots": 4,
-    "adapters": 5,
-    "modules": 33
-  },
-  "system": {
-    "type": "Windows_NT",
-    "arch": "x64",
-    "uptime": 16443.781,
-    "hostname": "BIYUEHU",
-    "homedir": "C:\\Users\\BIYUEHU",
-    "node": "v18.18.1"
-  },
-  "info": [
-    {
-      "name": "累计消息收:发量",
-      "value": "5:3"
-    },
-    {
-      "name": "实例在线数/总数",
-      "value": "1/4"
-    },
-    {
-      "name": "登录成功:失败次数",
-      "value": "2:1"
-    },
-    {
-      "name": "内存使用量",
-      "value": "205 MB"
-    }
-  ]
-}
+# Response:
 
 ### 获取实时状态
 
 GET {{URL}}/api/data/status HTTP/1.1
 Authorization: Bearer {{KEY}}
-
-
-Response:
-{
-  "ram": {
-    "total": 23.89745330810547,
-    "unused": 12.575305938720703,
-    "used": 11.322147369384766,
-    "rate": 47.3780499679627
-  },
-  "cpu": {
-    "rate": 66.13230389904861,
-    "speed": 2592
-  },
-  "mode": "dev-source",
-  "core": "1.4.0"
-}
 
 ### WebSocket 连接
 
@@ -305,7 +149,7 @@ Response:
 
 #### 【Server】控制台日志输出
 
-Response:
+# Response:
 
 {
   "type": "console_output",
