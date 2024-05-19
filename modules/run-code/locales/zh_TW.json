@@ -1,0 +1,8 @@
+{
+        "runcode.descr.runjs": "運行 JavaScript 代碼",
+        "runcode.msg.runjs.prompt": "請輸入 JavaScript 代碼",
+        "runcode.msg.runjs.info": "Console Output:\n{0}",
+        "runcode.descr.runlua": "運行 Lua 代碼",
+        "runcode.msg.runlua.prompt": "請輸入 Lua 代碼",
+        "runcode.msg.runlua.info": "Print Output:\n{0}"
+}

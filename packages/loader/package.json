@@ -11,6 +11,7 @@
     "loader"
   ],
   "files": [
+			"locales",
     "lib",
     "LICENSE",
     "README.md"
