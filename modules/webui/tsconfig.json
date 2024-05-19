@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.node.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./lib",
-    "noImplicitAny": false
+    "outDir": "./lib"
   },
   "references": [
     {

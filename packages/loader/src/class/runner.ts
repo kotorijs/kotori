@@ -127,7 +127,24 @@ export class Runner {
       level: this.ctx.config.global.level ?? config.level,
       label: [],
       transports: [
-        new ConsoleTransport(),
+        new ConsoleTransport({
+          template: '%time% %type% %label%%msg%',
+          label: '[%name%] ',
+          labelColor: 'cyan',
+          time: 'M/D H:m:s',
+          timeColor: 'blue',
+          pidColor: 'bold',
+          useColor: true,
+          detail: {
+            FATAL: ['FATAL', 'redBright', 'redBright'],
+            ERROR: ['ERROR', 'red', 'red'],
+            WARN: ['WARN', 'yellowBright', 'yellowBright'],
+            INFO: ['INFO', 'green'],
+            DEBUG: ['DEBUG', 'magenta', 'magentaBright'],
+            TRACE: ['TRACE', 'gray', 'gray']
+          },
+          indent: 2
+        }),
         new FileTransport({ dir: this.baseDir.logs, filter: (data) => data.level >= LoggerLevel.WARN })
       ]
     };

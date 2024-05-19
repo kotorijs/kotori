@@ -15,8 +15,7 @@ interface BotData {
   lang: string;
 }
 
-/* eslint-disable-next-line func-names */
-export default function (ctx: Context, app: Context['server']) {
+export default (ctx: Context, app: Context['server']) => {
   const getModuleData = () => {
     const list: ModulePackage[] = [];
     ctx[Symbols.modules].forEach((module) => list.push(module[0].pkg));
@@ -105,4 +104,4 @@ export default function (ctx: Context, app: Context['server']) {
   });
 
   return router;
-}
+};

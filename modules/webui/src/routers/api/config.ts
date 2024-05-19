@@ -1,8 +1,7 @@
 import { PLUGIN_PREFIX, stringRightSplit } from 'kotori-bot';
 import { Context } from '../../types';
 
-/* eslint-disable-next-line func-names */
-export default function (ctx: Context, app: Context['server']) {
+export default (ctx: Context, app: Context['server']) => {
   const getPluginConfig = () =>
     Object.entries(ctx.config.plugin).map(([name, origin]) => ({ name, origin, schema: {} }));
   const getBotConfig = () => Object.entries(ctx.config.adapter).map(([id, origin]) => ({ id, origin, schema: {} }));
@@ -71,4 +70,4 @@ export default function (ctx: Context, app: Context['server']) {
   });
 
   return router;
-}
+};
