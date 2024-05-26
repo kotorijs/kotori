@@ -4,7 +4,7 @@ import { generateMessage } from '../utils/common';
 
 type Callback = Parameters<Parameters<Context['server']['wss']>[1]>;
 
-export default (ctx: Context, ws: Callback[0], req: Callback[1]) => {
+export default (ctx: Context, ws: Callback[0]) => {
   const interval = ctx.webui.config.interval * 1000;
   const timer = setInterval(() => {
     if (ws.readyState === ws.CLOSED || ws.readyState === ws.CLOSING) {

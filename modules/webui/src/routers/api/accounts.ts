@@ -1,7 +1,7 @@
 import { DEFAULT_PASSWORD, DEFAULT_USERNAME } from '../../constant';
 import { Context } from '../../types';
 
-export default function (ctx: Context, app: Context['server']) {
+export default (ctx: Context, app: Context['server']) => {
   const router = app.router();
 
   router.post('/login', (req, res) => {
@@ -31,4 +31,4 @@ export default function (ctx: Context, app: Context['server']) {
   });
 
   return router;
-}
+};
