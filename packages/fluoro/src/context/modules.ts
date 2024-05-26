@@ -1,5 +1,3 @@
-/* eslint import/no-dynamic-require: 0 */
-/* eslint global-require: 0 */
 import { isClass, none } from '@kotori-bot/tools';
 import { type Context } from './context';
 import { Tokens } from './tokens';

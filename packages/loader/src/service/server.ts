@@ -1,25 +1,61 @@
 import { Context, Service, Symbols } from '@kotori-bot/core';
-import { Server as HttpServer, IncomingMessage, createServer } from 'node:http';
+import { Server as HttpServer, IncomingMessage, ServerResponse, createServer } from 'node:http';
 import { match } from 'path-to-regexp';
 import express from 'express';
 import Ws from 'ws';
+import { HttpRouteHandler, HttpRoutes, WsRouteHandler } from '../types/server';
 
 interface ServerConfig {
   port: number;
 }
 
-type CoreExpress = ReturnType<typeof express>;
+interface BodyParserOptions {
+  inflate?: boolean | undefined;
+  limit?: number | string | undefined;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  type?: string | string[] | ((req: IncomingMessage) => any) | undefined;
+  verify?(req: IncomingMessage, res: ServerResponse, buf: Buffer, encoding: string): void;
+}
 
-type wsRouterCallback = (ws: Ws, req: IncomingMessage & { params: object }) => void;
+interface UrlencodedOptions extends BodyParserOptions {
+  extended?: boolean | undefined;
+  parameterLimit?: number | undefined;
+}
 
-export class Server extends Service<ServerConfig> {
-  private app: CoreExpress;
+interface ServeStaticOptions<R extends ServerResponse = ServerResponse> {
+  acceptRanges?: boolean | undefined;
+  cacheControl?: boolean | undefined;
+  dotfiles?: string | undefined;
+  etag?: boolean | undefined;
+  extensions?: string[] | false | undefined;
+  fallthrough?: boolean | undefined;
+  immutable?: boolean | undefined;
+  index?: boolean | string | string[] | undefined;
+  lastModified?: boolean | undefined;
+  maxAge?: number | string | undefined;
+  redirect?: boolean | undefined;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  setHeaders?: ((res: R, path: string, stat: any) => any) | undefined;
+}
+
+interface RouterOptions {
+  caseSensitive?: boolean | undefined;
+  /**
+   * @default false
+   * @since 4.5.0
+   */
+  mergeParams?: boolean | undefined;
+  strict?: boolean | undefined;
+}
+
+export class Server extends Service<ServerConfig> implements HttpRoutes {
+  private app;
 
   private server: HttpServer;
 
   private wsServer: Ws.Server;
 
-  private wsRouters: Map<string, wsRouterCallback> = new Map();
+  private wsRoutes: Map<string, Set<WsRouteHandler>> = new Map();
 
   public constructor(ctx: Context, config: ServerConfig) {
     super(ctx, config, 'server');
@@ -39,14 +75,6 @@ export class Server extends Service<ServerConfig> {
       res.send(/* html */ `<h1>Welcome to kotori!</h1>`);
     });
 
-    this.get = this.app.get.bind(this.app);
-    this.post = this.app.post.bind(this.app);
-    this.patch = this.app.patch.bind(this.app);
-    this.put = this.app.put.bind(this.app);
-    this.delete = this.app.delete.bind(this.app);
-    this.use = this.app.use.bind(this.app);
-    this.all = this.app.all.bind(this.app);
-
     this.server = createServer(this.app);
     this.wsServer = new Ws.Server({ noServer: true });
     this.server.on('upgrade', (req, socket, head) => {
@@ -57,12 +85,14 @@ export class Server extends Service<ServerConfig> {
     this.wsServer.on('connection', (ws, req) => {
       let triggered = false;
       /* eslint-disable no-restricted-syntax,no-continue */
-      for (const [template, callback] of this.wsRouters.entries()) {
+      for (const [template, list] of this.wsRoutes.entries()) {
         if (!req.url) continue;
         const result = match(template, { decode: decodeURIComponent })(req.url);
         if (!result) continue;
         if (!triggered) triggered = true;
-        callback(ws, Object.assign(req, { params: result.params }));
+        list.forEach((callback) => {
+          callback(ws, Object.assign(req, { params: result.params as Record<string, string> }));
+        });
       }
       /* eslint-enable no-restricted-syntax,no-continue */
       if (!triggered) ws.close(1002);
@@ -72,6 +102,7 @@ export class Server extends Service<ServerConfig> {
   public start() {
     this.server.listen(this.config.port, () => {
       this.ctx.logger.label('server').info(`http server start at http://127.0.0.1:${this.config.port}`);
+      this.ctx.logger.label('server').info(`websocket server start at ws://127.0.0.1:${this.config.port}`);
     });
   }
 
@@ -80,30 +111,51 @@ export class Server extends Service<ServerConfig> {
     this.server.close();
   }
 
-  public get: Server['app']['get'];
+  public get<P extends string>(path: P, ...callback: HttpRouteHandler<P>[]) {
+    this.app.get(path, ...callback);
+  }
 
-  public post: Server['app']['post'];
+  public post<P extends string>(path: P, ...callback: HttpRouteHandler<P>[]) {
+    this.app.post(path, ...callback);
+  }
 
-  public patch: Server['app']['patch'];
+  public patch<P extends string>(path: P, ...callback: HttpRouteHandler<P>[]) {
+    this.app.patch(path, ...callback);
+  }
 
-  public put: Server['app']['put'];
+  public put<P extends string>(path: P, ...callback: HttpRouteHandler<P>[]) {
+    this.app.put(path, ...callback);
+  }
 
-  public delete: Server['app']['delete'];
+  public delete<P extends string>(path: P, ...callback: HttpRouteHandler<P>[]) {
+    this.app.delete(path, ...callback);
+  }
 
-  public all: Server['app']['all'];
+  public all<P extends string>(path: P, ...callback: HttpRouteHandler<P>[]) {
+    this.app.all(path, ...callback);
+  }
 
-  public use: Server['app']['use'];
+  public use<P extends string>(
+    path: P | HttpRouteHandler | HttpRoutes,
+    ...callback: (HttpRouteHandler<P> | HttpRoutes)[]
+  ) {
+    if (typeof path === 'string') this.app.use(path, ...(callback as HttpRouteHandler<P>[]));
+    else this.app.use('/', path as HttpRouteHandler<'/'>, ...(callback as HttpRouteHandler<P>[]));
+  }
 
-  public router = express.Router;
+  public router = express.Router as (options?: RouterOptions) => HttpRoutes;
 
-  public json = express.json as (options?: object) => () => unknown;
+  public json = express.json as (options?: BodyParserOptions) => HttpRouteHandler;
 
-  public static = express.static as unknown as (path: string) => () => unknown;
+  public static = express.static as (root: string, options?: ServeStaticOptions) => HttpRouteHandler;
 
-  public urlencoded = express.urlencoded as (options?: object) => () => unknown;
+  public urlencoded = express.urlencoded as (options?: UrlencodedOptions) => HttpRouteHandler;
 
-  public wss(path: string, callback: wsRouterCallback) {
-    this.wsRouters.set(path, callback);
+  public wss<P extends string>(path: P, callback: WsRouteHandler<P>) {
+    const list = this.wsRoutes.get(path) || new Set();
+    list.add(callback as unknown as WsRouteHandler);
+    this.wsRoutes.set(path, list);
+    return () => list.delete(callback as unknown as WsRouteHandler);
   }
 }
 

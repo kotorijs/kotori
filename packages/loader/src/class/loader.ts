@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-12 16:24:15
+ * @LastEditTime: 2024-05-26 16:45:40
  */
 import {
   KotoriError,
@@ -284,7 +284,8 @@ export class Loader extends Container {
       const botConfig = this.ctx.config.adapter[botName];
       const array = adapters.get(botConfig.extends);
 
-      if (!array) return this.ctx.logger.warn(this.ctx.format('loader.adapter.notfound', [botConfig.extends, botName]));
+      if (!array)
+        return this.ctx.logger.warn(this.ctx.format('loader.adapters.notfound', [botConfig.extends, botName]));
 
       const result = array[1]?.parseSafe(botConfig);
       if (result && !result.value)

@@ -1,11 +1,11 @@
-import { Context } from 'kotori-bot';
+import { Context, HttpRoutes } from 'kotori-bot';
 import account from './api/accounts';
 import config from './api/config';
 import data from './api/data';
 
 interface RouterRecord {
   path: string;
-  handler: (ctx: Context, app: Context['server']) => ReturnType<Context['server']['router']>;
+  handler: (ctx: Context, app: Context['server']) => HttpRoutes;
 }
 
 function defineRouter(config: RouterRecord[]) {

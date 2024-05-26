@@ -8,6 +8,6 @@ Web front end repository: [kotorijs/webui](https://github.com/kotorijs/webui)
 
 ## TODO
 
-- [] Add authorization for websocket server
-- [] Login at the same time
-- [] Console outputting support for cmd adapter
+- [x] Add authorization for websocket server
+- [x] Login at the same time
+- [x] Console outputting support for cmd adapter

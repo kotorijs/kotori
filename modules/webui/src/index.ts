@@ -15,8 +15,8 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   ctx.service('webui', new Webui(ctx, cfg));
   ctx.inject('webui');
   ctx.on('ready', () => {
-    ctx.server.wss('/webui', (ws, req) => {
-      wsHandler(ctx, ws, req);
+    ctx.server.wss('/webui', (ws) => {
+      wsHandler(ctx, ws);
     });
   });
 
@@ -24,7 +24,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   const app = ctx.server;
   app.use(app.static(path.resolve(__dirname, '../dist')));
   app.use(app.json());
-  app.use('/', (req: any, res: any, next: any) => {
+  app.use('/', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.header('Access-Control-Allow-Methods', '*');
