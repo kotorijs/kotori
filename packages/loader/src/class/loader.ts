@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-26 16:45:40
+ * @LastEditTime: 2024-06-02 14:58:34
  */
 import {
   KotoriError,
@@ -29,6 +29,7 @@ import loadInfo from '../utils/log';
 import {
   BUILD_CONFIG_NAME,
   BUILD_MODE,
+  CONFIG_EXT,
   DEV_CONFIG_NAME,
   DEV_MODE,
   SUPPORTS_HALF_VERSION,
@@ -66,38 +67,49 @@ const enum GLOBAL {
   UPDATE = 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/core/package.json'
 }
 
-function getBaseDir(file: string, dir?: string) {
-  const handle = (root: string) => {
-    const baseDir = {
-      root,
-      modules: path.join(root, 'modules'),
-      data: path.join(root, 'data'),
-      logs: path.join(root, 'logs')
-    };
-    Object.values(baseDir).forEach((val) => {
-      if (!fs.existsSync(val)) fs.mkdirSync(val);
-    });
-    return baseDir;
-  };
-
-  if (dir) return handle(path.resolve(dir));
-  let root = path.resolve(__dirname, '..').replace('loader', 'kotori');
+function getBaseDir(filename: string, dir?: string) {
+  let root = dir ? path.resolve(dir) : path.resolve(__dirname, '..').replace('loader', 'kotori');
+  let filenameFull: string | undefined;
   let count = 0;
+  let index = 0;
 
-  while (!fs.existsSync(path.join(root, file))) {
+  while (!filenameFull) {
     if (count > 5) {
-      Logger.fatal(`cannot find file ${file} `);
+      Logger.fatal(`cannot find file ${filename} `);
       process.exit();
     }
-    root = path.join(root, '..');
-    count += 1;
+
+    const fullName = `${filename}${CONFIG_EXT[index]}`;
+    if (fs.existsSync(path.join(root, fullName))) {
+      filenameFull = fullName;
+      break;
+    }
+    if (index === CONFIG_EXT.length - 1) {
+      root = path.join(root, '..');
+      index = 0;
+      count += 1;
+    } else {
+      index += 1;
+    }
   }
 
-  return handle(root);
+  const baseDir = {
+    root,
+    modules: path.join(root, 'modules'),
+    data: path.join(root, 'data'),
+    logs: path.join(root, 'logs'),
+    config: filenameFull
+  };
+  Object.entries(baseDir)
+    .filter(([key]) => !['modules', 'config'].includes(key))
+    .forEach(([, val]) => {
+      if (!fs.existsSync(val)) fs.mkdirSync(val);
+    });
+  return baseDir;
 }
 
 /* eslint consistent-return: 0 */
-function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
+function getCoreConfig(baseDir: Runner['baseDir']) {
   try {
     const result1 = Tsu.Object({
       global: Tsu.Object({
@@ -115,7 +127,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
         .default(DEFAULT_CORE_CONFIG.plugin)
     })
       .default({ global: Object.assign(DEFAULT_CORE_CONFIG.global), plugin: DEFAULT_CORE_CONFIG.plugin })
-      .parse(loadConfig(path.join(baseDir.root, file), 'yaml'));
+      .parse(loadConfig(path.join(baseDir.root, baseDir.config), baseDir.config.split('.').pop() as 'json'));
 
     return Tsu.Object({
       adapter: Tsu.Object({})
@@ -131,7 +143,7 @@ function getCoreConfig(file: string, baseDir: Runner['baseDir']) {
     }).parse(result1) as CoreConfig;
   } catch (err) {
     if (!(err instanceof TsuError)) throw err;
-    Logger.fatal(`file ${file} format error: ${err.message}`);
+    Logger.fatal(`file ${baseDir.config} format error: ${err.message}`);
     process.exit();
   }
 }
@@ -143,13 +155,13 @@ export class Loader extends Container {
 
   public constructor(options?: { dir?: string; mode?: string; level?: number }) {
     super();
-    const file = options && options.mode?.startsWith(DEV_MODE) ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
+    const filename = options && options.mode?.startsWith(DEV_MODE) ? DEV_CONFIG_NAME : BUILD_CONFIG_NAME;
     const runnerConfig = {
-      baseDir: getBaseDir(file, options?.dir),
+      baseDir: getBaseDir(filename, options?.dir),
       options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE },
       level: options?.level || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.INFO
     };
-    const ctx = new Core(getCoreConfig(file, runnerConfig.baseDir));
+    const ctx = new Core(getCoreConfig(runnerConfig.baseDir));
 
     ctx.provide('runner', new Runner(ctx, runnerConfig));
     ctx.mixin('runner', ['baseDir', 'options']);

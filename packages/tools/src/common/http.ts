@@ -44,6 +44,10 @@ export class Http {
   public readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
 
   public readonly head: HttpMethod = (url, params, config) => this.method(url, params, config, 'head');
+
+  public ws(address: string, protocols?: string | string[] | undefined) {
+    return new WebSocket(`${this.config.baseURL ?? ''}${address}`, protocols);
+  }
 }
 
 export default Http;

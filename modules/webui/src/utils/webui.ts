@@ -1,5 +1,5 @@
 import { addDays, format } from 'date-fns';
-import { Context, Service, Transport, Tsu, none } from 'kotori-bot';
+import { Context, Service, Symbols, Transport, Tsu, none } from 'kotori-bot';
 import { generateToken, getCpuData, getDate, getRamData } from './common';
 import { DEFAULT_PASSWORD, DEFAULT_USERNAME } from '../constant';
 import { KEY, LoginStats, MsgRecordDay, MsgRecordTotal } from '../types';
@@ -23,11 +23,20 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     const logger = this.ctx.get('logger') as { options: { transports: Transport[] } };
     logger.options.transports.push(new WebuiTransport({}));
 
-    /* Load records from file to cache */
+    /* Load records from file to cache and memory */
     const msgTotal = this.ctx.file.load<MsgRecordTotal['origin']>(`${KEY.MSG_TOTAL}.json`, 'json', {});
     const msgDay = this.ctx.file.load<MsgRecordDay['origin']>(`${KEY.MSG_DAY}${getDate()}.json`, 'json', {});
     this.setMsgTotal({ origin: msgTotal });
     this.setMsgDay({ day: getDate(), origin: msgDay });
+    this.ctx[Symbols.bot].forEach((bot) =>
+      bot.forEach((api) => {
+        const { adapter } = api;
+        const { identity } = adapter;
+        if (!(identity in msgTotal)) return;
+        adapter.status.sentMsg = msgTotal[identity].sent;
+        adapter.status.receivedMsg = msgTotal[identity].received;
+      })
+    );
 
     /* Auto save records from cache to file */
     this.timer = setInterval(() => {

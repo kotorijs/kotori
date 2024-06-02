@@ -11,7 +11,7 @@ lib
 tsconfig.tsbuildinfo
 *.log
 
-kotori.dev.yml
+kotori.dev.*
 
 # modules/*
 !modules/adapter-*
