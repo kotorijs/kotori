@@ -35,6 +35,7 @@ const DEFAULT_OPTIONS: Required<ConsoleTransportConfig> = {
     ERROR: ['ERROR', 'red', 'red'],
     WARN: ['WARN', 'yellowBright', 'yellowBright'],
     INFO: ['INFO', 'green'],
+    RECORD: ['LOG', 'cyan'],
     DEBUG: ['DEBUG', 'magenta', 'magentaBright'],
     TRACE: ['TRACE', 'gray', 'gray']
   },

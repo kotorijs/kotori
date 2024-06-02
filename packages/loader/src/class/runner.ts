@@ -26,6 +26,7 @@ interface BaseDir {
   modules: string;
   data: string;
   logs: string;
+  config: string;
 }
 
 interface Options {
@@ -140,6 +141,7 @@ export class Runner {
             ERROR: ['ERROR', 'red', 'red'],
             WARN: ['WARN', 'yellowBright', 'yellowBright'],
             INFO: ['INFO', 'green'],
+            RECORD: ['LOG', 'blue'],
             DEBUG: ['DEBUG', 'magenta', 'magentaBright'],
             TRACE: ['TRACE', 'gray', 'gray']
           },

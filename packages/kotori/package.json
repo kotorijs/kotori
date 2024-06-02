@@ -13,6 +13,7 @@
   },
   "bin": {
     "kotori": "./bin.js",
+    "kotori-bot": "./bin.js",
     "kotori-q": "./bin-q.js"
   },
   "keywords": [

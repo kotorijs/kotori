@@ -23,7 +23,7 @@ program
   .action((options) => {
     const Kotori = new Loader({
       mode: options.mode,
-      dir: resolve(process.cwd(), options.dir),
+      dir: options.dir ? resolve(process.cwd(), options.dir) : undefined,
       level: Number(options.log)
     });
     Kotori.run();

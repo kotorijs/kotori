@@ -42,6 +42,12 @@ export class KotoriLogger extends Logger {
     dispose();
   }
 
+  public record(...args: unknown[]) {
+    const dispose = this.setLabel();
+    super.record(...args);
+    dispose();
+  }
+
   public debug(...args: unknown[]) {
     const dispose = this.setLabel();
     super.debug(...args);

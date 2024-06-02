@@ -1,0 +1,16 @@
+[global]
+port = 720
+lang = "en_US"
+command-prefix = "/"
+dirs = ["./node_modules/", "./node_modules/@kotori-bot/"]
+
+[adapter.cmd-test]
+extends = "cmd"
+master = 2333
+nickname = "Kotarou"
+age = 18
+sex = "male"
+self-id = 720
+
+[plugin.menu]
+content = "test menu"

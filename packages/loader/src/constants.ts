@@ -6,9 +6,11 @@ export const DEV_CODE_DIRS = './src/';
 
 export const DEV_IMPORT = `${DEV_CODE_DIRS}index.ts`;
 
-export const BUILD_CONFIG_NAME = 'kotori.yml';
+export const CONFIG_EXT = ['.toml', '.yml', '.yaml', '.json'];
 
-export const DEV_CONFIG_NAME = 'kotori.dev.yml';
+export const BUILD_CONFIG_NAME = 'kotori';
+
+export const DEV_CONFIG_NAME = 'kotori.dev';
 
 export const SUPPORTS_VERSION = /(1\.1\.0)|(1\.2\.0)|(1\.3\.(.*))|(1\.4\.(.*))/;
 
