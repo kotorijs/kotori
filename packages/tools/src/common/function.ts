@@ -42,19 +42,6 @@ export function stringTemp(template: string, args: Record<string, string | numbe
   return templateString;
 }
 
-export function getUuid(): string {
-  return 'xxxxxxxx-xxxx-4xxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
-    const r = Math.random() * 16;
-    let v: number | string;
-    if (char === 'x') {
-      v = Math.floor(r);
-    } else {
-      v = (Math.floor(r) % 4) + 8;
-    }
-    return v.toString(16);
-  });
-}
-
 export function getRandomInt(max: number, min: number = 0): number {
   const range = max - min + 1;
   const index = Math.floor(Math.random() * range);

@@ -1,4 +1,4 @@
-import { Context, Service, createConfig, loadConfig, saveConfig } from '@kotori-bot/core';
+import { Context, JsonMap, Service, createConfig, loadConfig, saveConfig } from '@kotori-bot/core';
 import { join } from 'node:path';
 
 export class File extends Service {
@@ -14,14 +14,19 @@ export class File extends Service {
     return join(this.getDir(), filename);
   }
 
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  public load<T = Parameters<typeof saveConfig>[1]>(
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  public load<O = undefined, T extends Parameters<typeof loadConfig>[1] = 'json'>(
     filename: string,
-    type?: Parameters<typeof loadConfig>[1],
-    init?: Parameters<typeof loadConfig>[2]
+    type?: T,
+    init?: T extends 'text' ? string : JsonMap
   ) {
-    return loadConfig(this.getFile(filename), type, init) as T;
+    return loadConfig(this.getFile(filename), type, init) as O extends undefined
+      ? T extends 'text'
+        ? string
+        : JsonMap
+      : O;
   }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   public save(filename: string, data: Parameters<typeof saveConfig>[1], type?: Parameters<typeof saveConfig>[2]) {
     saveConfig(this.getFile(filename), data, type);

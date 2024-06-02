@@ -1,26 +1,27 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import TOML, { JsonMap } from '@iarna/toml';
+import TOML from '@iarna/toml';
 import YAML from 'yaml';
+import { JsonMap } from '../types';
 
 type ConfigFileType = 'json' | 'toml' | 'yaml' /* | 'xml' | 'ini'  */ | 'text';
 
-export function loadConfig(
+export function loadConfig<T extends ConfigFileType = 'json'>(
   filename: string,
-  type: ConfigFileType = 'json',
-  init: object | string = {}
-): object | null | unknown[] | string {
+  type: T = 'json' as T,
+  init: (T extends 'text' ? string : JsonMap) | undefined = undefined
+): T extends 'text' ? string : JsonMap {
   const dirname = path.dirname(filename);
   if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });
 
   const isExists = fs.existsSync(filename);
-  const defaultValue = typeof init === 'string' ? init : JSON.stringify(init);
-  if (!isExists && init) fs.writeFileSync(filename, defaultValue);
+  const defaultValue = type === 'text' ? String(init ?? '') : JSON.stringify(init ?? {});
+  if (!isExists && init !== undefined) fs.writeFileSync(filename, defaultValue);
 
   const data = isExists ? fs.readFileSync(filename).toString() : defaultValue;
   if (type === 'yaml') return YAML.parse(data);
-  if (type === 'toml') return TOML.parse(data);
-  if (type === 'text') return data;
+  if (type === 'toml') return TOML.parse(data) as T extends 'text' ? string : JsonMap;
+  if (type === 'text') return data as T extends 'text' ? string : JsonMap;
 
   return JSON.parse(data);
 }
