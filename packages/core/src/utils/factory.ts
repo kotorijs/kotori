@@ -1,6 +1,7 @@
-import I18n from '@kotori-bot/i18n/src/common';
 import type { Context } from 'fluoro';
-import { CommandArgType, stringTemp } from '..';
+import { I18n } from '@kotori-bot/i18n';
+import { stringTemp } from '@kotori-bot/tools';
+import { CommandArgType } from '../types';
 
 export function disposeFactory(ctx: Context, dispose: () => void) {
   ctx.once('dispose_module', (data) => {

@@ -1,13 +1,10 @@
 import { addDays, format } from 'date-fns';
 import { Context, Service, Symbols, Transport, Tsu, none } from 'kotori-bot';
-import { generateToken, getCpuData, getDate, getRamData } from './common';
-import { DEFAULT_PASSWORD, DEFAULT_USERNAME } from '../constant';
+import { generateToken, generateVerifyHash, getCpuData, getDate, getRamData } from '../utils/common';
 import { KEY, LoginStats, MsgRecordDay, MsgRecordTotal } from '../types';
-import WebuiTransport from './transport';
+import WebuiTransport from '../utils/transport';
 
 export const config = Tsu.Object({
-  username: Tsu.String().default(DEFAULT_USERNAME),
-  password: Tsu.String().default(DEFAULT_PASSWORD),
   interval: Tsu.Number().default(5)
 });
 
@@ -71,16 +68,44 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     }, 10);
   }
 
-  public getToken() {
-    return this.ctx.file.load('token', 'text');
+  public stop() {
+    if (this.timer) clearInterval(Number(this.timer));
   }
 
-  public updateToken() {
-    return this.ctx.file.save('token', generateToken(), 'text');
+  public getVerifySalt() {
+    return this.ctx.file.load('salt', 'text');
   }
 
-  public checkToken(token?: string) {
-    return token && token === `Bearer ${this.getToken()}`;
+  public setVerifyHash(username: string, password: string) {
+    const salt = generateToken();
+    this.ctx.file.save('salt', salt);
+    this.ctx.file.save('hash', generateVerifyHash(username, password, salt));
+  }
+
+  public checkVerifyHash(username: string, password: string) {
+    const salt = this.getVerifySalt();
+    return !!salt && generateVerifyHash(username, password, salt) === this.ctx.file.load('hash', 'text');
+  }
+
+  public addToken() {
+    const list = this.ctx.cache.get<string[]>(KEY.TOKENS) ?? [];
+    const token = generateToken();
+    list.push(token);
+    this.ctx.cache.set(KEY.TOKENS, list);
+    return token;
+  }
+
+  public removeToken(authorization?: string) {
+    const list = this.ctx.cache.get<string[]>(KEY.TOKENS) ?? [];
+    if (!list) return;
+    const token = authorization?.replace('Bearer ', '');
+    this.ctx.cache.set(KEY.TOKENS, token !== undefined ? list.filter((t) => t !== token) : []);
+  }
+
+  public checkToken(authorization?: string) {
+    return (
+      authorization && (this.ctx.cache.get<string[]>(KEY.TOKENS) ?? []).includes(authorization.replace('Bearer ', ''))
+    );
   }
 
   public getStats() {
@@ -104,7 +129,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     const dateString = format(addDays(new Date(), -days), 'yyyy-M-d');
     return {
       day: dateString,
-      origin: this.ctx.file.load<MsgRecordDay['origin']>(`${KEY.MSG_DAY}${dateString}.json`, 'json', {
+      origin: this.ctx.file.load(`${KEY.MSG_DAY}${dateString}.json`, 'json', {
         sent: 0,
         received: 0
       })

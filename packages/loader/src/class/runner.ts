@@ -17,7 +17,16 @@ import {
   stringRightSplit
 } from '@kotori-bot/core';
 import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger';
-import { BUILD_FILE, BUILD_MODE, DEV_CODE_DIRS, DEV_FILE, DEV_IMPORT, DEV_MODE, DEV_SOURCE_MODE } from '../constants';
+import {
+  BUILD_FILE,
+  BUILD_MODE,
+  // CORE_MODULES,
+  DEV_CODE_DIRS,
+  DEV_FILE,
+  DEV_IMPORT,
+  DEV_MODE,
+  DEV_SOURCE_MODE
+} from '../constants';
 import KotoriLogger from '../utils/logger';
 import './loader';
 
@@ -95,9 +104,9 @@ const modulePackageSchema = Tsu.Object({
 });
 
 function moduleLoadOrder(pkg: ModulePackage) {
-  if (pkg.name.includes(DATABASE_PREFIX)) return 1;
-  if (pkg.name.includes(ADAPTER_PREFIX)) return 2;
-  // if (CORE_MODULES.includes(pkg.name)) return 3;
+  // if (CORE_MODULES.includes(pkg.name)) return 1;
+  if (pkg.name.includes(DATABASE_PREFIX)) return 2;
+  if (pkg.name.includes(ADAPTER_PREFIX)) return 3;
   if (pkg.kotori.enforce === 'pre') return 4;
   if (!pkg.kotori.enforce) return 5;
   return 6;
@@ -279,7 +288,7 @@ export class Runner {
     const modules: [ModuleMeta, ModuleConfig][] = [];
     this[Symbols.modules].forEach((val) => modules.push(val));
     modules
-      .sort((el1, el2) => moduleLoadOrder(el1[0].pkg) - moduleLoadOrder(el2[0].pkg))
+      .sort(([{ pkg: pkg1 }], [{ pkg: pkg2 }]) => moduleLoadOrder(pkg1) - moduleLoadOrder(pkg2))
       .forEach((el) => this.loadEx(...el));
     if (this.isDev) this.watcher();
   }

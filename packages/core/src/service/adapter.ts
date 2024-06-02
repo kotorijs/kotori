@@ -166,15 +166,15 @@ export abstract class Adapter<T extends Api = Api> implements AdapterImpl<T> {
 
   protected online() {
     if (this.status.value !== 'offline') return;
-    this.ctx.emit('status', { adapter: this, status: 'online' });
     this.status.value = 'online';
+    this.ctx.emit('status', { adapter: this, status: 'online' });
   }
 
   protected offline() {
     if (this.status.value !== 'online') return;
-    this.ctx.emit('status', { adapter: this, status: 'offline' });
     this.status.value = 'offline';
     this.status.offlineTimes += 1;
+    this.ctx.emit('status', { adapter: this, status: 'offline' });
   }
 
   protected session<N extends keyof EventApiType>(

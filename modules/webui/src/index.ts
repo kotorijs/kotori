@@ -1,14 +1,14 @@
-import { Tsu } from 'kotori-bot';
-import path from 'node:path';
+import { Tsu, loadConfig } from 'kotori-bot';
+import path, { resolve } from 'node:path';
 import { Context } from './types';
-import { Webui, config } from './utils/webui';
+import { Webui, config } from './service';
 import routers from './routers';
 import wsHandler from './ws';
-import router from './routers/router';
+import plugin from './plugin';
 
 export const inject = ['server', 'file', 'cache'];
 
-export { config } from './utils/webui';
+export { config } from './service';
 
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   /* Starts webui service */
@@ -24,18 +24,15 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   const app = ctx.server;
   app.use(app.static(path.resolve(__dirname, '../dist')));
   app.use(app.json());
-  app.use('/', (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    res.header('Access-Control-Allow-Methods', '*');
-    res.header('Content-Type', 'application/json;charset=utf-8');
-
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
-    ctx.logger.label(req.method).trace(req.path);
-
-    if (!router.find((item) => item.path === req.path || req.path.startsWith(item.path))) return res.sendStatus(404);
-    if (req.path === '/api/accounts/login' || ctx.webui.checkToken(req.headers.authorization)) return next();
-    return res.sendStatus(401);
-  });
+  app.use(app.urlencoded({ extended: true }));
   app.use('/', routers(ctx, app));
+
+  /* Register plugin */
+  ctx.load({
+    /* extends parent plugin's package name and share the same data files area */
+    name: loadConfig(resolve(__dirname, '../package.json')).name as string,
+    main: (subCtx) => {
+      plugin(subCtx);
+    }
+  });
 }

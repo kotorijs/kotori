@@ -60,7 +60,7 @@ export const inject = ['cache'];
 export function main(ctx: Context) {
   ctx
     .command('bgm <...content> - bangumi.descr.bgm')
-    .option('o', 'order:number bangumi.option.bangumi.order')
+    .option('O', 'order:number bangumi.option.bangumi.order')
     .action(async (data, session) => {
       const name = data.args.join('');
       const order = data.options.order ?? 1;

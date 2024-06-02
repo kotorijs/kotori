@@ -1,23 +1,17 @@
-import { DEFAULT_PASSWORD, DEFAULT_USERNAME } from '../../constant';
 import { Context } from '../../types';
 
 export default (ctx: Context, app: Context['server']) => {
   const router = app.router();
 
   router.post('/login', (req, res) => {
-    const { username: user, password: pwd } = req.body;
-    const { username, password } = ctx.webui.config;
+    const { username, password } = req.body;
     const loginStats = ctx.webui.getLoginStats();
 
-    if (user === username && pwd === password) {
+    if (ctx.webui.checkVerifyHash(username, password)) {
       ctx.logger.label('server').trace('Login successful');
       loginStats.success += 1;
       ctx.webui.setLoginStats(loginStats);
-      ctx.webui.updateToken();
-      return res.json({
-        token: ctx.webui.getToken(),
-        isDefault: username + password === DEFAULT_USERNAME + DEFAULT_PASSWORD
-      });
+      return res.json({ token: ctx.webui.addToken() });
     }
     ctx.logger.label('server').trace('Login failed');
     loginStats.failed += 1;
@@ -25,8 +19,8 @@ export default (ctx: Context, app: Context['server']) => {
     return res.status(401).json({ message: 'Invalid username or password' });
   });
 
-  router.post('/logout', (_, res) => {
-    ctx.webui.updateToken();
+  router.post('/logout', (req, res) => {
+    ctx.webui.removeToken(req.headers.authorization ?? '');
     res.sendStatus(204);
   });
 

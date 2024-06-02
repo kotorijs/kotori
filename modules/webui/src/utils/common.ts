@@ -1,9 +1,13 @@
-import { getUuid } from 'kotori-bot';
 import os from 'node:os';
+import { createHash, randomUUID } from 'node:crypto';
 import { MsgRecord } from '../types';
 
 export function generateToken() {
-  return getUuid().replaceAll('-', '');
+  return randomUUID().replaceAll('-', '');
+}
+
+export function generateVerifyHash(username: string, password: string, salt: string) {
+  return createHash('sha256').update(`${username}${password}${salt}`).digest('hex');
 }
 
 export function getRamData() {
