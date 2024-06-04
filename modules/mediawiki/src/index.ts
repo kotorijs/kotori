@@ -1,4 +1,4 @@
-import { CommandAccess, Context } from 'kotori-bot';
+import { CommandAccess, Context, JsonMap } from 'kotori-bot';
 import wikiData from './type';
 import { wikiSearch } from './method';
 
@@ -25,16 +25,16 @@ export function main(ctx: Context) {
     const dataList = loadWikiData();
     if (dataList.length <= 0) return 'mediawiki.msg.wiki.empty';
 
-    let res: Record<string, any> | null = null;
+    let res: JsonMap | null = null;
     let wiki: wikiData | null = null;
-    const num = parseInt(data.args[1] as string, 10);
+    const num = data.args[1] ?? 0;
     if (num) {
       wiki = dataList[num - 1];
       if (!wiki || !wiki.api) return 'mediawiki.msg.wiki.error';
       res = await wikiSearch(wiki.api, data.args[0] as string);
     } else {
       let init = 0;
-      const query = async (): Promise<Record<string, any> | null> => {
+      const query = async (): Promise<JsonMap | null> => {
         wiki = dataList[init];
         const res = await wikiSearch(wiki.api, data.args[0] as string);
         if (res || init >= dataList.length - 1) return res;
@@ -75,7 +75,7 @@ export function main(ctx: Context) {
 
   ctx
     .command('wikio del <name> - mediawiki.descr.wikio.del')
-    .action((data, session) => {
+    .action((data) => {
       const list = loadWikiData();
       const [name] = data.args as string[];
       saveWikiData(list.filter((content) => content.name !== name));

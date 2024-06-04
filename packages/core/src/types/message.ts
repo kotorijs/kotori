@@ -31,8 +31,11 @@ export const enum CommandAccess {
   ADMIN
 }
 
-export type CommandAction = (
-  data: { args: CommandArgType[]; options: Record<string, CommandArgType> },
+export type ArgsOrigin = CommandArgType[];
+export type OptsOrigin = Record<string, CommandArgType>;
+
+export type CommandAction<Args extends ArgsOrigin = ArgsOrigin, Opts extends OptsOrigin = OptsOrigin> = (
+  data: { args: Args; options: Opts },
   session: SessionData
 ) => MessageQuick;
 
@@ -86,12 +89,16 @@ export enum MessageScope {
 export type MessageRaw = string;
 export type MessageQuickReal =
   | MessageRaw
-  | [string, Record<string, CommandArgType> | CommandArgType[]]
+  | [string, (CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
   | CommandError
   | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 export type MidwareCallback = (next: () => void, session: SessionData) => MessageQuick;
 export type RegexpCallback = (match: RegExpMatchArray, session: SessionData) => MessageQuick;
+
+export type EventApiType = {
+  [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never;
+};
 
 export const eventDataTargetIdSchema = Tsu.Union([Tsu.Number(), Tsu.String()]);
 export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>;
@@ -155,7 +162,7 @@ export interface EventDataApiBase {
   operatorId?: EventDataTargetId;
   i18n: I18n;
   send(message: MessageRaw): void;
-  format(template: string, data: Record<string, unknown> | CommandArgType[]): string;
+  format(template: string, data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]): string;
   quick(message: MessageQuick): void;
   prompt(message?: MessageRaw): Promise<MessageRaw>;
   confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<boolean>;

@@ -1,7 +1,8 @@
 import { stringRightSplit } from '@kotori-bot/tools';
 import { type Context, type EventsList } from 'fluoro';
-import { type CommandConfig, type MidwareCallback, type RegexpCallback, SessionData } from '../types';
-import { cancelFactory, disposeFactory } from '../utils/factory';
+import type { I18n } from '@kotori-bot/i18n';
+import { type CommandConfig, type MidwareCallback, type RegexpCallback, SessionData, MessageQuick } from '../types';
+import { cancelFactory, disposeFactory, quickFactory, sendMessageFactory } from '../utils/factory';
 import { Command } from '../utils/command';
 import CommandError from '../utils/commandError';
 import { Symbols } from '../global';
@@ -105,7 +106,7 @@ export class Message {
 
     if (matched) return;
     this.ctx.emit('parse', {
-      command: new Command(''),
+      command: new Command('' as string),
       result: new CommandError({ type: 'unknown', input: params.raw }),
       ...params,
       cancel: cancel.get()
@@ -133,10 +134,11 @@ export class Message {
     return dispose;
   }
 
-  public command(template: string, config?: CommandConfig) {
-    const command = new Command(template, config);
-    this[Symbols.command].add(command);
-    const dispose = () => this[Symbols.command].delete(command);
+  public command<T extends string>(template: T, config?: CommandConfig) {
+    /* eslint-disable-next-line @typescript-eslint/ban-types */
+    const command = new Command<T, {}>(template, config);
+    this[Symbols.command].add(command as unknown as Command);
+    const dispose = () => this[Symbols.command].delete(command as unknown as Command);
     disposeFactory(this.ctx, dispose);
     return command;
   }
@@ -160,15 +162,18 @@ export class Message {
   //   });
   // }
 
-  // notify(message: MessageRaw) {
-  //   const mainAdapterIdentity = Object.keys(this.config.adapter)[0];
-  //   Object.values(this.botStack).forEach((apis) =>
-  //     apis.forEach((api) => {
-  //       if (api.adapter.identity !== mainAdapterIdentity) return;
-  //       api.send_on_message(message, api.adapter.config.master);
-  //     })
-  //   );
-  // }
+  public notify(message: MessageQuick) {
+    const mainAdapterIdentity = Object.keys(this.ctx.config.adapter)[0];
+    this.ctx[Symbols.bot].forEach((apis) =>
+      apis.forEach((api) => {
+        if (api.adapter.identity !== mainAdapterIdentity) return;
+        quickFactory(
+          sendMessageFactory(api.adapter, 'on_message', { userId: api.adapter.config.master }),
+          this.ctx.i18n.extends(api.adapter.config.lang) as I18n
+        )(message);
+      })
+    );
+  }
 }
 
 export default Message;

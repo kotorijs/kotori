@@ -6,7 +6,9 @@ import {
   type CommandArgType,
   type CommandArgTypeSign,
   type CommandConfig,
-  commandArgTypeSignSchema
+  commandArgTypeSignSchema,
+  ArgsOrigin,
+  OptsOrigin
 } from '../types';
 import { CommandError } from './commandError';
 
@@ -25,7 +27,7 @@ interface CommandOption {
   description?: string;
 }
 
-interface CommandData {
+interface CommandData<Args extends ArgsOrigin = ArgsOrigin, Opts extends OptsOrigin = OptsOrigin> {
   root: string;
   alias: string[];
   args: CommandArg[];
@@ -33,9 +35,49 @@ interface CommandData {
   scope: CommandConfig['scope'];
   access: CommandAccess;
   help?: string;
-  action?: CommandAction;
+  action?: CommandAction<Args, Opts>;
   description?: string;
 }
+
+/* eslint-disable @typescript-eslint/ban-types */
+
+type GetSignType<T extends string> = T extends `${string}number${string}`
+  ? number
+  : T extends `${string}boolean${string}`
+    ? boolean
+    : string;
+type GetArgCtn<Template extends string> = Template extends `${string}:${infer Suffix}`
+  ? Suffix extends `${infer T}=${string}`
+    ? GetSignType<T>
+    : GetSignType<Suffix>
+  : Template extends `${infer T}=${string}`
+    ? GetSignType<T>
+    : string;
+type ParseArgs<Template extends string> = string extends Template
+  ? ArgsOrigin
+  : Template extends `${string} ${`<${infer Ctn}>`}${infer Rest}`
+    ? Ctn extends `...${infer Ctn2}`
+      ? [...GetSignType<Ctn2>[]]
+      : [GetArgCtn<Ctn>, ...ParseArgs<Rest>]
+    : Template extends `${string} [${infer Ctn}]${infer Rest}`
+      ? Ctn extends `${infer Ctn2}=${string}`
+        ? Ctn2 extends `...${infer Ctn3}`
+          ? [...GetSignType<Ctn3>[]]
+          : [GetArgCtn<Ctn2>, ...ParseArgs<Rest>]
+        : Ctn extends `...${infer Ctn2}`
+          ? [...GetSignType<Ctn2>[]]
+          : [GetArgCtn<Ctn>?, ...ParseArgs<Rest>]
+      : [];
+
+type ParseOpts<Template extends string> = string extends Template
+  ? {}
+  : Template extends `${infer K}:${infer V}`
+    ? GetSignType<V> extends Boolean
+      ? { [C in K]: GetSignType<V> }
+      : { [C in K]?: GetSignType<V> }
+    : /* eslint-disable-next-line @typescript-eslint/ban-types */
+
+      {};
 
 const requiredParamMatch = /<(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?>/;
 
@@ -56,7 +98,7 @@ function handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
   return value.toString();
 }
 
-export class Command {
+export class Command<Template extends string = string, Opts extends OptsOrigin = OptsOrigin> {
   public static run(input: string, data: CommandData) {
     /* find start string */
     let starts = '';
@@ -87,7 +129,7 @@ export class Command {
     const result = minimist(arr, opts);
 
     /* handle args */
-    const args: CommandArgType[] = result._;
+    const args: ArgsOrigin = result._;
     const count = {
       expected: data.args.filter((el) => !el.optional).length,
       reality: args.length
@@ -115,11 +157,11 @@ export class Command {
     if (error) return error;
 
     /* handle options */
-    const options: Record<string, CommandArgType> = {};
+    const options: OptsOrigin = {};
     data.options.forEach((val) => {
       if (!(val.realname in result)) return;
       options[val.realname] = Array.isArray(result[val.realname])
-        ? (result[val.realname] as CommandArgType[])[0]
+        ? (result[val.realname] as ArgsOrigin)[0]
         : (result[val.realname] as CommandArgType);
       options[val.realname] = handleDefaultValue(options[val.realname], val.type);
       if (Number.isNaN(options[val.realname]))
@@ -133,9 +175,9 @@ export class Command {
     };
   }
 
-  private template: string;
+  private template: Template;
 
-  public readonly meta: CommandData = {
+  public readonly meta: CommandData<ParseArgs<Template>, Opts> = {
     root: '',
     alias: [],
     scope: 'all',
@@ -144,7 +186,7 @@ export class Command {
     options: []
   };
 
-  public constructor(template: string, config?: CommandConfig) {
+  public constructor(template: Template, config?: CommandConfig) {
     this.template = template;
     this.meta = Object.assign(this.meta, config);
     this.parse();
@@ -215,7 +257,7 @@ export class Command {
     return this;
   }
 
-  public option(name: string, template: string) {
+  public option<TemplateOpt extends string>(name: string, template: TemplateOpt) {
     const [str, description] = template.trim().split(' ');
     const [realname, type] = str.split(':');
     this.meta.options.push({
@@ -224,10 +266,10 @@ export class Command {
       type: commandArgTypeSignSchema.parseSafe(type).value ? (type as CommandArgTypeSign) : defaultType,
       name: name.charAt(0)
     });
-    return this;
+    return this as unknown as Command<Template, Opts & ParseOpts<TemplateOpt>>;
   }
 
-  public action(callback: CommandAction) {
+  public action(callback: CommandAction<ParseArgs<Template>, Opts>) {
     this.meta.action = callback;
     return this;
   }

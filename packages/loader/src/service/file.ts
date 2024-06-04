@@ -18,7 +18,7 @@ export class File extends Service {
   public load<O = undefined, T extends Parameters<typeof loadConfig>[1] = 'json'>(
     filename: string,
     type?: T,
-    init?: T extends 'text' ? string : JsonMap
+    init?: T extends 'text' ? string : object
   ) {
     return loadConfig(this.getFile(filename), type, init) as O extends undefined
       ? T extends 'text'

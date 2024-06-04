@@ -13,7 +13,7 @@ export const config = Tsu.Object({
 
 export function main(ctx: Context, con: Tsu.infer<typeof config>) {
   const loadBlack = (platform: string, target: string = 'global') =>
-    ctx.file.load(`${platform}_${target}`, 'json', []) as string[];
+    ctx.file.load(`${platform}_${target}`, 'json', {}) as string[];
   const saveBlack = (platform: string, data: string[], target: string = 'global') =>
     ctx.file.save(`${platform}_${target}`, data);
 
@@ -80,6 +80,9 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
 
   ctx
     .command('black query - manger.descr.black.query')
+    .option('g', 'global:boolean - manger.option.black.global')
+    .scope(MessageScope.GROUP)
+    .access(CommandAccess.MANGER)
     .action((data, session) => {
       const isGlobal = data.options.global;
       if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin');
@@ -88,13 +91,13 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
         `manger.msg.black${isGlobal ? 'g' : ''}.query`,
         [list.map((el) => session.format('manger.msg.black.list', [el])).join('')]
       ];
-    })
-    .option('g', 'global:boolean - manger.option.black.global')
-    .scope(MessageScope.GROUP)
-    .access(CommandAccess.MANGER);
+    });
 
   ctx
     .command('black add <userId> - manger.descr.black.add')
+    .option('g', 'global:boolean - manger.option.black.global')
+    .scope(MessageScope.GROUP)
+    .access(CommandAccess.MANGER)
     .action((data, session) => {
       const target = data.args[0] as string;
       const isGlobal = data.options.global;
@@ -104,13 +107,13 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       list.push(target);
       saveBlack(session.api.adapter.platform, list, isGlobal ? undefined : String(session.groupId));
       return [`manger.msg.black${isGlobal ? 'g' : ''}.add`, [target]];
-    })
-    .option('g', 'global:boolean - manger.option.black.global')
-    .scope(MessageScope.GROUP)
-    .access(CommandAccess.MANGER);
+    });
 
   ctx
     .command('black del <userId> - manger.descr.black.del')
+    .option('g', 'global:boolean - manger.option.black.global')
+    .scope(MessageScope.GROUP)
+    .access(CommandAccess.MANGER)
     .action((data, session) => {
       const target = data.args[0] as string;
       const isGlobal = data.options.global;
@@ -123,10 +126,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
         isGlobal ? undefined : String(session.groupId)
       );
       return [`manger.msg.black${isGlobal ? 'g' : ''}.del`, [target]];
-    })
-    .option('g', 'global:boolean - manger.option.black.global')
-    .scope(MessageScope.GROUP)
-    .access(CommandAccess.MANGER);
+    });
 
   if (con.exitGroupAddBlack) {
     ctx.on('on_group_decrease', (session) => {
