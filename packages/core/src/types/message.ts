@@ -88,8 +88,8 @@ export enum MessageScope {
 }
 export type MessageRaw = string;
 export type MessageQuickReal =
-  | MessageRaw
   | [string, (CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
+  | MessageRaw
   | CommandError
   | void;
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;

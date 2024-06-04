@@ -27,7 +27,7 @@ function getSex(val: string) {
     case 'female':
       return 'goodnight.msg.morning.female';
     default:
-      return getSex(getRandomInt(1) === 1 ? 'male' : 'femal');
+      return getSex(getRandomInt(1) === 1 ? 'male' : 'female');
   }
 }
 
