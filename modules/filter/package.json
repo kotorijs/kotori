@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-goodnight",
-  "version": "1.3.1",
-  "description": "And in case i don't see you,good afternoon,good evening,and good night!",
+  "name": "@kotori-bot/kotori-plugin-filter",
+  "version": "1.0.0",
+  "description": "filter plugin for kotori-bot loader",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -22,11 +22,8 @@
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
-  "kotori": {
-    "meta": {
-      "language": [
-        "zh_CN"
-      ]
-    }
+  "dependencies": {
+    "@types/picomatch": "^2.3.3",
+    "picomatch": "^4.0.2"
   }
 }

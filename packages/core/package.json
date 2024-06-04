@@ -32,6 +32,6 @@
     "@types/minimist": "^1.2.5",
     "fluoro": "^1.0.2",
     "minimist": "^1.2.8",
-    "tsukiko": "^1.2.1"
+    "tsukiko": "^1.2.3"
   }
 }

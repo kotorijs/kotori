@@ -20,6 +20,7 @@ import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger
 import {
   BUILD_FILE,
   BUILD_MODE,
+  CORE_MODULES,
   // CORE_MODULES,
   DEV_CODE_DIRS,
   DEV_FILE,
@@ -104,7 +105,7 @@ const modulePackageSchema = Tsu.Object({
 });
 
 function moduleLoadOrder(pkg: ModulePackage) {
-  // if (CORE_MODULES.includes(pkg.name)) return 1;
+  if (CORE_MODULES.includes(pkg.name)) return 1;
   if (pkg.name.includes(DATABASE_PREFIX)) return 2;
   if (pkg.name.includes(ADAPTER_PREFIX)) return 3;
   if (pkg.kotori.enforce === 'pre') return 4;

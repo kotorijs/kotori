@@ -25,5 +25,6 @@ export const DEV_SOURCE_MODE = 'dev-source' as const;
 export const CORE_MODULES = [
   '@kotori-bot/kotori-plugin-core',
   '@kotori-bot/kotori-plugin-i18n-command',
-  '@kotori-bot/kotori-plugin-webui'
+  '@kotori-bot/kotori-plugin-filter'
+  // '@kotori-bot/kotori-plugin-webui'
 ];

@@ -46,7 +46,10 @@ export function main(ctx: Context) {
 
       if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songid}]`);
 
-      return ['music.msg.music', [song.songid, song.title, song.author, song.url, session.el.image(song.pic)]];
+      return session.quick([
+        'music.msg.music',
+        [song.songid, song.title, song.author, song.url, session.el.image(song.pic)]
+      ]);
     })
     .help('music.help.music');
 }
