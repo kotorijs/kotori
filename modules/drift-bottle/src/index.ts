@@ -20,7 +20,7 @@ const getZero = () => {
 };
 
 export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
-  const getBottle = (platform: string) => ctx.file.load(`${platform}.json`, 'json', []) as Bottle[];
+  const getBottle = (platform: string) => ctx.file.load(`${platform}.json`, 'json', {}) as Bottle[];
   const setBottle = (platform: string, data: Bottle[]) => ctx.file.save(`${platform}.json`, data, 'json');
 
   ctx

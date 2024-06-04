@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-drift-bottle",
-  "version": "1.0.0",
-  "description": "throw and pick bottles",
+  "name": "kotori-plugin-mediawiki",
+  "version": "1.2.2",
+  "description": "mediawiki search tool",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -24,7 +24,7 @@
   },
   "kotori": {
     "meta": {
-      "language": [
+      "languages": [
         "en_US",
         "ja_JP",
         "zh_TW",

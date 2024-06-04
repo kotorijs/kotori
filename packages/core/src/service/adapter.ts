@@ -1,24 +1,18 @@
 import I18n from '@kotori-bot/i18n';
-import { Context, EventsList, EventsMapping } from 'fluoro';
+import { Context } from 'fluoro';
 import type Api from './api';
-import {
-  EventDataApiBase,
-  EventDataTargetId,
-  MessageScope,
-  MessageRaw,
-  MessageQuick,
-  AdapterConfig,
-  CommandResult,
-  SessionData
-} from '../types';
+import { MessageScope, CommandResult, AdapterConfig, EventDataTargetId, EventApiType } from '../types';
 import Elements from './elements';
-import { cancelFactory, formatFactory } from '../utils/factory';
+import {
+  cancelFactory,
+  confirmFactory,
+  formatFactory,
+  promptFactory,
+  quickFactory,
+  sendMessageFactory
+} from '../utils/factory';
 import CommandError from '../utils/commandError';
 import { Symbols } from '../global';
-
-type EventApiType = {
-  [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never;
-};
 
 interface AdapterStatus {
   value: 'online' | 'offline';
@@ -61,77 +55,6 @@ function setProxy<T extends Api>(api: Api, ctx: Context): T {
     }
   });
   return proxy;
-}
-
-function sendMessageFactory(adapter: Adapter, type: keyof EventApiType, data: Parameters<Adapter['session']>[1]) {
-  if ((data.type === MessageScope.GROUP || type.includes('group')) && 'groupId' in data) {
-    return (message: MessageRaw) => {
-      adapter.api.sendGroupMsg(message, data.groupId as EventDataTargetId, data.extra);
-    };
-  }
-  return (message: MessageRaw) => {
-    adapter.api.sendPrivateMsg(message, data.userId, data.extra);
-  };
-}
-
-function quickFactory(send: ReturnType<typeof sendMessageFactory>, i18n: I18n) {
-  return async (message: MessageQuick) => {
-    const msg = await message;
-    if (!msg || msg instanceof CommandError) return;
-    if (typeof msg === 'string') {
-      send(i18n.locale(msg));
-      return;
-    }
-    send(formatFactory(i18n)(...msg));
-  };
-}
-
-function isSameSender(adapter: Adapter, data: Parameters<Adapter['session']>[1], session: SessionData) {
-  return (
-    session.api.adapter.identity === adapter.identity &&
-    session.api.adapter.platform === adapter.platform &&
-    session.type === data.type &&
-    session.groupId === data.groupId &&
-    session.userId === data.userId &&
-    'messageId' in data &&
-    session.messageId !== data.messageId
-  );
-}
-
-function promptFactory(
-  quick: ReturnType<typeof quickFactory>,
-  adapter: Adapter,
-  data: Parameters<Adapter['session']>[1]
-) {
-  return (message?: MessageRaw) =>
-    new Promise((resolve) => {
-      const handle: EventsMapping['on_message'] = (session) => {
-        if (isSameSender(adapter, data, session)) {
-          resolve(session.message);
-          return;
-        }
-        adapter.ctx.once('on_message', handle);
-      };
-      quick(message ?? 'corei18n.template.prompt').then(() => adapter.ctx.once('on_message', handle));
-    });
-}
-
-function confirmFactory(
-  quick: ReturnType<typeof quickFactory>,
-  adapter: Adapter,
-  data: Parameters<Adapter['session']>[1]
-) {
-  return (options?: { message: MessageRaw; sure: MessageRaw }) =>
-    new Promise((resolve) => {
-      const handle: EventsMapping['on_message'] = (session) => {
-        if (isSameSender(adapter, data, session)) {
-          resolve(session.message === (options?.sure ?? 'corei18n.template.confirm.sure'));
-          return;
-        }
-        adapter.ctx.once('on_message', handle);
-      };
-      quick(options?.message ?? 'corei18n.template.confirm').then(() => adapter.ctx.once('on_message', handle));
-    });
 }
 
 function error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) {

@@ -9,7 +9,7 @@ type ConfigFileType = 'json' | 'toml' | 'yaml' /* | 'xml' | 'ini'  */ | 'text';
 export function loadConfig<T extends ConfigFileType = 'json'>(
   filename: string,
   type: T = 'json' as T,
-  init: (T extends 'text' ? string : JsonMap) | undefined = undefined
+  init: (T extends 'text' ? string : object) | undefined = undefined
 ): T extends 'text' ? string : JsonMap {
   const dirname = path.dirname(filename);
   if (!fs.existsSync(dirname)) fs.mkdirSync(dirname, { recursive: true });

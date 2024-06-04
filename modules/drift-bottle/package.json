@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-manger",
+  "name": "kotori-plugin-drift-bottle",
   "version": "1.0.1",
-  "description": "Groups Mange tools",
+  "description": "throw and pick bottles",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -23,7 +23,6 @@
     "kotori-bot": "workspace:^"
   },
   "kotori": {
-    "enforce": "pre",
     "meta": {
       "language": [
         "en_US",

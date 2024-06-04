@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-mediawiki",
-  "version": "1.2.1",
-  "description": "mediawiki search tool",
+  "name": "kotori-plugin-manger",
+  "version": "1.0.2",
+  "description": "Groups Mange tools",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
@@ -23,8 +23,9 @@
     "kotori-bot": "workspace:^"
   },
   "kotori": {
+    "enforce": "pre",
     "meta": {
-      "languages": [
+      "language": [
         "en_US",
         "ja_JP",
         "zh_TW",

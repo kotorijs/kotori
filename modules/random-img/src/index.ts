@@ -36,7 +36,7 @@ export function main(ctx: Context) {
     return ['random_img.msg.sex.image', { image: session.el.image(info.url) }];
   });
 
-  ctx.command('sexh - random_img.descr.sexh').action(async (data, session) => {
+  ctx.command('sexh [tags] - random_img.descr.sexh').action(async (data, session) => {
     session.quick('random_img.msg.sexh.tips');
     const res = sexhSchema.parse(await ctx.http.get('https://hotaru.icu/api/huimg/'));
     if (!res.data) return ['random_img.msg.sexh.fail', { input: data.args[0] }];
