@@ -31,12 +31,14 @@ export default class Plugin {
       return;
     }
     this.ctx.logger.record(`get loader successfully, filter mode: ${mode}`);
-    runner[Symbols.modules].forEach((_, key) => {
-      const result = list.filter((pattern) => pm(pattern)(key)).length > 0;
-      if (result && mode === 'exclude') {
-        runner[Symbols.modules].delete(key);
+    runner[Symbols.modules].forEach((val, key) => {
+      const value = [runner[Symbols.modules].get(key)];
+      const result = list.filter((pattern) => pm(pattern)(key).valueOf()).length > 0;
+      if (result && (mode === 'exclude' || mode === undefined)) {
+        delete value[0];
+        console.log(value[0], value[0] === val);
       } else if (!result && mode === 'include') {
-        runner[Symbols.modules].delete(key);
+        delete value[0];
       }
     });
   }

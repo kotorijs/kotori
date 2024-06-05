@@ -27,7 +27,7 @@ interface CommandOption {
   description?: string;
 }
 
-interface CommandData<Args extends ArgsOrigin = ArgsOrigin, Opts extends OptsOrigin = OptsOrigin> {
+interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin> {
   root: string;
   alias: string[];
   args: CommandArg[];
@@ -76,7 +76,6 @@ type ParseOpts<Template extends string> = string extends Template
       ? { [C in K]: GetSignType<V> }
       : { [C in K]?: GetSignType<V> }
     : /* eslint-disable-next-line @typescript-eslint/ban-types */
-
       {};
 
 const requiredParamMatch = /<(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?>/;

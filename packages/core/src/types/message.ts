@@ -34,7 +34,7 @@ export const enum CommandAccess {
 export type ArgsOrigin = CommandArgType[];
 export type OptsOrigin = Record<string, CommandArgType>;
 
-export type CommandAction<Args extends ArgsOrigin = ArgsOrigin, Opts extends OptsOrigin = OptsOrigin> = (
+export type CommandAction<Args = ArgsOrigin, Opts = OptsOrigin> = (
   data: { args: Args; options: Opts },
   session: SessionData
 ) => MessageQuick;
