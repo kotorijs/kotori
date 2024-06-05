@@ -1,4 +1,6 @@
 {
-  "weather.descr.weather": "Query city weather",
-  "weather.msg.weather": "%content%"
+  "weather.descr.weather": "Check the weather for a city",
+  "weather.msg.weather": "City: {0}{1}",
+  "weather.msg.weather.item": "\n-----\nDate: {0}\nTemperature: {1} to {2}°C\nWeather: {3} to {4}\nWind Speed: {5} to {6}\nAir Quality: {7}",
+  "weather.option.weather.limit": "Number of forecasts to query"
 }

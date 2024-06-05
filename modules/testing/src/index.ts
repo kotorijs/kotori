@@ -1,13 +1,10 @@
-import { Tsu, CommandAction, Context, MessageScope, plugins, SessionData } from 'kotori-bot';
+import { Tsu, CommandAction, MessageScope, plugins, SessionData, KotoriPlugin } from 'kotori-bot';
 
 const plugin = plugins([__dirname, '../']);
 
 @plugin.import
-export default class Plugin {
-  private ctx: Context;
-
-  private config: Tsu.infer<typeof Plugin.schema>;
-
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>> {
   @plugin.lang
   public static lang = [__dirname, '../locales'];
 
@@ -20,11 +17,6 @@ export default class Plugin {
 
   @plugin.inject
   public static inject = ['database'];
-
-  public constructor(ctx: Context, config: Tsu.infer<typeof Plugin.schema>) {
-    this.ctx = ctx;
-    this.config = config;
-  }
 
   @plugin.on({ type: 'on_group_decrease' })
   public static groupDecrease(session: SessionData) {
@@ -59,5 +51,10 @@ export default class Plugin {
   @plugin.regexp({ match: /^(.*)#print$/ })
   public static print(match: RegExpExecArray) {
     return match[1];
+  }
+
+  // @plugin.task({ cron: '0/10 * * * * *' })
+  public task() {
+    this.ctx.logger.info('task run!');
   }
 }

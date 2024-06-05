@@ -18,7 +18,7 @@
   "loader.modules.incomplete": "incomplete supported module version: {0}",
   "loader.modules.unsupported": "unsupported module version: {0}",
   "loader.modules.all": "loaded {0} modules successfully",
-  "loader.modules.all.failed": "loaded {0} modules successfully, failed to load {0} modules",
+  "loader.modules.all.failed": "loaded {0} modules successfully, failed to load {1} modules",
   "loader.adapters.notfound": "cannot find adapter {0} for {1} bot",
   "error.dev.package.illegal": "illegal package.json {0}",
   "error.dev.package.missing": "package.json format error {0}: {1}",

@@ -3,14 +3,31 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-05-03 13:24:35
+ * @LastEditTime: 2024-06-05 17:26:29
  */
 
-import { Command, Context, Symbols } from 'kotori-bot';
+import { Command, Context, MessageQuick, SessionData, Symbols, Tsu } from 'kotori-bot';
+
+export const config = Tsu.Object({
+  alias: Tsu.String().optional(),
+  keywords: Tsu.Array(Tsu.String()).default(['^菜单$', '^功能$']),
+  content: Tsu.String().optional()
+});
 
 export const lang = [__dirname, '../locales'];
 
-export function main(ctx: Context) {
+export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
+  if (cfg.content) {
+    const handle = (session: SessionData): MessageQuick => [cfg.content!, { at: session.el.at(session.userId) }];
+
+    const cmd = ctx.command('menu - helper.descr.menu').action((_, session) => handle(session));
+    if (cfg.alias) cmd.alias(cfg.alias);
+
+    cfg.keywords.forEach((element) => {
+      ctx.regexp(new RegExp(element), (_, session) => handle(session));
+    });
+  }
+
   ctx.command('help [...command] - helper.descr.help').action((data, session) => {
     const filterResult: Command['meta'][] = [];
     const args = (data.args as string[]).join('');

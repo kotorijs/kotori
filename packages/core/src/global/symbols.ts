@@ -10,4 +10,8 @@ export class Symbols {
   public static readonly regexp = Symbol.for('kotori.core.regexp');
 
   public static readonly modules = Symbol.for('kotori.loader.module');
+
+  public static readonly job = Symbol.for('kotori.loader.job');
 }
+
+export default Symbols;

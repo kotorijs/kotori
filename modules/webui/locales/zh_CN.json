@@ -1,4 +1,11 @@
 {
-	"kotori_bot_admin_server.help.login": "获取Kotori-Amdin后台一键登录地址",
-	"kotori_bot_admin_server.msg.login.info": "以下是您的BOT后台管理的一键登录地址:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\n登录地址将在[%expire_time%秒]后过期，请勿泄露给他人"
+  "webui.descr.webui": "查看 Webui 状态",
+  "webui.option.webui": "重置 Webui 账户数据",
+  "webui.msg.webui.reset": "Webui 账户数据已重置",
+  "webui.msg.webui.error": "Webui 指令仅支持在控制台环境下使用",
+  "webui.msg.webui.prompt.user": "请输入 Webui 用户名：",
+  "webui.msg.webui.prompt.pwd": "请输入 Webui 密码：",
+  "webui.msg.webui.success": "配置成功！请再次输入指令以查看运行状态",
+  "webui.msg.webui": "Webui 服务已启动！运行端口：{0}",
+  "webui.msg.webui.uninitialized": "当前未设置 Webui 账号与密码，请输入 {0}webui 指令以进行初始化"
 }

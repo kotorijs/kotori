@@ -1,4 +1,11 @@
 {
-	"kotori_bot_admin_server.help.login": "Kotori-Amdinログインアドレスの取得",
-	"kotori_bot_admin_server.msg.login.info": "これがあなたのログイン先です:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\nログインアドレスは[%expire_time%秒]後に期限切れになりますので、他人に漏らさないでください"
+  "webui.descr.webui": "Webuiのステータスを表示",
+  "webui.option.webui": "Webuiアカウントデータをリセット",
+  "webui.msg.webui.reset": "Webuiアカウントデータがリセットされました",
+  "webui.msg.webui.error": "Webuiコマンドはコンソール環境でのみ使用できます",
+  "webui.msg.webui.prompt.user": "Webuiのユーザー名を入力してください：",
+  "webui.msg.webui.prompt.pwd": "Webuiのパスワードを入力してください：",
+  "webui.msg.webui.success": "設定に成功しました！もう一度コマンドを入力して稼働状況を表示してください",
+  "webui.msg.webui": "Webuiサービスが開始されました！ポート{0}で実行中",
+  "webui.msg.webui.uninitialized": "Webuiアカウントとパスワードが設定されていません。{0}webuiコマンドを入力して初期化してください"
 }

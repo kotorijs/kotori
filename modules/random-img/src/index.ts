@@ -71,4 +71,8 @@ export function main(ctx: Context) {
       image: quick('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg', session.el)
     }
   ]);
+
+  ctx
+    .command('beauty - random_img.descr.beauty')
+    .action((_, session) => ['random_img.msg.beauty', [quick('https://api.hotaru.icu/api/beautyimg', session.el)]]);
 }

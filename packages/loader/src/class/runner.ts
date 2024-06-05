@@ -28,6 +28,7 @@ import {
   DEV_MODE,
   DEV_SOURCE_MODE
 } from '../constants';
+import '../types/internal';
 import KotoriLogger from '../utils/logger';
 import './loader';
 
@@ -239,6 +240,9 @@ export class Runner {
   private loadEx(instance: ModuleMeta, origin: ModuleConfig) {
     this.ctx.logger.trace('module:', instance, origin);
 
+    // adapted @kotori-bot/kotori-plugin-filter
+    if (!instance.main) return;
+
     const parsed = (schema: Parser<unknown>) => {
       const result = (schema as Parser<ModuleConfig>).parseSafe(config);
       if (!result.value)
@@ -251,6 +255,12 @@ export class Runner {
     let obj = require(main);
     let config = origin;
     const adapterName = pkg.name.split(ADAPTER_PREFIX)[1];
+
+    // exclude plugins was registered by decorators
+    if (this.ctx.get<{ registers: string[] } | undefined>('decorators')?.registers.includes(pkg.name)) {
+      this.ctx.emit('ready_module_decorators', pkg.name);
+      return;
+    }
 
     if (
       Adapter.isPrototypeOf.call(Adapter, obj.default) &&

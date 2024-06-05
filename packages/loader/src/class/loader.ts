@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-06-02 14:58:34
+ * @LastEditTime: 2024-06-05 11:06:52
  */
 import {
   KotoriError,
@@ -284,7 +284,7 @@ export class Loader extends Container {
     this.ctx.get<Runner>('runner').loadAll();
     const failLoadCount = this.ctx.get<Runner>('runner')[Symbols.modules].size - this.loadCount;
     this.ctx.logger.info(
-      this.ctx.format(`loader.modules.all${failLoadCount > 0 ? '.fail' : ''}`, [this.loadCount, failLoadCount])
+      this.ctx.format(`loader.modules.all${failLoadCount > 0 ? '.failed' : ''}`, [this.loadCount, failLoadCount])
     );
     this.loadAllAdapter();
     this.ctx.emit('ready');

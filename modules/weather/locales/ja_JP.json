@@ -1,4 +1,6 @@
 {
   "weather.descr.weather": "都市の天気を調べる",
-  "weather.msg.weather": "%content%"
+  "weather.msg.weather": "都市：{0}{1}",
+  "weather.msg.weather.item": "\n-----\n日付：{0}\n気温：{1}から{2}℃\n天気：{3}から{4}\n風速：{5}から{6}\n大気品質：{7}",
+  "weather.option.weather.limit": "検索する天気予報の数"
 }

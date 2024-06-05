@@ -30,8 +30,9 @@
     "@kotori-bot/i18n": "workspace:^",
     "@kotori-bot/tools": "workspace:^",
     "@types/minimist": "^1.2.5",
+    "cron": "^3.1.7",
     "fluoro": "^1.0.2",
     "minimist": "^1.2.8",
-    "tsukiko": "^1.2.3"
+    "tsukiko": "^1.2.5"
   }
 }

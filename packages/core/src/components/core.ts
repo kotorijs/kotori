@@ -23,6 +23,8 @@ declare module 'fluoro' {
     midware: Message['midware'];
     command: Message['command'];
     regexp: Message['regexp'];
+    notify: Message['notify'];
+    task: Message['task'];
     /* Inject */
     http: Http;
     i18n: I18n;
@@ -41,7 +43,7 @@ export class Core extends Context {
     this.provide('config', new Config(config));
     this.mixin('config', ['config', 'pkg']);
     this.provide('message', new Message(this));
-    this.mixin('message', ['midware', 'command', 'regexp']);
+    this.mixin('message', ['midware', 'command', 'regexp', 'notify', 'task']);
     this.provide('http', new Http({ validateStatus: () => true }));
     this.inject('http');
     this.provide('i18n', new I18n({ lang: this.config.global.lang }));

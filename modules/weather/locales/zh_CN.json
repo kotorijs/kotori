@@ -1,4 +1,6 @@
 {
   "weather.descr.weather": "查询城市天气",
-  "weather.msg.weather": "%content%"
+  "weather.msg.weather": "城市：{0}{1}",
+  "weather.msg.weather.item": "\n-----\n日期：{0}\n温度：{1}~{2}°C\n天气：{3}~{4}\n风度：{5}-{6}\n空气质量：{7}",
+  "weather.option.weather.limit": "查询数量"
 }

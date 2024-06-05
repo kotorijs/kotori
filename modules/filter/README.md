@@ -1,4 +1,6 @@
-# kotori-plugin-filter
+# @kotori-bot/kotori-plugin-filter
+
+filter plugin for kotori-bot loader
 
 ## Reference
 

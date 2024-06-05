@@ -1,5 +1,6 @@
 {
   "helper.descr.help": "コマンドのヘルプ情報を表示",
+  "helper.descr.menu": "ロボットのメニューを見る",
   "helper.msg.help": "関連コマンドが見つかりました：%content%",
   "helper.msg.descr.fail": "関連コマンドが見つかりませんでした",
   "helper.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",

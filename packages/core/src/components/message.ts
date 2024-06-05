@@ -1,7 +1,15 @@
 import { stringRightSplit } from '@kotori-bot/tools';
 import { type Context, type EventsList } from 'fluoro';
 import type { I18n } from '@kotori-bot/i18n';
-import { type CommandConfig, type MidwareCallback, type RegexpCallback, SessionData, MessageQuick } from '../types';
+import { CronJob } from 'cron';
+import {
+  type CommandConfig,
+  type MidwareCallback,
+  type RegexpCallback,
+  SessionData,
+  MessageQuick,
+  TaskCallback
+} from '../types';
 import { cancelFactory, disposeFactory, quickFactory, sendMessageFactory } from '../utils/factory';
 import { Command } from '../utils/command';
 import CommandError from '../utils/commandError';
@@ -51,9 +59,10 @@ export class Message {
     if (!data.isPass) return;
 
     this[Symbols.regexp].forEach((data) => {
-      const match = session.message.match(data.match);
-      if (!match) return;
-      session.quick(data.callback(match, session));
+      const result = session.message.match(data.match);
+      if (!result) return;
+      session.quick(data.callback(result, session));
+      this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message });
     });
   }
 
@@ -173,6 +182,11 @@ export class Message {
         )(message);
       })
     );
+  }
+
+  public task(options: string | { cron: string; start?: boolean; timeZone?: string }, callback: TaskCallback) {
+    const [cron, extraOptions] = typeof options === 'string' ? [options, {}] : [options.cron, options];
+    return new CronJob(cron, () => callback(this.ctx), null, extraOptions.start ?? true, extraOptions.timeZone);
   }
 }
 

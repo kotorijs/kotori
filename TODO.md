@@ -17,12 +17,10 @@
 
 ## Features
 
-~~- [ ] ctx.filter()~~
-~~- [ ] message.schedule()~~
-~~- [ ] Module System: load by filename (by import())~~
-~~- [ ] @kotori-bot/i18n Node.js env: getLanguage(): LocaleType~~
-~~- [ ] Kotori cli gui and modules search,install,uninstall,update~~
+<!-- - [x] ctx.filter() -->
+<!-- - [ ] Kotori cli gui and modules search,install,uninstall,update -->
 
+- [x] message.schedule()
 - [x] decorator plugin form
 - [x] @kotori-bot/tools Events: protected list
 - [x] Context: parent ctx
@@ -33,6 +31,6 @@
 
 ## Fixes
 
-- [ ] Module Version with core tips
-- [ ] Kotori cli start
+- [x] Module Version with core tips
+- [x] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg

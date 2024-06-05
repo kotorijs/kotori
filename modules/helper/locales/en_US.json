@@ -1,5 +1,6 @@
 {
   "helper.descr.help": "View command help info",
+  "helper.descr.menu": "View Bot's menu",
   "helper.msg.help": "Found the following related commands: %content%",
   "helper.msg.descr.fail": "No related command found",
   "helper.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",

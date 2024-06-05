@@ -1,4 +1,5 @@
-import Kotori, { Tsu } from 'kotori-bot';
+import { KotoriPlugin, SessionData, Tsu, plugins } from 'kotori-bot';
+import { SignData } from './type';
 
 const hitokotoSchema = Tsu.Object({
   data: Tsu.Object({
@@ -9,92 +10,40 @@ const hitokotoSchema = Tsu.Object({
   })
 });
 
-/*
-const defaultData = {
-	sign: [],
-	msg: 0,
-	exp: 0,
-};
+const plugin = plugins([__dirname, '../']);
 
-const getPath(group: number)  path.join(Main.Consts.DATA_PLUGIN_PATH, `${group.toString()}.json`);
+@plugin.import
+/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+class GrouperPlugin extends KotoriPlugin {
+  @plugin.inject
+  public static readonly inject = ['file'];
 
-const loadData = (group: number): obj<userData> => {
-	const data = (loadConfig(getPath(group), 'json', { group: defaultData }) as obj) || {};
-	return data;
-};
+  @plugin.regexp({ match: /^(签到|打卡)$/ })
+  @plugin.command({ template: 'sign - 签到' })
+  public async sign(data: RegExpMatchArray, session: SessionData) {
+    const at = session.el.at(session.userId);
+    const identity = `${session.groupId}&${session.userId}&${session.i18n.date()}`;
+    const signData = this.ctx.file.load<SignData>(`signData.json`, 'json', {});
+    const { platform } = session.api.adapter;
+    if (signData[platform] && signData[platform].includes(identity)) {
+      return session.quick(['{0}今天已经签过到了，明天再来试吧', [at]]);
+    }
 
-const saveData(data: object, group: number)  {
-	saveConfig(getPath(group), data);
-};
+    if (!signData[platform]) signData[platform] = [];
+    signData[platform].push(identity);
+    this.ctx.file.save(`signData.json`, signData);
+    const res = await this.ctx.http.get('https://hotaru.icu/api/hitokoto/v2/');
+    return session.quick([
+      '{0}签到成功！这是你的奖励~{1}\n一言：{2}',
+      [
+        at,
+        session.el.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'),
+        hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '接口走丢了呜呜呜'
+      ]
+    ]);
+  }
+}
 
-export const queryUserInfo(user: number)  {
-	if (!(user in Main.UserInfo)) {
-		return {
-			userId: 0,
-			nickname: '',
-			sex: 'unknown',
-			age: 0,
-		};
-	}
-	return Main.UserInfo[user];
-};
-
-export const queryExp = (group: number, user: number): [userData, obj<userData>] => {
-	const data = loadData(group);
-	if (!(user in data)) {
-		data[user as keyof typeof data] = defaultData;
-	}
-
-	saveData(data, group);
-	return [data[user as keyof typeof data], data];
-};
-
-export const addExp(group: number, user: number, exp: number, tips: boolean = true)  {
-	if (exp === 0) return;
-	const data = loadData(group);
-
-	if (!(user in data)) data[user as keyof typeof data] = defaultData;
-	data.group.exp += exp;
-	data[user as keyof typeof data].exp += exp;
-	saveData(data, group);
-	if (tips) Main.Api.sendGroupMsg(`${SDK.cq_at(user)}经验+${exp}`, group);
-};
-
-const Alias(keyword: CoreKeyword, callback: CoreVal)  {
-	const entity = Core.alias(keyword, callback).menuId('funSys').scope(SCOPE.GROUP);
-	return entity;
-};
-
-Alias('资料卡', async (_send, data) => {
-	const userData = queryExp(data.groupId!, data.userId)[0];
-	const image = new Profile(data, parseInt(Core.args[1], 10) || userData.exp).render();
-	return SDK.cq_image((await image).replace('data:image/png;base64,', 'base64://'));
-}); */
-
-const signData: string[] = [];
-
-Kotori.regexp(/^(签到|打卡)$/, async (data, session) => {
-  const time = session.i18n.date();
-  if (!session.groupId) return '';
-  // const groupData = queryExp(data.groupId!, data.userId)[1];
-  const at = session.el.at(session.userId);
-  const identity = `${session.groupId}&${session.userId}&${time}`;
-  if (signData.includes(identity)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
-  signData.push(identity);
-  const res = await Kotori.http.get('https://hotaru.icu/api/hitokoto/v2/');
-  const hitokoto = hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '';
-  const image = session.el.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images');
-  return ['%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%', { at, image, hitokoto }];
-  /* 	if (!(data.userId in groupData)) groupData[data.userId] = defaultData;
-	if (groupData[data.userId].sign.includes(time)) return ['%at%今天已经签过到了，明天再来试吧', { at }];
-	groupData[data.userId].sign.push(time);
-	saveData(groupData, data.groupId!);
-	addExp(data.groupId!, data.userId, getRandomInt(20, 10));
-	return [
-		'%at%签到成功！这是你的奖励~%image%\n一言：%hitokoto%',
-		{ at, image: SDK.cq_image('https://tenapi.cn/acg', undefined, undefined, 'normal', 0), hitokoto: await fetchText("https://hotaru.icu/api/hitokoto/v2/?format=text")},
-	]; */
-});
 /* 
 Alias('群排行', () => {
 	const files = readdirSync(Main.Consts.DATA_PLUGIN_PATH);

@@ -1,7 +1,7 @@
 {
   "name": "@kotori-bot/kotori-plugin-helper",
-  "version": "1.2.1",
-  "description": "helper plugin",
+  "version": "1.3.0",
+  "description": "helper and menu plugin",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc --build"
