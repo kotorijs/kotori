@@ -9,9 +9,9 @@ import {
   Parser,
   ModuleConfig,
   ModuleError,
-  PLUGIN_PREFIX,
   Tokens
 } from '@kotori-bot/core';
+import '../types/internal';
 
 type Fn = (...args: unknown[]) => void;
 
@@ -20,15 +20,13 @@ export class Decorators {
 
   private isCreated = false;
 
-  private pkgName: string;
-
   private object?: object;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   private register(callback: (...args: any[]) => void) {
     return (...args: any[]) =>
-      this.ctx.parent!.once('ready_module', (data) => {
-        if (data.instance.name === this.pkgName) {
+      this.ctx.root.once('ready_module_decorators', (pkgName) => {
+        if (pkgName === this.ctx.identity) {
           callback(...args);
           return;
         }
@@ -39,7 +37,8 @@ export class Decorators {
 
   public constructor(ctx: Context) {
     this.ctx = ctx;
-    this.pkgName = `${PLUGIN_PREFIX}${ctx.identity}`;
+    if (!this.ctx.root.get('decorators')) this.ctx.root.provide('decorators', { registers: [] });
+    if (this.ctx.identity) this.ctx.root.get<{ registers: string[] }>('decorators').registers.push(this.ctx.identity);
   }
 
   public readonly import = (Target: object) => {
@@ -69,14 +68,18 @@ export class Decorators {
 
   public readonly schema = <T extends object>(Target: T, property: keyof T) => {
     this.register(() => {
-      let config = (this.ctx[Symbols.modules].get(this.pkgName!) ?? [])[1];
-      const result = (Target[property] as Parser<ModuleConfig>).parseSafe(config);
-      if (!result.value)
-        throw new ModuleError(`Config format of module ${this.pkgName} is error: ${result.error.message}`);
-      config = result.data;
+      let config = (this.ctx[Symbols.modules].get(this.ctx.identity!) ?? [])[1];
+      if (Target[property]) {
+        const result = (Target[property] as Parser<ModuleConfig>).parseSafe(config);
+        if (!result.value)
+          throw new ModuleError(`Config format of module ${this.ctx.identity} is error: ${result.error.message}`);
+        config = result.data;
+      }
+
       if (this.isCreated) return;
       this.isCreated = true;
       this.object = new (Target as new (...args: unknown[]) => object)(this.ctx, config);
+      this.ctx.root.emit('ready_module', { instance: { name: this.ctx.identity!, config } });
     })();
   };
 
@@ -118,6 +121,12 @@ export class Decorators {
   public regexp(meta: { match: RegExp }) {
     return this.register(<T extends object>(target: T, property: keyof T) =>
       this.ctx.regexp(meta.match, (match, session) => (target[property] as Fn).bind(this.object)(match, session))
+    );
+  }
+
+  public task(meta: Exclude<Parameters<Context['task']>[0], string>) {
+    return this.register(<T extends object>(target: T, property: keyof T) =>
+      this.ctx.task(meta, (ctx) => (target[property] as Fn).bind(this.object)(ctx))
     );
   }
 }

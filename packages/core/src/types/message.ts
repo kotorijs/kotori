@@ -1,6 +1,6 @@
 import Tsu, { TsuError } from 'tsukiko';
 import type I18n from '@kotori-bot/i18n';
-import type { EventsList } from 'fluoro';
+import type { Context, EventsList } from 'fluoro';
 import type CommandError from '../utils/commandError';
 import type { Api, Elements } from '../service';
 import { Command } from '../utils/command';
@@ -12,6 +12,7 @@ declare module 'fluoro' {
     parse(data: EventDataParse): void;
     before_command(data: EventDataBeforeCommand): void;
     command(data: EventDataCommand): void;
+    regexp(data: EventDataRegexp): void;
     before_send(data: EventDataBeforeSend): void;
     send(data: EventDataSend): void;
     on_message(session: EventDataPrivateMsg | EventDataGroupMsg): void;
@@ -95,6 +96,7 @@ export type MessageQuickReal =
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>;
 export type MidwareCallback = (next: () => void, session: SessionData) => MessageQuick;
 export type RegexpCallback = (match: RegExpMatchArray, session: SessionData) => MessageQuick;
+export type TaskCallback = (ctx: Context) => void;
 
 export type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never;
@@ -132,6 +134,13 @@ interface EventDataCommand {
   raw: string;
   command: Command;
   result: EventDataParse['result'] | MessageQuick;
+}
+
+interface EventDataRegexp {
+  session: SessionData;
+  raw: string;
+  regexp: RegExp;
+  result: RegExpMatchArray;
 }
 
 interface EventDataBeforeSend {

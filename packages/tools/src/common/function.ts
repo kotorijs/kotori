@@ -27,6 +27,19 @@ export function isClass(obj: unknown, strict: boolean = true): obj is new (...ar
   return /^function\sdefault_\d+\s*\(/.test(str);
 }
 
+export function regExpExecAll(regExp: RegExp, input: string) {
+  // 前提，目标正则必须要加全局“g”,如果不加，则在while处会死循环
+  // 因此，第一步要先判断
+  if (!regExp.global) return regExp.exec(input);
+  const arr: RegExpMatchArray[] = [];
+  let res = regExp.exec(input);
+  while (res) {
+    arr.push(res);
+    res = regExp.exec(input);
+  }
+  return arr.length === 0 ? null : arr;
+}
+
 export function stringRightSplit(str: string, key: string): string {
   const index = str.indexOf(key);
   return str.slice(index + key.length);
@@ -40,6 +53,14 @@ export function stringTemp(template: string, args: Record<string, string | numbe
     templateString = templateString.replaceAll(`%${param}%`, params[param] as string);
   });
   return templateString;
+}
+
+export function stringFormat(template: string, args: (string | number)[]) {
+  let str = template;
+  args.forEach((value, index) => {
+    str = str.replaceAll(`{${index}}`, String(value));
+  });
+  return str;
 }
 
 export function getRandomInt(max: number, min: number = 0): number {

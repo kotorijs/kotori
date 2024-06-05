@@ -1,4 +1,11 @@
 {
-	"kotori_bot_admin_server.help.login": "Get Kotori-Amdin login url",
-	"kotori_bot_admin_server.msg.login.info": "Here are your login url:\nhttp://127.0.0.1:%port%%path%\n%face_address%:%port%%path%\nLogin url will expire after[%expire_time%Second], dont give others"
+  "webui.descr.webui": "View Webui status",
+  "webui.option.webui": "Reset Webui account data",
+  "webui.msg.webui.reset": "Webui account data has been reset",
+  "webui.msg.webui.error": "Webui command only supports use in the console environment",
+  "webui.msg.webui.prompt.user": "Please enter the Webui username:",
+  "webui.msg.webui.prompt.pwd": "Please enter the Webui password:",
+  "webui.msg.webui.success": "Configuration successful! Please enter the command again to view the running status",
+  "webui.msg.webui": "Webui service has started! Running on port: {0}",
+  "webui.msg.webui.uninitialized": "Webui account and password are not set. Please enter the {0}webui command to initialize"
 }

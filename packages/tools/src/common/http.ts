@@ -6,7 +6,7 @@ type HttpMethod<T = unknown> = (
   config?: AxiosRequestConfig<unknown>
 ) => Promise<T>;
 
-type Method = 'get' | 'delete' | 'head';
+type Method = 'get' | 'delete' | 'head' | 'options';
 
 export class Http {
   private config: AxiosRequestConfig;
@@ -44,6 +44,8 @@ export class Http {
   public readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete');
 
   public readonly head: HttpMethod = (url, params, config) => this.method(url, params, config, 'head');
+
+  public readonly options: HttpMethod = (url, params, config) => this.method(url, params, config, 'options');
 
   public ws(address: string, protocols?: string | string[] | undefined) {
     return new WebSocket(`${this.config.baseURL ?? ''}${address}`, protocols);

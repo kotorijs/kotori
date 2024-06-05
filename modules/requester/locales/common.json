@@ -1,0 +1,21 @@
+{
+  "requester.log.increase": "The BOT has joined the group {0}",
+  "requester.log.decrease.leave": "The BOT has left the group {0}",
+  "requester.log.decrease.kick": "The BOT was kicked out of the group {1} by the administrator {0}",
+  "requester.log.admin.set": "The BOT was set as the admin of the group {0}",
+  "requester.log.admin.unset": "The BOT was removed from the admin position in the group {0}",
+  "requester.log.ban.ban": "The BOT was muted by the administrator {0} for {1} minutes in the group {2}",
+  "requester.log.ban.lift_ban": "The mute on the BOT was lifted by the administrator {0} in the group {1}",
+  "requester.log.recall.group.other": "User {0} had a message retracted by the administrator {1} in the group {2}: {3}",
+  "requester.log.recall.group.self": "User {0} retracted a message in the group {1}: {2}",
+  "requester.log.recall.private": "User {0} retracted a message: {1}",
+  "requester.log.request.group": "The BOT received a group request from user {0}",
+  "requester.log.request.private": "The BOT received a friend request from user {0}",
+  "requester.log.msg.group": "User {0} mentioned the BOT in the group {1}: {2}",
+  "requester.log.msg.private": "User {0} sent a message to the BOT: {1}",
+  "requester.log.command.group": "User {0} exec command \"{1}\" successfully at group {2}",
+  "requester.log.command.private": "User {0} exec command \"{1}\" successfully",
+  "requester.log.regexp.group": "User {0} match regexp \"{1}\" successfully at group {2}",
+  "requester.log.regexp.private": "User {0} match regexp \"{1}\" successfully",
+  "requester.log.http": "HTTP Request to {0}"
+}

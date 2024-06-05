@@ -1,5 +1,6 @@
 {
   "helper.descr.help": "查看指令帮助信息",
+  "helper.descr.menu": "查看 BOT 菜单",
   "helper.msg.help": "查询到以下相关指令：%content%",
   "helper.msg.descr.fail": "未查询到相关指令",
   "helper.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",

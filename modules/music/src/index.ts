@@ -1,17 +1,5 @@
-import { Context, Tsu } from 'kotori-bot';
-
-const musicSchema = Tsu.Object({
-  data: Tsu.Array(
-    Tsu.Object({
-      link: Tsu.String(),
-      songid: Tsu.Number(),
-      title: Tsu.String(),
-      author: Tsu.String(),
-      url: Tsu.String(),
-      pic: Tsu.String()
-    })
-  ).optional()
-});
+import { Context } from 'kotori-bot';
+import getData from './http';
 
 const MAX_LIST = 10;
 
@@ -22,33 +10,31 @@ export const inject = ['cache'];
 export function main(ctx: Context) {
   ctx
     .command('music <...name> - music.descr.music')
-    .option('o', 'order:number music.option.music.order')
-    .action(async (data, session) => {
-      const name = data.args.join('');
-      const order = data.options.order ?? 1;
+    .option('O', 'order:number music.option.music.order')
+    .action(async ({ args, options: { order } }, session) => {
+      const name = args.join(' ');
+      if (!name) return session.quick(['music.msg.music.fail', [name]]);
       const res =
-        ctx.cache.get<Tsu.infer<typeof musicSchema>>(name) ??
-        musicSchema.parse(await ctx.http.get('https://api.hotaru.icu/api/netease', { name }));
+        ctx.cache.get<ReturnType<typeof getData> extends Promise<infer T> ? T : never>(name) ?? (await getData(name));
       ctx.cache.set(name, res);
-      if (!res.data) return ['music.msg.music.fail', [name]];
 
       if (order === 0) {
         let list = '';
-        for (let init = 0; init < (res.data.length > MAX_LIST ? MAX_LIST : res.data.length); init += 1) {
-          const song = res.data[init];
-          list += session.format('music.msg.music.list', [init + 1, song.title ?? '', song.author ?? '']);
+        for (let init = 0; init < (res.length > MAX_LIST ? MAX_LIST : res.length); init += 1) {
+          const song = res[init];
+          list += session.format('music.msg.music.list', [init + 1, song.title ?? '', song.authors[0] ?? '']);
         }
         return list;
       }
 
-      const song = res.data[(order as number) - 1];
-      if (!song) return 'music.msg.music.fail.order';
+      const song = res[(order ?? 1) - 1];
+      if (!song) return session.error('num_error');
 
-      if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songid}]`);
+      if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songId}]`);
 
       return session.quick([
         'music.msg.music',
-        [song.songid, song.title, song.author, song.url, session.el.image(song.pic)]
+        [song.songId, song.title, song.authors[0], song.url, session.el.image(song.pic)]
       ]);
     })
     .help('music.help.music');
