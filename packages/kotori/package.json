@@ -8,8 +8,8 @@
   "scripts": {
     "start": "node ./lib/start/build.js",
     "cli-dev": "node ./lib/start/dev.js",
-    "dev": "ts-node -r tsconfig-paths/register ./src/start/source.ts",
-    "build": "tsc --build"
+    "dev": "tsx watch --tsconfig ../../tsconfig.json ./src/start/source.ts --watch ../../{packages.modules}/*/src/**/*.ts",
+    "build": "tsc --build && tsup"
   },
   "bin": {
     "kotori": "./bin.js",

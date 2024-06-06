@@ -5,9 +5,6 @@
   "main": "lib/index.js",
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",
