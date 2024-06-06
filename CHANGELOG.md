@@ -1,3 +1,35 @@
+## [1.4.1](https://github.com/kotorijs/kotori/compare/v1.4.2-beta.1...v1.4.1) (2024-06-06)
+
+
+### Features
+
+* logger color method ([ea94103](https://github.com/kotorijs/kotori/commit/ea94103a4a65f5da78c62e5d952a6c41d6df916c))
+* logger color method ([cb7cb12](https://github.com/kotorijs/kotori/commit/cb7cb128b3fe8eac2799d4a98eaadae04de246c5))
+
+
+
+## [1.4.2-beta.1](https://github.com/kotorijs/kotori/compare/v1.4.1...v1.4.2-beta.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* add locales with loader ([324c315](https://github.com/kotorijs/kotori/commit/324c315bc8f3e97618e5006f1140ac00ec904c7d))
+
+
+### Features
+
+* Adapter websocket and server ([365a320](https://github.com/kotorijs/kotori/commit/365a3205dc78c3a2064f975b3e7bc53a027287f2))
+* command args and opts infer display ([9acbd69](https://github.com/kotorijs/kotori/commit/9acbd699359f16639b21845196c501203596e440))
+* command type display ([4b893b8](https://github.com/kotorijs/kotori/commit/4b893b891006ed6e5f6ca132a869b1f5a0364970))
+* http and ws merge ([01abaa9](https://github.com/kotorijs/kotori/commit/01abaa976b6570e08503d50d11e0dd56b910cd02))
+* logger record, msg stats sync ([e6f654d](https://github.com/kotorijs/kotori/commit/e6f654d2c63aa80b34a7c08db763b04da764654e))
+* message ctx.notify() ([1d0e596](https://github.com/kotorijs/kotori/commit/1d0e596c80bf970db36ca13929f06ddf2533a6a2))
+* usage record and ctx.task() ([37a8483](https://github.com/kotorijs/kotori/commit/37a848328dae6fdc951a88b6cf63839c0282bdca))
+* webui auth ([4277125](https://github.com/kotorijs/kotori/commit/42771258b055cdebe9a80c779b74703249f0cdbe))
+* webui auth ([48c3bd2](https://github.com/kotorijs/kotori/commit/48c3bd290cee3138274254f47350c64bb37b7751))
+
+
+
 ## [1.4.1](https://github.com/kotorijs/kotori/compare/v1.4.0...v1.4.1) (2024-05-12)
 
 
