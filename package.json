@@ -6,12 +6,12 @@
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "scripts": {
-    "build": "pnpm -r exec tsup --define.env=prod && pnpm -r exec tsc --build",
+    "build": "rm -rf ./{packages,modules}/*/tsconfig.tsbuildinfo && pnpm -r exec tsup --define.env=prod && pnpm -r exec tsc --build",
     "dev": "nodemon --watch",
     "lint": "eslint \"{packages,modules}/*/src/*.ts\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "clean": "rm -Rf ./{packages,modules}/*/{lib,dist,tsconfig.tsbuildinfo,{dist,lib}/**.d.ts}"
+    "clean": "rm -rf ./{packages,modules}/*/{lib,dist,tsconfig.tsbuildinfo,{dist,lib}/**.d.ts}"
   },
   "files": [
     "{packages,modules}/*/locales/**/*",
