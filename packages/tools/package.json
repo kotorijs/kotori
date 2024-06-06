@@ -9,6 +9,7 @@
   "dependencies": {
     "@iarna/toml": "^2.2.5",
     "axios": "^1.6.1",
+    "colorette": "^2.0.20",
     "yaml": "^2.3.3"
   },
   "keywords": [

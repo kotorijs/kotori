@@ -6,7 +6,7 @@
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "dependencies": {
-    "colorette": "^2.0.20",
+    "@kotori-bot/tools": "workspace:^",
     "dayjs": "^1.11.10",
     "fast-safe-stringify": "^2.1.1"
   },
