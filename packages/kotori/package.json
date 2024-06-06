@@ -7,9 +7,7 @@
   "author": "Hotaru <biyuehuya@gmail.com>",
   "scripts": {
     "start": "node ./lib/start/build.js",
-    "cli-dev": "node ./lib/start/dev.js",
-    "dev": "tsx watch --tsconfig ../../tsconfig.json ./src/start/source.ts --watch ../../{packages.modules}/*/src/**/*.ts",
-    "build": "tsc --build && tsup"
+    "cli-dev": "node ./lib/start/dev.js"
   },
   "bin": {
     "kotori": "./bin.js",

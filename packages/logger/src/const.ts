@@ -7,4 +7,4 @@ export const DEFAULT_LOGGER_OPTIONS = {
   transports: new IOTransport({ method: 'process' })
 };
 
-export const eslint = 'fuck ur mother';
+export const eslint = 'fuck ur mothesr';

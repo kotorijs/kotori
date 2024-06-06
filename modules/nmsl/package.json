@@ -3,9 +3,6 @@
   "version": "2.1.0",
   "description": "孙笑川在线帮你翻译成抽象话",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

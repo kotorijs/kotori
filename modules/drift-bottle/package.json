@@ -3,9 +3,6 @@
   "version": "1.0.1",
   "description": "throw and pick bottles",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

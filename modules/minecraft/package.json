@@ -3,9 +3,6 @@
   "version": "1.0.1",
   "description": "Plugin Of For Minecraft!",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

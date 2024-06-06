@@ -1,5 +1,5 @@
 import Tsu from 'tsukiko';
-import { join } from 'node:path';
+import { resolve } from 'node:path';
 import { loadConfig } from '@kotori-bot/tools';
 import { CoreConfig } from '../types';
 import { DEFAULT_CORE_CONFIG } from '../global';
@@ -21,7 +21,7 @@ export class Config {
   public constructor(config: CoreConfig = DEFAULT_CORE_CONFIG) {
     this.config = config;
     /* load package.json */
-    const info = loadConfig(join(__dirname, '../../package.json')) as unknown;
+    const info = loadConfig(resolve(__dirname, '../../package.json')) as unknown;
     if (!info || Object.values(info).length === 0) {
       process.stderr.write(`Cannot find kotori-bot package.json\n`);
       process.exit();

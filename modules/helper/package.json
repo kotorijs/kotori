@@ -3,9 +3,6 @@
   "version": "1.3.0",
   "description": "helper and menu plugin",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

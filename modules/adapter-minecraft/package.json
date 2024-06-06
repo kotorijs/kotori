@@ -3,9 +3,6 @@
   "version": "1.0.1",
   "description": "Adapter For Minecraft Bedrock Edition",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

@@ -3,9 +3,6 @@
   "version": "1.3.1",
   "description": "And in case i don't see you,good afternoon,good evening,and good night!",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

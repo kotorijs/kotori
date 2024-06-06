@@ -1,10 +1,11 @@
 {
-  "extends": "./tsconfig.node.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     /* Path mapping for module imports */
     "baseUrl": ".",
     "paths": {
       "@kotori-bot/*": ["packages/*/src"]
     }
-  }
+  },
+  "exclude": ["tsup.config.ts"]
 }

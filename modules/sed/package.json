@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "sed plugin",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

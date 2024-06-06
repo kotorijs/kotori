@@ -3,9 +3,6 @@
   "version": "1.2.2",
   "description": "Random imgs base for Core",
   "main": "lib/index.js",
-  "scripts": {
-    "build": "tsc --build"
-  },
   "keywords": [
     "kotori",
     "chatbot",

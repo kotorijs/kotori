@@ -1,15 +1,44 @@
+import { log } from 'node:console';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'tsup';
 
-export default defineConfig(() => {
-  const cwd = process.cwd();
-  const tsconfig = existsSync(resolve(cwd, 'tsconfig.json'))
-    ? JSON.parse(readFileSync(resolve(cwd, 'tsconfig.json')).toString())
-    : undefined;
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+function getFileJson(file: string): Partial<Record<string, any>> {
+  const filepath = resolve(process.cwd(), file);
+  if (!existsSync(filepath)) return {};
+  const str = readFileSync(filepath, 'utf-8');
+  let json;
+  try {
+    json = JSON.parse(str);
+  } catch (e) {
+    throw new Error(`Parse Error at ${filepath}: ${String(e)}`);
+  }
+  return json;
+}
+
+export default defineConfig((options) => {
+  if (!options.silent) log('Dir:', process.cwd());
+
+  const [tsconfig, pkg] = ['tsconfig.json', 'package.json'].map((file) => getFileJson(file));
+
   return {
     entryPoints: ['./src'],
-    minify: true,
-    outDir: tsconfig?.compilerOptions?.outDir ?? './dist'
+    // minify: true,
+    outDir: tsconfig?.compilerOptions?.outDir ?? './dist',
+    banner: {
+      js: `
+/**
+ * @Package ${pkg?.name ?? 'unknown'}
+ * @Version ${pkg?.version ?? 'unknown'}
+ * @Author ${Array.isArray(pkg?.author) ? pkg.author.join(', ') : pkg?.author ?? ''}
+ * @Copyright 2024 Hotaru. All rights reserved.
+ * @License ${pkg?.license ?? 'GPL-3.0'}
+ * @Link https://github.com/kotorijs/kotori
+ * @Date ${new Date().toLocaleString()}
+ */
+`
+    },
+    clean: !!process.argv.find((el) => el === '--define.env=prod')
   };
 });
