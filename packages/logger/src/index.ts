@@ -3,9 +3,8 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-06-02 15:01:40
+ * @LastEditTime: 2024-06-06 19:57:19
  */
-import color from 'colorette';
 import type { LoggerFilter, LoggerOptions } from './types/internal';
 import { LoggerData, LoggerLevel } from './types/common';
 import { escaper } from './utils/escaper';
@@ -101,8 +100,6 @@ export class Logger {
 
 /* eslint-disable-next-line @typescript-eslint/no-namespace */
 export namespace Logger {
-  export const c = color;
-
   const logger = new Logger({ level: LoggerLevel.INFO, transports: new ConsoleTransport() });
   export const fatal = logger.fatal.bind(logger);
   export const error = logger.error.bind(logger);

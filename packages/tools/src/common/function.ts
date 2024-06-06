@@ -28,8 +28,6 @@ export function isClass(obj: unknown, strict: boolean = true): obj is new (...ar
 }
 
 export function regExpExecAll(regExp: RegExp, input: string) {
-  // 前提，目标正则必须要加全局“g”,如果不加，则在while处会死循环
-  // 因此，第一步要先判断
   if (!regExp.global) return regExp.exec(input);
   const arr: RegExpMatchArray[] = [];
   let res = regExp.exec(input);

@@ -1,79 +1,59 @@
 import stringify from 'fast-safe-stringify';
-import { createColors } from 'colorette';
 import dayjs from 'dayjs';
+import { Colors, ColorsAdapterImpl, TerminalAdapter, stringTemp } from '@kotori-bot/tools';
 import Transport from '../utils/transport';
 import { escaperSingle } from '../utils/escaper';
 import { LoggerData, LoggerLevel, TransportOptionsBase } from '../types/common';
 
 type Level = Exclude<keyof typeof LoggerLevel, 'SILENT'>;
-type Color = keyof ReturnType<typeof createColors>;
+type Color = keyof ColorsAdapterImpl;
 
 type ConsoleTransportConfig = {
   template?: string | ConsoleTransport['render'];
   label?: string;
-  labelColor?: Color;
   time?: string;
-  timeColor?: Color;
-  pidColor?: Color;
   useColor?: boolean;
-  detail?: {
-    [K in Level]?: [string, Color?, Color?];
+  levels?: {
+    [K in Level]?: [string, Color?];
   };
   indent?: number;
 };
 
-const DEFAULT_OPTIONS: Required<ConsoleTransportConfig> = {
-  template: '%time% %type% (%pid%) %label%: %msg%',
-  label: '[%name%]',
-  labelColor: 'cyan',
+const DEFAULT_OPTIONS = {
+  template: '<blue>%time%</blue> %level% (<bold>%pid%</bold>) %labels%: %msg%',
+  label: '[<cyan>%name%</cyan>]',
   time: 'YY/M/D H:m:s', // Reference: https://day.js.org/docs/en/display/format
-  timeColor: 'blue',
-  pidColor: 'bold',
   useColor: true,
-  detail: {
-    FATAL: ['FATAL', 'redBright', 'redBright'],
-    ERROR: ['ERROR', 'red', 'red'],
-    WARN: ['WARN', 'yellowBright', 'yellowBright'],
-    INFO: ['INFO', 'green'],
-    RECORD: ['LOG', 'cyan'],
-    DEBUG: ['DEBUG', 'magenta', 'magentaBright'],
-    TRACE: ['TRACE', 'gray', 'gray']
+  levels: {
+    FATAL: ['<redBright><bold>FATAL</bold></redBright> ', 'redBright'],
+    ERROR: ['<red>ERROR</red>', 'red'],
+    WARN: ['<yellow>WARN</yellow>', 'yellowBright'],
+    INFO: ['<green>INFO</green>'],
+    RECORD: ['<cyan>LOG</cyan>'],
+    DEBUG: ['<magenta>DEBUG</magenta>', 'magentaBright'],
+    TRACE: ['<gray>TRACE</gray>', 'gray']
   },
   indent: 2
-};
-
-function format(template: string, args: Record<string, string>) {
-  let str = template;
-  Object.keys(args).forEach((key) => {
-    str = str.replaceAll(`%${key}%`, args[key]);
-  });
-  return str;
-}
+} as const;
 
 export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
-  private c: ReturnType<typeof createColors>;
+  private cs: Colors;
 
-  public render(data: LoggerData) {
-    const { options, c } = this;
-    const handle = (content: string, color: Color | undefined) => (color ? c[color](content) : content);
-    const time = handle(
-      dayjs().format(options.time ?? DEFAULT_OPTIONS.time),
-      options.timeColor ?? DEFAULT_OPTIONS.timeColor
-    );
-    const pid = handle(String(data.pid), options.pidColor ?? DEFAULT_OPTIONS.pidColor);
-    const label = handle(
-      data.label.map((name) => format(options.label ?? DEFAULT_OPTIONS.label, { name })).join(' '),
-      options.labelColor ?? DEFAULT_OPTIONS.labelColor
-    );
-    const detail = (options.detail ?? DEFAULT_OPTIONS.detail)[LoggerLevel[data.level] as Level];
-    const type = detail && detail[1] ? c[detail[1]](LoggerLevel[data.level]) : LoggerLevel[data.level];
-    const msg = detail && detail[2] ? c[detail[2]](data.msg) : data.msg;
-    return format((options.template ?? DEFAULT_OPTIONS.template) as string, { time, type, pid, label, msg });
+  public render({ label, level, msg, time, pid }: LoggerData) {
+    const { options } = this;
+    const levels = (options.levels ?? DEFAULT_OPTIONS.levels)[LoggerLevel[level] as Level];
+    return stringTemp((options.template ?? DEFAULT_OPTIONS.template) as string, {
+      time: dayjs(time).format(options.time ?? DEFAULT_OPTIONS.time),
+      pid: String(pid),
+      level: (levels && levels[0]) ?? DEFAULT_OPTIONS.levels[LoggerLevel[level] as Level][0],
+      labels: label.map((name) => stringTemp(options.label ?? DEFAULT_OPTIONS.label, { name })).join(' '),
+      msg: levels && levels[1] ? this.cs.c[levels[1]](msg) : msg
+    });
   }
 
   public constructor(options?: ConsoleTransportConfig & TransportOptionsBase) {
-    super(options ?? DEFAULT_OPTIONS);
-    this.c = createColors({ useColor: !!this.options.useColor });
+    super(Object.assign(DEFAULT_OPTIONS, options ?? {}));
+    this.cs = new Colors(new TerminalAdapter({ useColor: !!this.options.useColor }));
   }
 
   public escaper = (args: unknown[]) => {
@@ -81,27 +61,26 @@ export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
       .map((arg) => {
         if (arg && typeof arg === 'object') {
           const result = stringify(arg, undefined, this.options.indent ?? DEFAULT_OPTIONS.indent);
-          if (result === '{}') return String(arg);
-          return result;
+          return result === '{}' ? String(arg) : result;
         }
         return escaperSingle(arg);
       })
       .join(' ');
     return result
-      .replace(/([0-9]+)/g, this.c.yellow('$1'))
-      .replaceAll('undefined', this.c.dim('undefined'))
-      .replaceAll('null', this.c.bold('null'))
-      .replace('true', this.c.yellow('true'))
-      .replaceAll('false', this.c.yellow('false'));
+      .replace(/([0-9]+)/g, '<yellow>$1</yellow>')
+      .replaceAll('undefined', '<dim>undefined</dim>')
+      .replaceAll('null', '<bold>null</bold>')
+      .replaceAll('true', '<green>true</green>')
+      .replaceAll('false', '<green>false</green>');
   };
 
   public handle(data: LoggerData) {
     const result = typeof this.options.template === 'function' ? this.options.template(data) : this.render(data);
     if (data.level === LoggerLevel.FATAL || data.level === LoggerLevel.ERROR) {
-      process.stderr.write(`${result}\n`);
+      process.stderr.write(`${this.cs.parse(result)}\n`);
       return;
     }
-    process.stdout.write(`${result}\n`);
+    process.stdout.write(`${this.cs.parse(result)}\n`);
   }
 }
 
