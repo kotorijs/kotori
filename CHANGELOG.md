@@ -1,4 +1,4 @@
-## [1.4.1](https://github.com/kotorijs/kotori/compare/v1.4.2-beta.1...v1.4.1) (2024-06-06)
+# [1.5.0](https://github.com/kotorijs/kotori/compare/v1.4.2-beta.1...v1.5.0) (2024-06-06)
 
 
 ### Features
