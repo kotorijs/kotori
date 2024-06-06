@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-requester",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Listen delete message and request event call to master",
   "main": "lib/index.js",
   "keywords": [
