@@ -8,8 +8,5 @@
     {
       "path": "../core"
     }
-  ],
-  "ts-node": {
-    "experimentalSpecifierResolution": "node"
-  }
+  ]
 }
