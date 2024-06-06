@@ -11,6 +11,7 @@ export function fetchWiki(wikiUrl: string, action: string, params: object) {
   });
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function wikiSearch(api: string, keyword: string) {
   const result = (await fetchWiki(api, 'query', {
     list: 'search',
@@ -33,3 +34,4 @@ export async function wikiSearch(api: string, keyword: string) {
   if (!data || !data.query || !data.query.pages || !data.query.pages[searchData.pageid]) return null;
   return data.query.pages[searchData.pageid];
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */

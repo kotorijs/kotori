@@ -3,15 +3,9 @@
   "env": {
     "es2024": true
   },
-  "extends": [
-    "airbnb-base",
-    "prettier",
-    "typescript"
-  ],
+  "extends": ["airbnb-base", "prettier", "typescript"],
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
@@ -21,8 +15,5 @@
     "no-shadow": 0,
     "no-redeclare": 0
   },
-  "ignorePatterns": [
-    "*.js",
-    "*.d.ts"
-  ]
+  "ignorePatterns": ["*.js", "*.d.ts"]
 }
