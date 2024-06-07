@@ -1,4 +1,18 @@
-# [1.5.0](https://github.com/kotorijs/kotori/compare/v1.4.2-beta.1...v1.5.0) (2024-06-06)
+## [1.5.1](https://github.com/kotorijs/kotori/compare/v1.5.0...v1.5.1) (2024-06-07)
+
+
+### Bug Fixes
+
+* some bugs ([14e2a0e](https://github.com/kotorijs/kotori/commit/14e2a0ef2ed8dd759882e9d343af4bfa8f13899e))
+
+
+### Features
+
+* delete dev-source mode ([4517c54](https://github.com/kotorijs/kotori/commit/4517c5405576a9cdec4241ae4284c0a833c1e985))
+
+
+
+# [1.5.0](https://github.com/kotorijs/kotori/compare/v1.4.2-beta.1...v1.5.0) (2024-06-07)
 
 
 ### Features
