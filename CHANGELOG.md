@@ -1,6 +1,11 @@
 ## [1.5.4](https://github.com/kotorijs/kotori/compare/v1.5.3...v1.5.4) (2024-06-07)
 
 
+### Bug Fixes
+
+* wsserver connect and close ([6817c70](https://github.com/kotorijs/kotori/commit/6817c703d38b2826a72d5a225b794fd70a08fedd))
+
+
 
 ## [1.5.3](https://github.com/kotorijs/kotori/compare/v1.5.0...v1.5.3) (2024-06-07)
 
