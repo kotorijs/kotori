@@ -26,7 +26,8 @@
     "kotori.yml",
     "bin.js",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "tsconfig.base.json"
   ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"

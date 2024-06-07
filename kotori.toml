@@ -12,5 +12,5 @@ age = 18
 sex = "male"
 self-id = 720
 
-[plugin.menu]
+[plugin.helper]
 content = "test menu"
