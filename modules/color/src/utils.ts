@@ -50,9 +50,9 @@ export function randomFromArray<T>(array: T[]) {
 }
 
 export function loadJapaneseColor() {
-  return loadConfig(resolve(__dirname, '../data/jp-color.json'), 'json') as unknown as JapaneseColor[];
+  return loadConfig(resolve(__dirname, '../database/jp-color.json'), 'json') as unknown as JapaneseColor[];
 }
 
 export function loadZhinaColor() {
-  return loadConfig(resolve(__dirname, '../data/cn-color.json'), 'json') as unknown as ZhinaColor[];
+  return loadConfig(resolve(__dirname, '../database/cn-color.json'), 'json') as unknown as ZhinaColor[];
 }

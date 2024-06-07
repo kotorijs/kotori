@@ -25,12 +25,16 @@ export class I18n<T extends LocaleType = LocaleType> {
 
   public use(locales: localeData, lang: T = this.lang) {
     Object.keys(locales).forEach((locale) => {
-      this.localesData.get(lang)!.set(locale, locales[locale]);
+      this.localesData.get(lang)!.set(locale.toLowerCase(), locales[locale]);
     });
   }
 
   public locale(locale: string, lang: T = this.lang) {
-    return this.localesData.get(lang)?.get(locale) ?? this.localesData.get('common' as T)?.get(locale) ?? locale;
+    return (
+      this.localesData.get(lang)?.get(locale.toLowerCase()) ??
+      this.localesData.get('common' as T)?.get(locale.toLowerCase()) ??
+      locale
+    );
   }
 
   public set(lang: T) {

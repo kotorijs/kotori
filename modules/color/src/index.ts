@@ -62,6 +62,6 @@ class ColorPlugin extends KotoriPlugin {
 
     const { rgb } = data;
     const image = session.el.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`);
-    return ['color.msg.color_cn', [data.name, data.pinyin, data.description, image]];
+    return ['color.msg.color_cn', [data.name, data.pinyin, data.description ?? '', image]];
   }
 }
