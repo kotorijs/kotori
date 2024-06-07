@@ -1,4 +1,4 @@
 {
-    "Status.descr.status": "View server running status",
-    "Status.msg.status": "Server running status \n System kernel:%type%\n System platform:%platform%\n CPU architecture:%arch%\n CPU model:%model%\n CPU frequency:%speed%GHz \n CPU cores:%num%\n CPU usage:%cpu_rate%%\n Total memory:%total%GB \n Free memory:%used%GB \n Memory usage:%ram_rate%%\n Number of network cards:%network%\n Boot time:%time%\n Host name:%host name%\n System directory:%homedir%"
+  "status.descr.status": "View server running status",
+  "status.msg.status": "Server running status \n System kernel:%type%\n System platform:%platform%\n CPU architecture:%arch%\n CPU model:%model%\n CPU frequency:%speed%GHz \n CPU cores:%num%\n CPU usage:%cpu_rate%%\n Total memory:%total%GB \n Free memory:%used%GB \n Memory usage:%ram_rate%%\n Number of network cards:%network%\n Boot time:%time%\n Host name:%host name%\n System directory:%homedir%"
 }

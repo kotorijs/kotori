@@ -24,8 +24,8 @@ export default defineConfig((options) => {
 
   return {
     entryPoints: ['./src'],
-    // minify: true,
     outDir: tsconfig?.compilerOptions?.outDir ?? './dist',
+    bundle: false,
     banner: {
       js: `
 /**

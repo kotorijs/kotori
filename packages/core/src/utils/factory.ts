@@ -41,11 +41,13 @@ export function formatFactory(i18n: I18n) {
     if (Array.isArray(params)) {
       let str = i18n.locale(template);
       params.forEach((value, index) => {
+        if (value === undefined || value === null) return;
         str = str.replaceAll(`{${index}}`, i18n.locale(typeof value === 'string' ? value : String(value)));
       });
       return str;
     }
     Object.keys(params).forEach((key) => {
+      if (params[key] === undefined || params[key] === null) return;
       if (typeof params[key] !== 'string') params[key] = String(params[key]);
       params[key] = i18n.locale(params[key] as string);
     });

@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-mediawiki",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "mediawiki search tool",
   "main": "lib/index.js",
   "keywords": [

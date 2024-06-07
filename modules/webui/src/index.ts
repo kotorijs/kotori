@@ -8,6 +8,8 @@ import plugin from './plugin';
 
 export const inject = ['server', 'file', 'cache'];
 
+export const lang = [__dirname, '../locales'];
+
 export { config } from './service';
 
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {

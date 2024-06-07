@@ -1,6 +1,7 @@
 # @kotori-bot/tools
 
 - Http
+- Colors
 - functions
 
 ## Reference

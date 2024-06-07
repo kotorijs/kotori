@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-grouper",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "groups activity ranking and simple games!",
   "main": "lib/index.js",
   "keywords": [

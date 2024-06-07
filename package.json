@@ -1,17 +1,18 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
   "scripts": {
+    "kotori": "pnpm --filter kotori-bot",
     "build": "rm -rf ./{packages,modules}/*/tsconfig.tsbuildinfo && pnpm -r exec tsup --define.env=prod && pnpm -r exec tsc --build",
     "dev": "nodemon --watch",
     "lint": "eslint \"{packages,modules}/*/src/*.ts\" --fix",
     "format": "prettier --config .prettierrc \"{packages,modules}/*/src/*.ts\" --write",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "clean": "rm -rf ./{packages,modules}/*/{lib,dist,tsconfig.tsbuildinfo,{dist,lib}/**.d.ts}"
+    "clean": "rm -rf {./{packages,modules}/*/tsconfig.tsbuildinfo,./packages/*/{dist,lib}}"
   },
   "files": [
     "{packages,modules}/*/locales/**/*",
@@ -40,7 +41,7 @@
     "node": ">=17.9.0"
   },
   "nodemonConfig": {
-    "exec": "pnpm --filter \"./packages/*\" exec \"tsup --silent\" && tsx ./packages/kotori/src/start/source.ts",
+    "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx ./packages/kotori/src/start/source.ts",
     "ext": "ts,toml,json",
     "ignore": [
       "dist",
