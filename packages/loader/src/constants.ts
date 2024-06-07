@@ -12,7 +12,7 @@ export const BUILD_CONFIG_NAME = 'kotori';
 
 export const DEV_CONFIG_NAME = 'kotori.dev';
 
-export const SUPPORTS_VERSION = /(1\.1\.0)|(1\.2\.0)|(1\.3\.(.*))|(1\.4\.(.*))/;
+export const SUPPORTS_VERSION = /(1\.1\.0)|(1\.2\.0)|(1\.(3|4|5|6|7|8|9)\.(.*))/;
 
 export const SUPPORTS_HALF_VERSION = /(x\.x\.(.*?))/;
 
