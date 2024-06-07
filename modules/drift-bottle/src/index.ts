@@ -20,14 +20,14 @@ const getZero = () => {
 };
 
 export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
-  const getBottle = (platform: string) => ctx.file.load(`${platform}.json`, 'json', {}) as Bottle[];
-  const setBottle = (platform: string, data: Bottle[]) => ctx.file.save(`${platform}.json`, data, 'json');
+  const getBottle = (bot: string) => ctx.file.load<Bottle[]>(`${bot}.json`, 'json', []);
+  const setBottle = (bot: string, data: Bottle[]) => ctx.file.save(`${bot}.json`, data, 'json');
 
   ctx
     .command('throw <content> - drift_bottle.descr.throw')
     .action((data, session) => {
       const at = session.el.at(session.userId);
-      const bottles = getBottle(session.api.adapter.platform);
+      const bottles = getBottle(session.api.adapter.identity);
       const zero = getZero();
       let count = 0;
       bottles.forEach((Element) => {
@@ -37,7 +37,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
       });
       if (count > conf.max) return ['drift_bottle.msg.throw.fail', [at, conf.max]];
       bottles.push([data.args[0] as string, new Date().getTime(), session.groupId!, session.userId!]);
-      setBottle(session.api.adapter.platform, bottles);
+      setBottle(session.api.adapter.identity, bottles);
       return ['drift_bottle.msg.throw.info', [at]];
     })
     .scope(MessageScope.GROUP);
@@ -45,7 +45,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
   ctx
     .command('pick - drift_bottle.descr.pick')
     .action((_, session) => {
-      const data = getBottle(session.api.adapter.platform);
+      const data = getBottle(session.api.adapter.identity);
       if (!data || data.length <= 0) return 'drift_bottle.msg.pick.none';
       const bottle = data[getRandomInt(data.length - 1)];
       return ['drift_bottle.msg.pick.info', [bottle[0], session.i18n.time(new Date(bottle[1])), bottle[2]]];

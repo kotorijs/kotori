@@ -36,13 +36,13 @@ export function main(ctx: Context, config: Config) {
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${yesterday ? new Date().getDate() - 1 : new Date().getDate()}.json`;
   const defaultData: Good = { morning: {}, night: {} };
   const loadTodayData = (yesterday: boolean = false) =>
-    (ctx.file.load(getTodayPath(yesterday), 'json', defaultData) as Good) || defaultData;
+    ctx.file.load<Good>(getTodayPath(yesterday), 'json', defaultData) || defaultData;
   const saveTodayData = (data: Good) => ctx.file.save(getTodayPath(), data);
 
   ctx.regexp(/^(早|早安|早上好)$/, (_, session) => {
     const record = loadTodayData();
     const at = session.el.at(session.userId);
-    const prop = `${session.api.adapter.platform}${session.userId}`;
+    const prop = `${session.api.adapter.identity}${session.userId}`;
     if (prop in record.morning) return ['goodnight.msg.morning.already', { at }];
 
     const hours = new Date().getHours();
@@ -62,7 +62,7 @@ export function main(ctx: Context, config: Config) {
   ctx.regexp(/^(晚|晚安|晚上好)$/, (_, session) => {
     const record = loadTodayData();
     const at = session.el.at(session.userId)!;
-    const prop = `${session.api.adapter.platform}${session.userId}`;
+    const prop = `${session.api.adapter.identity}${session.userId}`;
     if (prop in record.night) return ['goodnight.msg.night.already', { at }];
 
     const record2 = loadTodayData(true);

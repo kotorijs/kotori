@@ -60,8 +60,15 @@ importers:
         specifier: workspace:^
         version: link:../../packages/kotori
       mcwss:
-        specifier: ^2.1.2
-        version: 2.1.2
+        specifier: ^2.1.3
+        version: 2.1.3
+      ws:
+        specifier: ^8.14.2
+        version: 8.17.0
+    devDependencies:
+      '@types/ws':
+        specifier: ^8.5.8
+        version: 8.5.10
 
   modules/adapter-onebot:
     dependencies:
@@ -923,23 +930,26 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kotori-bot/i18n@1.3.0:
-    resolution: {integrity: sha512-qfi9DR4aH99Ff+bv1aCpqndtgGXcB1X3VKdLUntU0JvwwkwbOW8k169A0Vz0YEdNgiMsFlivdzeT6KvueZ9HUw==}
+  /@kotori-bot/i18n@1.3.1:
+    resolution: {integrity: sha512-58D3WZJbfq5FBUuyZWlXTivRcObdr77Jcjl20LCUcHqO+moKtSIvdNNqmeDwfrEaoVFd4bJbMEv7/8yrXvFnOA==}
     dev: false
 
-  /@kotori-bot/logger@1.2.1:
-    resolution: {integrity: sha512-AloqGRkPvXUm4F/YgKOVtd8RE7ixBwKeRPfUbT6qUwXep2BCr/N9xsz5YXuvLMlbd+ZJ4lUm4iydFm8hxIhqaw==}
+  /@kotori-bot/logger@1.3.1:
+    resolution: {integrity: sha512-/bHJvVOQdpzGJCJrg13GR3/TzVkVbbq56DGBKuENvC4EnsYfLFXxNmpkzP6e6FQS8nw/Mo6SuUVecas9xa9gxQ==}
     dependencies:
-      colorette: 2.0.20
+      '@kotori-bot/tools': 1.4.1
       dayjs: 1.11.11
       fast-safe-stringify: 2.1.1
+    transitivePeerDependencies:
+      - debug
     dev: false
 
-  /@kotori-bot/tools@1.3.1:
-    resolution: {integrity: sha512-e0zPoqoXcX4CBE9vL11372nVoH7YcgRjdwHOTEpua25+OkDHqcPsms4y6bLlrrvlWFXZrEArOSCPe1o/Uf09Rg==}
+  /@kotori-bot/tools@1.4.1:
+    resolution: {integrity: sha512-MnlPDvGG+1SAtkVw1irTNlxCYBGkdfVQMT3X15oA0oKZEWViluJbtBoRE+Zw3ZrVKvoDlcBT1eIrMEwTIxWB/A==}
     dependencies:
+      '@iarna/toml': 2.2.5
       axios: 1.7.2
-      node-fetch: 3.3.2
+      colorette: 2.0.20
       yaml: 2.4.3
     transitivePeerDependencies:
       - debug
@@ -1167,12 +1177,12 @@ packages:
     resolution: {integrity: sha512-T2MzSGEu+ysB/FkWfqmhV3PLyQlowdptmmgD20C6QxsS8Fmv5SjpZ1ayXaEC0S21/h5UJ9iA6W/5vSNU5l00OA==}
     dependencies:
       undici-types: 5.26.5
+    dev: true
 
   /@types/node@20.14.2:
     resolution: {integrity: sha512-xyu6WAMVwv6AKFLB+e/7ySZVr/0zLCzOa7rSpq6jNwpqOrUbcACDWC+53d4n2QHOnDou0fbIsg8wZu/sxrnI4Q==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
 
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -1208,7 +1218,7 @@ packages:
   /@types/ws@8.5.10:
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
     dependencies:
-      '@types/node': 20.14.1
+      '@types/node': 20.14.2
 
   /@typescript-eslint/eslint-plugin@7.12.0(@typescript-eslint/parser@7.12.0)(eslint@8.57.0)(typescript@5.4.5):
     resolution: {integrity: sha512-7F91fcbuDf/d3S8o21+r3ZncGIke/+eWk0EpO21LXhDfLahriZF9CGj4fbAetEjlaBdjdSm9a6VeXbpbT6Z40Q==}
@@ -1899,11 +1909,6 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /data-uri-to-buffer@4.0.1:
-    resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
-    engines: {node: '>= 12'}
-    dev: false
-
   /data-view-buffer@1.0.1:
     resolution: {integrity: sha512-0lht7OugA5x3iJLOWFhWK/5ehONdprk0ISXqVFn/NFrDu+cuc8iADFrGQz5BnRK7LLU3JmkbXSxaqX+/mXYtUA==}
     engines: {node: '>= 0.4'}
@@ -2570,14 +2575,6 @@ packages:
       reusify: 1.0.4
     dev: true
 
-  /fetch-blob@3.2.0:
-    resolution: {integrity: sha512-7yAQpD2UMJzLi1Dqv7qFYnPbaPx7ZfFK6PiIxQ4PfkGPyNyl2Ugx+a/umUonmKqjhM4DnfbMvdX6otXq83soQQ==}
-    engines: {node: ^12.20 || >= 14.13}
-    dependencies:
-      node-domexception: 1.0.0
-      web-streams-polyfill: 3.3.3
-    dev: false
-
   /file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -2681,13 +2678,6 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
-    dev: false
-
-  /formdata-polyfill@4.0.10:
-    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
-    engines: {node: '>=12.20.0'}
-    dependencies:
-      fetch-blob: 3.2.0
     dev: false
 
   /forwarded@0.2.0:
@@ -3372,16 +3362,16 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /mcwss@2.1.2:
-    resolution: {integrity: sha512-Ixxjk7dqlAs2xx1Vpoazl7Oi02iep66EsDYx0Qwm8oN8wtGOc767+OmN9qkuwJ7g1XEIe6zoSRkxX82jkb9baw==}
+  /mcwss@2.1.3:
+    resolution: {integrity: sha512-CLDNK1zo6b6bK4gZr2AsckXXms04Arng01ClMh6nHclebmeRxyQoAW9BEfmuUmnQ7tppdb0AhzXkKEZxMU7rCQ==}
     hasBin: true
     dependencies:
-      '@kotori-bot/i18n': 1.3.0
-      '@kotori-bot/logger': 1.2.1
-      '@kotori-bot/tools': 1.3.1
+      '@kotori-bot/i18n': 1.3.1
+      '@kotori-bot/logger': 1.3.1
+      '@kotori-bot/tools': 1.4.1
       cac: 6.7.14
       fluoro: 1.0.2
-      tsukiko: 1.2.5
+      tsukiko: 1.2.6
       ws: 8.17.0
     transitivePeerDependencies:
       - bufferutil
@@ -3501,20 +3491,6 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
-
-  /node-domexception@1.0.0:
-    resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
-    engines: {node: '>=10.5.0'}
-    dev: false
-
-  /node-fetch@3.3.2:
-    resolution: {integrity: sha512-dRB78srN/l6gqWulah9SrxeYnxeddIG30+GOqK/9OlLVyLg3HPnr6SqOWTWOXKRwC2eGYCkZ59NNuSgvSrpgOA==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      data-uri-to-buffer: 4.0.1
-      fetch-blob: 3.2.0
-      formdata-polyfill: 4.0.10
-    dev: false
 
   /nodemon@3.1.3:
     resolution: {integrity: sha512-m4Vqs+APdKzDFpuaL9F9EVOF85+h070FnkHVEoU4+rmT6Vw0bmNl7s61VEkY/cJkL7RCv1p4urnUDUMrS5rk2w==}
@@ -4378,7 +4354,13 @@ packages:
   /tsukiko@1.2.5:
     resolution: {integrity: sha512-/g3ITn/eRCmq2DOdftXGykola5xrXfhQmIvGjWMIiQ+e5MSvjYDWA/pqCZ+VV/Z8xGpBcQ5xOhMid9iF4W7xtQ==}
     dependencies:
-      '@kotori-bot/i18n': 1.3.0
+      '@kotori-bot/i18n': 1.3.1
+    dev: false
+
+  /tsukiko@1.2.6:
+    resolution: {integrity: sha512-mhNoGO2W80MFhSzANCvGo+mSSUaGCF2l+75GedLx65KMkIcGKucbQFJCSaLqwffRm4Q/XKGc9zXuJK04gLKijw==}
+    dependencies:
+      '@kotori-bot/i18n': 1.3.1
     dev: false
 
   /tsup@8.1.0(typescript@5.4.5):
@@ -4567,11 +4549,6 @@ packages:
   /vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
-    dev: false
-
-  /web-streams-polyfill@3.3.3:
-    resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
-    engines: {node: '>= 8'}
     dev: false
 
   /webidl-conversions@4.0.2:

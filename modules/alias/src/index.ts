@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-21 11:07:52
+ * @LastEditTime: 2024-06-07 21:19:44
  */
 import { Context, Symbols } from 'kotori-bot';
 
@@ -14,25 +14,25 @@ export const inject = ['file'];
 type Data = Record<string, string>;
 
 export function main(ctx: Context) {
-  const load = (platform: string) => ctx.file.load(`${platform}.json`, 'json', {}) as Data;
-  const save = (platform: string, data: Data) => ctx.file.save(`${platform}.json`, data);
+  const load = (bot: string) => ctx.file.load<Data>(`${bot}.json`, 'json', {});
+  const save = (bot: string, data: Data) => ctx.file.save(`${bot}.json`, data);
 
   ctx.midware((next, session) => {
     const s = session;
-    const list = load(s.api.adapter.platform);
+    const list = load(s.api.adapter.identity);
     if (list[s.message] || s.message.trim() in list) s.message = list[s.message];
     next();
   }, 90);
 
   ctx.command('alias query - alias.descr.alias.query').action((_, session) => {
-    const list = Object.entries(load(session.api.adapter.platform) ?? {})
+    const list = Object.entries(load(session.api.adapter.identity) ?? {})
       .map((el) => session.format('alias.msg.alias.list', [...el]))
       .join('');
     return ['alias.msg.alias.query', [list]];
   });
 
   ctx.command('alias add <alias> <...command> - alias.descr.alias.add').action((data, session) => {
-    const list = load(session.api.adapter.platform);
+    const list = load(session.api.adapter.identity);
     if ((data.args[0] as string) in list) return 'alias.msg.alias.fail';
     let useful = false;
     ctx[Symbols.command].forEach((command) => {
@@ -41,15 +41,15 @@ export function main(ctx: Context) {
     });
     if (!useful) return 'alias.msg.alias.fail.2';
     list[data.args[0] as string] = data.args.slice(1).join(' ');
-    save(session.api.adapter.platform, list);
+    save(session.api.adapter.identity, list);
     return ['alias.msg.alias.add', [data.args[0]]];
   });
 
   ctx.command('alias del <alias> - alias.descr.alias.del').action((data, session) => {
-    const list = load(session.api.adapter.platform);
+    const list = load(session.api.adapter.identity);
     if (!((data.args[0] as string) in list)) return session.error('no_exists', { target: data.args[0] as string });
     delete list[data.args[0] as string];
-    save(session.api.adapter.platform, list);
+    save(session.api.adapter.identity, list);
     return ['alias.msg.alias.del', [data.args[0]]];
   });
 }
