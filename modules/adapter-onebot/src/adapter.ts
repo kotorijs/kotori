@@ -3,12 +3,11 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-16 15:33:09
+ * @LastEditTime: 2024-06-07 19:53:00
  */
-import { Adapter, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, MessageScope, Tsu } from 'kotori-bot';
+import { Adapters, AdapterConfig, Context, EventDataApiBase, EventDataTargetId, MessageScope, Tsu } from 'kotori-bot';
 import WebSocket from 'ws';
 import OnebotApi from './api';
-import WsServer from './services/wsserver';
 import { EventDataType } from './types';
 import OnebotElements from './elements';
 
@@ -24,37 +23,40 @@ declare module 'kotori-bot' {
   }
 }
 
-export const config = Tsu.Intersection([
+export const config = Tsu.Union([
   Tsu.Object({
+    mode: Tsu.Literal('ws'),
     port: Tsu.Number().int().range(1, 65535),
     address: Tsu.String()
       .regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/)
       .default('ws://127.0.0.1'),
     retry: Tsu.Number().int().min(1).default(10)
   }),
-  Tsu.Union([
-    Tsu.Object({
-      mode: Tsu.Literal('ws')
-    }),
-    Tsu.Object({
-      mode: Tsu.Literal('ws-reverse')
-    })
-  ])
+  Tsu.Object({
+    mode: Tsu.Literal('ws-reverse')
+  })
 ]);
 
 type OnebotConfig = Tsu.infer<typeof config> & AdapterConfig;
 
 const handleMsg = (msg: string) => msg.replace(/\[CQ:at,qq=(.*?)\]/g, '$1');
 
-export class OnebotAdapter extends Adapter {
+export class OnebotAdapter extends Adapters.WebSocket<OnebotApi> {
   private readonly address: string;
+
+  private readonly isReverse: boolean;
 
   public readonly config: OnebotConfig;
 
   public constructor(ctx: Context, config: OnebotConfig, identity: string) {
     super(ctx, config, identity, OnebotApi, new OnebotElements());
     this.config = config;
-    this.address = `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}`;
+    this.address = this.config.mode === 'ws' ? `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}` : '';
+    this.isReverse = !this.address;
+    if (!this.isReverse) return;
+    this.connection = (ws) => {
+      this.socket = ws;
+    };
   }
 
   public handle(data: EventDataType) {
@@ -168,32 +170,48 @@ export class OnebotAdapter extends Adapter {
         groupId: data.group_id!
       });
     }
-    if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
+    if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline(), 50 * 1000);
   }
 
   public start() {
-    if (this.config.mode === 'ws-reverse') {
+    if (this.isReverse) {
+      this.setup();
+      return;
+    }
+    /* ws mode handle */
+    this.ctx.emit('connect', {
+      type: 'connect',
+      mode: 'ws',
+      adapter: this,
+      normal: true,
+      address: this.address
+    });
+    this.socket = new WebSocket(`${this.address}`);
+    this.socket.on('close', () => {
       this.ctx.emit('connect', {
-        type: 'connect',
-        mode: 'ws-reverse',
+        type: 'disconnect',
         adapter: this,
-        normal: true,
+        normal: false,
+        mode: 'ws',
         address: this.address
       });
-    }
-    this.connectWss();
+    });
+    this.socket.on('message', (raw) => this.handle(JSON.parse(raw.toString())));
   }
 
   public stop() {
+    if (this.isReverse) {
+      super.stop();
+      return;
+    }
     this.ctx.emit('connect', {
       type: 'disconnect',
       adapter: this,
       normal: true,
       address: this.address,
-      mode: this.config.mode
+      mode: 'ws'
     });
     this.socket?.close();
-    this.offline();
   }
 
   public send(action: string, params?: object) {
@@ -201,45 +219,6 @@ export class OnebotAdapter extends Adapter {
   }
 
   private socket: WebSocket | null = null;
-
-  private async connectWss() {
-    if (this.config.mode === 'ws-reverse') {
-      const wss = await WsServer(this.config.port);
-      const [socket] = wss;
-      this.socket = socket;
-    } else {
-      this.ctx.emit('connect', {
-        type: 'connect',
-        mode: 'ws',
-        adapter: this,
-        normal: true,
-        address: this.address
-      });
-      this.socket = new WebSocket(`${this.address}`);
-      this.socket.on('close', () => {
-        this.ctx.emit('connect', {
-          type: 'disconnect',
-          adapter: this,
-          normal: false,
-          mode: 'ws',
-          address: this.address
-        });
-        setTimeout(() => {
-          if (!this.socket) return;
-          this.socket.close();
-          this.ctx.emit('connect', {
-            type: 'connect',
-            mode: 'ws-reverse',
-            adapter: this,
-            normal: false,
-            address: this.address
-          });
-          this.connectWss();
-        }, this.config.retry * 1000);
-      });
-    }
-    this.socket.on('message', (data) => this.handle(JSON.parse(data.toString())));
-  }
 
   /* global NodeJS */
   private onlineTimerId: NodeJS.Timeout | null = null;

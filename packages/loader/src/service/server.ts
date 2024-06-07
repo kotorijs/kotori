@@ -78,7 +78,7 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
     this.server = createServer(this.app);
     this.wsServer = new Ws.Server({ noServer: true });
     this.server.on('upgrade', (req, socket, head) => {
-      this.wsServer.handleUpgrade(req, socket, head, (ws) => {
+      this.wsServer.handleUpgrade(req, socket, head, (ws, req) => {
         this.wsServer.emit('connection', ws, req);
       });
     });
@@ -89,13 +89,16 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
         if (!req.url) continue;
         const result = match(template, { decode: decodeURIComponent })(req.url);
         if (!result) continue;
-        if (!triggered) triggered = true;
+        triggered = true;
         list.forEach((callback) => {
           callback(ws, Object.assign(req, { params: result.params as Record<string, string> }));
         });
       }
       /* eslint-enable no-restricted-syntax,no-continue */
-      if (!triggered) ws.close(1002);
+      if (!triggered) {
+        ws.close(1003);
+        req.destroy();
+      }
     });
   }
 
