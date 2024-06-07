@@ -12,15 +12,13 @@ export const config = Tsu.Object({
 });
 
 export function main(ctx: Context, con: Tsu.infer<typeof config>) {
-  const loadBlack = (platform: string, target: string = 'global') =>
-    ctx.file.load(`${platform}_${target}`, 'json', {}) as string[];
-  const saveBlack = (platform: string, data: string[], target: string = 'global') =>
-    ctx.file.save(`${platform}_${target}`, data);
+  const loadBlack = (bot: string, target: string = 'global') => ctx.file.load<string[]>(`${bot}_${target}`, 'json', []);
+  const saveBlack = (bot: string, data: string[], target: string = 'global') => ctx.file.save(`${bot}_${target}`, data);
 
   ctx.midware((next, session) => {
-    const blackGlobal = loadBlack(session.api.adapter.platform);
+    const blackGlobal = loadBlack(session.api.adapter.identity);
     if (blackGlobal.includes(String(session.userId))) return;
-    const black = session.groupId ? loadBlack(session.api.adapter.platform, String(session.groupId)) : [];
+    const black = session.groupId ? loadBlack(session.api.adapter.identity, String(session.groupId)) : [];
     if (black.includes(String(session.userId))) return;
     next();
   }, 80);
@@ -86,7 +84,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     .action((data, session) => {
       const isGlobal = data.options.global;
       if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin');
-      const list = loadBlack(session.api.adapter.platform, isGlobal ? undefined : String(session.groupId));
+      const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId));
       return [
         `manger.msg.black${isGlobal ? 'g' : ''}.query`,
         [list.map((el) => session.format('manger.msg.black.list', [el])).join('')]
@@ -102,10 +100,10 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       const target = data.args[0] as string;
       const isGlobal = data.options.global;
       if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin');
-      const list = loadBlack(session.api.adapter.platform, isGlobal ? undefined : String(session.groupId));
+      const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId));
       if (target in list) return session.error('exists', { target });
       list.push(target);
-      saveBlack(session.api.adapter.platform, list, isGlobal ? undefined : String(session.groupId));
+      saveBlack(session.api.adapter.identity, list, isGlobal ? undefined : String(session.groupId));
       return [`manger.msg.black${isGlobal ? 'g' : ''}.add`, [target]];
     });
 
@@ -118,10 +116,10 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       const target = data.args[0] as string;
       const isGlobal = data.options.global;
       if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin');
-      const list = loadBlack(session.api.adapter.platform, isGlobal ? undefined : String(session.groupId));
+      const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId));
       if (!(target in list)) return session.error('no_exists', { target });
       saveBlack(
-        session.api.adapter.platform,
+        session.api.adapter.identity,
         list.filter((el) => el !== target),
         isGlobal ? undefined : String(session.groupId)
       );
@@ -130,21 +128,21 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
 
   if (con.exitGroupAddBlack) {
     ctx.on('on_group_decrease', (session) => {
-      const list = loadBlack(session.api.adapter.platform, String(session.groupId));
+      const list = loadBlack(session.api.adapter.identity, String(session.groupId));
       list.push(String(session.userId));
-      saveBlack(session.api.adapter.platform, list, String(session.groupId));
+      saveBlack(session.api.adapter.identity, list, String(session.groupId));
       if (con.exitGroupAddBlackTips) session.quick(['manger.msg.exit_group_add_black', [session.userId]]);
     });
   }
 
   if (con.blackJoinGroupTips) {
     ctx.on('on_group_increase', (session) => {
-      const list = loadBlack(session.api.adapter.platform, String(session.groupId));
+      const list = loadBlack(session.api.adapter.identity, String(session.groupId));
       if (String(session.userId) in list) {
         session.quick(['manger.msg.black_join_group.group', [session.userId]]);
         return;
       }
-      const list2 = loadBlack(session.api.adapter.platform);
+      const list2 = loadBlack(session.api.adapter.identity);
       if (!(String(session.userId) in list2)) return;
       session.quick(['manger.msg.black_join_group.global', [session.userId]]);
     });

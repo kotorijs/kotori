@@ -90,12 +90,12 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       if (session.userId === session.api.adapter.selfId || session.operatorId === session.api.adapter.selfId) return;
 
       if (cfg.onPrivateRecall && session.type === MessageScope.PRIVATE) {
-        const message = ctx.cache.get<string>(`${session.api.adapter.platform}${session.messageId}`);
+        const message = ctx.cache.get<string>(`${session.api.adapter.identity}${session.messageId}`);
         if (!message) return;
 
         send(session)([`requester.msg.recall.private`, [session.userId, message]]);
       } else if (cfg.onGroupRecall && session.type === MessageScope.GROUP) {
-        const message = ctx.cache.get<string>(`${session.api.adapter.platform}${session.messageId}`);
+        const message = ctx.cache.get<string>(`${session.api.adapter.identity}${session.messageId}`);
         if (!message) return;
 
         const equaled = session.operatorId === session.userId;
@@ -121,9 +121,9 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
     ctx.on('on_message', (session) => {
       if (session.userId === session.api.adapter.selfId) return;
       if (session.type === MessageScope.GROUP && cfg.onGroupRecall) {
-        ctx.cache.set(`${session.api.adapter.platform}${session.messageId}`, session.message);
+        ctx.cache.set(`${session.api.adapter.identity}${session.messageId}`, session.message);
       } else if (cfg.onPrivateRecall) {
-        ctx.cache.set(`${session.api.adapter.platform}${session.messageId}`, session.message);
+        ctx.cache.set(`${session.api.adapter.identity}${session.messageId}`, session.message);
       }
       if (cfg.onPrivateMsg && String(session.userId) !== String(session.api.adapter.config.master)) {
         send(session)([`requester.msg.msg.private`, [session.userId, session.message]]);

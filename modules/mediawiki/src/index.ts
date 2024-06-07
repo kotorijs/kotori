@@ -18,7 +18,7 @@ const defaultData = [
 ];
 
 export function main(ctx: Context) {
-  const loadWikiData = () => ctx.file.load('mediawiki.json', 'json', defaultData) as wikiData[];
+  const loadWikiData = () => ctx.file.load<wikiData[]>('mediawiki.json', 'json', defaultData);
   const saveWikiData = (data: wikiData[]) => ctx.file.save('mediawiki.json', data);
 
   ctx.command('wiki <content> [order:number] - mediawiki.descr.wiki').action(async (data) => {

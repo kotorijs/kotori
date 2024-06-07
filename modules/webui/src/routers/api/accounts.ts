@@ -8,12 +8,12 @@ export default (ctx: Context, app: Context['server']) => {
     const loginStats = ctx.webui.getLoginStats();
 
     if (ctx.webui.checkVerifyHash(username, password)) {
-      ctx.logger.label('server').trace('Login successful');
+      ctx.logger.label('server').record('user login successful');
       loginStats.success += 1;
       ctx.webui.setLoginStats(loginStats);
       return res.json({ token: ctx.webui.addToken() });
     }
-    ctx.logger.label('server').trace('Login failed');
+    ctx.logger.label('server').error('user login failed');
     loginStats.failed += 1;
     ctx.webui.setLoginStats(loginStats);
     return res.status(401).json({ message: 'Invalid username or password' });

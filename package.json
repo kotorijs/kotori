@@ -41,7 +41,7 @@
     "node": ">=17.9.0"
   },
   "nodemonConfig": {
-    "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx ./packages/kotori/src/start/dev.ts",
+    "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx packages/kotori/src/start/dev",
     "ext": "ts,toml,json",
     "ignore": [
       "dist",
