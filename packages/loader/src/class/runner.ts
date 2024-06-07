@@ -25,8 +25,7 @@ import {
   DEV_CODE_DIRS,
   DEV_FILE,
   DEV_IMPORT,
-  DEV_MODE,
-  DEV_SOURCE_MODE
+  DEV_MODE
 } from '../constants';
 import '../types/internal';
 import KotoriLogger from '../utils/logger';
@@ -41,7 +40,7 @@ interface BaseDir {
 }
 
 interface Options {
-  mode: typeof BUILD_MODE | typeof DEV_MODE | typeof DEV_SOURCE_MODE;
+  mode: typeof BUILD_MODE | typeof DEV_MODE;
 }
 
 interface RunnerConfig {
@@ -123,8 +122,6 @@ export class Runner {
 
   private readonly isDev: boolean;
 
-  private readonly isSourceDev: boolean;
-
   public readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map();
 
   public constructor(ctx: Context, config: RunnerConfig) {
@@ -132,8 +129,7 @@ export class Runner {
     /* handle config */
     this.baseDir = config.baseDir;
     this.options = config.options;
-    this.isDev = this.options.mode.startsWith(DEV_MODE);
-    this.isSourceDev = this.options.mode === DEV_SOURCE_MODE;
+    this.isDev = this.options.mode === DEV_MODE;
 
     const loggerOptions = {
       level: this.ctx.config.global.level ?? config.level,
@@ -160,7 +156,7 @@ export class Runner {
       if (fs.statSync(file).isDirectory()) {
         list.push(...this.getDirFiles(file));
       }
-      if (path.parse(file).ext !== (this.isSourceDev ? DEV_FILE : BUILD_FILE)) return;
+      if (path.parse(file).ext !== (this.isDev ? DEV_FILE : BUILD_FILE)) return;
       list.push(path.resolve(file));
     });
     return list;
@@ -199,7 +195,7 @@ export class Runner {
     }
 
     pkg = result.data;
-    const devMode = this.isSourceDev && existsSync(path.resolve(dir, DEV_IMPORT));
+    const devMode = this.isDev && existsSync(path.resolve(dir, DEV_IMPORT));
     const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main);
     if (!fs.existsSync(main)) throw new DevError(this.ctx.format('error.dev.main_file', [main]));
     const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main));
