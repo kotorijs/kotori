@@ -1,7 +1,7 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.5.1",
+  "version": "1.5.4",
   "private": true,
   "license": "GPL-3.0",
   "author": "Hotaru <biyuehuya@gmail.com>",
@@ -41,7 +41,7 @@
     "node": ">=17.9.0"
   },
   "nodemonConfig": {
-    "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx ./packages/kotori/src/start/dev.ts",
+    "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx packages/kotori/src/start/dev",
     "ext": "ts,toml,json",
     "ignore": [
       "dist",

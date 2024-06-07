@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-adapter-minecraft",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Adapter For Minecraft Bedrock Edition",
   "main": "lib/index.js",
   "keywords": [
@@ -24,6 +24,10 @@
     "kotori-bot": "workspace:^"
   },
   "dependencies": {
-    "mcwss": "^2.1.2"
+    "mcwss": "^2.1.3",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.8"
   }
 }

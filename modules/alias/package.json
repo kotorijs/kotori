@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-alias",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "alias plugin",
   "main": "lib/index.js",
   "keywords": [
