@@ -5,7 +5,7 @@
 - [x] @kotori-bot/webui
 - [x] @kotori-bot/kotori-plugin-webui
 - [x] @kotori-bot/kotori-plugin-adapter-sandbox
-- [ ] @kotori-bot/kotori-plugin-adapter-mail
+- [ ] @kotori-bot/kotori-plugin-adapter-mail (adapter and plugin)
 - [ ] @kotori-bot/kotori-plugin-adapter-telegram
 - [ ] @kotori-bot/kotori-plugin-adapter-discord
 - [x] kotori-plugin-adapter-minecraft
@@ -24,6 +24,9 @@
 - [x] decorator plugin form
 - [x] @kotori-bot/tools Events: protected list
 - [x] Context: parent ctx
+- [ ] Kotori protect daemon
+- [ ] reduce plugin name under scope
+- [ ] well adapted for custom plugin scope
 
 ## Styles
 

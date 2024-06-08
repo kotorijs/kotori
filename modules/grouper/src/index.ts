@@ -22,7 +22,7 @@ class GrouperPlugin extends KotoriPlugin {
   @plugin.command({ template: 'sign - 签到' })
   public async sign(data: RegExpMatchArray, session: SessionData) {
     const at = session.el.at(session.userId);
-    const identity = `${session.groupId}&${session.userId}&${session.i18n.date()}`;
+    const identity = `${session.api.adapter.identity}${session.groupId}&${session.userId}&${session.i18n.date()}`;
     const signData = this.ctx.file.load<SignData>(`signData.json`, 'json', {});
     const { platform } = session.api.adapter;
     if (signData[platform] && signData[platform].includes(identity)) {
