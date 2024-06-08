@@ -27,6 +27,7 @@
 - [ ] Kotori protect daemon
 - [ ] reduce plugin name under scope
 - [ ] well adapted for custom plugin scope
+- [ ] view core and loader version
 
 ## Styles
 
