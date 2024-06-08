@@ -1,6 +1,10 @@
 {
   "name": "kotori-plugin-manger",
+<<<<<<< HEAD
   "version": "1.0.4",
+=======
+  "version": "1.0.3",
+>>>>>>> 1d2836178947e6cb46e6ef0773a673b49680852c
   "description": "Groups Mange tools",
   "main": "lib/index.js",
   "keywords": [
