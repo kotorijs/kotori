@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-color",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "color images!",
   "main": "lib/index.js",
   "keywords": [
