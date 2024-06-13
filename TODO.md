@@ -18,8 +18,8 @@
 ## Features
 
 <!-- - [x] ctx.filter() -->
-<!-- - [ ] Kotori cli gui and modules search,install,uninstall,update -->
 
+- [ ] Kotori cli gui and modules search,install,uninstall,update
 - [x] message.schedule()
 - [x] decorator plugin form
 - [x] @kotori-bot/tools Events: protected list
@@ -28,6 +28,11 @@
 - [ ] reduce plugin name under scope
 - [ ] well adapted for custom plugin scope
 - [ ] view core and loader version
+- [ ] plugin scope filter
+- [ ] logger color open or close
+- [ ] custom service auto load
+- [ ] rss subscribe service plugin
+- [ ] protect daemon and auto install
 
 ## Styles
 

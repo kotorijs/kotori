@@ -9,9 +9,9 @@
 # Kotori Bot - WebUI Api Documentation
 
 @URL = http://localhost:720
-@KEY = TOKEN
-@USERNAME = 用户名
-@PASSWORD = 密码
+@KEY = dad717a44e9044cfbae2fe82469254e2
+@USERNAME = hotaru
+@PASSWORD = 05170517
 
 ### 登录
 
@@ -98,6 +98,11 @@ Authorization: Bearer {{KEY}}
 GET {{URL}}/api/data/modules/{{moduleName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
 
+
+### 获取模块图标
+
+GET {{URL}}/api/data/avatar/{{moduleName}} HTTP/1.1
+
 ### 获取所有机器人实例信息
 
 GET {{URL}}/api/data/bots HTTP/1.1
@@ -123,8 +128,8 @@ Authorization: Bearer {{KEY}}
 
 ### WebSocket 连接
 
-### ws://localhost:{{port + 1}}/webui
-### WS 端口为 http 端口 + 1
+### ws://localhost:{{port}}/webui
+### WS 端口与 http 端口一致
 
 
 #### 【Server】实时状态（默认每隔 5 秒发送一次）
