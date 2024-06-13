@@ -1,6 +1,8 @@
 import { Context } from '../types';
 import RouterConfig from './router';
 
+const NO_VERIFY = ['/api/accounts/login', '/api/data/avatar/'];
+
 export default (ctx: Context, app: Context['server']) => {
   const router = app.router();
 
@@ -15,7 +17,11 @@ export default (ctx: Context, app: Context['server']) => {
 
     if (!RouterConfig.find((item) => item.path === req.path || req.path.startsWith(item.path)))
       return res.sendStatus(404);
-    if (req.path === '/api/accounts/login' || ctx.webui.checkToken(req.headers.authorization)) return next();
+    if (
+      NO_VERIFY.filter((item) => req.path.startsWith(item)).length > 0 ||
+      ctx.webui.checkToken(req.headers.authorization)
+    )
+      return next();
     return res.sendStatus(401);
   });
 

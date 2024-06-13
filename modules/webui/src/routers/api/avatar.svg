@@ -1,0 +1,26 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+      <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="25%" style="stop-color:#64FFDA;stop-opacity:1" />
+         <stop offset="100%" style="stop-color:#00B0FF;stop-opacity:1" />
+      </linearGradient>
+   </defs>
+   <rect width="512" height="512" fill="url(#bgGradient)" />
+
+   <style>
+      .text-style {
+      dominant-baseline: middle;
+      text-anchor: middle;
+      fill: #FFFFFF;
+      font-size: 75px;
+      font-family: 'Arial', sans-serif;
+      }
+      .text-shadow {
+      filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+      }
+   </style>
+
+   <text x="50%" y="50%" class="text-style text-shadow " dominant-baseline="middle">
+      Kotori Plugin
+   </text>
+</svg>

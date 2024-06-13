@@ -4,11 +4,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="icon" href="https://kotori.js.org/favicon.svg">
+  <title>Kotori Webui</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 95vh;
+    }
+
+    .description {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .link {
+      font-size: 1.6rem;
+    }
+
+    .link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .contributors li {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      list-style: none;
+    }
+
+    .contributors a {
+      color: #00ffdd;
+      text-decoration: none;
+    }
+
+    .contributors img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 1rem;
+    }
+
+    .contributors span {
+      color: #ffbd30
+    }
+  </style>
 </head>
 
 <body>
-
+  <div class="container">
+    <h1>👏 Hi there, Kotori Webui!</h1>
+    <span class="description"> A brand new Kotori Webui front-end - Kams (Kotori Administration Management System) is
+      under development!
+    </span>
+    <br />
+    <span class="link">Go to repository -> <a target="_blank" href="https://github.com/kotorijs/webui">here</a></span>
+    <hr />
+    <div class="contributors">
+      <h2>Web Frontend and Backend main contributors:</span>
+        <ul>
+          <li>
+            <img src="https://avatars.githubusercontent.com/u/116894525?v=4" alt="Space Pch">
+            <a target="_blank" href="https://github.com/spacepch">Painchornds</a>
+          </li>
+          <li>
+            <img src="https://avatars.githubusercontent.com/u/64067440?v=4" alt="biyuehu">
+            <a target="_blank" href="https://github.com/biyuehu">Romi</a>
+          </li>
+        </ul>
+        <h3>Thansk for all contributions!</h3>
+        <span>We are looking for more contributors to join us!</span>
+    </div>
+  </div>
 </body>
 
 </html>

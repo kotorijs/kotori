@@ -11,3 +11,5 @@ Web front end repository: [kotorijs/webui](https://github.com/kotorijs/webui)
 - [x] Add authorization for websocket server
 - [x] Login at the same time
 - [x] Console outputting support for cmd adapter
+- [ ] Websocket verify
+- [ ] Sync offline and other data
