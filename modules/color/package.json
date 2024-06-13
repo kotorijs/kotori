@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-color",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "color images!",
   "main": "lib/index.js",
   "keywords": [
@@ -13,7 +13,7 @@
     "lib",
     "locales",
     "LICENSE",
-    "data",
+    "database",
     "README.md"
   ],
   "author": "Hotaru <biyuehuya@gmail.com>",
