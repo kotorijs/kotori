@@ -12,7 +12,7 @@ const bgm1Schema = Tsu.Object({
   )
 });
 
-const bgm2Schema = Tsu.Union([
+const bgm2Schema = Tsu.Union(
   Tsu.Object({
     images: Tsu.Object({
       large: Tsu.String()
@@ -29,7 +29,7 @@ const bgm2Schema = Tsu.Union([
   Tsu.Object({
     title: Tsu.String()
   })
-]);
+);
 
 const bgmcSchema = Tsu.Array(
   Tsu.Object({

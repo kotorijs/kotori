@@ -12,7 +12,7 @@ class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>>
   public static schema = Tsu.Object({
     config1: Tsu.Number().range(0, 10).optional(),
     config2: Tsu.Boolean().optional(),
-    config3: Tsu.Union([Tsu.Literal('on'), Tsu.Literal('off')]).optional()
+    config3: Tsu.Union(Tsu.Literal('on'), Tsu.Literal('off')).optional()
   });
 
   @plugin.inject

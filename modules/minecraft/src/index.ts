@@ -3,7 +3,7 @@ import { Context, Tsu } from 'kotori-bot';
 export const lang = [__dirname, '../locales'];
 
 const motdSchema = Tsu.Object({
-  data: Tsu.Union([
+  data: Tsu.Union(
     Tsu.Object({
       status: Tsu.Literal('offline')
     }),
@@ -21,11 +21,11 @@ const motdSchema = Tsu.Object({
       ping: Tsu.Number(),
       icon: Tsu.Unknown()
     })
-  ])
+  )
 });
 
 const motdbeSchema = Tsu.Object({
-  data: Tsu.Union([
+  data: Tsu.Union(
     Tsu.Object({
       status: Tsu.Literal('offline')
     }),
@@ -43,18 +43,18 @@ const motdbeSchema = Tsu.Object({
       delay: Tsu.Number(),
       gamemode: Tsu.String()
     })
-  ])
+  )
 });
 
 const mcskinSchema = Tsu.Object({
-  data: Tsu.Union([
+  data: Tsu.Union(
     Tsu.Null().optional(),
     Tsu.Object({
       skin: Tsu.String(),
       cape: Tsu.String().optional(),
       avatar: Tsu.String()
     })
-  ])
+  )
 });
 
 const mcvSchema1 = Tsu.Object({

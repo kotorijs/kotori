@@ -75,10 +75,10 @@ interface ModuleMeta {
   main: string;
 }
 
-export const localeTypeSchema = Tsu.Union([
-  Tsu.Union([Tsu.Literal('en_US'), Tsu.Literal('ja_JP')]),
-  Tsu.Union([Tsu.Literal('zh_TW'), Tsu.Any()])
-]);
+export const localeTypeSchema = Tsu.Union(
+  Tsu.Literal('en_US'), Tsu.Literal('ja_JP'),
+  Tsu.Literal('zh_TW'), Tsu.Any()
+);
 
 const modulePackageSchema = Tsu.Object({
   name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{2,13})\b/),
@@ -89,12 +89,12 @@ const modulePackageSchema = Tsu.Object({
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
-  author: Tsu.Union([Tsu.String(), Tsu.Array(Tsu.String())]),
+  author: Tsu.Union(Tsu.String(), Tsu.Array(Tsu.String())),
   peerDependencies: Tsu.Object({
     'kotori-bot': Tsu.String()
   }),
   kotori: Tsu.Object({
-    enforce: Tsu.Union([Tsu.Literal('pre'), Tsu.Literal('post')]).optional(),
+    enforce: Tsu.Union(Tsu.Literal('pre'), Tsu.Literal('post')).optional(),
     meta: Tsu.Object({
       language: Tsu.Array(localeTypeSchema).default([])
     }).default({ language: [] })
