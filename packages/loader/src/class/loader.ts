@@ -134,7 +134,7 @@ function getCoreConfig(baseDir: Runner['baseDir']) {
         .index(
           Tsu.Object({
             extends: Tsu.String(),
-            master: Tsu.Union([Tsu.Number(), Tsu.String()]),
+            master: Tsu.Union(Tsu.Number(), Tsu.String()),
             lang: localeTypeSchema.default(result1.global.lang),
             'command-prefix': Tsu.String().default(result1.global['command-prefix'])
           })

@@ -5,7 +5,7 @@ export const lang = [__dirname, '../locales'];
 export const config = Tsu.Object({
   print: Tsu.Boolean().default(true),
   filterCmd: Tsu.Boolean().default(true),
-  onHttpRequest: Tsu.Union([
+  onHttpRequest: Tsu.Union(
     Tsu.Boolean(),
     Tsu.Custom<('get' | 'post' | 'put' | 'delete' | 'patch' | 'head' | 'options' | 'ws')[]>(
       (input) =>
@@ -13,7 +13,7 @@ export const config = Tsu.Object({
         input.filter((el) => !['get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'ws'].includes(String(el)))
           .length === 0
     )
-  ]).default(['get', 'post', 'put', 'delete', 'patch']),
+  ).default(['get', 'post', 'put', 'delete', 'patch']),
   onRegexp: Tsu.Boolean().default(true),
   onCommand: Tsu.Boolean().default(true),
   onBotGroupIncrease: Tsu.Boolean().default(true),

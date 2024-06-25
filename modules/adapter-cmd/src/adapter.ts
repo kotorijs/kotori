@@ -12,7 +12,7 @@ import CmdElements from './elements';
 export const config = Tsu.Object({
   nickname: Tsu.String().default('Kotarou'),
   age: Tsu.Number().min(0).default(18),
-  sex: Tsu.Union([Tsu.Literal('male'), Tsu.Literal('female')]),
+  sex: Tsu.Union(Tsu.Literal('male'), Tsu.Literal('female')),
   'self-nickname': Tsu.String().default('KotoriO'),
   'self-id': eventDataTargetIdSchema.default('720')
 });

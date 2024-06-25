@@ -1,6 +1,6 @@
 import { Context, Tsu } from 'kotori-bot';
 
-const githubSchema = Tsu.Union([
+const githubSchema = Tsu.Union(
   Tsu.Object({
     full_name: Tsu.String(),
     description: Tsu.String().default('corei18n.template.empty'),
@@ -16,7 +16,7 @@ const githubSchema = Tsu.Union([
     })
   }),
   Tsu.Object({})
-]);
+);
 
 export const lang = [__dirname, '../locales'];
 

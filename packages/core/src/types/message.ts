@@ -41,10 +41,9 @@ export type CommandAction<Args = ArgsOrigin, Opts = OptsOrigin> = (
 ) => MessageQuick;
 
 export type CommandArgType = string | number | boolean /* object<json> */;
-export const commandArgTypeSignSchema = Tsu.Union([
-  Tsu.Union([Tsu.Literal('string'), Tsu.Literal('number')]),
+export const commandArgTypeSignSchema = Tsu.Union(Tsu.Literal('string'), Tsu.Literal('number'),
   Tsu.Literal('boolean')
-]);
+);
 export type CommandArgTypeSign = Tsu.infer<typeof commandArgTypeSignSchema>;
 
 export interface CommandConfig {
@@ -102,7 +101,7 @@ export type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never;
 };
 
-export const eventDataTargetIdSchema = Tsu.Union([Tsu.Number(), Tsu.String()]);
+export const eventDataTargetIdSchema = Tsu.Union(Tsu.Number(), Tsu.String());
 export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>;
 
 interface EventDataMidwares {
