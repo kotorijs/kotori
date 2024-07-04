@@ -159,7 +159,7 @@ export class Loader extends Container {
     const runnerConfig = {
       baseDir: getBaseDir(filename, options?.dir),
       options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE },
-      level: options?.level || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.INFO
+      level: options?.level || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.RECORD
     };
     const ctx = new Core(getCoreConfig(runnerConfig.baseDir));
 

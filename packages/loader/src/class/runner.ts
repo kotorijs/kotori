@@ -137,9 +137,10 @@ export class Runner {
       transports: [
         new ConsoleTransport({
           template: '<blue>%time%</blue> %level% (<bold>%pid%</bold>) %labels%: %msg%',
-          time: 'M/D H:m:s'
+          time: 'M/D H:m:s',
+          useColor: this.ctx.config.global.useColor ?? true
         }),
-        new FileTransport({ dir: this.baseDir.logs, filter: (data) => data.level >= LoggerLevel.WARN })
+        new FileTransport({ dir: this.baseDir.logs, filter: (data) => data.level >= LoggerLevel.WARN,  })
       ]
     };
 

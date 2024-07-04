@@ -14,6 +14,7 @@ export interface CoreConfig {
 
 export interface GlobalConfig {
   level?: number;
+  useColor?: boolean;
   lang: LocaleType;
   'command-prefix': string;
 }

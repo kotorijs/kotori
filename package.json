@@ -42,13 +42,12 @@
   },
   "nodemonConfig": {
     "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx packages/kotori/src/start/dev",
-    "ext": "ts,toml,json",
+    "ext": "ts,toml",
     "ignore": [
       "dist",
       "lib",
       "data",
       "log",
-      "tsconfig.json",
       "tsup.config.ts",
       "scripts",
       "tests",
