@@ -29,16 +29,15 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   }
 
   ctx.command('help [...command] - helper.descr.help').action((data, session) => {
-    const filterResult: Command['meta'][] = [];
     const args = (data.args as string[]).join('');
-    ctx[Symbols.command].forEach((command) => {
-      if (
-        command.meta.root.startsWith(args) ||
-        command.meta.alias.filter((alias) => alias.startsWith(args)).length > 0
-      ) {
-        filterResult.push(command.meta);
-      }
-    });
+    const filterResult: Command['meta'][] =[];
+
+    ctx[Symbols.command].forEach(set => set.forEach((command) =>{
+      if (command.meta.hide) return;
+      if (!command.meta.root.startsWith(args) && command.meta.alias.filter((alias) => alias.startsWith(args)).length === 0) return;
+      filterResult.push(command.meta);
+    }))
+
     if (filterResult.length <= 0) return 'helper.msg.descr.fail';
     let commands = '';
     filterResult.forEach((command) => {

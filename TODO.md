@@ -33,6 +33,7 @@
 - [ ] custom service auto load
 - [ ] rss subscribe service plugin
 - [ ] protect daemon and auto install
+- [ ] hide update url
 
 ## Styles
 
@@ -43,3 +44,5 @@
 - [x] Module Version with core tips
 - [x] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
+- [ ] ctx identity bind (espcailly logger)
+- [ ] webui load tips twice
