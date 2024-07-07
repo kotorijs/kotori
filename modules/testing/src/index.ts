@@ -1,22 +1,32 @@
-import { Tsu, CommandAction, MessageScope, plugins, SessionData, KotoriPlugin } from 'kotori-bot';
+import { Tsu, CommandAction, MessageScope, plugins, SessionData, KotoriPlugin, Symbols } from 'kotori-bot'
 
-const plugin = plugins([__dirname, '../']);
+const plugin = plugins([__dirname, '../'])
 
 @plugin.import
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>> {
   @plugin.lang
-  public static lang = [__dirname, '../locales'];
+  public static lang = [__dirname, '../locales']
 
   @plugin.schema
   public static schema = Tsu.Object({
     config1: Tsu.Number().range(0, 10).optional(),
     config2: Tsu.Boolean().optional(),
     config3: Tsu.Union(Tsu.Literal('on'), Tsu.Literal('off')).optional()
-  });
+  })
 
   @plugin.inject
-  public static inject = ['database'];
+  public static inject = ['database']
+
+  @plugin.on({ type: 'ready' })
+  public onReady() {
+    // console.log([...this.ctx[Symbols.command]])
+    for (const command of this.ctx[Symbols.command].values()) {
+      for (const cmd of command) {
+        console.log(cmd.meta.root, ' ==> ', Reflect.getMetadata('identity', cmd))
+      }
+    }
+  }
 
   @plugin.on({ type: 'on_group_decrease' })
   public static groupDecrease(session: SessionData) {
@@ -26,16 +36,16 @@ class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>>
         target: session.userId,
         operator: session.operatorId!
       }
-    ]);
+    ])
   }
 
   @plugin.midware({ priority: 10 })
   public static midware(next: () => void, session: SessionData) {
-    const s = session;
+    const s = session
     if (s.message.startsWith('说')) {
-      s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`;
+      s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`
     }
-    next();
+    next()
   }
 
   @plugin.command({
@@ -43,18 +53,18 @@ class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>>
     scope: MessageScope.GROUP
   })
   public echo(data: Parameters<CommandAction>[0], session: SessionData) {
-    this.ctx.logger.debug(data, data.args[0]);
-    this.ctx.logger.debug(session);
-    return [`返回消息:~%message%`, { message: data.args[0] }];
+    this.ctx.logger.debug(data, data.args[0])
+    this.ctx.logger.debug(session)
+    return [`返回消息:~%message%`, { message: data.args[0] }]
   }
 
   @plugin.regexp({ match: /^(.*)#print$/ })
   public static print(match: RegExpExecArray) {
-    return match[1];
+    return match[1]
   }
 
   // @plugin.task({ cron: '0/10 * * * * *' })
   public task() {
-    this.ctx.logger.info('task run!');
+    this.ctx.logger.info('task run!')
   }
 }
