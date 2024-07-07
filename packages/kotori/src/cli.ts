@@ -1,13 +1,13 @@
-import cac from 'cac';
-import { Loader, Logger } from '@kotori-bot/loader';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import cac from 'cac'
+import { Loader, Logger } from '@kotori-bot/loader'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
-const program = cac();
+const program = cac()
 
-const { version } = JSON.parse(readFileSync(`${__dirname}/../package.json`).toString());
-program.version(version, '-v, --version');
-program.help();
+const { version } = JSON.parse(readFileSync(`${__dirname}/../package.json`).toString())
+program.version(version, '-v, --version')
+program.help()
 
 program
   .command('')
@@ -25,19 +25,19 @@ program
       mode: options.mode,
       dir: options.dir ? resolve(process.cwd(), options.dir) : undefined,
       level: Number(options.log)
-    });
-    Kotori.run();
-  });
+    })
+    Kotori.run()
+  })
 
 program
   .command('ui')
   .option('-l, --lang', 'Set view language of ui')
   .action((options) => {
-    Logger.info('ui', options);
-  });
+    Logger.info('ui', options)
+  })
 
-program.command('module').action(() => Logger.info('module'));
-program.command('module search <name>').action(() => Logger.info('module search'));
-program.command('module download <name>').action(() => Logger.info('module download'));
+program.command('module').action(() => Logger.info('module'))
+program.command('module search <name>').action(() => Logger.info('module search'))
+program.command('module download <name>').action(() => Logger.info('module download'))
 
-program.parse();
+program.parse()
