@@ -4,7 +4,7 @@
   "description": "Loader For KotoriBot",
   "license": "GPL-3.0",
   "main": "lib/index.js",
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Arimura Sena <biyuehuya@gmail.com>",
   "keywords": [
     "kotori",
     "chatbot",
