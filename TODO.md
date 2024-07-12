@@ -24,16 +24,16 @@
 - [x] decorator plugin form
 - [x] @kotori-bot/tools Events: protected list
 - [x] Context: parent ctx
-- [ ] Kotori protect daemon
+- [x] Kotori protect daemon
 - [ ] reduce plugin name under scope
 - [ ] well adapted for custom plugin scope
-- [ ] view core and loader version
+- [x] view core and loader version
 - [ ] plugin scope filter
-- [ ] logger color open or close
-- [ ] custom service auto load
+- [x] logger color open or close
+- [x] custom service auto load
 - [ ] rss subscribe service plugin
 - [ ] protect daemon and auto install
-- [ ] hide update url
+- [x] hide update url
 
 ## Styles
 
@@ -44,5 +44,4 @@
 - [x] Module Version with core tips
 - [x] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
-- [ ] ctx identity bind (espcailly logger)
 - [ ] webui load tips twice

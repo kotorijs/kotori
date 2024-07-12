@@ -15,7 +15,7 @@ declare module 'fluoro' {
     readonly [Symbols.bot]: Core[typeof Symbols.bot]
     /* Config */
     readonly config: Config['config']
-    readonly pkg: Config['pkg']
+    readonly meta: Config['meta']
     /* Message */
     readonly [Symbols.midware]: Message[typeof Symbols.midware]
     readonly [Symbols.command]: Message[typeof Symbols.command]
@@ -41,7 +41,7 @@ export class Core extends Context {
   public constructor(config?: ConstructorParameters<typeof Config>[0]) {
     super()
     this.provide('config', new Config(config))
-    this.mixin('config', ['config', 'pkg'])
+    this.mixin('config', ['config', 'meta'])
     this.provide('message', new Message(this))
     this.mixin('message', ['midware', 'command', 'regexp', 'notify', 'task'])
     this.provide('http', new Http({ validateStatus: () => true }))

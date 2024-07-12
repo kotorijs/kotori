@@ -20,17 +20,11 @@ interface RegexpData {
 }
 
 export class Message {
-  public readonly [Symbols.midware]: Map<string, Set<MidwareData>> = new Map()
+  public readonly [Symbols.midware]: Set<MidwareData> = new Set()
 
-  public readonly [Symbols.command]: Map<string, Set<Command>> = new Map()
+  public readonly [Symbols.command]: Set<Command> = new Set()
 
-  public readonly [Symbols.regexp]: Map<string, Set<RegexpData>> = new Map()
-
-  private midwares: Set<MidwareData>
-
-  private commands: Set<Command>
-
-  private regexps: Set<RegexpData>
+  public readonly [Symbols.regexp]: Set<RegexpData> = new Set()
 
   private handleMidware(session: SessionData) {
     const { api } = session
@@ -38,7 +32,7 @@ export class Message {
     let midwares: MidwareData[] = []
 
     api.adapter.status.receivedMsg += 1
-    this[Symbols.midware].forEach((set) => set.forEach((val) => midwares.push(val)))
+    this[Symbols.midware].forEach((val) => midwares.push(val))
     midwares = midwares.sort((first, second) => first.priority - second.priority)
 
     let lastMidwareNum = -1
@@ -58,14 +52,12 @@ export class Message {
     const { session } = data
     if (!data.isPass) return
 
-    this[Symbols.regexp].forEach((set) =>
-      set.forEach((data) => {
-        const result = session.message.match(data.match)
-        if (!result) return
-        session.quick(data.callback(result, session))
-        this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message })
-      })
-    )
+    this[Symbols.regexp].forEach((data) => {
+      const result = session.message.match(data.match)
+      if (!result) return
+      session.quick(data.callback(result, session))
+      this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message })
+    })
   }
 
   private handleCommand(data: EventsList['midwares']) {
@@ -73,13 +65,11 @@ export class Message {
     const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
 
     /* parse command shortutcs */
-    this[Symbols.command].forEach((set) =>
-      set.forEach((cmd) =>
-        cmd.meta.shortcut.forEach((shortcut) => {
-          if (session.message.startsWith(shortcut))
-            session.message = session.message.replace(shortcut, `${prefix}${cmd.meta.root}`)
-        })
-      )
+    this[Symbols.command].forEach((cmd) =>
+      cmd.meta.shortcut.forEach((shortcut) => {
+        if (session.message.startsWith(shortcut))
+          session.message = session.message.replace(shortcut, `${prefix}${cmd.meta.root}`)
+      })
     )
 
     if (!session.message.startsWith(prefix)) return
@@ -95,10 +85,9 @@ export class Message {
     if (cancel.value) return
 
     let matched: undefined | Command
-    this[Symbols.command].forEach((set) =>
-      set.forEach(async (cmd) => {
+    this[Symbols.command].forEach(
+      async (cmd) => {
         if (matched || !cmd.meta.action) return
-
         const result = Command.run(params.raw, cmd.meta)
         if (result instanceof CommandError && result.value.type === 'unknown') return
 
@@ -125,7 +114,7 @@ export class Message {
             ...params
           })
         }
-      })
+      }
     )
 
     if (matched) return
@@ -135,22 +124,6 @@ export class Message {
       ...params,
       cancel: cancel.get()
     })
-  }
-
-  private setContainer() {
-    const id = this.ctx.identity ?? 'defaut'
-    if (this[Symbols.midware].has(id)) {
-      this.midwares = this[Symbols.midware].get(id)!
-      this.commands = this[Symbols.command].get(id)!
-      this.regexps = this[Symbols.regexp].get(id)!
-      return
-    }
-    this.midwares = new Set()
-    this.commands = new Set()
-    this.regexps = new Set()
-    this[Symbols.midware].set(id, this.midwares)
-    this[Symbols.command].set(id, this.commands)
-    this[Symbols.regexp].set(id, this.regexps)
   }
 
   private readonly ctx: Context
@@ -164,36 +137,30 @@ export class Message {
       const { api } = data
       api.adapter.status.sentMsg += 1
     })
-
-    this.midwares = new Set()
-    this.commands = new Set()
-    this.regexps = new Set()
   }
 
   public midware(callback: MidwareCallback, priority: number = 100) {
-    this.setContainer()
     const data = { callback, priority }
-    this.midwares.add(data)
-    const dispose = () => this.midwares.delete(data)
+    this[Symbols.midware].add(data)
+    const dispose = () => this[Symbols.midware].delete(data)
     disposeFactory(this.ctx, dispose)
     return dispose
   }
 
   public command<T extends string>(template: T, config?: CommandConfig) {
-    this.setContainer()
     const command = new Command<T, {}>(template, config)
-    this.commands.add(command as unknown as Command)
-    const dispose = () => this.commands.delete(command as unknown as Command)
-    disposeFactory(this.ctx, dispose)
+    this[Symbols.command].add(command as unknown as Command)
+    // TODO: better way to dispose
+    // const dispose = () => this[Symbols.command].delete(command as unknown as Command)
+    // disposeFactory(this.ctx, dispose)
     Reflect.defineMetadata('identity', this.ctx.identity, command)
     return command
   }
 
   public regexp(match: RegExp, callback: RegexpCallback) {
-    this.setContainer()
     const data = { match, callback }
-    this.regexps.add(data)
-    const dispose = () => this.regexps.delete(data)
+    this[Symbols.regexp].add(data)
+    const dispose = () => this[Symbols.regexp].delete(data)
     disposeFactory(this.ctx, dispose)
     return dispose
   }
