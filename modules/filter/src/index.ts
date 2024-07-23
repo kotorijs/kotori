@@ -8,7 +8,7 @@ const plugin = plugins([__dirname, '../']);
 class FilterPlugin extends KotoriPlugin<Tsu.infer<typeof FilterPlugin.schema>> {
   @plugin.schema
   public static schema = Tsu.Object({
-    mode: Tsu.Union([Tsu.Literal('include'), Tsu.Literal('exclude')]).default('exclude'),
+    mode: Tsu.Union(Tsu.Literal('include'), Tsu.Literal('exclude')).default('exclude'),
     list: Tsu.Array(Tsu.String()).default([])
   });
 

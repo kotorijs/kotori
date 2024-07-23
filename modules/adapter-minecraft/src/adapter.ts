@@ -13,7 +13,7 @@ import McElements from './elements';
 
 export const config = Tsu.Object({
   nickname: Tsu.String().default('Romi'),
-  template: Tsu.Union([Tsu.Null(), Tsu.String()]).default('<%nickname%> %msg%')
+  template: Tsu.Union(Tsu.Null(), Tsu.String()).default('<%nickname%> %msg%')
 });
 
 type McConfig = Tsu.infer<typeof config> & AdapterConfig;

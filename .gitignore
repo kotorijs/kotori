@@ -15,3 +15,5 @@ kotori.dev.*
 
 log/*
 data/*
+
+*.env
