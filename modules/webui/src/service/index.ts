@@ -1,11 +1,10 @@
-import { addDays, format } from 'date-fns';
 import { Context, Service, Symbols, Transport, Tsu, none } from 'kotori-bot';
 import { generateToken, generateVerifyHash, getCpuData, getDate, getRamData } from '../utils/common';
 import { KEY, LoginStats, MsgRecordDay, MsgRecordTotal } from '../types';
 import WebuiTransport from '../utils/transport';
 
 export const config = Tsu.Object({
-  interval: Tsu.Number().default(5)
+  interval: Tsu.Number().range(60 * 1, 60 * 60 * 12).default(60 * 5)
 });
 
 export class Webui extends Service<Tsu.infer<typeof config>> {
@@ -39,10 +38,11 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     this.timer = setInterval(() => {
       this.ctx.file.save(`${KEY.MSG_TOTAL}.json`, this.getMsgTotal().origin, 'json');
       const msgDay = this.getMsgDay();
-      if (msgDay.day === getDate()) {
-        this.ctx.file.save(`${KEY.MSG_DAY}${getDate()}.json`, msgDay.origin, 'json');
+      const currentDay = getDate();
+      if (msgDay.day === currentDay) {
+        this.ctx.file.save(`${KEY.MSG_DAY}${msgDay.day}.json`, msgDay.origin, 'json');
       } else {
-        this.setMsgDay({ day: getDate(), origin: {} });
+        this.setMsgDay({ day: currentDay, origin: {} });
       }
     }, this.config.interval * 1000);
 
@@ -126,14 +126,11 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
 
   public getMsgDay(days: number = 0): MsgRecordDay {
     if (!days) return this.ctx.cache.get<MsgRecordDay>(KEY.MSG_DAY);
-    const dateString = format(addDays(new Date(), -days), 'yyyy-M-d');
-    return {
+    const dateString = getDate(days);
+    return this.ctx.file.load(`${KEY.MSG_DAY}${dateString}.json`, 'json', {
       day: dateString,
-      origin: this.ctx.file.load(`${KEY.MSG_DAY}${dateString}.json`, 'json', {
-        sent: 0,
-        received: 0
-      })
-    };
+      origin: {}
+    });
   }
 
   public setMsgDay(data: MsgRecordDay) {
