@@ -4,7 +4,7 @@
   "version": "1.5.4",
   "private": true,
   "license": "GPL-3.0",
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Arimura Sena <biyuehuya@gmail.com>",
   "scripts": {
     "kotori": "pnpm --filter kotori-bot",
     "build": "rm -rf ./{packages,modules}/*/tsconfig.tsbuildinfo && pnpm -r exec tsup --define.env=prod && pnpm -r exec tsc --build",
@@ -24,14 +24,10 @@
     "kotori.*"
   ],
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@types/node": "^20.14.1",
     "conventional-changelog-cli": "^4.1.0",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-typescript": "^3.0.0",
     "nodemon": "^3.1.3",
-    "prettier": "^3.3.0",
     "tsup": "^8.1.0",
     "tsx": "^4.11.2",
     "typescript": "^5.4.5"
@@ -42,13 +38,12 @@
   },
   "nodemonConfig": {
     "exec": "pnpm --filter \"./packages/*\" exec \"tsup-node --silent\" && tsx packages/kotori/src/start/dev",
-    "ext": "ts,toml,json",
+    "ext": "ts,toml",
     "ignore": [
       "dist",
       "lib",
       "data",
       "log",
-      "tsconfig.json",
       "tsup.config.ts",
       "scripts",
       "tests",

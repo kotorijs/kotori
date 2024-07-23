@@ -4,7 +4,7 @@
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Arimura Sena <biyuehuya@gmail.com>",
   "scripts": {
     "start": "node ./lib/start/build.js",
     "cli-dev": "tsx ./lib/start/dev.js"
@@ -40,7 +40,10 @@
   "dependencies": {
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/loader": "workspace:^",
-    "cac": "^6.7.14"
+    "@types/shelljs": "^0.8.15",
+    "cac": "^6.7.14",
+    "dotenv": "^16.4.5",
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "tsx": "^4.11.2",

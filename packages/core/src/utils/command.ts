@@ -30,6 +30,8 @@ interface CommandOption {
 interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin> {
   root: string;
   alias: string[];
+  shortcut: string[];
+  hide: boolean;
   args: CommandArg[];
   options: CommandOption[];
   scope: CommandConfig['scope'];
@@ -182,7 +184,9 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
     scope: 'all',
     access: CommandAccess.MEMBER,
     args: [],
-    options: []
+    options: [],
+    hide: false,
+    shortcut: [],
   };
 
   public constructor(template: Template, config?: CommandConfig) {
@@ -245,6 +249,13 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
     else this.meta.alias.push(...alias);
     return this;
   }
+  
+  public shortcut(short: string | string[]) {
+    if (typeof short === 'string') this.meta.alias.push(short);
+    else this.meta.alias.push(...short);
+    return this;
+  }
+  
 
   public scope(scope: CommandConfig['scope']) {
     this.meta.scope = scope;

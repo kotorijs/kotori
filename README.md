@@ -1,1 +1,1 @@
-./packages/kotori/README.md
+./packages/kotori/README_CN.md

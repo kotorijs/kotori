@@ -14,7 +14,7 @@
   "loader.bots.stop": "<blueBright>server stopped</blueBright> at <blueBright>{0}</blueBright>",
   "loader.bots.stop.error": "<red>stopped server</red> at <blueBright>{0}</blueBright> unexpectedly",
   "loader.bots.dispose": "<greenBright>dispose completed</greenBright> about <greenBright>{0}</greenBright>",
-  "loader.modules.load": "loaded module <cyanBright>{0}</cyanBright> version: {1} authors: <magenta>{2}</magenta>",
+  "loader.modules.load": "loaded module <cyanBright>{0}</cyanBright> version: {1}",
   "loader.modules.incomplete": "<yellow>incomplete supported module version</yellow>: <yellow>{0}</yellow>",
   "loader.modules.unsupported": "<red>unsupported module version</red>: <red>{0}</red>",
   "loader.modules.all": "<greenBright>loaded {0} modules successfully</greenBright>",

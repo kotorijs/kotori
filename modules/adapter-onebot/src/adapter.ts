@@ -23,7 +23,7 @@ declare module 'kotori-bot' {
   }
 }
 
-export const config = Tsu.Union([
+export const config = Tsu.Union(
   Tsu.Object({
     mode: Tsu.Literal('ws'),
     port: Tsu.Number().int().range(1, 65535),
@@ -35,7 +35,7 @@ export const config = Tsu.Union([
   Tsu.Object({
     mode: Tsu.Literal('ws-reverse')
   })
-]);
+);
 
 type OnebotConfig = Tsu.infer<typeof config> & AdapterConfig;
 
