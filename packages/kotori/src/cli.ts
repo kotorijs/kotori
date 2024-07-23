@@ -57,7 +57,6 @@ program
     Logger.info('ui', options)
   })
 
-program.command('module').action(() => Logger.info('module'))
 program.command('module search <name>').action(() => Logger.info('module search'))
 program.command('module download <name>').action(() => Logger.info('module download'))
 

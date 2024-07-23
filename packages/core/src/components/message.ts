@@ -3,11 +3,20 @@ import { stringRightSplit } from '@kotori-bot/tools'
 import type { Context, EventsList } from 'fluoro'
 import type { I18n } from '@kotori-bot/i18n'
 import { CronJob } from 'cron'
-import type { CommandConfig, MidwareCallback, RegexpCallback, SessionData, MessageQuick, TaskCallback } from '../types'
+import type {
+  CommandConfig,
+  MidwareCallback,
+  RegexpCallback,
+  SessionData,
+  MessageQuick,
+  TaskCallback,
+  FilterOption
+} from '../types'
 import { cancelFactory, disposeFactory, quickFactory, sendMessageFactory } from '../utils/factory'
 import { Command } from '../utils/command'
 import CommandError from '../utils/commandError'
 import { Symbols } from '../global'
+import Filter from '../utils/filter'
 
 interface MidwareData {
   callback: MidwareCallback
@@ -25,6 +34,8 @@ export class Message {
   public readonly [Symbols.command]: Set<Command> = new Set()
 
   public readonly [Symbols.regexp]: Set<RegexpData> = new Set()
+
+  public readonly [Symbols.filter]: Map<string, Filter> = new Map()
 
   private handleMidware(session: SessionData) {
     const { api } = session
@@ -85,37 +96,35 @@ export class Message {
     if (cancel.value) return
 
     let matched: undefined | Command
-    this[Symbols.command].forEach(
-      async (cmd) => {
-        if (matched || !cmd.meta.action) return
-        const result = Command.run(params.raw, cmd.meta)
-        if (result instanceof CommandError && result.value.type === 'unknown') return
+    this[Symbols.command].forEach(async (cmd) => {
+      if (matched || !cmd.meta.action) return
+      const result = Command.run(params.raw, cmd.meta)
+      if (result instanceof CommandError && result.value.type === 'unknown') return
 
-        matched = cmd
-        this.ctx.emit('parse', { command: cmd, result, ...params, cancel: cancel.get() })
-        if (cancel.value || result instanceof CommandError) return
+      matched = cmd
+      this.ctx.emit('parse', { command: cmd, result, ...params, cancel: cancel.get() })
+      if (cancel.value || result instanceof CommandError) return
 
-        try {
-          const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
-          if (executed instanceof CommandError) {
-            this.ctx.emit('command', { command: cmd, result: executed, ...params })
-            return
-          }
-          if (executed !== undefined) session.quick(executed)
-          this.ctx.emit('command', {
-            command: cmd,
-            result: executed instanceof CommandError ? result : executed,
-            ...params
-          })
-        } catch (error) {
-          this.ctx.emit('command', {
-            command: matched,
-            result: new CommandError({ type: 'error', error }),
-            ...params
-          })
+      try {
+        const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
+        if (executed instanceof CommandError) {
+          this.ctx.emit('command', { command: cmd, result: executed, ...params })
+          return
         }
+        if (executed !== undefined) session.quick(executed)
+        this.ctx.emit('command', {
+          command: cmd,
+          result: executed instanceof CommandError ? result : executed,
+          ...params
+        })
+      } catch (error) {
+        this.ctx.emit('command', {
+          command: matched,
+          result: new CommandError({ type: 'error', error }),
+          ...params
+        })
       }
-    )
+    })
 
     if (matched) return
     this.ctx.emit('parse', {
@@ -192,6 +201,15 @@ export class Message {
   public task(options: string | { cron: string; start?: boolean; timeZone?: string }, callback: TaskCallback) {
     const [cron, extraOptions] = typeof options === 'string' ? [options, {}] : [options.cron, options]
     return new CronJob(cron, () => callback(this.ctx), null, extraOptions.start ?? true, extraOptions.timeZone)
+  }
+
+  public filter(option: FilterOption) {
+    if (this.ctx.identity) {
+      const filter = new Filter(option)
+      // this[Symbols.filter].set(this.ctx.identity, [...(this[Symbols.filter].get(this.ctx.identity) || []), filter])
+
+      // const dispose = () => this[Symbols.filter].delete(filter.name)
+    }
   }
 }
 
