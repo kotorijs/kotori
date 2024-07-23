@@ -8,10 +8,10 @@
 
 # Kotori Bot - WebUI Api Documentation
 
-@URL = http://localhost:720
-@KEY = dad717a44e9044cfbae2fe82469254e2
-@USERNAME = hotaru
-@PASSWORD = 05170517
+@URL = http://k.hotaru.icu
+@KEY = f9f7457f1d9140dfa7c8955ca3f3b83a
+@USERNAME = test
+@PASSWORD = 233
 
 ### 登录
 
@@ -110,7 +110,7 @@ Authorization: Bearer {{KEY}}
 
 ### 获取单个机器人实例信息
 
-@botName2 = cmd-test
+@botName2 = kotori
 GET {{URL}}/api/data/bots/{{botName2}} HTTP/1.1
 Authorization: Bearer {{KEY}}
 

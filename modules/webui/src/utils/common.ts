@@ -1,6 +1,7 @@
 import os from 'node:os';
 import { createHash, randomUUID } from 'node:crypto';
 import { MsgRecord } from '../types';
+import { addDays, format } from 'date-fns';
 
 export function generateToken() {
   return randomUUID().replaceAll('-', '');
@@ -34,8 +35,8 @@ export function generateMessage(type: string, data: object | string) {
   return JSON.stringify(type === 'error' ? { type, message: data } : { type, data });
 }
 
-export function getDate() {
-  return `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay()}`;
+export function getDate(days = 0) {
+  return format(days ? addDays(new Date(), -days) : new Date(), 'yyyy-M-d')
 }
 
 export function calcGrandRecord(data: Record<string, MsgRecord>) {
