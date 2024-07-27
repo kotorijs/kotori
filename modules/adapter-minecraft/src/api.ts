@@ -5,16 +5,16 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-05-02 17:22:10
  */
-import { Api, EventDataTargetId, MessageRaw } from 'kotori-bot';
+import { Api, string, MessageRaw } from 'kotori-bot'
 
 export class CmdApi extends Api {
-  public sendPrivateMsg(message: MessageRaw, userId: EventDataTargetId) {
-    this.adapter.send(String(userId), { msg: message });
+  public sendPrivateMsg(message: MessageRaw, userId: string) {
+    this.adapter.send(String(userId), { msg: message })
   }
 
-  public sendGroupMsg(message: MessageRaw, groupId: EventDataTargetId) {
-    this.adapter.send(String(groupId), { msg: message });
+  public sendGroupMsg(message: MessageRaw, groupId: string) {
+    this.adapter.send(String(groupId), { msg: message })
   }
 }
 
-export default CmdApi;
+export default CmdApi

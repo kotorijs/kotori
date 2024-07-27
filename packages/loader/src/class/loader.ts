@@ -312,21 +312,26 @@ export class Loader extends Container {
 
   private loadAllAdapter() {
     const adapters = this.ctx[Symbols.adapter]
-    for (const botName of Object.keys(this.ctx.config.adapter)) {
-      const botConfig = this.ctx.config.adapter[botName]
+    for (const identity of Object.keys(this.ctx.config.adapter)) {
+      const botConfig = this.ctx.config.adapter[identity]
       const array = adapters.get(botConfig.extends)
 
-      if (!array) return this.ctx.logger.warn(this.ctx.format('loader.adapters.notfound', [botConfig.extends, botName]))
+      if (!array)
+        return this.ctx.logger.warn(this.ctx.format('loader.adapters.notfound', [botConfig.extends, identity]))
 
       const result = array[1]?.parseSafe(botConfig)
       if (result && !result.value)
-        throw new ModuleError(this.ctx.format('error.module.config_bot', [botName, result.error.message]))
+        throw new ModuleError(this.ctx.format('error.module.config_bot', [identity, result.error.message]))
 
       const bot = new array[0](
-        this.ctx.extends({}, `${botConfig.extends}/${botName}`),
+        this.ctx.extends({}, `${botConfig.extends}/${identity}`),
         result ? (result.data as AdapterConfig) : botConfig,
-        botName
+        identity
       )
+
+      const bots = this.ctx[Symbols.bot].get(bot.platform)
+      if (bots) bots.add(bot.api)
+      else this.ctx[Symbols.bot].set(bot.platform, new Set([bot.api]))
 
       this.ctx.on('ready', () => bot.start())
       this.ctx.on('dispose', () => bot.stop())

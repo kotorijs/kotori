@@ -1,10 +1,10 @@
 import Tsu from 'tsukiko'
 import type { TsuError } from 'tsukiko'
-import type I18n from '@kotori-bot/i18n'
 import type { Context, EventsList } from 'fluoro'
 import type CommandError from '../utils/commandError'
-import type { Api, Elements } from '../service'
+import type { Api } from '../service'
 import type { Command } from '../utils/command'
+import type { Session } from '../utils/session'
 
 declare module 'fluoro' {
   interface EventsMapping {
@@ -16,14 +16,14 @@ declare module 'fluoro' {
     regexp(data: EventDataRegexp): void
     before_send(data: EventDataBeforeSend): void
     send(data: EventDataSend): void
-    on_message(session: EventDataPrivateMsg | EventDataGroupMsg): void
-    on_recall(session: EventDataPrivateRecall | EventDataGroupRecall): void
-    on_request(session: EventDataPrivateRequest | EventDataGroupRequest): void
-    on_private_add(session: EventDataPrivateAdd): void
-    on_group_increase(session: EventDataGroupIncrease): void
-    on_group_decrease(session: EventDataGroupDecrease): void
-    on_group_admin(session: EventDataGroupAdmin): void
-    on_group_ban(session: EventDataGroupBan): void
+    on_message(session: Session<EventDataPrivateMsg | EventDataGroupMsg>): void
+    on_recall(session: Session<EventDataPrivateRecall | EventDataGroupRecall>): void
+    on_request(session: Session<EventDataPrivateRequest | EventDataGroupRequest>): void
+    on_private_add(session: Session<EventDataPrivateAdd>): void
+    on_group_increase(session: Session<EventDataGroupIncrease>): void
+    on_group_decrease(session: Session<EventDataGroupDecrease>): void
+    on_group_admin(session: Session<EventDataGroupAdmin>): void
+    on_group_ban(session: Session<EventDataGroupBan>): void
   }
 }
 
@@ -129,9 +129,6 @@ export type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never
 }
 
-export const eventDataTargetIdSchema = Tsu.Union(Tsu.Number(), Tsu.String())
-export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>
-
 interface EventDataBeforeParse {
   session: SessionData
   raw: string
@@ -176,13 +173,13 @@ interface EventDataBeforeSend {
   api: Api
   message: MessageRaw
   messageType: MessageScope
-  targetId: EventDataTargetId
+  targetId: string
   cancel(): void
 }
 
 interface EventDataSend {
   api: Api
-  messageId: EventDataTargetId
+  messageId: string
 }
 
 interface SessionDataSender {
@@ -192,87 +189,76 @@ interface SessionDataSender {
 }
 
 export interface EventDataApiBase {
-  type?: MessageScope
-  api: Api
-  el: Elements
-  userId: EventDataTargetId
-  groupId?: EventDataTargetId
-  operatorId?: EventDataTargetId
-  i18n: I18n
-  send(message: MessageRaw): void
-  format(template: string, data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]): string
-  quick(message: MessageQuick): void
-  prompt(message?: MessageRaw): Promise<MessageRaw>
-  confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<boolean>
-  error<T extends Exclude<keyof CommandResult, CommandResultNoArgs>>(
-    type: T,
-    data: CommandResult[T] extends object ? CommandResult[T] : never
-  ): CommandError
-  error<T extends CommandResultNoArgs>(type: T): CommandError
-  extra?: unknown
+  type: MessageScope
   time: number
+  userId: string
+  messageId?: string
+  groupId?: string
+  operatorId?: string
+  // biome-ignore lint:
+  meta?: any
 }
 
 interface EventDataPrivateMsg extends EventDataApiBase {
   type: MessageScope.PRIVATE
-  messageId: EventDataTargetId
+  messageId: string
   message: MessageRaw
   sender: SessionDataSender
 }
 
 interface EventDataGroupMsg extends EventDataPrivateMsg {
-  groupId: EventDataTargetId
+  groupId: string
 }
 
 interface EventDataPrivateRecall extends EventDataApiBase {
   type: MessageScope.PRIVATE
-  messageId: EventDataTargetId
+  messageId: string
 }
 
 interface EventDataGroupRecall extends EventDataApiBase {
-  messageId: EventDataTargetId
-  operatorId: EventDataTargetId
-  groupId: EventDataTargetId
+  messageId: string
+  operatorId: string
+  groupId: string
 }
 
 interface EventDataPrivateRequest extends EventDataApiBase {
   type: MessageScope.PRIVATE
-  userId: EventDataTargetId
+  userId: string
 }
 
 interface EventDataGroupRequest extends EventDataApiBase {
   type: MessageScope.GROUP
-  userId: EventDataTargetId
-  operatorId: EventDataTargetId
-  groupId: EventDataTargetId
+  userId: string
+  operatorId: string
+  groupId: string
 }
 
 interface EventDataPrivateAdd extends EventDataApiBase {
-  userId: EventDataTargetId
+  userId: string
 }
 
 interface EventDataGroupIncrease extends EventDataApiBase {
-  userId: EventDataTargetId
-  operatorId: EventDataTargetId
-  groupId: EventDataTargetId
+  userId: string
+  operatorId: string
+  groupId: string
 }
 
 interface EventDataGroupDecrease extends EventDataApiBase {
-  userId: EventDataTargetId
-  operatorId: EventDataTargetId
-  groupId: EventDataTargetId
+  userId: string
+  operatorId: string
+  groupId: string
 }
 
 interface EventDataGroupAdmin extends EventDataApiBase {
-  userId: EventDataTargetId
+  userId: string
   operation: 'set' | 'unset'
-  groupId: EventDataTargetId
+  groupId: string
 }
 
 interface EventDataGroupBan extends EventDataApiBase {
   // TODO:update all adapters
-  userId: EventDataTargetId | 'all'
-  operatorId: EventDataTargetId
+  userId: string | 'all'
+  operatorId: string
   duration: number
-  groupId: EventDataTargetId
+  groupId: string
 }

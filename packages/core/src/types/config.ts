@@ -1,6 +1,6 @@
 import type { LocaleType } from '@kotori-bot/i18n'
 import type { ModuleConfig } from 'fluoro'
-import type { EventDataTargetId } from './message'
+import type { string } from './message'
 
 export interface CoreConfig {
   global: GlobalConfig
@@ -19,7 +19,7 @@ export interface GlobalConfig {
 
 export interface AdapterConfig {
   extends: string
-  master: EventDataTargetId
+  master: string
   lang: LocaleType
   'command-prefix': string
 }
