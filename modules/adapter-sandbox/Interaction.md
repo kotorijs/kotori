@@ -158,7 +158,7 @@ interface EventDataGroupIncrease extends EventDataBase {
   event: "on_group_increase"
   userId: number // 加入者 ID
   groupId: number // 群组 ID
-  operatorId: EventDataTargetId // 操作者 ID，若与 `userId` 不一致则表明为群成员邀请
+  operatorId: string // 操作者 ID，若与 `userId` 不一致则表明为群成员邀请
 }
 ```
 
@@ -183,7 +183,7 @@ interface EventDataGroupDecrease extends EventDataBase {
   event: "on_group_decrease"
   userId: number // 离开者 ID
   groupId: number // 群组 ID
-  operatorId: EventDataTargetId // 操作者 ID，若于 `userId` 不一致则表明为管理员移除
+  operatorId: string // 操作者 ID，若于 `userId` 不一致则表明为管理员移除
 }
 ```
 
@@ -205,9 +205,9 @@ interface EventDataGroupDecrease extends EventDataBase {
 
 ```typescript
 interface EventDataGroupAdmin extends EventDataBase {
-  userId: EventDataTargetId // 变动者 ID
+  userId: string // 变动者 ID
   operation: "set" | "unset" // 操作类型，设置或取消
-  groupId: EventDataTargetId
+  groupId: string
 }
 ```
 
@@ -229,9 +229,9 @@ interface EventDataGroupAdmin extends EventDataBase {
 
 ```typescript
 interface EventDataGroupBan extends EventDataBase {
-  userId: EventDataTargetId | "all" // 变动者 ID，为 'all' 时表明为全体禁言
+  userId: string | "all" // 变动者 ID，为 'all' 时表明为全体禁言
   operationId: number // 操作者 ID
-  groupId: EventDataTargetId
+  groupId: string
   duration: number // 禁言时长，单位为秒，为 0 时表明为取消禁言
 }
 ```

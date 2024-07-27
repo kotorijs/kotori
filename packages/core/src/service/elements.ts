@@ -1,5 +1,5 @@
 import { none } from '@kotori-bot/tools'
-import type { EventDataTargetId } from '../types'
+import type { string } from '../types'
 
 export class Elements {
   private default(...args: unknown[]) {
@@ -7,7 +7,7 @@ export class Elements {
     return ''
   }
 
-  public at(target: EventDataTargetId, ...extra: unknown[]) {
+  public at(target: string, ...extra: unknown[]) {
     return this.default(target, extra)
   }
 

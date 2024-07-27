@@ -10,7 +10,7 @@ import {
   type AdapterConfig,
   type Context,
   type EventDataApiBase,
-  type EventDataTargetId,
+  type string,
   MessageScope,
   Tsu
 } from 'kotori-bot'
@@ -20,9 +20,9 @@ import type { EventDataType } from './types'
 import OnebotElements from './elements'
 
 interface EventDataPoke extends EventDataApiBase {
-  targetId: EventDataTargetId
+  targetId: string
 
-  groupId: EventDataTargetId
+  groupId: string
 }
 
 declare module 'kotori-bot' {

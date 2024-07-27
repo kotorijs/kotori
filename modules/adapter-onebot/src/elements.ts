@@ -1,4 +1,4 @@
-import { Elements, type EventDataTargetId, none } from 'kotori-bot'
+import { Elements, type string, none } from 'kotori-bot'
 import type { MessageCqType } from './types'
 
 export class OnebotElements extends Elements {
@@ -7,7 +7,7 @@ export class OnebotElements extends Elements {
     return `[CQ:${type},${data}]`
   }
 
-  public at(target: EventDataTargetId) {
+  public at(target: string) {
     return this.cq('at', `qq=${target}`)
   }
 

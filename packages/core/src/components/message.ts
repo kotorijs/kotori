@@ -1,5 +1,4 @@
 import type { Context } from 'fluoro'
-import type { I18n } from '@kotori-bot/i18n'
 import { CronJob } from 'cron'
 import type {
   CommandConfig,
@@ -13,7 +12,7 @@ import type {
   MessageScope,
   MessageRaw
 } from '../types'
-import { cancelFactory, quickFactory, sendMessageFactory } from '../utils/factory'
+import { cancelFactory } from '../utils/factory'
 import { Command } from '../utils/command'
 import CommandError from '../utils/commandError'
 import { Symbols } from '../global'
@@ -186,10 +185,10 @@ export class Message {
     for (const apis of this.ctx[Symbols.bot].values()) {
       for (const api of apis) {
         if (api.adapter.identity !== mainAdapterIdentity) continue
-        quickFactory(
-          sendMessageFactory(api.adapter, 'on_message', { userId: api.adapter.config.master }),
-          this.ctx.i18n.extends(api.adapter.config.lang) as I18n
-        )(message)
+        // quickFactory(
+        //   sendMessageFactory(api.adapter, 'on_message', { userId: api.adapter.config.master }),
+        //   this.ctx.i18n.extends(api.adapter.config.lang) as I18n
+        // )(message)
       }
     }
   }
