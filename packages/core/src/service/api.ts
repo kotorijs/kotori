@@ -113,7 +113,7 @@ export class Api {
    *
    * @param message - Message content to send
    * @param userId - Target user id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Message id and send time
    *
    * @async
@@ -128,7 +128,7 @@ export class Api {
    *
    * @param message - Message content to send
    * @param groupId - Target group id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Message id and send time
    *
    * @async
@@ -144,7 +144,7 @@ export class Api {
    * @param message - Message content to send
    * @param guildId - Target guild id
    * @param channelId - Target channel id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Message id and send time
    *
    * @async
@@ -165,7 +165,7 @@ export class Api {
    * Required target message that is sent by self or bot had manger permission.
    *
    * @param messageId - Target message id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @async
    */
@@ -189,7 +189,7 @@ export class Api {
    * Get user information.
    *
    * @param userId - Target user id, can be the friend or the stronger
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns User info
    *
    * @async
@@ -202,7 +202,7 @@ export class Api {
   /**
    * Get friend list.
    *
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Friend list information
    *
    * @async
@@ -216,7 +216,7 @@ export class Api {
    * Get group information.
    *
    * @param groupId - Target group id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Group info
    *
    * @async
@@ -229,7 +229,7 @@ export class Api {
   /**
    * Get group list.
    *
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Group list information
    *
    * @async
@@ -244,7 +244,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    */
   public setGroupName(groupId: string, groupName: string, meta: object = {}) {
     none(this, groupId, groupName, meta)
@@ -254,7 +254,7 @@ export class Api {
    * Leave a group.
    *
    * @param groupId - Target group id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    */
   public leaveGroup(groupId: string, meta: object = {}) {
     none(this, groupId, meta)
@@ -264,7 +264,7 @@ export class Api {
    * Get guild information.
    *
    * @param guildId - Target guild id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Guild info
    *
    * @async
@@ -277,7 +277,7 @@ export class Api {
   /**
    * Get guild list.
    *
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Guild list information
    *
    * @async
@@ -292,7 +292,7 @@ export class Api {
    *
    * @param guildId - Target guild id
    * @param guildName - Guild name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    */
   public setGuildName(guildId: string, guildName: string, meta: object = {}) {
     none(this, guildId, guildName, meta)
@@ -304,7 +304,7 @@ export class Api {
    * @param guildId - Target guild id
    * @param channelId - Target channel id
    * @param userId - Target user id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Guild member info
    *
    * @async
@@ -319,7 +319,7 @@ export class Api {
    *
    * @param guildId - Target guild id
    * @param channelId - Target channel id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Guild member list information
    *
    * @async
@@ -333,7 +333,7 @@ export class Api {
    * Leave a guild.
    *
    * @param guildId - Target guild id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    */
   public leaveGuild(guildId: string, meta: object = {}) {
     none(this, guildId, meta)
@@ -344,7 +344,7 @@ export class Api {
    *
    * @param guildId - Target guild id
    * @param channelId - Target channel id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Channel info
    *
    * @async
@@ -359,7 +359,7 @@ export class Api {
    *
    * @param guildId - Target guild id
    * @param joinedOnly - Whether to get joined channels only, default is false
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Channel list information
    *
    * @async
@@ -375,7 +375,7 @@ export class Api {
    * @param guildId - Target guild id
    * @param channelId - Target channel id
    * @param channelName - Channel name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    */
   public setChannelName(guildId: string, channelId: string, channelName: string, meta: object = {}) {
     none(this, guildId, channelId, channelName, meta)
@@ -387,7 +387,7 @@ export class Api {
    * @param guildId - Target guild id
    * @param channelId - Target channel id
    * @param userId - Target user id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Channel member info
    *
    * @async
@@ -407,7 +407,7 @@ export class Api {
    *
    * @param guildId - Target guild id
    * @param channelId - Target channel id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns Channel member list information
    *
    * @async
@@ -426,7 +426,7 @@ export class Api {
    *
    * @param guildId - Target guild id
    * @param channelId - Target channel id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    */
   public leaveChannel(guildId: string, channelId: string, meta: object = {}) {
     none(this, guildId, channelId, meta)
@@ -438,7 +438,7 @@ export class Api {
    * @param name - File name
    * @param url - File url
    * @param headers - File download url headers, optional
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns File id
    *
    * @async
@@ -458,7 +458,7 @@ export class Api {
    *
    * @param name - File name
    * @param path - File path
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns File id
    *
    * @async
@@ -473,7 +473,7 @@ export class Api {
    *
    * @param name - File name
    * @param data - File data
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns File id
    *
    * @async
@@ -487,7 +487,7 @@ export class Api {
    * Get file url.
    *
    * @param filedId - File id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns File url data
    *
    * @async
@@ -501,7 +501,7 @@ export class Api {
    * Get file path.
    *
    * @param filedId - File id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns File path data
    *
    * @async
@@ -515,7 +515,7 @@ export class Api {
    * Get file data.
    *
    * @param filedId - File id
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    * @returns File data
    *
    * @async
@@ -539,7 +539,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @experimental
    */
@@ -552,7 +552,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @experimental
    */
@@ -565,7 +565,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @experimental
    */
@@ -578,7 +578,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @experimental
    */
@@ -591,7 +591,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @experimental
    */
@@ -604,7 +604,7 @@ export class Api {
    *
    * @param groupId - Target group id
    * @param groupName - Group name
-   * @param meta - Extra meta data
+   * @param meta - Extra meta data, optional
    *
    * @experimental
    */

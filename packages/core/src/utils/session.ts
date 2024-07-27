@@ -13,6 +13,7 @@ import type { EventsMapping } from 'fluoro'
 import type { Api } from '../service/api'
 import type { Elements } from '../service/elements'
 import type { I18n } from '@kotori-bot/i18n'
+import { Symbols } from '..'
 
 class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
   private isSameSender(session: SessionOrigin) {
@@ -32,6 +33,8 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
   public readonly el: Elements
 
   public readonly i18n: I18n
+
+  public readonly id: string
 
   public send(message: MessageRaw) {
     if (this.type === MessageScope.GROUP) {
@@ -64,7 +67,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
         this.api.adapter.ctx.once('on_message', handle)
       }
       this.quick(message ?? 'corei18n.template.prompt').then(() => this.api.adapter.ctx.once('on_message', handle))
-    })
+    }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<MessageRaw>
   }
 
   public confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<boolean> {
@@ -79,7 +82,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
       this.quick(options?.message ?? 'corei18n.template.confirm').then(() =>
         this.api.adapter.ctx.once('on_message', handle)
       )
-    })
+    }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<boolean>
   }
 
   public error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) {
@@ -88,15 +91,19 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
 
   public readonly type: EventDataApiBase['type']
 
-  public readonly time: EventDataApiBase['time']
+  public readonly time: number
 
-  public readonly userId: EventDataApiBase['userId']
+  public readonly userId: string
 
-  public readonly messageId?: EventDataApiBase['messageId']
+  public readonly operatorId?: string
 
-  public readonly groupId?: EventDataApiBase['groupId']
+  public readonly messageId?: string
 
-  public readonly operatorId?: EventDataApiBase['operatorId']
+  public readonly groupId?: string
+
+  public readonly channelId?: string
+
+  public readonly guildId?: string
 
   public readonly meta?: EventDataApiBase['meta']
 
@@ -110,7 +117,20 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
     this.operatorId = data.operatorId
     this.time = data.time
     this.meta = data.meta
+    switch (this.type) {
+      case MessageScope.PRIVATE:
+        this.id = `${MessageScope.PRIVATE}|${this.userId}`
+        break
+      case MessageScope.GROUP:
+        this.id = `${MessageScope.GROUP}|${this.groupId}|${this.userId}`
+        break
+      case MessageScope.CHANNEL:
+        this.id = `${MessageScope.CHANNEL}|${this.channelId}|${this.guildId}|${this.userId}`
+        break
+    }
   }
+
+  public getUnique() {}
 }
 
 export type Session<T extends EventDataApiBase = EventDataApiBase> = SessionOrigin<T> & T

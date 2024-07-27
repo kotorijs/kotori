@@ -7,6 +7,7 @@ export class Symbols {
   public static readonly regexp = Symbol.for('kotori.core.regexp')
   public static readonly task = Symbol.for('kotori.core.task')
   public static readonly filter = Symbol.for('kotori.core.filter')
+  public static readonly promise = Symbol.for('kotori.core.promise')
   public static readonly modules = Symbol.for('kotori.loader.module')
 }
 

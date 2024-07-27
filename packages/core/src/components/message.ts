@@ -41,6 +41,8 @@ export class Message {
 
   public readonly [Symbols.filter]: Map<string, Filter> = new Map()
 
+  public readonly [Symbols.promise]: Set<string> = new Set()
+
   private handleMidware(session: SessionData) {
     const { api } = session
     api.adapter.status.receivedMsg += 1
@@ -169,7 +171,7 @@ export class Message {
     return () => this[Symbols.regexp].delete(data)
   }
 
-  boardcast(type: MessageScope, message: MessageRaw) {
+  public boardcast(type: MessageScope, message: MessageRaw) {
     // const send =
     //   type === 'private'
     //     ? (api: Api) => api.send_on_message(message, 1)
