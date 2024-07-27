@@ -3,15 +3,15 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:13
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-21 10:40:20
+ * @LastEditTime: 2024-07-26 15:22:37
  */
-import { Api, MessageRaw } from 'kotori-bot';
+import { Api, type MessageRaw } from 'kotori-bot'
 
 export class OnebotApi extends Api {
   public sendPrivateMsg(message: MessageRaw, userId: number): void {
-    this.adapter.status.lastMsgTime = new Date();
-    this.adapter.status.sentMsg += 1;
-    this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false });
+    this.adapter.status.lastMsgTime = new Date()
+    this.adapter.status.sentMsg += 1
+    this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false })
   }
 
   /**
@@ -21,9 +21,9 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public sendGroupMsg(message: MessageRaw, groupId: number): void {
-    this.adapter.status.lastMsgTime = new Date();
-    this.adapter.status.sentMsg += 1;
-    this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false });
+    this.adapter.status.lastMsgTime = new Date()
+    this.adapter.status.sentMsg += 1
+    this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false })
   }
 
   /**
@@ -32,7 +32,7 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public deleteMsg(messageId: number): void {
-    this.adapter.send('delete_msg', { messageId });
+    this.adapter.send('delete_msg', { messageId })
   }
 
   /**
@@ -42,7 +42,7 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public setGroupName(groupId: number, groupName: string): void {
-    this.adapter.send('set_group_name', { group_id: groupId, group_name: groupName });
+    this.adapter.send('set_group_name', { group_id: groupId, group_name: groupName })
   }
 
   /**
@@ -52,7 +52,7 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public setGroupAvatar(groupId: number, image: string): void {
-    this.adapter.send('set_group_portrait', { group_id: groupId, file: image, cache: false });
+    this.adapter.send('set_group_portrait', { group_id: groupId, file: image, cache: false })
   }
 
   /**
@@ -62,8 +62,8 @@ export class OnebotApi extends Api {
    * @param {boolean} enable true为设置,false取消,默认true
    * @return {void}
    */
-  public setGroupAdmin(groupId: number, userId: number, enable: boolean = true): void {
-    this.adapter.send('set_group_admin', { group_id: groupId, user_id: userId, enable });
+  public setGroupAdmin(groupId: number, userId: number, enable = true): void {
+    this.adapter.send('set_group_admin', { group_id: groupId, user_id: userId, enable })
   }
 
   /**
@@ -74,7 +74,7 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public setGroupCard(groupId: number, userId: number, card: string): void {
-    this.adapter.send('set_group_card', { group_id: groupId, user_id: userId, card });
+    this.adapter.send('set_group_card', { group_id: groupId, user_id: userId, card })
   }
 
   /**
@@ -84,11 +84,11 @@ export class OnebotApi extends Api {
    * @param {number} time 禁言时长,单位秒,0表示取消禁言
    * @return {void}
    */
-  public setGroupBan(groupId: number, userId?: number, time: number = 0): void {
+  public setGroupBan(groupId: number, userId?: number, time = 0): void {
     if (userId) {
-      this.adapter.send('setGroupBan', { group_id: groupId, user_id: userId, duration: time });
+      this.adapter.send('setGroupBan', { group_id: groupId, user_id: userId, duration: time })
     } else {
-      this.adapter.send('set_group_whole_ban', { group_id: groupId, enable: !!time });
+      this.adapter.send('set_group_whole_ban', { group_id: groupId, enable: !!time })
     }
   }
 
@@ -100,7 +100,7 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public sendGroupNotice(groupId: number, content: string, image?: string): void {
-    this.adapter.send('_sendGroupNotice', { group_id: groupId, content, image });
+    this.adapter.send('_sendGroupNotice', { group_id: groupId, content, image })
   }
 
   /**
@@ -110,7 +110,7 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public setGroupKick(groupId: number, userId: number): void {
-    this.adapter.send('setGroupKick', { group_id: groupId, user_id: userId, reject_add_request: false });
+    this.adapter.send('setGroupKick', { group_id: groupId, user_id: userId, reject_add_request: false })
   }
 
   /**
@@ -119,10 +119,10 @@ export class OnebotApi extends Api {
    * @return {void}
    */
   public setGroupLeave(groupId: number): void {
-    this.adapter.send('setGroupLeave', { group_id: groupId, is_dismiss: false });
+    this.adapter.send('setGroupLeave', { group_id: groupId, is_dismiss: false })
   }
 
   /* extra: ApiExtraValue = { type: 'onebot', image, at, poke }; */
 }
 
-export default OnebotApi;
+export default OnebotApi

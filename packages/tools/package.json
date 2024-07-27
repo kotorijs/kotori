@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "browser": "dist/exports/common.js",
   "license": "GPL-3.0",
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Hotaru <me@hotaru.icu>",
   "dependencies": {
     "@iarna/toml": "^2.2.5",
     "axios": "^1.6.1",

@@ -1,13 +1,13 @@
-import { CommandResultExtra } from '../types';
-import { KotoriError } from './error';
+import type { CommandResultExtra } from '../types'
+import { KotoriError } from './error'
 
 export class CommandError extends KotoriError {
-  public readonly value: CommandResultExtra[keyof CommandResultExtra];
+  public readonly value: CommandResultExtra[keyof CommandResultExtra]
 
   public constructor(value: CommandResultExtra[keyof CommandResultExtra]) {
-    super();
-    this.value = value;
+    super()
+    this.value = value
   }
 }
 
-export default CommandError;
+export default CommandError

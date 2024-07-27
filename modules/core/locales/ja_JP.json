@@ -36,5 +36,6 @@
   "core.msg.locale.global": "グローバル表示言語を %lang% に設定しました",
   "core.msg.locale.invalid": "パラメータが無効です。以下の値のいずれかでなければなりません：en_US、ja_JP、zh_CN、zh_TW",
   "core.msg.module": "モジュールリスト：%list%",
-  "core.msg.module.list": "\n----------\n名前：%name%\n説明：%description%\nバージョン：%version%"
+  "core.msg.module.list": "\n----------\n名前：%name%\n説明：%description%\nバージョン：%version%",
+  "core.msg.module.not_found": "%name% モジュールが見つかりませんでした"
 }

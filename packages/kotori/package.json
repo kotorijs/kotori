@@ -4,7 +4,7 @@
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",
-  "author": "Arimura Sena <biyuehuya@gmail.com>",
+  "author": "Arimura Sena <me@hotaru.icu>",
   "scripts": {
     "start": "node dist/cli.js --mode build --daemon",
     "dev": "tsx src/cli.ts --mode dev"

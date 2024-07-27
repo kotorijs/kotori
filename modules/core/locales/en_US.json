@@ -36,5 +36,6 @@
   "core.msg.locale.global": "Successfully set the global display language to: %lang%",
   "core.msg.locale.invalid": "Parameter is invalid, must be one of the following values: en_US, ja_JP, zh_CN, zh_TW",
   "core.msg.module": "Module list: %list%",
-  "core.msg.module.list": "\n----------\nName: %name%\nDescription: %description%\nVersion: %version%"
+  "core.msg.module.list": "\n----------\nName: %name%\nDescription: %description%\nVersion: %version%",
+  "core.msg.module.not_found": "Module %name% not found"
 }

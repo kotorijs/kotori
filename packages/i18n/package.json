@@ -5,18 +5,9 @@
   "main": "dist/index.js",
   "browser": "dist/common.js",
   "license": "GPL-3.0",
-  "author": "Hotaru <biyuehuya@gmail.com>",
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "i18n",
-    "tools"
-  ],
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
+  "author": "Hotaru <me@hotaru.icu>",
+  "keywords": ["kotori", "chatbot", "i18n", "tools"],
+  "files": ["dist", "LICENSE", "README.md"],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },

@@ -36,5 +36,6 @@
   "core.msg.locale.global": "成功將全局顯示語言設置爲：%lang%",
   "core.msg.locale.invalid": "參數無效，必須是以下中的壹個值：en_US、ja_JP、zh_CN、zh_TW",
   "core.msg.module": "模塊列表：%list%",
-  "core.msg.module.list": "\n----------\n名稱：%name%\n描述：%description%\n版本：%version%"
+  "core.msg.module.list": "\n----------\n名稱：%name%\n描述：%description%\n版本：%version%",
+  "core.msg.module.not_found": "未找到模塊"
 }

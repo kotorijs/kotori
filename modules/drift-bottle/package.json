@@ -3,30 +3,16 @@
   "version": "1.0.2",
   "description": "throw and pick bottles",
   "main": "lib/index.js",
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "kotori-plugin"
-  ],
+  "keywords": ["kotori", "chatbot", "kotori-plugin"],
   "license": "GPL-3.0",
-  "files": [
-    "lib",
-    "locales",
-    "LICENSE",
-    "README.md"
-  ],
-  "author": "Himeno <biyuehuya@gmail.com>",
+  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "author": "Himeno <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": [
-        "en_US",
-        "ja_JP",
-        "zh_TW",
-        "zh_CN"
-      ]
+      "language": ["en_US", "ja_JP", "zh_TW", "zh_CN"]
     }
   }
 }
