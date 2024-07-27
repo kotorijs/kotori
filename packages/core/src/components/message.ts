@@ -1,5 +1,4 @@
-import 'reflect-metadata'
-import type { Context, EventsList } from 'fluoro'
+import type { Context } from 'fluoro'
 import type { I18n } from '@kotori-bot/i18n'
 import { CronJob } from 'cron'
 import type {
@@ -9,13 +8,18 @@ import type {
   SessionData,
   MessageQuick,
   TaskCallback,
-  FilterOption
+  FilterOption,
+  TaskOptions,
+  MessageScope,
+  MessageRaw
 } from '../types'
-import { cancelFactory, disposeFactory, quickFactory, sendMessageFactory } from '../utils/factory'
+import { cancelFactory, quickFactory, sendMessageFactory } from '../utils/factory'
 import { Command } from '../utils/command'
 import CommandError from '../utils/commandError'
 import { Symbols } from '../global'
 import Filter from '../utils/filter'
+import { setCommandMeta, setMidwareMeta, setRegExpMeta, setTaskMeta } from '../utils/meta'
+import { randomUUID } from 'node:crypto'
 
 interface MidwareData {
   callback: MidwareCallback
@@ -34,43 +38,47 @@ export class Message {
 
   public readonly [Symbols.regexp]: Set<RegexpData> = new Set()
 
+  public readonly [Symbols.task]: Set<CronJob> = new Set()
+
   public readonly [Symbols.filter]: Map<string, Filter> = new Map()
 
   private handleMidware(session: SessionData) {
     const { api } = session
-    let isPass = true
-    const midwares = Array.from(this[Symbols.midware].values()).sort(
-      (first, second) => first.priority - second.priority
-    )
-
     api.adapter.status.receivedMsg += 1
-    let lastMidwareNum = -1
-    while (midwares.length > 0) {
-      if (lastMidwareNum === midwares.length) {
-        isPass = false
-        break
-      }
-      lastMidwareNum = midwares.length
-      session.quick(midwares[0].callback(() => midwares.shift(), session))
-    }
 
-    this.ctx.emit('midwares', { isPass, session })
+    Array.from(this[Symbols.midware].values())
+      .sort((first, last) => first.priority - last.priority)
+      .map(({ callback }) => callback)
+      .reverse()
+      .reduce(
+        (first, last) => {
+          const next = () => {
+            first(() => {}, session)
+          }
+          return () => {
+            last(next, session)
+          }
+        },
+        (_: unknown, session: SessionData) => {
+          this.handleCommand(session)
+          this.handleRegexp(session)
+        }
+      )(() => {}, session)
   }
 
-  private async handleRegexp(data: EventsList['midwares']) {
-    const { session } = data
-    if (!data.isPass) return
-
+  private async handleRegexp(session: SessionData) {
     for (const data of this[Symbols.regexp]) {
       const result = session.message.match(data.match)
       if (!result) continue
+      const cancel = cancelFactory()
+      this.ctx.emit('before_regexp', { session, regexp: data.match, raw: session.message, cancel: cancel.get() })
+      if (cancel.value) continue
       session.quick(data.callback(result, session))
       this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message })
     }
   }
 
-  private async handleCommand(data: EventsList['midwares']) {
-    const { session } = data
+  private async handleCommand(session: SessionData) {
     const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
 
     /* parse command shortcuts */
@@ -134,8 +142,6 @@ export class Message {
   public constructor(ctx: Context) {
     this.ctx = ctx
     this.ctx.on('on_message', (session) => this.handleMidware(session))
-    this.ctx.on('midwares', (data) => this.handleCommand(data))
-    this.ctx.on('midwares', (data) => this.handleRegexp(data))
     this.ctx.on('before_send', (data) => {
       const { api } = data
       api.adapter.status.sentMsg += 1
@@ -143,42 +149,37 @@ export class Message {
   }
 
   public midware(callback: MidwareCallback, priority = 100) {
+    setMidwareMeta(callback, { identity: this.ctx.identity, priority })
     const data = { callback, priority }
     this[Symbols.midware].add(data)
-    const dispose = () => this[Symbols.midware].delete(data)
-    disposeFactory(this.ctx, dispose)
-    return dispose
+    return () => this[Symbols.midware].delete(data)
   }
 
   public command<T extends string>(template: T, config?: CommandConfig) {
     // biome-ignore lint:
     const command = new Command<T, {}>(template, config)
     this[Symbols.command].add(command as unknown as Command)
-    // TODO: better way to dispose
-    // const dispose = () => this[Symbols.command].delete(command as unknown as Command)
-    // disposeFactory(this.ctx, dispose)
-    Reflect.defineMetadata('identity', this.ctx.identity, command)
+    setCommandMeta(command, { identity: this.ctx.identity, ...(command as unknown as Command).meta })
     return command
   }
 
   public regexp(match: RegExp, callback: RegexpCallback) {
+    setRegExpMeta(callback, { identity: this.ctx.identity, match })
     const data = { match, callback }
     this[Symbols.regexp].add(data)
-    const dispose = () => this[Symbols.regexp].delete(data)
-    disposeFactory(this.ctx, dispose)
-    return dispose
+    return () => this[Symbols.regexp].delete(data)
   }
 
-  // boardcast(type: MessageScope, message: MessageRaw) {
-  //   const send =
-  //     type === 'private'
-  //       ? (api: Api) => api.send_on_message(message, 1)
-  //       : (api: Api) => api.send_on_message(message, 1);
-  //   /* this need support of database... */
-  //   Object.values(this.botStack).forEach((apis) => {
-  //     apis.forEach((api) => send(api));
-  //   });
-  // }
+  boardcast(type: MessageScope, message: MessageRaw) {
+    // const send =
+    //   type === 'private'
+    //     ? (api: Api) => api.send_on_message(message, 1)
+    //     : (api: Api) => api.send_on_message(message, 1);
+    // /* this need support of database... */
+    // Object.values(this.botStack).forEach((apis) => {
+    //   apis.forEach((api) => send(api));
+    // });
+  }
 
   public notify(message: MessageQuick) {
     const mainAdapterIdentity = Object.keys(this.ctx.config.adapter)[0]
@@ -193,18 +194,24 @@ export class Message {
     }
   }
 
-  public task(options: string | { cron: string; start?: boolean; timeZone?: string }, callback: TaskCallback) {
-    const [cron, extraOptions] = typeof options === 'string' ? [options, {}] : [options.cron, options]
-    return new CronJob(cron, () => callback(this.ctx), null, extraOptions.start ?? true, extraOptions.timeZone)
+  public task(options: TaskOptions, callback: TaskCallback) {
+    const [baseOption, extraOptions] = typeof options === 'string' ? [options, {}] : [options.cron, options]
+    const task = new CronJob(
+      baseOption,
+      () => callback(this.ctx),
+      null,
+      extraOptions.start ?? true,
+      extraOptions.timeZone
+    )
+    setTaskMeta(task, { identity: this.ctx.identity, task, options })
+    this[Symbols.task].add(task)
   }
 
   public filter(option: FilterOption) {
-    if (this.ctx.identity) {
-      const filter = new Filter(option)
-      // this[Symbols.filter].set(this.ctx.identity, [...(this[Symbols.filter].get(this.ctx.identity) || []), filter])
-
-      // const dispose = () => this[Symbols.filter].delete(filter.name)
-    }
+    const filterId = randomUUID().slice(0, 12).replaceAll('-', '')
+    this[Symbols.filter].set(filterId, new Filter(option))
+    // Although ctx.identity maybe empty but only it's not empty can be tested
+    return this.ctx.extends(undefined, `${this.ctx.identity}_${filterId}`)
   }
 }
 

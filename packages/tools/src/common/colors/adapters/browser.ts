@@ -1,5 +1,5 @@
-import { createColors } from 'colorette';
-import { ColorsAdapterImpl, colorsIdentity } from '../utils';
+import type { createColors } from 'colorette'
+import { type ColorsAdapterImpl, colorsIdentity } from '../utils'
 
 const cssStyles = {
   reset: 'color:inherit; background-color:inherit;',
@@ -43,29 +43,29 @@ const cssStyles = {
   bgMagentaBright: 'background-color:#FF55FF;',
   bgCyanBright: 'background-color:#55FFFF;',
   bgWhiteBright: 'background-color:#BBBBBB;'
-} as const;
+} as const
 
 class BrowserAdapterOrigin {
-  public list: typeof cssStyles;
+  public list: typeof cssStyles
 
   public constructor(options?: Partial<typeof cssStyles>) {
-    this.list = { ...cssStyles, ...options };
+    this.list = { ...cssStyles, ...options }
   }
 
   public dye(color: (typeof colorsIdentity)[number]) {
-    return (text: string) => /* html */ `<span style="${this.list[color]}">${text}</span>`;
+    return (text: string) => /* html */ `<span style="${this.list[color]}">${text}</span>`
   }
 }
 
 export const BrowserAdapter = new Proxy(BrowserAdapterOrigin, {
   construct(target, argArray, newTarget) {
-    const instance = Reflect.construct(target, argArray, newTarget) as BrowserAdapterOrigin;
-    const handleInstance: Record<string, (text: string) => string> = {};
-    colorsIdentity.forEach((key) => {
-      handleInstance[key] = instance.dye(key);
-    });
-    return handleInstance;
+    const instance = Reflect.construct(target, argArray, newTarget) as BrowserAdapterOrigin
+    const handleInstance: Record<string, (text: string) => string> = {}
+    for (const key of colorsIdentity) handleInstance[key] = instance.dye(key)
+    return handleInstance
   }
-}) as unknown as new (options?: Parameters<typeof createColors>[0]) => ColorsAdapterImpl;
+}) as unknown as new (
+  options?: Parameters<typeof createColors>[0]
+) => ColorsAdapterImpl
 
-export default BrowserAdapter;
+export default BrowserAdapter

@@ -1,4 +1,3 @@
-import { parseArgs } from '@kotori-bot/tools'
 import minimist from 'minimist'
 import {
   CommandAccess,
@@ -85,20 +84,60 @@ const optionalParamMatch = /\[(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?\]/
 
 const defaultType: CommandArgTypeSign = 'string'
 
-function handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
-  if (type === 'boolean') return value !== 'false' && !!value
-  if (type === 'number') {
-    if (typeof value === 'number') return value
-    if (value === true) return 1
-    if (value === false) return 0
-    const float = Number.parseFloat(value)
-    const int = Number.parseInt(value)
-    return float === int ? int : float
-  }
-  return value.toString()
-}
-
 export class Command<Template extends string = string, Opts extends OptsOrigin = OptsOrigin> {
+  private static handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
+    if (type === 'boolean') return value !== 'false' && !!value
+    if (type === 'number') {
+      if (typeof value === 'number') return value
+      if (value === true) return 1
+      if (value === false) return 0
+      const float = Number.parseFloat(value)
+      const int = Number.parseInt(value)
+      return float === int ? int : float
+    }
+    return value.toString()
+  }
+
+  private static parseArgs(command: string) {
+    const args: string[] = []
+    let current = ''
+    let inQuote = false
+    let quoteChar: null | string = null
+    let lastQuoteChar: null | string = null
+    for (let i = 0; i < command.length; i += 1) {
+      let c = command[i]
+      if (inQuote) {
+        if (c === quoteChar) {
+          inQuote = false
+          quoteChar = null
+        } else if (c === '\\' && i + 1 < command.length) {
+          i += 1
+          c = command[i]
+          if (c === '"' || c === "'") {
+            current += c
+          } else {
+            current += `\\${c}`
+          }
+        } else {
+          current += c
+        }
+      } else if (c === '"' || c === "'") {
+        inQuote = true
+        quoteChar = c
+        lastQuoteChar = c
+      } else if (c === ' ' && current) {
+        args.push(current)
+        current = ''
+      } else {
+        current += c
+      }
+    }
+    if (inQuote || quoteChar)
+      return { char: lastQuoteChar as string, index: command.lastIndexOf(lastQuoteChar as string) }
+    if (current) args.push(current)
+    return args
+  }
+
   public static run(input: string, data: CommandData) {
     /* find start string */
     let starts = ''
@@ -123,7 +162,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
     }
 
     /* parse by minimist */
-    const arr = parseArgs(input.slice(starts.length).trim())
+    const arr = Command.parseArgs(input.slice(starts.length).trim())
     if (!Array.isArray(arr)) return new CommandError({ type: 'syntax', ...arr })
     const result = minimist(arr, opts)
 
@@ -149,7 +188,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
       }
       if (val.rest || !args[index]) return
       /* determine if type is valid number */
-      args[index] = handleDefaultValue(args[index], val.type)
+      args[index] = Command.handleDefaultValue(args[index], val.type)
       if (!Number.isNaN(args[index])) return
       error = new CommandError({ type: 'arg_error', expected: 'number', reality: 'string', index })
     })
@@ -163,7 +202,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
       options[val.realname] = Array.isArray(result[val.realname])
         ? (result[val.realname] as ArgsOrigin)[0]
         : (result[val.realname] as CommandArgType)
-      options[val.realname] = handleDefaultValue(options[val.realname], val.type)
+      options[val.realname] = Command.handleDefaultValue(options[val.realname], val.type)
       if (Number.isNaN(options[val.realname]))
         error = new CommandError({ type: 'option_error', expected: 'number', reality: 'string', target: val.realname })
     }
@@ -177,7 +216,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
 
   private template: Template
 
-  public readonly meta: CommandData<ParseArgs<Template>, Opts> = {
+  public meta: CommandData<ParseArgs<Template>, Opts> = {
     root: '',
     alias: [],
     scope: 'all',
@@ -227,7 +266,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
           type,
           rest: !!result[1],
           optional: true,
-          default: result[6] ? handleDefaultValue(result[6], type) : undefined
+          default: result[6] ? Command.handleDefaultValue(result[6], type) : undefined
         })
       }
       result = requiredParamMatch.exec(arg)
@@ -284,6 +323,11 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
 
   public help(text: string) {
     this.meta.help = text
+    return this
+  }
+
+  public hide(isHide = true) {
+    this.meta.hide = isHide
     return this
   }
 }

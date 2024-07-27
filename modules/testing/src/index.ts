@@ -1,4 +1,4 @@
-import { Tsu, CommandAction, MessageScope, plugins, SessionData, KotoriPlugin, Symbols } from 'kotori-bot'
+import { Tsu, type CommandAction, MessageScope, plugins, type SessionData, KotoriPlugin, Symbols } from 'kotori-bot'
 
 const plugin = plugins([__dirname, '../'])
 
@@ -34,17 +34,18 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
       session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
       {
         target: session.userId,
-        operator: session.operatorId!
+        operator: session.operatorId
       }
     ])
   }
 
-  @plugin.midware({ priority: 10 })
+  @plugin.midware({ priority: 1 })
   public static midware(next: () => void, session: SessionData) {
     const s = session
     if (s.message.startsWith('说')) {
       s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`
     }
+    // s.send('<red>hhaha, I rejected all message event, you cant continue running!</rea>')
     next()
   }
 
@@ -55,7 +56,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   public echo(data: Parameters<CommandAction>[0], session: SessionData) {
     this.ctx.logger.debug(data, data.args[0])
     this.ctx.logger.debug(session)
-    return [`返回消息:~%message%`, { message: data.args[0] }]
+    return ['返回消息:~%message%', { message: data.args[0] }]
   }
 
   @plugin.regexp({ match: /^(.*)#print$/ })

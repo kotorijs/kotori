@@ -8,11 +8,11 @@ import type { Command } from '../utils/command'
 
 declare module 'fluoro' {
   interface EventsMapping {
-    midwares(data: EventDataMidwares): void
     before_parse(data: EventDataBeforeParse): void
     parse(data: EventDataParse): void
     before_command(data: EventDataBeforeCommand): void
     command(data: EventDataCommand): void
+    before_regexp(data: EventDataBeforeRegexp): void
     regexp(data: EventDataRegexp): void
     before_send(data: EventDataBeforeSend): void
     send(data: EventDataSend): void
@@ -33,7 +33,8 @@ export enum FilterTestList {
   GROUP_ID = 'groupId',
   OPERATOR_ID = 'operatorId',
   MESSAGE_ID = 'messageId',
-  MESSAGE_SCOPE = 'messageScope',
+  SCOPE = 'scope',
+  ACCESS = 'access',
   IDENTITY = 'identity',
   LOCALE_TYPE = 'localeType',
   SELF_ID = 'selfId'
@@ -119,9 +120,10 @@ export type MessageQuickReal =
   | void
 
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>
-export type MidwareCallback = (next: () => void, session: SessionData) => MessageQuick
+export type MidwareCallback = (next: () => void | Promise<void>, session: SessionData) => MessageQuick
 export type RegexpCallback = (match: RegExpMatchArray, session: SessionData) => MessageQuick
 export type TaskCallback = (ctx: Context) => void
+export type TaskOptions = string | { cron: string; start?: boolean; timeZone?: string }
 
 export type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never
@@ -129,11 +131,6 @@ export type EventApiType = {
 
 export const eventDataTargetIdSchema = Tsu.Union(Tsu.Number(), Tsu.String())
 export type EventDataTargetId = Tsu.infer<typeof eventDataTargetIdSchema>
-
-interface EventDataMidwares {
-  isPass: boolean
-  session: SessionData
-}
 
 interface EventDataBeforeParse {
   session: SessionData
@@ -159,6 +156,13 @@ interface EventDataCommand {
   raw: string
   command: Command
   result: EventDataParse['result'] | MessageQuick
+}
+
+interface EventDataBeforeRegexp {
+  session: SessionData
+  raw: string
+  regexp: RegExp
+  cancel(): void
 }
 
 interface EventDataRegexp {
@@ -206,6 +210,7 @@ export interface EventDataApiBase {
   ): CommandError
   error<T extends CommandResultNoArgs>(type: T): CommandError
   extra?: unknown
+  time: number
 }
 
 interface EventDataPrivateMsg extends EventDataApiBase {
@@ -215,11 +220,7 @@ interface EventDataPrivateMsg extends EventDataApiBase {
   sender: SessionDataSender
 }
 
-interface EventDataGroupMsg extends EventDataApiBase {
-  type: MessageScope.GROUP
-  messageId: EventDataTargetId
-  message: MessageRaw
-  sender: SessionDataSender & { level: string; role: 'owner' | 'admin' | 'member'; title: string }
+interface EventDataGroupMsg extends EventDataPrivateMsg {
   groupId: EventDataTargetId
 }
 
@@ -269,8 +270,9 @@ interface EventDataGroupAdmin extends EventDataApiBase {
 }
 
 interface EventDataGroupBan extends EventDataApiBase {
-  userId: EventDataTargetId | 0
+  // TODO:update all adapters
+  userId: EventDataTargetId | 'all'
   operatorId: EventDataTargetId
-  time: number | -1
+  duration: number
   groupId: EventDataTargetId
 }

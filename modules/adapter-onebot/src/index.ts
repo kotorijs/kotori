@@ -1,3 +1,4 @@
-import { OnebotAdapter } from './adapter';
+import { OnebotAdapter } from './adapter'
 
-export default OnebotAdapter;
+export { config } from './adapter'
+export default OnebotAdapter

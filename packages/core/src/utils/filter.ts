@@ -1,4 +1,4 @@
-import { FilterOption, FilterOptionBase, FilterTestList, SessionData } from '../types'
+import { type FilterOption, type FilterOptionBase, FilterTestList, type SessionData, CommandAccess } from '../types'
 
 class Filter {
   private static getTestDomain(session: SessionData, test: FilterTestList) {
@@ -9,24 +9,33 @@ class Filter {
         return session.api.adapter.identity
       case FilterTestList.PLATFORM:
         return session.api.adapter.platform
+      case FilterTestList.SELF_ID:
+        return session.api.adapter.selfId
       case FilterTestList.USER_ID:
         return session.userId
       case FilterTestList.GROUP_ID:
-        return session.groupId
+        return session.groupId ?? -1
       case FilterTestList.OPERATOR_ID:
-        return session.operatorId
+        return session.operatorId ?? -1
       case FilterTestList.MESSAGE_ID:
         return session.messageId
-      case FilterTestList.MESSAGE_SCOPE:
-        return session.messageId
-      case FilterTestList.SLEF_ID:
+      case FilterTestList.SCOPE:
+        return session.type
+      case FilterTestList.ACCESS:
+        if (String(session.api.adapter.config.master) === String(session.userId)) return CommandAccess.ADMIN
+        if ('role' in session.sender && ['owner', 'admin'].includes(session.sender.role)) return CommandAccess.MANGER
+        return CommandAccess.MEMBER
+      default:
+        return -1
     }
   }
-  private static handleFilter(session: SessionData, { test, oprator, value }: FilterOptionBase) {
+
+  private static handleFilter(session: SessionData, { test, operator, value }: FilterOptionBase) {
     const domain = Filter.getTestDomain(session, test)
-    if (['>', '<'].includes(oprator)) {
+    if (domain === -1) return false
+    if (['>', '<'].includes(operator)) {
       if (typeof value !== 'number' || typeof domain !== 'number') return false
-      switch (oprator) {
+      switch (operator) {
         case '>':
           return domain > value
         case '<':
@@ -34,10 +43,11 @@ class Filter {
       }
     }
 
-    if (['>=', '<=', '=='].includes(oprator)) {
-      if (typeof value !== 'number' || typeof domain !== 'number')
+    if (['>=', '<=', '=='].includes(operator)) {
+      if (typeof value !== 'number' || typeof domain !== 'number') {
         return typeof value === 'boolean' ? !!domain === value : String(domain) === String(value)
-      switch (oprator) {
+      }
+      switch (operator) {
         case '>=':
           return domain >= value
         case '<=':
@@ -50,7 +60,7 @@ class Filter {
     return typeof value === 'boolean' ? !!domain !== value : String(domain) !== String(value)
   }
 
-  public readonly option: FilterOption
+  private readonly option: FilterOption
 
   public constructor(option: FilterOption) {
     this.option = option

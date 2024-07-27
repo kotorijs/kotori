@@ -4,9 +4,10 @@ import type { Parser } from 'tsukiko'
 import { Context } from 'fluoro'
 import Config from './config'
 import Message from './message'
-import type { AdapterClass } from '../types'
+import type { AdapterClass, SessionData } from '../types'
 import { Cache, type Api } from '../service'
 import { Symbols } from '../global'
+import { getCommandMeta, getRegExpMeta } from '../utils/meta'
 
 declare module 'fluoro' {
   interface Context {
@@ -20,17 +21,40 @@ declare module 'fluoro' {
     readonly [Symbols.midware]: Message[typeof Symbols.midware]
     readonly [Symbols.command]: Message[typeof Symbols.command]
     readonly [Symbols.regexp]: Message[typeof Symbols.regexp]
+    readonly [Symbols.task]: Message[typeof Symbols.task]
+    readonly [Symbols.filter]: Message[typeof Symbols.filter]
     midware: Message['midware']
     command: Message['command']
     regexp: Message['regexp']
     notify: Message['notify']
+    boardcast: Message['boardcast']
     task: Message['task']
+    filter: Message['filter']
     /* Inject */
     http: Http
     i18n: I18n
     /* Service */
     cache: Cache
   }
+}
+
+function initialize(ctx: Context) {
+  function test(identity: string, session: SessionData) {
+    for (const [key, filter] of ctx[Symbols.filter].entries()) if (key === identity) return filter.test(session)
+    return true
+  }
+
+  ctx.on('parse', (data) => {
+    const { identity } = getCommandMeta(data.command) ?? {}
+    if (identity && !test(identity, data.session)) data.cancel()
+  })
+
+  ctx.on('before_regexp', (data) => {
+    const { callback } = Array.from(ctx[Symbols.regexp]).find(({ match }) => match === data.regexp) ?? {}
+    if (!callback) return
+    const { identity } = getRegExpMeta(callback) ?? {}
+    if (identity && !test(identity, data.session)) data.cancel()
+  })
 }
 
 export class Core extends Context {
@@ -49,6 +73,7 @@ export class Core extends Context {
     this.provide('i18n', new I18n({ lang: this.config.global.lang }))
     this.inject('i18n')
     this.service('cache', new Cache(this.extends()))
+    initialize(this)
   }
 }
 
