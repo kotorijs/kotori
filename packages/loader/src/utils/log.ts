@@ -15,8 +15,8 @@ export function loadInfo(info: Context['meta'], ctx: Context) {
   ctx.logger.info(
     `Kotori Bot Version: ${info.version} (Core: v${info.coreVersion}, Loader: v${info.loaderVersion}) License: ${info.license}`
   )
-  ctx.logger.info(`Kotori Bot By ${info.author}`)
-  ctx.logger.info(`Copyright © 2023 - 2024 ${info.author} All rights reserved`)
+  // ctx.logger.info(`Kotori Bot By ${info.author}`)
+  ctx.logger.info('Copyright © 2023 - 2024 Arimura Sena All rights reserved')
 }
 
 export default loadInfo

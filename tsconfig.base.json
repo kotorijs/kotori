@@ -6,8 +6,10 @@
     "strict": true,
     "declaration": true,
     "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
     "composite": true,
-    "incremental": true,
-    "emitDeclarationOnly": true
+    "incremental": true
   }
 }

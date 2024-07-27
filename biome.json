@@ -1,5 +1,5 @@
 {
-  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
@@ -10,9 +10,8 @@
     "attributePosition": "auto"
   },
   "linter": {
-    "rules": {
-      "recommended": false
-    },
+    "enabled": true,
+    "rules": {},
     "ignore": ["**/*.js", "**/*.d.ts"]
   },
   "javascript": {
@@ -28,8 +27,13 @@
       "quoteStyle": "single",
       "attributePosition": "auto"
     },
-    "linter": {
-      "enabled": true
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["*.ts", "*.tsx"]
+    }
+  ]
 }

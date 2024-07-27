@@ -1,9 +1,10 @@
-import Tsu, { TsuError } from 'tsukiko'
+import Tsu from 'tsukiko'
+import type { TsuError } from 'tsukiko'
 import type I18n from '@kotori-bot/i18n'
 import type { Context, EventsList } from 'fluoro'
 import type CommandError from '../utils/commandError'
 import type { Api, Elements } from '../service'
-import { Command } from '../utils/command'
+import type { Command } from '../utils/command'
 
 declare module 'fluoro' {
   interface EventsMapping {
@@ -26,7 +27,7 @@ declare module 'fluoro' {
   }
 }
 
-export const enum FilterTestList {
+export enum FilterTestList {
   PLATFORM = 'platform',
   USER_ID = 'userId',
   GROUP_ID = 'groupId',
@@ -35,14 +36,14 @@ export const enum FilterTestList {
   MESSAGE_SCOPE = 'messageScope',
   IDENTITY = 'identity',
   LOCALE_TYPE = 'localeType',
-  SLEF_ID = 'selfId'
+  SELF_ID = 'selfId'
 }
 
 export type FilterOption = FilterOptionBase | FilterOptionGroup
 
 export interface FilterOptionBase {
   test: FilterTestList
-  oprator: '==' | '!=' | '>' | '<' | '>=' | '<='
+  operator: '==' | '!=' | '>' | '<' | '>=' | '<='
   value: string | number | boolean
 }
 
@@ -51,10 +52,10 @@ export interface FilterOptionGroup {
   filters: FilterOption[]
 }
 
-export const enum CommandAccess {
-  MEMBER,
-  MANGER,
-  ADMIN
+export enum CommandAccess {
+  MEMBER = 0,
+  MANGER = 1,
+  ADMIN = 2
 }
 
 export type ArgsOrigin = CommandArgType[]
@@ -106,15 +107,17 @@ export type CommandResultExtra = {
 
 export type SessionData = EventsList['on_message']
 export enum MessageScope {
-  PRIVATE,
-  GROUP
+  PRIVATE = 0,
+  GROUP = 1
 }
 export type MessageRaw = string
 export type MessageQuickReal =
   | [string, (CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
   | MessageRaw
   | CommandError
+  // biome-ignore lint:
   | void
+
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>
 export type MidwareCallback = (next: () => void, session: SessionData) => MessageQuick
 export type RegexpCallback = (match: RegExpMatchArray, session: SessionData) => MessageQuick

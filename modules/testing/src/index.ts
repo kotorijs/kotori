@@ -4,7 +4,7 @@ const plugin = plugins([__dirname, '../'])
 
 @plugin.import
 /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>> {
+export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>> {
   @plugin.lang
   public static lang = [__dirname, '../locales']
 
@@ -21,10 +21,10 @@ class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>>
   @plugin.on({ type: 'ready' })
   public onReady() {
     // console.log([...this.ctx[Symbols.command]])
-    for (const command of this.ctx[Symbols.command].values()) {
-      for (const cmd of command) {
-        console.log(cmd.meta.root, ' ==> ', Reflect.getMetadata('identity', cmd))
-      }
+    for (const cmd of this.ctx[Symbols.command].values()) {
+      // for (const cmd of command) {
+      // console.log(cmd.meta.root, ' ==> ', Reflect.getMetadata('identity', cmd))
+      // }
     }
   }
 

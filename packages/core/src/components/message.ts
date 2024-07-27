@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-import { stringRightSplit } from '@kotori-bot/tools'
 import type { Context, EventsList } from 'fluoro'
 import type { I18n } from '@kotori-bot/i18n'
 import { CronJob } from 'cron'
@@ -40,12 +39,11 @@ export class Message {
   private handleMidware(session: SessionData) {
     const { api } = session
     let isPass = true
-    let midwares: MidwareData[] = []
+    const midwares = Array.from(this[Symbols.midware].values()).sort(
+      (first, second) => first.priority - second.priority
+    )
 
     api.adapter.status.receivedMsg += 1
-    this[Symbols.midware].forEach((val) => midwares.push(val))
-    midwares = midwares.sort((first, second) => first.priority - second.priority)
-
     let lastMidwareNum = -1
     while (midwares.length > 0) {
       if (lastMidwareNum === midwares.length) {
@@ -63,31 +61,31 @@ export class Message {
     const { session } = data
     if (!data.isPass) return
 
-    this[Symbols.regexp].forEach((data) => {
+    for (const data of this[Symbols.regexp]) {
       const result = session.message.match(data.match)
-      if (!result) return
+      if (!result) continue
       session.quick(data.callback(result, session))
       this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message })
-    })
+    }
   }
 
-  private handleCommand(data: EventsList['midwares']) {
+  private async handleCommand(data: EventsList['midwares']) {
     const { session } = data
     const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
 
-    /* parse command shortutcs */
-    this[Symbols.command].forEach((cmd) =>
-      cmd.meta.shortcut.forEach((shortcut) => {
-        if (session.message.startsWith(shortcut))
-          session.message = session.message.replace(shortcut, `${prefix}${cmd.meta.root}`)
-      })
-    )
+    /* parse command shortcuts */
+    for (const cmd of this[Symbols.command]) {
+      for (const shortcut of cmd.meta.shortcut) {
+        if (!session.message.startsWith(shortcut)) continue
+        session.message = session.message.replace(shortcut, `${prefix}${cmd.meta.root}`)
+      }
+    }
 
     if (!session.message.startsWith(prefix)) return
 
     const params = {
       session,
-      raw: stringRightSplit(session.message, prefix)
+      raw: session.message.slice(prefix.length)
     }
     this.ctx.emit('before_parse', params)
 
@@ -96,20 +94,20 @@ export class Message {
     if (cancel.value) return
 
     let matched: undefined | Command
-    this[Symbols.command].forEach(async (cmd) => {
-      if (matched || !cmd.meta.action) return
+    for (const cmd of this[Symbols.command]) {
+      if (matched || !cmd.meta.action) continue
       const result = Command.run(params.raw, cmd.meta)
-      if (result instanceof CommandError && result.value.type === 'unknown') return
+      if (result instanceof CommandError && result.value.type === 'unknown') continue
 
       matched = cmd
       this.ctx.emit('parse', { command: cmd, result, ...params, cancel: cancel.get() })
-      if (cancel.value || result instanceof CommandError) return
+      if (cancel.value || result instanceof CommandError) continue
 
       try {
-        const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
+        const executed = cmd.meta.action({ args: result.args, options: result.options }, session)
         if (executed instanceof CommandError) {
           this.ctx.emit('command', { command: cmd, result: executed, ...params })
-          return
+          continue
         }
         if (executed !== undefined) session.quick(executed)
         this.ctx.emit('command', {
@@ -118,13 +116,9 @@ export class Message {
           ...params
         })
       } catch (error) {
-        this.ctx.emit('command', {
-          command: matched,
-          result: new CommandError({ type: 'error', error }),
-          ...params
-        })
+        this.ctx.emit('command', { command: matched, result: new CommandError({ type: 'error', error }), ...params })
       }
-    })
+    }
 
     if (matched) return
     this.ctx.emit('parse', {
@@ -148,7 +142,7 @@ export class Message {
     })
   }
 
-  public midware(callback: MidwareCallback, priority: number = 100) {
+  public midware(callback: MidwareCallback, priority = 100) {
     const data = { callback, priority }
     this[Symbols.midware].add(data)
     const dispose = () => this[Symbols.midware].delete(data)
@@ -157,6 +151,7 @@ export class Message {
   }
 
   public command<T extends string>(template: T, config?: CommandConfig) {
+    // biome-ignore lint:
     const command = new Command<T, {}>(template, config)
     this[Symbols.command].add(command as unknown as Command)
     // TODO: better way to dispose
@@ -187,15 +182,15 @@ export class Message {
 
   public notify(message: MessageQuick) {
     const mainAdapterIdentity = Object.keys(this.ctx.config.adapter)[0]
-    this.ctx[Symbols.bot].forEach((apis) =>
-      apis.forEach((api) => {
-        if (api.adapter.identity !== mainAdapterIdentity) return
+    for (const apis of this.ctx[Symbols.bot].values()) {
+      for (const api of apis) {
+        if (api.adapter.identity !== mainAdapterIdentity) continue
         quickFactory(
           sendMessageFactory(api.adapter, 'on_message', { userId: api.adapter.config.master }),
           this.ctx.i18n.extends(api.adapter.config.lang) as I18n
         )(message)
-      })
-    )
+      }
+    }
   }
 
   public task(options: string | { cron: string; start?: boolean; timeZone?: string }, callback: TaskCallback) {

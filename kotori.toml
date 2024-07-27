@@ -1,0 +1,18 @@
+[global]
+port = 720
+lang = "en_US"
+command-prefix = "/"
+dirs = []
+noColor = false
+level = 25
+
+[adapter.cmd-test]
+extends = "cmd"
+master = 2333
+nickname = "Kotarou"
+age = 18
+sex = "male"
+self-id = 720
+
+[plugin.helper]
+content = "test menu"

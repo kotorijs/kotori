@@ -1,9 +1,9 @@
-import env from 'dotenv'
 import cac from 'cac'
-import { Loader, Logger } from '@kotori-bot/loader'
+import { BUILD_MODE, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
 import { resolve } from 'node:path'
-
-env.config()
+import env from './utils/env'
+import { type Context, executeCommand, supportTs } from '@kotori-bot/core'
+import daemon from './daemon'
 
 const program = cac()
 
@@ -14,32 +14,51 @@ program.help()
 
 program
   .command('')
-  .option('-D, --dir [path]', 'Set running root dir of program', {
-    default: ''
-  })
-  .option('-M, --mode [name]', 'Set running mode of program,build or dev', {
-    default: 'build'
-  })
-  .option('-L, --level [number]', 'Set level of log output', {
-    default: 25
-  })
-  .option('-C, --config [name]', 'Set name of config file', {
-    default: 'kotori'
-  })
-  .option('-U, --use-color [bool]', 'Set wether use logger colors', {
-    default: false
-  })
-  .option('-L, --log [booo]', 'Set level of log output', {
-    default: true
-  })
+  .option('--daemon', 'Set daemon process')
+  .option('--mode [name]', 'Set running mode of program, build or dev')
+  .option('--dir [path]', 'Set running root dir of program')
+  .option('--config [name]', 'Set name of config file')
+  .option('--level [number]', 'Set level of log output')
+  .option('--port [number]', 'Set port of server')
+  .option('--nocolor', 'Do not use logger colors')
   .action((options) => {
-    const Kotori = new Loader({
-      mode: options.mode || (process.env.NODE_ENV === 'production' ? 'build' : 'dev'),
-      dir: options.dir ?? process.env.DIR,
-      level: Number(options.log ?? process.env.LOG_LEVEL) || undefined,
-      useColor: options['use-color'] || process.env.USE_COLOR !== 'off'
-    })
-    Kotori.run()
+    const loaderOptions = Object.assign(env, { mode: (options.mode ?? env.mode) === DEV_MODE ? DEV_MODE : BUILD_MODE })
+    if (options.dir !== undefined) loaderOptions.dir = options.dir
+    if (options.config) loaderOptions.config = options.config
+    if (options.level !== undefined) loaderOptions.level = Number.parseInt(options.level)
+    if (options.port !== undefined) loaderOptions.port = Number.parseInt(options.port)
+    if (options.nocolor) loaderOptions.noColor = true
+
+    const virtualEnv = {
+      ...process.env,
+      NODE_ENV: loaderOptions.mode === DEV_MODE ? 'dev' : 'build',
+      CONFIG: loaderOptions.config,
+      DIR: loaderOptions.dir,
+      PORT: loaderOptions.port !== undefined ? String(loaderOptions.port) : undefined,
+      LEVEL: loaderOptions.level !== undefined ? String(loaderOptions.level) : undefined,
+      NO_COLOR: loaderOptions.noColor !== undefined ? (loaderOptions.noColor ? 'on' : 'off') : undefined,
+      IS_DAEMON: 'on'
+    }
+    // Auto checkout running environment when using daemon
+    if (!options.daemon && loaderOptions.mode === DEV_MODE && !supportTs()) {
+      // Exec tsx child process to support typescript file dynamic import when in dev mode but no daemon
+      const child = executeCommand(
+        `npm exec tsx "${resolve(__filename)}"`,
+        { cwd: process.cwd(), env: virtualEnv },
+        (error, stdout, stderr) => {
+          if (stdout) process.stderr.write(stdout)
+          if (stderr) process.stderr.write(stderr)
+          if (error) process.stderr.write(error.message)
+        }
+      )
+      process.stdin.on('data', (...args) => child.stdin?.emit('data', ...args))
+      return
+    }
+
+    if (options.daemon) return daemon(virtualEnv)
+    const kotori = new Loader(loaderOptions)
+    ;(kotori as unknown as { ctx: Context }).ctx.meta.version = require(resolve(__dirname, '../package.json')).version
+    kotori.run()
   })
 
 program
@@ -59,5 +78,10 @@ program
 
 program.command('module search <name>').action(() => Logger.info('module search'))
 program.command('module download <name>').action(() => Logger.info('module download'))
+
+program.on('command:*', () => {
+  Logger.error('Invalid command: %s', program.args.join(' '))
+  process.exit(1)
+})
 
 program.parse()

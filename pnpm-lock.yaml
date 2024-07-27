@@ -295,8 +295,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2
       tsukiko:
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.4.2
+        version: 1.4.2
 
   packages/i18n: {}
 
@@ -320,10 +320,10 @@ importers:
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
-    devDependencies:
       tsx:
         specifier: ^4.11.2
         version: 4.11.2
+    devDependencies:
       typescript:
         specifier: ^5.1.3
         version: 5.2.2
@@ -884,6 +884,9 @@ packages:
 
   '@types/http-errors@2.0.4':
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
+
+  '@types/json-schema@7.0.15':
+    resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
   '@types/luxon@3.4.2':
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
@@ -2033,8 +2036,8 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
-  tsukiko@1.3.1:
-    resolution: {integrity: sha512-rGkz0vvo0hrkAZQa31CEPMON9joLuvLLtqSu8mDZ3rj+pfeuq7R+YoW2L7YK8YDcfUEggIEEi7KHD4ZRZT+Fmw==}
+  tsukiko@1.4.2:
+    resolution: {integrity: sha512-8DaEZe3zCy7XYDAuvIPFLGf4BtM2EwNnuQpXp/CCg5aNELHTfJM9k7ssJ/CAQnkt5izjLI/yr3UqTk90bm18mQ==}
 
   tsup@8.1.0:
     resolution: {integrity: sha512-UFdfCAXukax+U6KzeTNO2kAARHcWxmKsnvSPXUcfA1D+kU05XDccCrkffCQpFaWDsZfV0jMyTsxU39VfCp6EOg==}
@@ -2506,6 +2509,8 @@ snapshots:
       '@types/node': 20.14.2
 
   '@types/http-errors@2.0.4': {}
+
+  '@types/json-schema@7.0.15': {}
 
   '@types/luxon@3.4.2': {}
 
@@ -3255,7 +3260,7 @@ snapshots:
       '@kotori-bot/tools': 1.4.1
       cac: 6.7.14
       fluoro: 1.0.2
-      tsukiko: 1.3.1
+      tsukiko: 1.4.2
       ws: 8.17.0
     transitivePeerDependencies:
       - bufferutil
@@ -3675,9 +3680,11 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsukiko@1.3.1:
+  tsukiko@1.4.2:
     dependencies:
       '@kotori-bot/i18n': 1.3.1
+      '@types/json-schema': 7.0.15
+      reflect-metadata: 0.2.2
 
   tsup@8.1.0(typescript@5.4.5):
     dependencies:
