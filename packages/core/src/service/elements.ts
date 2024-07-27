@@ -1,7 +1,8 @@
 import { none } from '@kotori-bot/tools'
-import type { string } from '../types'
 
 export class Elements {
+  public adapter: any = {}
+
   private default(...args: unknown[]) {
     none(this, args)
     return ''

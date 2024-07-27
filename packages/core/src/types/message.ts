@@ -109,7 +109,8 @@ export type CommandResultExtra = {
 export type SessionData = EventsList['on_message']
 export enum MessageScope {
   PRIVATE = 0,
-  GROUP = 1
+  GROUP = 1,
+  CHANNEL = 2
 }
 export type MessageRaw = string
 export type MessageQuickReal =
@@ -195,6 +196,8 @@ export interface EventDataApiBase {
   messageId?: string
   groupId?: string
   operatorId?: string
+  channelId?: string
+  guildId?: string
   // biome-ignore lint:
   meta?: any
 }

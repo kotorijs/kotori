@@ -23,6 +23,7 @@ declare module 'fluoro' {
     readonly [Symbols.regexp]: Message[typeof Symbols.regexp]
     readonly [Symbols.task]: Message[typeof Symbols.task]
     readonly [Symbols.filter]: Message[typeof Symbols.filter]
+    readonly [Symbols.promise]: Message[typeof Symbols.promise]
     midware: Message['midware']
     command: Message['command']
     regexp: Message['regexp']
@@ -43,6 +44,12 @@ function initialize(ctx: Context) {
     for (const [key, filter] of ctx[Symbols.filter].entries()) if (key === identity) return filter.test(session)
     return true
   }
+
+  ctx.midware((next, session) => {
+    //  Throttle valve for `session.prompt()` and ``session.confirm()`
+    if (session.userId in ctx[Symbols.promise]) return
+    next()
+  })
 
   ctx.on('parse', (data) => {
     const { identity } = getCommandMeta(data.command) ?? {}
