@@ -12,16 +12,8 @@
     "colorette": "^2.0.20",
     "yaml": "^2.3.3"
   },
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "tools"
-  ],
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
+  "keywords": ["kotori", "chatbot", "tools"],
+  "files": ["dist", "LICENSE", "README.md", "testing.ts"],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },

@@ -1,34 +1,20 @@
 {
   "name": "kotori-bot",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",
   "author": "Arimura Sena <biyuehuya@gmail.com>",
   "scripts": {
-    "start": "node ./lib/start/build.js",
-    "cli-dev": "tsx ./lib/start/dev.js"
+    "start": "node dist/cli.js --mode build --daemon",
+    "dev": "tsx src/cli.ts --mode dev"
   },
   "bin": {
     "kotori": "./bin.js",
-    "kotori-bot": "./bin.js",
-    "kotori-q": "./bin-q.js"
+    "kotori-bot": "./bin.js"
   },
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "bot",
-    "nodejs",
-    "back-end"
-  ],
-  "files": [
-    "lib",
-    "kotori.yml",
-    "bin.js",
-    "LICENSE",
-    "README.md",
-    "tsconfig.base.json"
-  ],
+  "keywords": ["kotori", "chatbot", "bot", "nodejs", "back-end"],
+  "files": ["lib", "kotori.yml", "bin.js", "LICENSE", "README.md", "tsconfig.base.json"],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },
@@ -40,13 +26,11 @@
   "dependencies": {
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/loader": "workspace:^",
-    "@types/shelljs": "^0.8.15",
     "cac": "^6.7.14",
     "dotenv": "^16.4.5",
-    "shelljs": "^0.8.5"
+    "tsx": "^4.11.2"
   },
   "devDependencies": {
-    "tsx": "^4.11.2",
     "typescript": "^5.1.3"
   }
 }

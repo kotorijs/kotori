@@ -1,19 +1,6 @@
-import Tsu from 'tsukiko'
 import { resolve } from 'node:path'
-import { loadConfig } from '@kotori-bot/tools'
 import type { CoreConfig } from '../types'
 import { DEFAULT_CORE_CONFIG } from '../global'
-
-// const packageInfoSchema = Tsu.Object({
-//   name: Tsu.String(),
-//   version: Tsu.String(),
-//   description: Tsu.String(),
-//   main: Tsu.String(),
-//   license: Tsu.Literal('GPL-3.0'),
-//   author: Tsu.String()
-// })
-
-// to interface
 
 interface MetaInfo {
   name: string
@@ -31,8 +18,9 @@ export class Config {
 
   public readonly meta: MetaInfo
 
-  public constructor(config: CoreConfig = DEFAULT_CORE_CONFIG) {
-    this.config = config
+  public constructor(config: Omit<Partial<CoreConfig>, 'global'> & { global?: Partial<CoreConfig['global']> } = {}) {
+    this.config = Object.assign(DEFAULT_CORE_CONFIG, config)
+    this.config.global = Object.assign(DEFAULT_CORE_CONFIG.global, this.config.global)
     /* load package.json */
     // const info = loadConfig(resolve(__dirname, '../../package.json')) as unknown as MetaInfo
     // if (!info || Object.values(info).length === 0) {
@@ -45,7 +33,8 @@ export class Config {
     //   process.exit()
     // }
     const info: MetaInfo = require(resolve(__dirname, '../../package.json'))
-    info.coreVersion = info.version!
+    info.coreVersion = info.version as string
+    // biome-ignore lint:
     delete info.version
     this.meta = info
   }

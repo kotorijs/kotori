@@ -1,39 +1,29 @@
-import fs, { existsSync } from 'node:fs'
-import path, { resolve } from 'node:path'
+import fs from 'node:fs'
+import path from 'node:path'
 import {
   ADAPTER_PREFIX,
   Adapter,
-  Context,
+  type Context,
   DATABASE_PREFIX,
   DevError,
-  LocaleType,
-  ModuleConfig,
+  type LocaleType,
+  type ModuleConfig,
   ModuleError,
   PLUGIN_PREFIX,
   Parser,
   Service,
   Symbols,
   Tsu,
-  stringRightSplit
+  TsuError
 } from '@kotori-bot/core'
 import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
-import {
-  BUILD_FILE,
-  BUILD_MODE,
-  CORE_MODULES,
-  // CORE_MODULES,
-  DEV_CODE_DIRS,
-  DEV_FILE,
-  DEV_IMPORT,
-  DEV_MODE
-} from '../constants'
+import { type BUILD_MODE, CORE_MODULES, DEV_MODE } from '../constants'
 import '../types/internal'
 import KotoriLogger from '../utils/logger'
 import './loader'
 
 interface BaseDir {
   root: string
-  modules: string
   data: string
   logs: string
   config: string
@@ -77,7 +67,12 @@ interface ModuleMeta {
 export const localeTypeSchema = Tsu.Union(Tsu.Literal('en_US'), Tsu.Literal('ja_JP'), Tsu.Literal('zh_TW'), Tsu.Any())
 
 const modulePackageSchema = Tsu.Object({
-  name: Tsu.String().regexp(/kotori-plugin-[a-z]([a-z,0-9]{2,13})\b/),
+  name: Tsu.Custom<string>((input) => {
+    if (typeof input !== 'string') return false
+    /*  package name must prefix with 'kotori-plugin-' if don't have scope */
+    if (!input.startsWith('@') && /kotori-plugin-[a-z]([a-z,0-9]{2,13})\b/.exec(input) === null) return false
+    return true
+  }),
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
@@ -100,7 +95,7 @@ const modulePackageSchema = Tsu.Object({
   })
 })
 
-function moduleLoadOrder(pkg: ModulePackage) {
+function moduleLoaderOrder(pkg: ModulePackage) {
   if (CORE_MODULES.includes(pkg.name)) return 1
   if (pkg.name.includes(DATABASE_PREFIX)) return 2
   if (pkg.name.includes(ADAPTER_PREFIX)) return 3
@@ -128,13 +123,13 @@ export class Runner {
     this.isDev = this.options.mode === DEV_MODE
 
     const loggerOptions = {
-      level: this.ctx.config.global.level!,
+      level: this.ctx.config.global.level,
       label: [],
       transports: [
         new ConsoleTransport({
           template: '<blue>%time%</blue> %level% (<bold>%pid%</bold>) %labels%: %msg%',
           time: 'M/D H:m:s',
-          useColor: this.ctx.config.global.useColor
+          useColor: !this.ctx.config.global.noColor
         }),
         new FileTransport({ dir: this.baseDir.logs, filter: (data) => data.level >= LoggerLevel.WARN })
       ]
@@ -148,71 +143,61 @@ export class Runner {
     const files = fs.readdirSync(rootDir)
     const list: string[] = []
 
-    files.forEach((fileName) => {
+    for (const fileName of files) {
       const file = path.join(rootDir, fileName)
       if (fs.statSync(file).isDirectory()) {
         list.push(...this.getDirFiles(file))
       }
-      if (path.parse(file).ext !== (this.isDev ? DEV_FILE : BUILD_FILE)) return
+      if (path.parse(file).ext === '.ts' && !this.isDev) continue
       list.push(path.resolve(file))
-    })
-    return list
-  }
+    }
 
-  private getModuleRootDir() {
-    const moduleRootDir: string[] = []
-    ;[
-      ...this.ctx.config.global.dirs.map((dir) => path.resolve(this.ctx.baseDir.root, dir)),
-      this.ctx.baseDir.modules
-    ].forEach((dir) => {
-      if (fs.existsSync(dir) && fs.statSync(dir).isDirectory()) moduleRootDir.push(dir)
-    })
-    return moduleRootDir
+    return list
   }
 
   private async checkModuleFiles(rootDir: string, filename: string) {
     const dir = path.join(rootDir, filename)
-    if (!fs.statSync(dir).isDirectory()) return
-    if (rootDir !== this.ctx.baseDir.modules && !filename.startsWith(PLUGIN_PREFIX)) return
+    if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) return
 
-    const packagePath = path.join(dir, 'package.json')
+    // Only try to check the modules which folder name prefixed with "kotori-plugin-" at node_modules directory
+    const dirArr = path.parse(dir).dir.split('/')
+    if (dirArr[dirArr.length - 1].endsWith('node_modules') && !filename.startsWith(PLUGIN_PREFIX)) return
+
+    const pkgPath = path.join(dir, 'package.json')
     let pkg: ModulePackage
+    if (!fs.existsSync(pkgPath)) return
 
-    if (!fs.existsSync(packagePath)) return
     try {
-      pkg = JSON.parse(fs.readFileSync(packagePath).toString())
-    } catch {
-      throw new DevError(this.ctx.format('error.dev.package.illegal', [packagePath]))
+      pkg = modulePackageSchema.parse(JSON.parse(fs.readFileSync(pkgPath).toString()))
+    } catch (e) {
+      if (e instanceof TsuError) throw new DevError(this.ctx.format('error.dev.package.missing', [pkgPath, e.message]))
+      throw new DevError(this.ctx.format('error.dev.package.illegal', [pkgPath]))
     }
 
-    const result = modulePackageSchema.parseSafe(pkg)
-    if (!result.value) {
-      if (rootDir !== this.ctx.baseDir.modules) return
-      throw new DevError(this.ctx.format('error.dev.package.missing', [packagePath, result.error.message]))
-    }
-
-    pkg = result.data
-    const devMode = this.isDev && existsSync(path.resolve(dir, DEV_IMPORT))
-    const main = path.resolve(dir, devMode ? DEV_IMPORT : pkg.main)
+    const main = path.resolve(dir, this.isDev ? 'src/index.ts' : pkg.main)
     if (!fs.existsSync(main)) throw new DevError(this.ctx.format('error.dev.main_file', [main]))
-    const dirs = path.join(dir, devMode ? DEV_CODE_DIRS : path.dirname(pkg.main))
-    const files = fs.statSync(dirs).isDirectory() ? this.getDirFiles(dirs) : []
+    const files = this.getDirFiles(path.join(dir, this.isDev ? 'src' : path.parse(pkg.main).dir))
 
-    this[Symbols.modules].set(pkg.name, [
-      { pkg, files, main },
-      this.ctx.config.plugin[stringRightSplit(pkg.name, PLUGIN_PREFIX)] || {}
-    ])
+    const [pkgScope, pkgName] = pkg.name.split('/')
+    const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).slice((pkgName ?? pkgScope).includes(PLUGIN_PREFIX) ? PLUGIN_PREFIX.length : 0)}`
+    this[Symbols.modules].set(pkg.name, [{ pkg, files, main }, this.ctx.config.plugin[pluginName] || {}])
   }
 
-  private getModuleList(rootDir: string) {
-    this.ctx.logger.trace('load dirs:', rootDir)
-    fs.readdirSync(rootDir).forEach(async (filename) => {
-      await this.checkModuleFiles(rootDir, filename)
-    })
+  private getModuleList() {
+    const handleDirs = this.ctx.config.global.dirs
+      .map((item) => path.resolve(this.ctx.baseDir.root, item))
+      .filter((dir) => fs.existsSync(dir) && fs.statSync(dir).isDirectory())
+
+    for (const item of handleDirs) {
+      const dir = path.resolve(this.ctx.baseDir.root, item)
+      if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) continue
+      this.ctx.logger.trace('load dirs:', dir)
+      for (const filename of fs.readdirSync(dir)) this.checkModuleFiles(dir, filename)
+    }
   }
 
   private loadLang(lang?: string | string[]) {
-    if (lang) this.ctx.i18n.use(resolve(...(Array.isArray(lang) ? lang : [lang])))
+    if (lang) this.ctx.i18n.use(path.resolve(...(Array.isArray(lang) ? lang : [lang])))
   }
 
   private loadEx(instance: ModuleMeta, origin: ModuleConfig) {
@@ -228,70 +213,69 @@ export class Runner {
     }
 
     const { main, pkg } = instance
-    /* eslint-disable-next-line import/no-dynamic-require, global-require, @typescript-eslint/no-var-requires */
     let obj = require(main)
     let config = origin
     const adapterName = pkg.name.split(ADAPTER_PREFIX)[1]
-    const plguinName = pkg.name.split(PLUGIN_PREFIX)[1]
 
-    // exclude plugins was registered by decorators
+    // Exclude plugins was registered by decorators
     if (this.ctx.get<{ registers: string[] } | undefined>('decorators')?.registers.includes(pkg.name)) {
       this.ctx.emit('ready_module_decorators', pkg.name)
       return
     }
 
-    const isAdvancedModule = !obj.config || obj.config instanceof Parser
-    if (isAdvancedModule && Adapter.isPrototypeOf.call(Adapter, obj.default) && adapterName) {
+    if (obj.config instanceof Parser) {
       /* Adapter Class */
-      this.ctx[Symbols.adapter].set(adapterName, [obj.default, obj.config])
-      obj = {}
-    } else if (obj.config instanceof Parser) {
-      config = parsed(obj.config)
+      // Adapter don't directly parse reality config, save config parser
+      if (obj.default && Adapter.isPrototypeOf.call(Adapter, obj.default) && adapterName) {
+        this.ctx[Symbols.adapter].set(adapterName, [obj.default, obj.config])
+        obj = {}
+      } else {
+        config = parsed(obj.config)
+      }
     }
 
+    /* Load lang files and parse reality config */
     if (obj.lang) this.loadLang(obj.lang)
-    if (obj.default) {
-      if (obj.default.lang) this.loadLang(obj.default.lang)
-      if (obj.default.config instanceof Parser) config = parsed(obj.default.config)
-    } else if (obj.Main) {
-      if (obj.Main.lang) this.loadLang(obj.Main.lang)
-      if (obj.Main.config instanceof Parser) config = parsed(obj.Main.config ?? {})
-    }
+    if (obj.default?.lang) this.loadLang(obj.default.lang)
+    if (obj.Main?.lang) this.loadLang(obj.Main.lang)
+    if (obj.default?.config instanceof Parser) config = parsed(obj.default.config)
+    if (obj.Main?.config instanceof Parser) config = parsed(obj.Main.config)
 
-    if (isAdvancedModule && obj.default.isPrototypeOf.call(Service, obj.default)) {
-      /* Service Class */
+    /* Service Class */
+    // Service need parse reality config and load lang files
+    if (Service.isPrototypeOf.call(Service, obj.default)) {
       this.ctx.service('', new obj.default(this.ctx.extends(), config))
+      // but it is different with normal plugin: need not load immediately so reset obj
       obj = {}
     }
 
     this.ctx.load({ name: pkg.name, ...obj, config })
   }
 
-  private unloadEx(instance: ModuleMeta) {
-    instance.files.forEach((file) => delete require.cache[require.resolve(file)])
-    this.ctx.load({ name: instance.pkg.name })
+  private unloadEx({ files, pkg }: ModuleMeta) {
+    for (const file of files) delete require.cache[require.resolve(file)]
+    this.ctx.load({ name: pkg.name })
   }
 
   public loadAll() {
-    this.getModuleRootDir().forEach((dir) => this.getModuleList(dir))
-    const modules: [ModuleMeta, ModuleConfig][] = []
-    this[Symbols.modules].forEach((val) => modules.push(val))
-    modules
-      .sort(([{ pkg: pkg1 }], [{ pkg: pkg2 }]) => moduleLoadOrder(pkg1) - moduleLoadOrder(pkg2))
-      .forEach((el) => this.loadEx(...el))
+    this.getModuleList()
+    const handleModules = Array.from(this[Symbols.modules].values()).sort(
+      (m1, m2) => moduleLoaderOrder(m1[0].pkg) - moduleLoaderOrder(m2[0].pkg)
+    )
+    for (const el of handleModules) this.loadEx(...el)
     if (this.isDev) this.watcher()
   }
 
   public watcher() {
-    this[Symbols.modules].forEach((data) =>
-      data[0].files.forEach((file) =>
-        fs.watchFile(file, async () => {
+    for (const data of this[Symbols.modules].values()) {
+      for (const file of data[0].files) {
+        fs.watchFile(file, () => {
           this.ctx.logger.debug(this.ctx.format('loader.debug.reload', [data[0].pkg.name]))
           this.unloadEx(data[0])
           this.loadEx(...data)
         })
-      )
-    )
+      }
+    }
   }
 }
 

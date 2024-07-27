@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-06-05 11:06:52
+ * @LastEditTime: 2024-07-25 20:15:58
  */
 import {
   KotoriError,
@@ -16,18 +16,25 @@ import {
   loadConfig,
   TsuError,
   Core,
-  Context,
+  type Context,
   ModuleError,
-  DEFAULT_PORT,
   formatFactory,
-  Http
+  Http,
+  configFileType
 } from '@kotori-bot/core'
 import path from 'node:path'
 import fs from 'node:fs'
 import Logger, { LoggerLevel } from '@kotori-bot/logger'
 import Runner, { localeTypeSchema } from './runner'
 import loadInfo from '../utils/log'
-import { CONFIG_NAME, BUILD_MODE, CONFIG_EXT, DEV_MODE, SUPPORTS_HALF_VERSION, SUPPORTS_VERSION } from '../constants'
+import {
+  CONFIG_NAME,
+  BUILD_MODE,
+  SUPPORTS_HALF_VERSION,
+  SUPPORTS_VERSION,
+  DEFAULT_LOADER_CONFIG,
+  DEV_MODE
+} from '../constants'
 import Server from '../service/server'
 import type Database from '../service/database'
 import File from '../service/file'
@@ -52,65 +59,74 @@ declare module '@kotori-bot/core' {
   interface GlobalConfig {
     dirs: string[]
     port: number
+    level: number
+    noColor: boolean
   }
 }
 
-const enum GLOBAL {
-  REPO = 'https://github.com/kotorijs/kotori',
-  UPDATE = 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/packages/core/package.json'
+interface LoaderOptions {
+  mode: typeof DEV_MODE | typeof BUILD_MODE
+  dir?: string
+  config?: string
+  port?: number
+  level?: number
+  noColor?: boolean
+}
+
+const GLOBAL = {
+  REPO: 'https://github.com/kotorijs/kotori',
+  UPDATE: 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/package.json'
 }
 
 function getBaseDir(filename: string, dir?: string) {
   let root = dir ? path.resolve(dir) : path.resolve(__dirname, '..').replace('loader', 'kotori')
-  let filenameFull: string | undefined
   let count = 0
-  let index = 0
+  let isFound = false
 
-  while (!filenameFull) {
+  while (!isFound) {
     if (count > 5) {
       Logger.fatal(`cannot find file ${filename} `)
       process.exit()
     }
 
-    const fullName = `${filename}${CONFIG_EXT[index]}`
-    if (fs.existsSync(path.join(root, fullName))) {
-      filenameFull = fullName
+    if (fs.existsSync(path.join(root, filename))) {
+      isFound = true
       break
     }
-    if (index === CONFIG_EXT.length - 1) {
-      root = path.join(root, '..')
-      index = 0
-      count += 1
-    } else {
-      index += 1
-    }
+
+    count += 1
+    root = path.resolve(root, '..')
   }
 
   const baseDir = {
     root,
-    modules: path.join(root, 'modules'),
     data: path.join(root, 'data'),
     logs: path.join(root, 'logs'),
-    config: filenameFull
+    config: filename
   }
-  Object.entries(baseDir)
-    .filter(([key]) => !['modules', 'config'].includes(key))
-    .forEach(([, val]) => {
-      if (!fs.existsSync(val)) fs.mkdirSync(val)
-    })
+
+  for (const [key, val] of Object.entries(baseDir)) {
+    if (['modules', 'config'].includes(key)) continue
+    if (!fs.existsSync(val)) fs.mkdirSync(val)
+  }
+
   return baseDir
 }
 
-/* eslint consistent-return: 0 */
-function getCoreConfig(baseDir: Runner['baseDir']) {
+function getConfig(baseDir: Runner['baseDir'], loaderOptions?: LoaderOptions) {
   try {
-    const result1 = Tsu.Object({
+    let ext = baseDir.config.split('.').pop()
+    if (!ext || ext === 'txt' || !configFileType.includes(ext as 'json')) ext = 'json'
+
+    const result = Tsu.Object({
       global: Tsu.Object({
-        dirs: Tsu.Array(Tsu.String()).default([]),
-        port: Tsu.Number().default(DEFAULT_PORT),
         lang: localeTypeSchema.default(DEFAULT_CORE_CONFIG.global.lang),
-        'command-prefix': Tsu.String().default(DEFAULT_CORE_CONFIG.global['command-prefix'])
-      }),
+        'command-prefix': Tsu.String().default(DEFAULT_CORE_CONFIG.global['command-prefix']),
+        dirs: Tsu.Array(Tsu.String()).default(DEFAULT_LOADER_CONFIG.dirs),
+        level: Tsu.Number().default(DEFAULT_LOADER_CONFIG.level),
+        port: Tsu.Number().default(DEFAULT_LOADER_CONFIG.port),
+        noColor: Tsu.Boolean().default(DEFAULT_LOADER_CONFIG.noColor)
+      }).default(Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG)),
       plugin: Tsu.Object({})
         .index(
           Tsu.Object({
@@ -119,8 +135,23 @@ function getCoreConfig(baseDir: Runner['baseDir']) {
         )
         .default(DEFAULT_CORE_CONFIG.plugin)
     })
-      .default({ global: Object.assign(DEFAULT_CORE_CONFIG.global), plugin: DEFAULT_CORE_CONFIG.plugin })
-      .parse(loadConfig(path.join(baseDir.root, baseDir.config), baseDir.config.split('.').pop() as 'json'))
+      .default({
+        global: Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG),
+        plugin: DEFAULT_CORE_CONFIG.plugin
+      })
+      .parse(loadConfig(path.join(baseDir.root, baseDir.config), ext as 'json')) as CoreConfig
+
+    /* Merge loader options */
+    // priority: options (Cli args > Env variables) > baseDir (config file) > default
+    if (loaderOptions?.level !== undefined) result.global.level = loaderOptions.level
+    if (loaderOptions?.port !== undefined) result.global.port = loaderOptions.port
+    if (loaderOptions?.noColor !== undefined) result.global.noColor = loaderOptions.noColor
+    if (result.global.dirs.length === 0) result.global.dirs = DEFAULT_LOADER_CONFIG.dirs
+    if (loaderOptions?.mode === DEV_MODE) {
+      // Base on running mode auto set logger level
+      if (result.global.level === DEFAULT_LOADER_CONFIG.level) result.global.level = LoggerLevel.DEBUG
+      if (!result.global.dirs.includes('modules')) result.global.dirs = ['modules', ...result.global.dirs]
+    }
 
     return Tsu.Object({
       adapter: Tsu.Object({})
@@ -128,12 +159,12 @@ function getCoreConfig(baseDir: Runner['baseDir']) {
           Tsu.Object({
             extends: Tsu.String(),
             master: Tsu.Union(Tsu.Number(), Tsu.String()),
-            lang: localeTypeSchema.default(result1.global.lang),
-            'command-prefix': Tsu.String().default(result1.global['command-prefix'])
+            lang: localeTypeSchema.default(result.global.lang),
+            'command-prefix': Tsu.String().default(result.global['command-prefix'])
           })
         )
         .default(DEFAULT_CORE_CONFIG.adapter)
-    }).parse(result1) as CoreConfig
+    }).parse(result) as CoreConfig
   } catch (err) {
     if (!(err instanceof TsuError)) throw err
     Logger.fatal(`file ${baseDir.config} format error: ${err.message}`)
@@ -144,42 +175,29 @@ function getCoreConfig(baseDir: Runner['baseDir']) {
 export class Loader extends Container {
   private readonly ctx: Context
 
-  private loadCount: number = 0
+  private loadCount = 0
 
-  public constructor(options?: {
-    dir?: string
-    mode?: string
-    level?: number
-    configName?: string
-    useColor?: boolean
-  }) {
+  public constructor(loaderOptions?: LoaderOptions) {
     super()
-    const runnerConfig = {
-      baseDir: getBaseDir(options?.configName || CONFIG_NAME, options?.dir),
-      options: { mode: (options?.mode || BUILD_MODE) as typeof BUILD_MODE },
-      level: options?.level || options?.mode?.startsWith(DEV_MODE) ? LoggerLevel.DEBUG : LoggerLevel.RECORD
-    }
-    const ctx = new Core(getCoreConfig(runnerConfig.baseDir))
-    if (ctx.config.global.useColor === undefined) ctx.config.global.useColor = options?.useColor ?? true
-    if (ctx.config.global.level === undefined) ctx.config.global.level = options?.level ?? LoggerLevel.INFO
-    ctx.root.meta.loaderVersion = require(path.resolve(__dirname, '../../package.json')).version
+    const baseDir = getBaseDir(loaderOptions?.config || CONFIG_NAME, loaderOptions?.dir)
+    const options = { mode: loaderOptions?.mode || BUILD_MODE }
 
-    ctx.provide('runner', new Runner(ctx, runnerConfig))
+    const ctx = new Core(getConfig(baseDir, options))
+    ctx.root.meta.loaderVersion = require(path.resolve(__dirname, '../../package.json')).version
+    ctx.provide('runner', new Runner(ctx, { baseDir, options }))
     ctx.mixin('runner', ['baseDir', 'options'])
     Container.setInstance(ctx)
     ctx.provide('loader-tools', { format: formatFactory(ctx.i18n), locale: ctx.i18n.locale.bind(ctx.i18n) })
-
     ctx.mixin('loader-tools', ['locale', 'format'])
     ctx.i18n.use(path.resolve(__dirname, '../../locales'))
 
     this.ctx = Container.getInstance()
-    this.ctx.logger.trace(`options:`, options)
-    this.ctx.logger.trace(`runnerConfig:`, runnerConfig)
-    this.ctx.logger.trace(`baseDir:`, this.ctx.baseDir)
-    this.ctx.logger.trace(`options:`, this.ctx.options)
-    this.ctx.logger.trace(`config:`, this.ctx.config)
-    this.ctx.logger.trace(`where:`, __dirname, __filename)
-    this.ctx.logger.trace(`running:`, process.cwd())
+    this.ctx.logger.trace('loaderOptions:', options)
+    this.ctx.logger.trace('baseDir:', this.ctx.baseDir)
+    this.ctx.logger.trace('options:', this.ctx.options)
+    this.ctx.logger.trace('config:', this.ctx.config)
+    this.ctx.logger.trace('where:', __dirname, __filename)
+    this.ctx.logger.trace('running:', process.cwd())
   }
 
   public run() {
@@ -211,10 +229,11 @@ export class Loader extends Container {
   }
 
   private catchError() {
-    process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'sync'))
+    // process.on('uncaughtExceptionMonitor', (err) => this.handleError(err, 'sync'))
     process.on('unhandledRejection', (err) => this.handleError(err, 'async'))
+    process.on('uncaughtException', (err) => this.handleError(err, 'sync'))
     process.on('SIGINT', () => process.exit())
-    this.ctx.logger.debug(this.ctx.locale('loader.debug.info'))
+    if (this.ctx.options.mode === DEV_MODE) this.ctx.locale('loader.debug.info')
   }
 
   private listenMessage() {
@@ -293,7 +312,7 @@ export class Loader extends Container {
 
   private loadAllAdapter() {
     const adapters = this.ctx[Symbols.adapter]
-    Object.keys(this.ctx.config.adapter).forEach((botName) => {
+    for (const botName of Object.keys(this.ctx.config.adapter)) {
       const botConfig = this.ctx.config.adapter[botName]
       const array = adapters.get(botConfig.extends)
 
@@ -311,16 +330,15 @@ export class Loader extends Container {
 
       this.ctx.on('ready', () => bot.start())
       this.ctx.on('dispose', () => bot.stop())
-    })
+    }
   }
 
   private async checkUpdate() {
     const { version } = this.ctx.meta
     if (!version) return
-    const res = await new Http()
-      .get(GLOBAL.UPDATE)
-      .catch(() => this.ctx.logger.error(this.ctx.locale('loader.tips.update.failed')))
+    const res = await new Http().get(GLOBAL.UPDATE).catch(() => {})
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
+      console.log('1')
       this.ctx.logger.warn(this.ctx.locale('loader.tips.update.failed'))
     } else if (version === res.version) {
       this.ctx.logger.info(this.ctx.locale('loader.tips.update.latest'))
