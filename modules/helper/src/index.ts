@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-06-05 17:26:29
  */
 
-import { Command, Context, MessageQuick, SessionData, Symbols, Tsu } from 'kotori-bot'
+import { Command, Context, MessageQuick, Session, Symbols, Tsu } from 'kotori-bot'
 
 export const config = Tsu.Object({
   alias: Tsu.String().optional(),
@@ -18,7 +18,7 @@ export const lang = [__dirname, '../locales']
 
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   if (cfg.content) {
-    const handle = (session: SessionData): MessageQuick => [cfg.content!, { at: session.el.at(session.userId) }]
+    const handle = (session: Session): MessageQuick => [cfg.content!, { at: session.el.at(session.userId) }]
 
     const cmd = ctx.command('menu - helper.descr.menu').action((_, session) => handle(session))
     if (cfg.alias) cmd.alias(cfg.alias)

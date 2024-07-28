@@ -1,267 +1,213 @@
-import Tsu from 'tsukiko'
-import type { TsuError } from 'tsukiko'
 import type { Context, EventsList } from 'fluoro'
-import type CommandError from '../utils/commandError'
-import type { Api } from '../service'
-import type { Command } from '../utils/command'
-import type { Session } from '../utils/session'
+import type { CommandError } from '../utils/error'
+import type { Api, Command, MessageList, MessageSingle, Session } from '../components'
+import type { CommandAction, CommandArgType } from './command'
 
 declare module 'fluoro' {
   interface EventsMapping {
+    /**
+     * Event before command parse.
+     *
+     * @param data - Event data
+     */
     before_parse(data: EventDataBeforeParse): void
+    /**
+     * Event after command parsed.
+     *
+     * @param data - Event data
+     */
     parse(data: EventDataParse): void
+    /**
+     * Event before command running.
+     *
+     * @param data - Event data
+     */
     before_command(data: EventDataBeforeCommand): void
+    /**
+     * Event after command running.
+     *
+     * @param data - Event data
+     */
     command(data: EventDataCommand): void
+    /**
+     * Event before regexp.
+     *
+     * @param data - Event data
+     */
     before_regexp(data: EventDataBeforeRegexp): void
+    /**
+     * Event after regexp.
+     *
+     * @param data - Event data
+     */
     regexp(data: EventDataRegexp): void
+    /**
+     * Event before message send.
+     *
+     * @param data - Event data
+     */
     before_send(data: EventDataBeforeSend): void
+    /**
+     * Event after message send.
+     *
+     * @param data - Event data
+     */
     send(data: EventDataSend): void
-    on_message(session: Session<EventDataPrivateMsg | EventDataGroupMsg>): void
-    on_recall(session: Session<EventDataPrivateRecall | EventDataGroupRecall>): void
-    on_request(session: Session<EventDataPrivateRequest | EventDataGroupRequest>): void
-    on_private_add(session: Session<EventDataPrivateAdd>): void
-    on_group_increase(session: Session<EventDataGroupIncrease>): void
-    on_group_decrease(session: Session<EventDataGroupDecrease>): void
-    on_group_admin(session: Session<EventDataGroupAdmin>): void
-    on_group_ban(session: Session<EventDataGroupBan>): void
   }
 }
 
-export enum FilterTestList {
-  PLATFORM = 'platform',
-  USER_ID = 'userId',
-  GROUP_ID = 'groupId',
-  OPERATOR_ID = 'operatorId',
-  MESSAGE_ID = 'messageId',
-  SCOPE = 'scope',
-  ACCESS = 'access',
-  IDENTITY = 'identity',
-  LOCALE_TYPE = 'localeType',
-  SELF_ID = 'selfId'
-}
-
-export type FilterOption = FilterOptionBase | FilterOptionGroup
-
-export interface FilterOptionBase {
-  test: FilterTestList
-  operator: '==' | '!=' | '>' | '<' | '>=' | '<='
-  value: string | number | boolean
-}
-
-export interface FilterOptionGroup {
-  type: 'all_of' | 'any_of' | 'none_of'
-  filters: FilterOption[]
-}
-
-export enum CommandAccess {
+/** User access */
+export enum UserAccess {
+  /** Normal member */
   MEMBER = 0,
+  /** Manager (group owner and group mangers) */
   MANGER = 1,
+  /** Admin (master of bot instance) */
   ADMIN = 2
 }
 
-export type ArgsOrigin = CommandArgType[]
-export type OptsOrigin = Record<string, CommandArgType>
-
-export type CommandAction<Args = ArgsOrigin, Opts = OptsOrigin> = (
-  data: { args: Args; options: Opts },
-  session: SessionData
-) => MessageQuick
-
-export type CommandArgType = string | number | boolean /* object<json> */
-export const commandArgTypeSignSchema = Tsu.Union(Tsu.Literal('string'), Tsu.Literal('number'), Tsu.Literal('boolean'))
-export type CommandArgTypeSign = Tsu.infer<typeof commandArgTypeSignSchema>
-
-export interface CommandConfig {
-  alias?: string[]
-  scope?: MessageScope | 'all'
-  access?: CommandAccess
-  help?: string
-  action?: CommandAction
-}
-
-interface CommandParseResult {
-  option_error: { expected: CommandArgTypeSign; reality: CommandArgTypeSign; target: string }
-  arg_error: { expected: CommandArgTypeSign; reality: CommandArgTypeSign; index: number }
-  arg_many: { expected: number; reality: number }
-  arg_few: CommandParseResult['arg_many']
-  syntax: { index: number; char: string }
-  unknown: { input: string }
-}
-
-export interface CommandResult extends CommandParseResult {
-  error: { error: unknown }
-  data_error: { target: string | number }
-  res_error: { error: TsuError }
-  num_error: null
-  no_access_manger: null
-  no_access_admin: null
-  disable: null
-  exists: { target: string }
-  no_exists: CommandResult['exists']
-}
-
-type CommandResultNoArgs = 'num_error' | 'no_access_manger' | 'no_access_admin' | 'disable'
-
-export type CommandResultExtra = {
-  [K in keyof CommandResult]: { type: K } & (K extends CommandResultNoArgs ? object : CommandResult[K])
-}
-
-export type SessionData = EventsList['on_message']
+/** Message scope (session type) */
 export enum MessageScope {
+  /** Private message */
   PRIVATE = 0,
+  /** Group message */
   GROUP = 1,
+  /** Channel message */
   CHANNEL = 2
 }
-export type MessageRaw = string
+
+export interface MessageMapping {
+  text: { text: string }
+  mention: { userId: string }
+  // biome-ignore lint:
+  mentionAll: {}
+  image: { content: string }
+  voice: { content: string }
+  audio: { content: string }
+  video: { content: string }
+  file: { content: string }
+  location: {
+    latitude: number
+    longitude: number
+    title: string
+    content: string
+  }
+  reply: {
+    messageId: string
+  }
+}
+
+export type Message<T extends keyof MessageMapping = keyof MessageMapping> =
+  | MessageSingle<T | 'text'>
+  | MessageList<T | 'text'>
+  | string
+
 export type MessageQuickReal =
   | [string, (CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
-  | MessageRaw
+  | Message
   | CommandError
   // biome-ignore lint:
   | void
 
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>
-export type MidwareCallback = (next: () => void | Promise<void>, session: SessionData) => MessageQuick
-export type RegexpCallback = (match: RegExpMatchArray, session: SessionData) => MessageQuick
+
+export type MidwareCallback = (
+  next: () => void | Promise<void>,
+  session: Session<EventsList['on_message']>
+) => MessageQuick
+
+export type RegexpCallback = (match: RegExpMatchArray, session: Session<EventsList['on_message']>) => MessageQuick
+
 export type TaskCallback = (ctx: Context) => void
+
 export type TaskOptions = string | { cron: string; start?: boolean; timeZone?: string }
 
-export type EventApiType = {
-  [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never
-}
-
+/** Event data before command parsed */
 interface EventDataBeforeParse {
-  session: SessionData
+  /** Session instance */
+  session: Session
+  /** Raw text message */
   raw: string
 }
 
+/** Event data after command parsed */
 interface EventDataParse {
-  session: SessionData
+  /** Session instance */
+  session: Session
+  /** Target command instance */
   command: Command
+  /** Raw text message */
   raw: string
+  /** Parsed result, command error or command data (args and options) */
   result: CommandError | Parameters<CommandAction>[0]
+  /** Cancel the command running */
   cancel(): void
 }
 
+/** Event data before command running */
 interface EventDataBeforeCommand {
-  session: SessionData
+  /** Session instance */
+  session: Session
+  /** Raw text message */
   raw: string
+  /** Cancel the command running */
   cancel(): void
 }
 
+/** Event data after command running */
 interface EventDataCommand {
-  session: SessionData
+  /** Session instance */
+  session: Session
+  /** Raw text message */
   raw: string
+  /** Target command instance */
   command: Command
+  /** Command running result, running error or back message */
   result: EventDataParse['result'] | MessageQuick
 }
 
+/** Event data before regexp running */
 interface EventDataBeforeRegexp {
-  session: SessionData
+  /** Session instance */
+  session: Session
+  /** Raw text message */
   raw: string
+  /** Target regexp instance */
   regexp: RegExp
+  /** Cancel the regexp running */
   cancel(): void
 }
 
+/** Event data after regexp running */
 interface EventDataRegexp {
-  session: SessionData
+  /** Session instance */
+  session: Session
+  /** Raw text message */
   raw: string
+  /** Target regexp instance */
   regexp: RegExp
+  /** Match result */
   result: RegExpMatchArray
 }
 
+/** Event data before message sending */
 interface EventDataBeforeSend {
+  /** Api instance  */
   api: Api
-  message: MessageRaw
+  /** Message to send */
+  message: Message
+  /** Message type */
   messageType: MessageScope
+  /** Target id */
   targetId: string
+  /** Cancel the message sending */
   cancel(): void
 }
 
+/** Event data after message sending */
 interface EventDataSend {
+  /** Api instance  */
   api: Api
+  /** Message id */
   messageId: string
-}
-
-interface SessionDataSender {
-  nickname: string
-  sex: 'male' | 'female' | 'unknown'
-  age: number
-}
-
-export interface EventDataApiBase {
-  type: MessageScope
-  time: number
-  userId: string
-  messageId?: string
-  groupId?: string
-  operatorId?: string
-  channelId?: string
-  guildId?: string
-  // biome-ignore lint:
-  meta?: any
-}
-
-interface EventDataPrivateMsg extends EventDataApiBase {
-  type: MessageScope.PRIVATE
-  messageId: string
-  message: MessageRaw
-  sender: SessionDataSender
-}
-
-interface EventDataGroupMsg extends EventDataPrivateMsg {
-  groupId: string
-}
-
-interface EventDataPrivateRecall extends EventDataApiBase {
-  type: MessageScope.PRIVATE
-  messageId: string
-}
-
-interface EventDataGroupRecall extends EventDataApiBase {
-  messageId: string
-  operatorId: string
-  groupId: string
-}
-
-interface EventDataPrivateRequest extends EventDataApiBase {
-  type: MessageScope.PRIVATE
-  userId: string
-}
-
-interface EventDataGroupRequest extends EventDataApiBase {
-  type: MessageScope.GROUP
-  userId: string
-  operatorId: string
-  groupId: string
-}
-
-interface EventDataPrivateAdd extends EventDataApiBase {
-  userId: string
-}
-
-interface EventDataGroupIncrease extends EventDataApiBase {
-  userId: string
-  operatorId: string
-  groupId: string
-}
-
-interface EventDataGroupDecrease extends EventDataApiBase {
-  userId: string
-  operatorId: string
-  groupId: string
-}
-
-interface EventDataGroupAdmin extends EventDataApiBase {
-  userId: string
-  operation: 'set' | 'unset'
-  groupId: string
-}
-
-interface EventDataGroupBan extends EventDataApiBase {
-  // TODO:update all adapters
-  userId: string | 'all'
-  operatorId: string
-  duration: number
-  groupId: string
 }

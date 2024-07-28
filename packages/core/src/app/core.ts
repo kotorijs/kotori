@@ -4,43 +4,140 @@ import type { Parser } from 'tsukiko'
 import { Context } from 'fluoro'
 import Config from './config'
 import Message from './message'
-import type { AdapterClass, SessionData } from '../types'
-import { Cache, type Api } from '../service'
+import type { AdapterClass } from '../types'
+import { Cache, type Api, type Session } from '../components'
 import { Symbols } from '../global'
-import { getCommandMeta, getRegExpMeta } from '../utils/meta'
+import { getCommandMeta, getRegExpMeta } from '../utils/internal'
 
 declare module 'fluoro' {
   interface Context {
     /* Core */
+    /**
+     * Adapter constructors list.
+     *
+     * @readonly
+     */
     readonly [Symbols.adapter]: Core[typeof Symbols.adapter]
+    /**
+     * Bot instances list.
+     *
+     * @readonly
+     */
     readonly [Symbols.bot]: Core[typeof Symbols.bot]
     /* Config */
+    /**
+     * Core config.
+     *
+     * @readonly
+     */
     readonly config: Config['config']
+    /**
+     * Meta information.
+     *
+     * @readonly
+     */
     readonly meta: Config['meta']
     /* Message */
+    /**
+     * Registered middlewares list.
+     *
+     * @readonly
+     */
     readonly [Symbols.midware]: Message[typeof Symbols.midware]
+    /**
+     * Registered commands list.
+     *
+     * @readonly
+     */
     readonly [Symbols.command]: Message[typeof Symbols.command]
+    /**
+     * Registered regexps list.
+     *
+     * @readonly
+     */
     readonly [Symbols.regexp]: Message[typeof Symbols.regexp]
+    /**
+     * Registered scheduled tasks list.
+     *
+     * @readonly
+     */
     readonly [Symbols.task]: Message[typeof Symbols.task]
+    /**
+     * Registered session filters list.
+     *
+     * @readonly
+     */
     readonly [Symbols.filter]: Message[typeof Symbols.filter]
+    /**
+     * Session promises in progress list.
+     *
+     * @readonly
+     */
     readonly [Symbols.promise]: Message[typeof Symbols.promise]
+    /**
+     * Register a message handled middleware.
+     *
+     * @param callback - Middleware callback
+     * @param priority - Middleware priority, default is 100
+     * @returns dispose function
+     */
     midware: Message['midware']
+    /**
+     * Register a command.
+     *
+     * @param template - Command template
+     * @param config - Command config, optional
+     * @returns Command instance
+     */
     command: Message['command']
+    /**
+     * Register a regexp.
+     *
+     * @param match - Regexp to match
+     * @param callback - Regexp callback
+     * @returns dispose function
+     */
     regexp: Message['regexp']
-    notify: Message['notify']
-    boardcast: Message['boardcast']
+    /**
+     * Register a scheduled task.
+     *
+     * @param options - Task options
+     * @param callback - Task callback
+     * @returns dispose function
+     */
     task: Message['task']
+    /**
+     * Register a session filter.
+     *
+     * @param option - Filter option
+     * @returns new context
+     */
     filter: Message['filter']
+    /**
+     * Send a notified message to the master of first bot instance at config.
+     *
+     * @experimental
+     */
+    notify: Message['notify']
+    /**
+     * Send a message to all sessions on all bots.
+     *
+     * @experimental
+     */
+    boardcast: Message['boardcast']
     /* Inject */
+    /** Http request methods */
     http: Http
+    /** International methods */
     i18n: I18n
     /* Service */
+    /** Cache service */
     cache: Cache
   }
 }
 
 function initialize(ctx: Context) {
-  function test(identity: string, session: SessionData) {
+  function test(identity: string, session: Session) {
     for (const [key, filter] of ctx[Symbols.filter].entries()) if (key === identity) return filter.test(session)
     return true
   }

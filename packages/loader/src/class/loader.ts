@@ -172,13 +172,12 @@ function getConfig(baseDir: Runner['baseDir'], loaderOptions?: LoaderOptions) {
   }
 }
 
-export class Loader extends Container {
+export class Loader {
   private readonly ctx: Context
 
   private loadCount = 0
 
   public constructor(loaderOptions?: LoaderOptions) {
-    super()
     const baseDir = getBaseDir(loaderOptions?.config || CONFIG_NAME, loaderOptions?.dir)
     const options = { mode: loaderOptions?.mode || BUILD_MODE }
 
@@ -186,11 +185,10 @@ export class Loader extends Container {
     ctx.root.meta.loaderVersion = require(path.resolve(__dirname, '../../package.json')).version
     ctx.provide('runner', new Runner(ctx, { baseDir, options }))
     ctx.mixin('runner', ['baseDir', 'options'])
-    Container.setInstance(ctx)
     ctx.provide('loader-tools', { format: formatFactory(ctx.i18n), locale: ctx.i18n.locale.bind(ctx.i18n) })
     ctx.mixin('loader-tools', ['locale', 'format'])
     ctx.i18n.use(path.resolve(__dirname, '../../locales'))
-
+    Container.setInstance(ctx)
     this.ctx = Container.getInstance()
     this.ctx.logger.trace('loaderOptions:', options)
     this.ctx.logger.trace('baseDir:', this.ctx.baseDir)

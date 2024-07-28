@@ -1,7 +1,13 @@
-import { type FilterOption, type FilterOptionBase, FilterTestList, type SessionData, CommandAccess } from '../types'
+import { type FilterOption, type FilterOptionBase, FilterTestList, UserAccess } from '../types'
+import type { Session } from './session'
 
-class Filter {
-  private static getTestDomain(session: SessionData, test: FilterTestList) {
+/**
+ * Session filter.
+ *
+ * @class
+ */
+export class Filter {
+  private static getTestDomain(session: Session, test: FilterTestList) {
     switch (test) {
       case FilterTestList.LOCALE_TYPE:
         return session.i18n.get()
@@ -22,15 +28,17 @@ class Filter {
       case FilterTestList.SCOPE:
         return session.type
       case FilterTestList.ACCESS:
-        if (String(session.api.adapter.config.master) === String(session.userId)) return CommandAccess.ADMIN
-        if ('role' in session.sender && ['owner', 'admin'].includes(session.sender.role)) return CommandAccess.MANGER
-        return CommandAccess.MEMBER
+        if (String(session.api.adapter.config.master) === String(session.userId)) return UserAccess.ADMIN
+        if (session.sender && 'role' in session.sender && ['owner', 'admin'].includes(String(session.sender.role))) {
+          return UserAccess.MANGER
+        }
+        return UserAccess.MEMBER
       default:
         return -1
     }
   }
 
-  private static handleFilter(session: SessionData, { test, operator, value }: FilterOptionBase) {
+  private static handleFilter(session: Session, { test, operator, value }: FilterOptionBase) {
     const domain = Filter.getTestDomain(session, test)
     if (domain === -1) return false
     if (['>', '<'].includes(operator)) {
@@ -62,11 +70,24 @@ class Filter {
 
   private readonly option: FilterOption
 
+  /**
+   * Create a filter.
+   *
+   * @param option - Filter options
+   *
+   * @constructor
+   */
   public constructor(option: FilterOption) {
     this.option = option
   }
 
-  public test(session: SessionData) {
+  /**
+   * Test a session.
+   *
+   * @param session - Session instance
+   * @returns Whether the session passes the filter
+   */
+  public test(session: Session) {
     if (!('type' in this.option)) return Filter.handleFilter(session, this.option)
 
     const { type, filters } = this.option

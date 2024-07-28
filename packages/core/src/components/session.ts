@@ -1,21 +1,28 @@
 import {
   type CommandArgType,
   type EventDataApiBase,
-  type MessageRaw,
+  type Message,
   MessageScope,
   type MessageQuick,
   type CommandResult
 } from '../types'
-import type { Adapter } from '../service/adapter'
-import { formatFactory } from './factory'
-import { CommandError } from './commandError'
+import type { Adapter } from './adapter'
+import { formatFactory } from '../utils/factory'
+import { CommandError } from '../utils/error'
 import type { EventsMapping } from 'fluoro'
-import type { Api } from '../service/api'
-import type { Elements } from '../service/elements'
+import type { Api } from './api'
+import type { Elements } from './elements'
 import type { I18n } from '@kotori-bot/i18n'
-import { Symbols } from '..'
+import { Symbols } from '../global'
+import { MessageList, MessageSingle } from './messages'
 
-class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
+/**
+ * Session event.
+ *
+ * @class
+ * @template T - Session event data type
+ */
+export class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
   private isSameSender(session: SessionOrigin) {
     return (
       this.api.adapter.identity === session.api.adapter.identity &&
@@ -28,36 +35,91 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
     )
   }
 
+  /**
+   * Api instance of current session.
+   *
+   * @readonly
+   */
   public readonly api: Api
 
+  /**
+   * Elements instance of current session.
+   *
+   * @readonly
+   */
   public readonly el: Elements
 
+  /**
+   * I18n instance of current session.
+   *
+   * @readonly
+   */
   public readonly i18n: I18n
 
+  /**
+   * Session unique id, generated base on `type`. `userId`, `groupId`, `guildId`, `channelId`.
+   *
+   * @readonly
+   */
   public readonly id: string
 
-  public send(message: MessageRaw) {
+  /**
+   * Send message to current session.
+   *
+   * @param message - Message to send
+   * @returns Message id and sent time
+   */
+  public async send(message: Message) {
     if (this.type === MessageScope.GROUP) {
-      this.api.sendGroupMsg(message, this.groupId as string, this.meta)
+      return await this.api.sendGroupMsg(message, this.groupId as string, this.meta)
     }
-    this.api.sendPrivateMsg(message, this.userId, this.meta)
+    if (this.type === MessageScope.CHANNEL) {
+      return await this.api.sendChannelMsg(message, this.guildId as string, this.channelId as string, this.meta)
+    }
+    if (this.type === MessageScope.PRIVATE) {
+      return await this.api.sendPrivateMsg(message, this.userId as string, this.meta)
+    }
+    return { messageId: '', time: 0 }
   }
 
+  /**
+   * Format message template with data.
+   *
+   * @param template - Message template
+   * @param data - Data to format
+   * @returns Formatted message
+   */
   public format(template: string, data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]) {
     return formatFactory(this.i18n)(template, data)
   }
 
+  /**
+   * Send message to current session, it's packed base on `session.send()`, `session.i18n` and `session.format()`.
+   *
+   * @param message
+   * @returns
+   *
+   * @async
+   */
   public async quick(message: MessageQuick) {
     const msg = await message
     if (!msg || msg instanceof CommandError) return
-    if (typeof msg === 'string') {
-      this.send(this.i18n.locale(msg))
+    if (typeof msg === 'string' || msg instanceof MessageSingle || msg instanceof MessageList) {
+      this.send(this.i18n.locale(msg.toString()))
       return
     }
     this.send(this.format(...msg))
   }
 
-  public prompt(message?: MessageRaw): Promise<MessageRaw> {
+  /**
+   * Prompt message to current session.
+   *
+   * @param message - Message to prompt
+   * @returns Message from current session
+   *
+   * @async
+   */
+  public prompt(message?: Message): Promise<Message> {
     return new Promise((resolve) => {
       const handle: EventsMapping['on_message'] = (session) => {
         if (this.isSameSender(session as unknown as SessionOrigin)) {
@@ -67,10 +129,18 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
         this.api.adapter.ctx.once('on_message', handle)
       }
       this.quick(message ?? 'corei18n.template.prompt').then(() => this.api.adapter.ctx.once('on_message', handle))
-    }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<MessageRaw>
+    }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<Message>
   }
 
-  public confirm(options?: { message: MessageRaw; sure: MessageRaw }): Promise<boolean> {
+  /**
+   * Confirm message to current session.
+   *
+   * @param options - Options to confirm
+   * @returns Message from current session
+   *
+   * @async
+   */
+  public confirm(options?: { message: Message; sure: Message }): Promise<boolean> {
     return new Promise((resolve) => {
       const handle: EventsMapping['on_message'] = (session) => {
         if (this.isSameSender(session as unknown as SessionOrigin)) {
@@ -85,28 +155,88 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
     }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<boolean>
   }
 
+  /**
+   * Create a command error.
+   *
+   * @param type - Error type
+   * @param data - Error data
+   * @returns Command error
+   */
   public error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) {
     return new CommandError(Object.assign(data ?? {}, { type }) as ConstructorParameters<typeof CommandError>[0])
   }
 
+  /**
+   * Session type
+   *
+   * @readonly
+   */
   public readonly type: EventDataApiBase['type']
 
+  /**
+   * Session time, milliseconds timestamp.
+   *
+   * @readonly
+   */
   public readonly time: number
 
-  public readonly userId: string
+  /**
+   * Session related user id if exists.
+   *
+   * @readonly
+   */
+  public readonly userId?: string
 
+  /**
+   * Session related operator id if exists.
+   *
+   * @readonly
+   */
   public readonly operatorId?: string
 
+  /**
+   * Session related message id if exists.
+   *
+   * @readonly
+   */
   public readonly messageId?: string
 
+  /**
+   * Session related group id if exists.
+   *
+   * @readonly
+   */
   public readonly groupId?: string
 
+  /**
+   * Session related channel id if exists.
+   *
+   * @readonly
+   */
   public readonly channelId?: string
 
+  /**
+   * Session related guild id if exists.
+   *
+   * @readonly
+   */
   public readonly guildId?: string
 
+  /**
+   * Session related meta data if exists, it is customized by the specific adapter.
+   *
+   * @readonly
+   */
   public readonly meta?: EventDataApiBase['meta']
 
+  /**
+   * Create a session instance.
+   *
+   * @param data - Session data
+   * @param adapter - Adapter instance
+   *
+   * @constructor
+   */
   public constructor(data: T, adapter: Adapter) {
     this.api = adapter.api
     this.el = adapter.elements
@@ -129,10 +259,15 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
         break
     }
   }
-
-  public getUnique() {}
 }
 
+/**
+ * Session instance.
+ *
+ * @class Session
+ * @extends {SessionOrigin}
+ * @template T
+ */
 export type Session<T extends EventDataApiBase = EventDataApiBase> = SessionOrigin<T> & T
 
 export const Session = new Proxy(SessionOrigin, {

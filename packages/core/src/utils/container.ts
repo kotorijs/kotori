@@ -1,24 +1,18 @@
-import { none } from '@kotori-bot/tools';
-import { Context } from 'fluoro';
+import type { Context } from 'fluoro'
+import { KotoriError } from './error'
 
-export class Container {
-  protected constructor() {
-    none();
+export namespace Container {
+  let instance: Context
+
+  export function setInstance(ctx: Context) {
+    if (instance) throw new KotoriError('Default context instance is already set')
+    instance = ctx
   }
 
-  private static instance: Context = {} as Context;
-
-  public static setInstance(ctx: Context) {
-    this.instance = ctx;
-  }
-
-  public static getInstance() {
-    return this.instance;
-  }
-
-  public static getMixin(): Context {
-    return Object.assign(Container.getInstance() /* , Context */);
+  export function getInstance() {
+    if (!instance) throw new KotoriError('Default context instance is not set')
+    return instance
   }
 }
 
-export default Container;
+export default Container

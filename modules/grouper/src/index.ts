@@ -1,4 +1,4 @@
-import { KotoriPlugin, SessionData, Tsu, plugins } from 'kotori-bot'
+import { KotoriPlugin, Session, Tsu, plugins } from 'kotori-bot'
 import { SignData } from './type'
 
 const hitokotoSchema = Tsu.Object({
@@ -19,7 +19,7 @@ class GrouperPlugin extends KotoriPlugin {
 
   @plugin.regexp({ match: /^(签到|打卡)$/ })
   @plugin.command({ template: 'sign - 签到' })
-  public async sign(data: RegExpMatchArray, session: SessionData) {
+  public async sign(data: RegExpMatchArray, session: Session) {
     const at = session.el.at(session.userId)
     const identity = `${session.api.adapter.identity}${session.groupId}&${session.userId}&${session.i18n.date()}`
     const signData = this.ctx.file.load<SignData>(`signData.json`, 'json', {})

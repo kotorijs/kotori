@@ -1,97 +1,55 @@
 import { none } from '@kotori-bot/tools'
 import type Adapter from './adapter'
-import type { MessageRaw } from '../types'
+import type {
+  ChannelInfoResponse,
+  GetFileDataResponse,
+  GetFilePathResponse,
+  GetFileUrlResponse,
+  GroupInfoResponse,
+  GuildInfoResponse,
+  Message,
+  SelfInfoResponse,
+  SendMessageResponse,
+  UploadFileResponse,
+  UserInfoResponse
+} from '../types'
+import type { EventsMapping } from 'fluoro'
+import type { Session } from './session'
 
-/** Response for sending message */
-interface SendMessageResponse {
-  /** Message id */
-  messageId: string
-  /** Send time (milliseconds timestamp) */
-  time: number
+type ReverseList = {
+  [K in keyof EventsMapping]: Parameters<EventsMapping[K]>[0] extends Session ? K : never
 }
 
-/** Response for bot self information. */
-interface SelfInfoResponse {
-  /** User id */
-  userId: string
-  /** User name or nickname */
-  username: string
-  /** The display name, or empty string if none */
-  userDisplayname: string
-}
+type SessionEvents = ReverseList[keyof ReverseList]
 
-/** Response for user information. */
-interface UserInfoResponse extends SelfInfoResponse {
-  /** The remark name set set by current bot account, or empty string if none */
-  userRemark: string
-}
-
-/** Response for group information. */
-interface GroupInfoResponse {
-  /** Group id */
-  groupId: string
-  /** Group name */
-  groupName: string
-}
-
-/** Response for guild information. */
-interface GuildInfoResponse {
-  /** Guild id */
-  guildId: string
-  /** Guild name */
-  guildName: string
-}
-
-/** Response for channel information. */
-interface ChannelInfoResponse {
-  /** Channel id */
-  channelId: string
-  /** Channel name */
-  channelName: string
-}
-
-/** Response for file upload. */
-interface UploadFileResponse {
-  /** File id */
-  filedId: string
-}
-
-/** Response for file get. */
-interface GetFileResponse {
-  /** File name */
-  name: string
-  /** File data (origin binary)'s SHA256 checksum, all lowercase, optional  */
-  sha256?: string
-}
-
-/** Response for file get url. */
-interface GetFileUrlResponse extends GetFileResponse {
-  /** File url */
-  url: string
-  /** File download url headers, or empty object if none */
-  headers: Record<string, string>
-}
-
-/** Response for file get path. */
-interface GetFilePathResponse extends GetFileResponse {
-  /** File path */
-  path: string
-}
-
-/** Response for file get data. */
-interface GetFileDataResponse extends GetFileResponse {
-  /** File data */
-  data: Buffer
-}
+type Actions = Exclude<keyof Api, 'adapter' | 'getSupportedEvents' | 'getSupportedEvents'>
 
 /**
- * Api Class which identify bot's standard platform apis.
+ * Api which identify bot's standard platform apis.
  *
  * For different `api` child class, not most of them have implementation.
  *
+ * @class
  * @abstract
  */
-export class Api {
+export abstract class Api {
+  /**
+   * Get supported actions for current api implementation.
+   *
+   * @returns Supported actions
+   */
+  public getSupportedActions() {
+    return (Object.getOwnPropertyNames(Api.prototype) as Actions[]).filter(
+      (key) =>
+        typeof key === 'string' &&
+        !['getSupportedActions', 'adapter', 'constructor'].includes(key) &&
+        this[key] instanceof Function &&
+        this[key] !== Api.prototype[key]
+    ) as Actions[]
+  }
+
+  public abstract getSupportedEvents(): SessionEvents[]
+
   /**
    * Current api's bot instance.
    *
@@ -118,7 +76,7 @@ export class Api {
    *
    * @async
    */
-  public async sendPrivateMsg(message: MessageRaw, userId: string, meta: object = {}): Promise<SendMessageResponse> {
+  public async sendPrivateMsg(message: Message, userId: string, meta: object = {}): Promise<SendMessageResponse> {
     none(this, message, userId, meta)
     return { messageId: '', time: 0 }
   }
@@ -133,13 +91,13 @@ export class Api {
    *
    * @async
    */
-  public async sendGroupMsg(message: MessageRaw, groupId: string, meta: object = {}): Promise<SendMessageResponse> {
+  public async sendGroupMsg(message: Message, groupId: string, meta: object = {}): Promise<SendMessageResponse> {
     none(this, message, groupId, meta, meta)
     return { messageId: '', time: 0 }
   }
 
   /**
-   * Send a guild message.
+   * Send a channel message.
    *
    * @param message - Message content to send
    * @param guildId - Target guild id
@@ -149,8 +107,8 @@ export class Api {
    *
    * @async
    */
-  public async sendGuildMsg(
-    message: MessageRaw,
+  public async sendChannelMsg(
+    message: Message,
     guildId: string,
     channelId: string,
     meta: object = {}
@@ -523,15 +481,6 @@ export class Api {
   public async getFileData(filedId: string, meta: object = {}): Promise<GetFileDataResponse> {
     none(this, filedId, meta)
     return { name: '', sha256: '', data: Buffer.from('') }
-  }
-
-  /**
-   * Get supported actions.
-   *
-   * @returns Supported actions
-   */
-  public getSupportedActions(): Exclude<keyof Api, 'adapter'>[] {
-    return []
   }
 
   /**

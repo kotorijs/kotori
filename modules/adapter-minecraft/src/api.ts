@@ -5,14 +5,14 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-05-02 17:22:10
  */
-import { Api, string, MessageRaw } from 'kotori-bot'
+import { Api, string, Message } from 'kotori-bot'
 
 export class CmdApi extends Api {
-  public sendPrivateMsg(message: MessageRaw, userId: string) {
+  public sendPrivateMsg(message: Message, userId: string) {
     this.adapter.send(String(userId), { msg: message })
   }
 
-  public sendGroupMsg(message: MessageRaw, groupId: string) {
+  public sendGroupMsg(message: Message, groupId: string) {
     this.adapter.send(String(groupId), { msg: message })
   }
 }
