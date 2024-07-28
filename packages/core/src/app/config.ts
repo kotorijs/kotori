@@ -2,14 +2,27 @@ import { resolve } from 'node:path'
 import type { CoreConfig } from '../types'
 import { DEFAULT_CORE_CONFIG } from '../global'
 
+/** Meta information. */
 interface MetaInfo {
+  /** Program name */
   name: string
+  /** Program core version */
   coreVersion: string
+  /** Program loader version if exists */
   loaderVersion?: string
+  /** Program version if exists */
   version?: string
+  /** Program description */
   description: string
+  /** Program entry file */
   main: string
+  /**
+   *  Program license
+   *
+   *  @constant
+   */
   license: 'GPL-3.0'
+  /** Program author */
   author: string
 }
 

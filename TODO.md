@@ -25,14 +25,14 @@
 - [x] @kotori-bot/tools Events: protected list
 - [x] Context: parent ctx
 - [x] Kotori protect daemon
-- [ ] reduce plugin name under scope
-- [ ] well adapted for custom plugin scope
+- [x] reduce plugin name under scope
+- [x] well adapted for custom plugin scope
 - [x] view core and loader version
-- [ ] plugin scope filter
+- [x] plugin scope filter
 - [x] logger color open or close
 - [x] custom service auto load
 - [ ] rss subscribe service plugin
-- [ ] protect daemon and auto install
+- [x] protect daemon and auto install
 - [x] hide update url
 
 ## Styles

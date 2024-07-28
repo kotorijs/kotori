@@ -1,7 +1,19 @@
 import type { OptsOrigin, MidwareCallback, RegexpCallback, TaskOptions } from '../types'
 import { Symbols } from '../global'
-import type { Command } from './command'
+import type { Command } from '../components'
 import type { CronJob } from 'cron'
+
+export function cancelFactory() {
+  return {
+    get() {
+      return () => this.fn()
+    },
+    fn() {
+      this.value = true
+    },
+    value: false
+  }
+}
 
 // biome-ignore lint:
 type CommandOriginData = Command<any, OptsOrigin>['meta']

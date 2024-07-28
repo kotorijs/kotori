@@ -5,10 +5,10 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2023-12-02 16:21:22
  */
-import { Api, string, MessageRaw } from 'kotori-bot'
+import { Api, string, Message } from 'kotori-bot'
 
 export class CmdApi extends Api {
-  public sendPrivateMsg(message: MessageRaw, userId: string) {
+  public sendPrivateMsg(message: Message, userId: string) {
     this.adapter.send('send_private_msg', { user_id: userId, message })
   }
 }

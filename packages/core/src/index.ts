@@ -8,11 +8,9 @@
 import 'reflect-metadata'
 
 export * from 'fluoro'
+export * from './app'
 export * from './components'
-export * from './service'
-export * from './utils/command'
 export * from './utils/error'
-export * from './utils/commandError'
 export * from './utils/container'
 export * from './utils/factory'
 export * from './global'

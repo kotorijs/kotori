@@ -1,37 +1,52 @@
-type KotoriErrorType = 'ServiceError' | 'ModuleError' | 'UnknownError' | 'DevError';
+import type { CommandResultExtra } from '../types'
+
+type KotoriErrorType = 'ServiceError' | 'ModuleError' | 'UnknownError' | 'DevError'
 
 interface KotoriErrorImpl {
-  readonly name: KotoriErrorType;
-  readonly extend: () => typeof KotoriError;
+  readonly name: KotoriErrorType
+  readonly extend: () => typeof KotoriError
 }
 
+/**
+ * Kotori error
+ *
+ * @class KotoriError
+ * @extends {Error}
+ */
 export class KotoriError<T extends object = object> extends Error implements KotoriErrorImpl {
   public constructor(message?: string, extra?: T, type: KotoriErrorType = 'UnknownError') {
-    super(message);
-    this.name = type;
-    this.extra = extra;
+    super(message)
+    this.name = type
+    this.extra = extra
   }
 
-  public readonly extra?: T;
+  public readonly extra?: T
 
-  public readonly name: KotoriErrorType;
+  public readonly name: KotoriErrorType
 
   public extend(): typeof KotoriError<T> {
-    const { message: fatherMessage, name: fatherType, extra: fatherExtra } = this;
+    const { message: fatherMessage, name: fatherType, extra: fatherExtra } = this
     // const newClass: typeof KotoriError = Object.create(KotoriError);
     return new Proxy(KotoriError<T>, {
       construct(Class, params) {
-        const args = params;
-        args[0] = `${fatherMessage} ${args[0]}`;
-        args[1] = args[1] ?? fatherExtra;
-        args[2] = args[2] ?? fatherType;
-        return new Class(...args);
+        const args = params
+        args[0] = `${fatherMessage} ${args[0]}`
+        args[1] = args[1] ?? fatherExtra
+        args[2] = args[2] ?? fatherType
+        return new Class(...args)
       }
-    });
+    })
   }
 }
 
-export const ModuleError = new KotoriError(undefined, undefined, 'ModuleError').extend();
-export const DevError = new KotoriError(undefined, undefined, 'DevError').extend();
+export const ModuleError = new KotoriError(undefined, undefined, 'ModuleError').extend()
+export const DevError = new KotoriError(undefined, undefined, 'DevError').extend()
 
-export default KotoriError;
+export class CommandError extends KotoriError {
+  public readonly value: CommandResultExtra[keyof CommandResultExtra]
+
+  public constructor(value: CommandResultExtra[keyof CommandResultExtra]) {
+    super()
+    this.value = value
+  }
+}

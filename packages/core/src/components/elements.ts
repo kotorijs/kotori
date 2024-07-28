@@ -1,7 +1,14 @@
 import { none } from '@kotori-bot/tools'
+import type { Adapter } from './adapter'
+import type { Api } from './api'
+import type { AdapterConfig } from '../types'
 
-export class Elements {
-  public adapter: any = {}
+export abstract class Elements {
+  public readonly adapter: Adapter<Api, AdapterConfig, this>
+
+  public constructor(adapter: Adapter) {
+    this.adapter = adapter as Adapter<Api, AdapterConfig, this>
+  }
 
   private default(...args: unknown[]) {
     none(this, args)
@@ -32,11 +39,10 @@ export class Elements {
     return this.default(data, extra)
   }
 
-  public supports() {
-    const supports: (keyof Elements)[] = []
-    const keys: (keyof Elements)[] = ['at', 'image', 'voice', 'video', 'face', 'file']
-    for (const key of keys) if (this[key] !== new Elements()[key]) supports.push(key)
-    return supports
+  public getSupports() {
+    return (['at', 'image', 'voice', 'video', 'face', 'file'] as const).filter(
+      (key) => this[key] && this[key] !== Object.getPrototypeOf(Object.getPrototypeOf(key))[key]
+    )
   }
 }
 

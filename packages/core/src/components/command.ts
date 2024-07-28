@@ -1,6 +1,6 @@
 import minimist from 'minimist'
 import {
-  CommandAccess,
+  UserAccess,
   type CommandAction,
   type CommandArgType,
   type CommandArgTypeSign,
@@ -9,35 +9,63 @@ import {
   type ArgsOrigin,
   type OptsOrigin
 } from '../types'
-import { CommandError } from './commandError'
+import { CommandError } from '../utils/error'
 
+/** Command argument */
 interface CommandArg {
+  /** Argument displayname */
   name: string
+  /** Argument type */
   type: CommandArgTypeSign
+  /** Argument is wether optional */
   optional: boolean
+  /** Argument default value, if exists so `optional` is true */
   default?: CommandArgType
+  /** Argument is wether rest arguments */
   rest: boolean
 }
 
+/** Command option */
 interface CommandOption {
-  name: string // short name
+  /** Option short name, composed a uppercase letter */
+  name: string
+  /** Option type */
   type: CommandArgTypeSign
-  realname: string // full name
+  /** Option full name (real name), composed some lowercase letters and connect by `-` between word and word */
+  realname: string
+  /** Option description */
   description?: string
 }
 
+/**
+ * Command meta data.
+ *
+ * @template Args - Command arguments
+ * @template Opts - Command options
+ */
 interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin> {
+  /** Command root content */
   root: string
+  /** Command alias (need bring command prefix) */
   alias: string[]
+  /** Command shortcut (needn't bring command prefix) */
   shortcut: string[]
+  /** Command is wether hide at the menu */
   hide: boolean
+  /** Command arguments */
   args: CommandArg[]
+  /** Command options */
   options: CommandOption[]
+  /** Command require message scope (session type) */
   scope: CommandConfig['scope']
-  access: CommandAccess
-  help?: string
-  action?: CommandAction<Args, Opts>
+  /** Command require user access level */
+  access: UserAccess
+  /** Command description */
   description?: string
+  /** Command help message, it has more details than `description` */
+  help?: string
+  /** Command action */
+  action?: CommandAction<Args, Opts>
 }
 
 type GetSignType<T extends string> = T extends `${string}number${string}`
@@ -84,6 +112,14 @@ const optionalParamMatch = /\[(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?\]/
 
 const defaultType: CommandArgTypeSign = 'string'
 
+/**
+ * Command.
+ *
+ * @template Template - Command template
+ * @template Opts - Command options
+ *
+ * @class
+ */
 export class Command<Template extends string = string, Opts extends OptsOrigin = OptsOrigin> {
   private static handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
     if (type === 'boolean') return value !== 'false' && !!value
@@ -216,17 +252,28 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
 
   private template: Template
 
-  public meta: CommandData<ParseArgs<Template>, Opts> = {
+  /**
+   * Command meta data.
+   *
+   * @readonly
+   */
+  public readonly meta: CommandData<ParseArgs<Template>, Opts> = {
     root: '',
     alias: [],
     scope: 'all',
-    access: CommandAccess.MEMBER,
+    access: UserAccess.MEMBER,
     args: [],
     options: [],
     hide: false,
     shortcut: []
   }
 
+  /**
+   * Create a command instance
+   *
+   * @param template - Command template.
+   * @param config - Command config.
+   */
   public constructor(template: Template, config?: CommandConfig) {
     this.template = template
     this.meta = Object.assign(this.meta, config)
@@ -282,28 +329,59 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
     }
   }
 
+  /**
+   * Add command alias.
+   *
+   * @param alias - Command alias.
+   * @returns Command instance
+   */
   public alias(alias: string | string[]) {
     if (typeof alias === 'string') this.meta.alias.push(alias)
     else this.meta.alias.push(...alias)
     return this
   }
 
+  /**
+   * Add command shortcut.
+   *
+   * @param short - shortcut name
+   * @returns Command instance
+   */
   public shortcut(short: string | string[]) {
     if (typeof short === 'string') this.meta.alias.push(short)
     else this.meta.alias.push(...short)
     return this
   }
 
+  /**
+   * Set the message scope which command require.
+   *
+   * @param scope - Message scope.
+   * @returns Command instance
+   */
   public scope(scope: CommandConfig['scope']) {
     this.meta.scope = scope
     return this
   }
 
-  public access(access: CommandAccess) {
+  /**
+   * Set the user access level which command require.
+   *
+   * @param access - User access level.
+   * @returns Command instance
+   */
+  public access(access: UserAccess) {
     this.meta.access = access
     return this
   }
 
+  /**
+   * Add command option.
+   *
+   * @param name - Option name.
+   * @param template - Option template.
+   * @returns Command instance
+   */
   public option<TemplateOpt extends string>(name: string, template: TemplateOpt) {
     const [str, description] = template.trim().split(' ')
     const [realname, type] = str.split(':')
@@ -316,16 +394,34 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
     return this as unknown as Command<Template, Opts & ParseOpts<TemplateOpt>>
   }
 
+  /**
+   * Set command action.
+   *
+   * @param callback - Command action.
+   * @returns Command instance
+   */
   public action(callback: CommandAction<ParseArgs<Template>, Opts>) {
     this.meta.action = callback
     return this
   }
 
+  /**
+   * Set command help text.
+   *
+   * @param text - Command help text.
+   * @returns Command instance
+   */
   public help(text: string) {
     this.meta.help = text
     return this
   }
 
+  /**
+   * Set command hide.
+   *
+   * @param isHide - Command hide.
+   * @returns Command instance
+   */
   public hide(isHide = true) {
     this.meta.hide = isHide
     return this

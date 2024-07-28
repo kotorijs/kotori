@@ -1,6 +1,5 @@
 import type { LocaleType } from '@kotori-bot/i18n'
 import type { ModuleConfig } from 'fluoro'
-import type { string } from './message'
 
 export interface CoreConfig {
   global: GlobalConfig

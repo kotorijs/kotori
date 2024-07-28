@@ -1,23 +1,12 @@
-import type { Context } from 'fluoro'
+import type { Context, EventsList } from 'fluoro'
 import { CronJob } from 'cron'
-import type {
-  CommandConfig,
-  MidwareCallback,
-  RegexpCallback,
-  SessionData,
-  MessageQuick,
-  TaskCallback,
-  FilterOption,
-  TaskOptions,
-  MessageScope,
-  MessageRaw
-} from '../types'
-import { cancelFactory } from '../utils/factory'
-import { Command } from '../utils/command'
-import CommandError from '../utils/commandError'
+import type { CommandConfig, MidwareCallback, RegexpCallback, TaskCallback, FilterOption, TaskOptions } from '../types'
+import { cancelFactory } from '../utils/internal'
+import { Command, type Session } from '../components'
+import { CommandError } from '../utils/error'
 import { Symbols } from '../global'
-import Filter from '../utils/filter'
-import { setCommandMeta, setMidwareMeta, setRegExpMeta, setTaskMeta } from '../utils/meta'
+import { Filter } from '../components'
+import { setCommandMeta, setMidwareMeta, setRegExpMeta, setTaskMeta } from '../utils/internal'
 import { randomUUID } from 'node:crypto'
 
 interface MidwareData {
@@ -43,7 +32,7 @@ export class Message {
 
   public readonly [Symbols.promise]: Set<string> = new Set()
 
-  private handleMidware(session: SessionData) {
+  private handleMidware(session: Session<EventsList['on_message']>) {
     const { api } = session
     api.adapter.status.receivedMsg += 1
 
@@ -60,26 +49,31 @@ export class Message {
             last(next, session)
           }
         },
-        (_: unknown, session: SessionData) => {
+        (_: unknown, session: Session<EventsList['on_message']>) => {
           this.handleCommand(session)
           this.handleRegexp(session)
         }
       )(() => {}, session)
   }
 
-  private async handleRegexp(session: SessionData) {
+  private async handleRegexp(session: Session<EventsList['on_message']>) {
     for (const data of this[Symbols.regexp]) {
       const result = session.message.match(data.match)
       if (!result) continue
       const cancel = cancelFactory()
-      this.ctx.emit('before_regexp', { session, regexp: data.match, raw: session.message, cancel: cancel.get() })
+      this.ctx.emit('before_regexp', {
+        session,
+        regexp: data.match,
+        raw: session.message.toString(),
+        cancel: cancel.get()
+      })
       if (cancel.value) continue
       session.quick(data.callback(result, session))
-      this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message })
+      this.ctx.emit('regexp', { result, session, regexp: data.match, raw: session.message.toString() })
     }
   }
 
-  private async handleCommand(session: SessionData) {
+  private async handleCommand(session: Session<EventsList['on_message']>) {
     const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
 
     /* parse command shortcuts */
@@ -149,6 +143,13 @@ export class Message {
     })
   }
 
+  /**
+   * ss
+   *
+   * @param callback
+   * @param priority
+   * @returns
+   */
   public midware(callback: MidwareCallback, priority = 100) {
     setMidwareMeta(callback, { identity: this.ctx.identity, priority })
     const data = { callback, priority }
@@ -171,7 +172,7 @@ export class Message {
     return () => this[Symbols.regexp].delete(data)
   }
 
-  public boardcast(type: MessageScope, message: MessageRaw) {
+  public boardcast(/* type: MessageScope, message: Message */) {
     // const send =
     //   type === 'private'
     //     ? (api: Api) => api.send_on_message(message, 1)
@@ -182,7 +183,7 @@ export class Message {
     // });
   }
 
-  public notify(message: MessageQuick) {
+  public notify(/* message: MessageQuick */) {
     const mainAdapterIdentity = Object.keys(this.ctx.config.adapter)[0]
     for (const apis of this.ctx[Symbols.bot].values()) {
       for (const api of apis) {
@@ -206,6 +207,7 @@ export class Message {
     )
     setTaskMeta(task, { identity: this.ctx.identity, task, options })
     this[Symbols.task].add(task)
+    return () => this[Symbols.task].delete(task)
   }
 
   public filter(option: FilterOption) {

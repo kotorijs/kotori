@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-07-27 10:34:56
  */
 
-import { CommandAccess, CommandError, type Context, MessageScope, TsuError, type LocaleType, Symbols } from 'kotori-bot'
+import { UserAccess, CommandError, type Context, MessageScope, TsuError, type LocaleType, Symbols } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
@@ -19,11 +19,11 @@ export function main(ctx: Context) {
         quick('corei18n.template.scope')
         data.cancel()
       } else if (String(data.session.userId) !== String(data.session.api.adapter.config.master)) {
-        if (access === CommandAccess.ADMIN) {
+        if (access === UserAccess.ADMIN) {
           quick('corei18n.template.no_access_admin')
           data.cancel()
         } else if (
-          access === CommandAccess.MANGER &&
+          access === UserAccess.MANGER &&
           (data.session.type === MessageScope.PRIVATE ||
             (data.session.sender.role !== 'owner' && data.session.sender.role !== 'admin'))
         ) {

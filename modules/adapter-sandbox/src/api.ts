@@ -5,13 +5,13 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-02-17 15:06:37
  */
-import { Api, MessageRaw } from 'kotori-bot';
+import { Api, Message } from 'kotori-bot'
 
 export class SandboxApi extends Api {
-  public sendPrivateMsg(message: MessageRaw, userId: number) {
-    this.adapter.status.lastMsgTime = new Date();
-    this.adapter.status.sentMsg += 1;
-    this.adapter.send('send_private_msg', { userId, message });
+  public sendPrivateMsg(message: Message, userId: number) {
+    this.adapter.status.lastMsgTime = new Date()
+    this.adapter.status.sentMsg += 1
+    this.adapter.send('send_private_msg', { userId, message })
   }
 
   /**
@@ -20,11 +20,11 @@ export class SandboxApi extends Api {
    * @param {groupId} groupId 群号
    * @return {void}
    */
-  public sendGroupMsg(message: MessageRaw, groupId: number) {
-    this.adapter.status.lastMsgTime = new Date();
-    this.adapter.status.sentMsg += 1;
-    this.adapter.send('send_group_msg', { groupId, message });
+  public sendGroupMsg(message: Message, groupId: number) {
+    this.adapter.status.lastMsgTime = new Date()
+    this.adapter.status.sentMsg += 1
+    this.adapter.send('send_group_msg', { groupId, message })
   }
 }
 
-export default SandboxApi;
+export default SandboxApi

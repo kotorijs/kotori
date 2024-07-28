@@ -1,34 +1,113 @@
-import type { Context } from 'fluoro'
+import type { Context, EventsList } from 'fluoro'
 import type Api from './api'
-import { MessageScope, type AdapterConfig, type EventApiType } from '../types'
+import { MessageScope, type AdapterConfig, type EventDataApiBase } from '../types'
 import type Elements from './elements'
-import { cancelFactory } from '../utils/factory'
-import { Session } from '../utils/session'
+import { cancelFactory } from '../utils/internal'
+import { Session } from './session'
 
+export type EventApiType = {
+  [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never
+}
+
+/** Bot Status */
 interface AdapterStatus {
+  /** Online status */
   value: 'online' | 'offline'
+  /** Bot create time */
   createTime: Date
+  /** Bot last sending message time, or empty if haven't received message */
   lastMsgTime: Date | null
+  /** Received message count */
   receivedMsg: number
+  /** Sent message count */
   sentMsg: number
+  /** Offline times */
   offlineTimes: number
 }
 
-export interface Adapter<T extends Api = Api, C extends AdapterConfig = AdapterConfig> {
+/**
+ * Platform adapter.
+ *
+ * @template A - Api instance of bot bind
+ * @template C - Adapter config
+ * @template E - Elements instance of bot bind
+ *
+ * @class
+ * @abstract
+ */
+export interface Adapter<A extends Api = Api, C extends AdapterConfig = AdapterConfig, E extends Elements = Elements> {
+  /**
+   * Context instance.
+   *
+   * @readonly
+   */
   readonly ctx: Context
+  /**
+   * Adapter config.
+   *
+   * @readonly
+   */
   readonly config: C
+  /**
+   * Adapter support platform.
+   *
+   * @readonly
+   */
   readonly platform: string
+  /**
+   * Platform id of bot instanceof itself.
+   *
+   * @readonly
+   */
   readonly selfId: string
+  /**
+   * Unique identity of bot.
+   *
+   * @readonly
+   */
   readonly identity: string
-  readonly api: T
-  readonly elements: Elements
+  /**
+   * Api instance of bot bind.
+   *
+   * @readonly
+   */
+  readonly api: A
+  /**
+   * Elements instance of bot bind.
+   *
+   * @readonly
+   */
+  readonly elements: E
+  /**
+   * Bot status.
+   *
+   * @readonly
+   */
   readonly status: AdapterStatus
+  /**
+   * Handle interactive data from platform.
+   *
+   * @param data - Data from platform.
+   */
   handle(...data: unknown[]): void
+  /**
+   * Start bot.
+   */
   start(): void
+  /**
+   * Stop bot.
+   */
   stop(): void
+  /**
+   * Send interactive data to platform.
+   *
+   * @param data - Data to send.
+   */
+  send(...data: unknown[]): void
 }
 
 function setProxy<T extends Api>(api: T, ctx: Context): T {
+  // TODO: modify them
   api.sendPrivateMsg = new Proxy(api.sendPrivateMsg, {
     apply(_, __, argArray) {
       const [message, targetId] = argArray
@@ -62,7 +141,12 @@ function setProxy<T extends Api>(api: T, ctx: Context): T {
   return api
 }
 
-abstract class AdapterOrigin<T extends Api = Api, C extends AdapterConfig = AdapterConfig> implements Adapter<T, C> {
+abstract class AdapterOrigin<
+  A extends Api = Api,
+  C extends AdapterConfig = AdapterConfig,
+  E extends Elements = Elements
+> implements Adapter<A, C, E>
+{
   public constructor(ctx: Context, config: C, identity: string) {
     this.ctx = ctx
     this.config = config
@@ -71,9 +155,9 @@ abstract class AdapterOrigin<T extends Api = Api, C extends AdapterConfig = Adap
 
   public abstract readonly platform: string
 
-  public abstract readonly api: T
+  public abstract readonly api: A
 
-  public abstract readonly elements: Elements
+  public abstract readonly elements: E
 
   public abstract handle(...data: unknown[]): void
 
@@ -81,13 +165,13 @@ abstract class AdapterOrigin<T extends Api = Api, C extends AdapterConfig = Adap
 
   public abstract stop(): void
 
-  // biome-ignore lint:
-  public abstract send(action: string, params?: object): void | object | Promise<unknown> | null | undefined
+  public abstract send(...data: unknown[]): void
 
   protected online() {
     if (this.status.value !== 'offline') return
     this.status.value = 'online'
     this.ctx.emit('status', { adapter: this, status: 'online' })
+    // this.session('before_command')
   }
 
   protected offline() {

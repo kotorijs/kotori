@@ -4,7 +4,7 @@ import {
   type Context,
   type EventsList,
   Service,
-  type CommandAccess,
+  type UserAccess,
   type MessageScope,
   type Parser,
   type ModuleConfig,
@@ -107,7 +107,7 @@ export class Decorators {
     description?: string
     help?: string
     scope?: MessageScope | 'all'
-    access?: CommandAccess
+    access?: UserAccess
     options?: [string, string][]
   }) {
     return this.register(<T extends object>(target: T, property: keyof T) => {

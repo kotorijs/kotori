@@ -5,10 +5,10 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-07-26 15:22:37
  */
-import { Api, type MessageRaw } from 'kotori-bot'
+import { Api, type Message } from 'kotori-bot'
 
 export class OnebotApi extends Api {
-  public sendPrivateMsg(message: MessageRaw, userId: number): void {
+  public sendPrivateMsg(message: Message, userId: number): void {
     this.adapter.status.lastMsgTime = new Date()
     this.adapter.status.sentMsg += 1
     this.adapter.send('send_private_msg', { user_id: userId, message, auto_escape: false })
@@ -20,7 +20,7 @@ export class OnebotApi extends Api {
    * @param {groupId} groupId 群号
    * @return {void}
    */
-  public sendGroupMsg(message: MessageRaw, groupId: number): void {
+  public sendGroupMsg(message: Message, groupId: number): void {
     this.adapter.status.lastMsgTime = new Date()
     this.adapter.status.sentMsg += 1
     this.adapter.send('send_group_msg', { group_id: groupId, message, auto_escape: false })
