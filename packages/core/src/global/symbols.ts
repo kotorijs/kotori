@@ -8,6 +8,8 @@ export namespace Symbols {
   export const filter = Symbol.for('kotori.core.filter')
   export const promise = Symbol.for('kotori.core.promise')
   export const modules = Symbol.for('kotori.loader.module')
+  export const getInstance = Symbol.for('kotori.cli.get_instance')
+  export const setInstance = Symbol.for('kotori.cli.set_instance')
 }
 
 export default Symbols

@@ -79,28 +79,36 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
     })
 
     this.server = createServer(this.app)
-    this.wsServer = new Ws.Server({ noServer: true })
-    this.server.on('upgrade', (req, socket, head) => {
-      this.wsServer.handleUpgrade(req, socket, head, (ws, req) => {
-        this.wsServer.emit('connection', ws, req)
-      })
-    })
+    this.wsServer = new Ws.Server({ server: this.server })
     this.wsServer.on('connection', (ws, req) => {
-      let triggered = false
-      for (const [template, list] of this.wsRoutes.entries()) {
-        if (!req.url) continue
-        const result = match(template, { decode: decodeURIComponent })(req.url)
-        if (!result) continue
-        triggered = true
+      ws.on('open', () => {
+        let triggered = false
+        for (const [template, list] of this.wsRoutes.entries()) {
+          if (!req.url) continue
+          const result = match(template, { decode: decodeURIComponent })(req.url)
+          if (!result) continue
+          triggered = true
 
-        for (const callback of list) {
-          callback(ws, Object.assign(req, { params: result.params as Record<string, string> }))
+          for (const callback of list) {
+            callback(ws, Object.assign(req, { params: result.params as Record<string, string> }))
+          }
         }
-      }
-      if (!triggered) {
+        if (triggered) return
         ws.close(1003)
         req.destroy()
-      }
+      })
+      ws.on('message', (mes) => {
+        mes.toString()
+      })
+      ws.on('error', (error) => {
+        this.ctx.logger.label('server').error(`WebSocket client error: ${error.message}`)
+      })
+      ws.on('close', (code, reason) => {
+        this.ctx.logger.label('server').info(`WebSocket connection closed: ${code} - ${reason}`)
+      })
+    })
+    this.wsServer.on('error', (error) => {
+      this.ctx.logger.label('server').error(`WebSocket server error: ${error.message}`)
     })
   }
 

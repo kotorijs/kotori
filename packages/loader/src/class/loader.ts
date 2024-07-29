@@ -3,11 +3,10 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-25 21:18:32
+ * @LastEditTime: 2024-07-29 15:47:36
  */
 import {
   KotoriError,
-  Container,
   Tsu,
   type AdapterConfig,
   type CoreConfig,
@@ -66,6 +65,7 @@ declare module '@kotori-bot/core' {
 
 interface LoaderOptions {
   mode: typeof DEV_MODE | typeof BUILD_MODE
+  isDaemon?: boolean
   dir?: string
   config?: string
   port?: number
@@ -173,23 +173,25 @@ function getConfig(baseDir: Runner['baseDir'], loaderOptions?: LoaderOptions) {
 }
 
 export class Loader {
-  private readonly ctx: Context
-
   private loadCount = 0
+
+  public readonly ctx: Context
 
   public constructor(loaderOptions?: LoaderOptions) {
     const baseDir = getBaseDir(loaderOptions?.config || CONFIG_NAME, loaderOptions?.dir)
-    const options = { mode: loaderOptions?.mode || BUILD_MODE }
+    const options = { mode: loaderOptions?.mode || BUILD_MODE, isDaemon: !!loaderOptions?.isDaemon }
 
-    const ctx = new Core(getConfig(baseDir, options))
-    ctx.root.meta.loaderVersion = require(path.resolve(__dirname, '../../package.json')).version
-    ctx.provide('runner', new Runner(ctx, { baseDir, options }))
-    ctx.mixin('runner', ['baseDir', 'options'])
-    ctx.provide('loader-tools', { format: formatFactory(ctx.i18n), locale: ctx.i18n.locale.bind(ctx.i18n) })
-    ctx.mixin('loader-tools', ['locale', 'format'])
-    ctx.i18n.use(path.resolve(__dirname, '../../locales'))
-    Container.setInstance(ctx)
-    this.ctx = Container.getInstance()
+    this.ctx = new Core(getConfig(baseDir, options))
+    this.ctx.root.meta.loaderVersion = require(path.resolve(__dirname, '../../package.json')).version
+    this.ctx.provide('runner', new Runner(this.ctx, { baseDir, options }))
+    this.ctx.mixin('runner', ['baseDir', 'options'])
+    this.ctx.provide('loader-tools', {
+      format: formatFactory(this.ctx.i18n),
+      locale: this.ctx.i18n.locale.bind(this.ctx.i18n)
+    })
+    this.ctx.mixin('loader-tools', ['locale', 'format'])
+    this.ctx.i18n.use(path.resolve(__dirname, '../../locales'))
+
     this.ctx.logger.trace('loaderOptions:', options)
     this.ctx.logger.trace('baseDir:', this.ctx.baseDir)
     this.ctx.logger.trace('options:', this.ctx.options)

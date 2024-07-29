@@ -1,15 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-  ADAPTER_PREFIX,
   Adapter,
   type Context,
-  DATABASE_PREFIX,
   DevError,
   type LocaleType,
   type ModuleConfig,
   ModuleError,
-  PLUGIN_PREFIX,
   Parser,
   Service,
   Symbols,
@@ -17,7 +14,15 @@ import {
   TsuError
 } from '@kotori-bot/core'
 import { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
-import { type BUILD_MODE, CORE_MODULES, DEV_MODE } from '../constants'
+import {
+  type BUILD_MODE,
+  CORE_MODULES,
+  DEV_MODE,
+  INTERNAL_PACKAGES,
+  DATABASE_PREFIX,
+  ADAPTER_PREFIX,
+  PLUGIN_PREFIX
+} from '../constants'
 import '../types/internal'
 import KotoriLogger from '../utils/logger'
 import './loader'
@@ -31,6 +36,7 @@ interface BaseDir {
 
 interface Options {
   mode: typeof BUILD_MODE | typeof DEV_MODE
+  isDaemon: boolean
 }
 
 interface RunnerConfig {
@@ -169,6 +175,7 @@ export class Runner {
 
     try {
       pkg = modulePackageSchema.parse(JSON.parse(fs.readFileSync(pkgPath).toString()))
+      if (INTERNAL_PACKAGES.includes(pkg.name)) return
     } catch (e) {
       if (e instanceof TsuError) throw new DevError(this.ctx.format('error.dev.package.missing', [pkgPath, e.message]))
       throw new DevError(this.ctx.format('error.dev.package.illegal', [pkgPath]))

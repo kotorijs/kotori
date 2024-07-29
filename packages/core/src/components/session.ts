@@ -16,13 +16,7 @@ import type { I18n } from '@kotori-bot/i18n'
 import { Symbols } from '../global'
 import { MessageList, MessageSingle } from './messages'
 
-/**
- * Session event.
- *
- * @class
- * @template T - Session event data type
- */
-export class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
+class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
   private isSameSender(session: SessionOrigin) {
     return (
       this.api.adapter.identity === session.api.adapter.identity &&
@@ -270,6 +264,12 @@ export class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implem
  */
 export type Session<T extends EventDataApiBase = EventDataApiBase> = SessionOrigin<T> & T
 
+/**
+ * Session event.
+ *
+ * @class
+ * @template T - Session event data type
+ */
 export const Session = new Proxy(SessionOrigin, {
   construct: (target, args, newTarget) => Object.assign(args[0], Reflect.construct(target, args, newTarget))
 }) as new <T extends EventDataApiBase = EventDataApiBase>(

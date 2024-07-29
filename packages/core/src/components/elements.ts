@@ -1,49 +1,61 @@
-import { none } from '@kotori-bot/tools'
 import type { Adapter } from './adapter'
 import type { Api } from './api'
-import type { AdapterConfig } from '../types'
+import type { AdapterConfig, Message, MessageMapping } from '../types'
+import { none } from '@kotori-bot/tools'
 
+/**
+ * Elements handler base class.
+ *
+ * @abstract
+ */
 export abstract class Elements {
+  /**
+   * Adapter instance.
+   *
+   * @readonly
+   */
   public readonly adapter: Adapter<Api, AdapterConfig, this>
 
+  /**
+   * Create a elements handler.
+   *
+   * @param adapter - Adapter instance
+   */
   public constructor(adapter: Adapter) {
     this.adapter = adapter as Adapter<Api, AdapterConfig, this>
   }
 
-  private default(...args: unknown[]) {
-    none(this, args)
-    return ''
+  /**
+   * Encode raw message string to `Message`.
+   *
+   * @param raw - Raw message
+   * @param meta - Message metadata
+   * @returns Encoded message
+   */
+  public encode(raw: string, meta: object = {}): Message {
+    none(meta)
+    return raw
   }
 
-  public at(target: string, ...extra: unknown[]) {
-    return this.default(target, extra)
+  /**
+   * Decode `Message` elements to string.
+   *
+   * @param message - Message to decode
+   * @returns Decoded message
+   */
+  // biome-ignore lint:
+  public decode(message: Message): any {
+    return message.toString()
   }
 
-  public image(url: string, ...extra: unknown[]) {
-    return this.default(url, extra)
-  }
-
-  public voice(url: string, ...extra: unknown[]) {
-    return this.default(url, extra)
-  }
-
-  public video(url: string, ...extra: unknown[]) {
-    return this.default(url, extra)
-  }
-
-  public face(id: number | string, ...extra: unknown[]) {
-    return this.default(id, extra)
-  }
-
-  public file(data: unknown, ...extra: unknown[]) {
-    return this.default(data, extra)
-  }
-
-  public getSupports() {
-    return (['at', 'image', 'voice', 'video', 'face', 'file'] as const).filter(
-      (key) => this[key] && this[key] !== Object.getPrototypeOf(Object.getPrototypeOf(key))[key]
-    )
-  }
+  /**
+   * Get supported elements.
+   *
+   * @returns Supported elements
+   *
+   * @abstract
+   */
+  public abstract getSupportsElements(): (keyof MessageMapping)[]
 }
 
 export default Elements

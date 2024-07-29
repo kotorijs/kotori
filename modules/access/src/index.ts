@@ -1,4 +1,4 @@
-import { UserAccess, Context, MessageScope } from 'kotori-bot'
+import { UserAccess, type Context, MessageScope, EventsList } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
@@ -10,13 +10,12 @@ export function main(ctx: Context) {
   const load = (bot: string) => ctx.file.load<Data>(`${bot}.json`, 'json', {})
   const save = (bot: string, data: Data) => ctx.file.save(`${bot}.json`, data)
 
-  ctx.on('before_parse', (data) => {
-    const d = data
+  ctx.on('before_parse', (d) => {
     if (d.session.type !== MessageScope.GROUP || !d.session.groupId) return
     const list = load(d.session.api.adapter.identity)
     if (!(String(d.session.groupId) in list)) return
     if (!list[String(d.session.groupId)].includes(String(d.session.userId))) return
-    d.session.sender.role = 'admin'
+    if (d.session.type === MessageScope.GROUP) d.session.sender.role = 'admin'
   })
 
   ctx
