@@ -196,10 +196,21 @@ interface EventDataBeforeSend {
   api: Api
   /** Message to send */
   message: Message
-  /** Message type */
-  messageType: MessageScope
-  /** Target id */
-  targetId: string
+  /** Target user or group or channel */
+  target:
+    | {
+        type: MessageScope.PRIVATE
+        userId: string
+      }
+    | {
+        type: MessageScope.GROUP
+        groupId: string
+      }
+    | {
+        type: MessageScope.CHANNEL
+        channelId: string
+        guildId: string
+      }
   /** Cancel the message sending */
   cancel(): void
 }

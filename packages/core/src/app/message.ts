@@ -143,13 +143,6 @@ export class Message {
     })
   }
 
-  /**
-   * ss
-   *
-   * @param callback
-   * @param priority
-   * @returns
-   */
   public midware(callback: MidwareCallback, priority = 100) {
     setMidwareMeta(callback, { identity: this.ctx.identity, priority })
     const data = { callback, priority }

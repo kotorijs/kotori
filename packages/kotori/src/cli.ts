@@ -2,8 +2,9 @@ import cac from 'cac'
 import { BUILD_MODE, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
 import { resolve } from 'node:path'
 import env from './utils/env'
-import { type Context, executeCommand, supportTs } from '@kotori-bot/core'
+import { executeCommand, supportTs, Symbols } from '@kotori-bot/core'
 import daemon from './daemon'
+import { Container } from './utils/container'
 
 const program = cac()
 
@@ -56,9 +57,10 @@ program
     }
 
     if (options.daemon) return daemon(virtualEnv)
-    const kotori = new Loader(loaderOptions)
-    ;(kotori as unknown as { ctx: Context }).ctx.meta.version = require(resolve(__dirname, '../package.json')).version
-    kotori.run()
+    const loader = new Loader(loaderOptions)
+    loader.ctx.meta.version = require(resolve(__dirname, '../package.json')).version
+    Container[Symbols.setInstance](loader.ctx)
+    loader.run()
   })
 
 program

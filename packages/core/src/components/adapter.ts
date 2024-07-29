@@ -106,41 +106,6 @@ export interface Adapter<A extends Api = Api, C extends AdapterConfig = AdapterC
   send(...data: unknown[]): void
 }
 
-function setProxy<T extends Api>(api: T, ctx: Context): T {
-  // TODO: modify them
-  api.sendPrivateMsg = new Proxy(api.sendPrivateMsg, {
-    apply(_, __, argArray) {
-      const [message, targetId] = argArray
-      const cancel = cancelFactory()
-      ctx.emit('before_send', {
-        api,
-        message,
-        messageType: MessageScope.PRIVATE,
-        targetId,
-        cancel: cancel.get()
-      })
-      if (cancel.value) return
-      Reflect.apply(message, targetId, argArray[2])
-    }
-  })
-  api.sendGroupMsg = new Proxy(api.sendGroupMsg, {
-    apply(_, __, argArray) {
-      const [message, targetId] = argArray
-      const cancel = cancelFactory()
-      ctx.emit('before_send', {
-        api,
-        message,
-        messageType: MessageScope.PRIVATE,
-        targetId,
-        cancel: cancel.get()
-      })
-      if (cancel.value) return
-      Reflect.apply(message, targetId, argArray[2])
-    }
-  })
-  return api
-}
-
 abstract class AdapterOrigin<
   A extends Api = Api,
   C extends AdapterConfig = AdapterConfig,
@@ -207,7 +172,33 @@ abstract class AdapterOrigin<
 export const Adapter = new Proxy(AdapterOrigin, {
   construct: (target, args, newTarget) => {
     const bot = Reflect.construct(target, args, newTarget)
-    bot.api = setProxy(bot.api, bot.ctx)
+    bot.api = new Proxy(bot.api, {
+      get: (target, prop, receiver) => {
+        const value = Reflect.get(target, prop, receiver)
+        if (typeof prop !== 'string' || !['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg'].includes(prop)) {
+          return value
+        }
+        return new Proxy(value as () => void, {
+          apply(target, thisArg, argArray) {
+            const [message, id1, id2] = argArray
+            const cancel = cancelFactory()
+            bot.ctx.emit('before_send', {
+              api: bot.api,
+              message,
+              cancel: cancel.get(),
+              target:
+                prop === 'sendPrivateMsg'
+                  ? { type: MessageScope.PRIVATE, userId: id1 }
+                  : prop === 'sendGroupMsg'
+                    ? { type: MessageScope.GROUP, groupId: id1 }
+                    : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
+            })
+            if (cancel.value) return
+            Reflect.apply(target, thisArg, argArray)
+          }
+        })
+      }
+    })
     return bot
   }
 })

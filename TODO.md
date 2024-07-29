@@ -45,3 +45,4 @@
 - [x] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
 - [ ] webui load tips twice
+- [ ] symbols props inject and reality context
