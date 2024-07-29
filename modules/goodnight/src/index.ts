@@ -31,6 +31,7 @@ function getSex(val: string) {
   }
 }
 
+// TODO: update
 export function main(ctx: Context, config: Config) {
   const getTodayPath = (yesterday: boolean = false) =>
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${yesterday ? new Date().getDate() - 1 : new Date().getDate()}.json`

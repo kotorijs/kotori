@@ -1,4 +1,14 @@
-import { Tsu, type CommandAction, MessageScope, plugins, type Session, KotoriPlugin, Symbols } from 'kotori-bot'
+import {
+  Tsu,
+  type CommandAction,
+  MessageScope,
+  plugins,
+  type Session,
+  KotoriPlugin,
+  Symbols,
+  type SessionMsgGroup,
+  type SessionMsg
+} from 'kotori-bot'
 
 const plugin = plugins([__dirname, '../'])
 
@@ -29,7 +39,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   }
 
   @plugin.on({ type: 'on_group_decrease' })
-  public static groupDecrease(session: Session) {
+  public static groupDecrease(session: SessionMsgGroup) {
     session.quick([
       session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
       {
@@ -40,7 +50,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   }
 
   @plugin.midware({ priority: 1 })
-  public static midware(next: () => void, session: Session) {
+  public static midware(next: () => void, session: SessionMsg) {
     const s = session
     if (s.message.startsWith('说')) {
       s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`

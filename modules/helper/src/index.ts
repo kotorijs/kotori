@@ -16,6 +16,7 @@ export const config = Tsu.Object({
 
 export const lang = [__dirname, '../locales']
 
+// TODo: update
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   if (cfg.content) {
     const handle = (session: Session): MessageQuick => [cfg.content!, { at: session.el.at(session.userId) }]

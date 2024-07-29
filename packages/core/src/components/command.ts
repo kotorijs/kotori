@@ -43,7 +43,7 @@ interface CommandOption {
  * @template Args - Command arguments
  * @template Opts - Command options
  */
-interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin> {
+interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin, Scope = 'all'> {
   /** Command root content */
   root: string
   /** Command alias (need bring command prefix) */
@@ -65,7 +65,7 @@ interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin> {
   /** Command help message, it has more details than `description` */
   help?: string
   /** Command action */
-  action?: CommandAction<Args, Opts>
+  action?: CommandAction<Args, Opts, Scope>
 }
 
 type GetSignType<T extends string> = T extends `${string}number${string}`
@@ -120,7 +120,11 @@ const defaultType: CommandArgTypeSign = 'string'
  *
  * @class
  */
-export class Command<Template extends string = string, Opts extends OptsOrigin = OptsOrigin> {
+export class Command<
+  Template extends string = string,
+  Opts extends OptsOrigin = OptsOrigin,
+  Scope extends CommandConfig['scope'] | 'all' = 'all'
+> {
   private static handleDefaultValue(value: CommandArgType, type: CommandArgTypeSign) {
     if (type === 'boolean') return value !== 'false' && !!value
     if (type === 'number') {
@@ -257,7 +261,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
    *
    * @readonly
    */
-  public readonly meta: CommandData<ParseArgs<Template>, Opts> = {
+  public readonly meta: CommandData<ParseArgs<Template>, Opts, Scope> = {
     root: '',
     alias: [],
     scope: 'all',
@@ -359,9 +363,9 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
    * @param scope - Message scope.
    * @returns Command instance
    */
-  public scope(scope: CommandConfig['scope']) {
+  public scope<S extends CommandConfig['scope']>(scope: S) {
     this.meta.scope = scope
-    return this
+    return this as unknown as Command<Template, Opts, S>
   }
 
   /**
@@ -400,7 +404,7 @@ export class Command<Template extends string = string, Opts extends OptsOrigin =
    * @param callback - Command action.
    * @returns Command instance
    */
-  public action(callback: CommandAction<ParseArgs<Template>, Opts>) {
+  public action(callback: CommandAction<ParseArgs<Template>, Opts, Scope>) {
     this.meta.action = callback
     return this
   }

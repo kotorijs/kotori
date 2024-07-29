@@ -1,10 +1,12 @@
 import {
-  type CommandArgType,
   type EventDataApiBase,
   type Message,
   MessageScope,
   type MessageQuick,
-  type CommandResult
+  type CommandResult,
+  type EventDataPrivateMsg,
+  type EventDataGroupMsg,
+  type EventDataChannelMsg
 } from '../types'
 import type { Adapter } from './adapter'
 import { formatFactory } from '../utils/factory'
@@ -83,9 +85,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    * @param data - Data to format
    * @returns Formatted message
    */
-  public format(template: string, data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]) {
-    return formatFactory(this.i18n)(template, data)
-  }
+  public readonly format: ReturnType<typeof formatFactory>
 
   /**
    * Send message to current session, it's packed base on `session.send()`, `session.i18n` and `session.format()`.
@@ -102,7 +102,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
       this.send(this.i18n.locale(msg.toString()))
       return
     }
-    this.send(this.format(...msg))
+    this.send(this.format(msg[0], msg[1] as Parameters<this['format']>[1]))
   }
 
   /**
@@ -115,6 +115,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    */
   public prompt(message?: Message): Promise<Message> {
     return new Promise((resolve) => {
+      this.api.adapter.ctx[Symbols.promise].add(this.id)
       const handle: EventsMapping['on_message'] = (session) => {
         if (this.isSameSender(session as unknown as SessionOrigin)) {
           resolve(session.message)
@@ -136,6 +137,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    */
   public confirm(options?: { message: Message; sure: Message }): Promise<boolean> {
     return new Promise((resolve) => {
+      this.api.adapter.ctx[Symbols.promise].add(this.id)
       const handle: EventsMapping['on_message'] = (session) => {
         if (this.isSameSender(session as unknown as SessionOrigin)) {
           resolve(session.message === (options?.sure ?? 'corei18n.template.confirm.sure'))
@@ -252,6 +254,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
         this.id = `${MessageScope.CHANNEL}|${this.channelId}|${this.guildId}|${this.userId}`
         break
     }
+    this.format = formatFactory(this.i18n)
   }
 }
 
@@ -263,6 +266,10 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
  * @template T
  */
 export type Session<T extends EventDataApiBase = EventDataApiBase> = SessionOrigin<T> & T
+export type SessionMsg = Session<EventDataPrivateMsg | EventDataGroupMsg | EventDataChannelMsg>
+export type SessionMsgPrivate = Session<EventDataPrivateMsg>
+export type SessionMsgGroup = Session<EventDataGroupMsg>
+export type SessionMsgChannel = Session<EventDataChannelMsg>
 
 /**
  * Session event.

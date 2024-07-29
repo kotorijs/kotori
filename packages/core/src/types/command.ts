@@ -1,14 +1,20 @@
 import Tsu from 'tsukiko'
 import type { TsuError } from 'tsukiko'
 import type { MessageQuick, MessageScope, UserAccess } from './message'
-import type { Session } from '../components'
+import type { SessionMsg, SessionMsgChannel, SessionMsgGroup, SessionMsgPrivate } from '../components'
 
 export type ArgsOrigin = CommandArgType[]
 export type OptsOrigin = Record<string, CommandArgType>
 
-export type CommandAction<Args = ArgsOrigin, Opts = OptsOrigin> = (
+export type CommandAction<Args = ArgsOrigin, Opts = OptsOrigin, Scope = 'all'> = (
   data: { args: Args; options: Opts },
-  session: Session
+  session: Scope extends MessageScope.PRIVATE
+    ? SessionMsgPrivate
+    : Scope extends MessageScope.GROUP
+      ? SessionMsgGroup
+      : Scope extends MessageScope.CHANNEL
+        ? SessionMsgChannel
+        : SessionMsg
 ) => MessageQuick
 
 export type CommandArgType = string | number | boolean /* object<json> */

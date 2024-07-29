@@ -147,7 +147,7 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
  * @template T - Message type
  * @class
  */
-export type MessageList<T extends keyof MessageMapping> = string & MessageListOrigin<T>
+export type MessageList<T extends keyof MessageMapping> = (typeof String)['prototype'] & MessageListOrigin<T>
 export const MessageList = new Proxy(MessageListOrigin, {
   construct: (target, argArray, newTarget) =>
     new Proxy(Reflect.construct(target, argArray, newTarget), {

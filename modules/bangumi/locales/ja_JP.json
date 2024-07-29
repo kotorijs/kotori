@@ -1,10 +1,10 @@
 {
-    "bangumi.descr.bgm": "アニメ/ゲームの番組検索",
-    "bangumi.descr.bgmc": "今日放送の番組を取得",
-    "bangumi.msg.bgm": "原題:{0}\n中国語名:{1}\n紹介:{2}\nタグ:{3}\n詳細:{4}\n{5}",
-    "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
-    "bangumi.option.bangumi.order": "番号",
-    "bangumi.msg.bgm.fail": "関連項目が見つかりませんでした:{0}",
-    "bangumi.msg.bgmc": "日付:{0}~{1}",
-    "bangumi.msg.bgmc.list": "\n原題:{0}\n中国語名:{1}\n放送開始時間:{2}\n{3}"
+  "bangumi.descr.bgm": "アニメ/ゲームの番組検索",
+  "bangumi.descr.bgmc": "今日放送の番組を取得",
+  "bangumi.msg.bgm": "原題:{0}\n中国語名:{1}\n紹介:{2}\nタグ:{3}\n詳細:{4}",
+  "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
+  "bangumi.option.bangumi.order": "番号",
+  "bangumi.msg.bgm.fail": "関連項目が見つかりませんでした:{0}",
+  "bangumi.msg.bgmc": "日付:{0}~{1}",
+  "bangumi.msg.bgmc.list": "\n原題:{0}\n中国語名:{1}\n放送開始時間:{2}\n{3}"
 }
