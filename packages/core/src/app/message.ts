@@ -1,8 +1,8 @@
-import type { Context, EventsList } from 'fluoro'
+import type { Context } from 'fluoro'
 import { CronJob } from 'cron'
 import type { CommandConfig, MidwareCallback, RegexpCallback, TaskCallback, FilterOption, TaskOptions } from '../types'
 import { cancelFactory } from '../utils/internal'
-import { Command, type Session } from '../components'
+import { Command, type SessionMsg } from '../components'
 import { CommandError } from '../utils/error'
 import { Symbols } from '../global'
 import { Filter } from '../components'
@@ -32,7 +32,7 @@ export class Message {
 
   public readonly [Symbols.promise]: Set<string> = new Set()
 
-  private handleMidware(session: Session<EventsList['on_message']>) {
+  private handleMidware(session: SessionMsg) {
     const { api } = session
     api.adapter.status.receivedMsg += 1
 
@@ -49,14 +49,14 @@ export class Message {
             last(next, session)
           }
         },
-        (_: unknown, session: Session<EventsList['on_message']>) => {
+        (_: unknown, session: SessionMsg) => {
           this.handleCommand(session)
           this.handleRegexp(session)
         }
       )(() => {}, session)
   }
 
-  private async handleRegexp(session: Session<EventsList['on_message']>) {
+  private async handleRegexp(session: SessionMsg) {
     for (const data of this[Symbols.regexp]) {
       const result = session.message.match(data.match)
       if (!result) continue
@@ -73,7 +73,7 @@ export class Message {
     }
   }
 
-  private async handleCommand(session: Session<EventsList['on_message']>) {
+  private async handleCommand(session: SessionMsg) {
     const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
 
     /* parse command shortcuts */
@@ -90,21 +90,19 @@ export class Message {
       session,
       raw: session.message.slice(prefix.length)
     }
-    this.ctx.emit('before_parse', params)
-
-    const cancel = cancelFactory()
-    this.ctx.emit('before_command', { cancel: cancel.get(), ...params })
-    if (cancel.value) return
 
     let matched: undefined | Command
     for (const cmd of this[Symbols.command]) {
       if (matched || !cmd.meta.action) continue
       const result = Command.run(params.raw, cmd.meta)
+      // Command is not matched
       if (result instanceof CommandError && result.value.type === 'unknown') continue
 
       matched = cmd
-      this.ctx.emit('parse', { command: cmd, result, ...params, cancel: cancel.get() })
-      if (cancel.value || result instanceof CommandError) continue
+      const cancel = cancelFactory()
+      this.ctx.emit('before_command', { command: cmd, result, ...params, cancel: cancel.get() })
+      if (cancel.value) continue
+      if (result instanceof CommandError) throw result
 
       try {
         const executed = cmd.meta.action({ args: result.args, options: result.options }, session)
@@ -124,12 +122,14 @@ export class Message {
     }
 
     if (matched) return
-    this.ctx.emit('parse', {
+    // Command is all not matched
+    const result = new CommandError({ type: 'unknown', input: params.raw })
+    this.ctx.emit('command', {
       command: new Command('' as string),
-      result: new CommandError({ type: 'unknown', input: params.raw }),
-      ...params,
-      cancel: cancel.get()
+      result,
+      ...params
     })
+    throw result
   }
 
   private readonly ctx: Context

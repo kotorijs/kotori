@@ -1,4 +1,4 @@
-import { Context, Tsu } from 'kotori-bot'
+import { type Context, Messages, Tsu } from 'kotori-bot'
 
 const githubSchema = Tsu.Union(
   Tsu.Object({
@@ -23,7 +23,7 @@ export const lang = [__dirname, '../locales']
 export function main(ctx: Context) {
   ctx.command('github <repository> - github.descr.github').action(async (data, session) => {
     const res = githubSchema.parse(await ctx.http.get(`https://api.github.com/repos/${data.args[0]}`))
-    if (!('full_name' in res)) return ['github.msg.github.fail', { input: data.args[0] }]
+    if (!('full_name' in res)) return session.format('github.msg.github.fail', { input: data.args[0] })
     session.quick([
       'github.msg.github',
       {
@@ -37,7 +37,7 @@ export function main(ctx: Context) {
         license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY'
       }
     ])
-    return session.el.image(
+    return Messages.image(
       `https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`
     )
   })

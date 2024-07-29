@@ -1,7 +1,7 @@
 {
   "bangumi.descr.bgm": "番組計劃搜索遊戲/動漫",
   "bangumi.descr.bgmc": "獲取番組計劃今日放送",
-  "bangumi.msg.bgm": "原名：{0}\n中文名：{1}\n介紹：{2}\n標簽：{3}\n詳情：{4}\n{5}",
+  "bangumi.msg.bgm": "原名：{0}\n中文名：{1}\n介紹：{2}\n標簽：{3}\n詳情：{4}",
   "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
   "bangumi.msg.bgm.fail": "未找到相關條目：{0}",
   "bangumi.option.bangumi.order": "番号",

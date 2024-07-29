@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-music",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "music plugin",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],

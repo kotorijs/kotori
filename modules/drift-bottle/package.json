@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-drift-bottle",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "throw and pick bottles",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],

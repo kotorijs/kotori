@@ -12,6 +12,8 @@ const hitokotoSchema = Tsu.Object({
 
 const plugin = plugins([__dirname, '../'])
 
+// TODO: update
+
 @plugin.import
 class GrouperPlugin extends KotoriPlugin {
   @plugin.inject

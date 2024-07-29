@@ -131,7 +131,7 @@ export interface EventDataApiBase<T extends MessageScope = MessageScope> {
 }
 
 /** Session event data for received private message */
-interface EventDataPrivateMsg extends EventDataApiBase<MessageScope.PRIVATE> {
+export interface EventDataPrivateMsg extends EventDataApiBase<MessageScope.PRIVATE> {
   /** User id who sent message */
   userId: string
   /** Message id */
@@ -145,7 +145,7 @@ interface EventDataPrivateMsg extends EventDataApiBase<MessageScope.PRIVATE> {
 }
 
 /** Session event data for received group message */
-interface EventDataGroupMsg extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupMsg extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who sent message */
   userId: string
   /** Message id */
@@ -157,11 +157,11 @@ interface EventDataGroupMsg extends EventDataApiBase<MessageScope.GROUP> {
   /** Group id */
   groupId: string
   /** @deprecated */
-  sender: SessionSender & { role: 'admin' | 'manger' | 'member' }
+  sender: SessionSender & { role: 'owner' | 'admin' | 'member' }
 }
 
 /** Session event data for received channel message */
-interface EventDataChannelMsg extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataChannelMsg extends EventDataApiBase<MessageScope.CHANNEL> {
   /** User id who sent message */
   userId: string
   /** Message id */
@@ -179,14 +179,14 @@ interface EventDataChannelMsg extends EventDataApiBase<MessageScope.CHANNEL> {
 }
 
 /** Session event data for deleted private message */
-interface EventDataPrivateMsgDelete extends EventDataApiBase<MessageScope.PRIVATE> {
+export interface EventDataPrivateMsgDelete extends EventDataApiBase<MessageScope.PRIVATE> {
   /** User id who be deleted message */
   userId: string
   messageId: string
 }
 
 /** Session event data for deleted group message */
-interface EventDataGroupMsgDelete extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupMsgDelete extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who be deleted message */
   userId: string
   /** Message id */
@@ -198,7 +198,7 @@ interface EventDataGroupMsgDelete extends EventDataApiBase<MessageScope.GROUP> {
 }
 
 /** Session event data for deleted channel message */
-interface EventDataChannelMsgDelete extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataChannelMsgDelete extends EventDataApiBase<MessageScope.CHANNEL> {
   /** User id who be deleted message */
   userId: string
   /** Message id */
@@ -212,19 +212,19 @@ interface EventDataChannelMsgDelete extends EventDataApiBase<MessageScope.CHANNE
 }
 
 /** Session event data for friend increase */
-interface EventDataFriendIncrease extends EventDataApiBase<MessageScope.PRIVATE> {
+export interface EventDataFriendIncrease extends EventDataApiBase<MessageScope.PRIVATE> {
   /** User id who increased friend */
   userId: string
 }
 
 /** Session event data for friend decrease */
-interface EventDataFriendDecrease extends EventDataApiBase<MessageScope.PRIVATE> {
+export interface EventDataFriendDecrease extends EventDataApiBase<MessageScope.PRIVATE> {
   /** User id who decreased friend */
   userId: string
 }
 
 /** Session event data for group increase */
-interface EventDataGroupIncrease extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupIncrease extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who increased member */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was invited by the group member */
@@ -234,7 +234,7 @@ interface EventDataGroupIncrease extends EventDataApiBase<MessageScope.GROUP> {
 }
 
 /** Session event data for group decrease */
-interface EventDataGroupDecrease extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupDecrease extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who decreased member */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was kicked by the group manger */
@@ -244,7 +244,7 @@ interface EventDataGroupDecrease extends EventDataApiBase<MessageScope.GROUP> {
 }
 
 /** Session event data for guild increase */
-interface EventDataGuildIncrease extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataGuildIncrease extends EventDataApiBase<MessageScope.CHANNEL> {
   /** User id who increased member */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was invited by the group member */
@@ -256,7 +256,7 @@ interface EventDataGuildIncrease extends EventDataApiBase<MessageScope.CHANNEL> 
 }
 
 /** Session event data for guild decrease */
-interface EventDataGuildDecrease extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataGuildDecrease extends EventDataApiBase<MessageScope.CHANNEL> {
   /** User id who decreased member */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was kicked by the group manger */
@@ -268,7 +268,7 @@ interface EventDataGuildDecrease extends EventDataApiBase<MessageScope.CHANNEL> 
 }
 
 /** Session event data for channel increase */
-interface EventDataChannelIncrease extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataChannelIncrease extends EventDataApiBase<MessageScope.CHANNEL> {
   /** User id who increased member */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was invited by the group member */
@@ -280,7 +280,7 @@ interface EventDataChannelIncrease extends EventDataApiBase<MessageScope.CHANNEL
 }
 
 /** Session event data for channel decrease */
-interface EventDataChannelDecrease extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataChannelDecrease extends EventDataApiBase<MessageScope.CHANNEL> {
   /** User id who decreased member */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was kicked by the group manger */
@@ -295,7 +295,7 @@ interface EventDataChannelDecrease extends EventDataApiBase<MessageScope.CHANNEL
  *
  * @experimental
  */
-interface EventDataFriendRequest extends EventDataApiBase<MessageScope.PRIVATE> {
+export interface EventDataFriendRequest extends EventDataApiBase<MessageScope.PRIVATE> {
   /** User id who requested friend */
   userId: string
   /** Requested Comment */
@@ -313,7 +313,7 @@ interface EventDataFriendRequest extends EventDataApiBase<MessageScope.PRIVATE> 
  *
  * @experimental
  */
-interface EventDataGroupRequest extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupRequest extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who requested group */
   userId: string
   /** Operator id, if it don't equal to `UserId` so member was invited by the group member */
@@ -335,7 +335,7 @@ interface EventDataGroupRequest extends EventDataApiBase<MessageScope.GROUP> {
  *
  * @experimental
  */
-interface EventDataGroupAdmin extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupAdmin extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who be set or unset admin */
   userId: string
   /** Operation, be set or unset */
@@ -348,7 +348,7 @@ interface EventDataGroupAdmin extends EventDataApiBase<MessageScope.GROUP> {
  *
  * @experimental
  */
-interface EventDataGroupBan extends EventDataApiBase<MessageScope.GROUP> {
+export interface EventDataGroupBan extends EventDataApiBase<MessageScope.GROUP> {
   /** User id who be banned */
   userId: string
   /** Operator id */
@@ -360,7 +360,7 @@ interface EventDataGroupBan extends EventDataApiBase<MessageScope.GROUP> {
 }
 
 /** Session event when group whole ban changed */
-interface EventDataGroupWholeBan extends EventDataApiBase<MessageScope.CHANNEL> {
+export interface EventDataGroupWholeBan extends EventDataApiBase<MessageScope.CHANNEL> {
   userId: never
   /** Operator id */
   operatorId: string

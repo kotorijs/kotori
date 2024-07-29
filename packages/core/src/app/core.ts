@@ -144,11 +144,11 @@ function initialize(ctx: Context) {
 
   ctx.midware((next, session) => {
     //  Throttle valve for `session.prompt()` and ``session.confirm()`
-    if (session.userId in ctx[Symbols.promise]) return
+    if (session.id in ctx[Symbols.promise]) return
     next()
   })
 
-  ctx.on('parse', (data) => {
+  ctx.on('before_command', (data) => {
     const { identity } = getCommandMeta(data.command) ?? {}
     if (identity && !test(identity, data.session)) data.cancel()
   })

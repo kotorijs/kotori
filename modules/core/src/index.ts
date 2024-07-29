@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-27 10:34:56
+ * @LastEditTime: 2024-07-29 19:34:45
  */
 
 import { UserAccess, CommandError, type Context, MessageScope, TsuError, type LocaleType, Symbols } from 'kotori-bot'
@@ -11,7 +11,7 @@ import { UserAccess, CommandError, type Context, MessageScope, TsuError, type Lo
 export const lang = [__dirname, '../locales']
 
 export function main(ctx: Context) {
-  ctx.on('parse', (data) => {
+  ctx.on('before_command', (data) => {
     const { quick } = data.session
     if (!(data.result instanceof CommandError)) {
       const { scope, access } = data.command.meta
@@ -25,7 +25,7 @@ export function main(ctx: Context) {
         } else if (
           access === UserAccess.MANGER &&
           (data.session.type === MessageScope.PRIVATE ||
-            (data.session.sender.role !== 'owner' && data.session.sender.role !== 'admin'))
+            (data.session.type === MessageScope.GROUP && !['owner', 'admin'].includes(data.session.sender.role)))
         ) {
           quick('corei18n.template.no_access_manger')
           data.cancel()
@@ -119,69 +119,61 @@ export function main(ctx: Context) {
       .map((set) => Array.from(set.values()).length)
       .reduce((a, b) => a + b, 0)
 
-    return [
-      'core.msg.core',
-      {
-        lang: config.global.lang,
-        root: baseDir.root,
-        mode: options.mode,
-        modules: ctx[Symbols.modules] ? ctx[Symbols.modules].size : 0,
-        services: ctx[Symbols.adapter].size,
-        bots: botsLength,
-        midwares: ctx[Symbols.midware].size,
-        commands: ctx[Symbols.command].size,
-        regexps: ctx[Symbols.regexp].size
-      }
-    ]
+    return session.format('core.msg.core', {
+      lang: config.global.lang,
+      root: baseDir.root,
+      mode: options.mode,
+      modules: ctx[Symbols.modules] ? ctx[Symbols.modules].size : 0,
+      services: ctx[Symbols.adapter].size,
+      bots: botsLength,
+      midwares: ctx[Symbols.midware].size,
+      commands: ctx[Symbols.command].size,
+      regexps: ctx[Symbols.regexp].size
+    })
   })
 
   ctx.command('bot - core.descr.bot').action((_, session) => {
     const { identity, platform, selfId, config, status } = session.api.adapter
-    return [
-      'core.msg.bot',
-      {
-        identity,
-        lang: config.lang,
-        platform,
-        self_id: selfId,
-        create_time: session.i18n.time(status.createTime),
-        last_msg_time: status.lastMsgTime ? session.i18n.time(status.lastMsgTime) : '',
-        received_msg: status.receivedMsg,
-        sent_msg: status.sentMsg,
-        offline_times: status.offlineTimes
-      }
-    ]
+    return session.format('core.msg.bot', {
+      identity,
+      lang: config.lang,
+      platform,
+      self_id: selfId,
+      create_time: session.i18n.time(status.createTime),
+      last_msg_time: status.lastMsgTime ? session.i18n.time(status.lastMsgTime) : '',
+      received_msg: status.receivedMsg,
+      sent_msg: status.sentMsg,
+      offline_times: status.offlineTimes
+    })
   })
 
-  ctx.command('bots - core.descr.bots').action((_, session) => {
-    ;[
-      'core.msg.bots',
-      {
-        list: Array.from(ctx[Symbols.bot].values())
-          .map((bots) => {
-            Array.from(bots.values())
-              .map(({ adapter: { identity, platform, config, status } }) =>
-                session.format('core.msg.bots.list', {
-                  identity,
-                  lang: config.lang,
-                  platform,
-                  status: status.value
-                })
-              )
-              .join('')
-          })
-          .join('')
-      }
-    ]
-  })
+  ctx.command('bots - core.descr.bots').action((_, session) =>
+    session.format('core.msg.bots', {
+      list: Array.from(ctx[Symbols.bot].values())
+        .map((bots) =>
+          Array.from(bots.values())
+            .map(({ adapter: { identity, platform, config, status } }) =>
+              session.format('core.msg.bots.list', {
+                identity,
+                lang: config.lang,
+                platform,
+                status: status.value
+              })
+            )
+            .join('')
+        )
+        .join('')
+    })
+  )
 
   ctx
     .command('about - core.descr.about')
     .alias('version')
+    .shortcut(['小鸟', '小鳥', 'ことり', 'kotori', 'Kotori'])
     .hide()
     .action((_, session) => {
       const { version, license } = session.api.adapter.ctx.meta
-      return ['core.msg.about', { version, license, node_version: process.version }]
+      return session.format('core.msg.about', { version, license, node_version: process.version })
     })
 
   ctx
@@ -198,7 +190,7 @@ export function main(ctx: Context) {
       } else {
         adapter.config.lang = lang as LocaleType
       }
-      return session.quick([`core.msg.locale${global ? '.global' : ''}`, { lang }])
+      return session.format(`core.msg.locale${global ? '.global' : ''}`, { lang })
     })
 
   ctx.command('module [name] - core.descr.module').action(({ args: [name] }, session) => {
@@ -207,19 +199,16 @@ export function main(ctx: Context) {
       modulesList = modulesList.filter(([{ pkg }]) => pkg.name.startsWith(name))
       if (modulesList.length === 0) return ['core.msg.module.not_found', { name }]
     }
-    return [
-      'core.msg.module',
-      {
-        list: modulesList
-          .map(([{ pkg }]) =>
-            session.format('core.msg.module.list', {
-              name: pkg.name,
-              version: pkg.version,
-              description: pkg.description
-            })
-          )
-          .join('')
-      }
-    ]
+    return session.format('core.msg.module', {
+      list: modulesList
+        .map(([{ pkg }]) =>
+          session.format('core.msg.module.list', {
+            name: pkg.name,
+            version: pkg.version,
+            description: pkg.description
+          })
+        )
+        .join('')
+    })
   })
 }

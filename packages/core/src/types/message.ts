@@ -1,27 +1,10 @@
-import type { Context, EventsList } from 'fluoro'
+import type { Context } from 'fluoro'
 import type { CommandError } from '../utils/error'
-import type { Api, Command, MessageList, MessageSingle, Session } from '../components'
+import type { Api, Command, MessageList, MessageSingle, SessionMsg } from '../components'
 import type { CommandAction, CommandArgType } from './command'
 
 declare module 'fluoro' {
   interface EventsMapping {
-    /**
-     * Event before command parse.
-     *
-     * @param data - Event data
-     */
-    before_parse(data: EventDataBeforeParse): void
-    /**
-     * Event after command parsed.
-     *
-     * @param data - Event data
-     */
-    parse(data: EventDataParse): void
-    /**
-     * Event before command running.
-     *
-     * @param data - Event data
-     */
     before_command(data: EventDataBeforeCommand): void
     /**
      * Event after command running.
@@ -103,37 +86,25 @@ export type Message<T extends keyof MessageMapping = keyof MessageMapping> =
   | string
 
 export type MessageQuickReal =
-  | [string, (CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
+  | [string, (Message | CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
   | Message
-  | CommandError
   // biome-ignore lint:
   | void
 
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>
 
-export type MidwareCallback = (
-  next: () => void | Promise<void>,
-  session: Session<EventsList['on_message']>
-) => MessageQuick
+export type MidwareCallback = (next: () => void | Promise<void>, session: SessionMsg) => MessageQuick
 
-export type RegexpCallback = (match: RegExpMatchArray, session: Session<EventsList['on_message']>) => MessageQuick
+export type RegexpCallback = (match: RegExpMatchArray, session: SessionMsg) => MessageQuick
 
 export type TaskCallback = (ctx: Context) => void
 
 export type TaskOptions = string | { cron: string; start?: boolean; timeZone?: string }
 
-/** Event data before command parsed */
-interface EventDataBeforeParse {
+/** Event data before command running */
+interface EventDataBeforeCommand {
   /** Session instance */
-  session: Session
-  /** Raw text message */
-  raw: string
-}
-
-/** Event data after command parsed */
-interface EventDataParse {
-  /** Session instance */
-  session: Session
+  session: SessionMsg
   /** Target command instance */
   command: Command
   /** Raw text message */
@@ -144,32 +115,22 @@ interface EventDataParse {
   cancel(): void
 }
 
-/** Event data before command running */
-interface EventDataBeforeCommand {
-  /** Session instance */
-  session: Session
-  /** Raw text message */
-  raw: string
-  /** Cancel the command running */
-  cancel(): void
-}
-
 /** Event data after command running */
 interface EventDataCommand {
   /** Session instance */
-  session: Session
+  session: SessionMsg
   /** Raw text message */
   raw: string
   /** Target command instance */
   command: Command
   /** Command running result, running error or back message */
-  result: EventDataParse['result'] | MessageQuick
+  result: EventDataBeforeCommand['result'] | MessageQuick
 }
 
 /** Event data before regexp running */
 interface EventDataBeforeRegexp {
   /** Session instance */
-  session: Session
+  session: SessionMsg
   /** Raw text message */
   raw: string
   /** Target regexp instance */
@@ -181,7 +142,7 @@ interface EventDataBeforeRegexp {
 /** Event data after regexp running */
 interface EventDataRegexp {
   /** Session instance */
-  session: Session
+  session: SessionMsg
   /** Raw text message */
   raw: string
   /** Target regexp instance */

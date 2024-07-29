@@ -1,35 +1,32 @@
-import { plugins, Session, KotoriPlugin } from 'kotori-bot'
+import { plugins, type Session, KotoriPlugin, Messages } from 'kotori-bot'
 import { colorToRGB, loadJapaneseColor, loadZhinaColor, randomFromArray } from './utils'
 
 const plugin = plugins([__dirname, '../'])
 
 @plugin.import
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-class ColorPlugin extends KotoriPlugin {
+export class ColorPlugin extends KotoriPlugin {
   @plugin.lang
-  public static lang = [__dirname, '../locales']
+  public lang = [__dirname, '../locales']
 
   @plugin.command({
     template: 'color [value] - color.descr.color',
     options: [['H', 'help:boolean - color.option.color']]
   })
-  public static color(
-    { args: [color], options: { help } }: { args: [string]; options: { help: boolean } },
-    session: Session
-  ) {
-    if (help) return ['color.msg.help', [session.api.adapter.config['command-prefix']]]
-    if (!color) return session.el.image('https://api.hotaru.icu/api/color')
+  public color({ args: [color], options: { help } }: { args: [string]; options: { help: boolean } }, session: Session) {
+    if (help) return session.format('color.msg.help', [session.api.adapter.config['command-prefix']])
+    if (!color) return Messages.image('https://api.hotaru.icu/api/color')
 
     const rgb = colorToRGB(color.toLocaleLowerCase())
-    if (!rgb) return ['color.msg.color.error', [session.api.adapter.config['command-prefix']]]
+    if (!rgb) return session.format('color.msg.color.error', [session.api.adapter.config['command-prefix']])
 
-    return session.el.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
+    return Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
   }
 
   @plugin.command({ template: 'color-jp [value] - color.descr.color_jp' })
-  public static colorJp({ args: [color] }: { args: [string?] }, session: Session) {
+  public colorJp({ args: [color] }: { args: [string?] }, session: Session) {
     const colorData = loadJapaneseColor()
-    let data
+    let data: (typeof colorData)[0] | undefined
+
     if (color) {
       const rgb = colorToRGB(color)
       const handle = color.toUpperCase()
@@ -39,17 +36,20 @@ class ColorPlugin extends KotoriPlugin {
     } else {
       data = randomFromArray(colorData)
     }
-    if (!data) return ['color.msg.color.error2', [session.api.adapter.config['command-prefix']]]
+    if (!data) return session.format('color.msg.color.error2', [session.api.adapter.config['command-prefix']])
 
     const { rgb } = data
-    const image = session.el.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
-    return ['color.msg.color_jp', [data.name, data.romaji, image]]
+    return Messages(
+      session.format('color.msg.color_jp', [data.name, data.romaji]),
+      Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
+    )
   }
 
   @plugin.command({ template: 'color-cn [value] - color.descr.color_cn' })
-  public static colorCn({ args: [color] }: { args: [string?] }, session: Session) {
+  public colorCn({ args: [color] }: { args: [string?] }, session: Session) {
     const colorData = loadZhinaColor()
-    let data
+    let data: (typeof colorData)[0] | undefined
+
     if (color) {
       const rgb = colorToRGB(color)
       data = colorData.find(
@@ -61,7 +61,9 @@ class ColorPlugin extends KotoriPlugin {
     if (!data) return ['color.msg.color.error2', [session.api.adapter.config['command-prefix']]]
 
     const { rgb } = data
-    const image = session.el.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
-    return ['color.msg.color_cn', [data.name, data.pinyin, data.description ?? '', image]]
+    return Messages(
+      session.format('color.msg.color_cn', [data.name, data.pinyin, data.description ?? '']),
+      Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
+    )
   }
 }

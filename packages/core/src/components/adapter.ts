@@ -136,7 +136,6 @@ abstract class AdapterOrigin<
     if (this.status.value !== 'offline') return
     this.status.value = 'online'
     this.ctx.emit('status', { adapter: this, status: 'online' })
-    // this.session('before_command')
   }
 
   protected offline() {

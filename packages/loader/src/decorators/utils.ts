@@ -44,6 +44,7 @@ export class Decorators {
 
   public readonly import = (Target: object) => {
     none(Target)
+
     // this.register(() => {
     //   if (!this.isCreated) this.schema(Target, undefined as keyof object)
     // })()
@@ -51,6 +52,7 @@ export class Decorators {
 
   public readonly lang = <T extends object>(target: T, property: keyof T) => {
     none(target, property)
+
     // this.register(() => {
     //   const lang = target[property] as string | string[]
     //   ;(this.ctx.parent as Context).i18n.use(resolve(...(Array.isArray(lang) ? lang : [lang])))
@@ -59,6 +61,8 @@ export class Decorators {
 
   public readonly inject = <T extends object>(target: T, property: keyof T) => {
     none(target, property)
+    // return (..._: unknown[]) => {}
+
     // this.register(() => {
     //   const inject = target[property] as string[]
     //   for (const identity of inject) {
@@ -72,6 +76,8 @@ export class Decorators {
 
   public readonly schema = <T extends object>(Target: T, property: keyof T) => {
     none(Target, property)
+    // return (..._: unknown[]) => {}
+
     // this.register(() => {
     //   let config = (this.ctx[Symbols.modules].get(this.ctx.identity as string) ?? [])[1]
     //   if (Target[property]) {
@@ -89,6 +95,8 @@ export class Decorators {
 
   public on<T extends keyof EventsList>(meta: { type: T }) {
     none(meta)
+    return (..._: unknown[]) => {}
+
     // return this.register(<T extends object>(target: T, property: keyof T) =>
     //   this.ctx.on(meta.type, (...args: unknown[]) => (target[property] as Fn).bind(this.object)(...args))
     // )
@@ -96,6 +104,8 @@ export class Decorators {
 
   public once<T extends keyof EventsList>(meta: { type: T }) {
     none(meta)
+    return (..._: unknown[]) => {}
+
     // return this.register(<T extends object>(target: T, property: keyof T) =>
     //   this.ctx.once(meta.type, (...args: unknown[]) => (target[property] as Fn).bind(this.object)(...args))
     // )
@@ -103,6 +113,8 @@ export class Decorators {
 
   public midware(meta?: { priority: number }) {
     none(meta)
+    return (..._: unknown[]) => {}
+
     // return this.register(<T extends object>(target: T, property: keyof T) =>
     //   this.ctx.midware((next, session) => (target[property] as Fn).bind(this.object)(next, session), meta?.priority)
     // )
@@ -118,6 +130,7 @@ export class Decorators {
     options?: [string, string][]
   }) {
     none(meta)
+    return (..._: unknown[]) => {}
     // return this.register(<T extends object>(target: T, property: keyof T) => {
     //   const command = this.ctx
     //     .command(meta.template, meta)
@@ -128,6 +141,8 @@ export class Decorators {
 
   public regexp(meta: { match: RegExp }) {
     none(meta)
+    return (..._: unknown[]) => {}
+
     // return this.register(<T extends object>(target: T, property: keyof T) =>
     //   this.ctx.regexp(meta.match, (match, session) => (target[property] as Fn).bind(this.object)(match, session))
     // )
@@ -135,6 +150,8 @@ export class Decorators {
 
   public task(meta: Exclude<Parameters<Context['task']>[0], string>) {
     none(meta)
+    return (..._: unknown[]) => {}
+
     // return this.register(<T extends object>(target: T, property: keyof T) =>
     //   this.ctx.task(meta, (ctx) => (target[property] as Fn).bind(this.object)(ctx))
     // )

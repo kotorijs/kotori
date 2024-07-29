@@ -11,6 +11,7 @@ export const config = Tsu.Object({
   banTime: Tsu.Number().default(10)
 })
 
+// TODO: update
 export function main(ctx: Context, con: Tsu.infer<typeof config>) {
   const loadBlack = (bot: string, target: string = 'global') => ctx.file.load<string[]>(`${bot}_${target}`, 'json', [])
   const saveBlack = (bot: string, data: string[], target: string = 'global') => ctx.file.save(`${bot}_${target}`, data)
