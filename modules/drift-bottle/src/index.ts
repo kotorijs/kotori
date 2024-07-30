@@ -6,7 +6,7 @@ export const lang = [__dirname, '../locales']
 export const inject = ['file']
 
 export const config = Tsu.Object({
-  max: Tsu.Number().default(4)
+  max: Tsu.Number().default(4).describe('The person can throw bottles at most one day')
 })
 
 type Bottle = [string, number, number | string, (number | string)?]
@@ -49,7 +49,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
       const data = getBottle(session.api.adapter.identity)
       if (!data || data.length <= 0) return 'drift_bottle.msg.pick.none'
 
-      const bottle = data[randomInt(0, data.length - 1)]
+      const bottle = data[randomInt(0, data.length)]
       return session.format('drift_bottle.msg.pick.info', [
         bottle[0],
         session.i18n.time(new Date(bottle[1])),

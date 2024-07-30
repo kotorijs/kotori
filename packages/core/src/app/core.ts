@@ -1,7 +1,7 @@
 import { Http } from '@kotori-bot/tools'
 import I18n from '@kotori-bot/i18n'
 import type { Parser } from 'tsukiko'
-import { Context } from 'fluoro'
+import Context from 'fluoro'
 import Config from './config'
 import Message from './message'
 import type { AdapterClass } from '../types'
@@ -161,7 +161,7 @@ function initialize(ctx: Context) {
   })
 }
 
-export class Core extends Context {
+export class Core extends Context<Core> {
   public readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]> = new Map()
 
   public readonly [Symbols.bot]: Map<string, Set<Api>> = new Map()

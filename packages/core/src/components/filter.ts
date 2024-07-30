@@ -1,5 +1,5 @@
+import type { Session } from '../components'
 import { type FilterOption, type FilterOptionBase, FilterTestList, UserAccess } from '../types'
-import type { Session } from './session'
 
 /**
  * Session filter.
@@ -81,12 +81,6 @@ export class Filter {
     this.option = option
   }
 
-  /**
-   * Test a session.
-   *
-   * @param session - Session instance
-   * @returns Whether the session passes the filter
-   */
   public test(session: Session) {
     if (!('type' in this.option)) return Filter.handleFilter(session, this.option)
 

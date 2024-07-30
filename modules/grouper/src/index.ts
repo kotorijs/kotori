@@ -1,5 +1,5 @@
-import { KotoriPlugin, Session, Tsu, plugins } from 'kotori-bot'
-import { SignData } from './type'
+import { KotoriPlugin, Messages, type SessionMsg, Tsu, plugins } from 'kotori-bot'
+import type { SignData } from './type'
 
 const hitokotoSchema = Tsu.Object({
   data: Tsu.Object({
@@ -15,30 +15,28 @@ const plugin = plugins([__dirname, '../'])
 // TODO: update
 
 @plugin.import
-class GrouperPlugin extends KotoriPlugin {
+export class GrouperPlugin extends KotoriPlugin {
   @plugin.inject
   public static readonly inject = ['file']
 
   @plugin.regexp({ match: /^(签到|打卡)$/ })
   @plugin.command({ template: 'sign - 签到' })
-  public async sign(data: RegExpMatchArray, session: Session) {
-    const at = session.el.at(session.userId)
+  public async sign(_: unknown, session: SessionMsg) {
+    const at = Messages.mention(session.userId)
     const identity = `${session.api.adapter.identity}${session.groupId}&${session.userId}&${session.i18n.date()}`
-    const signData = this.ctx.file.load<SignData>(`signData.json`, 'json', {})
+    const signData = this.ctx.file.load<SignData>('signData.json', 'json', {})
     const { platform } = session.api.adapter
-    if (signData[platform] && signData[platform].includes(identity)) {
-      return session.quick(['{0}今天已经签过到了，明天再来试吧', [at]])
-    }
+    if (signData[platform]?.includes(identity)) return session.format('{0}今天已经签过到了，明天再来试吧', [at])
 
     if (!signData[platform]) signData[platform] = []
     signData[platform].push(identity)
-    this.ctx.file.save(`signData.json`, signData)
+    this.ctx.file.save('signData.json', signData)
     const res = await this.ctx.http.get('https://hotaru.icu/api/hitokoto/v2/')
     return session.quick([
       '{0}签到成功！这是你的奖励~{1}\n一言：{2}',
       [
         at,
-        session.el.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'),
+        Messages.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'),
         hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '接口走丢了呜呜呜'
       ]
     ])

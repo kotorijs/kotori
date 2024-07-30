@@ -32,11 +32,10 @@ export abstract class Elements {
    * @param raw - Raw message
    * @param meta - Message metadata
    * @returns Encoded message
+   *
+   * @abstract
    */
-  public encode(raw: string, meta: object = {}): Message {
-    none(meta)
-    return raw
-  }
+  public abstract encode(raw: string, meta?: object): Message
 
   /**
    * Decode `Message` elements to string.
@@ -44,12 +43,10 @@ export abstract class Elements {
    * @param message - Message to decode
    * @param meta - Message metadata
    * @returns Decoded message
+   *
+   * @abstract
    */
-  // biome-ignore lint:
-  public decode(message: Message, meta: object = {}): any {
-    none(meta)
-    return message.toString()
-  }
+  public abstract decode(message: Exclude<Message, string>, meta?: object): string
 
   /**
    * Decode a mention message.

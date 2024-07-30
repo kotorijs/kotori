@@ -4,7 +4,7 @@
   "requester.log.decrease.kick": "The BOT was kicked out of the group <bold>{1}</bold> by the administrator <bold>{0}</bold>",
   "requester.log.admin.set": "The BOT was set as the admin of the group <bold>{0}</bold>",
   "requester.log.admin.unset": "The BOT was removed from the admin position in the group <bold>{0}</bold>",
-  "requester.log.ban.ban": "The BOT was muted by the administrator <bold>{0}</bold> for <bold>{1}</bold> minutes in the group <bold>{2}</bold>",
+  "requester.log.ban.ban": "The BOT was muted by the administrator <bold>{0}</bold> for <bold>{2}</bold> minutes in the group <bold>{1}</bold>",
   "requester.log.ban.lift_ban": "The mute on the BOT was lifted by the administrator <green>{0}</green> in the group <bold>{1}</bold>",
   "requester.log.recall.group.other": "User <bold>{0}</bold> had a message retracted by the administrator <bold>{1}</bold> in the group <bold>{2}</bold>: <green>{3}</green>",
   "requester.log.recall.group.self": "User <bold>{0}</bold> retracted a message in the group <bold>{1}</bold>: <green>{2}</green>",

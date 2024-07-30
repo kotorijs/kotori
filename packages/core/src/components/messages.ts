@@ -1,19 +1,21 @@
 import type { Message, MessageMapping } from '../types'
 
+type MessageTypeList = {
+  [K in keyof MessageMapping]: { type: K } & MessageMapping[K]
+}
+
 /**
  * Single message class.
  *
  * @template T - Message type
  */
 export class MessageSingle<T extends keyof MessageMapping> extends String {
-  private data: MessageMapping[T]
-
   /**
-   * Message type.
+   * Message data.
    *
    * @readonly
    */
-  public readonly type: T
+  public data: MessageTypeList[T]
 
   /**
    * Message text length.
@@ -30,8 +32,7 @@ export class MessageSingle<T extends keyof MessageMapping> extends String {
    */
   public constructor(type: T, data: MessageMapping[T]) {
     super(Messages.stringify(type, data, false))
-    this.type = type
-    this.data = data
+    this.data = { type, ...data } as MessageTypeList[T]
     this.length = this.isText() ? this.toString().length : 0
   }
 
@@ -42,7 +43,7 @@ export class MessageSingle<T extends keyof MessageMapping> extends String {
    * @returns Message string
    */
   public toString(isStrict = true) {
-    return Messages.stringify(this.type, this.data, isStrict)
+    return Messages.stringify(this.data.type, this.data, isStrict)
   }
 
   /**
@@ -51,7 +52,7 @@ export class MessageSingle<T extends keyof MessageMapping> extends String {
    * @returns Whether the message is text
    */
   public isText() {
-    return this.type === 'text'
+    return this.data.type === 'text'
   }
 }
 
@@ -99,7 +100,7 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
    * @returns Whether the message list is pure
    */
   public isPure<T extends keyof MessageMapping>(...keys: T[]) {
-    return this.every((value) => (keys as string[]).includes(value.type))
+    return this.every((value) => (keys as string[]).includes(value.data.type))
   }
 
   /**
@@ -127,7 +128,9 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
    * @returns Message list
    */
   public pick<T extends keyof MessageMapping>(...keys: T[]): MessageList<T> {
-    return Messages(...this.filter((value) => (keys as string[]).includes(value.type))) as unknown as MessageList<T>
+    return Messages(
+      ...this.filter((value) => (keys as string[]).includes(value.data.type))
+    ) as unknown as MessageList<T>
   }
 
   /**
@@ -137,7 +140,9 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
    * @returns Message list
    */
   public omit<T extends keyof MessageMapping>(...keys: T[]): MessageList<T> {
-    return Messages(...this.filter((value) => !(keys as string[]).includes(value.type))) as unknown as MessageList<T>
+    return Messages(
+      ...this.filter((value) => !(keys as string[]).includes(value.data.type))
+    ) as unknown as MessageList<T>
   }
 }
 

@@ -8,9 +8,9 @@ export class Main {
   }
 
   protected handle(session: EventsList['on_group_increase']) {
-    const standard = randomInt(0, 2)
+    const standard = randomInt(1, 3)
     for (let init = 0; init < standard; init += 1) {
-      session.quick([data[randomInt(0, Object.keys(data).length)], { at: session.el.mention(session.userId) }])
+      session.quick([data[randomInt(0, Object.keys(data).length)], [session.el.mention(session.userId)]])
     }
   }
 }

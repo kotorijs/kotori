@@ -17,10 +17,7 @@ export class Http {
     params?: Parameters<HttpMethod>[1],
     config?: Parameters<HttpMethod>[2],
     method: Method = 'get'
-  ) => {
-    const response = (await axios[method](url, Object.assign(this.config, config || {}, { params }))).data
-    return response
-  }
+  ) => (await axios[method](url, Object.assign(this.config, config || {}, { params }))).data
 
   public constructor(config?: Parameters<HttpMethod>[2]) {
     this.config = config || {}

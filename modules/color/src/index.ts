@@ -58,7 +58,7 @@ export class ColorPlugin extends KotoriPlugin {
     } else {
       data = randomFromArray(colorData)
     }
-    if (!data) return ['color.msg.color.error2', [session.api.adapter.config['command-prefix']]]
+    if (!data) return session.format('color.msg.color.error2', [session.api.adapter.config['command-prefix']])
 
     const { rgb } = data
     return Messages(

@@ -30,7 +30,6 @@ export function main(ctx: Context) {
       const song = res[(order ?? 1) - 1]
       if (!song) throw session.error('num_error')
 
-      // TODO: internal api
       if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songId}]`)
 
       return session.format('music.msg.music', [

@@ -66,7 +66,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   public echo(data: Parameters<CommandAction>[0], session: Session) {
     this.ctx.logger.debug(data, data.args[0])
     this.ctx.logger.debug(session)
-    return ['返回消息:~%message%', { message: data.args[0] }]
+    return session.format('返回消息:~%message%', { message: data.args[0] })
   }
 
   @plugin.regexp({ match: /^(.*)#print$/ })

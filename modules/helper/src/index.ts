@@ -3,50 +3,41 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-06-05 17:26:29
+ * @LastEditTime: 2024-07-30 19:15:45
  */
 
-import { Command, Context, MessageQuick, Session, Symbols, Tsu } from 'kotori-bot'
+import { type Command, type Context, Symbols, Tsu } from 'kotori-bot'
 
 export const config = Tsu.Object({
-  alias: Tsu.String().optional(),
-  keywords: Tsu.Array(Tsu.String()).default(['^菜单$', '^功能$']),
-  content: Tsu.String().optional()
+  alias: Tsu.String().optional().describe('Menu command alias'),
+  keywords: Tsu.Array(Tsu.String()).default(['菜单', '功能']).describe('Menu command shortcuts'),
+  content: Tsu.String().optional().describe('Custom menu command content')
 })
 
 export const lang = [__dirname, '../locales']
 
-// TODo: update
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   if (cfg.content) {
-    const handle = (session: Session): MessageQuick => [cfg.content!, { at: session.el.at(session.userId) }]
-
-    const cmd = ctx.command('menu - helper.descr.menu').action((_, session) => handle(session))
+    const cmd = ctx
+      .command('menu - helper.descr.menu')
+      .shortcut(cfg.keywords)
+      .action((_, session) => session.format(String(cfg.content), { at: session.userId }))
     if (cfg.alias) cmd.alias(cfg.alias)
-
-    cfg.keywords.forEach((element) => {
-      ctx.regexp(new RegExp(element), (_, session) => handle(session))
-    })
   }
 
   ctx.command('help [...command] - helper.descr.help').action((data, session) => {
-    const args = (data.args as string[]).join('')
+    const args = data.args.join('')
     const filterResult: Command['meta'][] = []
 
-    ctx[Symbols.command].forEach((command) => {
-      if (command.meta.hide) return
-      if (
-        !command.meta.root.startsWith(args) &&
-        command.meta.alias.filter((alias) => alias.startsWith(args)).length === 0
-      )
-        return
+    for (const command of ctx[Symbols.command]) {
+      if (command.meta.hide) continue
+      if (!command.meta.root.startsWith(args) && !command.meta.alias.some((alias) => alias.startsWith(args))) continue
       filterResult.push(command.meta)
-    })
+    }
 
     if (filterResult.length <= 0) return 'helper.msg.descr.fail'
     let commands = ''
-    filterResult.forEach((command) => {
-      const cmd = command
+    for (const cmd of filterResult) {
       const alias =
         cmd.alias.length > 0
           ? session.format('helper.template.alias', {
@@ -56,7 +47,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       let args = ''
       let options = ''
       const handle = (values: Command['meta']['args'] | Command['meta']['options']) => {
-        values.forEach((value) => {
+        for (const value of values) {
           let defaultValue = ''
           if ('rest' in value) {
             const valueType = typeof value.default
@@ -80,10 +71,10 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
               ? session.format('helper.template.description', { content: session.i18n.locale(value.description) })
               : ''
           })
-        })
+        }
       }
-      handle(command.args)
-      handle(command.options)
+      handle(cmd.args)
+      handle(cmd.options)
       if (options) options = session.format('helper.template.options', { content: options })
       commands += session.format('helper.msg.descr.command', {
         root: `${session.api.adapter.config['command-prefix']}${cmd.root}`,
@@ -95,8 +86,8 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
         help: cmd.help ? session.format('helper.template.help', { content: session.i18n.locale(cmd.help) }) : '',
         alias
       })
-    })
-    return ['helper.msg.help', { content: commands }]
+    }
+    return session.format('helper.msg.help', { content: commands })
   })
 }
 
