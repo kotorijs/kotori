@@ -1,24 +1,20 @@
 /* eslint no-console: 0 */
-import { createEnv } from 'lua-in-js';
-import JsBox from './jsbox';
+import { createEnv } from 'lua-in-js'
+import JsBox from './jsBox'
 
 class LuaBox extends JsBox {
   public async run() {
-    const backupLog = console.log;
+    const backupLog = console.log
     try {
-      const timer = setTimeout(() => {
-        throw new Error('run timeout');
-      }, 1000 * 5);
-      console.log = (...args: unknown[]) => this.method.console.log(...args);
-      createEnv().parse(this.code).exec();
-      clearTimeout(timer);
+      console.log = (...args: unknown[]) => this.method.console.log(...args)
+      createEnv().parse(this.code).exec()
     } catch (error) {
-      this.method.console.error(String(error));
+      this.method.console.error(String(error))
     } finally {
-      console.log = backupLog;
+      console.log = backupLog
     }
-    return this.box.result;
+    return this.box.result
   }
 }
 
-export default LuaBox;
+export default LuaBox

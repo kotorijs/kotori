@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-27 14:45:43
+ * @LastEditTime: 2024-07-30 19:49:25
  */
 import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu } from 'kotori-bot'
 import CmdApi from './api'
@@ -11,26 +11,25 @@ import CmdElements from './elements'
 
 export const config = Tsu.Object({
   nickname: Tsu.String().default('Kotarou'),
-  age: Tsu.Number().min(0).default(18),
-  sex: Tsu.Union(Tsu.Literal('male'), Tsu.Literal('female')),
   'self-nickname': Tsu.String().default('KotoriO'),
   'self-id': Tsu.String().default('720')
 })
 
 type CmdConfig = Tsu.infer<typeof config> & AdapterConfig
 
-export class CmdAdapter extends Adapter<CmdApi, CmdConfig> {
+export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
   private messageId = ''
 
   public readonly platform = 'cmd'
 
   public readonly api: CmdApi
 
-  public readonly elements = new CmdElements()
+  public readonly elements: CmdElements
 
   public constructor(ctx: Context, config: CmdConfig, identity: string) {
     super(ctx, config, identity)
     this.api = new CmdApi(this)
+    this.elements = new CmdElements(this)
     this.selfId = config['self-id']
     process.stdin.on('data', (data) => this.handle(data))
   }
@@ -44,11 +43,10 @@ export class CmdAdapter extends Adapter<CmdApi, CmdConfig> {
       type: MessageScope.PRIVATE,
       messageId: this.messageId,
       message,
+      messageAlt: message,
       userId: this.config.master,
       sender: {
-        nickname: this.config.nickname,
-        sex: this.config.sex,
-        age: this.config.age
+        nickname: this.config.nickname
       },
       time: Date.now()
     })

@@ -3,13 +3,18 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:13
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2023-12-02 16:21:22
+ * @LastEditTime: 2024-07-30 19:06:41
  */
-import { Api, string, Message } from 'kotori-bot'
+import { Api, type Message } from 'kotori-bot'
 
 export class CmdApi extends Api {
-  public sendPrivateMsg(message: Message, userId: string) {
+  public getSupportedEvents(): ReturnType<Api['getSupportedEvents']> {
+    return ['on_message']
+  }
+
+  public async sendPrivateMsg(message: Message, userId: string) {
     this.adapter.send('send_private_msg', { user_id: userId, message })
+    return { messageId: '', time: 0 }
   }
 }
 

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-29 15:47:36
+ * @LastEditTime: 2024-07-30 20:17:41
  */
 import {
   KotoriError,
@@ -14,12 +14,12 @@ import {
   DEFAULT_CORE_CONFIG,
   loadConfig,
   TsuError,
-  Core,
   type Context,
   ModuleError,
   formatFactory,
   Http,
-  configFileType
+  configFileType,
+  Core
 } from '@kotori-bot/core'
 import path from 'node:path'
 import fs from 'node:fs'
@@ -139,7 +139,7 @@ function getConfig(baseDir: Runner['baseDir'], loaderOptions?: LoaderOptions) {
         global: Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG),
         plugin: DEFAULT_CORE_CONFIG.plugin
       })
-      .parse(loadConfig(path.join(baseDir.root, baseDir.config), ext as 'json')) as CoreConfig
+      .parse(loadConfig(path.join(baseDir.root, baseDir.config), ext as 'json'))
 
     /* Merge loader options */
     // priority: options (Cli args > Env variables) > baseDir (config file) > default

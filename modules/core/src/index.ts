@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-29 19:34:45
+ * @LastEditTime: 2024-07-30 16:17:29
  */
 
 import { UserAccess, CommandError, type Context, MessageScope, TsuError, type LocaleType, Symbols } from 'kotori-bot'
@@ -197,7 +197,7 @@ export function main(ctx: Context) {
     let modulesList = Array.from(ctx[Symbols.modules].values())
     if (name) {
       modulesList = modulesList.filter(([{ pkg }]) => pkg.name.startsWith(name))
-      if (modulesList.length === 0) return ['core.msg.module.not_found', { name }]
+      if (modulesList.length === 0) return session.format('core.msg.module.not_found', { name })
     }
     return session.format('core.msg.module', {
       list: modulesList

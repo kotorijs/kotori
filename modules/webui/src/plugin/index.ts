@@ -1,5 +1,5 @@
 import '../types'
-import { UserAccess, Context, MessageScope, formatFactory } from 'kotori-bot'
+import { UserAccess, type Context, MessageScope, formatFactory } from 'kotori-bot'
 
 export default (ctx: Context) => {
   ctx.on('status', ({ status, adapter }) => {
@@ -25,11 +25,11 @@ export default (ctx: Context) => {
       if (session.api.adapter.platform !== 'cmd') return 'webui.msg.webui.error'
       if (!ctx.webui.getVerifySalt()) {
         ctx.webui.setVerifyHash(
-          await session.prompt('webui.msg.webui.prompt.user'),
-          await session.prompt('webui.msg.webui.prompt.pwd')
+          (await session.prompt('webui.msg.webui.prompt.user')).toString(),
+          (await session.prompt('webui.msg.webui.prompt.pwd')).toString()
         )
         return 'webui.msg.webui.success'
       }
-      return ['webui.msg.webui', [ctx.config.global.port]]
+      return session.format('webui.msg.webui', [ctx.config.global.port])
     })
 }

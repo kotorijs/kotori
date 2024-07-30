@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-minecraft",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Plugin Of For Minecraft!",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],

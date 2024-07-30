@@ -1,81 +1,83 @@
-import { UserAccess, Context, MessageScope, Tsu } from 'kotori-bot'
+import { UserAccess, type Context, MessageScope, Tsu, Messages } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
 export const inject = ['file']
 
 export const config = Tsu.Object({
-  exitGroupAddBlack: Tsu.Boolean().default(true),
-  exitGroupAddBlackTips: Tsu.Boolean().default(false),
-  blackJoinGroupTips: Tsu.Boolean().default(true),
-  banTime: Tsu.Number().default(10)
+  exitGroupAddBlack: Tsu.Boolean().default(true).describe('Auto add to blacklist when someone exits the group'),
+  exitGroupAddBlackTips: Tsu.Boolean()
+    .default(false)
+    .describe('Send tips that auto add to blacklist when someone exits the group'),
+  blackJoinGroupTips: Tsu.Boolean().default(true).describe('Send tips when newer had existed on blacklist'),
+  banTime: Tsu.Number().default(10).describe('Default time of ban (minute)')
 })
 
-// TODO: update
 export function main(ctx: Context, con: Tsu.infer<typeof config>) {
-  const loadBlack = (bot: string, target: string = 'global') => ctx.file.load<string[]>(`${bot}_${target}`, 'json', [])
-  const saveBlack = (bot: string, data: string[], target: string = 'global') => ctx.file.save(`${bot}_${target}`, data)
+  const loadBlack = (bot: string, target = 'global') => ctx.file.load<string[]>(`${bot}_${target}`, 'json', [])
+  const saveBlack = (bot: string, data: string[], target = 'global') => ctx.file.save(`${bot}_${target}`, data)
 
   ctx.midware((next, session) => {
     const blackGlobal = loadBlack(session.api.adapter.identity)
     if (blackGlobal.includes(String(session.userId))) return
+
     const black = session.groupId ? loadBlack(session.api.adapter.identity, String(session.groupId)) : []
     if (black.includes(String(session.userId))) return
     next()
   }, 80)
 
   ctx
-    .command(`ban [userId] [time:number] - manger.descr.ban`)
+    .command('ban [userId] [time:number] - manger.descr.ban')
+    .scope(MessageScope.GROUP)
+    .access(UserAccess.MANGER)
     .action((data, session) => {
       const target = data.args[0] as string
       const time = ((data.args[1] ?? con.banTime) as number) * 60
       if (target) {
-        session.api.setGroupBan(session.groupId!, target, time)
-        return ['manger.msg.ban.user', [target, time / 60]]
+        session.api.setGroupBan(session.groupId, target, time)
+        return session.format('manger.msg.ban.user', [target, time / 60])
       }
-      session.api.setGroupBan(session.groupId!, undefined, 1)
+      session.api.setGroupBan(session.groupId, undefined, 1)
       return 'manger.msg.ban.all'
     })
-    .scope(MessageScope.GROUP)
-    .access(UserAccess.MANGER)
 
   ctx
-    .command(`unban [userId] - manger.descr.unban`)
+    .command('unban [userId] - manger.descr.unban')
+    .scope(MessageScope.GROUP)
+    .access(UserAccess.MANGER)
     .action((data, session) => {
       const target = data.args[0] as string
       if (target) {
-        session.api.setGroupBan(session.groupId!, target, 0)
-        return ['manger.msg.unban.user', [target]]
+        session.api.setGroupBan(session.groupId, target, 0)
+        return session.format('manger.msg.unban.user', [target])
       }
-      session.api.setGroupBan(session.groupId!, undefined, 0)
+      session.api.setGroupBan(session.groupId, undefined, 0)
       return 'manger.msg.ban.all'
     })
-    .scope(MessageScope.GROUP)
-    .access(UserAccess.MANGER)
 
   ctx
     .command('kick <userId> - manger.descr.kick')
-    .action((data, session) => {
-      const target = data.args[0] as string
-      session.api.setGroupKick(session.groupId!, target)
-      return ['manger.msg.kick', [target]]
-    })
     .scope(MessageScope.GROUP)
     .access(UserAccess.MANGER)
+    .action((data, session) => {
+      const target = data.args[0] as string
+      session.api.setGroupKick(session.groupId, target)
+      return session.format('manger.msg.kick', [target])
+    })
 
   ctx
     .command('all <...message> - manger.descr.all')
-    .action((data, session) => `${session.el.at('all')}\n${data.args.join(' ')}`)
     .scope(MessageScope.GROUP)
     .access(UserAccess.MANGER)
+    .action((data) => Messages(Messages.mentionAll(), data.args.join(' ')))
 
   ctx
     .command('notice <...message> - manger.descr.notice')
-    .action((data, session) => {
-      session.api.sendGroupNotice(session.groupId!, data.args.join(' ') as string)
-    })
     .scope(MessageScope.GROUP)
     .access(UserAccess.MANGER)
+    .action((data, session) => {
+      session.api.sendGroupNotice(session.groupId, data.args.join(' ') as string)
+    })
 
   ctx
     .command('black query - manger.descr.black.query')
@@ -84,12 +86,12 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     .access(UserAccess.MANGER)
     .action((data, session) => {
       const isGlobal = data.options.global
-      if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin')
+      if (isGlobal && session.userId !== session.api.adapter.config.master) throw session.error('no_access_admin')
+
       const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId))
-      return [
-        `manger.msg.black${isGlobal ? 'g' : ''}.query`,
-        [list.map((el) => session.format('manger.msg.black.list', [el])).join('')]
-      ]
+      return session.format(`manger.msg.black${isGlobal ? 'g' : ''}.query`, [
+        list.map((el) => session.format('manger.msg.black.list', [el])).join('')
+      ])
     })
 
   ctx
@@ -100,12 +102,14 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     .action((data, session) => {
       const target = data.args[0] as string
       const isGlobal = data.options.global
-      if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin')
+      if (isGlobal && session.userId !== session.api.adapter.config.master) throw session.error('no_access_admin')
+
       const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId))
-      if (target in list) return session.error('exists', { target })
+      if (target in list) throw session.error('exists', { target })
+
       list.push(target)
       saveBlack(session.api.adapter.identity, list, isGlobal ? undefined : String(session.groupId))
-      return [`manger.msg.black${isGlobal ? 'g' : ''}.add`, [target]]
+      return session.format(`manger.msg.black${isGlobal ? 'g' : ''}.add`, [target])
     })
 
   ctx
@@ -116,15 +120,17 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
     .action((data, session) => {
       const target = data.args[0] as string
       const isGlobal = data.options.global
-      if (isGlobal && session.userId !== session.api.adapter.config.master) return session.error('no_access_admin')
+      if (isGlobal && session.userId !== session.api.adapter.config.master) throw session.error('no_access_admin')
       const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId))
-      if (!(target in list)) return session.error('no_exists', { target })
+
+      if (!(target in list)) throw session.error('no_exists', { target })
+
       saveBlack(
         session.api.adapter.identity,
         list.filter((el) => el !== target),
         isGlobal ? undefined : String(session.groupId)
       )
-      return [`manger.msg.black${isGlobal ? 'g' : ''}.del`, [target]]
+      return session.format(`manger.msg.black${isGlobal ? 'g' : ''}.del`, [target])
     })
 
   if (con.exitGroupAddBlack) {
