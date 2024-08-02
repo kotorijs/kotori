@@ -6,7 +6,7 @@ const plugin = plugins([__dirname, '../'])
 @plugin.import
 export class ColorPlugin extends KotoriPlugin {
   @plugin.lang
-  public lang = [__dirname, '../locales']
+  public static lang = [__dirname, '../locales']
 
   @plugin.command({
     template: 'color [value] - color.descr.color',

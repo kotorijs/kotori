@@ -34,22 +34,8 @@ export class Config {
   public constructor(config: Omit<Partial<CoreConfig>, 'global'> & { global?: Partial<CoreConfig['global']> } = {}) {
     this.config = Object.assign(DEFAULT_CORE_CONFIG, config)
     this.config.global = Object.assign(DEFAULT_CORE_CONFIG.global, this.config.global)
-    /* load package.json */
-    // const info = loadConfig(resolve(__dirname, '../../package.json')) as unknown as MetaInfo
-    // if (!info || Object.values(info).length === 0) {
-    //   process.stderr.write('Cannot find kotori-bot package.json\n')
-    //   process.exit()
-    // }
-    // const result = packageInfoSchema.parse(info)
-    // if (!result.value) {
-    //   process.stderr.write(`File package.json format error: ${result.error.message}\n`)
-    //   process.exit()
-    // }
     const info: MetaInfo = require(resolve(__dirname, '../../package.json'))
-    info.coreVersion = info.version as string
-    // biome-ignore lint:
-    delete info.version
-    this.meta = info
+    this.meta = { ...info, coreVersion: info.version as string, version: undefined }
   }
 }
 

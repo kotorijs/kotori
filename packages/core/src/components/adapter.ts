@@ -167,42 +167,32 @@ abstract class AdapterOrigin<
 
   public selfId = ''
 }
-
 export const Adapter = new Proxy(AdapterOrigin, {
-  construct: (target, args, newTarget) =>
-    new Proxy(Reflect.construct(target, args, newTarget), {
-      get: (target, prop, receiver) => {
-        const api = Reflect.get(target, prop, receiver) as Api
-        if (prop !== 'api' || !api || typeof api !== 'object') return api
-        return new Proxy(api, {
-          get: (target, prop, receiver) => {
-            const value = Reflect.get(target, prop, receiver)
-            if (typeof prop !== 'string' || !['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg'].includes(prop)) {
-              return value
-            }
-            return new Proxy(value as () => void, {
-              apply(target, thisArg, argArray) {
-                const [message, id1, id2] = argArray
-                const cancel = cancelFactory()
-                api.adapter.ctx.emit('before_send', {
-                  api: value,
-                  message,
-                  cancel: cancel.get(),
-                  target:
-                    prop === 'sendPrivateMsg'
-                      ? { type: MessageScope.PRIVATE, userId: id1 }
-                      : prop === 'sendGroupMsg'
-                        ? { type: MessageScope.GROUP, groupId: id1 }
-                        : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
-                })
-                if (cancel.value) return
-                Reflect.apply(target, thisArg, argArray)
-              }
-            })
-          }
-        })
-      }
-    })
+  set: (target, prop, newValue, receiver) => {
+    if (prop !== 'api') return Reflect.set(target, prop, newValue, receiver)
+    for (const key of ['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg']) {
+      newValue[key] = new Proxy(newValue[key], {
+        apply(target, thisArg, argArray) {
+          const [message, id1, id2] = argArray
+          const cancel = cancelFactory()
+          newValue.ctx.emit('before_send', {
+            api: newValue,
+            message,
+            cancel: cancel.get(),
+            target:
+              key === 'sendPrivateMsg'
+                ? { type: MessageScope.PRIVATE, userId: id1 }
+                : key === 'sendGroupMsg'
+                  ? { type: MessageScope.GROUP, groupId: id1 }
+                  : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
+          })
+          if (cancel.value) return
+          Reflect.apply(target, thisArg, argArray)
+        }
+      })
+    }
+    return Reflect.set(target, prop, newValue, receiver)
+  }
 })
 
 export default Adapter

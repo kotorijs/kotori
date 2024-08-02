@@ -18,11 +18,13 @@
   "dependencies": {
     "@kotori-bot/i18n": "workspace:^",
     "@kotori-bot/tools": "workspace:^",
-    "@types/minimist": "^1.2.5",
     "cron": "^3.1.7",
-    "fluoro": "^1.0.2",
+    "fluoro": "workspace:^",
     "minimist": "^1.2.8",
     "reflect-metadata": "^0.2.2",
     "tsukiko": "^1.4.2"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5"
   }
 }

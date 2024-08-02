@@ -5,9 +5,8 @@ import Context from 'fluoro'
 import Config from './config'
 import Message from './message'
 import type { AdapterClass } from '../types'
-import { Cache, type Api, type Session } from '../components'
+import { Cache, type Api } from '../components'
 import { Symbols } from '../global'
-import { getCommandMeta, getRegExpMeta } from '../utils/internal'
 
 declare module 'fluoro' {
   interface Context {
@@ -136,32 +135,7 @@ declare module 'fluoro' {
   }
 }
 
-function initialize(ctx: Context) {
-  function test(identity: string, session: Session) {
-    for (const [key, filter] of ctx[Symbols.filter].entries()) if (key === identity) return filter.test(session)
-    return true
-  }
-
-  ctx.midware((next, session) => {
-    //  Throttle valve for `session.prompt()` and ``session.confirm()`
-    if (session.id in ctx[Symbols.promise]) return
-    next()
-  })
-
-  ctx.on('before_command', (data) => {
-    const { identity } = getCommandMeta(data.command) ?? {}
-    if (identity && !test(identity, data.session)) data.cancel()
-  })
-
-  ctx.on('before_regexp', (data) => {
-    const { callback } = Array.from(ctx[Symbols.regexp]).find(({ match }) => match === data.regexp) ?? {}
-    if (!callback) return
-    const { identity } = getRegExpMeta(callback) ?? {}
-    if (identity && !test(identity, data.session)) data.cancel()
-  })
-}
-
-export class Core extends Context<Core> {
+export class Core extends Context {
   public readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]> = new Map()
 
   public readonly [Symbols.bot]: Map<string, Set<Api>> = new Map()
@@ -170,14 +144,13 @@ export class Core extends Context<Core> {
     super()
     this.provide('config', new Config(config))
     this.mixin('config', ['config', 'meta'])
-    this.provide('message', new Message(this))
+    this.provide('message', new Message(this.extends()))
     this.mixin('message', ['midware', 'command', 'regexp', 'notify', 'task'])
     this.provide('http', new Http({ validateStatus: () => true }))
     this.inject('http')
     this.provide('i18n', new I18n({ lang: this.config.global.lang }))
     this.inject('i18n')
     this.service('cache', new Cache(this.extends()))
-    initialize(this)
   }
 }
 

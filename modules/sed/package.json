@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-sed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "sed plugin",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],

@@ -7,6 +7,7 @@ export namespace Symbols {
   export const task = Symbol.for('kotori.core.task')
   export const filter = Symbol.for('kotori.core.filter')
   export const promise = Symbol.for('kotori.core.promise')
+  export const decorator = Symbol.for('kotori.core.decorator')
   export const modules = Symbol.for('kotori.loader.module')
   export const getInstance = Symbol.for('kotori.cli.get_instance')
   export const setInstance = Symbol.for('kotori.cli.set_instance')

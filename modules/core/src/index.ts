@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-30 16:17:29
+ * @LastEditTime: 2024-08-01 16:43:02
  */
 
 import { UserAccess, CommandError, type Context, MessageScope, TsuError, type LocaleType, Symbols } from 'kotori-bot'
@@ -12,7 +12,7 @@ export const lang = [__dirname, '../locales']
 
 export function main(ctx: Context) {
   ctx.on('before_command', (data) => {
-    const { quick } = data.session
+    const quick = data.session.quick.bind(data.session)
     if (!(data.result instanceof CommandError)) {
       const { scope, access } = data.command.meta
       if (scope && scope !== 'all' && data.session.type !== scope) {
@@ -51,18 +51,18 @@ export function main(ctx: Context) {
       case 'syntax':
         quick(['corei18n.template.syntax', [value.index, value.char]])
         break
-      case 'unknown':
-        quick(['corei18n.template.unknown', [value.input]])
-        break
       default:
     }
   })
 
-  ctx.on('command', (data) => {
-    if (!(data.result instanceof CommandError)) return
-    const { value } = data.result
-    const { quick } = data.session
+  ctx.on('command', ({ result, session }) => {
+    if (!(result instanceof CommandError)) return
+    const { value } = result
+    const quick = session.quick.bind(session)
     switch (value.type) {
+      case 'unknown':
+        quick(['corei18n.template.unknown', [value.input]])
+        break
       case 'res_error':
         quick(['corei18n.template.res_error', [value.error.message]])
         break
@@ -106,12 +106,6 @@ export function main(ctx: Context) {
       default:
     }
   })
-
-  ctx.midware(async (next) => {
-    try {
-      await next()
-    } catch (e) {}
-  }, 1)
 
   ctx.command('core - core.descr.core').action((_, session) => {
     const { config, baseDir, options } = session.api.adapter.ctx

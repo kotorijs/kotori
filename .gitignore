@@ -1,19 +1,12 @@
 node_modules
 dist
 lib
-.husky/_
+coverage
+log
+data
 
-.vscode/*
-.vs/*
-!.vscode/extensions.json
-
+*.env
 *.tgz
 *.log
 tsconfig.tsbuildinfo
 test.http
-kotori.dev.*
-
-log/*
-data/*
-
-*.env

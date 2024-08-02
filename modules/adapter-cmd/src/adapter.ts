@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-30 19:49:25
+ * @LastEditTime: 2024-08-01 17:44:48
  */
 import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu } from 'kotori-bot'
 import CmdApi from './api'

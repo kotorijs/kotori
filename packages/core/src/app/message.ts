@@ -1,12 +1,18 @@
 import type { Context } from 'fluoro'
 import { CronJob } from 'cron'
 import type { CommandConfig, MidwareCallback, RegexpCallback, TaskCallback, FilterOption, TaskOptions } from '../types'
-import { cancelFactory } from '../utils/internal'
-import { Command, type SessionMsg } from '../components'
+import {
+  cancelFactory,
+  getCommandMeta,
+  getRegExpMeta,
+  setCommandMeta,
+  setMidwareMeta,
+  setRegExpMeta,
+  setTaskMeta
+} from '../utils/internal'
+import { Filter, Command, type Session, type SessionMsg } from '../components'
 import { CommandError } from '../utils/error'
 import { Symbols } from '../global'
-import { Filter } from '../components'
-import { setCommandMeta, setMidwareMeta, setRegExpMeta, setTaskMeta } from '../utils/internal'
 import { randomUUID } from 'node:crypto'
 
 interface MidwareData {
@@ -35,8 +41,7 @@ export class Message {
   private handleMidware(session: SessionMsg) {
     const { api } = session
     api.adapter.status.receivedMsg += 1
-
-    Array.from(this[Symbols.midware].values())
+    const setup = Array.from(this[Symbols.midware].values())
       .sort((first, last) => first.priority - last.priority)
       .map(({ callback }) => callback)
       .reverse()
@@ -53,7 +58,8 @@ export class Message {
           this.handleCommand(session)
           this.handleRegexp(session)
         }
-      )(() => {}, session)
+      )
+    setup(() => {}, session)
   }
 
   private async handleRegexp(session: SessionMsg) {
@@ -102,7 +108,7 @@ export class Message {
       const cancel = cancelFactory()
       this.ctx.emit('before_command', { command: cmd, result, ...params, cancel: cancel.get() })
       if (cancel.value) continue
-      if (result instanceof CommandError) throw result
+      if (result instanceof CommandError) continue
 
       try {
         const executed = cmd.meta.action({ args: result.args, options: result.options }, session)
@@ -129,7 +135,6 @@ export class Message {
       result,
       ...params
     })
-    throw result
   }
 
   private readonly ctx: Context
@@ -140,6 +145,29 @@ export class Message {
     this.ctx.on('before_send', (data) => {
       const { api } = data
       api.adapter.status.sentMsg += 1
+    })
+
+    const test = (identity: string, session: Session) => {
+      for (const [key, filter] of this[Symbols.filter].entries()) if (key === identity) return filter.test(session)
+      return true
+    }
+
+    this.ctx.on('before_command', (data) => {
+      const { identity } = getCommandMeta(data.command) ?? {}
+      if (identity && !test(identity, data.session)) data.cancel()
+    })
+
+    this.ctx.on('before_regexp', (data) => {
+      const { callback } = Array.from(this[Symbols.regexp]).find(({ match }) => match === data.regexp) ?? {}
+      if (!callback) return
+      const { identity } = getRegExpMeta(callback) ?? {}
+      if (identity && !test(identity, data.session)) data.cancel()
+    })
+
+    this.midware((next, session) => {
+      //  Throttle valve for `session.prompt()` and ``session.confirm()`
+      if (session.id in this[Symbols.promise]) return
+      next()
     })
   }
 

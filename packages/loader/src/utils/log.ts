@@ -1,8 +1,9 @@
 import type { Context } from '@kotori-bot/core'
 
 export function loadInfo(info: Context['meta'], ctx: Context) {
-  process.stdout.write('Kotori Bot is loading...')
-  process.stdout.write(`
+  if ((ctx.logger as unknown as { options: { level: number } }).options.level >= 70) return
+  console.info('Kotori Bot is loading...')
+  console.info(`
 ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗
 ██║ ██╔╝██╔═══██╗╚══██╔══╝██╔═══██╗██╔══██╗██║
 █████╔╝ ██║   ██║   ██║   ██║   ██║██████╔╝██║

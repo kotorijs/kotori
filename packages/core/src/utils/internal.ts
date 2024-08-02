@@ -1,7 +1,15 @@
+import 'reflect-metadata'
 import type { OptsOrigin, MidwareCallback, RegexpCallback, TaskOptions } from '../types'
 import { Symbols } from '../global'
 import type { Command } from '../components'
 import type { CronJob } from 'cron'
+import type { ModuleConfig } from 'fluoro'
+
+declare module 'fluoro' {
+  interface EventsMapping {
+    literal_ready_module_decorator(name: string, config: ModuleConfig): void
+  }
+}
 
 export function cancelFactory() {
   return {

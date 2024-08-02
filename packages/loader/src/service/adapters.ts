@@ -1,4 +1,4 @@
-import { type Api, Adapter as OriginAdapter } from '@kotori-bot/core'
+import { type Api, Adapter as OriginAdapter, KotoriError } from '@kotori-bot/core'
 import type { WsRouteHandler } from '../types/server'
 
 export namespace Adapters {
@@ -28,7 +28,7 @@ export namespace Adapters {
           try {
             data = JSON.parse(raw.toString())
           } catch (e) {
-            this.ctx.logger.error(`Data parse error: ${e instanceof Error ? e.message : e}`)
+            throw new KotoriError(`Data parse error: ${e instanceof Error ? e.message : e}`)
           }
           if (data) this.handle(data)
         })
