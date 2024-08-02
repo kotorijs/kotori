@@ -278,7 +278,13 @@ export type SessionMsgChannel = Session<EventDataChannelMsg>
  * @template T - Session event data type
  */
 export const Session = new Proxy(SessionOrigin, {
-  construct: (target, args, newTarget) => Object.assign(args[0], Reflect.construct(target, args, newTarget))
+  construct: (target, args, newTarget) =>
+    new Proxy(Reflect.construct(target, args, newTarget), {
+      get: (target, prop, receiver) => {
+        const result = Reflect.get(target, prop, receiver)
+        return result === undefined ? args[0][prop] : result
+      }
+    })
 }) as new <T extends EventDataApiBase = EventDataApiBase>(
   data: T,
   bot: Adapter

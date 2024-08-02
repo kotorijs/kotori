@@ -57,20 +57,20 @@ export class FilterPlugin extends KotoriPlugin<Tsu.infer<typeof FilterPlugin.sch
 
   private filterModules() {
     const { mode, list } = this.config
-    const runner = this.ctx.get<{ [Symbols.modules]: Map<string, [{ main?: string }, object]> }>('runner')
-    if (!runner) {
-      this.ctx.logger.error('it is not loader environment nowadays')
-      return
-    }
+    // const runner = this.ctx.get<{ [Symbols.modules]: Map<string, [{ main?: string }, object]> }>('runner')
+    // if (!runner) {
+    //   this.ctx.logger.error('it is not loader environment nowadays')
+    //   return
+    // }
     this.ctx.logger.record(`get loader successfully, filter mode: ${mode}`)
-    runner[Symbols.modules].forEach((val, key) => {
+    this.ctx[Symbols.modules].forEach((val, key) => {
       if (CORE_MODULES.includes(key)) return
       const [ModuleMeta] = val
       const result = list.filter((pattern) => pm(pattern)(key).valueOf()).length > 0
       if ((result && mode === 'exclude') || (!result && mode === 'include')) {
-        runner[Symbols.modules].delete(key)
+        this.ctx[Symbols.modules].delete(key)
         // biome-ignore lint:
-        delete ModuleMeta.main
+        delete (ModuleMeta as { main?: unknown }).main
       }
     })
   }

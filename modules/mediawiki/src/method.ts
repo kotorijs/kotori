@@ -1,7 +1,9 @@
-import Kotori from 'kotori-bot'
+import { Http } from 'kotori-bot'
+
+const http = new Http()
 
 export function fetchWiki(wikiUrl: string, action: string, params: object) {
-  return Kotori.http.get(wikiUrl, {
+  return http.get(wikiUrl, {
     action,
     exintro: '',
     explaintext: '',

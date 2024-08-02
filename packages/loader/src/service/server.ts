@@ -1,4 +1,4 @@
-import { type Context, Service, Symbols } from '@kotori-bot/core'
+import { type Context, Service, Symbols, KotoriError } from '@kotori-bot/core'
 import { type Server as HttpServer, type IncomingMessage, type ServerResponse, createServer } from 'node:http'
 import { match } from 'path-to-regexp'
 import express from 'express'
@@ -101,22 +101,19 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
         mes.toString()
       })
       ws.on('error', (error) => {
-        this.ctx.logger.label('server').error(`WebSocket client error: ${error.message}`)
+        ctx.emit('error', new KotoriError(`WebSocket client error: ${error.message}`, 'server'))
       })
       ws.on('close', (code, reason) => {
-        this.ctx.logger.label('server').info(`WebSocket connection closed: ${code} - ${reason}`)
+        ctx.emit('error', new KotoriError(`WebSocket connection closed: ${code} - ${reason}`, 'server'))
       })
     })
     this.wsServer.on('error', (error) => {
-      this.ctx.logger.label('server').error(`WebSocket server error: ${error.message}`)
+      ctx.emit('error', new KotoriError(`WebSocket server error: ${error.message}`, 'server'))
     })
   }
 
-  public start() {
-    this.server.listen(this.config.port, () => {
-      this.ctx.logger.label('server').info(`http server start at http://127.0.0.1:${this.config.port}`)
-      this.ctx.logger.label('server').info(`websocket server start at ws://127.0.0.1:${this.config.port}`)
-    })
+  public start(callback?: () => void) {
+    this.server.listen(this.config.port, callback)
   }
 
   public stop() {

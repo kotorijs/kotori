@@ -11,5 +11,7 @@
     "noImplicitReturns": true,
     "composite": true,
     "incremental": true
-  }
+  },
+  /* Custom */
+  "exclude": ["**/*/*.test.ts", "*.d.ts", "**/*/lib/*", "**/*/dist/*"]
 }

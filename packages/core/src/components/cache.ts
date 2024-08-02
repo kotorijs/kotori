@@ -41,7 +41,7 @@ export class Cache extends Service {
    * @returns THe container
    */
   public getContainer() {
-    if (!this.cache) throw new KotoriError()
+    if (!this.cache) throw new KotoriError('Cache service is not started.', 'cache')
     const key = this.ctx.identity ?? 'root'
     if (!this.cache.has(key)) this.cache.set(key, new Map())
     return this.cache.get(key) as Container

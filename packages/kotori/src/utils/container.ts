@@ -3,7 +3,7 @@ import { type Context, KotoriError, Symbols } from '@kotori-bot/core'
 export class Container {
   private constructor() {}
 
-  private static instance: Context
+  public static instance: Context
 
   public static [Symbols.setInstance](ctx: Context) {
     if (Container.instance) throw new KotoriError('Default context instance is already set')
@@ -15,3 +15,5 @@ export class Container {
     return Container.instance
   }
 }
+
+export default Container

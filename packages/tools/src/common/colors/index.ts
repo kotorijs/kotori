@@ -21,12 +21,44 @@ export class Colors<T extends string = ''> {
   }
 
   public parse(text: string) {
-    let str = text
-    for (const key of [...colorsIdentity, ...Object.keys(this.customRules), 'clear']) {
-      const pattern = new RegExp(`<${key}>(.*?)</${key}>`, 'g')
-      if (pattern) str = str.replace(pattern, (_, content) => this.dye(content, key as keyof T))
+    const allColors = [...colorsIdentity, ...Object.keys(this.customRules), 'clear']
+    const colorStack: string[] = []
+    let result = ''
+    let currentText = ''
+
+    const applyColor = () => {
+      if (currentText) {
+        for (let i = colorStack.length - 1; i >= 0; i--) {
+          currentText = this.dye(currentText, colorStack[i] as keyof T)
+        }
+        result += currentText
+        currentText = ''
+      }
     }
-    return str
+
+    const regex = new RegExp(`(<(${allColors.join('|')})>|</(${allColors.join('|')})>|([^<]+))`, 'g')
+    let match = regex.exec(text)
+
+    while (match !== null) {
+      if (match[2]) {
+        // Opening tag
+        applyColor()
+        colorStack.push(match[2])
+      } else if (match[3]) {
+        // Closing tag
+        applyColor()
+        const lastColor = colorStack.pop()
+        if (lastColor !== match[3]) continue
+      } else if (match[4]) {
+        // Text content
+        currentText += match[4]
+      }
+      match = regex.exec(text)
+    }
+
+    applyColor() // Apply colors to any remaining text
+
+    return result
   }
 
   public batch(batches: string[]) {

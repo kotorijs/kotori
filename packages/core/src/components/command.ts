@@ -352,8 +352,8 @@ export class Command<
    * @returns Command instance
    */
   public shortcut(short: string | string[]) {
-    if (typeof short === 'string') this.meta.alias.push(short)
-    else this.meta.alias.push(...short)
+    if (typeof short === 'string') this.meta.shortcut.push(short)
+    else this.meta.shortcut.push(...short)
     return this
   }
 

@@ -5,40 +5,40 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-02-17 16:42:08
  */
-import { Adapter, AdapterConfig, Context, MessageScope, Tsu } from 'kotori-bot';
-import WebSocket from 'ws';
-import QQApi from './api';
-import { PayloadData } from './types';
-import QQElements from './elements';
+import { Adapter, AdapterConfig, Context, MessageScope, Tsu } from 'kotori-bot'
+import WebSocket from 'ws'
+import QQApi from './api'
+import { PayloadData } from './types'
+import QQElements from './elements'
 
-const WS_ADDRESS = 'wss://api.sgroup.qq.com/websocket';
-const API_ADDRESS = 'https://api.sgroup.qq.com/v2';
+const WS_ADDRESS = 'wss://api.sgroup.qq.com/websocket'
+const API_ADDRESS = 'https://api.sgroup.qq.com/v2'
 
 export const config = Tsu.Object({
   appid: Tsu.String(),
   secret: Tsu.String(),
   retry: Tsu.Number().positive().default(10)
-});
+})
 
-type QQConfig = Tsu.infer<typeof config> & AdapterConfig;
+type QQConfig = Tsu.infer<typeof config> & AdapterConfig
 
 export class QQAdapter extends Adapter<QQApi> {
-  private token = '';
+  private token = ''
 
-  private seq = 0;
+  private seq = 0
 
   /* here need */
-  public msg_seq = 0;
+  public msg_seq = 0
 
-  private groupId = '';
+  private groupId = ''
 
-  public imageStack: (string | true)[] = [];
+  public imageStack: (string | true)[] = []
 
-  public readonly config: QQConfig;
+  public readonly config: QQConfig
 
   public constructor(ctx: Context, config: QQConfig, identity: string) {
-    super(ctx, config, identity, QQApi, new QQElements());
-    this.config = config;
+    super(ctx, config, identity, QQApi, new QQElements())
+    this.config = config
   }
 
   public handle(data: PayloadData) {
@@ -50,7 +50,7 @@ export class QQAdapter extends Adapter<QQApi> {
           intents: 1241513984,
           shard: [0, 1]
         }
-      });
+      })
     } else if (data.t === 'READY') {
       this.ctx.emit('connect', {
         type: 'connect',
@@ -58,8 +58,8 @@ export class QQAdapter extends Adapter<QQApi> {
         normal: true,
         mode: 'ws',
         address: WS_ADDRESS
-      });
-      this.heartbeat();
+      })
+      this.heartbeat()
     } else if (data.t === 'GROUP_AT_MESSAGE_CREATE') {
       this.session('on_message', {
         type: MessageScope.GROUP,
@@ -76,20 +76,20 @@ export class QQAdapter extends Adapter<QQApi> {
           title: ''
         },
         groupId: data.d.group_openid
-      });
-      this.groupId = data.d.group_openid;
+      })
+      this.groupId = data.d.group_openid
       /* here need improve */
     } else if (data.op === 11) {
-      this.online();
+      this.online()
       // this.offlineCheck();
     }
-    if (data.s) this.seq = data.s;
+    if (data.s) this.seq = data.s
     // if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline, 50 * 1000);
   }
 
   public start() {
-    this.generateToken();
-    this.connect();
+    this.generateToken()
+    this.connect()
   }
 
   public stop() {
@@ -99,75 +99,74 @@ export class QQAdapter extends Adapter<QQApi> {
       normal: true,
       mode: 'ws',
       address: WS_ADDRESS
-    });
-    this.socket?.close();
-    this.offline();
+    })
+    this.socket?.close()
+    this.offline()
   }
 
   public send(action: string, params: object) {
     if (action === 'ws') {
-      this.socket?.send(JSON.stringify(params));
-      return undefined;
+      this.socket?.send(JSON.stringify(params))
+      return undefined
     }
-    let address = '/';
-    let cancel = false;
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    let req: Record<string, any> = {};
+    let address = '/'
+    let cancel = false
+    // biome-ignore lint:
+    let req: Record<string, any> = {}
     if (action === 'send_group_msg' && 'groupId' in params && 'message' in params && 'id' in params) {
-      if (!params.message) return null;
-      address += `groups/${params.groupId}/messages`;
+      if (!params.message) return null
+      address += `groups/${params.groupId}/messages`
       req = {
         content: params.message,
         msg_type: 0,
         msg_id: params.id,
         msg_seq: this.msg_seq
-      };
+      }
       if (this.imageStack[this.msg_seq]) {
-        cancel = true;
-        let timerId: NodeJS.Timeout;
-        /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+        cancel = true
+        let timerId: NodeJS.Timeout
         const timer = () =>
           setTimeout(() => {
-            if (timerId) clearTimeout(timerId);
+            if (timerId) clearTimeout(timerId)
             if (this.imageStack[this.msg_seq] === true) {
-              timerId = timer();
-              return;
+              timerId = timer()
+              return
             }
-            req.file_info = { file_info: this.imageStack[this.msg_seq] };
-            req.msg_type = 7;
+            req.file_info = { file_info: this.imageStack[this.msg_seq] }
+            req.msg_type = 7
             this.ctx.http.post(`${API_ADDRESS}${address}`, req, {
               headers: {
                 Authorization: `QQBot ${this.token}`,
                 'X-Union-Appid': this.config.appid
               },
               validateStatus: () => true
-            });
-          }, 500);
+            })
+          }, 500)
       }
-      this.msg_seq += 1;
+      this.msg_seq += 1
     } else if (action === 'send_group_msg_media' && 'url' in params && 'file_type' in params) {
-      address += `groups/${this.groupId}/files`;
+      address += `groups/${this.groupId}/files`
       req = {
         file_type: params.file_type,
         url: params.url,
         srv_send_msg: false
-      };
-      this.msg_seq += 1;
+      }
+      this.msg_seq += 1
     }
-    if (cancel) return undefined;
+    if (cancel) return undefined
     return this.ctx.http.post(`${API_ADDRESS}${address}`, req, {
       headers: {
         Authorization: `QQBot ${this.token}`,
         'X-Union-Appid': this.config.appid
       },
       validateStatus: () => true
-    });
+    })
   }
 
-  private socket: WebSocket | null = null;
+  private socket: WebSocket | null = null
 
   private async connect() {
-    this.socket = new WebSocket(WS_ADDRESS);
+    this.socket = new WebSocket(WS_ADDRESS)
     this.socket.on('close', () => {
       this.ctx.emit('connect', {
         type: 'disconnect',
@@ -175,41 +174,41 @@ export class QQAdapter extends Adapter<QQApi> {
         normal: false,
         address: WS_ADDRESS,
         mode: 'ws'
-      });
+      })
       setTimeout(() => {
-        if (!this.socket) return;
-        this.socket.close();
+        if (!this.socket) return
+        this.socket.close()
         this.ctx.emit('connect', {
           type: 'connect',
           adapter: this,
           normal: false,
           mode: 'ws',
           address: WS_ADDRESS
-        });
-        this.start();
-      }, this.config.retry * 1000);
-    });
-    this.socket.on('message', (data) => this.handle(JSON.parse(data.toString())));
+        })
+        this.start()
+      }, this.config.retry * 1000)
+    })
+    this.socket.on('message', (data) => this.handle(JSON.parse(data.toString())))
   }
 
   private async generateToken() {
     const data = (await this.ctx.http.post('https://bots.qq.com/app/getAppAccessToken', {
       appId: this.config.appid,
       clientSecret: this.config.secret
-    })) as Record<string, string>;
+    })) as Record<string, string>
     if (!data.access_token) {
-      this.offline();
-      this.ctx.logger.error('got token error!');
-      return;
+      this.offline()
+      this.ctx.logger.error('got token error!')
+      return
     }
-    this.token = data.access_token;
+    this.token = data.access_token
     this.generateTokenTimerId = setTimeout(
       () => {
-        if (this.generateTokenTimerId) clearInterval(this.generateTokenTimerId);
-        this.generateToken();
+        if (this.generateTokenTimerId) clearInterval(this.generateTokenTimerId)
+        this.generateToken()
       },
       (parseInt(data.expires_in, 10) - 30) * 1000
-    );
+    )
   }
 
   private async heartbeat() {
@@ -217,16 +216,16 @@ export class QQAdapter extends Adapter<QQApi> {
       this.send('ws', {
         op: 1,
         d: this.seq || null
-      });
-      if (this.heartbeatTimerId) clearInterval(this.heartbeatTimerId);
-      this.heartbeat();
-    }, 7 * 1000);
+      })
+      if (this.heartbeatTimerId) clearInterval(this.heartbeatTimerId)
+      this.heartbeat()
+    }, 7 * 1000)
   }
 
   /* global NodeJS */
-  private generateTokenTimerId?: NodeJS.Timeout;
+  private generateTokenTimerId?: NodeJS.Timeout
 
-  private heartbeatTimerId?: NodeJS.Timeout;
+  private heartbeatTimerId?: NodeJS.Timeout
 }
 
-export default QQAdapter;
+export default QQAdapter

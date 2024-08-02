@@ -58,8 +58,8 @@ program
 
     if (options.daemon) return daemon(virtualEnv)
     const loader = new Loader(loaderOptions)
-    loader.ctx.meta.version = require(resolve(__dirname, '../package.json')).version
-    Container[Symbols.setInstance](loader.ctx)
+    loader.meta.version = require(resolve(__dirname, '../package.json')).version
+    Container[Symbols.setInstance](loader)
     loader.run()
   })
 

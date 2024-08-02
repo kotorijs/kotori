@@ -1,4 +1,4 @@
-import type { Context } from '@kotori-bot/core'
+import type { Context } from 'fluoro'
 
 export abstract class KotoriPlugin<T extends object | undefined = undefined> {
   protected readonly ctx: Context

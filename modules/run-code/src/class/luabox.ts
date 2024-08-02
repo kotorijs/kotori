@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import { createEnv } from 'lua-in-js'
 import JsBox from './jsBox'
 

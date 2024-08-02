@@ -2,15 +2,9 @@ import { LoggerLevel } from '@kotori-bot/logger'
 
 export const PLUGIN_PREFIX = 'kotori-plugin-'
 
-export const DATABASE_PREFIX = `${PLUGIN_PREFIX}database-`
-
 export const ADAPTER_PREFIX = `${PLUGIN_PREFIX}adapter-`
 
 export const CONFIG_NAME = 'kotori.toml'
-
-export const SUPPORTS_VERSION = /(1\.1\.0)|(1\.2\.0)|(1\.(3|4|5|6|7|8|9)\.(.*))/
-
-export const SUPPORTS_HALF_VERSION = /(x\.x\.(.*?))/
 
 export const BUILD_MODE = 'build' as const
 
