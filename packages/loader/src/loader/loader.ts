@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-04 20:09:06
+ * @LastEditTime: 2024-08-05 21:11:08
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -540,8 +540,10 @@ export class Loader extends Core {
       }
 
       const result = array[1]?.parseSafe(botConfig)
-      if (result && !result.value)
-        throw new ModuleError(this.format('error.module.config_bot', [identity, result.error.message]))
+      if (result && !result.value) {
+        this.emit('error', new ModuleError(this.format('error.module.config_bot', [identity, result.error.message])))
+        continue
+      }
 
       try {
         const bot = new array[0](

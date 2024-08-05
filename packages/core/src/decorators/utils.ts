@@ -7,6 +7,12 @@ import { resolve } from 'node:path'
 import type { CommandConfig } from '../types'
 import type { KotoriPlugin } from './plugin'
 
+declare module 'fluoro' {
+  interface EventsMapping {
+    literal_ready_module_decorator(name: string, config: ModuleConfig): void
+  }
+}
+
 interface EventOption {
   type: keyof EventsList
   isOnce?: boolean

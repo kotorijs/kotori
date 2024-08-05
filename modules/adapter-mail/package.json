@@ -1,0 +1,30 @@
+{
+  "name": "@kotori-bot/adapter-mail",
+  "version": "1.0.0",
+  "description": "Adapter For Email",
+  "main": "lib/index.js",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Arimura Sena <me@hotaru.icu>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@types/imap-simple": "^4.2.9",
+    "@types/mailparser": "^3.4.4",
+    "@types/nodemailer": "^6.4.15",
+    "imap-simple": "^5.1.0",
+    "mailparser": "^3.7.1",
+    "nodemailer": "^6.9.14"
+  }
+}

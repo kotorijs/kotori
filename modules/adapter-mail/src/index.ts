@@ -1,6 +1,6 @@
-import { CmdAdapter } from './adapter'
+import { MailAdapter } from './adapter'
 
 export * from './adapter'
 export * from './api'
 export * from './elements'
-export default CmdAdapter
+export default MailAdapter
