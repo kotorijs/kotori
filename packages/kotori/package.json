@@ -6,7 +6,7 @@
   "license": "GPL-3.0",
   "author": "Arimura Sena <me@hotaru.icu>",
   "scripts": {
-    "start": "node dist/cli.js --mode build --daemon",
+    "start": "node lib/cli.js --mode build --daemon",
     "dev": "tsx src/cli.ts --mode dev"
   },
   "bin": {

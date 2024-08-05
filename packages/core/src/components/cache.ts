@@ -1,12 +1,12 @@
 import { Service } from 'fluoro'
 import { KotoriError } from '../utils/error'
 
-type CacheKey = string | symbol
+type CacheKey = string | symbol | number
 type CacheValue = string | number | object
 
 type Container = Map<CacheKey, CacheValue>
 
-type CacheMap = Map<string, Container>
+type CacheMap = Map<CacheKey, Container>
 
 /**
  * Cache service

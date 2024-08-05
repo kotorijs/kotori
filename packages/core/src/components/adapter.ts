@@ -1,8 +1,7 @@
 import type { Context, EventsList } from 'fluoro'
 import type Api from './api'
-import { MessageScope, type AdapterConfig, type EventDataApiBase } from '../types'
+import type { AdapterConfig, EventDataApiBase } from '../types'
 import type Elements from './elements'
-import { cancelFactory } from '../utils/internal'
 import { Session } from './session'
 
 export type EventApiType = {
@@ -35,7 +34,11 @@ interface AdapterStatus {
  * @class
  * @abstract
  */
-export interface Adapter<A extends Api = Api, C extends AdapterConfig = AdapterConfig, E extends Elements = Elements> {
+export interface AdapterImpl<
+  A extends Api = Api,
+  C extends AdapterConfig = AdapterConfig,
+  E extends Elements = Elements
+> {
   /**
    * Context instance.
    *
@@ -106,11 +109,11 @@ export interface Adapter<A extends Api = Api, C extends AdapterConfig = AdapterC
   send(...data: unknown[]): void
 }
 
-abstract class AdapterOrigin<
+export abstract class Adapter<
   A extends Api = Api,
   C extends AdapterConfig = AdapterConfig,
   E extends Elements = Elements
-> implements Adapter<A, C, E>
+> implements AdapterImpl<A, C, E>
 {
   public constructor(ctx: Context, config: C, identity: string) {
     this.ctx = ctx
@@ -167,32 +170,5 @@ abstract class AdapterOrigin<
 
   public selfId = ''
 }
-export const Adapter = new Proxy(AdapterOrigin, {
-  set: (target, prop, newValue, receiver) => {
-    if (prop !== 'api') return Reflect.set(target, prop, newValue, receiver)
-    for (const key of ['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg']) {
-      newValue[key] = new Proxy(newValue[key], {
-        apply(target, thisArg, argArray) {
-          const [message, id1, id2] = argArray
-          const cancel = cancelFactory()
-          newValue.ctx.emit('before_send', {
-            api: newValue,
-            message,
-            cancel: cancel.get(),
-            target:
-              key === 'sendPrivateMsg'
-                ? { type: MessageScope.PRIVATE, userId: id1 }
-                : key === 'sendGroupMsg'
-                  ? { type: MessageScope.GROUP, groupId: id1 }
-                  : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
-          })
-          if (cancel.value) return
-          Reflect.apply(target, thisArg, argArray)
-        }
-      })
-    }
-    return Reflect.set(target, prop, newValue, receiver)
-  }
-})
 
 export default Adapter

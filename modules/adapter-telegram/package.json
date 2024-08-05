@@ -1,0 +1,28 @@
+{
+  "name": "@kotori-bot/adapter-telegram",
+  "version": "1.0.0",
+  "description": "Adapter For Telegram",
+  "main": "lib/index.js",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin",
+    "telegram"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <me@hotaru.icu>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "node-telegram-bot-api": "^0.66.0",
+    "socks-proxy-agent": "^8.0.4"
+  }
+}

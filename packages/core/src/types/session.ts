@@ -353,7 +353,7 @@ export interface EventDataGroupBan extends EventDataApiBase<MessageScope.GROUP> 
   userId: string
   /** Operator id */
   operatorId: string
-  /** Ban duration (seconds) */
+  /** Ban duration (seconds), if equal to 0, it means unban */
   duration: number
   /** Group id */
   groupId: string

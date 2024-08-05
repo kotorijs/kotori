@@ -23,6 +23,10 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
+      - name: Clone submodules
+        run: |
+          git submodule init
+          git submodule update
       - name: Install packages
         run: pnpm install --no-frozen-lockfile
       - name: Build packages

@@ -1,6 +1,14 @@
-import type { Context } from 'fluoro'
+import type { Context, IdentityType } from 'fluoro'
 import { CronJob } from 'cron'
-import type { CommandConfig, MidwareCallback, RegexpCallback, TaskCallback, FilterOption, TaskOptions } from '../types'
+import {
+  type CommandConfig,
+  type MidwareCallback,
+  type RegexpCallback,
+  type TaskCallback,
+  type FilterOption,
+  type TaskOptions,
+  MessageScope
+} from '../types'
 import {
   cancelFactory,
   getCommandMeta,
@@ -14,6 +22,7 @@ import { Filter, Command, type Session, type SessionMsg } from '../components'
 import { CommandError } from '../utils/error'
 import { Symbols } from '../global'
 import { randomUUID } from 'node:crypto'
+import Decorators from '../decorators/utils'
 
 interface MidwareData {
   callback: MidwareCallback
@@ -80,7 +89,7 @@ export class Message {
   }
 
   private async handleCommand(session: SessionMsg) {
-    const prefix = session.api.adapter.config['command-prefix'] ?? this.ctx.config.global['command-prefix']
+    const prefix = session.api.adapter.config.commandPrefix ?? this.ctx.config.global.commandPrefix
 
     /* parse command shortcuts */
     for (const cmd of this[Symbols.command]) {
@@ -141,14 +150,44 @@ export class Message {
 
   public constructor(ctx: Context) {
     this.ctx = ctx
+    this.ctx.on('ready', () => {
+      for (const bots of this.ctx[Symbols.bot].values()) {
+        for (const bot of bots) {
+          for (const key of ['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg'] as const) {
+            ;(bot as unknown as Record<string, unknown>)[key] = new Proxy(bot[key], {
+              apply: (target, thisArg, argArray) => {
+                const [message, id1, id2] = argArray
+                const cancel = cancelFactory()
+                this.ctx.emit('before_send', {
+                  api: bot,
+                  message,
+                  cancel: cancel.get(),
+                  target:
+                    key === 'sendPrivateMsg'
+                      ? { type: MessageScope.PRIVATE, userId: id1 }
+                      : key === 'sendGroupMsg'
+                        ? { type: MessageScope.GROUP, groupId: id1 }
+                        : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
+                })
+                if (cancel.value) return
+                Reflect.apply(target, thisArg, argArray)
+              }
+            })
+          }
+        }
+      }
+    })
     this.ctx.on('on_message', (session) => this.handleMidware(session))
     this.ctx.on('before_send', (data) => {
       const { api } = data
       api.adapter.status.sentMsg += 1
+      api.adapter.status.lastMsgTime = new Date()
     })
 
-    const test = (identity: string, session: Session) => {
-      for (const [key, filter] of this[Symbols.filter].entries()) if (key === identity) return filter.test(session)
+    const test = (identity: IdentityType, session: Session) => {
+      for (const [key, filter] of this[Symbols.filter].entries()) {
+        if (identity.toString().includes(key)) return filter.test(session)
+      }
       return true
     }
 
@@ -169,6 +208,8 @@ export class Message {
       if (session.id in this[Symbols.promise]) return
       next()
     })
+
+    Decorators.setup(this.ctx)
   }
 
   public midware(callback: MidwareCallback, priority = 100) {
@@ -235,7 +276,7 @@ export class Message {
     const filterId = randomUUID().slice(0, 12).replaceAll('-', '')
     this[Symbols.filter].set(filterId, new Filter(option))
     // Although ctx.identity maybe empty but only it's not empty can be tested
-    return this.ctx.extends(undefined, `${this.ctx.identity}_${filterId}`)
+    return this.ctx.extends(undefined, `${this.ctx.identity?.toString()}_${filterId}`)
   }
 }
 

@@ -1,4 +1,4 @@
-import { Http, Tsu } from 'kotori-bot'
+import Kotori, { Tsu } from 'kotori-bot'
 import config from './config'
 
 const resSchema = Tsu.Object({
@@ -20,11 +20,9 @@ const resSchema = Tsu.Object({
   })
 })
 
-const http = new Http()
-
 export default async function getData(name: string) {
   const res = resSchema.parse(
-    await http.get(
+    await Kotori.http.get(
       '/api/cloudsearch/pc',
       {
         s: name,

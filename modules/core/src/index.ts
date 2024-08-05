@@ -3,10 +3,20 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-01 16:43:02
+ * @LastEditTime: 2024-08-03 10:59:04
  */
 
-import { UserAccess, CommandError, type Context, MessageScope, TsuError, type LocaleType, Symbols } from 'kotori-bot'
+import {
+  UserAccess,
+  CommandError,
+  type Context,
+  MessageScope,
+  TsuError,
+  type LocaleType,
+  Symbols,
+  FilterTestList,
+  ModuleError
+} from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
@@ -85,7 +95,7 @@ export function main(ctx: Context) {
         quick(['corei18n.template.no_exists', [value.target]])
         break
       case 'error':
-        ctx.logger.error(value.error)
+        ctx.emit('error', value.error instanceof Error ? value.error : new ModuleError(String(value.error)))
         if (value.error instanceof TsuError) {
           quick(['corei18n.template.res_error', [value.error.message]])
           return
@@ -107,24 +117,31 @@ export function main(ctx: Context) {
     }
   })
 
-  ctx.command('core - core.descr.core').action((_, session) => {
-    const { config, baseDir, options } = session.api.adapter.ctx
-    const botsLength = Array.from(ctx[Symbols.bot].values())
-      .map((set) => Array.from(set.values()).length)
-      .reduce((a, b) => a + b, 0)
-
-    return session.format('core.msg.core', {
-      lang: config.global.lang,
-      root: baseDir.root,
-      mode: options.mode,
-      modules: ctx[Symbols.modules] ? ctx[Symbols.modules].size : 0,
-      services: ctx[Symbols.adapter].size,
-      bots: botsLength,
-      midwares: ctx[Symbols.midware].size,
-      commands: ctx[Symbols.command].size,
-      regexps: ctx[Symbols.regexp].size
+  ctx
+    .filter({
+      test: FilterTestList.USER_ID,
+      operator: '==',
+      value: '114514'
     })
-  })
+    .command('core - core.descr.core')
+    .action((_, session) => {
+      const { config, baseDir, options } = session.api.adapter.ctx
+      const botsLength = Array.from(ctx[Symbols.bot].values())
+        .map((set) => Array.from(set.values()).length)
+        .reduce((a, b) => a + b, 0)
+
+      return session.format('core.msg.core', {
+        lang: config.global.lang,
+        root: baseDir.root,
+        mode: options.mode,
+        modules: ctx[Symbols.modules] ? ctx[Symbols.modules].size : 0,
+        services: ctx[Symbols.adapter].size,
+        bots: botsLength,
+        midwares: ctx[Symbols.midware].size,
+        commands: ctx[Symbols.command].size,
+        regexps: ctx[Symbols.regexp].size
+      })
+    })
 
   ctx.command('bot - core.descr.bot').action((_, session) => {
     const { identity, platform, selfId, config, status } = session.api.adapter

@@ -2,13 +2,11 @@ import cac from 'cac'
 import { BUILD_MODE, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
 import { resolve } from 'node:path'
 import env from './utils/env'
-import { executeCommand, supportTs, Symbols } from '@kotori-bot/core'
+import { Container, executeCommand, supportTs, Symbols } from '@kotori-bot/core'
 import daemon from './daemon'
-import { Container } from './utils/container'
+import { version } from '../package.json'
 
 const program = cac()
-
-const { version } = require(resolve(__dirname, '../package.json'))
 
 program.version(version, '-v, --version')
 program.help()
@@ -21,14 +19,16 @@ program
   .option('--config [name]', 'Set name of config file')
   .option('--level [number]', 'Set level of log output')
   .option('--port [number]', 'Set port of server')
-  .option('--nocolor', 'Do not use logger colors')
+  .option('--dbPrefix [string]', 'Set prefix of database')
+  .option('--noColor', 'Do not use logger colors')
   .action((options) => {
     const loaderOptions = Object.assign(env, { mode: (options.mode ?? env.mode) === DEV_MODE ? DEV_MODE : BUILD_MODE })
     if (options.dir !== undefined) loaderOptions.dir = options.dir
     if (options.config) loaderOptions.config = options.config
     if (options.level !== undefined) loaderOptions.level = Number.parseInt(options.level)
     if (options.port !== undefined) loaderOptions.port = Number.parseInt(options.port)
-    if (options.nocolor) loaderOptions.noColor = true
+    if (options.dbPrefix) loaderOptions.dbPrefix = options.dbPrefix
+    if (options.noColor) loaderOptions.noColor = true
 
     const virtualEnv = {
       ...process.env,

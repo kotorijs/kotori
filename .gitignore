@@ -10,3 +10,5 @@ data
 *.log
 tsconfig.tsbuildinfo
 test.http
+
+kotori.dev.*

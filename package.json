@@ -8,6 +8,7 @@
   "scripts": {
     "kotori": "pnpm --filter kotori-bot",
     "build": "rm -rf ./{packages,modules}/*/tsconfig.tsbuildinfo && pnpm -r exec tsup --define.env=prod && pnpm -r exec tsc --build",
+    "dev:only": "pnpm --filter \"./packages/*\" exec \"tsup --silent\" && tsx packages/kotori/src/cli --mode dev",
     "dev": "nodemon --watch",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
@@ -39,7 +40,7 @@
     "node": ">=17.9.0"
   },
   "nodemonConfig": {
-    "exec": "pnpm --filter \"./packages/*\" exec \"tsup --silent\" && tsx packages/kotori/src/cli --mode dev",
+    "exec": "pnpm dev:only",
     "ext": "ts,toml",
     "ignore": ["dist", "lib", "data", "log", "tsup.config.ts", "scripts", "tests", "*.test.ts"]
   }

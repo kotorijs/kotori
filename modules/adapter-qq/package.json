@@ -1,9 +1,9 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-qq",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Adapter For QQ Base On Tencent Api",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
+  "keywords": ["kotori", "chatbot", "kotori-plugin", "qq", "tencent"],
   "license": "GPL-3.0",
   "files": ["lib", "locales", "LICENSE", "README.md"],
   "author": "Hotaru <me@hotaru.icu>",

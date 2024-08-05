@@ -1,18 +1,42 @@
-import { Elements } from 'kotori-bot';
+import { Elements, type Message, type MessageList, type MessageMapping, MessageSingle } from 'kotori-bot'
+import { MEDIA_KEY } from './constants'
+import { FileType } from './types'
 
-export class QQElements extends Elements /* <QQAdapter> */ {
-  // image(url: string) {
-  //   const seq = (this.adapter as QQAdapter).msg_seq;
-  //   (this.adapter as QQAdapter).imageStack[seq] = true;
-  //   (this.adapter as QQAdapter).send('send_group_msg_media', { url })?.then((res) => {
-  //     if (!res || typeof res !== 'object' || !('file_info' in res)) {
-  //       delete (this.adapter as QQAdapter).imageStack[seq];
-  //       return;
-  //     }
-  //     (this.adapter as QQAdapter).imageStack[(this.adapter as QQAdapter).msg_seq] = res.file_info as string;
-  //   });
-  //   return '';
-  // }
+export class QQElements extends Elements {
+  public getSupportsElements(): (keyof MessageMapping)[] {
+    return ['text', 'image', 'mention', 'video', 'voice']
+  }
+
+  public decode(message: Message, list?: MessageList<'text'>): string {
+    if (typeof message === 'string') return message
+    if (!(message instanceof MessageSingle)) {
+      return Array.from(message)
+        .map((el) => this.decode(el, message as MessageList<'text'>))
+        .join('')
+    }
+    if (message.data.type === 'text') return message.toString()
+
+    const mapping = {
+      image: FileType.IMAGE,
+      voice: FileType.VOICE,
+      video: FileType.VIDEO
+    }
+    if (!Object.keys(mapping).includes(message.data.type)) return ''
+    const meta = {
+      type: mapping[message.data.type as 'image'],
+      value: (message.data as unknown as { value: string }).value
+    }
+    if (!list) {
+      Reflect.defineMetadata(MEDIA_KEY, [meta], message)
+      return ''
+    }
+    Reflect.defineMetadata(MEDIA_KEY, [...((Reflect.getMetadata(MEDIA_KEY, list) as []) ?? []), meta], list)
+    return ''
+  }
+
+  public encode(raw: string): Message {
+    return new MessageSingle('text', { text: raw })
+  }
 }
 
-export default QQElements;
+export default QQElements

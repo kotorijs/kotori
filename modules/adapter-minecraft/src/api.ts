@@ -5,15 +5,29 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-05-02 17:22:10
  */
-import { Api, string, Message } from 'kotori-bot'
+import { Api, type Message } from 'kotori-bot'
+import type McAdapter from './adapter'
 
 export class CmdApi extends Api {
-  public sendPrivateMsg(message: Message, userId: string) {
-    this.adapter.send(String(userId), { msg: message })
+  public readonly adapter: McAdapter
+
+  public constructor(adapter: McAdapter) {
+    super(adapter)
+    this.adapter = adapter
   }
 
-  public sendGroupMsg(message: Message, groupId: string) {
-    this.adapter.send(String(groupId), { msg: message })
+  public getSupportedEvents(): ReturnType<Api['getSupportedEvents']> {
+    return ['on_message']
+  }
+
+  public async sendPrivateMsg(message: Message, userId: string) {
+    this.adapter.send(String(userId), { msg: this.adapter.elements.decode(message) })
+    return { messageId: String(this.adapter.messageId), time: Date.now() }
+  }
+
+  public async sendGroupMsg(message: Message, groupId: string) {
+    this.adapter.send(String(groupId), { msg: this.adapter.elements.decode(message) })
+    return { messageId: String(this.adapter.messageId), time: Date.now() }
   }
 }
 

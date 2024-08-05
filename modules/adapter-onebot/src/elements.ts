@@ -1,30 +1,44 @@
-import { Elements, type string, none } from 'kotori-bot'
+import { Elements, type Message, MessageSingle, type MessageMapping } from 'kotori-bot'
 import type { MessageCqType } from './types'
 
 export class OnebotElements extends Elements {
+  public getSupportsElements(): (keyof MessageMapping)[] {
+    return ['mention', 'mentionAll', 'image', 'voice', 'video', 'text', 'reply']
+  }
+
+  public decode(message: Message): string {
+    if (typeof message === 'string') return message
+    if (!(message instanceof MessageSingle)) {
+      return Array.from(message)
+        .map((el) => this.decode(el))
+        .join('')
+    }
+    switch (message.data.type) {
+      case 'text':
+        return message.toString()
+      case 'image':
+        return this.cq('image', `file=${message.data.content},cache=0`)
+      case 'voice':
+        return this.cq('record', `file=${message.data.content}`)
+      case 'video':
+        return this.cq('video', `file=${message.data.content}`)
+      case 'mention':
+        return this.cq('at', `qq=${message.data.userId}`)
+      case 'mentionAll':
+        return this.cq('at', 'qq=all')
+      case 'reply':
+        return this.cq('reply', `id=${message.data.messageId}`)
+      default:
+        return ''
+    }
+  }
+
+  public encode(raw: string): Message {
+    return new MessageSingle('text', { text: raw })
+  }
+
   public cq(type: MessageCqType, data: string) {
-    none(this)
     return `[CQ:${type},${data}]`
-  }
-
-  public at(target: string) {
-    return this.cq('at', `qq=${target}`)
-  }
-
-  public image(url: string) {
-    return this.cq('image', `file=${url},cache=0`)
-  }
-
-  public voice(url: string) {
-    return this.cq('record', `file=${url}`)
-  }
-
-  public video(url: string) {
-    return this.cq('video', `file=${url}`)
-  }
-
-  public face(id: number) {
-    return this.cq('face', `id=${id}`)
   }
 }
 

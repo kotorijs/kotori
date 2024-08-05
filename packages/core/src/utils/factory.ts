@@ -32,8 +32,8 @@ export function formatFactory(i18n: I18n) {
       return stringTemp(i18n.locale(template), data as Record<string, string>)
     }
 
-    const isPureMessage = (Array.isArray(data) ? data : Object.values(data)).every(
-      (value) => value instanceof MessageList || value instanceof MessageSingle
+    const isPureString = (Array.isArray(data) ? data : Object.values(data)).every(
+      (value) => !(value instanceof MessageList || value instanceof MessageSingle)
     )
 
     const parts = i18n.locale(template).split(/(\{[0-9]+\})/)
@@ -61,7 +61,7 @@ export function formatFactory(i18n: I18n) {
     }
 
     if (currentString) result.push(currentString)
-    return isPureMessage ? (Messages(...result) as MessageList<T | 'text'>) : result.join('')
+    return isPureString ? result.join('') : (Messages(...result) as MessageList<T | 'text'>)
   }
 
   return format

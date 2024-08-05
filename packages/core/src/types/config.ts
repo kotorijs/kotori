@@ -13,12 +13,12 @@ export interface CoreConfig {
 
 export interface GlobalConfig {
   lang: LocaleType
-  'command-prefix': string
+  commandPrefix: string
 }
 
 export interface AdapterConfig {
   extends: string
   master: string
   lang: LocaleType
-  'command-prefix': string
+  commandPrefix: string
 }

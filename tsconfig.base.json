@@ -10,7 +10,9 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "composite": true,
-    "incremental": true
+    "incremental": true,
+    /* Custom */
+    "resolveJsonModule": true
   },
   /* Custom */
   "exclude": ["**/*/*.test.ts", "*.d.ts", "**/*/lib/*", "**/*/dist/*"]

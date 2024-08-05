@@ -18,13 +18,6 @@ export class MessageSingle<T extends keyof MessageMapping> extends String {
   public data: MessageTypeList[T]
 
   /**
-   * Message text length.
-   *
-   * @readonly
-   */
-  public readonly length: number
-
-  /**
    * Create a single message
    *
    * @param type - Message type
@@ -33,7 +26,7 @@ export class MessageSingle<T extends keyof MessageMapping> extends String {
   public constructor(type: T, data: MessageMapping[T]) {
     super(Messages.stringify(type, data, false))
     this.data = { type, ...data } as MessageTypeList[T]
-    this.length = this.isText() ? this.toString().length : 0
+    // Object.defineProperty(this, 'length', { value: this.isText() ? this.toString().length : 0, configurable: true })
   }
 
   /**
@@ -58,13 +51,6 @@ export class MessageSingle<T extends keyof MessageMapping> extends String {
 
 class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSingle<T>> {
   /**
-   * Message list length.
-   *
-   * @readonly
-   */
-  public readonly length: number
-
-  /**
    * Create a message list.
    *
    * @param messages - Message list
@@ -77,7 +63,7 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
     }
     super(...handleMessage)
     Object.setPrototypeOf(this, MessageList.prototype)
-    this.length = this.toString().length
+    // this.length = this.toString().length
   }
 
   /**
@@ -110,15 +96,6 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
    */
   public isText(): boolean {
     return this.isPure('text')
-  }
-
-  /**
-   * Fetch all text from message list.
-   *
-   * @returns Text string
-   */
-  public fetchText() {
-    return this.map((value) => (value.isText() ? value.toString() : ' ')).join('')
   }
 
   /**

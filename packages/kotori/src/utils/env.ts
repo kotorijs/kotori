@@ -8,6 +8,7 @@ export default {
   dir: process.env.DIR,
   config: process.env.CONFIG,
   port: process.env.PORT ? Number(process.env.PORT) : undefined,
+  dbPrefix: process.env.DB_PREFIX,
   level: process.env.LEVEL ? Number(process.env.LEVEL) : undefined,
   noColor: process.env.NO_COLOR === 'on',
   isDaemon: !!process.env.IS_DAEMON

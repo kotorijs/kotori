@@ -7,7 +7,8 @@ import {
   KotoriPlugin,
   FilterTestList,
   type FilterOption,
-  Filter
+  Filter,
+  KotoriError
 } from 'kotori-bot'
 import pm from 'picomatch'
 
@@ -63,16 +64,15 @@ export class FilterPlugin extends KotoriPlugin<Tsu.infer<typeof FilterPlugin.sch
     //   return
     // }
     this.ctx.logger.record(`get loader successfully, filter mode: ${mode}`)
-    this.ctx[Symbols.modules].forEach((val, key) => {
+
+    for (const [key, [ModuleMeta]] of this.ctx[Symbols.modules]) {
       if (CORE_MODULES.includes(key)) return
-      const [ModuleMeta] = val
-      const result = list.filter((pattern) => pm(pattern)(key).valueOf()).length > 0
+      const result = list.some((pattern) => pm(pattern)(key).valueOf())
       if ((result && mode === 'exclude') || (!result && mode === 'include')) {
         this.ctx[Symbols.modules].delete(key)
-        // biome-ignore lint:
-        delete (ModuleMeta as { main?: unknown }).main
+        ;(ModuleMeta as { main?: unknown }).main = undefined
       }
-    })
+    }
   }
 
   private filterSet() {
@@ -80,7 +80,7 @@ export class FilterPlugin extends KotoriPlugin<Tsu.infer<typeof FilterPlugin.sch
       if (!filter) continue
       const result = filterOptionSchema.parseSafe(filter)
       if (!result.value) {
-        this.ctx.logger.error(`filter option of module ${name} is invalid`, result.error)
+        this.ctx.emit('error', new KotoriError(`filter option of module ${name} is invalid: ${result.error.message}`))
         continue
       }
       this.ctx[Symbols.filter].set(name, new Filter(result.data))

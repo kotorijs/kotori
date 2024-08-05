@@ -1,6 +1,6 @@
-import { resolve } from 'node:path'
 import type { CoreConfig } from '../types'
 import { DEFAULT_CORE_CONFIG } from '../global'
+import pkg from '../../package.json'
 
 /** Meta information. */
 interface MetaInfo {
@@ -34,8 +34,14 @@ export class Config {
   public constructor(config: Omit<Partial<CoreConfig>, 'global'> & { global?: Partial<CoreConfig['global']> } = {}) {
     this.config = Object.assign(DEFAULT_CORE_CONFIG, config)
     this.config.global = Object.assign(DEFAULT_CORE_CONFIG.global, this.config.global)
-    const info: MetaInfo = require(resolve(__dirname, '../../package.json'))
-    this.meta = { ...info, coreVersion: info.version as string, version: undefined }
+    this.meta = {
+      name: pkg.name,
+      description: pkg.description,
+      main: pkg.main,
+      license: 'GPL-3.0',
+      author: pkg.author,
+      coreVersion: pkg.version
+    }
   }
 }
 

@@ -1,19 +1,56 @@
 # @kotori-bot/kotori-plugin-adapter-onebot
 
-Base on [go-cqhttp](https://github.com/Mrs4s/go-cqhttp).
+To test bot for Kotori.
 
 ## Config
 
-```typescript
-interface OnebotConfig extends AdapterConfig {
-  port: number; // Open or connect port (1 ~ 65525)
-  address: string; // Open or connect address (ws://...)
-  retry: number; // Retry connect time On websocket mode (default: 10 Seconds)
-  mode: 'ws' | 'ws-reverse'; // Adapter mode: websocket or websocket reverse
-}
-```
+No configuration is required.
+
+## Supports
+
+### Events
+
+- on_message (exclude `RequestScope.CHANNEL`)
+- on_message_delete (exclude `MessageScope.CHANNEL`)
+- on_group_increase
+- on_group_decrease
+- on_group_whole_ban
+- on_friend_decrease
+- on_friend_increase
+- on_group_ban
+- on_group_admin
+
+### Api
+
+- sendPrivateMsg
+- sendGroupMsg
+- deleteMsg
+- getUserInfo
+- getFriendList
+- getGroupInfo
+- getGroupList
+- getGroupMemberInfo
+- getGroupMemberList
+- setGroupName
+- leaveGroup
+- setGroupAdmin
+- setGroupCard
+- setGroupBan
+- setGroupWholeBan
+- setGroupKick
+
+### Elements
+
+- text
+- mention
+- mentionAll
+- image
+- voice
+- audio
+- video
+- reply
+- file
 
 ## Reference
 
 - [Kotori Docs](https://kotori.js.org/)
-- [go-cqhttp 帮助中心](https://docs.go-cqhttp.org/)

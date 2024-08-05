@@ -55,15 +55,17 @@ export abstract class Api {
    *
    * @readonly
    */
-  public readonly adapter: Adapter<this>
+  // biome-ignore lint:
+  public readonly adapter: Adapter<any, any, any>
 
   /**
    * Api class constructor.
    *
    * @param adapter - Current api's bot instance
    */
-  public constructor(adapter: Adapter) {
-    this.adapter = adapter as Adapter<this>
+  // biome-ignore lint:
+  public constructor(adapter: Adapter<any, any, any>) {
+    this.adapter = adapter
   }
 
   /**
@@ -198,6 +200,35 @@ export abstract class Api {
   }
 
   /**
+   * Get group member information.
+   *
+   * @param groupId - Target group id
+   * @param userId - Target user id
+   * @param meta - Extra meta data, optional
+   * @returns Group member info
+   *
+   * @async
+   */
+  public async getGroupMemberInfo(groupId: string, userId: string, meta: object = {}): Promise<SelfInfoResponse> {
+    none(this, groupId, userId, meta)
+    return { userId: '', username: '', userDisplayname: '' }
+  }
+
+  /**
+   * Get group member list.
+   *
+   * @param groupId - Target group id
+   * @param meta - Extra meta data, optional
+   * @returns Group member list information
+   *
+   * @async
+   */
+  public async getGroupMemberList(groupId: string, meta: object = {}): Promise<SelfInfoResponse[]> {
+    none(this, groupId, meta)
+    return []
+  }
+
+  /**
    * Set group information.
    *
    * @param groupId - Target group id
@@ -209,7 +240,7 @@ export abstract class Api {
   }
 
   /**
-   * Leave a group.
+   * Leave a group, if bot is owner so it will be destroy the group.
    *
    * @param groupId - Target group id
    * @param meta - Extra meta data, optional
@@ -484,7 +515,7 @@ export abstract class Api {
   }
 
   /**
-   * Set group information.
+   * Set group avatar.
    *
    * @param groupId - Target group id
    * @param groupName - Group name
@@ -497,7 +528,7 @@ export abstract class Api {
   }
 
   /**
-   * Set group information.
+   * Set group admin.
    *
    * @param groupId - Target group id
    * @param groupName - Group name
@@ -510,7 +541,7 @@ export abstract class Api {
   }
 
   /**
-   * Set group information.
+   * Set group card.
    *
    * @param groupId - Target group id
    * @param groupName - Group name
@@ -523,7 +554,7 @@ export abstract class Api {
   }
 
   /**
-   * Set group information.
+   * Set group members ban or unban.
    *
    * @param groupId - Target group id
    * @param groupName - Group name
@@ -531,12 +562,12 @@ export abstract class Api {
    *
    * @experimental
    */
-  public setGroupBan(groupId: string, userId?: string, time?: number, meta: object = {}) {
+  public setGroupBan(groupId: string, userId: string, time: number, meta: object = {}) {
     none(this, groupId, userId, time, meta)
   }
 
   /**
-   * Set group information.
+   * Set group new notice.
    *
    * @param groupId - Target group id
    * @param groupName - Group name
@@ -549,7 +580,17 @@ export abstract class Api {
   }
 
   /**
-   * Set group information.
+   * Set group whole ban
+   *
+   * @param groupId - Target group id
+   * @param enable - Whether to ban
+   */
+  public setGroupWholeBan(groupId: string, enable = true) {
+    this.adapter.send('set_group_whole_ban', { group_id: Number(groupId), enable })
+  }
+
+  /**
+   * Set group members kicked.
    *
    * @param groupId - Target group id
    * @param groupName - Group name

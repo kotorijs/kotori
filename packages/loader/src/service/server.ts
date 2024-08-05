@@ -114,6 +114,8 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
 
   public start(callback?: () => void) {
     this.server.listen(this.config.port, callback)
+    this.ctx.logger.record(`Http server started at http://127.0.0.1:${this.config.port}`)
+    this.ctx.logger.record(`WebSocket server started at ws://127.0.0.1:${this.config.port}`)
   }
 
   public stop() {

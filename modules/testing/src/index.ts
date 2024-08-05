@@ -1,22 +1,9 @@
-import {
-  Tsu,
-  type CommandAction,
-  MessageScope,
-  plugins,
-  type Session,
-  KotoriPlugin,
-  Symbols,
-  type SessionMsgGroup,
-  type SessionMsg
-} from 'kotori-bot'
+import { Tsu, type CommandAction, plugins, type Session, KotoriPlugin, type SessionMsg, UserAccess } from 'kotori-bot'
 
 const plugin = plugins([__dirname, '../'])
 
 @plugin.import
 export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.schema>> {
-  @plugin.lang
-  public static lang = [__dirname, '../locales']
-
   @plugin.schema
   public static schema = Tsu.Object({
     config1: Tsu.Number().range(0, 10).optional(),
@@ -29,43 +16,35 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
 
   @plugin.on({ type: 'ready' })
   public onReady() {
-    // console.log([...this.ctx[Symbols.command]])
-    for (const cmd of this.ctx[Symbols.command].values()) {
-      // for (const cmd of command) {
-      // console.log(cmd.meta.root, ' ==> ', Reflect.getMetadata('identity', cmd))
-      // }
-    }
-  }
-
-  @plugin.on({ type: 'on_group_decrease' })
-  public static groupDecrease(session: SessionMsgGroup) {
-    session.quick([
-      session.userId === session.operatorId ? '%target% 默默的退出了群聊' : '%target% 被 %target% 制裁了...',
-      {
-        target: session.userId,
-        operator: session.operatorId
-      }
-    ])
+    this.ctx.logger.debug('database:', this.ctx.db)
   }
 
   @plugin.midware({ priority: 1 })
   public static midware(next: () => void, session: SessionMsg) {
     const s = session
     if (s.message.startsWith('说')) {
-      s.message = `${s.api.adapter.config['command-prefix']}echo ${s.message.split('说 ')[1]}`
+      s.message = `${s.api.adapter.config.commandPrefix}echo ${s.message.split('说 ')[1]}`
     }
     // s.send('<red>hhaha, I rejected all message event, you cant continue running!</rea>')
     next()
   }
 
-  @plugin.command({
-    template: 'echo <content> [num:number=3]',
-    scope: MessageScope.GROUP
-  })
+  @plugin.command({ template: 'echo <...content>' })
   public echo(data: Parameters<CommandAction>[0], session: Session) {
-    this.ctx.logger.debug(data, data.args[0])
+    this.ctx.logger.debug(data)
     this.ctx.logger.debug(session)
-    return session.format('返回消息:~%message%', { message: data.args[0] })
+    return data.args.join(' ')
+  }
+
+  @plugin.command({ template: 'eval <...code>', access: UserAccess.ADMIN })
+  public eval({ args }: Parameters<CommandAction>[0], session: Session) {
+    try {
+      // biome-ignore lint:
+      const result = eval(args.join(' '))
+      return session.format('eval result:~\n{0}', [result])
+    } catch (error) {
+      return session.format('eval error:~\n{0}', [error instanceof Error ? error.message : String(error)])
+    }
   }
 
   @plugin.regexp({ match: /^(.*)#print$/ })
