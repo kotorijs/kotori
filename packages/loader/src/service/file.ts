@@ -7,7 +7,7 @@ export class File extends Service {
   }
 
   public getDir() {
-    return join(this.ctx.baseDir.data, ...(this.ctx.identity ? this.ctx.identity.split('/') : []))
+    return join(this.ctx.baseDir.data, ...(this.ctx.identity ? this.ctx.identity.toString().split('/') : []))
   }
 
   public getFile(filename: string) {

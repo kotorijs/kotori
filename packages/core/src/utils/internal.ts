@@ -3,13 +3,7 @@ import type { OptsOrigin, MidwareCallback, RegexpCallback, TaskOptions } from '.
 import { Symbols } from '../global'
 import type { Command } from '../components'
 import type { CronJob } from 'cron'
-import type { IdentityType, ModuleConfig } from 'fluoro'
-
-declare module 'fluoro' {
-  interface EventsMapping {
-    literal_ready_module_decorator(name: string, config: ModuleConfig): void
-  }
-}
+import type { IdentityType } from 'fluoro'
 
 export function cancelFactory() {
   return {

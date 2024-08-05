@@ -1,0 +1,16 @@
+{
+  "adapter_mail.descr.mail": "Send mail by target email",
+  "adapter_mail.msg.mail.input_target": "Please input received email",
+  "adapter_mail.msg.mail.input_title": "Please input mail title",
+  "adapter_mail.msg.mail.input_content": "Please input mail content",
+  "adapter_mail.msg.mail.sure": "Title: {0}\nContent: {1}\n-------------\nMak sure to send mail to {2}? (Input \"1\" to send, any other key to cancel)",
+  "adapter_mail.msg.mail.cancel": "Cancel successfully to send",
+  "adapter_mail.msg.mail.success": "Succeeded in sending mail to {0}",
+  "adapter_mail.msg.mail.fail": "Failed to send mail, please check mail configuration, details: {0}",
+  "adapter_mail.msg.mail.fail.2": "Can not find sent email {0}, you can input \"{0}mail --list\" to view available emails list",
+  "adapter_mail.msg.mail.fail.3": "Failed to send,target email format error!",
+  "adapter_mail.msg.mail.item": "\n<=========>\nName: {0}\nEmail: {1}",
+  "adapter_mail.msg.mail.list": "Available emails list: {0}",
+  "adapter_mail.option.mail.list": "View available emails list",
+  "adapter_mail.forward": "Received a new mail!\nFrom: {0}\nTitle: {1}\nContent: {2}\nDate: {3}"
+}
