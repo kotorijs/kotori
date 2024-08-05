@@ -98,8 +98,12 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
   public async quick(message: MessageQuick) {
     const msg = await message
     if (!msg || msg instanceof CommandError) return
+    if (msg instanceof MessageList && (msg.toString() === '' || msg.pick('text').length === 0)) {
+      this.send(msg)
+      return
+    }
     if (typeof msg === 'string' || msg instanceof MessageSingle || msg instanceof MessageList) {
-      this.send(this.i18n.locale(msg.toString()))
+      this.send(typeof msg === 'string' ? this.i18n.locale(msg) : msg)
       return
     }
     this.send(this.format(msg[0], msg[1] as Parameters<this['format']>[1]))

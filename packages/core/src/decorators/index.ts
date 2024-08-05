@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 import Decorators from './utils'
 
 export * from './plugin'
+export * from './utils'
 
 export function plugins(plugin: string | string[] | { name: string }) {
   let pkgName: string

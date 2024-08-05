@@ -1,5 +1,9 @@
-import { KotoriPlugin, Messages, type SessionMsg, Tsu, plugins } from 'kotori-bot'
-import type { SignData } from './type'
+import { KotoriPlugin, Messages, type SessionMsg, Tsu, plugins, type Message } from 'kotori-bot'
+import { randomInt } from 'node:crypto'
+
+interface SignData {
+  [propName: string]: string[]
+}
 
 const hitokotoSchema = Tsu.Object({
   data: Tsu.Object({
@@ -12,34 +16,110 @@ const hitokotoSchema = Tsu.Object({
 
 const plugin = plugins([__dirname, '../'])
 
-// TODO: update
-
 @plugin.import
-export class GrouperPlugin extends KotoriPlugin {
+export class GrouperPlugin extends KotoriPlugin<Tsu.infer<(typeof GrouperPlugin)['schema']>> {
+  @plugin.schema
+  public static readonly schema = Tsu.Object({
+    guess: Tsu.Object({
+      max: Tsu.Number().default(1000).describe('最大值'),
+      min: Tsu.Number().default(0).describe('最小值'),
+      range: Tsu.Number().default(100).describe('提示数字范围')
+    })
+      .default({ max: 1000, min: 0, range: 100 })
+      .describe('猜数字游戏配置')
+  }).default({ guess: { max: 1000, min: 0, range: 100 } })
+
   @plugin.inject
   public static readonly inject = ['file']
 
-  @plugin.regexp({ match: /^(签到|打卡)$/ })
-  @plugin.command({ template: 'sign - 签到' })
-  public async sign(_: unknown, session: SessionMsg) {
-    const at = Messages.mention(session.userId)
-    const identity = `${session.api.adapter.identity}${session.groupId}&${session.userId}&${session.i18n.date()}`
+  @plugin.command({ template: 'sign - 签到', shortcut: ['签到', '打卡'] })
+  public async sign(_: unknown, s: SessionMsg) {
+    const at = Messages.mention(s.userId)
+    const identity = `${s.api.adapter.identity}${s.groupId}&${s.userId}&${s.i18n.date()}`
     const signData = this.ctx.file.load<SignData>('signData.json', 'json', {})
-    const { platform } = session.api.adapter
-    if (signData[platform]?.includes(identity)) return session.format('{0}今天已经签过到了，明天再来试吧', [at])
+    const { platform } = s.api.adapter
+    if (signData[platform]?.includes(identity)) return s.format('{0} 今天已经签过到了，明天再来试吧', [at])
 
     if (!signData[platform]) signData[platform] = []
     signData[platform].push(identity)
     this.ctx.file.save('signData.json', signData)
     const res = await this.ctx.http.get('https://hotaru.icu/api/hitokoto/v2/')
-    return session.quick([
-      '{0}签到成功！这是你的奖励~{1}\n一言：{2}',
+    return s.quick([
+      '{0} 签到成功！这是你的奖励~{1}\n一言：{2}',
       [
         at,
         Messages.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'),
         hitokotoSchema.check(res) ? `${res.data.msg}${res.data.from ? `——${res.data.from}` : ''}` : '接口走丢了呜呜呜'
       ]
     ])
+  }
+
+  @plugin.command({ template: 'guess - 猜数字', shortcut: ['猜数字'] })
+  public async guess(_: unknown, s: SessionMsg) {
+    const at = Messages.mention(s.userId)
+    const min = randomInt(this.config.guess.min, this.config.guess.max)
+    const max = min + this.config.guess.range
+    const answer = randomInt(min, max)
+    let count = 0
+    let guess: number | null = null
+
+    while (true) {
+      let reply: Message = ''
+      if (count === 0 || guess === null) {
+        s.quick('游戏开始！如果想要结束游戏可以发送“放弃”')
+        reply = await s.prompt(
+          s.format('{0} 这是一个 {1} 到 {2} 之间的神秘数字哦( •̀ ω •́ )✧，直接发送你要猜的数字吧~', [at, min, max])
+        )
+      } else if (Number.isNaN(guess)) {
+        reply = await s.prompt(s.format('{0} 你输入的真的是个数字吗！不要逗我哦[○･｀Д´･ ○]~请重新发送', [at]))
+      } else if (count > 10) {
+        reply = await s.prompt(
+          s.format('{0} 啊哈哈，这次你没有猜对我的数字哦(。・∀・)ノ,不行的话可以发送"放弃"结束本次游戏', [at])
+        )
+      } else if (guess > answer) {
+        reply = await s.prompt(
+          s.format(
+            guess - answer > 20
+              ? '{0} 哎呀，你猜的数字太大啦~再想想是一个更小的数字吧(。・∀・)ノ'
+              : '{0} 虽然已经很接近了，但你猜的数字还是比答案大一点啦~(๑•́ ∀ •́๑)',
+            [at]
+          )
+        )
+      } else if (guess < answer) {
+        reply = await s.prompt(
+          s.format(
+            answer - guess > 20
+              ? '{0} 哎呀,你猜的数字太小咯~应该猜一个更大一点的数字才对╰(‵□′)╯'
+              : '{0} 快要猜对啦!你猜的数字比正确答案还要小一丢丢哦( ́▽`)',
+            [at]
+          )
+        )
+      } else {
+        return s.format('{0} 耶~你猜对啦!真厉害!总共猜了 {1} 次,太棒了Ψ(≧ω≦)Ψ', [at, count])
+      }
+
+      if (reply === '放弃') return s.format('{0} 放弃也没关系的，一起开心地玩游戏才最重要~(∩_∩)', [at])
+      count += 1
+      guess = Number.parseInt(reply.toString())
+    }
+  }
+
+  @plugin.command({ template: 'mora - 剪刀↑石头↓布！', shortcut: ['猜拳', '箭头石头布'] })
+  public async mora(_: unknown, s: SessionMsg) {
+    const at = Messages.mention(s.userId)
+    const reply = await s.prompt('游戏开始！发送你的拳！')
+    const list = ['石头', '剪刀', '布']
+    const answer = list[randomInt(0, 3)]
+    if (!list.includes(reply.toString())) return s.format('{0} 哦豁，你输入的应该是石头剪刀布中的一个才对哦( ́▽`)', [at])
+    if (answer === reply) return s.format('{0} 哎呀，我们果然默契无比同时出了 {1}，结局是平局啦 Σ(▼□▼〃)', [at, answer])
+    if (
+      (reply === '石头' && answer === '剪刀') ||
+      (reply === '剪刀' && answer === '布') ||
+      (reply === '布' && answer === '石头')
+    ) {
+      return s.format('{0} 可恶！你完美地打败我的 {1} 😭😭', [at, answer])
+    }
+    return s.format('{0} 哈哈,这次我的 {1} 打败了你！不过不要灰心，再接再厉哦 (•ө•)♡', [at, answer])
   }
 }
 
@@ -148,59 +228,7 @@ Alias('签到排行', (_send, data) => {
 	return ['本群签到排行:%list%', { list }];
 });
 
-Alias('猜数字', (_send, data) => {
-	const result = Guess.start(data.userId);
-	return [
-		'%at%这是一个%min%到%max%之间的神秘数字哦( •̀ ω •́ )✧,发送"猜 <number>"猜数字~',
-		{ at: SDK.cq_at(data.userId), ...result },
-	];
-});
 
-Alias('猜', (_send, data) => {
-	const at = SDK.cq_at(data.userId);
-	if (!Guess.guessData[data.userId]) return ['%at%哎呀~你还有没有开始游戏哦<(＿.＿)>,发送"猜数字"开始游戏', { at }];
-	const guess = parseInt(Core.args[1], 10);
-	const [answer,  count ] = Guess.guessData[data.userId];
-	const result = Guess.guess(data.userId, guess);
-
-	if (!result) {
-		if (count > 10)
-			return ['%at%啊哈哈,这次你没有猜对我的数字哦(。・∀・)ノ,不行的话可以发送"放弃"结束本次游戏', { at }];
-		if (guess > answer) {
-			if (guess - answer > 20) return ['%at%哎呀,你猜的数字太大啦~再想想是一个更小的数字吧(。・∀・)ノ', { at }];
-			return ['%at%虽然已经很接近了,但你猜的数字还是比答案大一点啦~(๑•́ ∀ •́๑)', { at }];
-		}
-		if (answer - guess > 20) return ['%at%你猜的数字太小咯~应该猜一个更大一点的数字才对╰(‵□′)╯', { at }];
-		return ['%at%快要猜对啦!你猜的数字比正确答案还要小一丢丢哦( ́▽`)', { at }];
-	}
-	if (count <= 5) addExp(data.groupId!, data.userId, getRandomInt(10, 5));
-	if (count > 5 && count <= 10) addExp(data.groupId!, data.userId, getRandomInt(5, 1));
-
-	return ['%at%耶~你猜对啦!真厉害!总共猜了%num%次,太棒了Ψ(≧ω≦)Ψ', { at, num: result }];
-}).params([{ must: true, name: 'number' }]);
-
-Alias('放弃', (_send, data) => {
-	Guess.giveup(data.userId);
-	return ['%at%放弃也没关系的,一起开心地玩游戏才最重要~(∩_∩)', { at: SDK.cq_at(data.userId) }];
-});
-
-Alias('猜拳', (_send, data) => {
-	const at = SDK.cq_at(data.userId);
-	if (!['石头', '剪刀', '布'].includes(Core.args[1])) {
-		return ['%at%错啦错啦(╬▔皿▔)╯大错特错！要输入石头剪刀布中的一个才行哦~', { at }];
-	}
-
-	const result = Hand.start(Core.args[1]);
-	const params = { at, output: result[1], input: Core.args[1] };
-	if (result[0] === 1) {
-		addExp(data.groupId!, data.userId, 1);
-		return ['%at%耶~你赢了!你出的«玩家出的拳»完美地打败我的%input%了!你太厉害啦 (≧∇≦)/', params];
-	}
-	if (result[0] === 0) {
-		return ['%at%哎呀,我们果然默契无比,同时出了%input%,结局是平局啦 Σ(▼□▼〃)', params];
-	}
-	return ['%at%哈哈,这次我的%output%打败你的%input%了!不过不要灰心,再接再厉哦 (•ө•)♡', params];
-}).params([{ must: true, name: '石头/剪刀/布' }]);
 
 Core.hook(data => {
 	if (!data.groupId) return true;

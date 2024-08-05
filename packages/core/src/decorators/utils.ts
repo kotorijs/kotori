@@ -5,7 +5,7 @@ import { DevError, ModuleError } from '../utils/error'
 import { Symbols } from '../global'
 import { resolve } from 'node:path'
 import type { CommandConfig } from '../types'
-import { KotoriPlugin } from './plugin'
+import type { KotoriPlugin } from './plugin'
 
 interface EventOption {
   type: keyof EventsList
@@ -43,15 +43,13 @@ interface PluginMetaAll {
 }
 
 type KotoriPluginChild = new (...args: ConstructorParameters<typeof KotoriPlugin>) => KotoriPlugin
-type KotoriPluginConstructor = KotoriPluginChild & Record<string | symbol, unknown>
-
 export class Decorators {
   public static [Symbols.decorator] = new Map<string, KotoriPluginChild>()
 
   public static getMeta(target: object | string): PluginMetaAll | undefined {
     return Reflect.getMetadata(
       Symbols.modules,
-      typeof target === 'string' ? Decorators[Symbols.decorator].get('string') ?? {} : target
+      typeof target === 'string' ? Decorators[Symbols.decorator].get(target) ?? {} : target
     )
   }
 
@@ -74,7 +72,7 @@ export class Decorators {
       configHandle = result.data
     }
 
-    const childCtx = ctx.extends({}, name)
+    const childCtx = ctx.extends(name)
     // Injected service
     for (const identity of meta.inject) {
       // Get reality name of service
@@ -84,7 +82,7 @@ export class Decorators {
       if (serviceData) childCtx.inject(serviceData[0] as unknown as 'cache')
     }
 
-    const plugin = new Constructor(ctx, configHandle)
+    const plugin = new Constructor(childCtx, configHandle)
     // Bind `this` of methods and register them
     const bound = <T extends Fn>(fn: T, isStatic: boolean) => fn.bind(isStatic ? Constructor : plugin)
     for (const [fn, options, isStatic] of meta.events) {
@@ -110,38 +108,33 @@ export class Decorators {
 
   private readonly pkgName: string
 
-  private Constructor: KotoriPluginConstructor
-
   private error(message = 'plugin not decorated') {
     return new DevError(`${message} at module ${this.pkgName}`)
   }
 
   private getMeta(target: object) {
-    let meta = Decorators.getMeta(this.Constructor)
+    const value = 'prototype' in target ? target : target.constructor
+    let meta = Decorators.getMeta(value)
     if (meta) return meta
     meta = { commands: [], events: [], midwares: [], inject: [], regexps: [], name: 'unknown', tasks: [] }
-    Reflect.defineMetadata(Symbols.modules, target, meta)
+    Reflect.defineMetadata(Symbols.modules, meta, value)
     return meta
   }
 
   public constructor(pkgName: string) {
     this.pkgName = pkgName
-    this.Constructor = KotoriPlugin as KotoriPluginConstructor
   }
 
-  // biome-ignore lint:
-  public readonly import = (value: new (...args: any[]) => any) => {
-    if (Decorators[Symbols.decorator].has(this.pkgName) /*  || Decorators.getMeta(value) */)
-      throw this.error('plugin already decorated')
-    this.Constructor = value as unknown as KotoriPluginConstructor
-    Reflect.defineMetadata(Symbols.modules, value, { name: this.pkgName })
-    Decorators[Symbols.decorator].set(this.pkgName, value as KotoriPluginChild)
+  public readonly import = (target: object) => {
+    if (Decorators[Symbols.decorator].has(this.pkgName)) throw this.error('plugin already decorated')
+    const meta = this.getMeta(target)
+    meta.name = this.pkgName
+    Decorators[Symbols.decorator].set(this.pkgName, target as KotoriPluginChild)
   }
 
   public readonly lang = <T extends object>(target: T, name: keyof T) => {
     // const f: MethodDecorator
     const meta = this.getMeta(target)
-    // if (!meta) throw this.error()
     const result = Tsu.Union(Tsu.String(), Tsu.Array(Tsu.String())).parseSafe(target[name])
     if (!result.value) throw this.error('lang must be string or string[]')
     meta.lang = resolve(...(typeof result.data === 'string' ? [result.data] : result.data))
@@ -149,15 +142,13 @@ export class Decorators {
 
   public readonly inject = <T extends object>(target: T, name: keyof T) => {
     const meta = this.getMeta(target)
-    // if (!meta) throw this.error()
     const result = Tsu.Array(Tsu.String()).parseSafe(target[name])
-    if (!result.value) throw this.error(`lang must be string[] at ${this.pkgName}`)
+    if (!result.value) throw this.error(`inject must be string[] at ${this.pkgName}`)
     meta.inject = result.data
   }
 
   public readonly schema = <T extends object>(target: T, name: keyof T) => {
     const meta = this.getMeta(target)
-    // if (!meta) throw this.error()
     const value = target[name]
     if (!(value instanceof Parser)) throw this.error('schema must be Parser')
     meta.schema = value
@@ -166,50 +157,45 @@ export class Decorators {
   public on(options: EventOption) {
     return <T extends object>(target: T, key: keyof T) => {
       const meta = this.getMeta(target)
-      // if (!meta) throw this.error()
       const fn = target[key] as Fn
       if (typeof fn !== 'function') throw this.error('event callback must be function')
-      meta.events = [...(meta.events ?? []), [fn, options, key in this.Constructor]]
+      meta.events = [...(meta.events ?? []), [fn, options, 'prototype' in target]]
     }
   }
 
   public midware(options: MidwareOption = {}) {
     return <T extends object>(target: T, key: keyof T) => {
       const meta = this.getMeta(target)
-      // if (!meta) throw this.error()
       const fn = target[key] as Fn
       if (typeof fn !== 'function') throw this.error('middlewares callback must be function')
-      meta.midwares = [...(meta.midwares ?? []), [fn, options, key in this.Constructor]]
+      meta.midwares = [...(meta.midwares ?? []), [fn, options, 'prototype' in target]]
     }
   }
 
   public command(options: CommandOption) {
     return <T extends object>(target: T, key: keyof T) => {
       const meta = this.getMeta(target)
-      // if (!meta) throw this.error()
       const fn = target[key] as Fn
       if (typeof fn !== 'function') throw this.error('command callback must be function')
-      meta.commands = [...(meta.commands ?? []), [fn, options, key in this.Constructor]]
+      meta.commands = [...(meta.commands ?? []), [fn, options, 'prototype' in target]]
     }
   }
 
   public regexp(options: RegexpOption) {
     return <T extends object>(target: T, key: keyof T) => {
       const meta = this.getMeta(target)
-      // if (!meta) throw this.error()
       const fn = target[key] as Fn
       if (typeof fn !== 'function') throw this.error('regexp callback must be function')
-      meta.regexps = [...(meta.regexps ?? []), [fn, options, key in this.Constructor]]
+      meta.regexps = [...(meta.regexps ?? []), [fn, options, 'prototype' in target]]
     }
   }
 
   public task(options: TaskOption) {
     return <T extends object>(target: T, key: keyof T) => {
       const meta = this.getMeta(target)
-      // if (!meta) throw this.error()
       const fn = target[key] as Fn
       if (typeof fn !== 'function') throw this.error('task callback must be function')
-      meta.tasks = [...(meta.tasks ?? []), [fn, options, key in this.Constructor]]
+      meta.tasks = [...(meta.tasks ?? []), [fn, options, 'prototype' in target]]
     }
   }
 }

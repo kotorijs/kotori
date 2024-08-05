@@ -1,8 +1,12 @@
-import { type Api, Adapter as OriginAdapter, KotoriError } from '@kotori-bot/core'
+import { type Api, Adapter as OriginAdapter, KotoriError, type Elements, type AdapterConfig } from '@kotori-bot/core'
 import type { WsRouteHandler } from '../types/server'
 
 export namespace Adapters {
-  export abstract class WebSocket<T extends Api = Api, D extends object = object> extends OriginAdapter<T> {
+  export abstract class WebSocket<
+    T extends Api = Api,
+    D extends AdapterConfig = AdapterConfig,
+    E extends Elements = Elements
+  > extends OriginAdapter<T, D, E> {
     private isSetup = false
 
     private destroyFn?: () => void
@@ -28,7 +32,10 @@ export namespace Adapters {
           try {
             data = JSON.parse(raw.toString())
           } catch (e) {
-            throw new KotoriError(`Data parse error: ${e instanceof Error ? e.message : e}`)
+            throw new KotoriError(
+              `Data parse error: ${e instanceof Error ? e.message : e}`,
+              this.ctx.identity?.toString()
+            )
           }
           if (data) this.handle(data)
         })
@@ -53,7 +60,7 @@ export namespace Adapters {
       })
     }
 
-    public abstract handle(data: D): void
+    public abstract handle(...data: unknown[]): void
 
     public connection?: (ws: Parameters<WsRouteHandler>[0], req: Parameters<WsRouteHandler>[1]) => void
 

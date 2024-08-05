@@ -13,11 +13,11 @@ export class ColorPlugin extends KotoriPlugin {
     options: [['H', 'help:boolean - color.option.color']]
   })
   public color({ args: [color], options: { help } }: { args: [string]; options: { help: boolean } }, session: Session) {
-    if (help) return session.format('color.msg.help', [session.api.adapter.config['command-prefix']])
+    if (help) return session.format('color.msg.help', [session.api.adapter.config.commandPrefix])
     if (!color) return Messages.image('https://api.hotaru.icu/api/color')
 
     const rgb = colorToRGB(color.toLocaleLowerCase())
-    if (!rgb) return session.format('color.msg.color.error', [session.api.adapter.config['command-prefix']])
+    if (!rgb) return session.format('color.msg.color.error', [session.api.adapter.config.commandPrefix])
 
     return Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
   }
@@ -36,7 +36,7 @@ export class ColorPlugin extends KotoriPlugin {
     } else {
       data = randomFromArray(colorData)
     }
-    if (!data) return session.format('color.msg.color.error2', [session.api.adapter.config['command-prefix']])
+    if (!data) return session.format('color.msg.color.error2', [session.api.adapter.config.commandPrefix])
 
     const { rgb } = data
     return Messages(
@@ -58,7 +58,7 @@ export class ColorPlugin extends KotoriPlugin {
     } else {
       data = randomFromArray(colorData)
     }
-    if (!data) return session.format('color.msg.color.error2', [session.api.adapter.config['command-prefix']])
+    if (!data) return session.format('color.msg.color.error2', [session.api.adapter.config.commandPrefix])
 
     const { rgb } = data
     return Messages(

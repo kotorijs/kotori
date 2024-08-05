@@ -3,7 +3,7 @@ import type { OptsOrigin, MidwareCallback, RegexpCallback, TaskOptions } from '.
 import { Symbols } from '../global'
 import type { Command } from '../components'
 import type { CronJob } from 'cron'
-import type { ModuleConfig } from 'fluoro'
+import type { IdentityType, ModuleConfig } from 'fluoro'
 
 declare module 'fluoro' {
   interface EventsMapping {
@@ -27,21 +27,21 @@ export function cancelFactory() {
 type CommandOriginData = Command<any, OptsOrigin>['meta']
 
 interface CommandMeta extends CommandOriginData {
-  identity?: string
+  identity?: IdentityType
 }
 
 interface MidwareMeta {
-  identity?: string
+  identity?: IdentityType
   priority: number
 }
 
 interface RegExpMeta {
-  identity?: string
+  identity?: IdentityType
   match: RegExp
 }
 
 interface TaskMeta {
-  identity?: string
+  identity?: IdentityType
   task: CronJob
   options: TaskOptions
 }

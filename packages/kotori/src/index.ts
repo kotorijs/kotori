@@ -1,7 +1,5 @@
-import { Symbols, type Context } from '@kotori-bot/core'
-import { Container } from './utils/container'
+import { Symbols, type Context, Container } from '@kotori-bot/core'
 
-export * from './utils/container'
 export * from '@kotori-bot/core'
 export * from '@kotori-bot/loader'
 

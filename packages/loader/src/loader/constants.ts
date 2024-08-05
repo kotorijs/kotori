@@ -2,7 +2,7 @@ import { LoggerLevel } from '@kotori-bot/logger'
 
 export const PLUGIN_PREFIX = 'kotori-plugin-'
 
-export const ADAPTER_PREFIX = `${PLUGIN_PREFIX}adapter-`
+export const ADAPTER_PREFIX = 'adapter-'
 
 export const CONFIG_NAME = 'kotori.toml'
 
@@ -29,6 +29,7 @@ export const INTERNAL_PACKAGES = [
 export const DEFAULT_LOADER_CONFIG = {
   dirs: ['./node_modules/', './node_modules/@kotori-bot/'],
   port: 720,
+  dbPrefix: 'romiChan',
   level: LoggerLevel.RECORD,
   noColor: false
 }

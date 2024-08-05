@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-30 19:15:45
+ * @LastEditTime: 2024-08-03 17:45:11
  */
 
 import { type Command, type Context, Symbols, Tsu } from 'kotori-bot'
@@ -26,7 +26,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   }
 
   ctx.command('help [...command] - helper.descr.help').action((data, session) => {
-    const args = data.args.join('')
+    const args = data.args.join(' ')
     const filterResult: Command['meta'][] = []
 
     for (const command of ctx[Symbols.command]) {
@@ -77,7 +77,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       handle(cmd.options)
       if (options) options = session.format('helper.template.options', { content: options })
       commands += session.format('helper.msg.descr.command', {
-        root: `${session.api.adapter.config['command-prefix']}${cmd.root}`,
+        root: `${session.api.adapter.config.commandPrefix}${cmd.root}`,
         args,
         description: cmd.description
           ? session.format('helper.template.description', { content: session.i18n.locale(cmd.description) })

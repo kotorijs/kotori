@@ -1,8 +1,7 @@
 import type { Adapter } from './adapter'
-import type { Api } from './api'
-import type { AdapterConfig, Message, MessageMapping } from '../types'
+import type { Message, MessageMapping } from '../types'
 import { none } from '@kotori-bot/tools'
-import { Messages } from '.'
+import { Messages } from './messages'
 
 /**
  * Elements handler base class.
@@ -15,15 +14,17 @@ export abstract class Elements {
    *
    * @readonly
    */
-  public readonly adapter: Adapter<Api, AdapterConfig, this>
+  // biome-ignore lint:
+  public readonly adapter: Adapter<any, any, any>
 
   /**
    * Decode a elements handler.
    *
    * @param adapter - Adapter instance
    */
-  public constructor(adapter: Adapter) {
-    this.adapter = adapter as Adapter<Api, AdapterConfig, this>
+  // biome-ignore lint:
+  public constructor(adapter: Adapter<any, any, any>) {
+    this.adapter = adapter
   }
 
   /**
@@ -46,7 +47,7 @@ export abstract class Elements {
    *
    * @abstract
    */
-  public abstract decode(message: Exclude<Message, string>, meta?: object): string
+  public abstract decode(message: Message, meta?: object): string
 
   /**
    * Decode a mention message.
@@ -54,6 +55,8 @@ export abstract class Elements {
    * @param userId - User id
    * @param meta - Message metadata
    * @returns Mention message
+   *
+   * @deprecated
    */
   public mention(userId: string, meta: object = {}) {
     none(meta)
@@ -65,6 +68,8 @@ export abstract class Elements {
    *
    * @param meta - Message metadata
    * @returns Mention all message
+   *
+   * @deprecated
    */
   public mentionAll(meta: object = {}) {
     none(meta)
@@ -77,6 +82,8 @@ export abstract class Elements {
    * @param content - Image content
    * @param meta - Message metadata
    * @returns Image message
+   *
+   * @deprecated
    */
   public image(content: string, meta: object = {}) {
     none(meta)
@@ -89,6 +96,8 @@ export abstract class Elements {
    * @param content - Voice content
    * @param meta - Message metadata
    * @returns Voice message
+   *
+   * @deprecated
    */
   public voice(content: string, meta: object = {}) {
     none(meta)
@@ -101,6 +110,8 @@ export abstract class Elements {
    * @param content - Audio content
    * @param meta - Message metadata
    * @returns Audio message
+   *
+   * @deprecated
    */
   public audio(content: string, meta: object = {}) {
     none(meta)
@@ -113,6 +124,8 @@ export abstract class Elements {
    * @param content - Video content
    * @param meta - Message metadata
    * @returns Video message
+   *
+   * @deprecated
    */
   public video(content: string, meta: object = {}) {
     none(meta)
@@ -125,6 +138,8 @@ export abstract class Elements {
    * @param content - File content
    * @param meta - Message metadata
    * @returns File message
+   *
+   * @deprecated
    */
   public file(content: string, meta: object = {}) {
     none(meta)
@@ -140,6 +155,8 @@ export abstract class Elements {
    * @param content - Content
    * @param meta - Message metadata
    * @returns Location message
+   *
+   * @deprecated
    */
   public location(latitude: number, longitude: number, title: string, content: string, meta: object = {}) {
     none(meta)
@@ -152,6 +169,8 @@ export abstract class Elements {
    * @param messageId - Message id
    * @param meta - Message metadata
    * @returns Reply message
+   *
+   * @deprecated
    */
   public reply(messageId: string, meta: object = {}) {
     none(meta)
@@ -164,6 +183,8 @@ export abstract class Elements {
    * @returns Supported elements
    *
    * @abstract
+   *
+   * @deprecated
    */
   public abstract getSupportsElements(): (keyof MessageMapping)[]
 }

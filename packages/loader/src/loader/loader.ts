@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-01 21:19:50
+ * @LastEditTime: 2024-08-04 20:09:06
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -25,7 +25,8 @@ import {
   DevError,
   Adapter,
   Parser,
-  Service
+  Service,
+  Decorators
 } from '@kotori-bot/core'
 import path from 'node:path'
 import fs from 'node:fs'
@@ -42,10 +43,10 @@ import {
   INTERNAL_PACKAGES
 } from './constants'
 import Server from '../service/server'
-import type Database from '../service/database'
+import Database from '../service/database'
 import File from '../service/file'
 import KotoriLogger from '../utils/logger'
-import Decorators from '@kotori-bot/core/src/decorators/utils'
+import pkg from '../../package.json'
 
 interface BaseDir {
   root: string
@@ -91,6 +92,7 @@ interface LoaderOptions {
   dir?: string
   config?: string
   port?: number
+  dbPrefix?: string
   level?: number
   noColor?: boolean
 }
@@ -110,6 +112,7 @@ declare module '@kotori-bot/core' {
   interface GlobalConfig {
     dirs: string[]
     port: number
+    dbPrefix: string
     level: number
     noColor: boolean
   }
@@ -163,10 +166,11 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
     const result = Tsu.Object({
       global: Tsu.Object({
         lang: localeTypeSchema.default(DEFAULT_CORE_CONFIG.global.lang),
-        'command-prefix': Tsu.String().default(DEFAULT_CORE_CONFIG.global['command-prefix']),
+        commandPrefix: Tsu.String().default(DEFAULT_CORE_CONFIG.global.commandPrefix),
         dirs: Tsu.Array(Tsu.String()).default(DEFAULT_LOADER_CONFIG.dirs),
         level: Tsu.Number().default(DEFAULT_LOADER_CONFIG.level),
         port: Tsu.Number().default(DEFAULT_LOADER_CONFIG.port),
+        dbPrefix: Tsu.String().default(DEFAULT_LOADER_CONFIG.dbPrefix),
         noColor: Tsu.Boolean().default(DEFAULT_LOADER_CONFIG.noColor)
       }).default(Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG)),
       plugin: Tsu.Object({}).index(Tsu.Object({}).default({})).default(DEFAULT_CORE_CONFIG.plugin)
@@ -196,7 +200,7 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
             extends: Tsu.String(),
             master: Tsu.Union(Tsu.Number(), Tsu.String()),
             lang: localeTypeSchema.default(result.global.lang),
-            'command-prefix': Tsu.String().default(result.global['command-prefix'])
+            commandPrefix: Tsu.String().default(result.global.commandPrefix)
           })
         )
         .default(DEFAULT_CORE_CONFIG.adapter)
@@ -270,7 +274,7 @@ export class Loader extends Core {
     this.baseDir = baseDir
     this.options = options
     this.isDev = options.mode === DEV_MODE
-    this.root.meta.loaderVersion = require(path.resolve(__dirname, '../../package.json')).version
+    this.root.meta.loaderVersion = pkg.version
     this.provide(
       'logger',
       new KotoriLogger(
@@ -290,8 +294,9 @@ export class Loader extends Core {
       )
     )
     this.inject('logger')
-    this.service('server', new Server(this.extends(), { port: this.config.global.port }))
-    this.service('file', new File(this.extends()))
+    this.service('server', new Server(this.extends('server'), { port: this.config.global.port }))
+    this.service('file', new File(this.extends('file')))
+    this.service('db', new Database(this.extends('database'), { prefix: this.config.global.dbPrefix }))
     this.i18n.use(path.resolve(__dirname, '../../locales'))
   }
 
@@ -417,7 +422,7 @@ export class Loader extends Core {
     const files = getDirFiles(path.join(dir, this.isDev ? 'src' : path.parse(pkg.main).dir))
 
     const [pkgScope, pkgName] = pkg.name.split('/')
-    const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).slice((pkgName ?? pkgScope).includes(PLUGIN_PREFIX) ? PLUGIN_PREFIX.length : 0)}`
+    const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).replace(PLUGIN_PREFIX, '')}`
     this[Symbols.modules].set(pkg.name, [{ pkg, files, main }, this.config.plugin[pluginName] || {}])
   }
 
@@ -473,7 +478,7 @@ export class Loader extends Core {
     /* Service Class */
     // Service need parse reality config and load lang files
     if (Service.isPrototypeOf.call(Service, obj.default)) {
-      this.service('', new obj.default(this.extends(), config))
+      this.service('', new obj.default(this.extends(pkg.name), config))
       // but it is different with normal plugin: need not load immediately so reset obj
       obj = {}
     }
@@ -529,7 +534,10 @@ export class Loader extends Core {
       const botConfig = this.config.adapter[identity]
       const array = adapters.get(botConfig.extends)
 
-      if (!array) return this.logger.warn(this.format('loader.adapters.notfound', [botConfig.extends, identity]))
+      if (!array) {
+        this.logger.warn(this.format('loader.adapters.notfound', [botConfig.extends, identity]))
+        continue
+      }
 
       const result = array[1]?.parseSafe(botConfig)
       if (result && !result.value)
@@ -545,7 +553,6 @@ export class Loader extends Core {
         const bots = this[Symbols.bot].get(bot.platform)
         if (bots) bots.add(bot.api)
         else this[Symbols.bot].set(bot.platform, new Set([bot.api]))
-
         this.on('ready', () => bot.start())
         this.on('dispose', () => bot.stop())
       } catch (e) {

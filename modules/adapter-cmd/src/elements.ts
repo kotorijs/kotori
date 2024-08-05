@@ -2,14 +2,16 @@ import { Elements, type Message, type MessageMapping, MessageSingle } from 'koto
 
 export class CmdElements extends Elements {
   public getSupportsElements(): (keyof MessageMapping)[] {
-    return ['mention', 'mentionAll', 'image', 'voice', 'video', 'text', 'location', 'file']
+    return ['mention', 'mentionAll', 'text']
   }
 
-  public decode(message: Exclude<Message, string>): string {
-    if (!(message instanceof MessageSingle))
+  public decode(message: Message): string {
+    if (typeof message === 'string') return message
+    if (!(message instanceof MessageSingle)) {
       return Array.from(message)
         .map((el) => this.decode(el))
-        .join(' ')
+        .join('')
+    }
     switch (message.data.type) {
       case 'text':
         return message.toString()

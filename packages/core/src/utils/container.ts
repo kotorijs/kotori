@@ -1,4 +1,6 @@
-import { type Context, KotoriError, Symbols } from '@kotori-bot/core'
+import type Context from 'fluoro'
+import { KotoriError } from './error'
+import { Symbols } from '../global'
 
 export class Container {
   private constructor() {}

@@ -144,13 +144,27 @@ export class Core extends Context {
     super()
     this.provide('config', new Config(config))
     this.mixin('config', ['config', 'meta'])
-    this.provide('message', new Message(this.extends()))
-    this.mixin('message', ['midware', 'command', 'regexp', 'notify', 'task'])
+    this.provide('message', new Message(this))
+    this.mixin('message', [
+      'midware',
+      'command',
+      'regexp',
+      'notify',
+      'boardcast',
+      'task',
+      'filter',
+      Symbols.command,
+      Symbols.midware,
+      Symbols.task,
+      Symbols.filter,
+      Symbols.promise,
+      Symbols.regexp
+    ])
     this.provide('http', new Http({ validateStatus: () => true }))
     this.inject('http')
     this.provide('i18n', new I18n({ lang: this.config.global.lang }))
     this.inject('i18n')
-    this.service('cache', new Cache(this.extends()))
+    this.service('cache', new Cache(this.extends('cache')))
   }
 }
 

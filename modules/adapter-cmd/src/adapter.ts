@@ -3,22 +3,22 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-01 17:44:48
+ * @LastEditTime: 2024-08-04 12:08:31
  */
 import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu } from 'kotori-bot'
 import CmdApi from './api'
 import CmdElements from './elements'
 
 export const config = Tsu.Object({
-  nickname: Tsu.String().default('Kotarou'),
-  'self-nickname': Tsu.String().default('KotoriO'),
-  'self-id': Tsu.String().default('720')
+  nickname: Tsu.String().default('Kotarou').describe("User's nickname"),
+  'self-nickname': Tsu.String().default('KotoriO').describe("Bot's nickname"),
+  'self-id': Tsu.String().default('720').describe("Bot's id")
 })
 
 type CmdConfig = Tsu.infer<typeof config> & AdapterConfig
 
 export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
-  private messageId = ''
+  public messageId = 0
 
   public readonly platform = 'cmd'
 
@@ -41,7 +41,7 @@ export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
     message = message.replace('\r\n', '').replace('\n', '')
     this.session('on_message', {
       type: MessageScope.PRIVATE,
-      messageId: this.messageId,
+      messageId: String(this.messageId),
       message,
       messageAlt: message,
       userId: this.config.master,
@@ -81,10 +81,6 @@ export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
     if ((params as { user_id: unknown }).user_id !== this.config.master) return
     process.stdout.write(`${this.config['self-nickname']} > ${(params as { message: string }).message} \r\n`)
     this.messageId += 1
-    this.ctx.emit('send', {
-      api: this.api,
-      messageId: this.messageId
-    })
   }
 }
 

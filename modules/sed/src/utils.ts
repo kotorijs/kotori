@@ -1,6 +1,4 @@
-import { Http } from 'kotori-bot'
-
-const http = new Http()
+import Kotori from 'kotori-bot'
 
 export class Sed {
   public message: string
@@ -11,7 +9,7 @@ export class Sed {
 
   public async qqToPhone() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/qqapi?qq=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqapi?qq=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
       phone: data.phone,
@@ -21,7 +19,7 @@ export class Sed {
 
   public async qqToLol() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/qqlol?qq=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqlol?qq=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
       id: data.name,
@@ -31,14 +29,14 @@ export class Sed {
 
   public async qqToOldPass() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/qqlm?qq=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqlm?qq=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return data.qqlm
   }
 
   public async phoneToQq() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/qqphone?phone=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqphone?phone=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
       qq: data.qq,
@@ -48,7 +46,7 @@ export class Sed {
 
   public async phoneToWeibo() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/wbphone?phone=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/wbphone?phone=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
       id: data.id,
@@ -58,7 +56,7 @@ export class Sed {
 
   public async weiboToPhone() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/wbapi?id=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/wbapi?id=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
       phone: data.phone,
@@ -68,7 +66,7 @@ export class Sed {
 
   public async lolToQq() {
     // biome-ignore lint:
-    const data = (await http.get(`https://zy.xywlapi.cc/lolname?id=${this.message}`)) as Record<string, any>
+    const data = (await Kotori.http.get(`https://zy.xywlapi.cc/lolname?id=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
       qq: data.qq,

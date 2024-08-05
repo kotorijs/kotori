@@ -39,9 +39,9 @@ const DEFAULT_OPTIONS = {
 export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
   private cs: Colors
 
-  private readonly print = process ? process.stdout.write.bind(process.stdout) : console.log
+  private readonly print = typeof process === 'undefined' ? console.log : process.stdout.write.bind(process.stdout)
 
-  private readonly printErr = process ? process.stderr.write.bind(process.stderr) : console.error
+  private readonly printErr = typeof process === 'undefined' ? console.error : process.stderr.write.bind(process.stderr)
 
   public render({ label, level, msg, time, pid }: LoggerData) {
     const { options } = this

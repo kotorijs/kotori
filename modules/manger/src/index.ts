@@ -37,7 +37,8 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
         session.api.setGroupBan(session.groupId, target, time)
         return session.format('manger.msg.ban.user', [target, time / 60])
       }
-      session.api.setGroupBan(session.groupId, undefined, 1)
+      session.api.setGroupWholeBan(session.groupId, true)
+
       return 'manger.msg.ban.all'
     })
 
@@ -51,7 +52,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
         session.api.setGroupBan(session.groupId, target, 0)
         return session.format('manger.msg.unban.user', [target])
       }
-      session.api.setGroupBan(session.groupId, undefined, 0)
+      session.api.setGroupWholeBan(session.groupId, false)
       return 'manger.msg.ban.all'
     })
 

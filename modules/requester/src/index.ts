@@ -98,7 +98,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   }
 
   if (cfg.onPrivateRecall || cfg.onGroupRecall) {
-    ctx.on('on_delete', (session) => {
+    ctx.on('on_message_delete', (session) => {
       if (session.userId === session.api.adapter.selfId || session.operatorId === session.api.adapter.selfId) return
 
       if (cfg.onPrivateRecall && session.type === MessageScope.PRIVATE) {
@@ -137,7 +137,8 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       } else if (session.type === MessageScope.PRIVATE && cfg.onPrivateRecall) {
         ctx.cache.set(`${session.api.adapter.identity}${session.messageId}`, session.message)
       }
-      if (cfg.onPrivateMsg && String(session.userId) !== String(session.api.adapter.config.master)) {
+      if (session.userId !== session.api.adapter.config.master) return
+      if (cfg.onPrivateMsg && session.type === MessageScope.PRIVATE) {
         send(session)(['requester.msg.msg.private', [session.userId, session.message]])
       }
     })
