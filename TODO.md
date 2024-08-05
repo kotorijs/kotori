@@ -5,9 +5,9 @@
 - [x] @kotori-bot/webui
 - [x] @kotori-bot/kotori-plugin-webui
 - [x] @kotori-bot/kotori-plugin-adapter-sandbox
-- [ ] @kotori-bot/kotori-plugin-adapter-mail (adapter and plugin)
-- [ ] @kotori-bot/kotori-plugin-adapter-telegram
-- [ ] @kotori-bot/kotori-plugin-adapter-discord
+- [X] @kotori-bot/kotori-plugin-adapter-mail (adapter and plugin)
+- [x] @kotori-bot/kotori-plugin-adapter-telegram
+- [x] @kotori-bot/kotori-plugin-adapter-discord
 - [x] kotori-plugin-adapter-minecraft
 - [x] kotori-plugin-requester
 - [x] kotori-plugin-grouper
@@ -17,8 +17,7 @@
 
 ## Features
 
-<!-- - [x] ctx.filter() -->
-
+- [x] ctx.filter()
 - [ ] Kotori cli gui and modules search,install,uninstall,update
 - [x] message.schedule()
 - [x] decorator plugin form
@@ -45,4 +44,4 @@
 - [x] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
 - [ ] webui load tips twice
-- [ ] symbols props inject and reality context
+- [x] symbols props inject and reality context

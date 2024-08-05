@@ -1,7 +1,7 @@
 {
-  "name": "@kotori-bot/kotori-plugin-adapter-cmd",
-  "version": "1.1.1",
-  "description": "Adapter For Cmd",
+  "name": "@kotori-bot/adapter-email",
+  "version": "1.0.0",
+  "description": "Adapter For Email",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],
   "license": "GPL-3.0",
