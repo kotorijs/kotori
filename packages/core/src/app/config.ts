@@ -32,8 +32,8 @@ export class Config {
   public readonly meta: MetaInfo
 
   public constructor(config: Omit<Partial<CoreConfig>, 'global'> & { global?: Partial<CoreConfig['global']> } = {}) {
-    this.config = Object.assign(DEFAULT_CORE_CONFIG, config)
-    this.config.global = Object.assign(DEFAULT_CORE_CONFIG.global, this.config.global)
+    this.config = { ...DEFAULT_CORE_CONFIG, ...config } as CoreConfig
+    this.config.global = { ...DEFAULT_CORE_CONFIG.global, ...this.config.global }
     this.meta = {
       name: pkg.name,
       description: pkg.description,
@@ -42,6 +42,7 @@ export class Config {
       author: pkg.author,
       coreVersion: pkg.version
     }
+    ;(globalThis as unknown as { kotori: object }).kotori = this.meta
   }
 }
 

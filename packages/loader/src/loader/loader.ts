@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-05 21:11:08
+ * @LastEditTime: 2024-08-06 20:03:24
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -164,15 +164,7 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
     if (!ext || ext === 'txt' || !configFileType.includes(ext as 'json')) ext = 'json'
 
     const result = Tsu.Object({
-      global: Tsu.Object({
-        lang: localeTypeSchema.default(DEFAULT_CORE_CONFIG.global.lang),
-        commandPrefix: Tsu.String().default(DEFAULT_CORE_CONFIG.global.commandPrefix),
-        dirs: Tsu.Array(Tsu.String()).default(DEFAULT_LOADER_CONFIG.dirs),
-        level: Tsu.Number().default(DEFAULT_LOADER_CONFIG.level),
-        port: Tsu.Number().default(DEFAULT_LOADER_CONFIG.port),
-        dbPrefix: Tsu.String().default(DEFAULT_LOADER_CONFIG.dbPrefix),
-        noColor: Tsu.Boolean().default(DEFAULT_LOADER_CONFIG.noColor)
-      }).default(Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG)),
+      global: globalLoaderConfigSchema,
       plugin: Tsu.Object({}).index(Tsu.Object({}).default({})).default(DEFAULT_CORE_CONFIG.plugin)
     })
       .default({
@@ -195,14 +187,7 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
 
     return Tsu.Object({
       adapter: Tsu.Object({})
-        .index(
-          Tsu.Object({
-            extends: Tsu.String(),
-            master: Tsu.Union(Tsu.Number(), Tsu.String()),
-            lang: localeTypeSchema.default(result.global.lang),
-            commandPrefix: Tsu.String().default(result.global.commandPrefix)
-          })
-        )
+        .index(adapterConfigSchemaFactory(result.global.lang, result.global.commandPrefix))
         .default(DEFAULT_CORE_CONFIG.adapter)
     }).parse(result) as CoreConfig
   } catch (err) {
@@ -221,9 +206,27 @@ function moduleLoaderOrder(pkg: ModulePackage) {
   return 6
 }
 
-const localeTypeSchema = Tsu.Union(Tsu.Literal('en_US'), Tsu.Literal('ja_JP'), Tsu.Literal('zh_TW'), Tsu.Any())
+export const localeTypeSchema = Tsu.Union(Tsu.Literal('en_US'), Tsu.Literal('ja_JP'), Tsu.Literal('zh_TW'), Tsu.Any())
 
-const modulePackageSchema = Tsu.Object({
+export const globalLoaderConfigSchema = Tsu.Object({
+  lang: localeTypeSchema.default(DEFAULT_CORE_CONFIG.global.lang),
+  commandPrefix: Tsu.String().default(DEFAULT_CORE_CONFIG.global.commandPrefix),
+  dirs: Tsu.Array(Tsu.String()).default(DEFAULT_LOADER_CONFIG.dirs),
+  level: Tsu.Number().default(DEFAULT_LOADER_CONFIG.level),
+  port: Tsu.Number().default(DEFAULT_LOADER_CONFIG.port),
+  dbPrefix: Tsu.String().default(DEFAULT_LOADER_CONFIG.dbPrefix),
+  noColor: Tsu.Boolean().default(DEFAULT_LOADER_CONFIG.noColor)
+}).default(Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG))
+
+export const adapterConfigSchemaFactory = (lang: Tsu.infer<typeof localeTypeSchema>, commandPrefix: string) =>
+  Tsu.Object({
+    extends: Tsu.String(),
+    master: Tsu.Union(Tsu.Number(), Tsu.String()),
+    lang: localeTypeSchema.default(lang),
+    commandPrefix: Tsu.String().default(commandPrefix)
+  })
+
+export const modulePackageSchema = Tsu.Object({
   name: Tsu.Custom<string>((input) => {
     if (typeof input !== 'string') return false
     /*  package name must prefix with 'kotori-plugin-' if don't have scope */
@@ -253,7 +256,7 @@ const modulePackageSchema = Tsu.Object({
 })
 
 export class Loader extends Core {
-  private loadCount = 0
+  private loadRecord = new Set<string>()
 
   private isDev: boolean
 
@@ -265,7 +268,7 @@ export class Loader extends Core {
 
   public readonly options: Options
 
-  public readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig]> = new Map()
+  public readonly [Symbols.modules]: Map<string, [ModuleMeta, ModuleConfig, Parser<unknown>?]> = new Map()
 
   public constructor(loaderOptions?: LoaderOptions) {
     const baseDir = getBaseDir(loaderOptions?.config || CONFIG_NAME, loaderOptions?.dir)
@@ -372,8 +375,9 @@ export class Loader extends Core {
       const pkg = data.instance.name ? this[Symbols.modules].get(data.instance.name) : undefined
       if (!pkg) return
 
-      this.loadCount += 1
       const { name, version, author } = pkg[0].pkg
+      if (this.loadRecord.has(name)) return
+      this.loadRecord.add(name)
       this.logger.info(
         this.format('loader.modules.load', [name, version, Array.isArray(author) ? author.join(',') : author])
       )
@@ -451,6 +455,7 @@ export class Loader extends Core {
     }
 
     const parsed = (schema: Parser<unknown>) => {
+      this[Symbols.modules].set(pkg.name, [instance, origin, schema])
       const result = (schema as Parser<ModuleConfig>).parseSafe(config)
       if (!result.value) throw new ModuleError(`config format of module ${pkg.name} is error: ${result.error.message}`)
       return result.data
@@ -506,7 +511,7 @@ export class Loader extends Core {
     const handleModules = Array.from(this[Symbols.modules].values()).sort(
       (m1, m2) => moduleLoaderOrder(m1[0].pkg) - moduleLoaderOrder(m2[0].pkg)
     )
-    for (const el of handleModules) this.loadEx(...el)
+    for (const el of handleModules) this.loadEx(el[0], el[1])
 
     if (this.isDev) {
       for (const data of this[Symbols.modules].values()) {
@@ -514,15 +519,15 @@ export class Loader extends Core {
           fs.watchFile(file, () => {
             this.logger.debug(this.format('loader.debug.reload', [data[0].pkg.name]))
             this.unloadEx(data[0])
-            this.loadEx(...data)
+            this.loadEx(data[0], data[1])
           })
         }
       }
     }
 
-    const failLoadCount = this[Symbols.modules].size - this.loadCount
+    const failLoadCount = this[Symbols.modules].size - this.loadRecord.size
     this.logger.info(
-      this.format(`loader.modules.all${failLoadCount > 0 ? '.failed' : ''}`, [this.loadCount, failLoadCount])
+      this.format(`loader.modules.all${failLoadCount > 0 ? '.failed' : ''}`, [this.loadRecord.size, failLoadCount])
     )
     this.loadAllAdapter()
     this.emit('ready')
@@ -547,7 +552,7 @@ export class Loader extends Core {
 
       try {
         const bot = new array[0](
-          this.extends({}, `${botConfig.extends}/${identity}`),
+          this.extends(`${botConfig.extends}/${identity}`),
           result ? (result.data as AdapterConfig) : botConfig,
           identity
         )

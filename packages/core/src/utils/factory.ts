@@ -48,6 +48,7 @@ export function formatFactory(i18n: I18n) {
       }
       const index = Number.parseInt(part.slice(1, -1), 10)
       const value = data[index]
+      if (value === undefined || value === null) continue
 
       if (value instanceof MessageList || value instanceof MessageSingle) {
         if (currentString) {

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-03 10:59:04
+ * @LastEditTime: 2024-08-06 11:18:36
  */
 
 import {
@@ -183,8 +183,14 @@ export function main(ctx: Context) {
     .shortcut(['小鸟', '小鳥', 'ことり', 'kotori', 'Kotori'])
     .hide()
     .action((_, session) => {
-      const { version, license } = session.api.adapter.ctx.meta
-      return session.format('core.msg.about', { version, license, node_version: process.version })
+      const { version, license, coreVersion, loaderVersion } = session.api.adapter.ctx.meta
+      return session.format('core.msg.about', {
+        version,
+        license,
+        core_version: coreVersion,
+        loader_version: loaderVersion,
+        node_version: process.version
+      })
     })
 
   ctx

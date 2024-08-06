@@ -31,7 +31,7 @@
   "core.msg.core": "Global language: %lang%\nInstance directory: %root%\nRunning mode: %mode%\nNumber of modules: %modules%\nNumber of services: %services%\nNumber of bot instances: %bots%\nNumber of middlewares: %midwares%\nNumber of commands: %commands%\nNumber of regular expressions: %regexps%",
   "core.msg.bots": "Instance list: %list%",
   "core.msg.bots.list": "\n----------\nID: %identity%\nLanguage: %lang%\nPlatform: %platform%\nStatus: %status%",
-  "core.msg.about": "Kotori version: %version%\nLicense: %license%\nNodeJS version: %node_version%",
+  "core.msg.about": "Kotori version: %version%\nCore version: %core_version%\n%Loader version: %loader_version%%\nLicense: %license%\nNodeJS version: %node_version%",
   "core.msg.locale": "Successfully set the display language for the current instance to: %lang%",
   "core.msg.locale.global": "Successfully set the global display language to: %lang%",
   "core.msg.locale.invalid": "Parameter is invalid, must be one of the following values: en_US, ja_JP, zh_CN, zh_TW",
