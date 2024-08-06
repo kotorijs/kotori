@@ -6,7 +6,9 @@ import {
   KotoriError,
   Adapter,
   Symbols,
-  formatFactory
+  formatFactory,
+  sleep,
+  type Api
 } from 'kotori-bot'
 import MailApi from './api'
 import MailElements from './elements'
@@ -23,6 +25,7 @@ export const config = Tsu.Object({
     .default([])
     .describe("bots' identity, will forward to the bot's master on receiving mail, please set at top mail bot"),
   user: Tsu.String().describe('Email address'),
+  interval: Tsu.Number().default(60).describe('Check mail interval (seconds)'),
   password: Tsu.String().describe('Email password'),
   imapHost: Tsu.String().describe('IMAP server host'),
   imapPort: Tsu.Number().describe('IMAP server port'),
@@ -35,6 +38,8 @@ type MailConfig = Tsu.infer<typeof config> & AdapterConfig
 let isLoaded = false
 
 export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
+  private timerId?: NodeJS.Timeout
+
   public readonly config: MailConfig
 
   public readonly elements: MailElements = new MailElements(this)
@@ -60,6 +65,7 @@ export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
       }
     })
     // Loading plugin
+    this.ctx.inject('db')
     if (isLoaded) return
     this.ctx.load({
       ...require('./plugin'),
@@ -68,7 +74,69 @@ export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
     isLoaded = true
   }
 
-  public handle() {}
+  public handle() {
+    const apis: Api[] = []
+    for (const bots of this.ctx[Symbols.bot].values()) apis.push(...bots)
+
+    this.imapConnection?.openBox('INBOX').then(async () => {
+      const fetchOptions = {
+        bodies: ['HEADER', 'TEXT'],
+        markSeen: false
+      }
+
+      const list = await this.ctx.db.get<number[]>('read', [])
+      const results = ((await this.imapConnection?.search(['UNSEEN'], fetchOptions)) ?? []).filter(
+        (item) => !list.includes(item.attributes.uid)
+      )
+
+      if (results.length === 0) return
+      this.ctx.logger.record(/* html */ `<magenta>${results.length} new email(s) received</magenta>`)
+      for await (const item of results) {
+        const all = item.parts.filter((part) => part.which === 'TEXT')
+        const id = item.attributes.uid
+        list.push(id)
+
+        const idHeader = `Imap-Id: ${id}\r\n`
+        for await (const part of all) {
+          const email = await simpleParser(idHeader + part.body)
+          if (!email.text) continue
+
+          for (const identity of this.config.forward) {
+            const api = apis.find((api) => api.adapter.identity === identity)
+            if (!api) {
+              this.ctx.emit(
+                'error',
+                KotoriError.from(`Failed to forward mail, cant not find ${identity} bot`, this.ctx.identity?.toString())
+              )
+              continue
+            }
+            api.sendPrivateMsg(
+              formatFactory(api.adapter.ctx.i18n)('adapter_mail.forward', [
+                email.from?.text,
+                email.subject,
+                email.text,
+                email.date ? api.adapter.ctx.i18n.date(email.date) : ''
+              ]),
+              api.adapter.config.master
+            )
+          }
+          this.session('on_message', {
+            type: MessageScope.PRIVATE,
+            userId: email.from?.text ?? '',
+            message: email.text ?? email.subject ?? '',
+            messageAlt: email.text ?? email.subject ?? '',
+            messageId: id.toString(),
+            sender: {
+              nickname: email.from?.text || ''
+            },
+            time: email.date?.getTime() || Date.now()
+          })
+        }
+      }
+
+      await this.ctx.db.put('read', list)
+    })
+  }
 
   public async start() {
     try {
@@ -81,66 +149,6 @@ export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
           tls: true
         }
       })
-
-      await this.imapConnection.openBox('INBOX')
-
-      this.imapConnection.on('mail', async (numNewMails: number) => {
-        console.log(`${numNewMails} new email(s) received`)
-
-        const fetchOptions = {
-          bodies: ['HEADER', 'TEXT'],
-          markSeen: false
-        }
-
-        const results = (await this.imapConnection?.search(['UNSEEN'], fetchOptions)) ?? []
-
-        for (const item of results) {
-          const all = item.parts.filter((part) => part.which === 'TEXT')
-          const id = item.attributes.uid
-          const idHeader = `Imap-Id: ${id}\r\n`
-
-          for (const part of all) {
-            const email = await simpleParser(idHeader + part.body)
-
-            for (const identity of this.config.forward) {
-              const api = Array.from(this.ctx[Symbols.bot].values()).map((bots) =>
-                Array.from(bots.values()).find((bot) => bot.adapter.identity === identity)
-              )[0]
-              if (!api) {
-                this.ctx.emit(
-                  'error',
-                  KotoriError.from(
-                    `Failed to forward mail, cant not find ${identity} bot`,
-                    this.ctx.identity?.toString()
-                  )
-                )
-                continue
-              }
-              api.sendPrivateMsg(
-                formatFactory(api.adapter.ctx.i18n)('adapter_mail.forward', [
-                  email.from?.text,
-                  email.subject,
-                  email.text,
-                  email.date ? api.adapter.ctx.i18n.date(email.date) : ''
-                ]),
-                api.adapter.config.master
-              )
-            }
-            this.session('on_message', {
-              type: MessageScope.PRIVATE,
-              userId: email.from?.text ?? '',
-              message: email.text ?? email.subject ?? '',
-              messageAlt: email.text ?? email.subject ?? '',
-              messageId: id.toString(),
-              sender: {
-                nickname: email.from?.text || ''
-              },
-              time: email.date?.getTime() || Date.now()
-            })
-          }
-        }
-      })
-
       this.ctx.emit('connect', {
         type: 'connect',
         mode: 'other',
@@ -148,6 +156,8 @@ export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
         normal: true,
         address: `imap://${this.config.imapHost}:${this.config.imapPort}`
       })
+      await sleep(10 * 1000)
+      this.timerId = setInterval(() => this.handle(), this.config.interval * 1000)
     } catch (error) {
       this.ctx.emit('error', KotoriError.from(error, this.ctx.identity?.toString()))
     }
@@ -155,6 +165,7 @@ export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
 
   public stop() {
     this.imapConnection?.end()
+    clearInterval(this.timerId)
     this.ctx.emit('connect', {
       type: 'disconnect',
       mode: 'other',

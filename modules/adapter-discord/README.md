@@ -25,7 +25,7 @@ export const config = Tsu.Object({
 
 - text
 
-## Todo
+## TODO
 
 Support more standard api...
 

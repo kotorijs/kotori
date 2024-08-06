@@ -12,6 +12,25 @@ export const config = Tsu.Object({
 })
 ```
 
+## Supports
+
+### Events
+
+- on_message (exclude `MessageScope.PRIVATE`)
+
+### Api
+
+- sendGroupMsg
+- sendChannelMsg
+
+### Elements
+
+- text
+- image
+- voice
+- mention
+- video
+
 ## Reference
 
 - [Kotori Docs](https://kotori.js.org/)

@@ -1,40 +1,31 @@
-import { LoggerData } from 'kotori-bot';
-import type { Webui } from '../service';
+import type { Adapter, Command, LoggerData } from 'kotori-bot'
+import type { Webui } from '../service'
 
 declare module 'kotori-bot' {
   interface Context {
-    webui: Webui;
+    webui: Webui
   }
 
   interface EventsMapping {
-    console_output(data: LoggerData | { msg: string }): void;
+    console_output(data: LoggerData | { msg: string }): void
   }
 }
 
-export { Context } from 'kotori-bot';
+export type BotStats = Record<
+  string,
+  Omit<Adapter['status'], 'value' | 'createTime' | 'lastMsgTime'> & { createTime: number; lastMsgTime: number | null }
+>
 
-export const enum KEY {
-  MSG_TOTAL = 'msg-total',
-  MSG_DAY = 'msg-day',
-  LOGIN_STATS = 'login-stats',
-  TOKENS = 'tokens'
-}
+export type BotStatsDay = Record<string, Pick<Adapter['status'], 'sentMsg' | 'receivedMsg' | 'offlineTimes'>>
 
-export interface MsgRecord {
-  received: number;
-  sent: number;
-}
-
-export interface MsgRecordDay {
-  day: string;
-  origin: Record<string, MsgRecord>;
-}
-
-export interface MsgRecordTotal {
-  origin: Record<string, MsgRecord>;
-}
+export type CommandSettings = Record<string, Omit<Command['meta'], 'root' | 'args' | 'options'>>
 
 export interface LoginStats {
-  success: number;
-  failed: number;
+  success: number
+  failed: number
+}
+
+export interface AccountData {
+  salt: string
+  hash: string
 }

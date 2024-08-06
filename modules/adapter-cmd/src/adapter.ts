@@ -3,12 +3,17 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-04 12:08:31
+ * @LastEditTime: 2024-08-06 11:12:35
  */
-import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu } from 'kotori-bot'
+import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu, type LoggerData } from 'kotori-bot'
 import CmdApi from './api'
 import CmdElements from './elements'
 
+declare module 'kotori-bot' {
+  interface EventsMapping {
+    console_output(data: LoggerData | { msg: string }): void
+  }
+}
 export const config = Tsu.Object({
   nickname: Tsu.String().default('Kotarou').describe("User's nickname"),
   'self-nickname': Tsu.String().default('KotoriO').describe("Bot's nickname"),
@@ -79,7 +84,9 @@ export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
     if (this.status.value !== 'online' || action !== 'send_private_msg' || !params) return
     if (typeof (params as { message: string }).message !== 'string') return
     if ((params as { user_id: unknown }).user_id !== this.config.master) return
-    process.stdout.write(`${this.config['self-nickname']} > ${(params as { message: string }).message} \r\n`)
+    const msg = `${this.config['self-nickname']} > ${(params as { message: string }).message} \r\n`
+    process.stdout.write(msg)
+    this.ctx.emit('console_output', { msg })
     this.messageId += 1
   }
 }

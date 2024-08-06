@@ -5,7 +5,7 @@
 - [x] @kotori-bot/webui
 - [x] @kotori-bot/kotori-plugin-webui
 - [x] @kotori-bot/kotori-plugin-adapter-sandbox
-- [X] @kotori-bot/kotori-plugin-adapter-mail (adapter and plugin)
+- [x] @kotori-bot/kotori-plugin-adapter-mail (adapter and plugin)
 - [x] @kotori-bot/kotori-plugin-adapter-telegram
 - [x] @kotori-bot/kotori-plugin-adapter-discord
 - [x] kotori-plugin-adapter-minecraft
@@ -43,5 +43,5 @@
 - [x] Module Version with core tips
 - [x] Kotori cli start
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
-- [ ] webui load tips twice
+- [x] webui load tips twice
 - [x] symbols props inject and reality context

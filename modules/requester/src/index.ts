@@ -55,7 +55,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       session.api.adapter.config.master
     )
     log(
-      session.api.adapter.identity,
+      `${session.api.adapter.platform}/${session.api.adapter.identity}`,
       isString
         ? session.i18n.locale(msg.replace('.msg.', '.log.'))
         : session.format(msg[0].replace('.msg.', '.log.'), msg[1]).toString()
@@ -147,7 +147,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   if (cfg.onCommand) {
     ctx.on('command', ({ session, raw }) =>
       log(
-        session.api.adapter.identity,
+        `${session.api.adapter.platform}/${session.api.adapter.identity}`,
         session.format(`requester.log.command.${session.type === MessageScope.GROUP ? 'group' : 'private'}`, [
           session.userId,
           raw,
@@ -160,7 +160,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   if (cfg.onRegexp) {
     ctx.on('regexp', ({ session, raw }) =>
       log(
-        session.api.adapter.identity,
+        `${session.api.adapter.platform}/${session.api.adapter.identity}`,
         session.format(`requester.log.regexp.${session.type === MessageScope.GROUP ? 'group' : 'private'}`, [
           session.userId,
           raw,

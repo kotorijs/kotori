@@ -31,7 +31,7 @@ export const config = Tsu.Object({
 - voice
 - video
 
-## Todo
+## TODO
 
 Support more standard api...
 

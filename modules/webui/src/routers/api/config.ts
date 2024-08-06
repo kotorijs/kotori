@@ -1,73 +1,60 @@
-import { PLUGIN_PREFIX, stringRightSplit } from 'kotori-bot';
-import { Context } from '../../types';
+import type { Context } from 'kotori-bot'
 
 export default (ctx: Context, app: Context['server']) => {
-  const getPluginConfig = () =>
-    Object.entries(ctx.config.plugin).map(([name, origin]) => ({ name, origin, schema: {} }));
-  const getBotConfig = () => Object.entries(ctx.config.adapter).map(([id, origin]) => ({ id, origin, schema: {} }));
-  const router = app.router();
+  const router = app.router()
 
   router.get('/plugins/:scope?/:name?', (req, res) => {
-    const { scope, name } = req.params;
-    if (!scope) return res.json(getPluginConfig());
+    const { scope, name } = req.params
+    const result = ctx.webui.configPluginsGet(scope, name)
+    return result ? res.json(result) : res.status(404).json({ message: 'Plugin not found' })
+  })
 
-    const pluginName = stringRightSplit(name ?? scope, PLUGIN_PREFIX);
-    const pluginConfig = getPluginConfig().find((plugin) => plugin.name === pluginName);
-    return pluginConfig ? res.json(pluginConfig) : res.status(404).json({ message: 'Plugin not found' });
-  });
-
-  router.put('/plugins/:scope?/:name?', (req, res) => {
-    const { scope, name } = req.params;
-    const { body } = req;
-    if (!scope || !name) return res.status(400).json({ message: 'Invalid plugin scope' });
-    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' });
-
-    const pluginName = stringRightSplit(name ?? scope, PLUGIN_PREFIX);
-    const pluginConfig = getPluginConfig().find((plugin) => plugin.name === pluginName);
-    if (!pluginConfig) return res.status(404).json({ message: 'Plugin not found' });
-
-    Object.keys(body).forEach((key) => {
-      if (key in pluginConfig) pluginConfig[key as keyof typeof pluginConfig] = body[key];
-    });
-    return res.sendStatus(204);
-  });
+  router.put('/plugins/:scope/:name?', (req, res) => {
+    const { scope, name } = req.params
+    const { body } = req
+    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' })
+    const result = ctx.webui.configPluginUpdate(body, scope, name)
+    return result ? res.sendStatus(204) : res.status(404).json({ message: 'Plugin not found' })
+  })
 
   router.get('/bots/:name?', (req, res) => {
-    const { name } = req.params;
-    if (!name) return res.json(getBotConfig());
+    const { name } = req.params
+    const result = ctx.webui.configBotsGet(name)
+    return result ? res.json(result) : res.status(404).json({ message: 'Bot not found' })
+  })
 
-    const botConfig = getBotConfig().find((bot) => bot.id === name);
-    return botConfig ? res.json(botConfig) : res.status(404).json({ message: 'Bot not found' });
-  });
-
-  router.put('/bots/:name?', (req, res) => {
-    const { name } = req.params;
-    const { body } = req;
-    if (!name) return res.status(400).json({ message: 'Invalid bot name' });
-    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' });
-
-    const botConfig = ctx.config.adapter[name];
-    if (!botConfig) return res.status(404).json({ message: 'Bot not found' });
-
-    Object.keys(body).forEach((key) => {
-      if (key in botConfig) botConfig[key as keyof typeof botConfig] = body[key];
-    });
-    return res.sendStatus(204);
-  });
+  router.put('/bots/:name', (req, res) => {
+    const { name } = req.params
+    const { body } = req
+    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' })
+    const result = ctx.webui.configBotsUpdate(body, name)
+    return result ? res.sendStatus(204) : res.status(404).json({ message: 'Bot not found' })
+  })
 
   router.get('/global', (_, res) => {
-    res.json(ctx.config.global);
-  });
+    res.json(ctx.config.global)
+  })
 
   router.put('/global', (req, res) => {
-    const { body } = req;
-    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' });
+    const { body } = req
+    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' })
+    ctx.webui.configGlobalUpdate(body)
+    return res.sendStatus(204)
+  })
 
-    Object.keys(body).forEach((key) => {
-      if (key in ctx.config.global) ctx.config.global[key as 'lang'] = body[key];
-    });
-    return res.sendStatus(204);
-  });
+  router.get('/commands/:name?', async (req, res) => {
+    const { name } = req.params
+    const result = await ctx.webui.configCommandsGet(name)
+    return result ? res.json(result) : res.status(404).json({ message: 'Command not found' })
+  })
 
-  return router;
-};
+  router.put('/commands/:name', async (req, res) => {
+    const { name } = req.params
+    const { body } = req
+    if (typeof body !== 'object') return res.status(400).json({ message: 'Invalid body' })
+    const result = await ctx.webui.configCommandsUpdate(body, name)
+    return result ? res.sendStatus(204) : res.status(404).json({ message: 'Command not found' })
+  })
+
+  return router
+}

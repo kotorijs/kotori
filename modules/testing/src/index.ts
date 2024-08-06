@@ -15,9 +15,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   public static inject = ['database']
 
   @plugin.on({ type: 'ready' })
-  public onReady() {
-    this.ctx.logger.debug('database:', this.ctx.db)
-  }
+  public async onReady() {}
 
   @plugin.midware({ priority: 1 })
   public static midware(next: () => void, session: SessionMsg) {
@@ -36,11 +34,13 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
     return data.args.join(' ')
   }
 
-  @plugin.command({ template: 'eval <...code>', access: UserAccess.ADMIN })
-  public eval({ args }: Parameters<CommandAction>[0], session: Session) {
+  @plugin.command({ template: 'eval [...code]', access: UserAccess.ADMIN })
+  public async eval({ args }: Parameters<CommandAction>[0], session: Session) {
+    let code = args.join(' ')
+    if (!code.trim()) code = (await session.prompt('Input the code:')).toString()
     try {
       // biome-ignore lint:
-      const result = eval(args.join(' '))
+      const result = eval(code)
       return session.format('eval result:~\n{0}', [result])
     } catch (error) {
       return session.format('eval error:~\n{0}', [error instanceof Error ? error.message : String(error)])

@@ -1,8 +1,12 @@
 import '../types'
 import type { Context } from 'kotori-bot'
-import { generateMessage } from '../utils/common'
+import { getStatusStats } from '../utils/common'
 
 type Callback = Parameters<Parameters<Context['server']['wss']>[1]>
+
+function generateMessage(type: string, data: object | string) {
+  return JSON.stringify(type === 'error' ? { type, message: data } : { type, data })
+}
 
 export default (ctx: Context, ws: Callback[0]) => {
   const interval = ctx.webui.config.interval * 1000
@@ -11,13 +15,13 @@ export default (ctx: Context, ws: Callback[0]) => {
       clearInterval(timer)
       return
     }
-    ws.send(generateMessage('stats', ctx.webui.getStats()))
+    ws.send(generateMessage('stats', getStatusStats()))
   }, interval)
   ctx.on('dispose', () => clearInterval(timer))
 
-  /* Listen for messages from client */
+  // Listen for messages from client
   ws.on('message', (message) => {
-    let data
+    let data: { action: string; command?: string }
     try {
       data = JSON.parse(message.toString())
     } catch {
@@ -36,6 +40,6 @@ export default (ctx: Context, ws: Callback[0]) => {
     }
   })
 
-  /* Listen for console output from server */
+  // Listen for console output from server
   ctx.on('console_output', (data) => ws.send(generateMessage('console_output', data)))
 }

@@ -74,6 +74,9 @@ importers:
       imap-simple:
         specifier: ^5.1.0
         version: 5.1.0
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
       mailparser:
         specifier: ^3.7.1
         version: 3.7.1
@@ -312,6 +315,15 @@ importers:
 
   modules/weather:
     dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../packages/kotori
+
+  modules/webui:
+    dependencies:
+      '@kotori-bot/kotori-plugin-filter':
+        specifier: workspace:^
+        version: link:../filter
       kotori-bot:
         specifier: workspace:^
         version: link:../../packages/kotori

@@ -5,10 +5,10 @@ import {
   Symbols,
   CORE_MODULES,
   KotoriPlugin,
-  FilterTestList,
   type FilterOption,
   Filter,
-  KotoriError
+  KotoriError,
+  filterOptionSchema
 } from 'kotori-bot'
 import pm from 'picomatch'
 
@@ -19,28 +19,6 @@ declare module 'kotori-bot' {
 }
 
 const plugin = plugins([__dirname, '../'])
-
-export const filterOptionBaseSchema = Tsu.Object({
-  test: Tsu.Custom<FilterTestList>(
-    (value) => typeof value === 'string' && Object.values(FilterTestList).includes(value as FilterTestList)
-  ).describe('Testing item'),
-  operator: Tsu.Union(
-    Tsu.Literal('=='),
-    Tsu.Literal('!='),
-    Tsu.Literal('>'),
-    Tsu.Literal('<'),
-    Tsu.Literal('>='),
-    Tsu.Literal('<=')
-  ).describe('Testing operation'),
-  value: Tsu.Union(Tsu.String(), Tsu.Number(), Tsu.Boolean()).describe('Expect value')
-})
-
-export const filterOptionGroupSchema = Tsu.Object({
-  type: Tsu.Union(Tsu.Literal('all_of'), Tsu.Literal('any_of'), Tsu.Literal('none_of')),
-  filters: Tsu.Array(filterOptionBaseSchema)
-})
-
-export const filterOptionSchema = Tsu.Union(filterOptionBaseSchema, filterOptionGroupSchema)
 
 @plugin.import
 export class FilterPlugin extends KotoriPlugin<Tsu.infer<typeof FilterPlugin.schema>> {
