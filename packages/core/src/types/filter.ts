@@ -49,8 +49,8 @@ export const filterOptionBaseSchema = Tsu.Object({
 })
 
 export const filterOptionGroupSchema = Tsu.Object({
-  type: Tsu.Union(Tsu.Literal('all_of'), Tsu.Literal('any_of'), Tsu.Literal('none_of')),
-  filters: Tsu.Array(filterOptionBaseSchema)
+  type: Tsu.Union(Tsu.Literal('all_of'), Tsu.Literal('any_of'), Tsu.Literal('none_of')).describe('Match type'),
+  filters: Tsu.Array(filterOptionBaseSchema).describe('Filters list')
 })
 
 export const filterOptionSchema = Tsu.Union(filterOptionBaseSchema, filterOptionGroupSchema)

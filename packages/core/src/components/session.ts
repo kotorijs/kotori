@@ -11,7 +11,6 @@ import {
 import type { Adapter } from './adapter'
 import { formatFactory } from '../utils/factory'
 import { CommandError } from '../utils/error'
-import type { EventsMapping } from 'fluoro'
 import type { Api } from './api'
 import type { Elements } from './elements'
 import type { I18n } from '@kotori-bot/i18n'
@@ -19,18 +18,6 @@ import { Symbols } from '../global'
 import { MessageList, MessageSingle } from './messages'
 
 class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
-  private isSameSender(session: SessionOrigin) {
-    return (
-      this.api.adapter.identity === session.api.adapter.identity &&
-      this.api.adapter.platform === session.api.adapter.platform &&
-      this.type === session.type &&
-      this.groupId === session.groupId &&
-      this.userId === session.userId &&
-      'messageId' in session &&
-      this.messageId !== session.messageId
-    )
-  }
-
   /**
    * Api instance of current session.
    *
@@ -90,8 +77,8 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
   /**
    * Send message to current session, it's packed base on `session.send()`, `session.i18n` and `session.format()`.
    *
-   * @param message
-   * @returns
+   * @param message - Message to send
+   * @returns Message id and sent time
    *
    * @async
    */
@@ -110,6 +97,25 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
   }
 
   /**
+   * Get message from current session.
+   *
+   * @param message - Message to get
+   * @returns Message id and sent time
+   */
+  public async json(message: unknown) {
+    if (typeof message === 'string') return this.send(message)
+    if (message && typeof message === 'object') {
+      const result = JSON.stringify(message, undefined, 2)
+      if (result === '{}') return this.send(String(message))
+      return result
+    }
+    if (typeof message === 'function') {
+      return `[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`
+    }
+    return this.send(String(message))
+  }
+
+  /**
    * Prompt message to current session.
    *
    * @param message - Message to prompt
@@ -118,16 +124,12 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    * @async
    */
   public prompt(message?: Message): Promise<Message> {
-    return new Promise((resolve) => {
-      this.api.adapter.ctx[Symbols.promise].add(this.id)
-      const handle: EventsMapping['on_message'] = (session) => {
-        if (this.isSameSender(session as unknown as SessionOrigin)) {
-          resolve(session.message)
-          return
-        }
-        this.api.adapter.ctx.once('on_message', handle)
-      }
-      this.quick(message ?? 'corei18n.template.prompt').then(() => this.api.adapter.ctx.once('on_message', handle))
+    return new Promise<Message>((resolve) => {
+      this.api.adapter.ctx[Symbols.promise].set(this.id, [
+        ...(this.api.adapter.ctx[Symbols.promise].get(this.id) ?? []),
+        resolve
+      ])
+      this.quick(message ?? 'corei18n.template.prompt').then(() => {})
     }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<Message>
   }
 
@@ -141,17 +143,11 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    */
   public confirm(options?: { message: Message; sure: Message }): Promise<boolean> {
     return new Promise((resolve) => {
-      this.api.adapter.ctx[Symbols.promise].add(this.id)
-      const handle: EventsMapping['on_message'] = (session) => {
-        if (this.isSameSender(session as unknown as SessionOrigin)) {
-          resolve(session.message === (options?.sure ?? 'corei18n.template.confirm.sure'))
-          return
-        }
-        this.api.adapter.ctx.once('on_message', handle)
-      }
-      this.quick(options?.message ?? 'corei18n.template.confirm').then(() =>
-        this.api.adapter.ctx.once('on_message', handle)
-      )
+      this.api.adapter.ctx[Symbols.promise].set(this.id, [
+        ...(this.api.adapter.ctx[Symbols.promise].get(this.id) ?? []),
+        (message: Message) => resolve(message === (options?.sure ?? 'corei18n.template.confirm.sure'))
+      ])
+      this.quick(options?.message ?? 'corei18n.template.confirm').then(() => {})
     }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<boolean>
   }
 

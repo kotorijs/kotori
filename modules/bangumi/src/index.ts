@@ -1,16 +1,19 @@
 import { type Context, Tsu, Messages } from 'kotori-bot'
 import http from './http'
 
-const bgm1Schema = Tsu.Object({
-  results: Tsu.Number().optional(),
-  list: Tsu.Array(
-    Tsu.Object({
-      id: Tsu.Number(),
-      name: Tsu.String(),
-      name_cn: Tsu.String()
-    })
-  )
-})
+const bgm1Schema = Tsu.Union(
+  Tsu.Object({
+    results: Tsu.Number().optional(),
+    list: Tsu.Array(
+      Tsu.Object({
+        id: Tsu.Number(),
+        name: Tsu.String(),
+        name_cn: Tsu.String()
+      })
+    )
+  }),
+  Tsu.Object({ code: Tsu.Number() })
+)
 
 const bgm2Schema = Tsu.Union(
   Tsu.Object({
@@ -66,14 +69,14 @@ export function main(ctx: Context) {
       const order = data.options.order ?? 1
       const res =
         ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(name) ?? bgm1Schema.parse(await http(`search/subject/${name}`))
-      if (!res || !Array.isArray(res.list)) return session.format('bangumi.msg.bgm.fail', [name])
+      if (!res || 'code' in res || !Array.isArray(res.list)) return session.format('bangumi.msg.bgm.fail', [name])
       ctx.cache.set(name, res)
 
       if (order === 0) {
         let list = ''
         for (let init = 0; init < (res.list.length > MAX_LIST ? MAX_LIST : res.list.length); init += 1) {
           const result = res.list[init]
-          list += session.format('bangumi.msg.bgm.list', [init + 1, result.name, result.name_cn])
+          list += session.format('bangumi.msg.bgm.list', [init + 1, result?.name, result?.name_cn])
         }
         return list
       }

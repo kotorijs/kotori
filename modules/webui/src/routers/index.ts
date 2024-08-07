@@ -13,14 +13,11 @@ export default (ctx: Context, app: Context['server']) => {
     res.header('Content-Type', 'application/json;charset=utf-8')
 
     if (req.method === 'OPTIONS') return res.sendStatus(200)
-    ctx.logger.label(req.method).trace(req.path)
+    ctx.logger.label(req.method).debug(req.path)
 
     if (!RouterConfig.find((item) => item.path === req.path || req.path.startsWith(item.path)))
       return res.sendStatus(404)
-    if (
-      NO_VERIFY.filter((item) => req.path.startsWith(item)).length > 0 ||
-      ctx.webui.checkToken(req.headers.authorization)
-    ) {
+    if (NO_VERIFY.some((item) => req.path.startsWith(item)) || ctx.webui.checkToken(req.headers.authorization)) {
       return next()
     }
     return res.sendStatus(401)

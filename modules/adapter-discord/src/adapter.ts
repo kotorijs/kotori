@@ -34,7 +34,7 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
   public handle() {}
 
   public async start() {
-    this.client.on('ready', () =>
+    this.client.on('ready', () => {
       this.ctx.emit('connect', {
         type: 'connect',
         mode: 'other',
@@ -42,7 +42,8 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
         normal: true,
         address: 'discord.js'
       })
-    )
+      this.online()
+    })
     this.client.on('error', (error) => this.ctx.emit('error', KotoriError.from(error, this.ctx.identity?.toString())))
     this.client.on('messageCreate', async (message) => {
       this.session('on_message', {
@@ -83,6 +84,7 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
       normal: true,
       address: 'discord.js'
     })
+    this.offline()
   }
 
   public send() {}

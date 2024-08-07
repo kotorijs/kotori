@@ -45,7 +45,7 @@ export class Message {
 
   public readonly [Symbols.filter]: Map<string, Filter> = new Map()
 
-  public readonly [Symbols.promise]: Set<string> = new Set()
+  public readonly [Symbols.promise]: Map<string, ((value: SessionMsg['message']) => void)[]> = new Map()
 
   private handleMidware(session: SessionMsg) {
     const { api } = session
@@ -120,7 +120,7 @@ export class Message {
       if (result instanceof CommandError) continue
 
       try {
-        const executed = cmd.meta.action({ args: result.args, options: result.options }, session)
+        const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
         if (executed instanceof CommandError) {
           this.ctx.emit('command', { command: cmd, result: executed, ...params })
           continue
@@ -204,10 +204,14 @@ export class Message {
     })
 
     this.midware((next, session) => {
-      //  Throttle valve for `session.prompt()` and ``session.confirm()`
-      if (session.id in this[Symbols.promise]) return
+      const resolves = this[Symbols.promise].get(session.id)
+      if (resolves) {
+        for (const resolve of resolves) resolve(session.message)
+        return
+      }
+
       next()
-    })
+    }, 10)
 
     Decorators.setup(this.ctx)
   }

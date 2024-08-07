@@ -1,8 +1,8 @@
 {
   "adapter_mail.descr.mail": "通过目标邮箱发送邮件",
-  "adapter_mail.msg.mail.input_target": "请输入接收邮箱",
-  "adapter_mail.msg.mail.input_title": "请输入邮件标题",
-  "adapter_mail.msg.mail.input_content": "请输入邮件内容",
+  "adapter_mail.msg.mail.input_target": "请输入接收邮箱：",
+  "adapter_mail.msg.mail.input_title": "请输入邮件标题：",
+  "adapter_mail.msg.mail.input_content": "请输入邮件内容：",
   "adapter_mail.msg.mail.sure": "标题：{0}\n内容：{1}\n-------------\n确定发送邮件至{2}？（输入\"1\"发送，其他键取消）",
   "adapter_mail.msg.mail.cancel": "成功取消发送",
   "adapter_mail.msg.mail.success": "成功发送邮件至{0}",

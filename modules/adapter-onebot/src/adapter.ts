@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-04 15:37:44
+ * @LastEditTime: 2024-08-07 19:07:03
  */
 import {
   Adapters,
@@ -74,6 +74,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     if (!this.isReverse) return
     this.connection = (ws) => {
       this.socket = ws
+      this.online()
     }
   }
 

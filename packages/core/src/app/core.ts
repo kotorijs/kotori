@@ -160,7 +160,7 @@ export class Core extends Context {
       Symbols.promise,
       Symbols.regexp
     ])
-    this.provide('http', new Http({ validateStatus: () => true }))
+    this.provide('http', new Http())
     this.inject('http')
     this.provide('i18n', new I18n({ lang: this.config.global.lang }))
     this.inject('i18n')

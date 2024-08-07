@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-06 20:03:24
+ * @LastEditTime: 2024-08-07 21:26:45
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -220,10 +220,10 @@ export const globalLoaderConfigSchema = Tsu.Object({
 
 export const adapterConfigSchemaFactory = (lang: Tsu.infer<typeof localeTypeSchema>, commandPrefix: string) =>
   Tsu.Object({
-    extends: Tsu.String(),
-    master: Tsu.Union(Tsu.Number(), Tsu.String()),
-    lang: localeTypeSchema.default(lang),
-    commandPrefix: Tsu.String().default(commandPrefix)
+    extends: Tsu.String().describe("Bot's adapter extends from which adapter"),
+    master: Tsu.Union(Tsu.Number(), Tsu.String()).describe("Bot's master id"),
+    lang: localeTypeSchema.default(lang).describe("Bot's language"),
+    commandPrefix: Tsu.String().default(commandPrefix).describe("Bot's command prefix")
   })
 
 export const modulePackageSchema = Tsu.Object({
@@ -300,6 +300,10 @@ export class Loader extends Core {
     this.service('server', new Server(this.extends('server'), { port: this.config.global.port }))
     this.service('file', new File(this.extends('file')))
     this.service('db', new Database(this.extends('database'), { prefix: this.config.global.dbPrefix }))
+    this.http.response(undefined, (err) => {
+      if ('logger' in this) this.logger.label('http').error(err instanceof Error ? err.message : err)
+      // return Promise.reject(err)
+    })
     this.i18n.use(path.resolve(__dirname, '../../locales'))
   }
 
@@ -427,7 +431,7 @@ export class Loader extends Core {
 
     const [pkgScope, pkgName] = pkg.name.split('/')
     const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).replace(PLUGIN_PREFIX, '')}`
-    this[Symbols.modules].set(pkg.name, [{ pkg, files, main }, this.config.plugin[pluginName] || {}])
+    this[Symbols.modules].set(pkg.name, [{ pkg, files, main }, this.config.plugin[pluginName] ?? {}])
   }
 
   private loadEx(instance: ModuleMeta, origin: ModuleConfig) {
