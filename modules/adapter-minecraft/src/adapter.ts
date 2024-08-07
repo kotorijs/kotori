@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-04 18:59:38
+ * @LastEditTime: 2024-08-07 19:07:55
  */
 import { type AdapterConfig, Adapters, type Context, MessageScope, Tsu, stringTemp, KotoriError } from 'kotori-bot'
 import Mcwss from 'mcwss'

@@ -1,8 +1,8 @@
 {
   "adapter_mail.descr.mail": "指定メールアドレスにメールを送信",
-  "adapter_mail.msg.mail.input_target": "受信メールアドレスを入力してください",
-  "adapter_mail.msg.mail.input_title": "メールの件名を入力してください",
-  "adapter_mail.msg.mail.input_content": "メールの内容を入力してください",
+  "adapter_mail.msg.mail.input_target": "受信メールアドレスを入力してください：",
+  "adapter_mail.msg.mail.input_title": "メールの件名を入力してください：",
+  "adapter_mail.msg.mail.input_content": "メールの内容を入力してください：",
   "adapter_mail.msg.mail.sure": "件名：{0}\n内容：{1}\n-------------\n{2}にメールを送信しますか？（「1」で送信、他のキーでキャンセル）",
   "adapter_mail.msg.mail.cancel": "送信をキャンセルしました",
   "adapter_mail.msg.mail.success": "{0}へのメール送信に成功しました",

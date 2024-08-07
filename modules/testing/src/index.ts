@@ -1,4 +1,4 @@
-import { Tsu, type CommandAction, plugins, type Session, KotoriPlugin, type SessionMsg, UserAccess } from 'kotori-bot'
+import { Tsu, type CommandAction, plugins, type Session, KotoriPlugin, UserAccess } from 'kotori-bot'
 
 const plugin = plugins([__dirname, '../'])
 
@@ -11,21 +11,8 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
     config3: Tsu.Union(Tsu.Literal('on'), Tsu.Literal('off')).optional()
   })
 
-  @plugin.inject
-  public static inject = ['database']
-
   @plugin.on({ type: 'ready' })
   public async onReady() {}
-
-  @plugin.midware({ priority: 1 })
-  public static midware(next: () => void, session: SessionMsg) {
-    const s = session
-    if (s.message.startsWith('说')) {
-      s.message = `${s.api.adapter.config.commandPrefix}echo ${s.message.split('说 ')[1]}`
-    }
-    // s.send('<red>hhaha, I rejected all message event, you cant continue running!</rea>')
-    next()
-  }
 
   @plugin.command({ template: 'echo <...content>' })
   public echo(data: Parameters<CommandAction>[0], session: Session) {
@@ -41,7 +28,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
     try {
       // biome-ignore lint:
       const result = eval(code)
-      return session.format('eval result:~\n{0}', [result])
+      return session.json(result)
     } catch (error) {
       return session.format('eval error:~\n{0}', [error instanceof Error ? error.message : String(error)])
     }

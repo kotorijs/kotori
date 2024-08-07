@@ -17,7 +17,7 @@ import * as imap from 'imap-simple'
 import { simpleParser } from 'mailparser'
 
 export const config = Tsu.Object({
-  title: Tsu.String().domain().default('Love from kotori bot mailer').describe('Mail default title'),
+  title: Tsu.String().default('Love from kotori bot mailer').describe('Mail default title'),
   commandEnable: Tsu.Boolean()
     .default(true)
     .describe("Whether to enable command, other bot's master can send mail by the command, please set at top mail bot"),
@@ -156,6 +156,7 @@ export class MailAdapter extends Adapter<MailApi, MailConfig, MailElements> {
         normal: true,
         address: `imap://${this.config.imapHost}:${this.config.imapPort}`
       })
+      this.online()
       await sleep(10 * 1000)
       this.timerId = setInterval(() => this.handle(), this.config.interval * 1000)
     } catch (error) {

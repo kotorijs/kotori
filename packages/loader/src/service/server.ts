@@ -81,31 +81,32 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
     this.server = createServer(this.app)
     this.wsServer = new Ws.Server({ server: this.server })
     this.wsServer.on('connection', (ws, req) => {
-      ws.on('open', () => {
-        let triggered = false
-        for (const [template, list] of this.wsRoutes.entries()) {
-          if (!req.url) continue
-          const result = match(template, { decode: decodeURIComponent })(req.url)
-          if (!result) continue
-          triggered = true
+      let triggered = false
+      for (const [template, list] of this.wsRoutes.entries()) {
+        if (!req.url) continue
+        const result = match(template, { decode: decodeURIComponent })(req.url)
+        if (!result) continue
+        triggered = true
 
-          for (const callback of list) {
-            callback(ws, Object.assign(req, { params: result.params as Record<string, string> }))
-          }
+        for (const callback of list) {
+          callback(ws, Object.assign(req, { params: result.params as Record<string, string> }))
         }
-        if (triggered) return
+      }
+      if (!triggered) {
         ws.close(1003)
         req.destroy()
-      })
-      ws.on('message', (mes) => {
-        mes.toString()
-      })
+        return
+      }
+
+      // ws.on('message', (mes) => {
+      //   mes.toString()
+      // })
       ws.on('error', (error) => {
         ctx.emit('error', new KotoriError(`WebSocket client error: ${error.message}`, 'server'))
       })
-      ws.on('close', (code, reason) => {
-        ctx.emit('error', new KotoriError(`WebSocket connection closed: ${code} - ${reason}`, 'server'))
-      })
+      // ws.on('close', (code, reason) => {
+      //   ctx.emit('error', new KotoriError(`WebSocket connection closed: ${code} - ${reason}`, 'server'))
+      // })
     })
     this.wsServer.on('error', (error) => {
       ctx.emit('error', new KotoriError(`WebSocket server error: ${error.message}`, 'server'))

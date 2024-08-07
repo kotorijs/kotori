@@ -81,10 +81,12 @@ export class TelegramAdapter extends Adapter<TelegramApi, TelegramConfig, Telegr
       normal: true,
       address: 'node-telegram-bot-api'
     })
+    this.online()
   }
 
   public stop() {
     this.bot?.close()
+    this.offline()
   }
 
   public send() {}

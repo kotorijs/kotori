@@ -16,7 +16,7 @@ export const config = Tsu.Object({
 
 ### Events
 
-- on_message (exclude `MessageScope.PRIVATE`)
+- on_message
 
 ### Api
 

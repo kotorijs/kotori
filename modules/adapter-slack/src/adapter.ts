@@ -87,6 +87,7 @@ export class SlackAdapter extends Adapter<SlackApi, SlackConfig, SlackElements> 
       normal: true,
       address: '@slack/bolt'
     })
+    this.online()
   }
 
   public stop() {
@@ -98,6 +99,7 @@ export class SlackAdapter extends Adapter<SlackApi, SlackConfig, SlackElements> 
       normal: true,
       address: '@slack/bolt'
     })
+    this.offline()
   }
 
   public send() {}

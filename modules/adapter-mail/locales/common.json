@@ -1,8 +1,8 @@
 {
   "adapter_mail.descr.mail": "Send mail by target email",
-  "adapter_mail.msg.mail.input_target": "Please input received email",
-  "adapter_mail.msg.mail.input_title": "Please input mail title",
-  "adapter_mail.msg.mail.input_content": "Please input mail content",
+  "adapter_mail.msg.mail.input_target": "Please input received email:",
+  "adapter_mail.msg.mail.input_title": "Please input mail title:",
+  "adapter_mail.msg.mail.input_content": "Please input mail content:",
   "adapter_mail.msg.mail.sure": "Title: {0}\nContent: {1}\n-------------\nMak sure to send mail to {2}? (Input \"1\" to send, any other key to cancel)",
   "adapter_mail.msg.mail.cancel": "Cancel successfully to send",
   "adapter_mail.msg.mail.success": "Succeeded in sending mail to {0}",

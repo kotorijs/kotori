@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-05 16:27:49
+ * @LastEditTime: 2024-08-07 14:45:14
  */
 import { type AdapterConfig, type Context, Tsu, Adapters } from 'kotori-bot'
 import SandboxApi from './api'
@@ -57,6 +57,8 @@ export class SandboxAdapter extends Adapters.WebSocket<SandboxApi, SandboxConfig
   public start() {
     this.connection = (ws) => {
       this.wsSend = ws.send.bind(ws)
+      this.online()
+      ws.on('close', () => this.offline())
     }
   }
 

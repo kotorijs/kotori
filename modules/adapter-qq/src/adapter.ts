@@ -55,8 +55,8 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
       headers: {
         Authorization: `QQBot ${this.token}`,
         'X-Union-Appid': this.config.appid
-      },
-      validateStatus: () => true
+      }
+      // validateStatus: () => true
     })
   }
 
@@ -66,7 +66,7 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
         op: 2,
         d: {
           token: `QQBot ${this.token}`,
-          intents: 1241513984,
+          intents: 0 | (1 << 12) | (1 << 25) | (1 << 30),
           shard: [0, 1]
         }
       })
@@ -95,11 +95,39 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
       })
       this.msgIdList.set(data.d.group_openid, data.d.id)
     } else if (data.t === 'DIRECT_MESSAGE_CREATE') {
+      const id = `channel-${data.d.author.id}`
+      this.session('on_message', {
+        type: MessageScope.PRIVATE,
+        userId: id,
+        messageId: data.d.id,
+        message: data.d.content.replace(/<@(.*?)>( )?/, '').trim(),
+        messageAlt: data.d.content.trim(),
+        time: new Date(data.d.timestamp).getTime(),
+        sender: {
+          nickname: ''
+        }
+      })
+      this.msgIdList.set(id, data.d.id)
+    } else if (data.t === 'C2C_MESSAGE_CREATE') {
+      this.session('on_message', {
+        type: MessageScope.PRIVATE,
+        userId: data.d.author.user_openid,
+        messageId: data.d.id,
+        message: data.d.content.replace(/<@(.*?)>( )?/, '').trim(),
+
+        messageAlt: data.d.content.trim(),
+        time: new Date(data.d.timestamp).getTime(),
+        sender: {
+          nickname: ''
+        }
+      })
+      this.msgIdList.set(data.d.author.user_openid, data.d.id)
+    } else if (data.t === 'AT_MESSAGE_CREATE') {
       this.session('on_message', {
         type: MessageScope.CHANNEL,
         userId: data.d.author.id,
         messageId: data.d.id,
-        message: data.d.content.trim(),
+        message: data.d.content.replace(/<@(.*?)>( )?/, '').trim(),
         messageAlt: data.d.content.trim(),
         channelId: data.d.channel_id,
         guildId: data.d.guild_id,
@@ -142,26 +170,32 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
     if (!params) return
     if (action === 'sendGroupMsg') {
       const { groupId, message, media: mediaRaw } = params as ParamsMapping['sendGroupMsg'][0]
-      let media: string[] = []
-      if (mediaRaw.length > 0) {
-        media = await Promise.all(
-          mediaRaw.map(
-            async ({ type, value }) =>
-              (
-                (await this.req(`groups/${groupId}/files`, { file_type: type, url: value, srv_send_msg: false })) as {
-                  file_info: string
-                }
-              ).file_info
-          )
-        )
-      }
+      // let media: string[] = []
+      // if (mediaRaw.length > 0) {
+      //   media = await Promise.all(
+      //     mediaRaw.map(
+      //       async ({ type, value }) =>
+      //         (
+      //           (await this.req(`groups/${groupId}/files`, { file_type: type, url: value, srv_send_msg: false })) as {
+      //             file_info: string
+      //           }
+      //         ).file_info
+      //     )
+      //   )
+      // }
+      const media = mediaRaw.length > 0 ? mediaRaw[mediaRaw.length - 1] : undefined
 
-      return this.req(`groups/${groupId}/messages`, {
+      const params2 = {
         content: filterLinks(message),
-        msg_type: media.length > 0 ? 7 : 0,
+        msg_type: media ? 7 : 0,
         msg_id: this.msgIdList.get(groupId) ?? null,
-        msg_seq: this.getMsgSeq()
-      })
+        msg_seq: this.getMsgSeq(),
+        media: media
+          ? await this.req(`groups/${groupId}/files`, { file_type: media.type, url: media.value, srv_send_msg: false })
+          : null
+      }
+      const res = await this.req(`groups/${groupId}/messages`, params2)
+      return res
     }
     if (action === 'sendChannelMsg') {
       const { guildId, channelId, content, image } = params as ParamsMapping['sendChannelMsg'][0]
@@ -171,6 +205,8 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
         image
       })
     }
+    // TODO: supports private
+
     return
   }
 
@@ -178,25 +214,26 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
 
   private async connect() {
     this.socket = new WebSocket(WS_ADDRESS)
-    this.socket.on('close', () => {
-      this.ctx.emit('connect', {
-        type: 'disconnect',
-        adapter: this,
-        normal: false,
-        address: WS_ADDRESS,
-        mode: 'ws'
-      })
+    this.socket.on('close', (code) => {
+      this.ctx.logger.debug(code)
+      // this.ctx.emit('connect', {
+      //   type: 'disconnect',
+      //   adapter: this,
+      //   normal: false,
+      //   address: WS_ADDRESS,
+      //   mode: 'ws'
+      // })
       clearTimeout(this.heartbeatTimerId)
       setTimeout(() => {
         if (!this.socket) return
         this.socket.close()
-        this.ctx.emit('connect', {
-          type: 'connect',
-          adapter: this,
-          normal: false,
-          mode: 'ws',
-          address: WS_ADDRESS
-        })
+        // this.ctx.emit('connect', {
+        //   type: 'connect',
+        //   adapter: this,
+        //   normal: false,
+        //   mode: 'ws',
+        //   address: WS_ADDRESS
+        // })
         this.start()
       }, this.config.retry * 1000)
     })

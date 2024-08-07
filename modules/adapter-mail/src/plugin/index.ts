@@ -33,7 +33,7 @@ export function main(ctx: Context, config: { forward: string[]; enable: boolean 
         ])
       }
 
-      const instance = instances.find((instance) => instance.config.user === email)
+      const instance = instances.find((instance) => instance.config.user === email || instance.identity === email)
       if (!instance) return session.format('adapter_mail.msg.mail.fail.2', [email])
 
       const target = await session.prompt(ctx.i18n.t`adapter_mail.msg.mail.input_target`)

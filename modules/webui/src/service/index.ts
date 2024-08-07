@@ -34,9 +34,7 @@ function getToday() {
 }
 
 export const config = Tsu.Object({
-  interval: Tsu.Number()
-    .range(60 * 1, 60 * 60 * 12)
-    .default(60 * 5)
+  interval: Tsu.Number().positive().default(5).describe('Status stat sent interval')
 })
 
 export class Webui extends Service<Tsu.infer<typeof config>> {
@@ -156,6 +154,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     const list = this.ctx.cache.get<string[]>('tokens') ?? []
     const token = generateToken()
     list.push(token)
+    this.ctx.cache.set('tokens', list)
     return token
   }
 
@@ -247,7 +246,6 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     return {
       ...getStatusStats(),
       mode: this.ctx.options.mode,
-      // TODO: add more version info
       main: this.ctx.meta.version,
       core: this.ctx.meta.coreVersion,
       loader: this.ctx.meta.loaderVersion
@@ -303,17 +301,14 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
   }
 
   public configPluginsGet(scope?: string, name?: string) {
-    const pluginsConfig = Object.entries(this.ctx.config.plugin).map(([name, origin]) => ({
+    const pluginsConfig = Array.from(this.ctx[Symbols.modules].entries()).map(([name, [, , schema]]) => ({
       name,
-      origin,
-      schema: Tsu.Intersection(
-        Tsu.Object({ filter: filterOptionSchema }),
-        this.ctx[Symbols.modules].get(name)?.[2] ?? Tsu.Object({})
-      ).schema()
+      origin: this.ctx.config.plugin[handlePluginName(name.split('/')[0], name.split('/')[1])],
+      schema: Tsu.Intersection(filterOptionSchema, schema ?? Tsu.Object()).schema()
     }))
 
     if (!scope) return pluginsConfig
-    const pluginName = handlePluginName(scope, name)
+    const pluginName = name ? `${scope}/${name}` : scope
     return pluginsConfig.find(({ name }) => pluginName === name)
   }
 
@@ -333,7 +328,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
       origin,
       schema: Tsu.Intersection(
         adapterConfigSchemaFactory(this.ctx.config.global.lang, this.ctx.config.global.commandPrefix),
-        this.ctx[Symbols.adapter].get(id)?.[1] ?? Tsu.Object({})
+        this.ctx[Symbols.adapter].get(origin.extends)?.[1] ?? Tsu.Object({})
       ).schema()
     }))
     if (!name) return botsConfig
@@ -367,9 +362,13 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
   public async configCommandsUpdate(data: object, name: string) {
     const commandSettings = await this.ctx.db.get<CommandSettings>('command_settings')
     const setting = commandSettings[name]
-    if (!setting) return false
+    const command = Array.from(this.ctx[Symbols.command]).find((target) => target.meta.root === name)
+    if (!setting || !command) return false
     for (const key in data) {
-      if (key in setting) setting[key as keyof typeof setting] = data[key as keyof typeof data]
+      if (key in setting) {
+        setting[key as keyof typeof setting] = data[key as keyof typeof data]
+        command.meta[key as keyof typeof command.meta] = data[key as keyof typeof data]
+      }
     }
     await this.ctx.db.put('command_settings', commandSettings)
     return true

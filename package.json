@@ -41,7 +41,7 @@
   },
   "nodemonConfig": {
     "exec": "pnpm dev:only",
-    "ext": "ts,toml",
+    "ext": "ts",
     "ignore": ["dist", "lib", "data", "log", "tsup.config.ts", "scripts", "tests", "*.test.ts"]
   }
 }

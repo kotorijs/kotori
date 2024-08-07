@@ -249,7 +249,7 @@ interface DIRECT_MESSAGE_CREATE {
   }
 }
 
-type AT_MESSAGE_CREATE = Message
+type AT_MESSAGE_CREATE = DIRECT_MESSAGE_CREATE
 type MESSAGE_CREATE = Message
 
 interface GUILD_CREATE {

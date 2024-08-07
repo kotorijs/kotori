@@ -24,7 +24,7 @@ export class QQElements extends Elements {
     if (!Object.keys(mapping).includes(message.data.type)) return ''
     const meta = {
       type: mapping[message.data.type as 'image'],
-      value: (message.data as unknown as { value: string }).value
+      value: (message.data as unknown as { content: string }).content
     }
     if (!list) {
       Reflect.defineMetadata(MEDIA_KEY, [meta], message)
