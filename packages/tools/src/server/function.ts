@@ -81,8 +81,12 @@ export function supportTs() {
  */
 export function executeCommand(
   command: string,
-  options: ExecOptions,
-  callback: (error?: ExecException | null, stdout?: string, stderr?: string) => void
+  options: ExecOptions = { cwd: process.cwd() },
+  callback: (error?: ExecException | null, stdout?: string, stderr?: string) => void = (err, stdout, stderr) => {
+    if (err) console.error(err)
+    if (stdout) process.stdout.write(stdout)
+    if (stderr) process.stderr.write(stderr)
+  }
 ) {
   const child = exec(command, options, (error) => callback(error))
   if (child.stdout) child.stdout.on('data', (data) => callback(undefined, data))

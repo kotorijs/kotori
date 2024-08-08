@@ -15,7 +15,7 @@ import type { Api } from './api'
 import type { Elements } from './elements'
 import type { I18n } from '@kotori-bot/i18n'
 import { Symbols } from '../global'
-import { MessageList, MessageSingle } from './messages'
+import { MessageList } from './messages'
 
 class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
   /**
@@ -89,11 +89,11 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
       this.send(msg)
       return
     }
-    if (typeof msg === 'string' || msg instanceof MessageSingle || msg instanceof MessageList) {
-      this.send(typeof msg === 'string' ? this.i18n.locale(msg) : msg)
+    if (Array.isArray(msg)) {
+      this.send(this.format(msg[0], msg[1] as Parameters<this['format']>[1]))
       return
     }
-    this.send(this.format(msg[0], msg[1] as Parameters<this['format']>[1]))
+    this.send(typeof msg === 'string' ? this.i18n.locale(msg) : msg)
   }
 
   /**
@@ -161,6 +161,8 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
   public error<K extends keyof CommandResult>(type: K, data?: CommandResult[K]) {
     return new CommandError(Object.assign(data ?? {}, { type }) as ConstructorParameters<typeof CommandError>[0])
   }
+
+  public readonly t: I18n['t']
 
   /**
    * Session type
@@ -255,6 +257,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
         break
     }
     this.format = formatFactory(this.i18n)
+    this.t = this.i18n.t.bind(this.i18n)
   }
 }
 

@@ -98,7 +98,8 @@ export class Decorators {
       childCtx.midware(bound(fn, isStatic), options.priority)
     }
     for (const [fn, options, isStatic] of meta.commands) {
-      childCtx.command(options.template, { ...options, action: bound(fn, isStatic) })
+      const cmd = childCtx.command(options.template, { ...options, action: bound(fn, isStatic) })
+      for (const option of JSON.parse(JSON.stringify(options.options ?? []))) cmd.option(option[0], option[1])
     }
     for (const [fn, options, isStatic] of meta.regexps) {
       childCtx.regexp(options.match, bound(fn, isStatic))

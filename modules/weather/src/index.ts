@@ -24,7 +24,7 @@ export const inject = ['cache']
 export function main(ctx: Context) {
   ctx
     .command('weather <area> - weather.descr.weather')
-    .option('L', 'limit:number - weather.option.weather.limit')
+    .option('L', 'limit:number weather.option.weather.limit')
     .action(async ({ args: [area], options: { limit } }, session) => {
       if (limit && (limit > 6 || limit < 1)) throw session.error('num_error')
 

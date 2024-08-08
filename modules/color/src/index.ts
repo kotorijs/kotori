@@ -10,7 +10,7 @@ export class ColorPlugin extends KotoriPlugin {
 
   @plugin.command({
     template: 'color [value] - color.descr.color',
-    options: [['H', 'help:boolean - color.option.color']]
+    options: [['H', 'help:boolean color.option.color']]
   })
   public color({ args: [color], options: { help } }: { args: [string]; options: { help: boolean } }, session: Session) {
     if (help) return session.format('color.msg.help', [session.api.adapter.config.commandPrefix])

@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-07 21:26:45
+ * @LastEditTime: 2024-08-08 11:50:53
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -60,7 +60,7 @@ interface Options {
   isDaemon: boolean
 }
 
-interface ModulePackage {
+export interface ModulePackage {
   name: string
   version: string
   description: string
@@ -80,7 +80,7 @@ interface ModulePackage {
   }
 }
 
-interface ModuleMeta {
+export interface ModuleMeta {
   pkg: ModulePackage
   files: string[]
   main: string

@@ -19,7 +19,7 @@ export default (ctx: Context) => {
     .scope(MessageScope.PRIVATE)
     .access(UserAccess.ADMIN)
     .hide()
-    .option('R', 'reset:boolean - webui.option.webui')
+    .option('R', 'reset:boolean webui.option.webui')
     .action(async ({ options: { reset } }, session) => {
       if (reset) {
         ctx.db.put<AccountData>('account_data', { hash: '', salt: '' })
