@@ -13,8 +13,21 @@
     "kotori": "./bin.js",
     "kotori-bot": "./bin.js"
   },
-  "keywords": ["kotori", "chatbot", "bot", "nodejs", "back-end"],
-  "files": ["lib", "kotori.yml", "bin.js", "LICENSE", "README.md", "tsconfig.base.json"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "bot",
+    "nodejs",
+    "back-end"
+  ],
+  "files": [
+    "lib",
+    "kotori.yml",
+    "bin.js",
+    "LICENSE",
+    "README.md",
+    "tsconfig.base.json"
+  ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },
@@ -24,6 +37,7 @@
   },
   "homepage": "https://kotori.js.org",
   "dependencies": {
+    "@inquirer/prompts": "^5.3.8",
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/loader": "workspace:^",
     "cac": "^6.7.14",

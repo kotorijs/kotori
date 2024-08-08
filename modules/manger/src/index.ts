@@ -82,7 +82,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
 
   ctx
     .command('black query - manger.descr.black.query')
-    .option('g', 'global:boolean - manger.option.black.global')
+    .option('g', 'global:boolean manger.option.black.global')
     .scope(MessageScope.GROUP)
     .access(UserAccess.MANGER)
     .action((data, session) => {
@@ -97,7 +97,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
 
   ctx
     .command('black add <userId> - manger.descr.black.add')
-    .option('g', 'global:boolean - manger.option.black.global')
+    .option('g', 'global:boolean manger.option.black.global')
     .scope(MessageScope.GROUP)
     .access(UserAccess.MANGER)
     .action((data, session) => {
@@ -115,7 +115,7 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
 
   ctx
     .command('black del <userId> - manger.descr.black.del')
-    .option('g', 'global:boolean - manger.option.black.global')
+    .option('g', 'global:boolean manger.option.black.global')
     .scope(MessageScope.GROUP)
     .access(UserAccess.MANGER)
     .action((data, session) => {

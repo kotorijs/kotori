@@ -1,7 +1,7 @@
 {
-  "name": "kotori-plugin-nmsl",
-  "version": "2.1.1",
-  "description": "孙笑川在线帮你翻译成抽象话",
+  "name": "kotori-plugin-random",
+  "version": "1.0.0",
+  "description": "math calc, random, rolling dice and throwing a coin!",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],
   "license": "GPL-3.0",
@@ -10,9 +10,8 @@
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
-  "kotori": {
-    "meta": {
-      "language": ["zh_CN"]
-    }
+  "dependencies": {
+    "@dice-roller/rpg-dice-roller": "^5.5.0",
+    "math-expression-evaluator": "^2.0.5"
   }
 }

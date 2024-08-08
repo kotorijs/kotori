@@ -26,15 +26,13 @@ class JsBox {
     }
   }
 
-  public async run() {
-    return new Promise<string>((resolve) => {
-      try {
-        vm.runInNewContext(this.code, this.method)
-      } catch (error) {
-        this.method.console.error(String(error))
-      }
-      resolve(this.box.result)
-    })
+  public run(timeout = 5000) {
+    try {
+      vm.runInNewContext(this.code, this.method, { timeout, displayErrors: true })
+    } catch {
+      return false
+    }
+    return this.box.result
   }
 }
 

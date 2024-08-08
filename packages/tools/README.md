@@ -3,6 +3,7 @@
 - Http
 - Colors
 - functions
+- Random
 
 ## Reference
 

@@ -84,7 +84,8 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
           ;(adapter as { status: object }).status = {
             ...botStats[identity],
             createTime: new Date(botStats[identity].createTime),
-            lastMsgTime: botStats[identity].lastMsgTime ? new Date(botStats[identity].lastMsgTime as number) : null
+            lastMsgTime: botStats[identity].lastMsgTime ? new Date(botStats[identity].lastMsgTime as number) : null,
+            value: adapter.status.value
           }
         } else {
           botStats[identity] = {

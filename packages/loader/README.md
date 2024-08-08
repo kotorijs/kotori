@@ -1,26 +1,13 @@
-# @kotori-bot/core
+# @kotori-bot/loader
 
-```typescript
-interface Context {
-  readonly baseDir: Runner['baseDir'];
-  readonly options: Runner['options'];
-  readonly [Symbols.modules]: Runner[typeof Symbols.modules];
-  loadAll(): void;
-  watcher(): void;
-  logger: Logger;
-  /* Service */
-  server: Server;
-  db: Database;
-  file: File;
-}
-```
+It packed the `@kotori-bot/core` library, and provide logger, server routes, websocket connections, database supports and fully auto plugins loader!
 
 - Loader
-- Runner
-- Server
-- Database
+- Server (base on express.js)
+- Adapters (packed `@kotori-bot/core`'s Adapter, and provide websocket-reverse supports)
+- Database (base on level-db)
 - File
-- log
+- logger (from `@kotori-bot/logger`)
 
 ## Reference
 

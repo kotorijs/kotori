@@ -14,30 +14,14 @@ export function main(ctx: Context, config: Config) {
   ctx.command('runjs - runcode.descr.runjs').action(async (_, session) => {
     const code = await session.prompt('runcode.msg.runjs.prompt')
     const box = new JsBox(code.toString())
-    try {
-      const timer = setTimeout(() => {
-        throw new Error()
-      }, config.timeout)
-      const result = await box.run()
-      clearTimeout(timer)
-      return session.format('runcode.msg.runjs.info', [result])
-    } catch {
-      return 'runcode.msg.runjs.timeout'
-    }
+    const result = box.run(config.timeout)
+    return result === false ? 'runcode.msg.runjs.timeout' : session.format('runcode.msg.runjs.info', [result])
   })
 
   ctx.command('runlua - runcode.descr.runlua').action(async (_, session) => {
     const code = await session.prompt('runcode.msg.runlua.prompt')
     const box = new LuaBox(code.toString())
-    try {
-      const timer = setTimeout(() => {
-        throw new Error()
-      }, config.timeout)
-      const result = await box.run()
-      clearTimeout(timer)
-      return session.format('runcode.msg.runjs.info', [result])
-    } catch {
-      return 'runcode.msg.runjs.timeout'
-    }
+    const result = box.run()
+    return session.format('runcode.msg.runjs.info', [result])
   })
 }

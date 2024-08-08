@@ -2,6 +2,7 @@ import { type Context, Tsu, Messages } from 'kotori-bot'
 import http from './http'
 
 const bgm1Schema = Tsu.Union(
+  Tsu.Object({ code: Tsu.Number() }),
   Tsu.Object({
     results: Tsu.Number().optional(),
     list: Tsu.Array(
@@ -11,8 +12,7 @@ const bgm1Schema = Tsu.Union(
         name_cn: Tsu.String()
       })
     )
-  }),
-  Tsu.Object({ code: Tsu.Number() })
+  })
 )
 
 const bgm2Schema = Tsu.Union(

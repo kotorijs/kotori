@@ -5,6 +5,7 @@ import env from './utils/env'
 import { Container, executeCommand, supportTs, Symbols } from '@kotori-bot/core'
 import daemon from './daemon'
 import { version } from '../package.json'
+import { mainScope } from './gui'
 
 const program = cac()
 
@@ -63,23 +64,30 @@ program
     loader.run()
   })
 
+// program
+//   .command('ui')
+//   .option('-l, --lang', 'Set view language of ui')
+//   .action((options) => {
+//     //     ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗
+//     // ██║ ██╔╝██╔═══██╗╚══██╔══╝██╔═══██╗██╔══██╗██║
+//     // █████╔╝ ██║   ██║   ██║   ██║   ██║██████╔╝██║
+//     // ██╔═██╗ ██║   ██║   ██║   ██║   ██║██╔══██╗██║
+//     // ██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
+//     // ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
+//     // `
+//     // TODO: refer nonebot
+//     Logger.info('ui', options)
+//   })
+
 program
-  .command('ui')
-  .option('-l, --lang', 'Set view language of ui')
-  .action((options) => {
-    //     ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗
-    // ██║ ██╔╝██╔═══██╗╚══██╔══╝██╔═══██╗██╔══██╗██║
-    // █████╔╝ ██║   ██║   ██║   ██║   ██║██████╔╝██║
-    // ██╔═██╗ ██║   ██║   ██║   ██║   ██║██╔══██╗██║
-    // ██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
-    // ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
-    // `
-    // TODO: refer nonebot
-    Logger.info('ui', options)
+  .command('ui', 'Run the interactive GUI')
+  .alias('gui')
+  .action(() => {
+    mainScope()
   })
 
-program.command('module search <name>').action(() => Logger.info('module search'))
-program.command('module download <name>').action(() => Logger.info('module download'))
+// program.command('module search <name>').action(() => Logger.info('module search'))
+// program.command('module download <name>').action(() => Logger.info('module download'))
 
 program.on('command:*', () => {
   Logger.error('Invalid command: %s', program.args.join(' '))

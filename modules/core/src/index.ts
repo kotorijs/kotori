@@ -195,7 +195,7 @@ export function main(ctx: Context) {
 
   ctx
     .command('locale <lang> - core.descr.locale')
-    .option('G', 'global:boolean - core.option.locale.global')
+    .option('G', 'global:boolean core.option.locale.global')
     .action(({ args: [lang], options: { global } }, session) => {
       const { adapter } = session.api
       if (!['en_US', 'ja_JP', 'zh_CN', 'zh_TW'].includes(lang)) return 'core.msg.locale.invalid'

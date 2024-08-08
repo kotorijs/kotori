@@ -1,16 +1,22 @@
 # @kotori-bot/core
 
-- Context
+It's Kotori Bot's core library, and it only used ecmascript standard (less than es2021), so you can use it in any environment that supports ecmascript standard (Such as node.js, browser, web worker, quick.js and more...).
+
+## Features
+
 - Symbols
-- Service
-- Modules
 - Core
 - Config
 - Message
+- Command
+- Session
+- Messages
+- Decorators
 - Adapter
 - Api
 - Elements
-- Cache
+- i18n (from `@kotori-bot/i18n`)
+- http (from `@kotori-bot/tools`)
 
 ## Reference
 

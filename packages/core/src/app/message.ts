@@ -101,49 +101,44 @@ export class Message {
 
     if (!session.message.startsWith(prefix)) return
 
-    const params = {
-      session,
-      raw: session.message.slice(prefix.length)
-    }
+    const raw = session.message.slice(prefix.length)
+    if (!raw) return
 
     let matched: undefined | Command
     for (const cmd of this[Symbols.command]) {
       if (matched || !cmd.meta.action) continue
-      const result = Command.run(params.raw, cmd.meta)
+      const result = Command.run(raw, cmd.meta)
       // Command is not matched
       if (result instanceof CommandError && result.value.type === 'unknown') continue
 
       matched = cmd
       const cancel = cancelFactory()
-      this.ctx.emit('before_command', { command: cmd, result, ...params, cancel: cancel.get() })
+      this.ctx.emit('before_command', { command: cmd, result, raw, session, cancel: cancel.get() })
       if (cancel.value) continue
       if (result instanceof CommandError) continue
 
       try {
         const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
         if (executed instanceof CommandError) {
-          this.ctx.emit('command', { command: cmd, result: executed, ...params })
+          this.ctx.emit('command', { command: cmd, result: executed, raw, session })
           continue
         }
         if (executed !== undefined) session.quick(executed)
         this.ctx.emit('command', {
           command: cmd,
           result: executed instanceof CommandError ? result : executed,
-          ...params
+          raw,
+          session
         })
       } catch (error) {
-        this.ctx.emit('command', { command: matched, result: new CommandError({ type: 'error', error }), ...params })
+        this.ctx.emit('command', { command: matched, result: new CommandError({ type: 'error', error }), raw, session })
       }
     }
 
     if (matched) return
     // Command is all not matched
-    const result = new CommandError({ type: 'unknown', input: params.raw })
-    this.ctx.emit('command', {
-      command: new Command('' as string),
-      result,
-      ...params
-    })
+    const result = new CommandError({ type: 'unknown', input: raw })
+    this.ctx.emit('command', { command: new Command('' as string), result, raw, session })
   }
 
   private readonly ctx: Context
@@ -193,7 +188,11 @@ export class Message {
 
     this.ctx.on('before_command', (data) => {
       const { identity } = getCommandMeta(data.command) ?? {}
-      if (identity && !test(identity, data.session)) data.cancel()
+      if (identity && !test(identity, data.session)) {
+        data.cancel()
+        const result = new CommandError({ type: 'unknown', input: data.raw })
+        this.ctx.emit('command', { command: new Command('' as string), result, raw: data.raw, session: data.session })
+      }
     })
 
     this.ctx.on('before_regexp', (data) => {

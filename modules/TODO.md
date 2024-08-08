@@ -12,3 +12,4 @@
 - [ ] [twenty-four](https://github.com/Teahouse-Studios/akari-bot/blob/master/modules/twenty_four)
 - [ ] [emoji-mix](https://github.dev/Teahouse-Studios/akari-bot/blob/master/modules/emojimix)
 - [ ] [chemical-code](https://github.dev/Teahouse-Studios/akari-bot/modules/chemical_code)
+- [ ] [exchange-rate](https://github.dev/Teahouse-Studios/akari-bot/modules/exchange_rate)
