@@ -1,6 +1,5 @@
 import type { CoreConfig } from '../types'
 import { DEFAULT_CORE_CONFIG } from '../global'
-import pkg from '../../package.json'
 
 /** Meta information. */
 interface MetaInfo {
@@ -34,6 +33,16 @@ export class Config {
   public constructor(config: Omit<Partial<CoreConfig>, 'global'> & { global?: Partial<CoreConfig['global']> } = {}) {
     this.config = { ...DEFAULT_CORE_CONFIG, ...config } as CoreConfig
     this.config.global = { ...DEFAULT_CORE_CONFIG.global, ...this.config.global }
+    const pkg =
+      typeof require === 'function'
+        ? require('../../package.json')
+        : {
+            name: '@kotori-bot/core',
+            version: 'BROWSER',
+            description: '',
+            author: 'Arimura Sena <me@hotaru.icu>',
+            main: 'lib/index.js'
+          }
     this.meta = {
       name: pkg.name,
       description: pkg.description,

@@ -110,7 +110,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
             }
           }
           if (botStatsToday[identity] && isNumberProp) {
-            botStats[identity][prop as 'sentMsg'] += 1
+            botStatsToday[identity][prop as 'sentMsg'] += 1
           } else if (!botStatsToday[identity]) {
             botStatsToday[identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 0 }
           }

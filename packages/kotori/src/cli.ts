@@ -4,12 +4,11 @@ import { resolve } from 'node:path'
 import env from './utils/env'
 import { Container, executeCommand, supportTs, Symbols } from '@kotori-bot/core'
 import daemon from './daemon'
-import { version } from '../package.json'
 import { mainScope } from './gui'
 
 const program = cac()
 
-program.version(version, '-v, --version')
+program.version(require('../package.json'), '-v, --version')
 program.help()
 
 program

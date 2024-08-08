@@ -14,8 +14,5 @@
     "meta": {
       "language": ["en_US", "ja_JP", "zh_TW", "zh_CN"]
     }
-  },
-  "dependencies": {
-    "lua-in-js": "^2.2.4"
   }
 }

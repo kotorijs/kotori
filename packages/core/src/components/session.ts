@@ -89,11 +89,11 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
       this.send(msg)
       return
     }
-    if (Array.isArray(msg)) {
+    if (Array.isArray(msg) && !(msg instanceof MessageList) && msg.length === 2) {
       this.send(this.format(msg[0], msg[1] as Parameters<this['format']>[1]))
       return
     }
-    this.send(typeof msg === 'string' ? this.i18n.locale(msg) : msg)
+    this.send(typeof msg === 'string' ? this.i18n.locale(msg) : (msg as Message))
   }
 
   /**
