@@ -1,5 +1,4 @@
 import type { Tsu, Context } from 'kotori-bot'
-import pkg from '../package.json'
 import { resolve } from 'node:path'
 import { Webui, type config } from './service'
 import routers from './routers'
@@ -33,7 +32,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   // Register plugin
   ctx.load({
     // extends parent plugin's package name and share the same data files area
-    name: pkg.name,
+    name: require('../package.json').name,
     main: (subCtx) => {
       plugin(subCtx)
     }

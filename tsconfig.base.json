@@ -12,7 +12,7 @@
     "composite": true,
     "incremental": true,
     /* Custom */
-    "resolveJsonModule": true
+    "emitDeclarationOnly": true
   },
   /* Custom */
   "exclude": ["**/*/*.test.ts", "*.d.ts", "**/*/lib/*", "**/*/dist/*"]

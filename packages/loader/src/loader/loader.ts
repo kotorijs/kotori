@@ -46,7 +46,6 @@ import Server from '../service/server'
 import Database from '../service/database'
 import File from '../service/file'
 import KotoriLogger from '../utils/logger'
-import pkg from '../../package.json'
 
 interface BaseDir {
   root: string
@@ -277,7 +276,7 @@ export class Loader extends Core {
     this.baseDir = baseDir
     this.options = options
     this.isDev = options.mode === DEV_MODE
-    this.root.meta.loaderVersion = pkg.version
+    this.root.meta.loaderVersion = require('../../package.json').version
     this.provide(
       'logger',
       new KotoriLogger(

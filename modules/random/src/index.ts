@@ -1,12 +1,11 @@
 import { plugins, type Session, KotoriPlugin, Tsu, random } from 'kotori-bot'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
-import pkg from '../package.json'
 import Mexp from 'math-expression-evaluator'
 
-const plugin = plugins(pkg)
+const plugin = plugins(require('../package.json'))
 
 @plugin.import
-export class ColorPlugin extends KotoriPlugin<Tsu.infer<(typeof ColorPlugin)['schema']>> {
+export class RandomPlugin extends KotoriPlugin<Tsu.infer<(typeof RandomPlugin)['schema']>> {
   @plugin.lang
   public static lang = [__dirname, '../locales']
 

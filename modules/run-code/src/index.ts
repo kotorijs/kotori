@@ -1,6 +1,6 @@
 import { Tsu, type Context } from 'kotori-bot'
 import JsBox from './class/jsBox'
-import LuaBox from './class/luaBox'
+// import LuaBox from './class/luaBox'
 
 export const lang = [__dirname, '../locales']
 
@@ -18,10 +18,10 @@ export function main(ctx: Context, config: Config) {
     return result === false ? 'runcode.msg.runjs.timeout' : session.format('runcode.msg.runjs.info', [result])
   })
 
-  ctx.command('runlua - runcode.descr.runlua').action(async (_, session) => {
-    const code = await session.prompt('runcode.msg.runlua.prompt')
-    const box = new LuaBox(code.toString())
-    const result = box.run()
-    return session.format('runcode.msg.runjs.info', [result])
-  })
+  // ctx.command('runlua - runcode.descr.runlua').action(async (_, session) => {
+  //   const code = await session.prompt('runcode.msg.runlua.prompt')
+  //   const box = new LuaBox(code.toString())
+  //   const result = box.run()
+  //   return session.format('runcode.msg.runjs.info', [result])
+  // })
 }

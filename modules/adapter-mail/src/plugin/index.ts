@@ -1,9 +1,8 @@
 import { UserAccess, type Context, Symbols, Tsu } from 'kotori-bot'
 import type MailAdapter from '../adapter'
-import pkg from '../../package.json'
 import { resolve } from 'node:path'
 
-export const name = pkg.name
+export const name = require('../../package.json').name
 
 export function main(ctx: Context, config: { forward: string[]; enable: boolean }) {
   // const filter = new Filter({test: FilterTestList.PLATFORM, operator: '==', value: 'mail'})

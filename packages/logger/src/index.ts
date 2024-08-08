@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-25 11:48:12
+ * @LastEditTime: 2024-08-08 20:53:19
  */
 import type { LoggerFilter, LoggerOptions } from './types/internal'
 import { type LoggerData, LoggerLevel } from './types/common'
