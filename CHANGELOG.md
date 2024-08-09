@@ -1,4 +1,4 @@
-# [1.6.0](https://github.com/kotorijs/kotori/compare/v1.5.4...v1.6.0) (2024-08-09)
+## [1.6.2](https://github.com/kotorijs/kotori/compare/v1.5.4...v1.6.2) (2024-08-09)
 
 
 ### Bug Fixes
@@ -16,13 +16,13 @@
 
 * adapter-discord, slack, telegram, sandbox ([089a8cc](https://github.com/kotorijs/kotori/commit/089a8cc2303ff202e15b4e32ee2c25b3c15a5e1c))
 * ctx.filter() ([6613031](https://github.com/kotorijs/kotori/commit/66130312636369e371d57ed99454d204ea26a150))
-* ctx.start() and .stop() ([8c75d54](https://github.com/kotorijs/kotori/commit/8c75d544d95fc187ee6be5a4f2f2bdc5171e76bb))
 * filter ctx and metadata ([35f6779](https://github.com/kotorijs/kotori/commit/35f6779fefbfb9382851214afef4eb890ca91449))
 * logger color option ([4c0a732](https://github.com/kotorijs/kotori/commit/4c0a732b6913e068ef1818969d0e80443b9fa5e6))
 * mail plugin ([17b504d](https://github.com/kotorijs/kotori/commit/17b504df838ce896e7561ffc061a57ce375de997))
 * message elements encode and decode ([d2d5071](https://github.com/kotorijs/kotori/commit/d2d507104edf6ed17e4a9edb6aebcad2e50ebd79))
 * Session class and new api standard base on onebot12 ([180cb10](https://github.com/kotorijs/kotori/commit/180cb1053ba80a4ac0d30d8cb6548d92c003bfc9))
 * standard events base on onebot12 and Messages ([31d33e1](https://github.com/kotorijs/kotori/commit/31d33e17dfc01167c53f0146cfc5081c72f0f78c))
+* start and stop() ([a823637](https://github.com/kotorijs/kotori/commit/a823637d79a78e9bb68202a6158f483c97ded50f))
 * three versions, protect daemon ([c56e42b](https://github.com/kotorijs/kotori/commit/c56e42bbe4ecfdc7a078bd4c670d8d827d9754bd))
 * webui ([839438b](https://github.com/kotorijs/kotori/commit/839438bc5d151aeacdc181f76740f6ff7554c6fc))
 * webui modules avatar ([7cde1cf](https://github.com/kotorijs/kotori/commit/7cde1cf93c8a3136793ab43b416ca0be5706350e))
