@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:13
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-05 11:20:58
+ * @LastEditTime: 2024-08-09 17:54:50
  */
 import { Api, type Message, MessageSingle } from 'kotori-bot'
 import type TelegramAdapter from './adapter'
@@ -35,7 +35,8 @@ export class TelegramApi extends Api {
   }
 
   private async sendMsg(chatId: number, message: Message) {
-    const result = await this.adapter.bot?.sendMessage(chatId, this.adapter.elements.decode(message))
+    const decode = this.adapter.elements.decode(message)
+    const result = decode.trim() ? await this.adapter.bot?.sendMessage(chatId, decode) : undefined
     await this.sendMedia(chatId, message)
     const messageId = result?.message_id.toString() ?? ''
     this.adapter.ctx.emit('send', { api: this, messageId })

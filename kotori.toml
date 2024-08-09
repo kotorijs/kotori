@@ -1,7 +1,8 @@
 [global]
 port = 720
+dbPrefix = "romiChan"
 lang = "en_US"
-command-prefix = "/"
+commandPrefix = "/"
 dirs = []
 noColor = false
 level = 25

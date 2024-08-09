@@ -29,6 +29,7 @@ program
     if (options.port !== undefined) loaderOptions.port = Number.parseInt(options.port)
     if (options.dbPrefix) loaderOptions.dbPrefix = options.dbPrefix
     if (options.noColor) loaderOptions.noColor = true
+    if (options.daemon || loaderOptions.mode === BUILD_MODE) loaderOptions.daemon = true
 
     const virtualEnv = {
       ...process.env,
@@ -56,27 +57,12 @@ program
       return
     }
 
-    if (options.daemon) return daemon(virtualEnv)
+    if (loaderOptions.daemon && !env.isDaemon) return daemon(virtualEnv)
     const loader = new Loader(loaderOptions)
     loader.meta.version = require(resolve(__dirname, '../package.json')).version
     Container[Symbols.setInstance](loader)
     loader.run()
   })
-
-// program
-//   .command('ui')
-//   .option('-l, --lang', 'Set view language of ui')
-//   .action((options) => {
-//     //     ██╗  ██╗ ██████╗ ████████╗ ██████╗ ██████╗ ██╗
-//     // ██║ ██╔╝██╔═══██╗╚══██╔══╝██╔═══██╗██╔══██╗██║
-//     // █████╔╝ ██║   ██║   ██║   ██║   ██║██████╔╝██║
-//     // ██╔═██╗ ██║   ██║   ██║   ██║   ██║██╔══██╗██║
-//     // ██║  ██╗╚██████╔╝   ██║   ╚██████╔╝██║  ██║██║
-//     // ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝
-//     // `
-//     // TODO: refer nonebot
-//     Logger.info('ui', options)
-//   })
 
 program
   .command('ui', 'Run the interactive GUI')

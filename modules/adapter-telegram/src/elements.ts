@@ -2,7 +2,7 @@ import { Elements, type Message, MessageSingle, type MessageMapping } from 'koto
 
 export class TelegramElements extends Elements {
   public getSupportsElements(): (keyof MessageMapping)[] {
-    return ['image', 'voice', 'video', 'text', 'location']
+    return ['image', 'voice', 'video', 'text', 'location', 'audio']
   }
 
   public decode(message: Message): string {

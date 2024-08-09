@@ -37,5 +37,8 @@
   "core.msg.locale.invalid": "参数无效，必须是以下中的一个值：en_US、ja_JP、zh_CN、zh_TW",
   "core.msg.module": "模块列表：%list%",
   "core.msg.module.list": "\n----------\n名称：%name%\n描述：%description%\n版本：%version%",
-  "core.msg.module.not_found": "未找到模块：%name%"
+  "core.msg.module.not_found": "未找到模块：%name%",
+  "core.descr.restart": "重启 Kotori 主程序",
+  "core.msg.restart": "Kotori 正在重启中...",
+  "core.msg.restart.not_daemon": "错误，该功能仅守护进程下可用"
 }

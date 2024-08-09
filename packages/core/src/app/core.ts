@@ -166,6 +166,14 @@ export class Core extends Context {
     this.inject('i18n')
     this.service('cache', new Cache(this.extends('cache')))
   }
+
+  public start() {
+    this.emit('ready')
+  }
+
+  public stop() {
+    this.emit('dispose')
+  }
 }
 
 export default Core

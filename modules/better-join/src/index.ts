@@ -4,11 +4,11 @@ import { randomInt } from 'node:crypto'
 
 export class Main {
   public constructor(ctx: Context) {
-    ctx.on('on_group_increase', (data) => this.handle(data))
-    ctx.on('on_group_decrease', (data) => this.handle(data))
+    ctx.on('on_group_increase', (data) => this.groupIncrease(data))
+    ctx.on('on_group_decrease', (data) => this.groupDecrease(data))
   }
 
-  protected handle(session: EventsList['on_group_increase']) {
+  protected groupIncrease(session: EventsList['on_group_increase']) {
     const standard = randomInt(1, 3)
     for (let init = 0; init < standard; init += 1) {
       session.quick([data[randomInt(0, Object.keys(data).length)], [Messages.mention(session.userId)]])

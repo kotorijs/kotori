@@ -22,16 +22,21 @@ function daemon(virtualEnv: Record<string, string | undefined>) {
   )
 
   child.on('exit', (code) => {
-    if (code === 0) return
-    const endTime = new Date().getTime()
-    const timeTaken = (endTime - startTime) / 1000
-    Logger.error(`[Daemon] Exited with code ${code} in ${timeTaken} seconds.`)
-    if (timeTaken <= 5) return
-    Logger.error('[Daemon] Restarting...')
+    if (code === 0) {
+      Logger.info('[Daemon] Exited with code 0.')
+      process.exit(0)
+    }
+    if (code !== 233) {
+      const endTime = new Date().getTime()
+      const timeTaken = (endTime - startTime) / 1000
+      Logger.error(`[Daemon] Exited with code ${code} in ${timeTaken} seconds.`)
+      if (timeTaken <= 5) return
+    }
+    Logger.warn('[Daemon] Restarting...')
     daemon(virtualEnv)
   })
 
-  process.stdin.on('data', (...args) => child.stdin?.emit('data', ...args))
+  process.stdin.on('data', (data) => child.stdin?.write(data))
 }
 
 export default daemon
