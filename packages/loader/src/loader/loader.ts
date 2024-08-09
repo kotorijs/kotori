@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-08 11:50:53
+ * @LastEditTime: 2024-08-09 18:33:51
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -106,6 +106,7 @@ declare module '@kotori-bot/core' {
     server: Server
     db: Database
     file: File
+    browser: object
   }
 
   interface GlobalConfig {
@@ -307,7 +308,7 @@ export class Loader extends Core {
   }
 
   public run(onlyStart = false) {
-    if (onlyStart) return this.emit('ready')
+    if (onlyStart) return this.start()
     this.logger.trace('baseDir:', this.baseDir)
     this.logger.trace('options:', this.options)
     this.logger.trace('config:', this.config)
@@ -407,7 +408,10 @@ export class Loader extends Core {
       throw new DevError(`illegal package.json ${pkgPath}`)
     }
 
-    const main = path.resolve(dir, this.isDev ? 'src/index.ts' : pkg.main)
+    const main = path.resolve(
+      dir,
+      this.isDev && fs.existsSync(path.join(dir, 'src/index.ts')) ? 'src/index.ts' : pkg.main
+    )
     if (!fs.existsSync(main)) throw new DevError(`cannot find main file ${main}`)
 
     const getDirFiles = (rootDir: string) => {
@@ -533,7 +537,7 @@ export class Loader extends Core {
       this.format(`loader.modules.all${failLoadCount > 0 ? '.failed' : ''}`, [this.loadRecord.size, failLoadCount])
     )
     this.loadAllAdapter()
-    this.emit('ready')
+    this.start()
   }
 
   private loadAllAdapter() {

@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-core",
-  "version": "1.4.0",
+  "version": "1.4.4",
   "description": "core plugin",
   "main": "lib/index.js",
   "keywords": ["kotori", "chatbot", "kotori-plugin"],

@@ -1,21 +1,12 @@
 {
   "name": "@kotori-bot/loader",
-  "version": "1.7.0-rc.1",
+  "version": "1.7.1",
   "description": "Loader For KotoriBot",
   "license": "GPL-3.0",
   "main": "lib/index.js",
   "author": "Arimura Sena <me@hotaru.icu>",
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "loader"
-  ],
-  "files": [
-    "locales",
-    "lib",
-    "LICENSE",
-    "README.md"
-  ],
+  "keywords": ["kotori", "chatbot", "loader"],
+  "files": ["locales", "lib", "LICENSE", "README.md"],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },

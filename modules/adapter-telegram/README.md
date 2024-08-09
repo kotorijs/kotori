@@ -28,6 +28,7 @@ export const config = Tsu.Object({
 - text
 - image
 - voice
+- audio
 - video
 - location
 

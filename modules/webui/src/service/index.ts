@@ -97,7 +97,8 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
         await this.ctx.db.put('bot_stats', botStats)
         ;(adapter as { status: object }).status = observer(adapter.status, async (_, prop) => {
           const botStats = await this.ctx.db.get<BotStats>('bot_stats')
-          const botStatsToday = await this.ctx.db.get<BotStatsDay>(`bot_stats:${getToday()}`, {})
+          const day = getToday()
+          const botStatsToday = await this.ctx.db.get<BotStatsDay>(`bot_stats:${day}`, {})
           const isNumberProp = ['offlineTimes', 'receivedMsg', 'sentMsg'].includes(prop)
 
           if (botStats[identity] && isNumberProp) {
@@ -116,7 +117,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
           }
 
           await this.ctx.db.put('bot_stats', botStats)
-          await this.ctx.db.put(`bot_stats:${getToday()}`, botStatsToday)
+          await this.ctx.db.put(`bot_stats:${day}`, botStatsToday)
         })
       }
     }
