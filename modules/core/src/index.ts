@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-11 14:18:27
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-06 11:18:36
+ * @LastEditTime: 2024-08-09 17:50:58
  */
 
 import {
@@ -228,4 +228,16 @@ export function main(ctx: Context) {
         .join('')
     })
   })
+
+  ctx
+    .command('restart - core.descr.restart')
+    .access(UserAccess.ADMIN)
+    .action(async (_, session) => {
+      if (!ctx.options.isDaemon) {
+        session.quick('core.msg.restart.not_daemon')
+        return
+      }
+      await session.quick('core.msg.restart')
+      setTimeout(() => process.exit(233), 1)
+    })
 }

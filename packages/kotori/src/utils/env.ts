@@ -11,5 +11,6 @@ export default {
   dbPrefix: process.env.DB_PREFIX,
   level: process.env.LEVEL ? Number(process.env.LEVEL) : undefined,
   noColor: process.env.NO_COLOR === 'on',
+  daemon: process.env.DAEMON === 'on',
   isDaemon: !!process.env.IS_DAEMON
 }

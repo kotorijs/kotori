@@ -58,7 +58,7 @@ export function main(ctx: Context, config: Config) {
     const count = Object.keys(record.morning).length
     // if (count <= 10) addExp(data.group_id!, session.userId, 15);
     // if (count > 10 && count <= 20) addExp(data.group_id!, session.userId, 5);
-    const sex = getSex()
+    const sex = session.i18n.locale(getSex())
     if (hours < 12) return session.format('goodnight.msg.morning.morning', [at, count, sex])
     if (hours >= 12 && hours < config.getupTimeLate)
       return session.format('goodnight.msg.morning.afternoon', [at, count, sex])

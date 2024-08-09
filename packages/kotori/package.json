@@ -1,6 +1,6 @@
 {
   "name": "kotori-bot",
-  "version": "1.6.0-rc.1",
+  "version": "1.6.0",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "license": "GPL-3.0",
@@ -13,21 +13,8 @@
     "kotori": "./bin.js",
     "kotori-bot": "./bin.js"
   },
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "bot",
-    "nodejs",
-    "back-end"
-  ],
-  "files": [
-    "lib",
-    "kotori.yml",
-    "bin.js",
-    "LICENSE",
-    "README.md",
-    "tsconfig.base.json"
-  ],
+  "keywords": ["kotori", "chatbot", "bot", "nodejs", "back-end"],
+  "files": ["lib", "kotori.yml", "bin.js", "LICENSE", "README.md", "tsconfig.base.json"],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },
