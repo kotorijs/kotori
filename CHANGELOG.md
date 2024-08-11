@@ -1,3 +1,12 @@
+## [1.6.3](https://github.com/kotorijs/kotori/compare/v1.6.2...v1.6.3) (2024-08-11)
+
+
+### Bug Fixes
+
+* dev mode load ts files ([57db713](https://github.com/kotorijs/kotori/commit/57db713655d3a4ba7d78d4812c4a806440c5863c))
+
+
+
 ## [1.6.2](https://github.com/kotorijs/kotori/compare/v1.5.4...v1.6.2) (2024-08-09)
 
 
