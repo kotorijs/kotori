@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-11 13:58:37
+ * @LastEditTime: 2024-08-11 15:25:26
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -230,7 +230,7 @@ export const modulePackageSchema = Tsu.Object({
   name: Tsu.Custom<string>((input) => {
     if (typeof input !== 'string') return false
     /*  package name must prefix with 'kotori-plugin-' if don't have scope */
-    if (!input.startsWith('@') && /kotori-plugin-[a-z]([a-z,0-9]{2,13})\b/.exec(input) === null) return false
+    if (!input.startsWith('@') && /kotori-plugin-[a-z]([a-z,0-9]{2,33})\b/.exec(input) === null) return false
     return true
   }),
   version: Tsu.String(),
