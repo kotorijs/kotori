@@ -5,7 +5,7 @@
 
 # 小鳥 · KotoriBot
 
-[Quick Start](https://kotori.js.org/base/)
+[Quick Start](https://kotori.js.org/basic/)
 [Dev Guide](https://kotori.js.org/guide/)
 [API Reference](https://kotori.js.org/api/)
 
