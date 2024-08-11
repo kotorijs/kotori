@@ -1,7 +1,7 @@
 {
   "name": "@kotori-bot/root",
   "description": "ChatBot Framework",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": true,
   "license": "GPL-3.0",
   "author": "Arimura Sena <me@hotaru.icu>",

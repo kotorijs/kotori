@@ -53,7 +53,7 @@ program
           if (error) process.stderr.write(error.message)
         }
       )
-      process.stdin.on('data', (...args) => child.stdin?.emit('data', ...args))
+      process.stdin.on('data', (data) => child.stdin?.write(data))
       return
     }
 
