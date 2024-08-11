@@ -3,7 +3,7 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-06-24 15:12:55
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-09 18:33:51
+ * @LastEditTime: 2024-08-11 13:58:37
  */
 // import '@kotori-bot/core/src/utils/internal'
 import {
@@ -408,10 +408,8 @@ export class Loader extends Core {
       throw new DevError(`illegal package.json ${pkgPath}`)
     }
 
-    const main = path.resolve(
-      dir,
-      this.isDev && fs.existsSync(path.join(dir, 'src/index.ts')) ? 'src/index.ts' : pkg.main
-    )
+    const loadTs = this.isDev && fs.existsSync(path.join(dir, 'src/index.ts'))
+    const main = path.resolve(dir, loadTs ? 'src/index.ts' : pkg.main)
     if (!fs.existsSync(main)) throw new DevError(`cannot find main file ${main}`)
 
     const getDirFiles = (rootDir: string) => {
@@ -430,7 +428,7 @@ export class Loader extends Core {
       return list
     }
 
-    const files = getDirFiles(path.join(dir, this.isDev ? 'src' : path.parse(pkg.main).dir))
+    const files = getDirFiles(path.join(dir, loadTs ? 'src' : path.parse(pkg.main).dir))
 
     const [pkgScope, pkgName] = pkg.name.split('/')
     const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).replace(PLUGIN_PREFIX, '')}`
