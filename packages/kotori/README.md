@@ -48,16 +48,21 @@ Kotori is a chatbot framework that is **cross-platform, decoupled, and modern** 
 #### Platform
 
 - QQ (based on Tencent's official API)
-- QQ (based on [OneBot11 Standard](https://onebot.dev/)
+- QQ (based on [OneBot11 Standard](https://onebot.dev/))
 - CMD command line
 - Slack
 - Telegram
 - Email
 - Discord
-- Kook
 - MinecraftBedrock (based on WebSocket)
+
+#### Will support:
+
+- Kook
 - WeChat
-- Discord
+- Line
+- What's App
+- DingTalk
 
 #### Data
 

@@ -39,17 +39,13 @@
 #### Platform
 
 - QQ（基于腾讯官方接口）
-- QQ (基于 [OneBot11 标准](https://onebot.dev/)
+- QQ（基于 [OneBot11 标准](https://onebot.dev/)，适用于 [NapCat](https://github.com/NapNeko/NapCatQQ)、[go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 等项目）
 - CMD 命令行
 - Slack
 - Telegram
 - Email
 - Discord
-- Kook
 - MinecraftBedrock (基于 WebSocket)
-- WeChat
-- Discord
-
 
 即将支持：
 
@@ -57,11 +53,13 @@
 - WeChat/微信
 - Line
 - What's App
+- DingTalk
 
 #### Data
 
 - LevelDb
 
+Kotori 使用极为轻量的 LevelDb 作为数据存储。
 
 ## 📖 Documentation
 

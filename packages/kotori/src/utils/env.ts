@@ -5,7 +5,7 @@ if (!process.env.IS_DAEMON) env.config()
 
 export default {
   mode: process.env.NODE_ENV === DEV_MODE ? DEV_MODE : BUILD_MODE,
-  dir: process.env.DIR,
+  dir: process.env.DIR ?? './',
   config: process.env.CONFIG,
   port: process.env.PORT ? Number(process.env.PORT) : undefined,
   dbPrefix: process.env.DB_PREFIX,
