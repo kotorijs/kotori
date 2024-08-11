@@ -1,9 +1,11 @@
-## [1.6.3](https://github.com/kotorijs/kotori/compare/v1.6.2...v1.6.3) (2024-08-11)
+## [1.6.4](https://github.com/kotorijs/kotori/compare/v1.6.2...v1.6.4) (2024-08-11)
 
 
 ### Bug Fixes
 
+* daemon std in ([ce41637](https://github.com/kotorijs/kotori/commit/ce416378720fd13ad327638ebcf98daa36858d81))
 * dev mode load ts files ([57db713](https://github.com/kotorijs/kotori/commit/57db713655d3a4ba7d78d4812c4a806440c5863c))
+* plugin name regexp ([b73aa85](https://github.com/kotorijs/kotori/commit/b73aa850add38d7f161fb1a18b6f22d6e3594e14))
 
 
 
