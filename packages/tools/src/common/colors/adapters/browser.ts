@@ -1,4 +1,4 @@
-import type { createColors } from 'colorette'
+import type { colors } from './terminal'
 import { type ColorsAdapterImpl, colorsIdentity } from '../utils'
 
 const cssStyles = {
@@ -65,7 +65,7 @@ export const BrowserAdapter = new Proxy(BrowserAdapterOrigin, {
     return handleInstance
   }
 }) as unknown as new (
-  options?: Parameters<typeof createColors>[0]
+  options?: Parameters<(typeof colors)[keyof typeof colors]>[0]
 ) => ColorsAdapterImpl
 
 export default BrowserAdapter
