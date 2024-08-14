@@ -5,7 +5,7 @@
 
 # 小鳥 · KotoriBot
 
-[Quick Start](https://kotori.js.org/base/)
+[Quick Start](https://kotori.js.org/basic/)
 [Dev Guide](https://kotori.js.org/guide/)
 [API Reference](https://kotori.js.org/api/)
 
@@ -21,7 +21,8 @@
 
 ---
 
-「Kotori」是一个罗马字，在日语中是（小鳥）的意思，发音为 /kotolɪ/，该名字取自于 Key 公式 的游戏 《Rewrite》 中主要女性角色之一：神户小鸟 。 借助 Kotori，可快速搭建一个多平台、功能强大的聊天机器人应用，通过安装不同模块为 Kotori 扩展功能、玩法和个性化配置等。同时，Kotori 为开发者提供了现成的 Cli 用于模块开发与 Kotori 二次开发。
+「Kotori」是一个罗马字，在日语中是「ことり」（小鳥）的意思，发音为 `/kotolɪ/` <Voice />，该名字取自于 [Key 公式](http://key.visualarts.gr.jp/) 的游戏 [《Rewrite》](https://bgm.tv/subject/4022) 中主要女性角色之一：[神户小鸟](https://bgm.tv/character/12063) (神戸（かんべ） 小鳥（ことり）)。
+借助 Kotori，可快速搭建一个多平台、功能强大的聊天机器人应用，通过安装不同模块为 Kotori 扩展功能、玩法和个性化配置等。同时，Kotori 为开发者提供了现成的 Cli 用于模块开发与 Kotori 二次开发。
 
 ### Advantage
 
