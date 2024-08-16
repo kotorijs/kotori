@@ -13,8 +13,8 @@ import type {
   UploadFileResponse,
   UserInfoResponse
 } from '../types'
-import type { EventsMapping } from 'fluoro'
 import type { Session } from './session'
+import type { EventsMapping } from '../types/events'
 
 type ReverseList = {
   [K in keyof EventsMapping]: Parameters<EventsMapping[K]>[0] extends Session ? K : never
