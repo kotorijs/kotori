@@ -57,7 +57,7 @@ export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
 
   public constructor(options?: ConsoleTransportConfig & TransportOptionsBase) {
     super(Object.assign(DEFAULT_OPTIONS, options ?? {}))
-    this.cs = new Colors(new TerminalAdapter({ useColor: !!this.options.useColor }))
+    this.cs = new Colors(new TerminalAdapter())
   }
 
   public escaper = (args: unknown[]) => {

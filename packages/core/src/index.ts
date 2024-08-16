@@ -3,11 +3,11 @@
  * @Blog: https://hotaru.icu
  * @Date: 2024-02-07 13:44:38
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-31 14:53:19
+ * @LastEditTime: 2024-08-16 10:48:45
  */
 
 import 'reflect-metadata'
-export * from 'fluoro'
+
 export * from './app'
 export * from './components'
 export * from './decorators'

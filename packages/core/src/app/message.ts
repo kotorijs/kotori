@@ -1,4 +1,4 @@
-import type { Context, IdentityType } from 'fluoro'
+import type { IdentityType } from 'fluoro'
 import { CronJob } from 'cron'
 import {
   type CommandConfig,
@@ -23,6 +23,7 @@ import { CommandError } from '../utils/error'
 import { Symbols } from '../global'
 import { randomUUID } from 'node:crypto'
 import Decorators from '../decorators/utils'
+import type { Context } from './core'
 
 interface MidwareData {
   callback: MidwareCallback

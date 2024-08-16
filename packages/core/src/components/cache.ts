@@ -1,5 +1,5 @@
-import { Service } from 'fluoro'
 import { KotoriError } from '../utils/error'
+import { Service, type Context } from '../app'
 
 type CacheKey = string | symbol | number
 type CacheValue = string | number | object
@@ -17,7 +17,7 @@ type CacheMap = Map<CacheKey, Container>
 export class Cache extends Service {
   private cache?: CacheMap = new Map()
 
-  public constructor(ctx: ConstructorParameters<typeof Service>[0]) {
+  public constructor(ctx: Context) {
     super(ctx, {}, 'cache')
   }
 

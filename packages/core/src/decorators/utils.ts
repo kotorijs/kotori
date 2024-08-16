@@ -1,13 +1,14 @@
 import 'reflect-metadata'
-import { Tokens, type Context, type EventsList, type ModuleConfig, Service } from 'fluoro'
+import { Tokens, type EventsList, type ModuleConfig, Service } from 'fluoro'
 import Tsu, { type Constructor, Parser } from 'tsukiko'
 import { DevError, ModuleError } from '../utils/error'
 import { Symbols } from '../global'
 import { resolve } from 'node:path'
 import type { CommandConfig } from '../types'
 import type { KotoriPlugin } from './plugin'
+import type { Context } from '../app'
 
-declare module 'fluoro' {
+declare module '../types/events' {
   interface EventsMapping {
     literal_ready_module_decorator(name: string, config: ModuleConfig): void
   }

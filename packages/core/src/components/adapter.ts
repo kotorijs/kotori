@@ -1,10 +1,10 @@
-import type { Context, EventsList } from 'fluoro'
 import type Api from './api'
 import type { AdapterConfig, EventDataApiBase } from '../types'
 import type Elements from './elements'
 import { Session } from './session'
+import type { EventsList, Context } from '../app'
 
-export type EventApiType = {
+type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never
 }
 
