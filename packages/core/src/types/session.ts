@@ -1,7 +1,7 @@
 import type { Session } from '../components'
 import type { Message, MessageScope } from './message'
 
-declare module 'fluoro' {
+declare module './events' {
   interface EventsMapping {
     on_message(session: Session<EventDataPrivateMsg | EventDataGroupMsg | EventDataChannelMsg>): void
     /**

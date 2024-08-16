@@ -1,6 +1,6 @@
-import type Context from 'fluoro'
 import { KotoriError } from './error'
 import { Symbols } from '../global'
+import type { Context } from '../app'
 
 export class Container {
   private constructor() {}

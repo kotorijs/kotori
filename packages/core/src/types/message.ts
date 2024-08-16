@@ -1,9 +1,9 @@
-import type { Context } from 'fluoro'
 import type { CommandError } from '../utils/error'
 import type { Api, Command, MessageList, MessageSingle, SessionMsg } from '../components'
 import type { CommandAction, CommandArgType } from './command'
+import type { Context } from '../app'
 
-declare module 'fluoro' {
+declare module './events' {
   interface EventsMapping {
     before_command(data: EventDataBeforeCommand): void
     /**
