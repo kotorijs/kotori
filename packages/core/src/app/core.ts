@@ -2,17 +2,12 @@ import { Http } from '@kotori-bot/tools'
 import I18n from '@kotori-bot/i18n'
 import type { Parser } from 'tsukiko'
 import FluoroContext from 'fluoro'
-import type { Service as FluoroService, EventsList as FluoroEventsList } from 'fluoro'
 import Config from './config'
 import Message from './message'
 import type { AdapterClass } from '../types'
 import { Cache, type Api } from '../components'
 import { Symbols } from '../global'
 import type { EventsMapping } from '../types/events'
-
-export * from 'fluoro'
-
-export type EventsList = FluoroEventsList<EventsMapping>
 
 export interface Context {
   /* Core */
@@ -184,9 +179,5 @@ export class Context extends FluoroContext<EventsMapping> implements Context {
 export type Core = Context
 
 export const Core = Context
-
-export type Service<T extends object = object> = FluoroService<T, Context>
-
-export declare const Service: new <T extends object = object>(ctx: Context, config: T, identity: string) => Service<T>
 
 export default Core
