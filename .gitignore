@@ -12,3 +12,5 @@ tsconfig.tsbuildinfo
 test.http
 
 kotori.dev.*
+
+/*.mjs
