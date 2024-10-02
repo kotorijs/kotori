@@ -58,7 +58,7 @@ export class I18n<T extends LocaleType = LocaleType> {
     style: Intl.DateTimeFormatOptions['dateStyle'] = undefined,
     lang: T = this.lang
   ) {
-    return new Intl.DateTimeFormat(LocaleIdentifier[lang], { timeStyle: style }).format(date)
+    return new Intl.DateTimeFormat(LocaleIdentifier[lang], { dateStyle: style }).format(date)
   }
 
   public time(

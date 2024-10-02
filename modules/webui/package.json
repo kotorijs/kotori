@@ -1,18 +1,34 @@
 {
   "name": "@kotori-bot/kotori-plugin-webui",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "webui plugin",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
   "license": "GPL-3.0",
-  "files": ["lib", "dist", "locales", "LICENSE", "assets", "README.md"],
+  "files": [
+    "lib",
+    "dist",
+    "locales",
+    "LICENSE",
+    "assets",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": ["en_US", "ja_JP", "zh_TW", "zh_CN"]
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
     }
   },
   "dependencies": {
