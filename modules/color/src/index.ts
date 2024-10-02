@@ -1,5 +1,5 @@
 import { plugins, type Session, KotoriPlugin, Messages } from 'kotori-bot'
-import { colorToRGB, loadJapaneseColor, loadZhinaColor, randomFromArray } from './utils'
+import { colorToRGB, loadJapaneseColor, loadChinaColor, randomFromArray } from './utils'
 
 const plugin = plugins([__dirname, '../'])
 
@@ -47,7 +47,7 @@ export class ColorPlugin extends KotoriPlugin {
 
   @plugin.command({ template: 'color-cn [value] - color.descr.color_cn' })
   public colorCn({ args: [color] }: { args: [string?] }, session: Session) {
-    const colorData = loadZhinaColor()
+    const colorData = loadChinaColor()
     let data: (typeof colorData)[0] | undefined
 
     if (color) {

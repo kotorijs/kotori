@@ -12,7 +12,7 @@ interface JapaneseColor {
   cmyk: [number, number, number, number]
 }
 
-interface ZhinaColor {
+interface ChinaColor {
   name: string
   traName: string
   series: string
@@ -57,6 +57,6 @@ export function loadJapaneseColor() {
   return loadConfig(resolve(__dirname, '../database/jp-color.json'), 'json') as unknown as JapaneseColor[]
 }
 
-export function loadZhinaColor() {
-  return loadConfig(resolve(__dirname, '../database/cn-color.json'), 'json') as unknown as ZhinaColor[]
+export function loadChinaColor() {
+  return loadConfig(resolve(__dirname, '../database/cn-color.json'), 'json') as unknown as ChinaColor[]
 }
