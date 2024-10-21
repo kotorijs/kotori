@@ -15,3 +15,11 @@ kotori.dev.*
 
 log/*
 data/*
+
+.DS_Store
+.bsb.lock
+.merlin
+
+*.res.cjs
+*.res.mjs
+*.res.js
