@@ -1,32 +1,18 @@
 {
   "name": "kotori-plugin-mediawiki",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "mediawiki search tool",
   "main": "lib/index.js",
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "kotori-plugin"
-  ],
+  "keywords": ["kotori", "chatbot", "kotori-plugin"],
   "license": "GPL-3.0",
-  "files": [
-    "lib",
-    "locales",
-    "LICENSE",
-    "README.md"
-  ],
-  "author": "Himeno <biyuehuya@gmail.com>",
+  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "author": "Himeno <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "languages": [
-        "en_US",
-        "ja_JP",
-        "zh_TW",
-        "zh_CN"
-      ]
+      "languages": ["en_US", "ja_JP", "zh_TW", "zh_CN"]
     }
   }
 }

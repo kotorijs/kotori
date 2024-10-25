@@ -1,7 +1,7 @@
 {
   "bangumi.descr.bgm": "番组计划搜索游戏/动漫",
   "bangumi.descr.bgmc": "获取番组计划今日放送",
-  "bangumi.msg.bgm": "原名：{0}\n中文名：{1}\n介绍：{2}\n标签：{3}\n详情：{4}\n{5}",
+  "bangumi.msg.bgm": "原名：{0}\n中文名：{1}\n介绍：{2}\n标签：{3}\n详情：{4}",
   "bangumi.msg.bgm.list": "{0}.{1}{2}\n",
   "bangumi.option.bangumi.order": "序号",
   "bangumi.msg.bgm.fail": "未找到相关条目：{0}",

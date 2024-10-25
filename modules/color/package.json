@@ -1,22 +1,12 @@
 {
   "name": "kotori-plugin-color",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "color images!",
   "main": "lib/index.js",
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "kotori-plugin"
-  ],
+  "keywords": ["kotori", "chatbot", "kotori-plugin"],
   "license": "GPL-3.0",
-  "files": [
-    "lib",
-    "locales",
-    "LICENSE",
-    "data",
-    "README.md"
-  ],
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "files": ["lib", "locales", "LICENSE", "database", "README.md"],
+  "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   }

@@ -1,32 +1,18 @@
 {
   "name": "@kotori-bot/kotori-plugin-core",
-  "version": "1.3.1",
+  "version": "1.4.4",
   "description": "core plugin",
   "main": "lib/index.js",
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "kotori-plugin"
-  ],
+  "keywords": ["kotori", "chatbot", "kotori-plugin"],
   "license": "GPL-3.0",
-  "files": [
-    "lib",
-    "locales",
-    "LICENSE",
-    "README.md"
-  ],
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": [
-        "en_US",
-        "ja_JP",
-        "zh_TW",
-        "zh_CN"
-      ]
+      "language": ["en_US", "ja_JP", "zh_TW", "zh_CN"]
     }
   }
 }

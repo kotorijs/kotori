@@ -6,6 +6,9 @@
   },
   "references": [
     {
+      "path": "../fluoro"
+    },
+    {
       "path": "../i18n"
     },
     {

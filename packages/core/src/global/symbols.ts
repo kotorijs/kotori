@@ -1,17 +1,16 @@
-export class Symbols {
-  public static readonly adapter = Symbol.for('kotori.core.adapter');
-
-  public static readonly bot = Symbol.for('kotori.core.bot');
-
-  public static readonly midware = Symbol.for('kotori.core.midware');
-
-  public static readonly command = Symbol.for('kotori.core.command');
-
-  public static readonly regexp = Symbol.for('kotori.core.regexp');
-
-  public static readonly modules = Symbol.for('kotori.loader.module');
-
-  public static readonly job = Symbol.for('kotori.loader.job');
+export namespace Symbols {
+  export const adapter = Symbol.for('kotori.core.adapter')
+  export const bot = Symbol.for('kotori.core.bot')
+  export const midware = Symbol.for('kotori.core.midware')
+  export const command = Symbol.for('kotori.core.command')
+  export const regexp = Symbol.for('kotori.core.regexp')
+  export const task = Symbol.for('kotori.core.task')
+  export const filter = Symbol.for('kotori.core.filter')
+  export const promise = Symbol.for('kotori.core.promise')
+  export const decorator = Symbol.for('kotori.core.decorator')
+  export const modules = Symbol.for('kotori.loader.module')
+  export const getInstance = Symbol.for('kotori.cli.get_instance')
+  export const setInstance = Symbol.for('kotori.cli.set_instance')
 }
 
-export default Symbols;
+export default Symbols

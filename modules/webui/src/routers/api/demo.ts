@@ -1,7 +1,7 @@
-import { Context } from '../../types';
+import type { Context } from 'kotori-bot'
 
-export default (ctx: Context, app: Context['server']) => {
-  const router = app.router();
+export default (_: Context, app: Context['server']) => {
+  const router = app.router()
 
-  return router;
-};
+  return router
+}

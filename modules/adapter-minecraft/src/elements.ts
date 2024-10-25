@@ -1,35 +1,38 @@
-import { Elements, EventDataTargetId, none } from 'kotori-bot';
+import { Elements, MessageSingle, type Message, type MessageMapping } from 'kotori-bot'
 
 export class McElements extends Elements {
-  public at(target: EventDataTargetId) {
-    none(this);
-    return `@${String(target).split('@')[1]} `;
+  public getSupportsElements(): (keyof MessageMapping)[] {
+    return ['text', 'mention', 'mentionAll']
   }
 
-  public image(url: string) {
-    none(this);
-    return `[image,${url}]`;
+  public decode(message: Message): string {
+    if (typeof message === 'string') return message
+    if (!(message instanceof MessageSingle)) {
+      return Array.from(message)
+        .map((el) => this.decode(el))
+        .join('')
+    }
+    switch (message.data.type) {
+      case 'text':
+        return message.toString()
+      case 'image':
+        return `file=${message.data.content},cache=0`
+      case 'video':
+        return `Video: ${message.data.content}`
+      case 'mention':
+        return `@${message.data.userId}`
+      case 'mentionAll':
+        return '@a'
+      case 'reply':
+        return `Reply @${message.data.messageId}:`
+      default:
+        return ''
+    }
   }
 
-  public voice(url: string) {
-    none(this);
-    return `[voice,${url}]`;
-  }
-
-  public video(url: string) {
-    none(this);
-    return `[video,${url}]`;
-  }
-
-  public face(id: string) {
-    none(this);
-    return `[face,${id}]`;
-  }
-
-  public file(data: string) {
-    none(data, this);
-    return `[file]`;
+  public encode(raw: string): Message {
+    return new MessageSingle('text', { text: raw })
   }
 }
 
-export default McElements;
+export default McElements

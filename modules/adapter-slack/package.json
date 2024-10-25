@@ -1,0 +1,26 @@
+{
+  "name": "@kotori-bot/adapter-slack",
+  "version": "1.0.0",
+  "description": "Adapter For Slack",
+  "main": "lib/index.js",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin",
+    "slack"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <me@hotaru.icu>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.19.0"
+  }
+}

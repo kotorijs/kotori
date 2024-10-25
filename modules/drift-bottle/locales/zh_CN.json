@@ -1,9 +1,9 @@
 {
-	"drift_bottle.descr.pick": "捡取一个漂流瓶",
-	"drift_bottle.msg.pick.none": "暂时还没有一个漂流瓶",
-	"drift_bottle.msg.pick.info": "瓶子内容：{0}\n时间：{1}\n来源群号：{2}",
-	"drift_bottle.descr.throw": "投掷一个漂流瓶~",
-	"drift_bottle.msg.throw.info": "{0}你的瓶子已投掷大海~",
-	"drift_bottle.msg.throw.fail": "{0}今天的投掷次数已超过 {1} 次，明天再来吧~",
-	"drift_bottle.msg.throw.empty": "{0}内容不能为空"
+  "drift_bottle.descr.pick": "捡取一个漂流瓶",
+  "drift_bottle.msg.pick.none": "暂时还没有一个漂流瓶",
+  "drift_bottle.msg.pick.info": "瓶子内容：{0}\n时间：{1}\n来源群号：{2}",
+  "drift_bottle.descr.throw": "投掷一个漂流瓶~",
+  "drift_bottle.msg.throw.info": "{0}你的瓶子已投掷大海~",
+  "drift_bottle.msg.throw.fail": "{0}今天的投掷次数已超过 {1} 次，明天再来吧~",
+  "drift_bottle.msg.throw.empty": "{0}内容不能为空"
 }

@@ -1,0 +1,16 @@
+{
+  "adapter_mail.descr.mail": "指定メールアドレスにメールを送信",
+  "adapter_mail.msg.mail.input_target": "受信メールアドレスを入力してください：",
+  "adapter_mail.msg.mail.input_title": "メールの件名を入力してください：",
+  "adapter_mail.msg.mail.input_content": "メールの内容を入力してください：",
+  "adapter_mail.msg.mail.sure": "件名：{0}\n内容：{1}\n-------------\n{2}にメールを送信しますか？（「1」で送信、他のキーでキャンセル）",
+  "adapter_mail.msg.mail.cancel": "送信をキャンセルしました",
+  "adapter_mail.msg.mail.success": "{0}へのメール送信に成功しました",
+  "adapter_mail.msg.mail.fail": "メール送信に失敗しました。メール設定を確認してください。詳細：{0}",
+  "adapter_mail.msg.mail.fail.2": "送信メール{0}が見つかりません。「{0}mail --list」で利用可能なメールリストを表示できます",
+  "adapter_mail.msg.mail.fail.3": "送信失敗。宛先メールアドレスの形式が正しくありません！",
+  "adapter_mail.msg.mail.item": "\n<=========>\n名前：{0}\nメール：{1}",
+  "adapter_mail.msg.mail.list": "利用可能なメールリスト：{0}",
+  "adapter_mail.option.mail.list": "利用可能なメールリストを表示",
+  "adapter_mail.forward": "新着メールがあります！\n差出人：{0}\n件名：{1}\n内容：{2}\n日付：{3}"
+}

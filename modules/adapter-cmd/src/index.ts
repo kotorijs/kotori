@@ -1,4 +1,6 @@
-import { CmdAdapter } from './adapter';
+import { CmdAdapter } from './adapter'
 
-export { config } from './adapter';
-export default CmdAdapter;
+export * from './adapter'
+export * from './api'
+export * from './elements'
+export default CmdAdapter

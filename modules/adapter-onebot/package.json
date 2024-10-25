@@ -1,21 +1,23 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-onebot",
-  "version": "2.0.0",
-  "description": "Adapter For Onebot (go-cqhttp)",
+  "version": "2.1.0",
+  "description": "Adapter For Onebot 11",
   "main": "lib/index.js",
   "keywords": [
     "kotori",
     "chatbot",
-    "kotori-plugin"
+    "kotori-plugin",
+    "onebot",
+    "onebot11",
+    "qq",
+    "liteloader",
+    "LiteLoaderNTQQ",
+    "NapCat",
+    "go-cqhttp"
   ],
   "license": "GPL-3.0",
-  "files": [
-    "lib",
-    "locales",
-    "LICENSE",
-    "README.md"
-  ],
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },

@@ -1,28 +1,26 @@
-import { Context } from '../../types';
+import type { Context } from 'kotori-bot'
 
 export default (ctx: Context, app: Context['server']) => {
-  const router = app.router();
+  const router = app.router()
 
-  router.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    const loginStats = ctx.webui.getLoginStats();
+  router.post('/login', async (req, res) => {
+    const { username, password } = req.body
+    const token = await ctx.webui.accountLogin(username, password)
 
-    if (ctx.webui.checkVerifyHash(username, password)) {
-      ctx.logger.label('server').record('user login successful');
-      loginStats.success += 1;
-      ctx.webui.setLoginStats(loginStats);
-      return res.json({ token: ctx.webui.addToken() });
+    if (token) {
+      ctx.logger.label('webui').record('user login successful')
+      res.json({ token })
+      return
     }
-    ctx.logger.label('server').error('user login failed');
-    loginStats.failed += 1;
-    ctx.webui.setLoginStats(loginStats);
-    return res.status(401).json({ message: 'Invalid username or password' });
-  });
+
+    ctx.logger.label('webui').error('user login failed')
+    res.status(401).json({ message: 'Invalid username or password' })
+  })
 
   router.post('/logout', (req, res) => {
-    ctx.webui.removeToken(req.headers.authorization ?? '');
-    res.sendStatus(204);
-  });
+    ctx.webui.accountLogout(req.headers.authorization ?? '')
+    res.sendStatus(204)
+  })
 
-  return router;
-};
+  return router
+}

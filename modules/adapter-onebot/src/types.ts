@@ -3,18 +3,18 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-07-12 15:42:18
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-04 16:13:40
+ * @LastEditTime: 2024-08-04 14:28:40
  */
 
 export interface BotInfo {
-  self_id: number;
-  connect: number;
-  heartbeat: number;
-  status: EventStatusType;
+  self_id: number
+  connect: number
+  heartbeat: number
+  status: EventStatusType
 }
 
 /* Api */
-export type Msg = string | Message | Message[];
+export type Msg = string | Message | Message[]
 export type MessageCqType =
   | 'face'
   | 'record'
@@ -32,7 +32,7 @@ export type MessageCqType =
   | 'xml'
   | 'json'
   | 'cardimage'
-  | 'tts';
+  | 'tts'
 export type MessageDataType =
   | MessageFace
   | MessageRecord
@@ -50,10 +50,10 @@ export type MessageDataType =
   | MessageXml
   | MessageJson
   | MessageCardImage
-  | MessageTts;
+  | MessageTts
 export interface Message {
-  type: MessageCqType;
-  data: MessageDataType;
+  type: MessageCqType
+  data: MessageDataType
 }
 
 export type MessageFaceId =
@@ -278,148 +278,148 @@ export type MessageFaceId =
   | 218
   | 219
   | 220
-  | 221;
+  | 221
 
 export interface MessageFace {
-  id: MessageFaceId;
+  id: MessageFaceId
 }
 
 export interface MessageRecordFile {
-  file: string;
-  magic?: 0 | 1;
+  file: string
+  magic?: 0 | 1
 }
 
 export interface MessageRecordUrl {
-  file: string;
-  url: string;
-  cache?: 0 | 1;
-  proxy?: 0 | 1;
-  timeout?: number;
+  file: string
+  url: string
+  cache?: 0 | 1
+  proxy?: 0 | 1
+  timeout?: number
 }
 
-export type MessageRecord = MessageRecordFile | MessageRecordUrl;
+export type MessageRecord = MessageRecordFile | MessageRecordUrl
 
 export interface MessageVideo {
-  file: string;
-  cover?: string;
-  c?: 1 | 2 | 3;
+  file: string
+  cover?: string
+  c?: 1 | 2 | 3
 }
 
 export interface MessageAt {
-  qq: 'all' | string | number;
-  name?: string;
+  qq: 'all' | string | number
+  name?: string
 }
 
 export interface MessageShare {
-  url: string;
-  title: string;
-  content?: string;
-  image?: string;
+  url: string
+  title: string
+  content?: string
+  image?: string
 }
 
 export interface MessageMusic {
-  type: 'qq' | '163' | 'xm';
-  id: string;
+  type: 'qq' | '163' | 'xm'
+  id: string
 }
 
 export interface MessageMusicCustom {
-  type: 'custom';
-  url: string;
-  audio: string;
-  title: string;
-  content?: string;
-  image?: string;
+  type: 'custom'
+  url: string
+  audio: string
+  title: string
+  content?: string
+  image?: string
 }
 
 export interface MessageImage {
-  file: string;
-  type?: 'flash' | 'show' | 'normal';
-  subType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 13;
-  url?: string;
-  cache?: 0 | 1;
-  id?: 40000 | 40001 | 40002 | 40003 | 40004 | 40005;
-  c?: 1 | 2 | 3;
+  file: string
+  type?: 'flash' | 'show' | 'normal'
+  subType?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 13
+  url?: string
+  cache?: 0 | 1
+  id?: 40000 | 40001 | 40002 | 40003 | 40004 | 40005
+  c?: 1 | 2 | 3
 }
 
 export interface MessageReply {
-  id: number;
-  text: string;
-  qq?: number;
-  time?: number;
-  seq?: number;
+  id: number
+  text: string
+  qq?: number
+  time?: number
+  seq?: number
 }
 
 export interface MessageRedbag {
-  title: string;
+  title: string
 }
 
 export interface MessagePoke {
-  qq: number;
+  qq: number
 }
 
 export interface MessageGift {
-  qq: number;
-  id: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
+  qq: number
+  id: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13
 }
 
 export interface MessageForward {
-  id: string;
+  id: string
 }
 
 export interface MessageNodeCustom {
-  name: string;
-  uin: number;
-  content: Message;
-  seq: Message;
+  name: string
+  uin: number
+  content: Message
+  seq: Message
 }
 
 export type MessageNode =
   | {
-      id: number;
+      id: number
     }
-  | MessageNodeCustom;
+  | MessageNodeCustom
 
 export interface MessageXml {
-  data: string;
-  resid?: number | '' | null;
+  data: string
+  resid?: number | '' | null
 }
 
 export interface MessageJson extends MessageXml {
-  resid?: number;
+  resid?: number
 }
 
 export interface MessageCardImage {
-  file: string;
-  minwidth: number;
-  minheight: number;
-  maxwidth: number;
-  maxheight: number;
-  source: string;
-  icon?: string;
+  file: string
+  minwidth: number
+  minheight: number
+  maxwidth: number
+  maxheight: number
+  source: string
+  icon?: string
 }
 
 export interface MessageTts {
-  text: string;
+  text: string
 }
 
 export interface ApiInvitedRequest {
-  request_id: number;
-  invitor_uin: number;
-  invitor_nick: number;
-  group_id: number;
-  group_name: string;
-  checked: boolean;
-  actor: number;
+  request_id: number
+  invitor_uin: number
+  invitor_nick: number
+  group_id: number
+  group_name: string
+  checked: boolean
+  actor: number
 }
 
 export interface ApiJoinRequest extends ApiInvitedRequest {
-  message: string;
+  message: string
 }
 
 /* Event */
-export type EventHandle = () => void;
-export type EventPostType = 'message' | 'message_sent' | 'request' | 'notice' | 'meta_event';
-export type EventMessageType = 'private' | 'group';
+export type EventHandle = () => void
+export type EventPostType = 'message' | 'message_sent' | 'request' | 'notice' | 'meta_event'
+export type EventMessageType = 'private' | 'group'
 export type EventSubType =
   | 'private'
   | 'normal'
@@ -438,8 +438,8 @@ export type EventSubType =
   | 'unset'
   | 'ban'
   | 'lift_ban'
-  | 'poke';
-export type EventRequestType = 'private' | 'group';
+  | 'poke'
+export type EventRequestType = 'private' | 'group'
 export type EventNoticeType =
   | 'group_upload'
   | 'group_admin'
@@ -453,68 +453,70 @@ export type EventNoticeType =
   | 'offline_file'
   | 'client_status'
   | 'essence'
-  | 'notify';
-export type EventNoticeNotifySubType = 'honor' | 'poke' | 'lucky_king' | 'title';
-export type EventMetaEventsList = 'lifecycle' | 'heartbeat';
+  | 'notify'
+export type EventNoticeNotifySubType = 'honor' | 'poke' | 'lucky_king' | 'title'
+export type EventMetaEventsList = 'lifecycle' | 'heartbeat'
 
-export type EvenetSenderRoleType = 'owner' | 'admin' | 'member';
+export type EvenetSenderRoleType = 'owner' | 'admin' | 'member'
 
 export interface EventSenderType {
-  user_id: number;
-  nickname: string;
-  sex: 'male' | 'female' | 'unknown';
-  age: number;
-  group_id?: number;
-  card?: string;
-  area?: string;
-  level?: string;
-  role?: EvenetSenderRoleType;
-  title?: string;
+  user_id: number
+  nickname: string
+  sex: 'male' | 'female' | 'unknown'
+  age: number
+  group_id?: number
+  card?: string
+  area?: string
+  level?: string
+  role?: EvenetSenderRoleType
+  title?: string
 }
 
 export interface EventStatusType {
-  app_initialized: boolean;
-  app_enabled: boolean;
-  plugins_good: boolean | null;
-  app_good: boolean;
-  online: boolean;
-  stat: EventStatType;
+  app_initialized: boolean
+  app_enabled: boolean
+  plugins_good: boolean | null
+  app_good: boolean
+  online: boolean
+  stat: EventStatType
 }
 
 export interface EventStatType {
-  packet_received: number;
-  packet_sent: number;
-  packet_lost: number;
-  message_received: number;
-  message_sent: number;
-  disconnect_times: number;
-  lost_times: number;
-  last_message_time: number;
+  packet_received: number
+  packet_sent: number
+  packet_lost: number
+  message_received: number
+  message_sent: number
+  disconnect_times: number
+  lost_times: number
+  last_message_time: number
 }
 
 export type EventDataType = {
-  post_type: EventPostType;
-  message_type: EventMessageType;
-  sub_type: EventSubType;
-  request_type: EventRequestType;
-  notice_type: EventNoticeType;
-  notice_notify_subtype: EventNoticeNotifySubType;
-  meta_event_type: EventMetaEventsList;
-  time: number;
-  self_id: number;
-  message_: Message;
-  message: string;
-  message_id: number;
-  raw_message: string;
-  user_id: number;
-  group_id?: number;
-  operator_id?: number;
-  target_id?: number;
-  duration?: number;
-  sender: EventSenderType;
-  status: EventStatusType;
-  font: number | 0;
+  post_type: EventPostType
+  message_type: EventMessageType
+  sub_type: EventSubType
+  request_type: EventRequestType
+  notice_type: EventNoticeType
+  notice_notify_subtype: EventNoticeNotifySubType
+  meta_event_type: EventMetaEventsList
+  time: number
+  self_id: number
+  message_: Message
+  message: string
+  message_id: number
+  raw_message: string
+  user_id: number
+  group_id?: number
+  operator_id?: number
+  target_id?: number
+  duration?: number
+  sender: EventSenderType
+  comment?: string
+  flag?: string
+  status: EventStatusType
+  font: number | 0
   data?: {
-    message_id?: number;
-  };
-};
+    message_id?: number
+  }
+}

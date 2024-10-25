@@ -1,37 +1,79 @@
-type KotoriErrorType = 'ServiceError' | 'ModuleError' | 'UnknownError' | 'DevError';
+import type { CommandResultExtra } from '../types'
 
-interface KotoriErrorImpl {
-  readonly name: KotoriErrorType;
-  readonly extend: () => typeof KotoriError;
+interface KotoriErrorImpl extends Error {
+  readonly label?: string
+  readonly extend: () => typeof KotoriError
 }
 
-export class KotoriError<T extends object = object> extends Error implements KotoriErrorImpl {
-  public constructor(message?: string, extra?: T, type: KotoriErrorType = 'UnknownError') {
-    super(message);
-    this.name = type;
-    this.extra = extra;
+/**
+ * Kotori error
+ *
+ * @class KotoriError
+ * @extends {Error}
+ */
+export class KotoriError extends Error implements KotoriErrorImpl {
+  /**
+   * Creates an instance of `KotoriError`.
+   *
+   * @param - Error message
+   * @param - Error label
+   */
+  public constructor(message?: string, label?: string) {
+    super(message)
+    this.name = label ? `${label.charAt(0).toUpperCase()}${label.slice(1)}Error` : 'KotoriError'
+    this.label = label
   }
 
-  public readonly extra?: T;
+  /** Error label */
+  public readonly label?: string
 
-  public readonly name: KotoriErrorType;
+  public extend() {
+    return new Proxy(KotoriError, {
+      construct: (target, args, newTarget) =>
+        Reflect.construct(
+          target,
+          [`${this.message ? `${this.message} ` : ''}${args[0]}`, args[1] ?? this.label],
+          newTarget
+        )
+    })
+  }
 
-  public extend(): typeof KotoriError<T> {
-    const { message: fatherMessage, name: fatherType, extra: fatherExtra } = this;
-    // const newClass: typeof KotoriError = Object.create(KotoriError);
-    return new Proxy(KotoriError<T>, {
-      construct(Class, params) {
-        const args = params;
-        args[0] = `${fatherMessage} ${args[0]}`;
-        args[1] = args[1] ?? fatherExtra;
-        args[2] = args[2] ?? fatherType;
-        return new Class(...args);
-      }
-    });
+  public static from(err: unknown, label?: string) {
+    const origin = err instanceof Error ? err : new Error(String(err))
+    const error = new KotoriError(origin.message, label ?? origin.name)
+    if (origin.cause) error.cause = origin.cause
+    if (origin.stack) error.stack = origin.stack
+    return error
   }
 }
 
-export const ModuleError = new KotoriError(undefined, undefined, 'ModuleError').extend();
-export const DevError = new KotoriError(undefined, undefined, 'DevError').extend();
+/**
+ * Module error
+ *
+ * @class ModuleError
+ * @extends {KotoriError}
+ */
+export const ModuleError = new KotoriError(undefined, 'module').extend()
 
-export default KotoriError;
+/**
+ * Dev error
+ *
+ * @class DevError
+ * @extends {KotoriError}
+ */
+export const DevError = new KotoriError(undefined, 'dev').extend()
+
+/**
+ * Command error
+ *
+ * @class CommandError
+ * @extends {KotoriError}
+ */
+export class CommandError extends KotoriError {
+  public readonly value: CommandResultExtra[keyof CommandResultExtra]
+
+  public constructor(value: CommandResultExtra[keyof CommandResultExtra]) {
+    super()
+    this.value = value
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-webui",
-  "version": "1.1.4",
+  "version": "1.4.1",
   "description": "webui plugin",
   "main": "lib/index.js",
   "keywords": [
@@ -14,9 +14,10 @@
     "dist",
     "locales",
     "LICENSE",
+    "assets",
     "README.md"
   ],
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
@@ -31,7 +32,6 @@
     }
   },
   "dependencies": {
-    "@types/date-fns": "^2.6.0",
-    "date-fns": "^3.6.0"
+    "@kotori-bot/kotori-plugin-filter": "workspace:^"
   }
 }

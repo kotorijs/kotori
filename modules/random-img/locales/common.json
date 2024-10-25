@@ -1,4 +1,5 @@
 {
   "random_img.descr.beauty": "随机美女图",
-  "random_img.msg.beauty": "{0}"
+  "random_img.msg.fail": "图片走丢了",
+  "random_img.msg.bing": "{0}\n{1}"
 }

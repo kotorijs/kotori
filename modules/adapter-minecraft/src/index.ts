@@ -1,4 +1,6 @@
-import { McAdapter } from './adapter';
+import { McAdapter } from './adapter'
 
-export { config } from './adapter';
-export default McAdapter;
+export * from './adapter'
+export * from './api'
+export * from './elements'
+export default McAdapter

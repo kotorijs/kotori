@@ -6,12 +6,45 @@
 ## @LastEditTime: 2024-05-04 16:49:18
 ###
 
+# webui v1.3.0 更新内容
+
+## 实装执行指令输出内容监听（见 229 行）
+## WebSocket 连接验证（见 191 行）
+## 新增获取所有指令配置信息接口（见 124 行）
+## 新增获取单个指令配置信息接口（见 129 行）
+## 新增更新单个指令配置信息接口（见 135 行）
+## 实装 /api/config/plugins 与 /api/config/bots 接口的 schema 数据
+## 更改 /api/data/status 接口返回数据格式
+
+### 原：
+
+{
+  "ram": { /* ... */  },
+  "cpu": { /* ... */  },
+  "mode": "dev",
+  "version": "1.5.1",
+}
+
+### 现：
+
+{
+  "ram": { /* ... */  },
+  "cpu": { /* ... */  },
+  "mode": "dev",
+  "main": "1.6.0",
+  "core": "1.6.0",
+  "loader": "1.7.0"
+}
+
+### main 为 Kotori Bot 主程序版本，core 为核心版本，loader 为加载器版本，酌情展示在页面中
+
+
 # Kotori Bot - WebUI Api Documentation
 
-@URL = http://localhost:720
-@KEY = TOKEN
-@USERNAME = 用户名
-@PASSWORD = 密码
+@URL = http://127.0.0.1:721
+@KEY = e81a673eaa0e4b16b407ffc840165757
+@USERNAME = test
+@PASSWORD = 233
 
 ### 登录
 
@@ -37,19 +70,18 @@ Authorization: Bearer {{KEY}}
 
 ### 获取单个插件配置信息
 
-@pluginName = @kotori-bot/kotori-plugin-webui
+@pluginName = @kotori-bot/kotori-plugin-helper
 GET {{URL}}/api/config/plugins/{{pluginName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
 
 ### 更新单个插件配置信息
 
-@pluginName = @kotori-bot/kotori-plugin-webui
 PUT {{URL}}/api/config/plugins/{{pluginName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
 Content-Type: application/json
 
 {
-  "username": "himeno"
+  "content": "请发送 /help 查看详细信息"
 }
 
 ### 获取所有机器人实例配置信息
@@ -74,6 +106,8 @@ Content-Type: application/json
   "master": 24444
 }
 
+### 请求体与 get 下返回数据一致，需要更新什么数据即提供对应数据
+
 ### 获取全局配置信息
 GET {{URL}}/api/config/global HTTP/1.1
 Authorization: Bearer {{KEY}}
@@ -84,7 +118,29 @@ Authorization: Bearer {{KEY}}
 Content-Type: application/json
 
 {
-  "port": 721,
+  "port": 721
+}
+
+### 获取所有指令配置信息
+
+GET {{URL}}/api/config/commands HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+### 获取单个指令配置信息
+
+@commandName = core
+GET {{URL}}/api/config/commands/{{commandName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+
+### 更新单个指令配置信息
+
+@commandName = bot
+PUT {{URL}}/api/config/commands/{{commandName}} HTTP/1.1
+Authorization: Bearer {{KEY}}
+Content-Type: application/json
+
+{
+  "hide": true
 }
 
 ### 获取所有模块信息
@@ -97,6 +153,11 @@ Authorization: Bearer {{KEY}}
 @moduleName = kotori-plugin-adapter-minecraft
 GET {{URL}}/api/data/modules/{{moduleName}} HTTP/1.1
 Authorization: Bearer {{KEY}}
+
+
+### 获取模块图标
+
+GET {{URL}}/api/data/avatar/{{moduleName}} HTTP/1.1
 
 ### 获取所有机器人实例信息
 
@@ -121,10 +182,13 @@ Authorization: Bearer {{KEY}}
 GET {{URL}}/api/data/status HTTP/1.1
 Authorization: Bearer {{KEY}}
 
+
+
 ### WebSocket 连接
 
-### ws://localhost:{{port + 1}}/webui
-### WS 端口为 http 端口 + 1
+### ws://localhost:{{port}}/webui/token
+### WS 端口与 http 端口一致
+### token 为登录后返回的 token，若不传入或无效则将自动断开连接
 
 
 #### 【Server】实时状态（默认每隔 5 秒发送一次）
@@ -162,6 +226,15 @@ Response:
   }
 }
 
+### 当然，有时日志输出数据中会只含有 msg 字段（代表控制台机器人输出消息）：
+
+{
+  "type": "console_output",
+  "data": {
+    "msg": "KotoriO > 未知的指令 “s” ，请检查指令是否输入正确"
+  }
+}
+
 #### 【Client】远程执行控制台指令
 #### 无返回结果，通过控制台日志输出获取执行结果
 
@@ -171,3 +244,5 @@ Request:
   "action": "command",
   "command": "/status"
 }
+
+## action 为固定值，status 为执行指令内容

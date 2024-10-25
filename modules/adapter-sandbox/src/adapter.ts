@@ -3,84 +3,68 @@
  * @Blog: https://hotaru.icu
  * @Date: 2023-09-29 14:31:09
  * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-17 18:07:16
+ * @LastEditTime: 2024-08-07 14:45:14
  */
-import { Adapter, AdapterConfig, Context, Tsu } from 'kotori-bot';
-import WebSocket from 'ws';
-import SandboxApi from './api';
-import SandboxElements from './elements';
+import { type AdapterConfig, type Context, Tsu, Adapters } from 'kotori-bot'
+import SandboxApi from './api'
+import SandboxElements from './elements'
+import { type ActionList, eventDataSchema, responseSchema } from './type'
 
-export const config = Tsu.Object({
-  port: Tsu.Number().int().range(1, 65535),
-  address: Tsu.String()
-    .regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/)
-    .default('ws://127.0.0.1')
-});
+declare module 'kotori-bot' {
+  interface EventsMapping {
+    literal_sandbox_response(res: Tsu.infer<typeof responseSchema>): void
+  }
+}
 
-type SandboxConfig = Tsu.infer<typeof config> & AdapterConfig;
+export const config = Tsu.Object({})
 
-export class SandboxAdapter extends Adapter {
-  private readonly address: string;
+type SandboxConfig = Tsu.infer<typeof config> & AdapterConfig
 
-  public readonly config: SandboxConfig;
+export class SandboxAdapter extends Adapters.WebSocket<SandboxApi, SandboxConfig, SandboxElements> {
+  private wsSend?: (data: string) => void
+
+  public readonly config: SandboxConfig
+
+  public readonly api: SandboxApi = new SandboxApi(this)
+  public readonly elements: SandboxElements = new SandboxElements(this)
+
+  public readonly platform = 'sandbox'
 
   public constructor(ctx: Context, config: SandboxConfig, identity: string) {
-    super(ctx, config, identity, SandboxApi, new SandboxElements());
-    this.config = config;
-    this.address = `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}`;
+    super(ctx, config, identity)
+    this.config = config
   }
 
-  public handle(data: Record<string, unknown>) {
-    if ('selfId' in data) {
-      this.selfId = data.selfId as string;
-      return;
+  public handle(data: object) {
+    if ('response' in data) {
+      const result = responseSchema.parseSafe(data)
+      if (result.value) {
+        this.ctx.emit('literal_sandbox_response', result.data)
+      } else {
+        this.send({ action: 'on_data_error', error: result.error.message })
+      }
+      return
     }
-    if (data.userId === this.selfId) return;
-    (this.session as (type: string, d: typeof data) => void)(data.event as string, data);
+    const result = eventDataSchema.parseSafe(data)
+    if (result.value) {
+      // biome-ignore lint:
+      this.session(result.data.event, result.data as any)
+    } else {
+      this.send({ action: 'on_data_error', error: result.error.message })
+    }
   }
 
   public start() {
-    this.ctx.emit('connect', {
-      type: 'connect',
-      mode: 'ws-reverse',
-      adapter: this,
-      normal: true,
-      address: this.address
-    });
-    this.connectWss();
+    this.connection = (ws) => {
+      this.wsSend = ws.send.bind(ws)
+      this.online()
+      ws.on('close', () => this.offline())
+    }
   }
 
-  public stop() {
-    this.ctx.emit('connect', {
-      type: 'disconnect',
-      adapter: this,
-      normal: true,
-      address: this.address,
-      mode: 'ws-reverse'
-    });
-    this.socket?.close();
-    this.offline();
-  }
-
-  public send(action: string, params?: object) {
-    this.socket?.send(JSON.stringify({ action, params }));
-  }
-
-  private socket?: WebSocket;
-
-  private server?: WebSocket.Server;
-
-  private async connectWss() {
-    this.server = new WebSocket.Server({ port: this.config.port });
-    this.server.on('connection', (ws) => {
-      this.socket = ws;
-      this.online();
-      this.socket.send(JSON.stringify({ test: 1 }));
-      this.socket.on('message', (data) => this.handle(JSON.parse(data.toString())));
-      this.socket.on('close', () => {
-        this.offline();
-        this.socket?.close();
-      });
-    });
+  public send(data: ActionList) {
+    this.wsSend?.(JSON.stringify(data))
   }
 }
+
+export default SandboxAdapter

@@ -1,0 +1,17 @@
+{
+  "name": "kotori-plugin-random",
+  "version": "1.0.0",
+  "description": "math calc, random, rolling dice and throwing a coin!",
+  "main": "lib/index.js",
+  "keywords": ["kotori", "chatbot", "kotori-plugin"],
+  "license": "GPL-3.0",
+  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "author": "Hotaru <me@hotaru.icu>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@dice-roller/rpg-dice-roller": "^5.5.0",
+    "math-expression-evaluator": "^2.0.5"
+  }
+}

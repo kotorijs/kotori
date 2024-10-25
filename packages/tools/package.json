@@ -1,27 +1,18 @@
 {
   "name": "@kotori-bot/tools",
-  "version": "1.4.1",
+  "version": "1.5.1",
   "description": "Tools For Kotori",
   "main": "dist/index.js",
   "browser": "dist/exports/common.js",
   "license": "GPL-3.0",
-  "author": "Hotaru <biyuehuya@gmail.com>",
+  "author": "Hotaru <me@hotaru.icu>",
   "dependencies": {
     "@iarna/toml": "^2.2.5",
     "axios": "^1.6.1",
-    "colorette": "^2.0.20",
     "yaml": "^2.3.3"
   },
-  "keywords": [
-    "kotori",
-    "chatbot",
-    "tools"
-  ],
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
+  "keywords": ["kotori", "chatbot", "tools"],
+  "files": ["dist", "LICENSE", "README.md", "testing.ts"],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },

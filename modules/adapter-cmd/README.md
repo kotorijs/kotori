@@ -1,18 +1,32 @@
 # @kotori-bot/kotori-plugin-adapter-cmd
 
-Base on console i/o,a method for quickly testing modules,only support `private` scope.
+Base on console i/o, a method for quickly testing modules, only support `MessageScope.PRIVATE`.
 
 ## Config
 
 ```typescript
-interface CmdConfig extends Adapter {
-  nickname?: string; // name of user(console)
-  age?: string; // age of user
-  sex?: 'male' | 'female'; // sex of user
-  'self-nickname'?: string; // name of bot
-  'self-id'?: string | number; // id of bot
-}
+export const config = Tsu.Object({
+  nickname: Tsu.String().default('Kotarou').describe('User\'s nickname'),
+  'self-nickname': Tsu.String().default('KotoriO').describe('Bot\'s nickname'),
+  'self-id': Tsu.String().default('720').describe('Bot\'s id'),
+})
 ```
+
+## Supports
+
+### Events
+
+- on_message (only `MessageScope.PRIVATE`)
+
+### Api
+
+- sendPrivateMsg
+
+### Elements
+
+- text
+- mention
+- mentionAll
 
 ## Reference
 

@@ -1,0 +1,16 @@
+{
+  "adapter_mail.descr.mail": "通过目标邮箱发送邮件",
+  "adapter_mail.msg.mail.input_target": "请输入接收邮箱：",
+  "adapter_mail.msg.mail.input_title": "请输入邮件标题：",
+  "adapter_mail.msg.mail.input_content": "请输入邮件内容：",
+  "adapter_mail.msg.mail.sure": "标题：{0}\n内容：{1}\n-------------\n确定发送邮件至{2}？（输入\"1\"发送，其他键取消）",
+  "adapter_mail.msg.mail.cancel": "成功取消发送",
+  "adapter_mail.msg.mail.success": "成功发送邮件至{0}",
+  "adapter_mail.msg.mail.fail": "发送邮件失败，请检查邮件配置，详情：{0}",
+  "adapter_mail.msg.mail.fail.2": "找不到发送邮箱{0}，您可以输入\"{0}mail --list\"查看可用邮箱列表",
+  "adapter_mail.msg.mail.fail.3": "发送失败，目标邮箱格式错误！",
+  "adapter_mail.msg.mail.item": "\n<=========>\n名称：{0}\n邮箱：{1}",
+  "adapter_mail.msg.mail.list": "可用邮箱列表：{0}",
+  "adapter_mail.option.mail.list": "查看可用邮箱列表",
+  "adapter_mail.forward": "收到新邮件！\n来自：{0}\n标题：{1}\n内容：{2}\n日期：{3}"
+}
