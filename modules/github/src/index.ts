@@ -1,6 +1,9 @@
-import { Context, Tsu } from 'kotori-bot';
+import { type Context, Messages, Tsu } from 'kotori-bot'
+import { parse } from 'node:url'
 
-const githubSchema = Tsu.Union([
+const HEAD_URL = 'https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0'
+
+const githubSchema = Tsu.Union(
   Tsu.Object({
     full_name: Tsu.String(),
     description: Tsu.String().default('corei18n.template.empty'),
@@ -16,29 +19,45 @@ const githubSchema = Tsu.Union([
     })
   }),
   Tsu.Object({})
-]);
+)
 
-export const lang = [__dirname, '../locales'];
+export const lang = [__dirname, '../locales']
 
 export function main(ctx: Context) {
-  ctx.command('github <repository> - github.descr.github').action(async (data, session) => {
-    const res = githubSchema.parse(await ctx.http.get(`https://api.github.com/repos/${data.args[0]}`));
-    if (!('full_name' in res)) return ['github.msg.github.fail', { input: data.args[0] }];
-    session.quick([
-      'github.msg.github',
-      {
-        name: res.full_name || 'BOT_RESULT.EMPTY',
-        description: res.description || 'BOT_RESULT.EMPTY',
-        language: res.language || 'BOT_RESULT.EMPTY',
-        author: res.owner ? res.owner.login || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY',
-        create: res.created_at || 'BOT_RESULT.EMPTY',
-        update: res.updated_at || 'BOT_RESULT.EMPTY',
-        push: res.pushed_at || 'BOT_RESULT.EMPTY',
-        license: res.license ? res.license.name || 'BOT_RESULT.EMPTY' : 'BOT_RESULT.EMPTY'
+  ctx.command('github <content> - github.descr.github').action(async ({ args: [content] }, session) => {
+    // it is a repository
+    if (content.split('/').length === 2) {
+      const res = githubSchema.parse(await ctx.http.get(`https://api.github.com/repos/${content}`))
+      if (!('full_name' in res)) {
+        return session.format('github.msg.github.fail', { input: content })
       }
-    ]);
-    return session.el.image(
-      `https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/${res.full_name}`
-    );
-  });
+      session.quick([
+        'github.msg.github',
+        {
+          name: res.full_name,
+          description: res.description,
+          language: res.language,
+          author: res.owner?.login,
+          create: res.created_at,
+          update: res.updated_at,
+          push: res.pushed_at,
+          license: res.license ? res.license.name : 'BOT_RESULT.EMPTY'
+        }
+      ])
+    }
+    return Messages.image(`${HEAD_URL}/${content}`)
+  })
+
+  // * github pull request https://github.com/kotorijs/kotori/issues/3
+  // * github repository github.com/kotorijs/kotori
+  // * github issue http://github.com/kotorijs/kotori/pull/2
+  // ! not match https://gitee.com/shit/shit
+  // ! not match https://github.com/kotori
+  // ! not match https://github.com/kotorijs/kotori/blob/
+  // ! not match https://github.dev/kotorijs/kotori
+
+  ctx.regexp(/(https?:\/\/)?github.com\/[\w-]+\/[\w]+\/?(\/(pull|issues)\/\d+)?$/, (_, session) => {
+    const { pathname } = parse(session.message.toString())
+    return Messages.image(`${HEAD_URL}${pathname}`)
+  })
 }

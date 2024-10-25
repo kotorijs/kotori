@@ -4,7 +4,7 @@
   "requester.msg.decrease.kick": "BOT 被管理员 {0} 踢出了群 {1}",
   "requester.msg.admin.set": "BOT 被设置为群 {0} 的管理员",
   "requester.msg.admin.unset": "BOT 被取消了群 {0} 的管理员",
-  "requester.msg.ban.ban": "BOT 被管理员 {0} 禁言了 {1} 分钟在群 {2}",
+  "requester.msg.ban.ban": "BOT 被管理员 {0} 禁言了 {2} 分钟在群 {1}",
   "requester.msg.ban.lift_ban": "BOT 被管理员 {0} 取消了禁言在群 {1}",
   "requester.msg.recall.group.other": "用户 {0} 被管理员 {1} 在群 {2} 撤回了消息：{3}",
   "requester.msg.recall.group.self": "用户 {0} 在群 {1} 撤回了消息：{2}",

@@ -1,11 +1,11 @@
-import { LoggerData, Transport } from 'kotori-bot';
+import { type LoggerData, Transport } from 'kotori-bot'
 
 export class BoxTransport extends Transport {
-  public result = '';
+  public result = ''
 
   public handle(data: LoggerData) {
-    this.result += data.msg;
+    this.result += data.msg
   }
 }
 
-export default BoxTransport;
+export default BoxTransport

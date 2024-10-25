@@ -1,35 +1,44 @@
-import { Elements, EventDataTargetId, none } from 'kotori-bot';
+import { Elements, type Message, type MessageMapping, MessageSingle } from 'kotori-bot'
 
 export class CmdElements extends Elements {
-  public at(target: EventDataTargetId) {
-    none(this);
-    return `@${target} `;
+  public getSupportsElements(): (keyof MessageMapping)[] {
+    return ['mention', 'mentionAll', 'text']
   }
 
-  public image(url: string) {
-    none(this);
-    return `[image,${url}]`;
+  public decode(message: Message): string {
+    if (typeof message === 'string') return message
+    if (!(message instanceof MessageSingle)) {
+      return Array.from(message)
+        .map((el) => this.decode(el))
+        .join('')
+    }
+    switch (message.data.type) {
+      case 'text':
+        return message.toString()
+      case 'image':
+        return `[image,${message.data.content}]`
+      case 'voice':
+        return `[voice,${message.data.content}]`
+      case 'video':
+        return `[video,${message.data.content}]`
+      case 'file':
+        return `[file,${message.data.content}]`
+      case 'location':
+        return `[location,${message.data.content}]`
+      case 'mention':
+        return `@${message.data.userId}`
+      case 'mentionAll':
+        return '@all'
+      case 'reply':
+        return `[reply,${message.data.messageId}]`
+      default:
+        return `[${message.data.type},unsupported element]`
+    }
   }
 
-  public voice(url: string) {
-    none(this);
-    return `[voice,${url}]`;
-  }
-
-  public video(url: string) {
-    none(this);
-    return `[video,${url}]`;
-  }
-
-  public face(id: string) {
-    none(this);
-    return `[face,${id}]`;
-  }
-
-  public file(data: string) {
-    none(data, this);
-    return `[file]`;
+  public encode(raw: string): Message {
+    return new MessageSingle('text', { text: raw })
   }
 }
 
-export default CmdElements;
+export default CmdElements

@@ -1,14 +1,13 @@
-import { Container } from '@kotori-bot/core';
+import { Symbols, type Context, Container } from '@kotori-bot/core'
 
-export * from '@kotori-bot/core';
-export * from '@kotori-bot/loader';
+export * from '@kotori-bot/core'
+export * from '@kotori-bot/loader'
 
-export const Kotori = new Proxy(Container.getMixin(), {
-  get: (_, prop) => {
-    const target = Container.getMixin();
-    if (prop === undefined) return target;
-    return target[prop as keyof typeof target];
+export const Kotori = new Proxy(
+  {},
+  {
+    get: (_, prop) => Container[Symbols.getInstance]()[prop as keyof Context]
   }
-});
+) as Context
 
-export default Kotori;
+export default Kotori

@@ -1,4 +1,4 @@
-import { LoggerFilter } from './internal';
+import type { LoggerFilter } from './internal'
 
 export enum LoggerLevel {
   TRACE = 10,
@@ -8,17 +8,17 @@ export enum LoggerLevel {
   WARN = 40,
   ERROR = 50,
   FATAL = 60,
-  SILENT = Infinity
+  SILENT = 70
 }
 
 export interface TransportOptionsBase {
-  filter?: LoggerFilter;
+  filter?: LoggerFilter
 }
 
 export interface LoggerData {
-  level: LoggerLevel;
-  time: number;
-  pid: number;
-  label: string[];
-  msg: string;
+  level: LoggerLevel
+  time: number
+  pid: number
+  label: string[]
+  msg: string
 }

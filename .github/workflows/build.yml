@@ -23,10 +23,15 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
+      - name: Clone submodules
+        run: |
+          cd ./packages
+          git clone https://github.com/biyuehu/fluoro
+          cd ../
       - name: Install packages
         run: pnpm install --no-frozen-lockfile
       - name: Build packages
-        run: pnpm build
+        run: pnpm build:action
       - name: Zip packages
         run: pnpm pack
       - name: Upload artifacts

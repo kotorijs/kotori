@@ -1,5 +1,5 @@
-import Kotori, { Tsu } from 'kotori-bot';
-import config from './config';
+import Kotori, { Tsu } from 'kotori-bot'
+import config from './config'
 
 const resSchema = Tsu.Object({
   result: Tsu.Object({
@@ -18,7 +18,7 @@ const resSchema = Tsu.Object({
       })
     )
   })
-});
+})
 
 export default async function getData(name: string) {
   const res = resSchema.parse(
@@ -32,7 +32,7 @@ export default async function getData(name: string) {
       },
       config
     )
-  );
+  )
 
   const songData = res.result.songs.map((song) => ({
     link: `http://music.163.com/#/song?id=${song.id}`,
@@ -41,7 +41,7 @@ export default async function getData(name: string) {
     authors: song.ar.map((artist) => artist.name),
     pic: `${song.al.picUrl}?param=300x300`,
     url: `http://music.163.com/song/media/outer/url?id=${song.id}.mp3`
-  }));
+  }))
 
-  return songData;
+  return songData
 }

@@ -1,15 +1,15 @@
-import { Context, HttpRoutes } from 'kotori-bot';
-import account from './api/accounts';
-import config from './api/config';
-import data from './api/data';
+import type { Context, HttpRoutes } from 'kotori-bot'
+import account from './api/accounts'
+import config from './api/config'
+import data from './api/data'
 
 interface RouterRecord {
-  path: string;
-  handler: (ctx: Context, app: Context['server']) => HttpRoutes;
+  path: string
+  handler: (ctx: Context, app: Context['server']) => HttpRoutes
 }
 
 function defineRouter(config: RouterRecord[]) {
-  return config;
+  return config
 }
 
 export default defineRouter([
@@ -25,4 +25,4 @@ export default defineRouter([
     path: '/api/data',
     handler: data
   }
-]);
+])

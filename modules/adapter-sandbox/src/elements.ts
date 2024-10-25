@@ -1,26 +1,44 @@
-import { Elements, EventDataTargetId, none } from 'kotori-bot';
+import { Elements, MessageSingle, type MessageMapping, type Message } from 'kotori-bot'
 
-export class OnebotElements extends Elements {
-  public cq(type: string, data: EventDataTargetId) {
-    none(this);
-    return `[${type},${data}]`;
+export class SandboxElements extends Elements {
+  public getSupportsElements(): (keyof MessageMapping)[] {
+    return ['text', 'image', 'voice', 'video', 'location', 'mention', 'mentionAll', 'reply']
   }
 
-  public at(target: EventDataTargetId) {
-    return this.cq('at', target);
+  public decode(message: Message): string {
+    if (typeof message === 'string') return message
+    if (!(message instanceof MessageSingle)) {
+      return Array.from(message)
+        .map((el) => this.decode(el))
+        .join('')
+    }
+    switch (message.data.type) {
+      case 'text':
+        return message.toString()
+      case 'image':
+        return `[image,${message.data.content}]`
+      case 'voice':
+        return `[voice,${message.data.content}]`
+      case 'video':
+        return `[video,${message.data.content}]`
+      case 'location':
+        return `[location,${message.data.title},${message.data.content},${message.data.latitude},${message.data.longitude}]`
+      case 'mention':
+        return `[mention,${message.data.userId}]`
+      case 'mentionAll':
+        return '[all]'
+      case 'reply':
+        return `[reply,${message.data.messageId}]`
+      case 'file':
+        return `[file,${message.data.content}]`
+      case 'audio':
+        return `[audio,${message.data.content}]`
+    }
   }
 
-  public image(url: string) {
-    return this.cq('image', url);
-  }
-
-  public voice(url: string) {
-    return this.cq('record', url);
-  }
-
-  public video(url: string) {
-    return this.cq('video', url);
+  public encode(raw: string): Message {
+    return new MessageSingle('text', { text: raw })
   }
 }
 
-export default OnebotElements;
+export default SandboxElements
