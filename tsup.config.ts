@@ -27,6 +27,10 @@ export default defineConfig((options) => {
     entryPoints: ['./src'],
     outDir: tsconfig?.compilerOptions?.outDir ?? './dist',
     bundle: false,
+    loader: {
+      '.res': 'empty',
+      '.res.js': 'empty'
+    },
     banner: {
       js: `
 /**

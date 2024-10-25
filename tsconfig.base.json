@@ -12,7 +12,9 @@
     "composite": true,
     "incremental": true,
     /* Custom */
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    "jsx": "preserve",
+    "jsxFactory": "h"
   },
   /* Custom */
   "exclude": ["**/*/*.test.ts", "*.d.ts", "**/*/lib/*", "**/*/dist/*"]

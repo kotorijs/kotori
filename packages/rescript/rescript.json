@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/rescript/docs/docson/build-schema.json",
+  "name": "rescript-kotori",
+  "sources": {
+    "dir": "src",
+    "subdirs": true
+  },
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "suffix": ".res.js",
+  "bs-dependencies": ["@rescript/core"],
+  "bsc-flags": ["-open RescriptCore"],
+  "jsx": {
+    "module": "KotoriMsg"
+  }
+}
