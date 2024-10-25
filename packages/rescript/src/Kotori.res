@@ -39,26 +39,89 @@ type i18n = {
 }
 
 module Msg = {
-  type message = {toString: unit => string}
-  @module("kotori-bot") external list: array<message> => message = "Messages"
-  @module("kotori-bot") @scope("Messages") external text: string => message = "text"
-  @module("kotori-bot") @scope("Messages") external mention: string => message = "mention"
-  @module("kotori-bot") @scope("Messages") external mentionAll: unit => message = "mentionAll"
-  @module("kotori-bot") @scope("Messages") external image: string => message = "image"
-  @module("kotori-bot") @scope("Messages") external voice: string => message = "voice"
-  @module("kotori-bot") @scope("Messages") external audio: string => message = "audio"
-  @module("kotori-bot") @scope("Messages") external video: string => message = "video"
-  @module("kotori-bot") @scope("Messages") external file: string => message = "file"
-  @module("kotori-bot") @scope("Messages")
-  external location: (
-    ~latitude: float,
-    ~longitude: float,
-    ~title: string,
-    ~content: string,
-  ) => message = "location"
-  @module("kotori-bot") @scope("Messages") external reply: string => message = "reply"
+  external el: 'a => KotoriMsg.element = "%identity"
 
-  type confirmConfig = {message: message, sure: message}
+  module Seg = {
+    @jsx.component
+    let make = (~children: KotoriMsg.element) => <seg> {el(children)} </seg>
+  }
+
+  module Text = {
+    @jsx.component
+    let make = (~children: string) => <text> {el(children)} </text>
+  }
+
+  module Br = {
+    @jsx.component
+    let make = () => <br />
+  }
+
+  module Image = {
+    @jsx.component
+    let make = (~src: string) => <image src />
+  }
+
+  module Voice = {
+    @jsx.component
+    let make = (~src: string) => <voice src />
+  }
+
+  module Audio = {
+    @jsx.component
+    let make = (~src: string) => <audio src />
+  }
+
+  module Video = {
+    @jsx.component
+    let make = (~src: string) => <video src />
+  }
+
+  module Mention = {
+    @jsx.component
+    let make = (~userId: string) => <mention userId />
+  }
+
+  module MentionAll = {
+    @jsx.component
+    let make = () => <mentionAll />
+  }
+
+  module Reply = {
+    @jsx.component
+    let make = (~messageId: string) => <reply messageId />
+  }
+
+  module File = {
+    @jsx.component
+    let make = (~src: string) => <file src />
+  }
+
+  module Location = {
+    @jsx.component
+    let make = (~latitude: float, ~longitude: float, ~title: string, ~content: string) =>
+      <location latitude longitude title content />
+  }
+
+  // type message = {toString: unit => string}
+  // @module("kotori-bot") external list: array<message> => message = "Messages"
+  // @module("kotori-bot") @scope("Messages") external text: string => message = "text"
+  // @module("kotori-bot") @scope("Messages") external mention: string => message = "mention"
+  // @module("kotori-bot") @scope("Messages") external mentionAll: unit => message = "mentionAll"
+  // @module("kotori-bot") @scope("Messages") external image: string => message = "image"
+  // @module("kotori-bot") @scope("Messages") external voice: string => message = "voice"
+  // @module("kotori-bot") @scope("Messages") external audio: string => message = "audio"
+  // @module("kotori-bot") @scope("Messages") external video: string => message = "video"
+  // @module("kotori-bot") @scope("Messages") external file: string => message = "file"
+  // @module("kotori-bot") @scope("Messages")
+  // external location: (
+  //   ~latitude: float,
+  //   ~longitude: float,
+  //   ~title: string,
+  //   ~content: string,
+  // ) => message = "location"
+  // @module("kotori-bot") @scope("Messages") external reply: string => message = "reply"
+
+  type confirmConfig = {message: KotoriMsg.element, sure: KotoriMsg.element}
   type session = {
     id: string,
     // api: Js.t<'a>, // 简化
@@ -87,7 +150,7 @@ module Msg = {
   type commandActionData = {args: array<value>, options: Js.Dict.t<value>}
   type commandPipes = {
     cmd_new: string => command,
-    cmd_action: (command, (commandActionData, session) => promise<message>) => command,
+    cmd_action: (command, (commandActionData, session) => promise<KotoriMsg.element>) => command,
     cmd_option: (command, string, string) => command,
     cmd_scope: (command, scope) => command,
     cmd_access: (command, access) => command,
@@ -183,8 +246,11 @@ type rec context = {
   baseDir: ConfigAndLoader.baseDir,
   options: ConfigAndLoader.options,
   // Message
-  midware: ((unit => promise<unit>, Msg.session) => promise<Msg.message>, int) => unit => bool,
-  regexp: (Js.Re.t, (array<string>, Msg.session) => promise<Msg.message>) => unit => bool,
+  midware: (
+    (unit => promise<unit>, Msg.session) => promise<KotoriMsg.element>,
+    int,
+  ) => unit => bool,
+  regexp: (Js.Re.t, (array<string>, Msg.session) => promise<KotoriMsg.element>) => unit => bool,
   task: (string, unit => unit) => unit => bool, // only supports expr
   // filt: Msg.filterOption => context,
   ...Msg.commandPipes,
@@ -196,12 +262,12 @@ type rec context = {
 and service = {
   ctx: context,
   // config: unknown,
-  identity: string,
+  // identity: string,
 }
 and moduleExport = {
   name?: string,
   main: context => unit,
-  inject?: array<string>,
+  // inject?: array<string>,
 }
 
 type resHooker = {
@@ -212,18 +278,6 @@ type resHooker = {
 }
 
 let createResHooker = (ctx: context) => {
-  let handleSession = (session: Msg.session) => {
-    // Js.Array.forEach((key: string) => {
-    //   let value = if %raw(`session[key] === undefined`) {
-    //     None
-    //   } else {
-    //     Some(%raw(`session[key]`))
-    //   }
-    //   [%raw(`session[key] = value`), value, key->Utils.toAny]->Utils.ignore
-    // }, ["userId", "operatorId", "messageId", "groupId", "channelId", "guildId"])
-    session
-  }
-
   let hooker: resHooker = {
     loadExport: moduleExport => {
       Utils.toAny(ctx)["load"](moduleExport)
@@ -244,8 +298,7 @@ let createResHooker = (ctx: context) => {
           | _ => Msg.None
           }
         , data["args"])
-        Console.log(session.userId)
-        callback(data->Utils.toAny, session->handleSession)
+        callback(data->Utils.toAny, session)
       })
     },
     cmd_option: (cmd, name, template) => {
