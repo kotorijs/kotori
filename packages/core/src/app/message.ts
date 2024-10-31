@@ -165,8 +165,7 @@ export class Message {
                         ? { type: MessageScope.GROUP, groupId: id1 }
                         : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
                 })
-                if (cancel.value) return
-                Reflect.apply(target, thisArg, argArray)
+                return cancel.value ? { messageId: '', time: 0 } : Reflect.apply(target, thisArg, argArray)
               }
             })
           }

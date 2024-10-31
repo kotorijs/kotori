@@ -28,6 +28,7 @@ import {
   Service,
   Decorators
 } from '@kotori-bot/core'
+import { createResHooker, resHookerProps } from 'rescript-kotori'
 import path from 'node:path'
 import fs from 'node:fs'
 import Logger, { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
@@ -46,6 +47,7 @@ import Server from '../service/server'
 import Database from '../service/database'
 import File from '../service/file'
 import KotoriLogger from '../utils/logger'
+import type Browser from '../service/browser'
 
 interface BaseDir {
   root: string
@@ -67,8 +69,12 @@ export interface ModulePackage {
   keywords: string[]
   license: 'GPL-3.0'
   author: string | string[]
-  peerDependencies: {
+  peerDependencies?: {
     'kotori-bot': string
+    [propName: string]: string
+  }
+  devDependencies?: {
+    'rescript-kotori': string
     [propName: string]: string
   }
   kotori: {
@@ -106,7 +112,7 @@ declare module '@kotori-bot/core' {
     server: Server
     db: Database
     file: File
-    browser: object
+    browser: Browser
   }
 
   interface GlobalConfig {
@@ -200,8 +206,8 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
 function moduleLoaderOrder(pkg: ModulePackage) {
   if (CORE_MODULES.includes(pkg.name)) return 1
   // if (pkg.name.includes(DATABASE_PREFIX)) return 2
-  if (pkg.name.includes(ADAPTER_PREFIX)) return 3
-  if (pkg.kotori.enforce === 'pre') return 4
+  if (pkg.kotori.enforce === 'pre') return 3
+  if (pkg.name.includes(ADAPTER_PREFIX)) return 4
   if (!pkg.kotori.enforce) return 5
   return 6
 }
@@ -240,9 +246,9 @@ export const modulePackageSchema = Tsu.Object({
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
   author: Tsu.Union(Tsu.String(), Tsu.Array(Tsu.String())),
-  peerDependencies: Tsu.Object({
-    'kotori-bot': Tsu.String()
-  }),
+  // peerDependencies: Tsu.Object({
+  //   'kotori-bot': Tsu.String()
+  // }),
   kotori: Tsu.Object({
     enforce: Tsu.Union(Tsu.Literal('pre'), Tsu.Literal('post')).optional(),
     meta: Tsu.Object({
@@ -295,6 +301,7 @@ export class Loader extends Core {
         this
       )
     )
+    this.provide('resHooker', createResHooker(this))
     this.inject('logger')
     this.service('server', new Server(this.extends('server'), { port: this.config.global.port }))
     this.service('file', new File(this.extends('file')))
@@ -382,7 +389,12 @@ export class Loader extends Core {
       if (this.loadRecord.has(name)) return
       this.loadRecord.add(name)
       this.logger.info(
-        this.format('loader.modules.load', [name, version, Array.isArray(author) ? author.join(',') : author])
+        this.format(
+          data.instance.default && 'isRescript' in data.instance.default
+            ? 'loader.modules.loadRes'
+            : 'loader.modules.load',
+          [name, version, Array.isArray(author) ? author.join(',') : author]
+        )
       )
     })
   }
@@ -487,9 +499,20 @@ export class Loader extends Core {
     /* Service Class */
     // Service need parse reality config and load lang files
     if (Service.isPrototypeOf.call(Service, obj.default)) {
-      this.service('', new obj.default(this.extends(pkg.name), config))
+      const serviceName = (pkg.name.split('/')[1] ?? pkg.name).replace(PLUGIN_PREFIX, '')
+      this.service(serviceName, new obj.default(this.extends(serviceName), config))
       // but it is different with normal plugin: need not load immediately so reset obj
       obj = {}
+    }
+
+    /* Rescript Plugins */
+    if (typeof obj.main === 'function' && pkg.devDependencies?.rescript) {
+      // obj.default will be called before obj.main
+      obj.default = (ctx: this, config: object) => {
+        ctx.mixin('resHooker', resHookerProps, true)
+        obj.main(ctx, config)
+      }
+      obj.default.isRescript = true
     }
 
     try {

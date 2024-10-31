@@ -29,7 +29,8 @@ export default defineConfig((options) => {
     bundle: false,
     loader: {
       '.res': 'empty',
-      '.res.js': 'empty'
+      '.res.js': 'empty',
+      '.res.d.ts': 'empty'
     },
     banner: {
       js: `

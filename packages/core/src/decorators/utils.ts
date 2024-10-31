@@ -7,6 +7,7 @@ import { resolve } from 'node:path'
 import type { CommandConfig } from '../types'
 import type { KotoriPlugin } from './plugin'
 import type { Context } from '../app'
+import stringify from 'fast-safe-stringify'
 
 declare module '../types/events' {
   interface EventsMapping {
@@ -100,7 +101,7 @@ export class Decorators {
     }
     for (const [fn, options, isStatic] of meta.commands) {
       const cmd = childCtx.command(options.template, { ...options, action: bound(fn, isStatic) })
-      for (const option of JSON.parse(JSON.stringify(options.options ?? []))) cmd.option(option[0], option[1])
+      for (const option of JSON.parse(stringify(options.options ?? []))) cmd.option(option[0], option[1])
     }
     for (const [fn, options, isStatic] of meta.regexps) {
       childCtx.regexp(options.match, bound(fn, isStatic))

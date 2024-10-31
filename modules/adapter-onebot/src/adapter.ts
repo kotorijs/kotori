@@ -28,7 +28,7 @@ interface EventDataPoke extends EventDataApiBase {
 declare module 'kotori-bot' {
   interface EventsMapping {
     onebot_poke(session: Session<EventDataPoke>): void
-    literal_onebot_raw_data(data: EventDataType | object): void
+    literal_onebot_raw_data(data: Exclude<EventDataType['data'], undefined> | object): void
   }
 }
 
@@ -79,8 +79,8 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
   }
 
   public handle(data: EventDataType) {
-    if (!('post_type' in data)) {
-      this.ctx.emit('literal_onebot_raw_data', data)
+    if (!('post_type' in data) && data.data) {
+      this.ctx.emit('literal_onebot_raw_data', data.data)
       return
     }
     if (data.post_type === 'message' && data.message_type === 'private') {

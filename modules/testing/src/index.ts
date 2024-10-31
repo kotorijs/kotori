@@ -21,17 +21,26 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
     return data.args.join(' ')
   }
 
-  @plugin.command({ template: 'eval [...code]', access: UserAccess.ADMIN })
-  public async eval({ args }: Parameters<CommandAction>[0], session: Session) {
-    let code = args.join(' ')
-    if (!code.trim()) code = (await session.prompt('Input the code:')).toString()
-    try {
-      // biome-ignore lint:
-      const result = eval(code)
-      return session.json(result)
-    } catch (error) {
-      return session.format('eval error:~\n{0}', [error instanceof Error ? error.message : String(error)])
+  @plugin.command({ template: 'eval [...code]', access: UserAccess.ADMIN, options: [['I', 'interactive:boolean']] })
+  public async eval({ args, options: { interactive } }: Parameters<CommandAction>[0], session: Session) {
+    const run = async (code: string) => {
+      try {
+        // biome-ignore lint:
+        const result = eval(code)
+        session.json(result)
+      } catch (error) {
+        session.quick(['eval error:~\n{0}', [error instanceof Error ? error.message : String(error)]])
+      }
     }
+
+    if (!interactive) return run(args.join(' ').trim() || (await session.prompt('Input the code:')).toString())
+    session.quick('Interactive mode enabled. Type `.exit` to exit.')
+    while (true) {
+      const code = (await session.prompt('Input the code:')).toString()
+      if (code === '.exit') break
+      await run(code)
+    }
+    session.quick('Interactive mode exited.')
   }
 
   @plugin.regexp({ match: /^(.*)#print$/ })

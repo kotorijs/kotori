@@ -1,4 +1,4 @@
-import type { I18n } from '@kotori-bot/i18n'
+import { I18n } from '@kotori-bot/i18n'
 import { stringTemp } from '@kotori-bot/tools'
 import type { CommandArgType, Message, MessageMapping } from '../types'
 import { MessageList, MessageSingle, Messages } from '../components'
@@ -8,7 +8,7 @@ import { MessageList, MessageSingle, Messages } from '../components'
  * @param i18n - i18n instance
  * @returns - format function
  */
-export function formatFactory(i18n: I18n) {
+export function formatFactory(i18n: I18n = new I18n()) {
   function format(
     template: string,
     data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]

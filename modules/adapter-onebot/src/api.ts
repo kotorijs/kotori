@@ -5,22 +5,25 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-08-05 15:08:42
  */
-import { Api, Tsu, type Message } from 'kotori-bot'
+import { Api, Tsu, type Message, KotoriError } from 'kotori-bot'
 import type OnebotAdapter from './adapter'
 import type { EventDataType } from './types'
 
 export class OnebotApi extends Api {
-  private factory<T>(callback: (data: EventDataType | object) => null | T) {
-    return new Promise<T>((resolve) => {
-      const register = () =>
-        this.adapter.ctx.once('literal_onebot_raw_data', (data) => {
-          const result = callback(data)
-          if (!result) {
-            register()
-            return
-          }
-          resolve(result)
-        })
+  private factory<T>(callback: (data: Exclude<EventDataType['data'], undefined> | object) => null | T) {
+    return new Promise<T>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        reject(new KotoriError('data response timeout'))
+        this.adapter.ctx.off('literal_onebot_raw_data', handler)
+      }, 10 * 1000)
+      const handler = (data: Exclude<EventDataType['data'], undefined> | object) => {
+        const result = callback(data)
+        if (!result) return
+        this.adapter.ctx.off('literal_onebot_raw_data', handler)
+        clearTimeout(timer)
+        resolve(result)
+      }
+      this.adapter.ctx.on('literal_onebot_raw_data', handler)
     })
   }
 
@@ -124,6 +127,7 @@ export class OnebotApi extends Api {
           remark: Tsu.String()
         })
       ).parseSafe(data)
+
       if (!result.value) return null
       return result.data.map((item) => ({
         userId: item.user_id.toString(),

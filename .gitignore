@@ -6,6 +6,7 @@ log
 data
 
 *.env
+.env
 *.tgz
 *.log
 tsconfig.tsbuildinfo

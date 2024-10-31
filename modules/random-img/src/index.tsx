@@ -1,4 +1,4 @@
-import { Tsu, type Context, Messages } from 'kotori-bot'
+import { Tsu, type Context } from 'kotori-bot'
 
 const sexSchema = Tsu.Object({
   data: Tsu.Array(
@@ -33,8 +33,15 @@ export function main(ctx: Context) {
       if (!res.data) return session.format('random_img.msg.sex.fail', [data.args[0]])
 
       const info = res.data[0]
-      session.quick(['random_img.msg.sex', [info.pid, info.title, info.author, info.tags.join(' ')]])
-      return Messages.image(info.url)
+      // session.quick(['random_img.msg.sex', [info.pid, info.title, info.author, info.tags.join(' ')]])
+      return (
+        <format template={session.t`random_img.msg.sex`}>
+          <text>{info.pid.toString()}</text>
+          <text>{info.title}</text>
+          <text>{info.author}</text>
+          <text>{info.tags.join(' ')}</text>
+        </format>
+      )
     })
 
   // ctx.command('sexh [tags] - random_img.descr.sexh').action(async (data, session) => {
@@ -52,26 +59,31 @@ export function main(ctx: Context) {
     const result1 = text.match(/<url>(.*?)<\/url>/)
     const result2 = text.match(/<copyright>(.*?)<\/copyright>/)
     if (!result1 || !result2) return 'random_img.msg.fail'
-    return session.format('random_img.msg.bing', [Messages.image(`https://cn.bing.com${result1[1]}`), result2[1]])
+    return (
+      <format template={session.t`random_img.msg.bing`}>
+        <image src={`https://cn.bing.com${result1[1]}`} />
+        <text>{result2[1]}</text>
+      </format>
+    )
   })
 
   ctx.command('day - random_img.descr.day').action((_, session) => {
     session.quick('random_img.msg.sex.tips')
-    return Messages.image('https://api.hotaru.icu/api/60s?apikey=1c42abefdb5f7cc463dbc88e82d561b1&area=日本神户市')
+    return <image src="https://api.hotaru.icu/api/60s?apikey=1c42abefdb5f7cc463dbc88e82d561b1&area=日本神户市" />
   })
 
   ctx.command('earth - random_img.descr.earth').action((_, session) => {
     session.quick('random_img.msg.sex.tips')
-    return Messages.image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg')
+    return <image src="https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.jpg" />
   })
 
   ctx.command('china - random_img.descr.china').action((_, session) => {
     session.quick('random_img.msg.sex.tips')
-    return Messages.image('https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg')
+    return <image src="https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg" />
   })
 
   ctx.command('beauty - random_img.descr.beauty').action((_, session) => {
     session.quick('random_img.msg.sex.tips')
-    return Messages.image('https://api.hotaru.icu/api/beautyimg')
+    return <image src="https://api.hotaru.icu/api/beautyimg" />
   })
 }
