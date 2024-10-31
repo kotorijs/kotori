@@ -14,7 +14,6 @@
     "pub": "tsx scripts/pub",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-
     "clean": "rm -rf ./{packages,modules}/*/{tsconfig.tsbuildinfo,lib} && rm -rf ./packages/*/dist"
   },
   "files": [
@@ -47,7 +46,16 @@
   },
   "nodemonConfig": {
     "exec": "pnpm dev:only",
-    "ext": "ts",
-    "ignore": ["dist", "lib", "data", "log", "tsup.config.ts", "scripts", "tests", "*.test.ts"]
+    "ext": "ts,tsx,res",
+    "ignore": [
+      "dist",
+      "lib",
+      "data",
+      "log",
+      "tsup.config.ts",
+      "scripts",
+      "tests",
+      "*.test.ts"
+    ]
   }
 }

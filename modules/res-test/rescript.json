@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/rescript/docs/docson/build-schema.json",
-  "name": "rescript-kotori",
+  "name": "kotori-plugin-res-test",
   "sources": {
     "dir": "src",
     "subdirs": true
@@ -10,8 +10,8 @@
     "in-source": true
   },
   "suffix": ".res.js",
-  "bs-dependencies": ["@rescript/core"],
-  "bsc-flags": [],
+  "bs-dependencies": ["@rescript/core", "rescript-kotori"],
+  "bsc-flags": ["-open RescriptCore"],
   "jsx": {
     "module": "KotoriMsg"
   }

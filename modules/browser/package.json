@@ -1,7 +1,7 @@
 {
-  "name": "@kotori-bot/kotori-plugin-core",
-  "version": "1.4.4",
-  "description": "core plugin",
+  "name": "@kotori-bot/browser",
+  "version": "1.0.0",
+  "description": "browser service supports for kotori-bot",
   "main": "lib/index.js",
   "keywords": [
     "kotori",
@@ -11,7 +11,6 @@
   "license": "GPL-3.0",
   "files": [
     "lib",
-    "locales",
     "LICENSE",
     "README.md"
   ],
@@ -27,6 +26,10 @@
         "zh_TW",
         "zh_CN"
       ]
-    }
+    },
+    "enforce": "pre"
+  },
+  "dependencies": {
+    "puppeteer": "^23.6.0"
   }
 }

@@ -493,13 +493,13 @@ export interface EventStatType {
 }
 
 export type EventDataType = {
-  post_type: EventPostType
-  message_type: EventMessageType
-  sub_type: EventSubType
-  request_type: EventRequestType
-  notice_type: EventNoticeType
-  notice_notify_subtype: EventNoticeNotifySubType
-  meta_event_type: EventMetaEventsList
+  post_type?: EventPostType
+  message_type?: EventMessageType
+  sub_type?: EventSubType
+  request_type?: EventRequestType
+  notice_type?: EventNoticeType
+  notice_notify_subtype?: EventNoticeNotifySubType
+  meta_event_type?: EventMetaEventsList
   time: number
   self_id: number
   message_: Message
@@ -516,7 +516,5 @@ export type EventDataType = {
   flag?: string
   status: EventStatusType
   font: number | 0
-  data?: {
-    message_id?: number
-  }
+  data?: Omit<EventDataType, 'data'>
 }

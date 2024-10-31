@@ -1,8 +1,8 @@
 {
-  "name": "rescript-kotori",
+  "name": "kotori-plugin-res-test",
   "version": "1.0.0",
-  "description": "supports rescript for kotori-bot",
-  "main": "src/Kotori.res.js",
+  "description": "a kotori project",
+  "main": "src/Main.res.js",
   "scripts": {
     "res:build": "rescript",
     "res:clean": "rescript clean",
@@ -16,16 +16,14 @@
   ],
   "license": "GPL-3.0",
   "files": [
-    "dist",
-    "rescript.json",
+    "src/**/*.res.js",
+    "LICENSE",
     "README.md"
   ],
-  "author": "Hatsuyuki <me@hotaru.icu>",
+  "author": "Hotaru <me@hotaru.icu>",
   "devDependencies": {
     "@rescript/core": "^1.3.0",
-    "rescript": "^11.1.0"
-  },
-  "dependencies": {
-    "@kotori-bot/core": "workspace:^"
+    "rescript": "^11.1.0",
+    "rescript-kotori": "workspace:^"
   }
 }

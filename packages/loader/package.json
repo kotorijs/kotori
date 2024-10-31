@@ -5,8 +5,17 @@
   "license": "GPL-3.0",
   "main": "lib/index.js",
   "author": "Arimura Sena <me@hotaru.icu>",
-  "keywords": ["kotori", "chatbot", "loader"],
-  "files": ["locales", "lib", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "loader"
+  ],
+  "files": [
+    "locales",
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },
@@ -18,6 +27,7 @@
   "dependencies": {
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/logger": "workspace:^",
+    "rescript-kotori": "workspace:^",
     "express": "^4.18.2",
     "level": "^8.0.1",
     "path-to-regexp": "^6.2.2",

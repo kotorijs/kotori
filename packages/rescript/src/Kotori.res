@@ -103,23 +103,23 @@ module Msg = {
   }
 
   // type message = {toString: unit => string}
-  // @module("kotori-bot") external list: array<message> => message = "Messages"
-  // @module("kotori-bot") @scope("Messages") external text: string => message = "text"
-  // @module("kotori-bot") @scope("Messages") external mention: string => message = "mention"
-  // @module("kotori-bot") @scope("Messages") external mentionAll: unit => message = "mentionAll"
-  // @module("kotori-bot") @scope("Messages") external image: string => message = "image"
-  // @module("kotori-bot") @scope("Messages") external voice: string => message = "voice"
-  // @module("kotori-bot") @scope("Messages") external audio: string => message = "audio"
-  // @module("kotori-bot") @scope("Messages") external video: string => message = "video"
-  // @module("kotori-bot") @scope("Messages") external file: string => message = "file"
-  // @module("kotori-bot") @scope("Messages")
+  // @module("@kotori-bot/core") external list: array<message> => message = "Messages"
+  // @module("@kotori-bot/core") @scope("Messages") external text: string => message = "text"
+  // @module("@kotori-bot/core") @scope("Messages") external mention: string => message = "mention"
+  // @module("@kotori-bot/core") @scope("Messages") external mentionAll: unit => message = "mentionAll"
+  // @module("@kotori-bot/core") @scope("Messages") external image: string => message = "image"
+  // @module("@kotori-bot/core") @scope("Messages") external voice: string => message = "voice"
+  // @module("@kotori-bot/core") @scope("Messages") external audio: string => message = "audio"
+  // @module("@kotori-bot/core") @scope("Messages") external video: string => message = "video"
+  // @module("@kotori-bot/core") @scope("Messages") external file: string => message = "file"
+  // @module("@kotori-bot/core") @scope("Messages")
   // external location: (
   //   ~latitude: float,
   //   ~longitude: float,
   //   ~title: string,
   //   ~content: string,
   // ) => message = "location"
-  // @module("kotori-bot") @scope("Messages") external reply: string => message = "reply"
+  // @module("@kotori-bot/core") @scope("Messages") external reply: string => message = "reply"
 
   type confirmConfig = {message: KotoriMsg.element, sure: KotoriMsg.element}
   type session = {
@@ -246,12 +246,9 @@ type rec context = {
   baseDir: ConfigAndLoader.baseDir,
   options: ConfigAndLoader.options,
   // Message
-  midware: (
-    (unit => promise<unit>, Msg.session) => promise<KotoriMsg.element>,
-    int,
-  ) => unit => bool,
-  regexp: (Js.Re.t, (array<string>, Msg.session) => promise<KotoriMsg.element>) => unit => bool,
-  task: (string, unit => unit) => unit => bool, // only supports expr
+  midware: ((unit => promise<unit>, Msg.session) => promise<KotoriMsg.element>, int, unit) => bool,
+  regexp: (Js.Re.t, (array<string>, Msg.session) => promise<KotoriMsg.element>, unit) => bool,
+  task: (string, unit => unit, unit) => bool, // only supports expr
   // filt: Msg.filterOption => context,
   ...Msg.commandPipes,
   // Extension
@@ -277,6 +274,20 @@ type resHooker = {
   ...Msg.commandPipes,
 }
 
+let resHookerProps = [
+  "loadExport",
+  "unloadExport",
+  "cmd_new",
+  "cmd_action",
+  "cmd_option",
+  "cmd_help",
+  "cmd_scope",
+  "cmd_access",
+  "cmd_alias",
+  "cmd_shortcut",
+  "cmd_hide",
+]
+
 let createResHooker = (ctx: context) => {
   let hooker: resHooker = {
     loadExport: moduleExport => {
@@ -291,10 +302,10 @@ let createResHooker = (ctx: context) => {
     cmd_action: (cmd, callback) => {
       Utils.toAny(cmd)["action"]((data, session: Msg.session) => {
         data["args"] = Js.Array.map(arg =>
-          switch arg->Type.typeof {
-          | #string => Msg.String(arg)
-          | #number => Msg.Number(arg->Utils.toAny)
-          | #boolean => Msg.Bool(arg->Utils.toAny)
+          switch arg->Js.typeof {
+          | "string" => Msg.String(arg)
+          | "number" => Msg.Number(arg->Utils.toAny)
+          | "boolean" => Msg.Bool(arg->Utils.toAny)
           | _ => Msg.None
           }
         , data["args"])

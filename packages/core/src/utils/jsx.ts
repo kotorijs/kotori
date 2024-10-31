@@ -1,55 +1,62 @@
+import { formatFactory } from '..'
 import { MessageList, MessageSingle, Messages } from '../components/messages'
 
-declare namespace JSX {
-  type Node = string | number | boolean | null | undefined | Element | Node[]
-  type Element =
-    | import('../components/messages').MessageList<keyof import('../types/message').MessageMapping>
-    | import('../components/messages').MessageSingle<keyof import('../types/message').MessageMapping>
+declare global {
+  namespace JSX {
+    type Node = string | number | boolean | null | Element | Node[]
+    type Element =
+      | import('../components/messages').MessageList<keyof import('../types/message').MessageMapping>
+      | import('../components/messages').MessageSingle<keyof import('../types/message').MessageMapping>
 
-  interface ElementAttributesProperty {
-    // biome-ignore lint:
-    props: any
-  }
+    interface ElementAttributesProperty {
+      // biome-ignore lint:
+      props: any
+    }
 
-  interface ElementChildrenAttribute {
-    children: unknown
-  }
+    interface ElementChildrenAttribute {
+      children: unknown
+    }
 
-  interface IntrinsicElements {
-    text: {
-      children: string
-    }
-    br: never
-    image: {
-      src: string
-    }
-    reply: {
-      messageId: string
-    }
-    mention: {
-      userId: string
-    }
-    mentionAll: never
-    video: {
-      src: string
-    }
-    audio: {
-      src: string
-    }
-    voice: {
-      src: string
-    }
-    file: {
-      src: string
-    }
-    location: {
-      latitude: number
-      longitude: number
-      title: string
-      content: string
-    }
-    seg: {
-      children: Node
+    interface IntrinsicElements {
+      text: {
+        children: string
+      }
+      br: never
+      image: {
+        src: string
+      }
+      reply: {
+        messageId: string
+      }
+      mention: {
+        userId: string
+      }
+      mentionAll: never
+      video: {
+        src: string
+      }
+      audio: {
+        src: string
+      }
+      voice: {
+        src: string
+      }
+      file: {
+        src: string
+      }
+      location: {
+        latitude: number
+        longitude: number
+        title: string
+        content: string
+      }
+      seg: {
+        children: Node
+      }
+      format: {
+        template: string
+        children: Element[] | Element
+      }
     }
   }
 }
@@ -105,6 +112,11 @@ export function h(
       )
     case 'br':
       return h('text', {}, '\n')
+    case 'format':
+      return formatFactory()(
+        (props as JSX.IntrinsicElements['format']).template,
+        flattenedChildren
+      ) as unknown as JSX.Element
     default:
       throw new Error(`Unknown element type: ${type}`)
   }
