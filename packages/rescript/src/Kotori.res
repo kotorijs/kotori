@@ -102,25 +102,6 @@ module Msg = {
       <location latitude longitude title content />
   }
 
-  // type message = {toString: unit => string}
-  // @module("@kotori-bot/core") external list: array<message> => message = "Messages"
-  // @module("@kotori-bot/core") @scope("Messages") external text: string => message = "text"
-  // @module("@kotori-bot/core") @scope("Messages") external mention: string => message = "mention"
-  // @module("@kotori-bot/core") @scope("Messages") external mentionAll: unit => message = "mentionAll"
-  // @module("@kotori-bot/core") @scope("Messages") external image: string => message = "image"
-  // @module("@kotori-bot/core") @scope("Messages") external voice: string => message = "voice"
-  // @module("@kotori-bot/core") @scope("Messages") external audio: string => message = "audio"
-  // @module("@kotori-bot/core") @scope("Messages") external video: string => message = "video"
-  // @module("@kotori-bot/core") @scope("Messages") external file: string => message = "file"
-  // @module("@kotori-bot/core") @scope("Messages")
-  // external location: (
-  //   ~latitude: float,
-  //   ~longitude: float,
-  //   ~title: string,
-  //   ~content: string,
-  // ) => message = "location"
-  // @module("@kotori-bot/core") @scope("Messages") external reply: string => message = "reply"
-
   type confirmConfig = {message: KotoriMsg.element, sure: KotoriMsg.element}
   type session = {
     id: string,
@@ -254,7 +235,11 @@ type rec context = {
   // Extension
   http: http,
   i18n: i18n,
-  // cache: Js.t
+  cache: service,
+  file: service,
+  server: service,
+  db: service,
+  browser: service,
 }
 and service = {
   ctx: context,

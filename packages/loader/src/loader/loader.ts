@@ -419,8 +419,10 @@ export class Loader extends Core {
       throw new DevError(`illegal package.json ${pkgPath}`)
     }
 
-    const loadTs = this.isDev && fs.existsSync(path.join(dir, 'src/index.ts'))
-    const main = path.resolve(dir, loadTs ? 'src/index.ts' : pkg.main)
+    const loadTsFile = this.isDev
+      ? ['src/index.ts', 'src/index.tsx'].find((el) => fs.existsSync(path.join(dir, el)))
+      : undefined
+    const main = path.resolve(dir, loadTsFile ?? pkg.main)
     if (!fs.existsSync(main)) throw new DevError(`cannot find main file ${main}`)
 
     const getDirFiles = (rootDir: string) => {
@@ -432,14 +434,15 @@ export class Loader extends Core {
         if (fs.statSync(file).isDirectory()) {
           list.push(...getDirFiles(file))
         }
-        if (path.parse(file).ext === '.ts' && !this.isDev) continue
+        // Might be `.tsx`
+        if (path.parse(file).ext.startsWith('.ts') && !this.isDev) continue
         list.push(path.resolve(file))
       }
 
       return list
     }
 
-    const files = getDirFiles(path.join(dir, loadTs ? 'src' : path.parse(pkg.main).dir))
+    const files = getDirFiles(path.join(dir, loadTsFile ? 'src' : path.parse(pkg.main).dir))
 
     const [pkgScope, pkgName] = pkg.name.split('/')
     const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).replace(PLUGIN_PREFIX, '')}`

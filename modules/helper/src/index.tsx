@@ -25,6 +25,18 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
     if (cfg.alias) cmd.alias(cfg.alias)
   }
 
+  ctx.on('before_command', (data) => {
+    if (data.command.meta.options.some((val) => val.realname === 'help' || val.name === 'H')) return
+    if (![' --help', ' -H', ' -h'].some((val) => data.raw.includes(val))) return
+    data.cancel()
+    ctx.emit(
+      'on_message',
+      Object.assign(data.session, {
+        message: <text>{`${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root}`}</text>
+      })
+    )
+  })
+
   ctx.command('help [...command] - helper.descr.help').action((data, session) => {
     const args = data.args.join(' ')
     const filterResult: Command['meta'][] = []
