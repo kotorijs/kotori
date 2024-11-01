@@ -63,13 +63,13 @@ declare global {
 
 const Fragment = Symbol('Fragment')
 
-export function h(
+export function hTs(
   type: string | typeof Fragment | ((props: Record<string, unknown>) => JSX.Element),
   props: Record<string, unknown>,
   // biome-ignore lint:
   ...children: any[]
 ): JSX.Element {
-  if (type === Fragment) return h('list', props, ...children)
+  if (type === Fragment) return hTs('list', props, ...children)
   if (typeof type === 'function') return type(Object.assign({}, props, { children }))
   const flattenedChildren = children
     .flat(Number.MAX_SAFE_INTEGER)
@@ -106,12 +106,12 @@ export function h(
           child instanceof MessageSingle || child instanceof MessageList
             ? child
             : child && typeof child === 'object' && 'type' in child
-              ? h(child.type, child.props, child.children)
+              ? hTs(child.type, child.props, child.children)
               : String(child)
         )
       )
     case 'br':
-      return h('text', {}, '\n')
+      return hTs('text', {}, '\n')
     case 'format':
       return formatFactory()(
         (props as JSX.IntrinsicElements['format']).template,
@@ -123,9 +123,11 @@ export function h(
 }
 
 export function hRes(type: string, props: Record<string, unknown>) {
-  return h(
+  return hTs(
     type,
     props,
     ...('children' in props ? (Array.isArray(props.children) ? props.children : [props.children]) : [])
   )
 }
+
+;(globalThis as unknown as { hTs: typeof hTs }).hTs = hTs

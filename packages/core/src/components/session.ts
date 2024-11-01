@@ -110,7 +110,9 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
       return this.send(result === '{}' ? String(message) : result)
     }
     if (typeof message === 'function') {
-      return `[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`
+      return this.send(
+        `[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`
+      )
     }
     return this.send(String(message))
   }

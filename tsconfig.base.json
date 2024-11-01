@@ -14,7 +14,7 @@
     /* Custom */
     "emitDeclarationOnly": true,
     "jsx": "preserve",
-    "jsxFactory": "h"
+    "jsxFactory": "hTs"
   },
   /* Custom */
   "exclude": ["**/*/*.test.ts", "*.d.ts", "**/*/lib/*", "**/*/dist/*"]
