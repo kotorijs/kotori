@@ -25,5 +25,8 @@
     "@rescript/core": "^1.3.0",
     "rescript": "^11.1.0",
     "rescript-kotori": "workspace:^"
+  },
+  "dependencies": {
+    "mathjs": "^13.2.1"
   }
 }

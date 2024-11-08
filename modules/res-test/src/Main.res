@@ -1,5 +1,10 @@
 let inject = ["browser"]
 
+@val external setTimeout: (unit => unit, int) => float = "setTimeout"
+
+type evt = {}
+external toEvt: Kotori.context => evt = "%identity"
+
 let main = (ctx: Kotori.context) => {
   open Kotori.Msg
 
