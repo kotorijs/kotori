@@ -6,6 +6,11 @@ external string: unit => parser = "String"
 @module("@kotori-bot/core") @scope("Tsu")
 external number: unit => parser = "Number"
 
+let int = (): parser => {
+  let parser = number()
+  Kotori.Utils.toAny(parser)["int"]()
+}
+
 @module("@kotori-bot/core") @scope("Tsu")
 external boolean: unit => parser = "Boolean"
 
@@ -19,7 +24,7 @@ external array: parser => parser = "Array"
 external tuple: array<parser> => parser = "Tuple"
 
 @module("@kotori-bot/core") @scope("Tsu")
-external object: array<(string, parser)> => parser = "Object"
+external object: Js.Dict.t<parser> => parser = "Object"
 
 @module("@kotori-bot/core") @scope("Tsu")
 external custom: ('a => bool) => parser = "Custom"
@@ -43,7 +48,7 @@ let check = (parser: parser, input: 'a): bool => {
   Kotori.Utils.toAny(parser)["check"](input)
 }
 
-let default = (parser: parser, defaultValue: 'a): 'a => {
+let default = (parser: parser, defaultValue: 'a): parser => {
   Kotori.Utils.toAny(parser)["default"](defaultValue)
 }
 
