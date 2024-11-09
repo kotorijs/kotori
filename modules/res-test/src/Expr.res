@@ -60,8 +60,3 @@ let generateAndCalculate = (steps: int, minNum: int, maxNum: int) => {
   let result = calc(expr)->Math.floor->toInt
   (expr, result)
 }
-
-// 示例使用
-// let (expr, result) = generateAndCalculate(3, 1, 10)
-// Js.log2("Expression:", expr)
-// Js.log2("Result:", result)

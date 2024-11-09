@@ -33,6 +33,11 @@
 - [ ] rss subscribe service plugin
 - [x] protect daemon and auto install
 - [x] hide update url
+- [ ] filter supports session events
+- [ ] jsonc developing plugins
+- [ ] new plugin workspace
+- [ ] complex building workspace (supports res)
+- [ ] modules category directorys
 
 ## Styles
 
@@ -45,3 +50,5 @@
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
 - [x] webui load tips twice
 - [x] symbols props inject and reality context
+- [ ] project createing cli bugs
+- [ ] webui analyze data bugs

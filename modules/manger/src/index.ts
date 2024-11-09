@@ -89,7 +89,8 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       const isGlobal = data.options.global
       if (isGlobal && session.userId !== session.api.adapter.config.master) throw session.error('no_access_admin')
 
-      const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId))
+      const list = loadBlack(session.api.adapter.identity, isGlobal ? 'global' : String(session.groupId))
+
       return session.format(`manger.msg.black${isGlobal ? 'g' : ''}.query`, [
         list.map((el) => session.format('manger.msg.black.list', [el])).join('')
       ])
@@ -105,11 +106,11 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       const isGlobal = data.options.global
       if (isGlobal && session.userId !== session.api.adapter.config.master) throw session.error('no_access_admin')
 
-      const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId))
-      if (target in list) throw session.error('exists', { target })
+      const list = loadBlack(session.api.adapter.identity, isGlobal ? 'global' : String(session.groupId))
+      if (list.includes(target)) throw session.error('exists', { target })
 
       list.push(target)
-      saveBlack(session.api.adapter.identity, list, isGlobal ? undefined : String(session.groupId))
+      saveBlack(session.api.adapter.identity, list, isGlobal ? 'global' : String(session.groupId))
       return session.format(`manger.msg.black${isGlobal ? 'g' : ''}.add`, [target])
     })
 
@@ -122,14 +123,13 @@ export function main(ctx: Context, con: Tsu.infer<typeof config>) {
       const target = data.args[0] as string
       const isGlobal = data.options.global
       if (isGlobal && session.userId !== session.api.adapter.config.master) throw session.error('no_access_admin')
-      const list = loadBlack(session.api.adapter.identity, isGlobal ? undefined : String(session.groupId))
-
-      if (!(target in list)) throw session.error('no_exists', { target })
+      const list = loadBlack(session.api.adapter.identity, isGlobal ? 'global' : String(session.groupId))
+      if (!list.includes(target)) throw session.error('no_exists', { target })
 
       saveBlack(
         session.api.adapter.identity,
         list.filter((el) => el !== target),
-        isGlobal ? undefined : String(session.groupId)
+        isGlobal ? 'global' : String(session.groupId)
       )
       return session.format(`manger.msg.black${isGlobal ? 'g' : ''}.del`, [target])
     })

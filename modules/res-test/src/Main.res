@@ -2,10 +2,6 @@ let inject = ["browser"]
 
 @val external setTimeout: (unit => unit, int) => float = "setTimeout"
 
-// 意外的错误！
-// 捕获信息：KotoriError
-//  TODO: black query and here config
-
 type config = {
   times: int,
   duration: int,
@@ -14,26 +10,29 @@ type config = {
   maxNum: int,
 }
 
+let config =
+  [
+    ("times", Tsu.int()->Tsu.default(7)),
+    ("duration", Tsu.int()->Tsu.default(180)),
+    ("steps", Tsu.int()->Tsu.default(3)),
+    ("minNum", Tsu.int()->Tsu.default(1)),
+    ("maxNum", Tsu.int()->Tsu.default(10)),
+  ]
+  ->Dict.fromArray
+  ->Tsu.object
+
 let main = (ctx: Kotori.context, config: config) => {
   open Kotori.Msg
 
-  let config = {
-    times: 7,
-    duration: 120,
-    steps: 3,
-    minNum: 1,
-    maxNum: 10,
-  }
-
-  ctx.loadExport({
-    main: ctx2 => {
-      let identity = switch ctx2.identity {
-      | Some(identity) => identity
-      | None => "Unknown"
-      }
-      Console.log(`Hello, world! from ${identity}`)
-    },
-  })
+  // ctx.loadExport({
+  //   main: ctx2 => {
+  //     let identity = switch ctx2.identity {
+  //     | Some(identity) => identity
+  //     | None => "Unknown"
+  //     }
+  //     Console.log(`Hello, world! from ${identity}`)
+  //   },
+  // })
 
   "greet - get a greeting"
   ->ctx.cmd_new
