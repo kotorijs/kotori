@@ -51,12 +51,13 @@ let rec generateExpression = (steps: int, minNum: int, maxNum: int): string => {
 }
 
 // 使用 mathjs 计算表达式
-@module("mathjs") external evaluate: string => float = "evaluate"
+@module("mathjs") external calc: string => float = "evaluate"
+external toInt: float => int = "%identity"
 
 // 主函数：生成表达式并计算结果
 let generateAndCalculate = (steps: int, minNum: int, maxNum: int) => {
   let expr = generateExpression(steps, minNum, maxNum)
-  let result = evaluate(expr)->Belt.Float.toInt
+  let result = calc(expr)->Math.floor->toInt
   (expr, result)
 }
 

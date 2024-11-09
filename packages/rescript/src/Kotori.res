@@ -38,6 +38,10 @@ type i18n = {
   rtime: (float, string) => string,
 }
 
+module Bot = {
+  type api = {setGroupKick: (string, string) => promise<unit>}
+}
+
 module Msg = {
   external el: 'a => KotoriMsg.element = "%identity"
 
@@ -105,11 +109,11 @@ module Msg = {
   type confirmConfig = {message: KotoriMsg.element, sure: KotoriMsg.element}
   type session = {
     id: string,
-    // api: Js.t<'a>, // 简化
+    api: Bot.api,
     i18n: i18n,
     format: (string, array<string>) => string,
-    quick: string => promise<unit>,
-    prompt: string => promise<string>,
+    quick: KotoriMsg.element => promise<unit>,
+    prompt: KotoriMsg.element => promise<string>,
     confirm: confirmConfig => promise<bool>,
     // error: ('a, Js.undefined<'a>) => 'a, // 简化 CommandError 类型
     t: array<string> => string,
@@ -211,6 +215,7 @@ type rec context = {
   mixin: (string, array<string>, bool) => bool,
   extends: string => context,
   // emit parallel on once off offAll
+  on: ([#on_group_increase], Msg.session => promise<unit>) => unit,
   load: (context => unit) => unit,
   loadExport: moduleExport => unit,
   unload: (context => unit) => unit,
