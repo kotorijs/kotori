@@ -7,14 +7,13 @@
   "author": "Arimura Sena <me@hotaru.icu>",
   "scripts": {
     "kotori": "pnpm --filter kotori-bot",
-    "build": "rm -rf ./{packages,modules}/*/tsconfig.tsbuildinfo && pnpm -r exec tsup --define.env=prod && pnpm --filter \"./packages/*\" exec tsc --build && pnpm --filter \"./modules/*\" exec tsc --build",
-    "build:action": "rm -rf ./{packages,modules}/*/tsconfig.tsbuildinfo && pnpm -r exec tsup --define.env=prod && tsx scripts/build-ts",
+    "build": "pnpm -r exec tsup --define.env=prod && pnpm --filter \"./packages/*\" exec tsc --build && pnpm --filter \"./modules/*\" exec tsc --build",
+    "build:action": "pnpm -r exec tsup --define.env=prod && tsx scripts/build-ts",
     "dev:only": "pnpm --filter \"./packages/*\" exec \"tsup --silent\" && tsx packages/kotori/src/cli --mode dev",
     "dev": "nodemon --watch",
     "pub": "tsx scripts/pub",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "clean": "rm -rf ./{packages,modules}/*/{tsconfig.tsbuildinfo,lib} && rm -rf ./packages/*/dist"
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "files": [
     "{packages,modules}/*/locales/**/*",

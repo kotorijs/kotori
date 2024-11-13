@@ -24,16 +24,6 @@ let config =
 let main = (ctx: Kotori.context, config: config) => {
   open Kotori.Msg
 
-  // ctx.loadExport({
-  //   main: ctx2 => {
-  //     let identity = switch ctx2.identity {
-  //     | Some(identity) => identity
-  //     | None => "Unknown"
-  //     }
-  //     Console.log(`Hello, world! from ${identity}`)
-  //   },
-  // })
-
   "greet - get a greeting"
   ->ctx.cmd_new
   ->ctx.cmd_action(async (_, session) => {
@@ -75,10 +65,16 @@ let main = (ctx: Kotori.context, config: config) => {
   })
   ->ignore
 
-  #on_group_increase->ctx.on(async session => {
-    // 使用之前定义的表达式生成器
+  let onGroupIncreaseHandler = async (session: session) => {
+    let at =
+      <Mention
+        userId={switch session.userId {
+        | Some(userId) => userId
+        | None => "Unknown"
+        }}
+      />
+
     let (expr, result) = Expr.generateAndCalculate(config.steps, config.minNum, config.maxNum)
-    // 设置超时踢出
     let kick = () =>
       switch (session.groupId, session.userId) {
       | (Some(groupId), Some(userId)) => session.api.setGroupKick(groupId, userId)->ignore
@@ -87,7 +83,10 @@ let main = (ctx: Kotori.context, config: config) => {
 
     let timerId = Js.Global.setTimeout(() => {
       session.quick(
-        <Text> {`回答超时，答案是${result->Belt.Int.toString}。`} </Text>,
+        <Seg>
+          {at}
+          <Text> {`回答超时，答案是${result->Belt.Int.toString}。`} </Text>
+        </Seg>,
       )->ignore
       kick()
     }, config.duration * 1000)
@@ -96,7 +95,10 @@ let main = (ctx: Kotori.context, config: config) => {
     let rec checker = async (count: int) => {
       if count >= config.times {
         session.quick(
-          <Text> {`回答次数达到上限，答案是${result->Belt.Int.toString}。`} </Text>,
+          <Seg>
+            {at}
+            <Text> {`回答次数达到上限，答案是${result->Belt.Int.toString}。`} </Text>
+          </Seg>,
         )->ignore
         kick()
       } else if Js.Date.now() -. start >= config.duration->Belt.Float.fromInt *. 1000.0 {
@@ -104,6 +106,7 @@ let main = (ctx: Kotori.context, config: config) => {
       } else {
         let answer = await session.prompt(
           <Seg>
+            {at}
             <Text>
               {`剩余时间 ${(config.duration -
                 (Js.Date.now()->Belt.Int.fromFloat / 1000 -
@@ -117,7 +120,12 @@ let main = (ctx: Kotori.context, config: config) => {
         )
         switch answer->Belt.Int.fromString {
         | Some(num) if num === result => {
-            await session.quick(<Text> {`回答正确，危机解除！`} </Text>)
+            await session.quick(
+              <Seg>
+                {at}
+                <Text> {`回答正确，危机解除！`} </Text>
+              </Seg>,
+            )
             Js.Global.clearTimeout(timerId)
           }
         | _ => await checker(count + 1)
@@ -127,12 +135,7 @@ let main = (ctx: Kotori.context, config: config) => {
 
     await session.quick(
       <Seg>
-        <Mention
-          userId={switch session.userId {
-          | Some(userId) => userId
-          | None => "Unknown"
-          }}
-        />
+        {at}
         <Text>
           {` 请在 ${config.duration->Belt.Int.toString} 秒内发送以下数学表达式的结果，共有 ${config.times->Belt.Int.toString} 次机会：`}
         </Text>
@@ -147,5 +150,12 @@ let main = (ctx: Kotori.context, config: config) => {
       </Seg>,
     )
     await checker(0)
+  }
+
+  #on_group_increase->ctx.on(async session => {
+    switch session.userId {
+    | Some(userId) if userId !== session.api.adapter.selfId => await onGroupIncreaseHandler(session)
+    | _ => ()
+    }
   })
 }

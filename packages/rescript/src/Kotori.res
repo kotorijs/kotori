@@ -1,5 +1,4 @@
 // tools
-// parsers tsu
 // http and i18n
 // otehr servicee
 
@@ -39,7 +38,56 @@ type i18n = {
 }
 
 module Bot = {
-  type api = {setGroupKick: (string, string) => promise<unit>}
+  type apiResponse
+  type rec adapter = {
+    platform: string,
+    selfId: string,
+    identity: string,
+    api: api,
+  }
+  and api = {
+    adapter: adapter,
+    getSupportedActions: unit => array<string>,
+    getSupportedEvents: unit => array<string>,
+    sendPrivateMsg: (KotoriMsg.element, string) => promise<apiResponse>,
+    sendGroupMsg: (KotoriMsg.element, string) => promise<apiResponse>,
+    sendChannelMsg: (KotoriMsg.element, string) => promise<apiResponse>,
+    deleteMsg: string => promise<unit>,
+    getSelfInfo: unit => promise<apiResponse>,
+    getUserInfo: string => promise<apiResponse>,
+    getFriendList: unit => promise<array<apiResponse>>,
+    getGroupInfo: string => promise<apiResponse>,
+    getGroupList: unit => promise<array<apiResponse>>,
+    getGroupMemberInfo: (string, string) => promise<apiResponse>,
+    getGroupMemberList: string => promise<array<apiResponse>>,
+    setGroupName: (string, string) => unit,
+    leaveGroup: string => unit,
+    getGuildInfo: string => promise<apiResponse>,
+    getGuildList: unit => promise<array<apiResponse>>,
+    setGuildName: (string, string) => unit,
+    getGuildMemberInfo: (string, string, string) => promise<apiResponse>,
+    getGuildMemberList: (string, string) => promise<array<apiResponse>>,
+    leaveGuild: string => unit,
+    getChannelInfo: (string, string) => promise<apiResponse>,
+    getChannelList: (string, bool) => promise<array<apiResponse>>,
+    setChannelName: (string, string, string) => unit,
+    getChannelMemberInfo: (string, string, string) => promise<apiResponse>,
+    getChannelMemberList: (string, string) => promise<array<apiResponse>>,
+    leaveChannel: (string, string) => unit,
+    uploadImage: (string, string, Js.Dict.t<string>) => promise<apiResponse>,
+    uploadFilePath: (string, string) => promise<apiResponse>,
+    uploadFileData: (string, string) => promise<apiResponse>,
+    getFileUrl: string => promise<apiResponse>,
+    getFilePath: string => promise<apiResponse>,
+    getFileData: string => promise<apiResponse>,
+    setGroupAvatar: (string, string) => unit,
+    setGroupAdmin: (string, string, bool) => unit,
+    setGroupCard: (string, string, string) => unit,
+    setGroupBan: (string, string, int) => unit,
+    setGroupNotice: (string, string /* , image?: string */) => unit,
+    setGroupWholeBan: (string, bool) => unit,
+    setGroupKick: (string, string) => unit,
+  }
 }
 
 module Msg = {
@@ -206,6 +254,10 @@ module ConfigAndLoader = {
   }
 }
 
+module Context = {
+  type sessionEvent = Msg.session => promise<unit>
+}
+
 type rec context = {
   // Fluoro
   identity?: string,
@@ -215,7 +267,10 @@ type rec context = {
   mixin: (string, array<string>, bool) => bool,
   extends: string => context,
   // emit parallel on once off offAll
-  on: ([#on_group_increase], Msg.session => promise<unit>) => unit,
+  on: @string
+  [
+    | #on_group_increase(Context.sessionEvent)
+  ] => unit,
   load: (context => unit) => unit,
   loadExport: moduleExport => unit,
   unload: (context => unit) => unit,
