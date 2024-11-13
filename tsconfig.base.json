@@ -10,7 +10,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "composite": true,
-    "incremental": true,
+    // "incremental": true,
     /* Custom */
     "emitDeclarationOnly": true,
     "jsx": "preserve",
