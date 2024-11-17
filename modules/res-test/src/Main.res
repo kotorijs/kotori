@@ -1,3 +1,9 @@
+open Kotori
+open Msg
+open Ctx
+open Session
+open Bot
+
 let inject = ["browser"]
 
 @val external setTimeout: (unit => unit, int) => float = "setTimeout"
@@ -21,28 +27,26 @@ let config =
   ->Dict.fromArray
   ->Tsu.object
 
-let main = (ctx: Kotori.context, config: config) => {
-  open Kotori.Msg
-
-  "greet - get a greeting"
-  ->ctx.cmd_new
-  ->ctx.cmd_action(async (_, session) => {
+let main = (ctx: context, config: config) => {
+  ctx
+  ->Cmd.make("greet - get a greeting")
+  ->Cmd.action_async(async (_, session) => {
     let res = await "http://hotaru.icu/api/hitokoto/v2?format=text"->ctx.http.get
     <Text>
       {switch res->Type.typeof {
-      | #string => session.format("Greet: \n{0}", [res->Kotori.Utils.toAny])
+      | #string => session->format("Greet: \n{0}", [res->Kotori.Utils.toAny])
       | _ => "Sorry, I cannot get a greeting right now."
       }}
     </Text>
   })
-  ->ctx.cmd_help("Get a greeting from hotaru.icu")
-  ->ctx.cmd_scope(#all)
-  ->ctx.cmd_alias(["hi", "hey", "hello"])
+  ->Cmd.help("Get a greeting from hotaru.icu")
+  ->Cmd.scope(#all)
+  ->Cmd.alias(["hi", "hey", "hello"])
   ->ignore
 
-  "res [saying=functional]"
-  ->ctx.cmd_new
-  ->ctx.cmd_action(async ({args}, session) => {
+  ctx
+  ->Cmd.make("res [saying=functional]")
+  ->Cmd.action_async(async ({args}, session) => {
     let userId = switch session.userId {
     | Some(userId) => userId
     | None => "Unknown"
@@ -53,7 +57,7 @@ let main = (ctx: Kotori.context, config: config) => {
       <Br />
       <Text>
         {switch args {
-        | [String(saying)] => session.format("Greet: \n{0}", [saying])
+        | [String(saying)] => session->format("Greet: \n{0}", [saying])
         | _ => "Sorry, I cannot get a greeting right now."
         }}
       </Text>
@@ -66,45 +70,43 @@ let main = (ctx: Kotori.context, config: config) => {
   ->ignore
 
   let onGroupIncreaseHandler = async (session: session) => {
-    let at =
-      <Mention
-        userId={switch session.userId {
-        | Some(userId) => userId
-        | None => "Unknown"
-        }}
-      />
+    let at = <Mention userId={session->get_user_id_unwarp} />
 
     let (expr, result) = Expr.generateAndCalculate(config.steps, config.minNum, config.maxNum)
     let kick = () =>
       switch (session.groupId, session.userId) {
-      | (Some(groupId), Some(userId)) => session.api.setGroupKick(groupId, userId)->ignore
+      | (Some(groupId), Some(userId)) => session.api->setGroupKick(groupId, userId)->ignore
       | _ => ()
       }
 
     let timerId = Js.Global.setTimeout(() => {
-      session.quick(
+      session
+      ->quick(
         <Seg>
           {at}
           <Text> {`回答超时，答案是${result->Belt.Int.toString}。`} </Text>
         </Seg>,
-      )->ignore
+      )
+      ->ignore
       kick()
     }, config.duration * 1000)
     let start = Js.Date.now()
 
     let rec checker = async (count: int) => {
       if count >= config.times {
-        session.quick(
+        session
+        ->quick(
           <Seg>
             {at}
             <Text> {`回答次数达到上限，答案是${result->Belt.Int.toString}。`} </Text>
           </Seg>,
-        )->ignore
+        )
+        ->ignore
         kick()
       } else if Js.Date.now() -. start >= config.duration->Belt.Float.fromInt *. 1000.0 {
         ()
       } else {
-        let answer = await session.prompt(
+        let answer = await session->prompt(
           <Seg>
             {at}
             <Text>
@@ -120,7 +122,7 @@ let main = (ctx: Kotori.context, config: config) => {
         )
         switch answer->Belt.Int.fromString {
         | Some(num) if num === result => {
-            await session.quick(
+            await session->quick(
               <Seg>
                 {at}
                 <Text> {`回答正确，危机解除！`} </Text>
@@ -133,7 +135,7 @@ let main = (ctx: Kotori.context, config: config) => {
       }
     }
 
-    await session.quick(
+    await session->quick(
       <Seg>
         {at}
         <Text>
@@ -152,10 +154,15 @@ let main = (ctx: Kotori.context, config: config) => {
     await checker(0)
   }
 
-  #on_group_increase->ctx.on(async session => {
-    switch session.userId {
-    | Some(userId) if userId !== session.api.adapter.selfId => await onGroupIncreaseHandler(session)
-    | _ => ()
-    }
-  })
+  ctx->on(
+    #on_group_increase(
+      async session => {
+        switch session.userId {
+        | Some(userId) if userId !== session.api.adapter.selfId =>
+          await onGroupIncreaseHandler(session)
+        | _ => ()
+        }
+      },
+    ),
+  )
 }
