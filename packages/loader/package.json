@@ -27,7 +27,6 @@
   "dependencies": {
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/logger": "workspace:^",
-    "rescript-kotori": "workspace:^",
     "express": "^4.18.2",
     "level": "^8.0.1",
     "path-to-regexp": "^6.2.2",

@@ -22,8 +22,10 @@
   ],
   "author": "Hotaru <me@hotaru.icu>",
   "devDependencies": {
-    "@rescript/core": "^1.3.0",
     "rescript-kotori": "workspace:^"
+  },
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
   },
   "dependencies": {
     "mathjs": "^13.2.1"

@@ -29,7 +29,7 @@ import {
   Decorators
 } from '@kotori-bot/core'
 import path from 'node:path'
-import fs from 'node:fs'
+import fs, { existsSync } from 'node:fs'
 import Logger, { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
 import loadInfo from '../utils/log'
 import {
@@ -187,7 +187,7 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
     if (loaderOptions?.mode === DEV_MODE) {
       // Base on running mode auto set logger level
       if (result.global.level === DEFAULT_LOADER_CONFIG.level) result.global.level = LoggerLevel.DEBUG
-      if (!result.global.dirs.includes('modules')) result.global.dirs = ['modules', ...result.global.dirs]
+      // if (!result.global.dirs.includes('modules')) result.global.dirs = ['modules', ...result.global.dirs]
     }
 
     return Tsu.Object({
@@ -597,6 +597,15 @@ export class Loader extends Core {
   }
 
   private async checkUpdate() {
+    const pkgPath = path.join(this.baseDir.root, 'package.json')
+    if (existsSync(pkgPath)) {
+      try {
+        if (JSON.parse(fs.readFileSync(pkgPath).toString()).name === '@kotori-bot/root') {
+          this.logger.info(this.i18n.t`loader.tips.update.workspace`)
+          return
+        }
+      } catch {}
+    }
     const { version } = this.meta
     if (!version) return
     const res = await new Http().get(GLOBAL.UPDATE).catch(() => {})

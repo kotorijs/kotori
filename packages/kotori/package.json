@@ -53,10 +53,10 @@
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/loader": "workspace:^",
     "cac": "^6.7.14",
-    "dotenv": "^16.4.5",
-    "tsx": "^4.11.2"
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "tsx": "^4.11.2",
     "typescript": "^5.1.3"
   }
 }

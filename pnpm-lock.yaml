@@ -20,9 +20,6 @@ importers:
       '@rspack/core':
         specifier: ^1.1.1
         version: 1.1.1(@swc/helpers@0.5.15)
-      '@types/glob':
-        specifier: ^8.1.0
-        version: 8.1.0
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
@@ -38,15 +35,9 @@ importers:
       conventional-changelog-cli:
         specifier: ^4.1.0
         version: 4.1.0
-      glob:
-        specifier: ^11.0.0
-        version: 11.0.0
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.14.1)
-      loadsh:
-        specifier: ^0.0.4
-        version: 0.0.4
       nodemon:
         specifier: ^3.1.3
         version: 3.1.3
@@ -56,9 +47,6 @@ importers:
       rescript:
         specifier: ^11.1.0
         version: 11.1.4
-      rslib:
-        specifier: ^0.0.10
-        version: 0.0.10
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
@@ -75,28 +63,127 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
 
-  modules/access:
+  modules/amuse/better-join:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/drift-bottle:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/goodnight:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/grouper:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/hitokotos:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/newnew:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/nmsl:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/amuse/random-img:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/base/access:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/base/alias:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/base/core:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/base/filter:
+    dependencies:
+      '@types/picomatch':
+        specifier: ^2.3.3
+        version: 2.3.4
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+      picomatch:
+        specifier: ^4.0.2
+        version: 4.0.2
+
+  modules/base/helper:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/base/requester:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/base/status:
+    dependencies:
+      kotori-bot:
+        specifier: workspace:^
+        version: link:../../../packages/kotori
+
+  modules/browser:
     dependencies:
       kotori-bot:
         specifier: workspace:^
         version: link:../../packages/kotori
+      puppeteer:
+        specifier: ^23.6.0
+        version: 23.6.0(typescript@5.4.5)
 
-  modules/adapter-cmd:
+  modules/platform/adapter-cmd:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/adapter-discord:
+  modules/platform/adapter-discord:
     dependencies:
       discord.js:
         specifier: ^14.15.3
         version: 14.15.3
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/adapter-mail:
+  modules/platform/adapter-mail:
     dependencies:
       '@types/imap-simple':
         specifier: ^4.2.9
@@ -112,7 +199,7 @@ importers:
         version: 5.1.0
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
       mailparser:
         specifier: ^3.7.1
         version: 3.7.1
@@ -120,69 +207,69 @@ importers:
         specifier: ^6.9.14
         version: 6.9.14
 
-  modules/adapter-minecraft:
+  modules/platform/adapter-minecraft:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
       mcwss:
         specifier: ^2.1.3
         version: 2.1.3
       ws:
         specifier: ^8.14.2
-        version: 8.17.0
+        version: 8.18.0
     devDependencies:
       '@types/ws':
         specifier: ^8.5.8
         version: 8.5.12
 
-  modules/adapter-onebot:
+  modules/platform/adapter-onebot:
     dependencies:
       '@types/ws':
         specifier: ^8.5.8
         version: 8.5.12
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
       ws:
         specifier: ^8.14.2
-        version: 8.17.0
+        version: 8.18.0
 
-  modules/adapter-qq:
+  modules/platform/adapter-qq:
     dependencies:
       '@types/ws':
         specifier: ^8.5.8
         version: 8.5.12
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
       ws:
         specifier: ^8.14.2
-        version: 8.17.0
+        version: 8.18.0
 
-  modules/adapter-sandbox:
+  modules/platform/adapter-sandbox:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/adapter-slack:
+  modules/platform/adapter-slack:
     dependencies:
       '@slack/bolt':
         specifier: ^3.19.0
         version: 3.19.0
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/adapter-telegram:
+  modules/platform/adapter-telegram:
     dependencies:
       '@types/node-telegram-bot-api':
         specifier: ^0.64.7
         version: 0.64.7
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
       node-telegram-bot-api:
         specifier: ^0.66.0
         version: 0.66.0(request@2.88.2)
@@ -190,207 +277,108 @@ importers:
         specifier: ^8.0.4
         version: 8.0.4
 
-  modules/alias:
+  modules/test/res-test:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
+      mathjs:
+        specifier: ^13.2.1
+        version: 13.2.1
+    devDependencies:
+      rescript-kotori:
+        specifier: workspace:^
+        version: link:../../../packages/rescript
 
-  modules/bangumi:
+  modules/test/testing:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/better-join:
+  modules/tools/bangumi:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/bilibili:
+  modules/tools/bilibili:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/browser:
+  modules/tools/color:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
-      puppeteer:
-        specifier: ^23.6.0
-        version: 23.6.0(typescript@5.4.5)
+        version: link:../../../packages/kotori
 
-  modules/color:
+  modules/tools/github:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/core:
+  modules/tools/manger:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/drift-bottle:
+  modules/tools/mediawiki:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/filter:
-    dependencies:
-      '@types/picomatch':
-        specifier: ^2.3.3
-        version: 2.3.4
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-      picomatch:
-        specifier: ^4.0.2
-        version: 4.0.2
-
-  modules/github:
+  modules/tools/minecraft:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/goodnight:
+  modules/tools/music:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/grouper:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/helper:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/hitokotos:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/manger:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/mediawiki:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/minecraft:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/music:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/newnew:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/nmsl:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/random:
+  modules/tools/random:
     dependencies:
       '@dice-roller/rpg-dice-roller':
         specifier: ^5.5.0
         version: 5.5.0
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
       math-expression-evaluator:
         specifier: ^2.0.5
         version: 2.0.5
 
-  modules/random-img:
+  modules/tools/run-code:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/requester:
+  modules/tools/sed:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
-  modules/res-test:
-    dependencies:
-      mathjs:
-        specifier: ^13.2.1
-        version: 13.2.1
-    devDependencies:
-      '@rescript/core':
-        specifier: ^1.3.0
-        version: 1.6.1(rescript@11.1.4)
-      rescript-kotori:
-        specifier: workspace:^
-        version: link:../../packages/rescript
-
-  modules/run-code:
+  modules/tools/weather:
     dependencies:
       kotori-bot:
         specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/sed:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/status:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/testing:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
-
-  modules/weather:
-    dependencies:
-      kotori-bot:
-        specifier: workspace:^
-        version: link:../../packages/kotori
+        version: link:../../../packages/kotori
 
   modules/webui:
     dependencies:
       '@kotori-bot/kotori-plugin-filter':
         specifier: workspace:^
-        version: link:../filter
+        version: link:../base/filter
       kotori-bot:
         specifier: workspace:^
         version: link:../../packages/kotori
@@ -476,9 +464,6 @@ importers:
       path-to-regexp:
         specifier: ^6.2.2
         version: 6.2.2
-      rescript-kotori:
-        specifier: workspace:^
-        version: link:../rescript
       ws:
         specifier: ^8.14.2
         version: 8.17.0
@@ -504,9 +489,9 @@ importers:
 
   packages/rescript:
     dependencies:
-      '@kotori-bot/core':
+      kotori-bot:
         specifier: workspace:^
-        version: link:../core
+        version: link:../kotori
     devDependencies:
       '@rescript/core':
         specifier: ^1.3.0
@@ -665,10 +650,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-
-  '@babel/runtime@7.25.0':
-    resolution: {integrity: sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.26.0':
     resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
@@ -1548,9 +1529,6 @@ packages:
   '@types/glob@7.2.0':
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
 
-  '@types/glob@8.1.0':
-    resolution: {integrity: sha512-IO+MJPVhoqz+28h1qLAcBEH2+xHMK6MTyHJc7MTnnYb6wsoLR29POVGJ7LycmVXIqyy/4/2ShP5sUwTXuOwb/w==}
-
   '@types/graceful-fs@4.1.9':
     resolution: {integrity: sha512-olP3sd1qOEe5dXTSaFvQG+02VdRXcdytWLAZsAq1PecU8uqQAhkrnbli7DagjtXKW/Bl7YJbUsa8MPcuc8LHEQ==}
 
@@ -1601,9 +1579,6 @@ packages:
 
   '@types/mute-stream@0.0.4':
     resolution: {integrity: sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==}
-
-  '@types/mysql@2.15.26':
-    resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
 
   '@types/node-telegram-bot-api@0.64.7':
     resolution: {integrity: sha512-nuvFFXnvU2sItucyEJ03I+m34z5st386isfEuF6BJTL7p3RjG7naMhvvXjY7oeKahTm1Jf0Gu4PrDa6jDt78/Q==}
@@ -1858,9 +1833,6 @@ packages:
   bcrypt-pbkdf@1.0.2:
     resolution: {integrity: sha512-qeFIXtP4MSoi6NLqO12WfqARWWuCKi2Rn/9hJLEmtB5yTNr9DqFWkJRCf2qShWzPeAMRnOgCrq0sg/KLv5ES9w==}
 
-  bignumber.js@9.0.0:
-    resolution: {integrity: sha512-t/OYhhJ2SD+YGBQcjY8GzzDHEk9f3nerxjtfa6tlMXfe7frs/WozhvCNoGvpM0P3bNf3Gq5ZRMlGr5f3r4/N8A==}
-
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
@@ -1928,9 +1900,6 @@ packages:
   cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
-
-  call-bind@1.0.5:
-    resolution: {integrity: sha512-C3nQxfFZxFRVoJoGKKI8y3MOEo129NQ+FgQ08iye+Mk4zNZZGdjfs06bVTr+DBSlA66Q2VEcMki/cUCP4SercQ==}
 
   call-bind@1.0.7:
     resolution: {integrity: sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==}
@@ -2038,9 +2007,6 @@ packages:
 
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
-
-  complex.js@2.1.1:
-    resolution: {integrity: sha512-8njCHOTtFFLtegk6zQo0kkVX1rngygb/KQI6z1qZxlFI3scluC+LVTCFbrkWjBv4vvLlbQ9t88IPMC6k95VTTg==}
 
   complex.js@2.4.2:
     resolution: {integrity: sha512-qtx7HRhPGSCBtGiST4/WGHuW+zeaND/6Ld+db6PbrulIB1i2Ev/2UPiqcmpQNPSyfBKraC0EOvOKCB5dGZKt3g==}
@@ -2238,10 +2204,6 @@ packages:
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
-
-  define-data-property@1.1.1:
-    resolution: {integrity: sha512-E7uGkTzkk1d0ByLeSc6ZsFS79Axg+m1P/VsgYsxHgiuc3tFSj+MjMIwe90FC4lOAZzNBdY7kkO2P2wKdsQ1vgQ==}
-    engines: {node: '>= 0.4'}
 
   define-data-property@1.1.4:
     resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
@@ -2640,9 +2602,6 @@ packages:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
 
-  get-intrinsic@1.2.2:
-    resolution: {integrity: sha512-0gSo4ml/0j98Y3lngkFEot/zhiCeWsbYIlZ+uZOVgzLyLaUw7wxUL+nCTP0XJvJg1AXulJRI3UJi8GsbDuxdGA==}
-
   get-intrinsic@1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
@@ -2692,11 +2651,6 @@ packages:
     engines: {node: '>=16 || 14 >=14.18'}
     hasBin: true
 
-  glob@11.0.0:
-    resolution: {integrity: sha512-9UiX/Bl6J2yaBbxKoEBRm4Cipxgok8kQYcOPEhScPwebu2I0HoQOuYdIO6S3hLuWoZgpDpwQZMzTFxgpkyT76g==}
-    engines: {node: 20 || >=22}
-    hasBin: true
-
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
     deprecated: Glob versions prior to v9 are no longer supported
@@ -2744,15 +2698,8 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  has-property-descriptors@1.0.1:
-    resolution: {integrity: sha512-VsX8eaIewvas0xnvinAe9bw4WfIeODpGYikiWYLH+dma0Jw6KHYqWiWfhQlgOVK8D6PvjubK5Uc4P0iIhIcNVg==}
-
   has-property-descriptors@1.0.2:
     resolution: {integrity: sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==}
-
-  has-proto@1.0.1:
-    resolution: {integrity: sha512-7qE+iP+O+bgF9clE5+UoBFzE65mlBiVj3tKCrlNQ0Ogwm0BjpT/gK4SlLYDMybDh5I3TCTKnPPa0oMG7JDYrhg==}
-    engines: {node: '>= 0.4'}
 
   has-proto@1.0.3:
     resolution: {integrity: sha512-SJ1amZAJUiZS+PhsVLf5tGydlaVB8EdFpaSO4gmiUKUOxk8qzn5AIy4ZeJUmh22znIdk/uMAUT2pl3FxzVUH+Q==}
@@ -3048,10 +2995,6 @@ packages:
     resolution: {integrity: sha512-JVYhQnN59LVPFCEcVa2C3CrEKYacvjRfqIQl+h8oi91aLYQVWRYbxjPcv1bUiUy/kLmQaANrYfNMCO3kuEDHfw==}
     engines: {node: '>=14'}
 
-  jackspeak@4.0.2:
-    resolution: {integrity: sha512-bZsjR/iRjl1Nk1UkjGpAzLNfQtzuijhn2g+pbZb98HQ1Gk8vM9hfbxeMBP+M2/UUdwj0RqGG3mlvk2MsAqwvEw==}
-    engines: {node: 20 || >=22}
-
   jake@10.9.2:
     resolution: {integrity: sha512-2P4SQ0HrLQ+fw6llpLnOaGAvN2Zu6778SJMrCUwns4fOoG9ayrTiZk3VV8sCPkVZF8ab0zksVpS8FDY5pRCNBA==}
     engines: {node: '>=10'}
@@ -3326,10 +3269,6 @@ packages:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  loadsh@0.0.4:
-    resolution: {integrity: sha512-U+wLL8InpfRalWrr+0SuhWgGt10M4OyAk6G8xCYo2rwpiHtxZkWiFpjei0vO463ghW8LPCdhqQxXlMy2qicAEw==}
-    deprecated: This is a typosquat on the popular Lodash package. This is not maintained nor is the original Lodash package.
-
   locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
@@ -3374,10 +3313,6 @@ packages:
   lru-cache@10.2.2:
     resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
     engines: {node: 14 || >=16.14}
-
-  lru-cache@11.0.2:
-    resolution: {integrity: sha512-123qHRfJBmo2jXDbo/a5YOQrJoHF/GNQTLzQ5+IdK5pWpceK17yRc6ozlWd25FxvGKQbIUs91fDFkXmDHTKcyA==}
-    engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -3472,10 +3407,6 @@ packages:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
 
-  minimatch@10.0.1:
-    resolution: {integrity: sha512-ethXTt3SGGR+95gudmqJ1eNhRO7eGEGIgYA9vnPatK4/etz2MEVDno5GMCibdMTuBMyElzIlgxMna3K94XDIDQ==}
-    engines: {node: 20 || >=22}
-
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -3513,10 +3444,6 @@ packages:
   mute-stream@1.0.0:
     resolution: {integrity: sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-
-  mysql@2.18.1:
-    resolution: {integrity: sha512-Bca+gk2YWmqp2Uf6k5NFEurwY/0td0cpebAucFpY/3jhrwrVGuxU2uQFCHjU19SJfje0yQvi+rVWdq78hR5lig==}
-    engines: {node: '>= 0.6'}
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
@@ -3661,9 +3588,6 @@ packages:
     resolution: {integrity: sha512-5NPgf87AT2STgwa2ntRMr45jTKrYBGkVU36yT0ig/n/GMAa3oPqhZfIQ2kMEimReg0+t9kZViDVZ83qfVUlckg==}
     engines: {node: '>= 14'}
 
-  package-json-from-dist@1.0.1:
-    resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
-
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -3705,10 +3629,6 @@ packages:
   path-scurry@1.11.1:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
-
-  path-scurry@2.0.0:
-    resolution: {integrity: sha512-ypGJsmGtdXUOeM5u93TyeIEfEhM6s+ljAhrk5vAvSx8uyY/02OvrZnA0YNGUrPXfpJMgI1ODd3nwz8Npx4O4cg==}
-    engines: {node: 20 || >=22}
 
   path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
@@ -3784,9 +3704,6 @@ packages:
   progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
-
-  promise-mysql@3.1.5:
-    resolution: {integrity: sha512-TS+om77XUfREfKEZ7irEQMiUolUnuZVuQankuqfp+3Uxoe9aJoHyq5NJhYHXW5ZqNRlyqCvcGsZ0j1b3BnAo7g==}
 
   promise.allsettled@1.0.7:
     resolution: {integrity: sha512-hezvKvQQmsFkOdrZfYxUxkyxl8mgFQeT259Ajj9PXdbg9VzBCWrItOev72JyWxkCD5VSSqAeHmlN3tWx4DlmsA==}
@@ -3896,9 +3813,6 @@ packages:
   readable-stream@1.1.14:
     resolution: {integrity: sha512-+MeVjFf4L44XUkhM1eYbD8fyEsxcV81pqMSR5gblfcLCHfZvbrqy4/qYHE+/R5HoBUT11WV5O08Cr1n3YXkWVQ==}
 
-  readable-stream@2.3.7:
-    resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
-
   readable-stream@2.3.8:
     resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}
 
@@ -3992,10 +3906,6 @@ packages:
       typescript:
         optional: true
 
-  rslib@0.0.10:
-    resolution: {integrity: sha512-7i9JUf9vIvS81jaRrTUg/IYAFgLdlQKHhplG2lTN5gTA7XgxIIuUxvHmdiQDvc8GbJFU2zaautMAihi9cWbIxA==}
-    deprecated: Package abandoned
-
   run-parallel-limit@1.1.0:
     resolution: {integrity: sha512-jJA7irRNM91jaKc3Hcl1npHsFLOXOoTkPCUL1JEa1R82O2miplXXRaGdjW/KM/98YQWDhJLiSs793CnXfblJUw==}
 
@@ -4053,10 +3963,6 @@ packages:
   serve-static@1.15.0:
     resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
     engines: {node: '>= 0.8.0'}
-
-  set-function-length@1.2.0:
-    resolution: {integrity: sha512-4DBHDoyHlM1IRPGYcoxexgh67y4ueR53FKV1yyxwFMY7aCqcN/38M1+SwZ/qJQ8iLv7+ck385ot4CcisOAPT9w==}
-    engines: {node: '>= 0.4'}
 
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
@@ -4147,10 +4053,6 @@ packages:
 
   sprintf-js@1.1.3:
     resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==}
-
-  sqlstring@2.3.1:
-    resolution: {integrity: sha512-ooAzh/7dxIG5+uDik1z/Rd1vli0+38izZhGzSa34FwR7IbelPWCCKSNIl8jlL/F7ERvy8CB2jNeM1E9i9mXMAQ==}
-    engines: {node: '>= 0.6'}
 
   sshpk@1.18.0:
     resolution: {integrity: sha512-2p2KJZTSqQ/I3+HX42EpYOa2l3f8Erv8MWKsy2I9uf4wA7yFIkXRffYdsx86y6z4vHtV8u7g+pPlr8/4ouAxsQ==}
@@ -4706,7 +4608,7 @@ snapshots:
       '@babel/traverse': 7.25.3
       '@babel/types': 7.25.2
       convert-source-map: 2.0.0
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.3.7
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -4846,10 +4748,6 @@ snapshots:
       '@babel/core': 7.25.2
       '@babel/helper-plugin-utils': 7.24.8
 
-  '@babel/runtime@7.25.0':
-    dependencies:
-      regenerator-runtime: 0.14.1
-
   '@babel/runtime@7.26.0':
     dependencies:
       regenerator-runtime: 0.14.1
@@ -4867,7 +4765,7 @@ snapshots:
       '@babel/parser': 7.25.3
       '@babel/template': 7.25.0
       '@babel/types': 7.25.2
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.3.7
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -4959,7 +4857,7 @@ snapshots:
       discord-api-types: 0.37.83
       fast-deep-equal: 3.1.3
       ts-mixer: 6.0.4
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   '@discordjs/collection@1.5.3': {}
 
@@ -4978,7 +4876,7 @@ snapshots:
       '@vladfrangu/async_event_emitter': 2.4.5
       discord-api-types: 0.37.83
       magic-bytes.js: 1.10.0
-      tslib: 2.6.2
+      tslib: 2.8.1
       undici: 6.13.0
 
   '@discordjs/util@1.1.0': {}
@@ -4992,8 +4890,8 @@ snapshots:
       '@types/ws': 8.5.12
       '@vladfrangu/async_event_emitter': 2.4.5
       discord-api-types: 0.37.83
-      tslib: 2.6.2
-      ws: 8.17.0
+      tslib: 2.8.1
+      ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -5450,7 +5348,7 @@ snapshots:
   '@kotori-bot/tools@1.4.1':
     dependencies:
       '@iarna/toml': 2.2.5
-      axios: 1.6.1
+      axios: 1.7.3
       colorette: 2.0.20
       yaml: 2.4.3
     transitivePeerDependencies:
@@ -5669,7 +5567,7 @@ snapshots:
       '@types/express': 4.17.21
       '@types/promise.allsettled': 1.0.6
       '@types/tsscmp': 1.0.2
-      axios: 1.6.1
+      axios: 1.7.3
       express: 4.18.2
       path-to-regexp: 6.2.2
       please-upgrade-node: 3.2.0
@@ -5792,11 +5690,6 @@ snapshots:
       '@types/minimatch': 5.1.2
       '@types/node': 20.14.2
 
-  '@types/glob@8.1.0':
-    dependencies:
-      '@types/minimatch': 5.1.2
-      '@types/node': 20.14.2
-
   '@types/graceful-fs@4.1.9':
     dependencies:
       '@types/node': 20.14.2
@@ -5851,10 +5744,6 @@ snapshots:
   '@types/minimist@1.2.5': {}
 
   '@types/mute-stream@0.0.4':
-    dependencies:
-      '@types/node': 20.14.2
-
-  '@types/mysql@2.15.26':
     dependencies:
       '@types/node': 20.14.2
 
@@ -6058,7 +5947,7 @@ snapshots:
 
   ast-types@0.13.4:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.8.1
 
   async@3.2.5: {}
 
@@ -6175,8 +6064,6 @@ snapshots:
     dependencies:
       tweetnacl: 0.14.5
 
-  bignumber.js@9.0.0: {}
-
   binary-extensions@2.3.0: {}
 
   bl@1.2.3:
@@ -6262,12 +6149,6 @@ snapshots:
   bytes@3.1.2: {}
 
   cac@6.7.14: {}
-
-  call-bind@1.0.5:
-    dependencies:
-      function-bind: 1.1.2
-      get-intrinsic: 1.2.2
-      set-function-length: 1.2.0
 
   call-bind@1.0.7:
     dependencies:
@@ -6374,8 +6255,6 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
-  complex.js@2.1.1: {}
-
   complex.js@2.4.2: {}
 
   concat-map@0.0.1: {}
@@ -6438,7 +6317,7 @@ snapshots:
       handlebars: 4.7.8
       json-stringify-safe: 5.0.1
       meow: 12.1.1
-      semver: 7.6.2
+      semver: 7.6.3
       split2: 4.2.0
 
   conventional-changelog@5.1.0:
@@ -6563,12 +6442,6 @@ snapshots:
 
   deepmerge@4.3.1: {}
 
-  define-data-property@1.1.1:
-    dependencies:
-      get-intrinsic: 1.2.2
-      gopd: 1.0.1
-      has-property-descriptors: 1.0.1
-
   define-data-property@1.1.4:
     dependencies:
       es-define-property: 1.0.0
@@ -6577,8 +6450,8 @@ snapshots:
 
   define-properties@1.2.1:
     dependencies:
-      define-data-property: 1.1.1
-      has-property-descriptors: 1.0.1
+      define-data-property: 1.1.4
+      has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
   degenerator@5.0.1:
@@ -7082,13 +6955,6 @@ snapshots:
 
   get-caller-file@2.0.5: {}
 
-  get-intrinsic@1.2.2:
-    dependencies:
-      function-bind: 1.1.2
-      has-proto: 1.0.1
-      has-symbols: 1.0.3
-      hasown: 2.0.2
-
   get-intrinsic@1.2.4:
     dependencies:
       es-errors: 1.3.0
@@ -7137,7 +7003,7 @@ snapshots:
   git-semver-tags@7.0.1:
     dependencies:
       meow: 12.1.1
-      semver: 7.6.2
+      semver: 7.6.3
 
   glob-parent@5.1.2:
     dependencies:
@@ -7150,15 +7016,6 @@ snapshots:
       minimatch: 9.0.4
       minipass: 7.1.2
       path-scurry: 1.11.1
-
-  glob@11.0.0:
-    dependencies:
-      foreground-child: 3.1.1
-      jackspeak: 4.0.2
-      minimatch: 10.0.1
-      minipass: 7.1.2
-      package-json-from-dist: 1.0.1
-      path-scurry: 2.0.0
 
   glob@7.2.3:
     dependencies:
@@ -7187,7 +7044,7 @@ snapshots:
 
   gopd@1.0.1:
     dependencies:
-      get-intrinsic: 1.2.2
+      get-intrinsic: 1.2.4
 
   graceful-fs@4.2.11: {}
 
@@ -7213,15 +7070,9 @@ snapshots:
 
   has-flag@4.0.0: {}
 
-  has-property-descriptors@1.0.1:
-    dependencies:
-      get-intrinsic: 1.2.2
-
   has-property-descriptors@1.0.2:
     dependencies:
       es-define-property: 1.0.0
-
-  has-proto@1.0.1: {}
 
   has-proto@1.0.3: {}
 
@@ -7488,7 +7339,7 @@ snapshots:
       '@babel/parser': 7.25.3
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.6.2
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -7500,7 +7351,7 @@ snapshots:
 
   istanbul-lib-source-maps@4.0.1:
     dependencies:
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.3.7
       istanbul-lib-coverage: 3.2.2
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -7523,10 +7374,6 @@ snapshots:
       '@isaacs/cliui': 8.0.2
     optionalDependencies:
       '@pkgjs/parseargs': 0.11.0
-
-  jackspeak@4.0.2:
-    dependencies:
-      '@isaacs/cliui': 8.0.2
 
   jake@10.9.2:
     dependencies:
@@ -7823,7 +7670,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.6.2
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -7931,7 +7778,7 @@ snapshots:
       lodash.isstring: 4.0.1
       lodash.once: 4.1.1
       ms: 2.1.3
-      semver: 7.6.2
+      semver: 7.6.3
 
   jsprim@1.4.2:
     dependencies:
@@ -8011,8 +7858,6 @@ snapshots:
 
   load-tsconfig@0.2.5: {}
 
-  loadsh@0.0.4: {}
-
   locate-path@5.0.0:
     dependencies:
       p-locate: 4.1.0
@@ -8044,8 +7889,6 @@ snapshots:
   lodash@4.17.21: {}
 
   lru-cache@10.2.2: {}
-
-  lru-cache@11.0.2: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -8082,7 +7925,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.6.2
+      semver: 7.6.3
 
   make-error@1.3.6: {}
 
@@ -8094,8 +7937,8 @@ snapshots:
 
   mathjs@11.12.0:
     dependencies:
-      '@babel/runtime': 7.25.0
-      complex.js: 2.1.1
+      '@babel/runtime': 7.26.0
+      complex.js: 2.4.2
       decimal.js: 10.4.3
       escape-latex: 1.2.0
       fraction.js: 4.3.4
@@ -8124,7 +7967,7 @@ snapshots:
       cac: 6.7.14
       fluoro: 1.0.2
       tsukiko: 1.4.2
-      ws: 8.17.0
+      ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -8157,10 +8000,6 @@ snapshots:
 
   mimic-fn@2.1.0: {}
 
-  minimatch@10.0.1:
-    dependencies:
-      brace-expansion: 2.0.1
-
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.11
@@ -8188,13 +8027,6 @@ snapshots:
   ms@2.1.3: {}
 
   mute-stream@1.0.0: {}
-
-  mysql@2.18.1:
-    dependencies:
-      bignumber.js: 9.0.0
-      readable-stream: 2.3.7
-      safe-buffer: 5.1.2
-      sqlstring: 2.3.1
 
   mz@2.7.0:
     dependencies:
@@ -8259,7 +8091,7 @@ snapshots:
     dependencies:
       hosted-git-info: 7.0.2
       is-core-module: 2.13.1
-      semver: 7.6.2
+      semver: 7.6.3
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -8353,8 +8185,6 @@ snapshots:
       degenerator: 5.0.1
       netmask: 2.0.2
 
-  package-json-from-dist@1.0.1: {}
-
   parent-module@1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -8394,11 +8224,6 @@ snapshots:
   path-scurry@1.11.1:
     dependencies:
       lru-cache: 10.2.2
-      minipass: 7.1.2
-
-  path-scurry@2.0.0:
-    dependencies:
-      lru-cache: 11.0.2
       minipass: 7.1.2
 
   path-to-regexp@0.1.7: {}
@@ -8449,12 +8274,6 @@ snapshots:
   process-nextick-args@2.0.1: {}
 
   progress@2.0.3: {}
-
-  promise-mysql@3.1.5:
-    dependencies:
-      '@types/mysql': 2.15.26
-      bluebird: 3.7.2
-      mysql: 2.18.1
 
   promise.allsettled@1.0.7:
     dependencies:
@@ -8601,16 +8420,6 @@ snapshots:
       isarray: 0.0.1
       string_decoder: 0.10.31
 
-  readable-stream@2.3.7:
-    dependencies:
-      core-util-is: 1.0.3
-      inherits: 2.0.4
-      isarray: 1.0.0
-      process-nextick-args: 2.0.1
-      safe-buffer: 5.1.2
-      string_decoder: 1.1.1
-      util-deprecate: 1.0.2
-
   readable-stream@2.3.8:
     dependencies:
       core-util-is: 1.0.3
@@ -8727,10 +8536,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.4.5
 
-  rslib@0.0.10:
-    dependencies:
-      promise-mysql: 3.1.5
-
   run-parallel-limit@1.1.0:
     dependencies:
       queue-microtask: 1.2.3
@@ -8801,14 +8606,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  set-function-length@1.2.0:
-    dependencies:
-      define-data-property: 1.1.1
-      function-bind: 1.1.2
-      get-intrinsic: 1.2.2
-      gopd: 1.0.1
-      has-property-descriptors: 1.0.1
-
   set-function-length@1.2.2:
     dependencies:
       define-data-property: 1.1.4
@@ -8841,8 +8638,8 @@ snapshots:
 
   side-channel@1.0.4:
     dependencies:
-      call-bind: 1.0.5
-      get-intrinsic: 1.2.2
+      call-bind: 1.0.7
+      get-intrinsic: 1.2.4
       object-inspect: 1.13.1
 
   signal-exit@3.0.7: {}
@@ -8862,7 +8659,7 @@ snapshots:
   socks-proxy-agent@8.0.4:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.5(supports-color@5.5.0)
+      debug: 4.3.7
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
@@ -8902,8 +8699,6 @@ snapshots:
   sprintf-js@1.0.3: {}
 
   sprintf-js@1.1.3: {}
-
-  sqlstring@2.3.1: {}
 
   sshpk@1.18.0:
     dependencies:
