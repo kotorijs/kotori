@@ -3,6 +3,8 @@
 // otehr servicee
 
 module Utils = {
+  type value = String(string) | Number(float) | Bool(bool) | None
+  type error
   external toAny: 'a => 'b = "%identity"
   let ignore = (_: 'a) => {()}
   let ignores = (_: array<'a>) => {()}
@@ -45,49 +47,70 @@ module Bot = {
     identity: string,
     api: api,
   }
-  and api = {
-    adapter: adapter,
-    getSupportedActions: unit => array<string>,
-    getSupportedEvents: unit => array<string>,
-    sendPrivateMsg: (KotoriMsg.element, string) => promise<apiResponse>,
-    sendGroupMsg: (KotoriMsg.element, string) => promise<apiResponse>,
-    sendChannelMsg: (KotoriMsg.element, string) => promise<apiResponse>,
-    deleteMsg: string => promise<unit>,
-    getSelfInfo: unit => promise<apiResponse>,
-    getUserInfo: string => promise<apiResponse>,
-    getFriendList: unit => promise<array<apiResponse>>,
-    getGroupInfo: string => promise<apiResponse>,
-    getGroupList: unit => promise<array<apiResponse>>,
-    getGroupMemberInfo: (string, string) => promise<apiResponse>,
-    getGroupMemberList: string => promise<array<apiResponse>>,
-    setGroupName: (string, string) => unit,
-    leaveGroup: string => unit,
-    getGuildInfo: string => promise<apiResponse>,
-    getGuildList: unit => promise<array<apiResponse>>,
-    setGuildName: (string, string) => unit,
-    getGuildMemberInfo: (string, string, string) => promise<apiResponse>,
-    getGuildMemberList: (string, string) => promise<array<apiResponse>>,
-    leaveGuild: string => unit,
-    getChannelInfo: (string, string) => promise<apiResponse>,
-    getChannelList: (string, bool) => promise<array<apiResponse>>,
-    setChannelName: (string, string, string) => unit,
-    getChannelMemberInfo: (string, string, string) => promise<apiResponse>,
-    getChannelMemberList: (string, string) => promise<array<apiResponse>>,
-    leaveChannel: (string, string) => unit,
-    uploadImage: (string, string, Js.Dict.t<string>) => promise<apiResponse>,
-    uploadFilePath: (string, string) => promise<apiResponse>,
-    uploadFileData: (string, string) => promise<apiResponse>,
-    getFileUrl: string => promise<apiResponse>,
-    getFilePath: string => promise<apiResponse>,
-    getFileData: string => promise<apiResponse>,
-    setGroupAvatar: (string, string) => unit,
-    setGroupAdmin: (string, string, bool) => unit,
-    setGroupCard: (string, string, string) => unit,
-    setGroupBan: (string, string, int) => unit,
-    setGroupNotice: (string, string /* , image?: string */) => unit,
-    setGroupWholeBan: (string, bool) => unit,
-    setGroupKick: (string, string) => unit,
-  }
+  and api = {adapter: adapter}
+
+  @send external getSupportedActions: api => array<string> = "getSupportedActions"
+  @send external getSupportedEvents: api => array<string> = "getSupportedEvents"
+  @send
+  external sendPrivateMsg: (api, KotoriMsg.element, string) => promise<apiResponse> =
+    "sendPrivateMsg"
+  @send
+  external sendGroupMsg: (api, KotoriMsg.element, string) => promise<apiResponse> = "sendGroupMsg"
+  @send
+  external sendChannelMsg: (api, KotoriMsg.element, string) => promise<apiResponse> =
+    "sendChannelMsg"
+  @send external deleteMsg: (api, string) => promise<unit> = "deleteMsg"
+  @send external getSelfInfo: api => promise<apiResponse> = "getSelfInfo"
+  @send external getUserInfo: (api, string) => promise<apiResponse> = "getUserInfo"
+  @send external getFriendList: api => promise<array<apiResponse>> = "getFriendList"
+  @send external getGroupInfo: (api, string) => promise<apiResponse> = "getGroupInfo"
+  @send external getGroupList: api => promise<array<apiResponse>> = "getGroupList"
+  @send
+  external getGroupMemberInfo: (api, string, string) => promise<apiResponse> = "getGroupMemberInfo"
+  @send
+  external getGroupMemberList: (api, string) => promise<array<apiResponse>> = "getGroupMemberList"
+  @send external setGroupName: (api, string, string) => unit = "setGroupName"
+  @send external leaveGroup: (api, string) => unit = "leaveGroup"
+  @send external getGuildInfo: (api, string) => promise<apiResponse> = "getGuildInfo"
+  @send external getGuildList: api => promise<array<apiResponse>> = "getGuildList"
+  @send external setGuildName: (api, string, string) => unit = "setGuildName"
+  @send
+  external getGuildMemberInfo: (api, string, string, string) => promise<apiResponse> =
+    "getGuildMemberInfo"
+  @send
+  external getGuildMemberList: (api, string, string) => promise<array<apiResponse>> =
+    "getGuildMemberList"
+  @send external leaveGuild: (api, string) => unit = "leaveGuild"
+  @send
+  external getChannelInfo: (api, string, string) => promise<apiResponse> = "getChannelInfo"
+  @send
+  external getChannelList: (api, string, bool) => promise<array<apiResponse>> = "getChannelList"
+  @send external setChannelName: (api, string, string, string) => unit = "setChannelName"
+  @send
+  external getChannelMemberInfo: (api, string, string, string) => promise<apiResponse> =
+    "getChannelMemberInfo"
+  @send
+  external getChannelMemberList: (api, string, string) => promise<array<apiResponse>> =
+    "getChannelMemberList"
+  @send external leaveChannel: (api, string, string) => unit = "leaveChannel"
+  @send
+  external uploadImage: (api, string, string, Js.Dict.t<string>) => promise<apiResponse> =
+    "uploadImage"
+  @send
+  external uploadFilePath: (api, string, string) => promise<apiResponse> = "uploadFilePath"
+  @send
+  external uploadFileData: (api, string, string) => promise<apiResponse> = "uploadFileData"
+  @send external getFileUrl: (api, string) => promise<apiResponse> = "getFileUrl"
+  @send external getFilePath: (api, string) => promise<apiResponse> = "getFilePath"
+  @send external getFileData: (api, string) => promise<apiResponse> = "getFileData"
+  @send external setGroupAvatar: (api, string, string) => unit = "setGroupAvatar"
+  @send external setGroupAdmin: (api, string, string, bool) => unit = "setGroupAdmin"
+  @send external setGroupCard: (api, string, string, string) => unit = "setGroupCard"
+  @send external setGroupBan: (api, string, string, int) => unit = "setGroupBan"
+  @send
+  external setGroupNotice: (api, string, string /* , image?: string */) => unit = "setGroupNotice"
+  @send external setGroupWholeBan: (api, string, bool) => unit = "setGroupWholeBan"
+  @send external setGroupKick: (api, string, string) => unit = "setGroupKick"
 }
 
 module Msg = {
@@ -154,64 +177,98 @@ module Msg = {
       <location latitude longitude title content />
   }
 
-  type confirmConfig = {message: KotoriMsg.element, sure: KotoriMsg.element}
-  type session = {
-    id: string,
-    api: Bot.api,
-    i18n: i18n,
-    format: (string, array<string>) => string,
-    quick: KotoriMsg.element => promise<unit>,
-    prompt: KotoriMsg.element => promise<string>,
-    confirm: confirmConfig => promise<bool>,
-    // error: ('a, Js.undefined<'a>) => 'a, // 简化 CommandError 类型
-    t: array<string> => string,
-    type_: string,
-    time: float,
-    userId?: string,
-    operatorId?: string,
-    messageId?: string,
-    groupId?: string,
-    channelId?: string,
-    guildId?: string,
-  }
+  // type filterTestList = [
+  //   | #platform
+  //   | #userId
+  //   | #groupId
+  //   | #operatorId
+  //   | #messageId
+  //   | #scope
+  //   | #access
+  //   | #identity
+  //   | #localeType
+  //   | #selfId
+  // ]
 
-  type value = String(string) | Number(float) | Bool(bool) | None
+  // type rec filterOption =
+  //   | List({@as("type") type_: [#all_of | #any_of | #none_of], filters: array<filterOption>})
+  //   | Base({
+  //       test: filterTestList,
+  //       value: Utils.value,
+  //       operator: [#"==" | #"<" | #">" | #"<=" | #">=" | #"!="],
+  //     })
+}
+
+type session = {
+  id: string,
+  api: Bot.api,
+  i18n: i18n,
+  // error: ('a, Js.undefined<'a>) => 'a, // 简化 CommandError 类型
+  time: float,
+  userId?: string,
+  operatorId?: string,
+  messageId?: string,
+  groupId?: string,
+  channelId?: string,
+  guildId?: string,
+}
+
+module Session = {
+  type confirmConfig = {message: KotoriMsg.element, sure: KotoriMsg.element}
   type scope = [#all | #"private" | #group | #channel]
   type access = [#member | #manager | #admin]
 
-  type command
-  type commandActionData = {args: array<value>, options: Js.Dict.t<value>}
-  type commandPipes = {
-    cmd_new: string => command,
-    cmd_action: (command, (commandActionData, session) => promise<KotoriMsg.element>) => command,
-    cmd_option: (command, string, string) => command,
-    cmd_scope: (command, scope) => command,
-    cmd_access: (command, access) => command,
-    cmd_alias: (command, array<string>) => command,
-    cmd_shortcut: (command, array<string>) => command,
-    cmd_help: (command, string) => command,
-    cmd_hide: (command, bool) => command,
+  @send external format: (session, string, array<string>) => string = "format"
+  @send external quick: (session, KotoriMsg.element) => promise<unit> = "quick"
+  @send external prompt: (session, KotoriMsg.element) => promise<string> = "prompt"
+  @send external confirm: (session, confirmConfig) => promise<bool> = "confirm"
+  @send external t: (session, array<string>) => string = "t"
+
+  let get_type = (session: session): string => {
+    Utils.toAny(session)["type"]
   }
 
-  type filterTestList = [
-    | #platform
-    | #userId
-    | #groupId
-    | #operatorId
-    | #messageId
-    | #scope
-    | #access
-    | #identity
-    | #localeType
-    | #selfId
-  ]
-  type rec filterOption =
-    | List({@as("type") type_: [#all_of | #any_of | #none_of], filters: array<filterOption>})
-    | Base({
-        test: filterTestList,
-        value: value,
-        operator: [#"==" | #"<" | #">" | #"<=" | #">=" | #"!="],
-      })
+  let get_user_id_unwarp = (session: session): string => {
+    switch session.userId {
+    | Some(userId) => userId
+    | None => "No user id in session"->Js.Exn.raiseError
+    }
+  }
+
+  let get_operator_id_unwarp = (session: session): string => {
+    switch session.operatorId {
+    | Some(operatorId) => operatorId
+    | None => "No operator id in session"->Js.Exn.raiseError
+    }
+  }
+
+  let get_message_id_unwarp = (session: session): string => {
+    switch session.messageId {
+    | Some(messageId) => messageId
+    | None => "No message id in session"->Js.Exn.raiseError
+    }
+  }
+
+  let get_group_id_unwarp = (session: session): string => {
+    switch session.groupId {
+    | Some(groupId) => groupId
+    | None => "No group id in session"->Js.Exn.raiseError
+    }
+  }
+
+  let get_channel_id_unwarp = (session: session): string => {
+    switch session.channelId {
+    | Some(channelId) => channelId
+    | None => "No channel id in session"->Js.Exn.raiseError
+    }
+  }
+
+  let get_guild_id_unwarp = (session: session): string => {
+    switch session.guildId {
+    | Some(guildId) => guildId
+    | None => "No guild id in session"->Js.Exn.raiseError
+    }
+  }
 }
 
 module ConfigAndLoader = {
@@ -219,12 +276,14 @@ module ConfigAndLoader = {
     lang: localeType,
     commandPrefix: string,
   }
+
   type adapterConfig = {
     extends: string,
     master: string,
     lang: localeType,
     commandPrefix: string,
   }
+
   type config = {
     global: globalConfig,
     adapter: Js.Dict.t<adapterConfig>,
@@ -254,44 +313,15 @@ module ConfigAndLoader = {
   }
 }
 
-module Context = {
-  type sessionEvent = Msg.session => promise<unit>
-}
-
 type rec context = {
   // Fluoro
   identity?: string,
-  get: string => unknown,
-  inject: (string, bool) => bool,
-  provide: (string, unknown) => bool,
-  mixin: (string, array<string>, bool) => bool,
-  extends: string => context,
-  // emit parallel on once off offAll
-  on: @string
-  [
-    | #on_group_increase(Context.sessionEvent)
-  ] => unit,
-  load: (context => unit) => unit,
-  loadExport: moduleExport => unit,
-  unload: (context => unit) => unit,
-  unloadExport: moduleExport => unit,
-  service: (string, service) => unit,
-  // Core
-  start: unit => unit,
-  stop: unit => unit,
   // Config
   config: ConfigAndLoader.config,
   meta: ConfigAndLoader.meta,
   // Loader
-  run: bool => unit,
   baseDir: ConfigAndLoader.baseDir,
   options: ConfigAndLoader.options,
-  // Message
-  midware: ((unit => promise<unit>, Msg.session) => promise<KotoriMsg.element>, int, unit) => bool,
-  regexp: (Js.Re.t, (array<string>, Msg.session) => promise<KotoriMsg.element>, unit) => bool,
-  task: (string, unit => unit, unit) => bool, // only supports expr
-  // filt: Msg.filterOption => context,
-  ...Msg.commandPipes,
   // Extension
   http: http,
   i18n: i18n,
@@ -306,61 +336,99 @@ and service = {
   // config: unknown,
   // identity: string,
 }
-and moduleExport = {
-  name?: string,
-  main: context => unit,
-  // inject?: array<string>,
-}
 
-type resHooker = {
-  // filt: (Msg.filterOption, context => unit) => unit,
-  loadExport: moduleExport => unit,
-  unloadExport: moduleExport => unit,
-  ...Msg.commandPipes,
-}
+module Ctx = {
+  type sessionEvent = session => promise<unit>
+  type moduleExport = {
+    name?: string,
+    main: context => unit,
+    inject?: array<string>,
+  }
 
-let resHookerProps = [
-  "loadExport",
-  "unloadExport",
-  "cmd_new",
-  "cmd_action",
-  "cmd_option",
-  "cmd_help",
-  "cmd_scope",
-  "cmd_access",
-  "cmd_alias",
-  "cmd_shortcut",
-  "cmd_hide",
-]
+  // Fluoro
+  @send external get: (context, string) => unknown = "get"
+  @send external inject: (context, string, bool) => bool = "inject"
+  @send external provide: (context, string, unknown) => bool = "provide"
+  @send external mixin: (context, string, array<string>, bool) => bool = "mixin"
+  @send external extends: (context, string) => context = "extends"
+  // emit parallel on once off offAll
+  @send
+  external on: (
+    context,
+    @string
+    [
+      | #on_group_increase(sessionEvent)
+      | #on_group_decrease(sessionEvent)
+    ],
+  ) => unit = "on"
+  @send external load: (context, context => unit) => unit = "load"
+  @send external unload: (context, context => unit) => unit = "unload"
+  @send external service: (context, string, service) => unit = "service"
+  // Core
+  @send external start: context => unit = "start"
+  @send external stop: context => unit = "stop"
+  // Loader
+  @send external run: context => unit = "run"
+  // Message
+  @send
+  external midware: (
+    context,
+    ((unit => promise<unit>, session) => promise<KotoriMsg.element>, int, unit),
+  ) => bool = "midware"
+  @send
+  external regexp: (
+    context,
+    Js.Re.t,
+    (array<string>, session) => promise<KotoriMsg.element>,
+    unit,
+  ) => bool = "regexp"
+  @sendvv external task: (context, string, unit => unit, unit) => bool = "task"
 
-let createResHooker = (ctx: context) => {
-  let hooker: resHooker = {
-    loadExport: moduleExport => {
-      Utils.toAny(ctx)["load"](moduleExport)
-    },
-    unloadExport: moduleExport => {
-      Utils.toAny(ctx)["unload"](moduleExport)
-    },
-    cmd_new: template => {
+  let load_export = (ctx: context, moduleExport: moduleExport): unit => {
+    Utils.toAny(ctx)["load"](moduleExport)
+  }
+
+  let unload_export = (ctx: context, moduleExport: moduleExport): unit => {
+    Utils.toAny(ctx)["unload"](moduleExport)
+  }
+
+  module Cmd = {
+    type command
+    type commandActionData = {args: array<Utils.value>, options: Js.Dict.t<Utils.value>}
+
+    let make = (ctx: context, template: string): command => {
       Utils.toAny(ctx)["command"](template)
-    },
-    cmd_action: (cmd, callback) => {
-      Utils.toAny(cmd)["action"]((data, session: Msg.session) => {
+    }
+
+    let action = (
+      cmd: command,
+      callback: (commandActionData, session) => KotoriMsg.element,
+    ): command => {
+      Utils.toAny(cmd)["action"]((data, session: session) => {
         data["args"] = Js.Array.map(arg =>
           switch arg->Js.typeof {
-          | "string" => Msg.String(arg)
-          | "number" => Msg.Number(arg->Utils.toAny)
-          | "boolean" => Msg.Bool(arg->Utils.toAny)
-          | _ => Msg.None
+          | "string" => Utils.String(arg)
+          | "number" => Utils.Number(arg->Utils.toAny)
+          | "boolean" => Utils.Bool(arg->Utils.toAny)
+          | _ => Utils.None
           }
         , data["args"])
         callback(data->Utils.toAny, session)
       })
-    },
-    cmd_option: (cmd, name, template) => {
+    }
+
+    let action_async = (
+      cmd: command,
+      callback: (commandActionData, session) => promise<KotoriMsg.element>,
+    ): command => {
+      action(cmd, Utils.toAny(callback))
+    }
+
+    let option = (cmd: command, name: string, template: string): command => {
       Utils.toAny(cmd)["option"](name, template)
-    },
-    cmd_scope: (cmd, scope) => {
+    }
+
+    let scope = (cmd: command, scope: Session.scope): command => {
       if scope == #all {
         Utils.toAny(cmd)["scope"]("all")
       } else {
@@ -372,8 +440,9 @@ let createResHooker = (ctx: context) => {
           },
         )
       }
-    },
-    cmd_access: (cmd, access) => {
+    }
+
+    let access = (cmd: command, access: Session.access): command => {
       Utils.toAny(cmd)["access"](
         switch access {
         | #member => 0
@@ -381,19 +450,21 @@ let createResHooker = (ctx: context) => {
         | #admin => 2
         },
       )
-    },
-    cmd_alias: (cmd, alias) => {
+    }
+    let alias = (cmd: command, alias: array<string>): command => {
       Utils.toAny(cmd)["alias"](alias)
-    },
-    cmd_shortcut: (cmd, short) => {
+    }
+
+    let shortcut = (cmd: command, short: array<string>): command => {
       Utils.toAny(cmd)["shortcut"](short)
-    },
-    cmd_help: (cmd, text) => {
+    }
+
+    let help = (cmd: command, text: string): command => {
       Utils.toAny(cmd)["help"](text)
-    },
-    cmd_hide: (cmd, isHide) => {
+    }
+
+    let hide = (cmd: command, isHide: bool): command => {
       Utils.toAny(cmd)["hide"](isHide)
-    },
+    }
   }
-  hooker
 }
