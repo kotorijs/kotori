@@ -1,9 +1,9 @@
 type parser
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external string: unit => parser = "String"
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external number: unit => parser = "Number"
 
 let int = (): parser => {
@@ -11,22 +11,22 @@ let int = (): parser => {
   Kotori.Utils.toAny(parser)["int"]()
 }
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external boolean: unit => parser = "Boolean"
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external null: unit => parser = "Null"
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external array: parser => parser = "Array"
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external tuple: array<parser> => parser = "Tuple"
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external object: Js.Dict.t<parser> => parser = "Object"
 
-@module("@kotori-bot/core") @scope("Tsu")
+@module("kotori-bot") @scope("Tsu")
 external custom: ('a => bool) => parser = "Custom"
 
 type result<'a> = Success('a) | Failure(string)

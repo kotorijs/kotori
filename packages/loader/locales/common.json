@@ -1,6 +1,7 @@
 {
   "loader.debug.info": "run info: <dim>develop with debugging...</dim>",
   "loader.debug.reload": "file changed, module <cyanBright>{0}</cyanBright> <dim>is reloading...</dim>",
+  "loader.tips.update.workspace": "<bold>the current is in <cyanBright>workspace development</cyanBright></bold>",
   "loader.tips.update.failed": "get update failed, please check your network",
   "loader.tips.update.latest": "kotori is currently the latest version",
   "loader.tips.update.available": "the current version of Kotori is {0}, and the latest version is {1}. please go to <blueBright>{2}</blueBright> to update",
