@@ -14,9 +14,9 @@
     "kotori-plugin",
     "rescript"
   ],
-  "license": "GPL-3.0",
+  "license": "BCU",
   "files": [
-    "src/**/*.res.js",
+    "src",
     "LICENSE",
     "README.md"
   ],

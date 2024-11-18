@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-helper",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "helper and menu plugin",
   "main": "lib/index.js",
   "keywords": [
@@ -8,7 +8,7 @@
     "chatbot",
     "kotori-plugin"
   ],
-  "license": "GPL-3.0",
+  "license": "BCU",
   "files": [
     "lib",
     "locales",

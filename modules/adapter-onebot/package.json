@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-onebot",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Adapter For Onebot 11",
   "main": "lib/index.js",
   "keywords": [
@@ -15,8 +15,13 @@
     "NapCat",
     "go-cqhttp"
   ],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "license": "BCU",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"

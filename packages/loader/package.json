@@ -1,8 +1,8 @@
 {
   "name": "@kotori-bot/loader",
-  "version": "1.7.5",
+  "version": "1.8.0",
   "description": "Loader For KotoriBot",
-  "license": "GPL-3.0",
+  "license": "BCU",
   "main": "lib/index.js",
   "author": "Arimura Sena <me@hotaru.icu>",
   "keywords": [

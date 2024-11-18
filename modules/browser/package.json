@@ -8,7 +8,7 @@
     "chatbot",
     "kotori-plugin"
   ],
-  "license": "GPL-3.0",
+  "license": "BCU",
   "files": [
     "lib",
     "LICENSE",

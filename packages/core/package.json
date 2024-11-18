@@ -1,9 +1,9 @@
 {
   "name": "@kotori-bot/core",
-  "version": "1.6.5",
+  "version": "1.7.0",
   "description": "Kotori Core",
   "main": "lib/index.js",
-  "license": "GPL-3.0",
+  "license": "BCU",
   "author": "Arimura Sena <me@hotaru.icu>",
   "keywords": [
     "kotori",

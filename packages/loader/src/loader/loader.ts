@@ -28,7 +28,6 @@ import {
   Service,
   Decorators
 } from '@kotori-bot/core'
-import { createResHooker, resHookerProps } from 'rescript-kotori'
 import path from 'node:path'
 import fs from 'node:fs'
 import Logger, { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
@@ -67,7 +66,7 @@ export interface ModulePackage {
   description: string
   main: string
   keywords: string[]
-  license: 'GPL-3.0'
+  license: 'GPL-3.0' | 'BCU'
   author: string | string[]
   peerDependencies?: {
     'kotori-bot': string
@@ -241,7 +240,7 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Literal('GPL-3.0'),
+  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BCU')),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
@@ -301,7 +300,6 @@ export class Loader extends Core {
         this
       )
     )
-    this.provide('resHooker', createResHooker(this))
     this.inject('logger')
     this.service('server', new Server(this.extends('server'), { port: this.config.global.port }))
     this.service('file', new File(this.extends('file')))
@@ -509,10 +507,10 @@ export class Loader extends Core {
     }
 
     /* Rescript Plugins */
-    if (typeof obj.main === 'function' && pkg.devDependencies?.rescript) {
+    if (typeof obj.main === 'function' && pkg.keywords?.includes('rescript')) {
       // obj.default will be called before obj.main
       obj.default = (ctx: this, config: object) => {
-        ctx.mixin('resHooker', resHookerProps, true)
+        // ctx.mixin('resHooker', resHookerProps, true)
         obj.main(ctx, config)
       }
       obj.default.isRescript = true
