@@ -3,7 +3,14 @@ port = 720
 dbPrefix = "romiChan"
 lang = "en_US"
 commandPrefix = "/"
-dirs = []
+dirs = [
+  "modules",
+  "modules/base",
+  "modules/platform",
+  "modules/test",
+  "modules/tools",
+  "modules/amuse",
+]
 noColor = false
 level = 25
 

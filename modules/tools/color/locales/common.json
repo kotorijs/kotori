@@ -1,0 +1,11 @@
+{
+  "color.descr.color": "获取随机颜色",
+  "color.descr.color_jp": "获取日本传统色",
+  "color.descr.color_cn": "获取中国传统色",
+  "color.option.color": "查看帮助",
+  "color.msg.color.error": "颜色格式错误！请发送 {0}color --help 查看帮助",
+  "color.msg.color.error2": "输入的颜色不是一个有效值！请发送 {0}color --help 查看帮助",
+  "color.msg.color_jp": "日本传统色\n{0} - {1}",
+  "color.msg.color_cn": "中国传统色\n{0} - {1}\n{2}",
+  "color.msg.help": "颜色值可以是通用格式：\n十六进制值（#FFFFFF）、RGB值（255,255,255）、颜色英文字面量（white）\n对于日本传统色还可以是颜色名或罗马音，对于中国传统色还可以是颜色名或繁体颜色名，如\n{0}color red\n{0}color-jp 瑠璃\n{0}color-jp SAKURA\n{0}color-cn 靛蓝\n{0}color-cn 寶藍\ncolor-cn red"
+}

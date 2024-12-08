@@ -29,7 +29,7 @@ import {
   Decorators
 } from '@kotori-bot/core'
 import path from 'node:path'
-import fs from 'node:fs'
+import fs, { existsSync } from 'node:fs'
 import Logger, { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
 import loadInfo from '../utils/log'
 import {
@@ -46,6 +46,7 @@ import Server from '../service/server'
 import Database from '../service/database'
 import File from '../service/file'
 import KotoriLogger from '../utils/logger'
+import type Browser from '../service/browser'
 
 interface BaseDir {
   root: string
@@ -65,10 +66,14 @@ export interface ModulePackage {
   description: string
   main: string
   keywords: string[]
-  license: 'GPL-3.0'
+  license: 'GPL-3.0' | 'BCU'
   author: string | string[]
-  peerDependencies: {
+  peerDependencies?: {
     'kotori-bot': string
+    [propName: string]: string
+  }
+  devDependencies?: {
+    'rescript-kotori': string
     [propName: string]: string
   }
   kotori: {
@@ -106,7 +111,7 @@ declare module '@kotori-bot/core' {
     server: Server
     db: Database
     file: File
-    browser: object
+    browser: Browser
   }
 
   interface GlobalConfig {
@@ -182,7 +187,7 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
     if (loaderOptions?.mode === DEV_MODE) {
       // Base on running mode auto set logger level
       if (result.global.level === DEFAULT_LOADER_CONFIG.level) result.global.level = LoggerLevel.DEBUG
-      if (!result.global.dirs.includes('modules')) result.global.dirs = ['modules', ...result.global.dirs]
+      // if (!result.global.dirs.includes('modules')) result.global.dirs = ['modules', ...result.global.dirs]
     }
 
     return Tsu.Object({
@@ -200,8 +205,8 @@ function getConfig(baseDir: BaseDir, loaderOptions?: LoaderOptions) {
 function moduleLoaderOrder(pkg: ModulePackage) {
   if (CORE_MODULES.includes(pkg.name)) return 1
   // if (pkg.name.includes(DATABASE_PREFIX)) return 2
-  if (pkg.name.includes(ADAPTER_PREFIX)) return 3
-  if (pkg.kotori.enforce === 'pre') return 4
+  if (pkg.kotori.enforce === 'pre') return 3
+  if (pkg.name.includes(ADAPTER_PREFIX)) return 4
   if (!pkg.kotori.enforce) return 5
   return 6
 }
@@ -235,14 +240,14 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Literal('GPL-3.0'),
+  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BCU')),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
   author: Tsu.Union(Tsu.String(), Tsu.Array(Tsu.String())),
-  peerDependencies: Tsu.Object({
-    'kotori-bot': Tsu.String()
-  }),
+  // peerDependencies: Tsu.Object({
+  //   'kotori-bot': Tsu.String()
+  // }),
   kotori: Tsu.Object({
     enforce: Tsu.Union(Tsu.Literal('pre'), Tsu.Literal('post')).optional(),
     meta: Tsu.Object({
@@ -382,7 +387,12 @@ export class Loader extends Core {
       if (this.loadRecord.has(name)) return
       this.loadRecord.add(name)
       this.logger.info(
-        this.format('loader.modules.load', [name, version, Array.isArray(author) ? author.join(',') : author])
+        this.format(
+          data.instance.default && 'isRescript' in data.instance.default
+            ? 'loader.modules.loadRes'
+            : 'loader.modules.load',
+          [name, version, Array.isArray(author) ? author.join(',') : author]
+        )
       )
     })
   }
@@ -407,8 +417,10 @@ export class Loader extends Core {
       throw new DevError(`illegal package.json ${pkgPath}`)
     }
 
-    const loadTs = this.isDev && fs.existsSync(path.join(dir, 'src/index.ts'))
-    const main = path.resolve(dir, loadTs ? 'src/index.ts' : pkg.main)
+    const loadTsFile = this.isDev
+      ? ['src/index.ts', 'src/index.tsx'].find((el) => fs.existsSync(path.join(dir, el)))
+      : undefined
+    const main = path.resolve(dir, loadTsFile ?? pkg.main)
     if (!fs.existsSync(main)) throw new DevError(`cannot find main file ${main}`)
 
     const getDirFiles = (rootDir: string) => {
@@ -420,14 +432,15 @@ export class Loader extends Core {
         if (fs.statSync(file).isDirectory()) {
           list.push(...getDirFiles(file))
         }
-        if (path.parse(file).ext === '.ts' && !this.isDev) continue
+        // Might be `.tsx`
+        if (path.parse(file).ext.startsWith('.ts') && !this.isDev) continue
         list.push(path.resolve(file))
       }
 
       return list
     }
 
-    const files = getDirFiles(path.join(dir, loadTs ? 'src' : path.parse(pkg.main).dir))
+    const files = getDirFiles(path.join(dir, loadTsFile ? 'src' : path.parse(pkg.main).dir))
 
     const [pkgScope, pkgName] = pkg.name.split('/')
     const pluginName = `${pkgScope.startsWith('@') && pkgScope !== '@kotori-bot' ? `${pkgScope.slice(1)}/` : ''}${(pkgName ?? pkgScope).replace(PLUGIN_PREFIX, '')}`
@@ -487,9 +500,20 @@ export class Loader extends Core {
     /* Service Class */
     // Service need parse reality config and load lang files
     if (Service.isPrototypeOf.call(Service, obj.default)) {
-      this.service('', new obj.default(this.extends(pkg.name), config))
+      const serviceName = (pkg.name.split('/')[1] ?? pkg.name).replace(PLUGIN_PREFIX, '')
+      this.service(serviceName, new obj.default(this.extends(serviceName), config))
       // but it is different with normal plugin: need not load immediately so reset obj
       obj = {}
+    }
+
+    /* Rescript Plugins */
+    if (typeof obj.main === 'function' && pkg.keywords?.includes('rescript')) {
+      // obj.default will be called before obj.main
+      obj.default = (ctx: this, config: object) => {
+        // ctx.mixin('resHooker', resHookerProps, true)
+        obj.main(ctx, config)
+      }
+      obj.default.isRescript = true
     }
 
     try {
@@ -573,6 +597,15 @@ export class Loader extends Core {
   }
 
   private async checkUpdate() {
+    const pkgPath = path.join(this.baseDir.root, 'package.json')
+    if (existsSync(pkgPath)) {
+      try {
+        if (JSON.parse(fs.readFileSync(pkgPath).toString()).name === '@kotori-bot/root') {
+          this.logger.info(this.i18n.t`loader.tips.update.workspace`)
+          return
+        }
+      } catch {}
+    }
     const { version } = this.meta
     if (!version) return
     const res = await new Http().get(GLOBAL.UPDATE).catch(() => {})

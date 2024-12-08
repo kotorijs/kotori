@@ -120,19 +120,20 @@ export class Message {
 
       try {
         const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
-        if (executed instanceof CommandError) {
-          this.ctx.emit('command', { command: cmd, result: executed, raw, session })
-          continue
-        }
         if (executed !== undefined) session.quick(executed)
         this.ctx.emit('command', {
           command: cmd,
-          result: executed instanceof CommandError ? result : executed,
+          result: executed,
           raw,
           session
         })
       } catch (error) {
-        this.ctx.emit('command', { command: matched, result: new CommandError({ type: 'error', error }), raw, session })
+        this.ctx.emit('command', {
+          command: matched,
+          result: error instanceof CommandError ? error : new CommandError({ type: 'error', error }),
+          raw,
+          session
+        })
       }
     }
 
@@ -165,8 +166,7 @@ export class Message {
                         ? { type: MessageScope.GROUP, groupId: id1 }
                         : { type: MessageScope.CHANNEL, guildId: id1, channelId: id2 }
                 })
-                if (cancel.value) return
-                Reflect.apply(target, thisArg, argArray)
+                return cancel.value ? { messageId: '', time: 0 } : Reflect.apply(target, thisArg, argArray)
               }
             })
           }
