@@ -1,6 +1,7 @@
 {
   "loader.debug.info": "run info: <dim>develop with debugging...</dim>",
   "loader.debug.reload": "file changed, module <cyanBright>{0}</cyanBright> <dim>is reloading...</dim>",
+  "loader.tips.update.workspace": "<bold>the current is in <cyanBright>workspace development</cyanBright></bold>",
   "loader.tips.update.failed": "get update failed, please check your network",
   "loader.tips.update.latest": "kotori is currently the latest version",
   "loader.tips.update.available": "the current version of Kotori is {0}, and the latest version is {1}. please go to <blueBright>{2}</blueBright> to update",
@@ -15,6 +16,7 @@
   "loader.bots.stop.error": "stopped server at <blueBright>{0}</blueBright> unexpectedly",
   "loader.bots.dispose": "dispose completed about <greenBright>{0}</greenBright>",
   "loader.modules.load": "loaded module <cyanBright>{0}</cyanBright> version: {1}",
+  "loader.modules.loadRes": "loaded module <red>{0}</red> version: {1}",
   "loader.modules.all": "<greenBright>loaded {0} modules successfully</greenBright>",
   "loader.modules.all.failed": "loaded {0} modules successfully, <red>failed to load</red> <redBright>{1}</redBright> modules",
   "loader.adapters.notfound": "cannot find adapter <cyanBright>{0}</cyanBright> for bot <magenta>{1}</magenta>",

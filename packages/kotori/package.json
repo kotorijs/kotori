@@ -1,9 +1,9 @@
 {
   "name": "kotori-bot",
-  "version": "1.6.4",
+  "version": "1.7.0",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
-  "license": "GPL-3.0",
+  "license": "BCU",
   "author": "Arimura Sena <me@hotaru.icu>",
   "scripts": {
     "start": "node lib/cli.js --mode build --daemon",
@@ -31,7 +31,15 @@
     "AOP",
     "context"
   ],
-  "files": ["lib", "kotori.yml", "bin.js", "LICENSE", "README.md", "README_CN.md", "tsconfig.base.json"],
+  "files": [
+    "lib",
+    "kotori.yml",
+    "bin.js",
+    "LICENSE",
+    "README.md",
+    "README_CN.md",
+    "tsconfig.base.json"
+  ],
   "bugs": {
     "url": "https://github.com/kotorijs/kotori/issues"
   },
@@ -45,10 +53,10 @@
     "@kotori-bot/core": "workspace:^",
     "@kotori-bot/loader": "workspace:^",
     "cac": "^6.7.14",
-    "dotenv": "^16.4.5",
-    "tsx": "^4.11.2"
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "tsx": "^4.11.2",
     "typescript": "^5.1.3"
   }
 }

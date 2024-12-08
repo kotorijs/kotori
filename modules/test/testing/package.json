@@ -1,0 +1,22 @@
+{
+  "name": "kotori-plugin-testing",
+  "version": "1.3.1",
+  "description": "testing plugin",
+  "main": "lib/index.js",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BCU",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <me@hotaru.icu>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  }
+}

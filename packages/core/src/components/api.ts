@@ -518,7 +518,7 @@ export abstract class Api {
    * Set group avatar.
    *
    * @param groupId - Target group id
-   * @param groupName - Group name
+   * @param image - Image data
    * @param meta - Extra meta data, optional
    *
    * @experimental
@@ -531,7 +531,8 @@ export abstract class Api {
    * Set group admin.
    *
    * @param groupId - Target group id
-   * @param groupName - Group name
+   * @param userId - Target user id
+   * @param enable - Whether to set admin
    * @param meta - Extra meta data, optional
    *
    * @experimental
@@ -544,7 +545,8 @@ export abstract class Api {
    * Set group card.
    *
    * @param groupId - Target group id
-   * @param groupName - Group name
+   * @param userId - Target user id
+   * @param card - Card content
    * @param meta - Extra meta data, optional
    *
    * @experimental
@@ -557,7 +559,8 @@ export abstract class Api {
    * Set group members ban or unban.
    *
    * @param groupId - Target group id
-   * @param groupName - Group name
+   * @param userId - Target user id
+   * @param time - Ban time, 0 means unban
    * @param meta - Extra meta data, optional
    *
    * @experimental
@@ -570,7 +573,8 @@ export abstract class Api {
    * Set group new notice.
    *
    * @param groupId - Target group id
-   * @param groupName - Group name
+   * @param content - Notice content
+   * @param image - Notice image, optional
    * @param meta - Extra meta data, optional
    *
    * @experimental
@@ -593,7 +597,7 @@ export abstract class Api {
    * Set group members kicked.
    *
    * @param groupId - Target group id
-   * @param groupName - Group name
+   * @param userId - Target user id
    * @param meta - Extra meta data, optional
    *
    * @experimental

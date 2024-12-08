@@ -16,6 +16,7 @@ import type { Elements } from './elements'
 import type { I18n } from '@kotori-bot/i18n'
 import { Symbols } from '../global'
 import { MessageList } from './messages'
+import stringify from 'fast-safe-stringify'
 
 class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
   /**
@@ -54,13 +55,13 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    */
   public async send(message: Message) {
     if (this.type === MessageScope.GROUP) {
-      return await this.api.sendGroupMsg(message, this.groupId as string, this.meta)
+      return this.api.sendGroupMsg(message, this.groupId as string, this.meta)
     }
     if (this.type === MessageScope.CHANNEL) {
-      return await this.api.sendChannelMsg(message, this.guildId as string, this.channelId as string, this.meta)
+      return this.api.sendChannelMsg(message, this.guildId as string, this.channelId as string, this.meta)
     }
     if (this.type === MessageScope.PRIVATE) {
-      return await this.api.sendPrivateMsg(message, this.userId as string, this.meta)
+      return this.api.sendPrivateMsg(message, this.userId as string, this.meta)
     }
     return { messageId: '', time: 0 }
   }
@@ -105,12 +106,13 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
   public async json(message: unknown) {
     if (typeof message === 'string') return this.send(message)
     if (message && typeof message === 'object') {
-      const result = JSON.stringify(message, undefined, 2)
-      if (result === '{}') return this.send(String(message))
-      return result
+      const result = stringify(message, undefined, 2)
+      return this.send(result === '{}' ? String(message) : result)
     }
     if (typeof message === 'function') {
-      return `[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`
+      return this.send(
+        `[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`
+      )
     }
     return this.send(String(message))
   }

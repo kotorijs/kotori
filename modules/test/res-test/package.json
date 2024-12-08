@@ -1,0 +1,33 @@
+{
+  "name": "kotori-plugin-res-test",
+  "version": "1.0.0",
+  "description": "a kotori project",
+  "main": "src/Main.res.js",
+  "scripts": {
+    "res:build": "rescript",
+    "res:clean": "rescript clean",
+    "res:dev": "rescript -w"
+  },
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin",
+    "rescript"
+  ],
+  "license": "BCU",
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <me@hotaru.icu>",
+  "devDependencies": {
+    "rescript-kotori": "workspace:^"
+  },
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "mathjs": "^13.2.1"
+  }
+}

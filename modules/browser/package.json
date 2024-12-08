@@ -1,0 +1,35 @@
+{
+  "name": "@kotori-bot/browser",
+  "version": "1.0.0",
+  "description": "browser service supports for kotori-bot",
+  "main": "lib/index.js",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BCU",
+  "files": [
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <me@hotaru.icu>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "meta": {
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    },
+    "enforce": "pre"
+  },
+  "dependencies": {
+    "puppeteer": "^23.6.0"
+  }
+}
