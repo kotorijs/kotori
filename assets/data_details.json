@@ -1,0 +1,958 @@
+{
+  "meta": {
+    "registry": "https://registry.npmjs.org/",
+    "time": 1734611743432,
+    "total": 38
+  },
+  "list": [
+    {
+      "name": "@kotori-bot/kotori-plugin-webui",
+      "description": "网页控制台",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.4.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491654698,
+        "modified": 1727856998729
+      },
+      "dist": {
+        "dependencies": 1,
+        "fileCount": 84,
+        "unpackedSize": 3952587,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-webui/-/kotori-plugin-webui-1.4.1.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/kotori-plugin-webui\r\n\r\nWeb front end repository: [kotorijs/webui](https://github.com/kotorijs/webui)\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n\r\n## TODO\r\n\r\n- [x] Add authorization for websocket server\r\n- [x] Login at the same time\r\n- [x] Console outputting support for cmd adapter\r\n- [x] Websocket verify\r\n- [x] Sync offline and other data\r\n"
+    },
+    {
+      "name": "kotori-plugin-goodnight",
+      "description": "早晚安插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.3.5",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848079212,
+        "modified": 1723200621314
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 48231,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-goodnight/-/kotori-plugin-goodnight-1.3.5.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-goodnight\r\n\r\nAnd in case i don't see you,good afternoon,good evening,and good night!\r\n\r\n## Regexps\r\n\r\n- 早|早安|早上好\r\n- 晚|晚安|晚上好\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-core",
+      "description": "核心插件",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.4.4",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848079647,
+        "modified": 1723200616576
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 60989,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-core/-/kotori-plugin-core-1.4.4.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/kotori-plugin-core\n\nBase on tencent api.\n\n## Commands\n\n- `/core` View instance statistics\n- `/bot` View current bot info and running status\n- `/bots` View all bots info and running status\n- `/about` View about info\n\n```text\n/core\n> Global Language: en_US\nRoot Directory: \\usr\\kotori\nRunning Mode: dev\nNumber of Modules: 21\nNumber of Services: 3\nNumber of Bots: 1\nNumber of Middlewares: 1\nNumber of Commands: 27\nNumber of Regexps: 25\n\n/bot\n> ID: cmd-test\nLanguage: en_US\nPlatform: cmd\nSelf ID: 720\nConnect Time: 24/2/4 18:36:36\nMessages Received: 16\nMessages Sent: 15\nOffline Times: 0\nLast Message Time: 24/2/4 18:45:45\n\n/bots\n> Bot List:\n----------\nID: cmd-test\nLanguage: en_US\nPlatform: cmd\nStatus: online\n\n/about\n> Kotori Version: 1.2.0\nLicense: GPL-3.0\nNodeJS Version: v18.18.1\n```\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n"
+    },
+    {
+      "name": "kotori-plugin-better-join",
+      "description": "趣味的进群欢迎提示",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078986,
+        "modified": 1723200531994
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 7,
+        "unpackedSize": 47180,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-better-join/-/kotori-plugin-better-join-1.2.2.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-better-join\r\n\r\n更好的（奇奇怪怪的）新人加入群聊欢迎。\r\n\r\n## 自定义语录\r\n\r\n```typescript\r\n// ./src/data.ts\r\nexport default [\r\n  // ...\r\n];\r\n```\r\n\r\n## 鸣谢\r\n\r\n- QQ：337**\\*\\***042 提供的部分语录\r\n"
+    },
+    {
+      "name": "@kotori-bot/adapter-telegram",
+      "description": "Telegram 适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.0.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1723122127391,
+        "modified": 1723200527589
+      },
+      "dist": {
+        "dependencies": 3,
+        "fileCount": 11,
+        "unpackedSize": 49987,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/adapter-telegram/-/adapter-telegram-1.0.2.tgz"
+      },
+      "keywords": [
+        "telegram"
+      ],
+      "readme": "# @kotori-bot/adapter-telegram\r\n\r\nSupports for telegram. Create own bot: [@BotFather](https://t.me/BotFather). And if you are in China, you can set proxy to connect telegram api.\r\n\r\n## Config\r\n\r\n```typescript\r\nexport const config = Tsu.Object({\r\n  token: Tsu.String().describe(\"Bot's token\"),\r\n  proxy: Tsu.String().optional().describe('Proxy address (if you are in China)')\r\n})\r\n```\r\n\r\n## Supports\r\n\r\n### Events\r\n\r\n- on_message (fully supported)\r\n\r\n### Api\r\n\r\n- sendPrivateMsg\r\n- sendGroupMsg\r\n- sendChannelMsg\r\n\r\n### Elements\r\n\r\n- text\r\n- image\r\n- voice\r\n- audio\r\n- video\r\n- location\r\n\r\n## TODO\r\n\r\nSupport more standard api...\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n- [Telegram APIs](https://core.telegram.org/api)\r\n"
+    },
+    {
+      "name": "kotori-plugin-bilibili",
+      "description": "哔哩哔哩插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.3.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078987,
+        "modified": 1723199800260
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 5,
+        "unpackedSize": 41139,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-bilibili/-/kotori-plugin-bilibili-1.3.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# ~~kotori-plugin-bilibili~~\r\n\r\n## Commands\r\n\r\n```\r\n/bili <bvid> - Bilibili video info query\r\n/bilier <uid> - Bilibili User Information Query\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-weather",
+      "description": "天气查询",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.1.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848095942,
+        "modified": 1723122267841
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 40762,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-weather/-/kotori-plugin-weather-1.1.2.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-weather\r\n\r\n## Commands\r\n\r\n- `/weather <area>` Query city weather\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-testing",
+      "description": "测试用的插件，提供了 eval 和 echo 指令",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.3.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848089484,
+        "modified": 1723122262797
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 5,
+        "unpackedSize": 39810,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-testing/-/kotori-plugin-testing-1.3.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-testing\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n"
+    },
+    {
+      "name": "kotori-plugin-sed",
+      "description": "社工查询插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.0.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491637185,
+        "modified": 1723122257759
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 10,
+        "unpackedSize": 46915,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-sed/-/kotori-plugin-sed-1.0.1.tgz"
+      },
+      "keywords": [],
+      "readme": "ERROR: No README data found!"
+    },
+    {
+      "name": "kotori-plugin-run-code",
+      "description": "在线运行 JavaScript 和 Lua 代码",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.0.3",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491632698,
+        "modified": 1723122252764
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 13,
+        "unpackedSize": 44925,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-run-code/-/kotori-plugin-run-code-1.0.3.tgz"
+      },
+      "keywords": [],
+      "readme": "# Run-code\r\n\r\nRun code with javascript and lua\r\n\r\n**Version:** 1.1.0\r\n**Author:** himeno\r\n**License:** GPL-3.0\r\n\r\n## List of command\r\n\r\n-   /runjs <...code> - Run JavaScript code\r\n-   /runlua <...code> - Run Lua Code\r\n\r\n## Lang Support\r\n\r\n-   ja_JP\r\n-   en_US\r\n-   zh_TW\r\n-   zh_CN\r\n"
+    },
+    {
+      "name": "kotori-plugin-requester",
+      "description": "给主人报告的插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.1.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491627595,
+        "modified": 1723122247401
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 10,
+        "unpackedSize": 53878,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-requester/-/kotori-plugin-requester-1.1.2.tgz"
+      },
+      "keywords": [],
+      "readme": "# Requester\r\n\r\nListen delete message and request event call to master\r\n\r\n**Version:** 1.0.0\r\n**Author:** himeno\r\n**License:** GPL-3.0\r\n\r\n## List of event\r\n\r\n-   onGroupIncrease\r\n-   onGroupDecrease\r\n-   onGroupAdmin\r\n-   onGroupBan\r\n-   onGroupRecall\r\n-   onFriendRecall\r\n-   onGroupRequest\r\n-   onFriendRequest\r\n-   onGroupMsg\r\n-   onPrivateMsg\r\n\r\n## Lang Support\r\n\r\n-   ja_JP\r\n-   en_US\r\n-   zh_TW\r\n-   zh_CN\r\n"
+    },
+    {
+      "name": "kotori-plugin-randomimg",
+      "description": "Pixiv 等多种随机图片",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.3",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848089223,
+        "modified": 1723122242285
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 10,
+        "unpackedSize": 43666,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-randomimg/-/kotori-plugin-randomimg-1.2.3.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-random-img\r\n\r\n## Commands\r\n\r\n- `/sex [tags]` Pixiv images\r\n- `/sexh` HuliImg images\r\n- `/bing` Bing daily image\r\n- `/day` See the world daily\r\n- `/earth` Real-time Earth\r\n- `/china` Real-time China\r\n\r\n```test\r\n/sex 足\r\n> Image coming right up...please be patient\r\n> PID: 84449466\r\nTitle: フランちゃん\r\nAuthor: うてきろ\r\nTags: 東方 东方 東方Project 东方Project フランドール・スカーレット 芙兰朵露・斯卡蕾特 絆創膏 创可贴 理性を破壊する程度の能力 足以破坏理性的能力 くわえたくしあげ shirt held up with the mouth BAN装甲 剥ぎ取られたパンツ R-17.9\r\n> [image,https://i.pixiv.re/img-original/img/2020/09/18/18/23/39/84449466_p0.jpg]\r\n\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-nmsl",
+      "description": "孙笑川在线帮你翻译成抽象话",
+      "category": [
+        "plugin"
+      ],
+      "version": "2.1.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848089133,
+        "modified": 1723122231195
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 96768,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-nmsl/-/kotori-plugin-nmsl-2.1.1.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-nmsl\r\n\r\n孙笑川在线帮你翻译成抽象话。\r\n\r\n## Commands\r\n\r\n- `/nmsl [...抽🐘话]` 孙G在🧵帮你翻译成抽🐘话\r\n\r\n```text\r\n/nmsl 愚者说:平等 ！但是世人皆知，世上并没有平等！  愚者说:自由 ！但是世人皆知，世上并没有自由！  愚者说:爱情 ！但是世人皆知，爱情随时会背叛！  愚者说:莫杀人 ！但是世人皆知，世界充满了杀戮！  愚者说:切莫说谎 ！但是世人皆知，愚者就在说谎！——间宫卓司《美好的每一天~不连续的存在》 24/2/4 20:32:32\r\n> 翻译🎀果👇\r\n愚者说:平等！但是世人皆知，世⬆并没🈶平等！ 愚者说:自由！但是世人皆知，世⬆并没🈶自由！ 愚者说:💓情！但是世人皆知，💓情随时会背叛！ 愚者说:莫🍤！但是世人皆知，🌏充🈵🌶️杀戮！ 愚者说:切莫说谎！但是世人皆知，愚者就在说谎！——间宫卓司《美👌每1️⃣天~8️⃣连续💧存在》\r\n抽象度：11\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n- [gaowanliang/NMSL](https://github.com/gaowanliang/NMSL)\r\n\r\n## Tips\r\n\r\n> 仅供娱乐\r\n"
+    },
+    {
+      "name": "kotori-plugin-penis",
+      "description": "查看今日牛牛的长度和排行",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.3",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848089203,
+        "modified": 1723122225587
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 47268,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-penis/-/kotori-plugin-penis-1.2.3.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-newnew\r\n\r\n查看今日长度，fasong `/今日长度` 或 `今日长度`。\r\n\r\n## Config\r\n\r\n```typescript\r\ninterface Config {\r\n  max?: number;\r\n  min?: number;\r\n  joke?: number;\r\n  avgMinNum?: number;\r\n}\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-music",
+      "description": "网易云音乐搜索",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.4",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848089043,
+        "modified": 1723122219136
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 13,
+        "unpackedSize": 45990,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-music/-/kotori-plugin-music-1.2.4.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-music\r\n\r\n## Commands\r\n\r\n- `/music <...name>` NetEase Cloud music\r\n  - `-o, --order: number` Order number\r\n\r\n```text\r\n/music 虚無の先で愛を見つける\r\n> Song ID: 2077749631\r\nSong Title: 虚無の先で愛を見つける-Piano ver\r\nSong Author: おはる\r\nSong Download: http://music.163.com/song/media/outer/url?id=2077749631.mp3\r\nSong Cover: [image,http://p1.music.126.net/77V-Bc4EoboXGOZZ8TxDBQ==/109951168879037291.jpg?param=300x300]\r\n\r\n/music 虚無の先で愛を見つける -o 0\r\n> 1.虚無の先で愛を見つける-Piano ver - おはる\r\nResend command and input [number] to choose corresponding content\r\nExample: /command content 2\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-minecraft",
+      "description": "Minecraft JE/BE 服务器,账号皮肤,最新版本查询",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.0.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491607634,
+        "modified": 1723122212921
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 12,
+        "unpackedSize": 55105,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-minecraft/-/kotori-plugin-minecraft-1.0.2.tgz"
+      },
+      "keywords": [],
+      "readme": "ERROR: No README data found!"
+    },
+    {
+      "name": "kotori-plugin-mediawiki",
+      "description": "维基搜索，支持自定义多个维基",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.5",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848088999,
+        "modified": 1723122207322
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 13,
+        "unpackedSize": 48701,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-mediawiki/-/kotori-plugin-mediawiki-1.2.5.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-mediawiki\r\n\r\nmediawiki search tool.\r\n\r\n## Commands\r\n\r\n- `/wiki [order:number]` Search MediaWiki\r\n- `/wikil` View MediaWiki list\r\n\r\n```test\r\n/wiki 月社妃\r\n> Title: 月社妃\r\nContent: 月社妃（日语：月社（つきやしろ） 妃（きさき））是由ウグイスカグラ所制作的18禁galgame《纸上的魔法使》及其衍生作品的登场角色。是主人公四条琉璃的同胞妹妹。\r\nhttps://mzh.moegirl.org.cn/index.php?curid=384932\r\nSource: 萌娘百科\r\n/wikil\r\n> MediaWiki List:\r\n1. 萌娘百科 - https://mzh.moegirl.org.cn/api.php\r\n2. MCWIKI - https://minecraft.fandom.com/zh/api.php\r\n\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-manger",
+      "description": "简易群管插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.0.5",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491596825,
+        "modified": 1723122201497
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 50455,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-manger/-/kotori-plugin-manger-1.0.5.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-manger\r\n\r\nGroups Mange tools.\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-hitokotos",
+      "description": "随机一言，十七种不同语录",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848089056,
+        "modified": 1723122196673
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 41187,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-hitokotos/-/kotori-plugin-hitokotos-1.2.1.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-hitokotos\r\n\r\nSeventeen kind of different sentences.\r\n\r\n## Commands\r\n\r\n- `/hitokoto` Get A Hitokoto\r\n- `/hitokotos` Random Quotations\r\n\r\n```text\r\n/hitokoto\r\n> 愚者说:平等 ！但是世人皆知，世上并没有平等！  愚者说:自由 ！但是世人皆知，世上并没有自由！  愚者说:爱情 ！但是世人皆知，爱情随时会背叛！  愚者说:莫杀人 ！但是世人皆知，世界充满了杀戮！  愚者说:切莫说谎 ！但是世人皆知，愚者就在说谎！——间宫卓司《美好的每一天~不连续的存在》\r\n\r\n/hitokotos\r\n> 随机语录\r\n一言 一言2\r\n诗词 情话\r\n骚话 笑话\r\n人生语录 社会语录\r\n网抑云 毒鸡汤\r\n舔狗语录 爱情语录\r\n温柔语录 个性签名\r\n经典语录 英汉语录\r\n```\r\n\r\n## Regexps\r\n\r\n- 一言\r\n- 一言2\r\n- 诗词\r\n- 情话\r\n- 骚话\r\n- 笑话\r\n- 人生语录\r\n- 社会语录\r\n- 网抑云\r\n- 毒鸡汤\r\n- 舔狗语录\r\n- 爱情语录\r\n- 温柔语录\r\n- 个性签名\r\n- 经典语录\r\n- 英汉语录\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-helper",
+      "description": "查看指令帮助",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.3.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848088127,
+        "modified": 1723122191799
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 45195,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-helper/-/kotori-plugin-helper-1.3.1.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/kotori-plugin-helper\r\n\r\n## Commands\r\n\r\n- `/help [...command]` View command help info\r\n- `/menu` View Bot's menu\r\n\r\n```bash\r\n> Found the following related commands:\r\n/core - View instance statistics\r\n/bot - View current bot info and running status\r\n/bots - View all bots info and running status\r\n/about - View about info\r\n/help [...command] - View command help info\r\n```\r\n\r\n## Config\r\n\r\n```typescript\r\ninterface Config extends ModuleConfig {\r\n  alias?: string; // alias of /menu\r\n  keywords?: string[]; // keyowrds of /menu\r\n  content: string; // content of menu\r\n}\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-grouper",
+      "description": "群聊活跃排行与小游戏",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.3.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848079073,
+        "modified": 1723122186371
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 5,
+        "unpackedSize": 45590,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-grouper/-/kotori-plugin-grouper-1.3.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-grouper\r\n\r\ngroups activity ranking and simple games!\r\n\r\n# Regexps\r\n\r\n- 签到|打卡\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-github",
+      "description": "GitHub 仓库搜索",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.3.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848079248,
+        "modified": 1723122175873
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 41295,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-github/-/kotori-plugin-github-1.3.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-github\r\n\r\nGithub repository searching.\r\n\r\n## Commands\r\n\r\n- `/github <repository>` Query Github repository info\r\n\r\n```text\r\n/github kotorijs/kotori\r\n> URL: kotorijs/kotori\r\nDescription: Cross platform, decoupled, and modernized ChatBot framework base on NodeJS\r\nLanguage: TypeScript\r\nOwner: kotorijs\r\nCreated: 2023-06-14T11:45:16Z\r\nLast updated: 2024-01-30T09:55:47Z\r\nLast push: 2024-02-03T12:51:17Z\r\nOpen source license: GNU General Public License v3.0\r\n> [image,https://opengraph.githubassets.com/c9f4179f4d560950b2355c82aa2b7750bffd945744f9b8ea3f93cc24779745a0/kotorijs/kotori]\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-filter",
+      "description": "模块加载过滤器",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.1.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1717680461375,
+        "modified": 1723122170497
+      },
+      "dist": {
+        "dependencies": 2,
+        "fileCount": 5,
+        "unpackedSize": 40594,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-filter/-/kotori-plugin-filter-1.1.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/kotori-plugin-filter\r\n\r\nfilter plugin for kotori-bot loader\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-drift-bottle",
+      "description": "漂流瓶插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.0.3",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491561490,
+        "modified": 1723122165520
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 41696,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-drift-bottle/-/kotori-plugin-drift-bottle-1.0.3.tgz"
+      },
+      "keywords": [],
+      "readme": "# drift-bottle\r\n\r\nthrow and pick bottles\r\n\r\n**Version:** 1.0.0\r\n**Author:** himeno\r\n**License:** GPL-3.0\r\n**Front Plugin:** grouper\r\n\r\n## List of command\r\n\r\n-   /print <...content> - send a message on privates#^^\r\n-   /echo <...message> - send a message on group\\*^^\r\n\r\n## Config\r\n\r\n```ts\r\nexport default {\r\n\tmaxNum: 3,\r\n};\r\n```\r\n\r\n## Lang Support\r\n\r\n-   ja_JP\r\n-   en_US\r\n-   zh_TW\r\n-   zh_CN\r\n"
+    },
+    {
+      "name": "kotori-plugin-color",
+      "description": "随机颜色图片、日本传统色、中国传统色",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.0.3",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1717818140140,
+        "modified": 1723122153732
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 12,
+        "unpackedSize": 319937,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-color/-/kotori-plugin-color-1.0.3.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-color\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-bangumi",
+      "description": "番组计划插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.4",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078986,
+        "modified": 1723122140012
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 11,
+        "unpackedSize": 46856,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-bangumi/-/kotori-plugin-bangumi-1.2.4.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-bangumi\r\n\r\n## Commands\r\n\r\n- `/bgm <content> [order: number = 1]` Search games/anime on Bangumi\r\n- `/bgmc` Get today's Bangumi schedule\r\n\r\n```text\r\n/bgm 素晴らしき日々～不連続存在～\r\n> Original Name: 素晴らしき日々～不連続存在～公式ビジュアルアーカイヴ\r\nChinese Name: 素晴之日 不连续的存在 Official Visual Archive\r\nSummary: 人気アダルトゲームブランド「ケロQ」から、実に６年ぶりに発売された新作『素晴らしき日々 ～不連続存在～』。その魅力をギュッと閉じ込めたファン必携の一冊。描き下ろしイラスト＆原作を担当したSCA－自（すかぢ）氏の新作書き下ろしテキスト満載でお届け。\r\nTags: 素晴らしき日々 设定集 电波 神作 素晴日 公式书 2010 百合 悬疑 画集・設定資料集 画集 FanBook 推理 fanbook VFB\r\nDetails: https://bgm.tv/subject/8318\r\n[image,https://lain.bgm.tv/pic/cover/l/3f/e2/8318_HbCYx.jpg]\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "kotori-plugin-bangumi",
+      "description": "番组计划插件",
+      "category": [
+        "plugin"
+      ],
+      "version": "1.2.4",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078986,
+        "modified": 1723122140012
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 11,
+        "unpackedSize": 46856,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-bangumi/-/kotori-plugin-bangumi-1.2.4.tgz"
+      },
+      "keywords": [],
+      "readme": "# kotori-plugin-bangumi\r\n\r\n## Commands\r\n\r\n- `/bgm <content> [order: number = 1]` Search games/anime on Bangumi\r\n- `/bgmc` Get today's Bangumi schedule\r\n\r\n```text\r\n/bgm 素晴らしき日々～不連続存在～\r\n> Original Name: 素晴らしき日々～不連続存在～公式ビジュアルアーカイヴ\r\nChinese Name: 素晴之日 不连续的存在 Official Visual Archive\r\nSummary: 人気アダルトゲームブランド「ケロQ」から、実に６年ぶりに発売された新作『素晴らしき日々 ～不連続存在～』。その魅力をギュッと閉じ込めたファン必携の一冊。描き下ろしイラスト＆原作を担当したSCA－自（すかぢ）氏の新作書き下ろしテキスト満載でお届け。\r\nTags: 素晴らしき日々 设定集 电波 神作 素晴日 公式书 2010 百合 悬疑 画集・設定資料集 画集 FanBook 推理 fanbook VFB\r\nDetails: https://bgm.tv/subject/8318\r\n[image,https://lain.bgm.tv/pic/cover/l/3f/e2/8318_HbCYx.jpg]\r\n```\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-alias",
+      "description": "用户级别名设置",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.0.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491534668,
+        "modified": 1723122134585
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 8,
+        "unpackedSize": 41112,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-alias/-/kotori-plugin-alias-1.0.2.tgz"
+      },
+      "keywords": [],
+      "readme": "ERROR: No README data found!"
+    },
+    {
+      "name": "@kotori-bot/adapter-slack",
+      "description": "Slack 适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1723122122109,
+        "modified": 1723122122846
+      },
+      "dist": {
+        "dependencies": 1,
+        "fileCount": 11,
+        "unpackedSize": 49415,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/adapter-slack/-/adapter-slack-1.0.0.tgz"
+      },
+      "keywords": [
+        "slack"
+      ],
+      "readme": "# @kotori-bot/adapter-slack\n\nSupports for slack. Create own bot: [Getting started](https://slack.dev/bolt-js/getting-started).\n\n## Config\n\n```typescript\nexport const config = Tsu.Object({\n  token: Tsu.String().describe(\"Bot's token\"),\n  appToken: Tsu.String().describe('Application token (Use for socket connection)'),\n  signingSecret: Tsu.String().describe('Signing secret')\n})\n```\n\n## Supports\n\n### Events\n\n- on_message (fully supported)\n\n### Api\n\n- sendPrivateMsg\n- sendGroupMsg\n- sendChannelMsg\n\n### Elements\n\n- text\n- image\n- voice\n- video\n\n## TODO\n\nSupport more standard api...\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n- [slack api](https://api.slack.com/docs)\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-adapter-sandbox",
+      "description": "模块测试环境，虚拟沙盒适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.1.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491525667,
+        "modified": 1723122116832
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 13,
+        "unpackedSize": 75294,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-adapter-sandbox/-/kotori-plugin-adapter-sandbox-1.1.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/kotori-plugin-adapter-onebot\r\n\r\nTo test bot for Kotori.\r\n\r\n## Config\r\n\r\nNo configuration is required.\r\n\r\n## Supports\r\n\r\n### Events\r\n\r\n- on_message (exclude `RequestScope.CHANNEL`)\r\n- on_message_delete (exclude `MessageScope.CHANNEL`)\r\n- on_group_increase\r\n- on_group_decrease\r\n- on_group_whole_ban\r\n- on_friend_decrease\r\n- on_friend_increase\r\n- on_group_ban\r\n- on_group_admin\r\n\r\n### Api\r\n\r\n- sendPrivateMsg\r\n- sendGroupMsg\r\n- deleteMsg\r\n- getUserInfo\r\n- getFriendList\r\n- getGroupInfo\r\n- getGroupList\r\n- getGroupMemberInfo\r\n- getGroupMemberList\r\n- setGroupName\r\n- leaveGroup\r\n- setGroupAdmin\r\n- setGroupCard\r\n- setGroupBan\r\n- setGroupWholeBan\r\n- setGroupKick\r\n\r\n### Elements\r\n\r\n- text\r\n- mention\r\n- mentionAll\r\n- image\r\n- voice\r\n- audio\r\n- video\r\n- reply\r\n- file\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-adapter-qq",
+      "description": "基于 Tencent 官方 API 的适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.2.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078985,
+        "modified": 1723122112172
+      },
+      "dist": {
+        "dependencies": 2,
+        "fileCount": 15,
+        "unpackedSize": 62708,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-adapter-qq/-/kotori-plugin-adapter-qq-1.2.0.tgz"
+      },
+      "keywords": [
+        "qq",
+        "tencent"
+      ],
+      "readme": "# @kotori-bot/kotori-plugin-adapter-onebot\n\nBase on tencent api.\n\n## Config\n\n```typescript\nexport const config = Tsu.Object({\n  appid: Tsu.String().describe('Appid, get from https://q.qq.com/qqbot/'),\n  secret: Tsu.String().describe(\"Bot's secret \"),\n  retry: Tsu.Number().positive().default(10).describe('try reconnect times when disconnected (seconds)')\n})\n```\n\n## Supports\n\n### Events\n\n- on_message\n\n### Api\n\n- sendGroupMsg\n- sendChannelMsg\n\n### Elements\n\n- text\n- image\n- voice\n- mention\n- video\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n- [QQ机器人文档](https://bot.q.qq.com/wiki/develop/api-v2/)\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-adapter-onebot",
+      "description": "基于 OneBot11 标准的适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "2.1.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078986,
+        "modified": 1723122106908
+      },
+      "dist": {
+        "dependencies": 2,
+        "fileCount": 13,
+        "unpackedSize": 75843,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-adapter-onebot/-/kotori-plugin-adapter-onebot-2.1.0.tgz"
+      },
+      "keywords": [
+        "onebot",
+        "onebot11",
+        "qq",
+        "liteloader",
+        "LiteLoaderNTQQ",
+        "NapCat",
+        "go-cqhttp"
+      ],
+      "readme": "# @kotori-bot/kotori-plugin-adapter-onebot\n\n![OneBot 11](https://img.shields.io/badge/OneBot-11-black?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABwCAMAAADxPgR5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAxQTFRF////29vbr6+vAAAAk1hCcwAAAAR0Uk5T////AEAqqfQAAAKcSURBVHja7NrbctswDATQXfD//zlpO7FlmwAWIOnOtNaTM5JwDMa8E+PNFz7g3waJ24fviyDPgfhz8fHP39cBcBL9KoJbQUxjA2iYqHL3FAnvzhL4GtVNUcoSZe6eSHizBcK5LL7dBr2AUZlev1ARRHCljzRALIEog6H3U6bCIyqIZdAT0eBuJYaGiJaHSjmkYIZd+qSGWAQnIaz2OArVnX6vrItQvbhZJtVGB5qX9wKqCMkb9W7aexfCO/rwQRBzsDIsYx4AOz0nhAtWu7bqkEQBO0Pr+Ftjt5fFCUEbm0Sbgdu8WSgJ5NgH2iu46R/o1UcBXJsFusWF/QUaz3RwJMEgngfaGGdSxJkE/Yg4lOBryBiMwvAhZrVMUUvwqU7F05b5WLaUIN4M4hRocQQRnEedgsn7TZB3UCpRrIJwQfqvGwsg18EnI2uSVNC8t+0QmMXogvbPg/xk+Mnw/6kW/rraUlvqgmFreAA09xW5t0AFlHrQZ3CsgvZm0FbHNKyBmheBKIF2cCA8A600aHPmFtRB1XvMsJAiza7LpPog0UJwccKdzw8rdf8MyN2ePYF896LC5hTzdZqxb6VNXInaupARLDNBWgI8spq4T0Qb5H4vWfPmHo8OyB1ito+AysNNz0oglj1U955sjUN9d41LnrX2D/u7eRwxyOaOpfyevCWbTgDEoilsOnu7zsKhjRCsnD/QzhdkYLBLXjiK4f3UWmcx2M7PO21CKVTH84638NTplt6JIQH0ZwCNuiWAfvuLhdrcOYPVO9eW3A67l7hZtgaY9GZo9AFc6cryjoeFBIWeU+npnk/nLE0OxCHL1eQsc1IciehjpJv5mqCsjeopaH6r15/MrxNnVhu7tmcslay2gO2Z1QfcfX0JMACG41/u0RrI9QAAAABJRU5ErkJggg==)\n\nBase on [OneBot 11 Standard](https://github.com/botuniverse/onebot-11), you can use the these programs that support OneBot 11's implement to connect with qq:\n\n- For Linux: [NapCat](https://napneko.github.io/)\n- For Windows: [LiteLoaderQQNT](https://liteloaderqqnt.github.io/) with [LLOneBot](https://llonebot.github.io/)\n- No more available: [go-cqhttp](https://docs.go-cqhttp.org/)\n\n## Config\n\n```typescript\nexport const config = Tsu.Union(\n  Tsu.Object({\n    mode: Tsu.Literal('ws').describe('Connect mode: WebSocket'),\n    port: Tsu.Number().port().describe('WebSocket server port'),\n    address: Tsu.String()\n      .regexp(/^ws(s)?:\\/\\/([\\w-]+\\.)+[\\w-]+(\\/[\\w-./?%&=]*)?$/)\n      .default('ws://127.0.0.1')\n      .describe('WebSocket address'),\n    retry: Tsu.Number().int().min(1).default(10).describe('try reconnect times when disconnected')\n  }),\n  Tsu.Object({\n    mode: Tsu.Literal('ws-reverse').describe('Connect mode: WebSocket Reverse')\n  })\n)\n```\n\n## Supports\n\n### Events\n\n- on_message (exclude `MessageScope.CHANNEL`)\n- on_message_delete (exclude `MessageScope.CHANNEL`)\n- on_request (exclude `RequestScope.CHANNEL`)\n- on_group_increase\n- on_group_decrease\n- on_group_admin\n- on_group_ban\n- custom: onebot_poke\n\n### Api\n\n- sendPrivateMsg\n- sendGroupMsg\n- deleteMsg\n- getUserInfo\n- getFriendList\n- getGroupInfo\n- getGroupList\n- getGroupMemberInfo\n- getGroupMemberList\n- setGroupName\n- leaveGroup\n- setGroupAdmin\n- setGroupCard\n- setGroupAvatar\n- setGroupBan\n- setGroupWholeBan\n- setGroupNotice\n- setGroupKick\n\n### Elements\n\n- text\n- mention\n- mentionAll\n- image\n- voice\n- video\n- reply\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n- [go-cqhttp 帮助中心](https://docs.go-cqhttp.org/)\n- [OneBot](https://onebot.dev/)\n"
+    },
+    {
+      "name": "kotori-plugin-adapter-minecraft",
+      "description": "Minecraft 基岩版原生 WebSocket 适配器",
+      "category": [
+        "adapter"
+      ],
+      "version": "2.0.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1714896768531,
+        "modified": 1723122101932
+      },
+      "dist": {
+        "dependencies": 2,
+        "fileCount": 11,
+        "unpackedSize": 49619,
+        "tarball": "https://registry.npmjs.org/kotori-plugin-adapter-minecraft/-/kotori-plugin-adapter-minecraft-2.0.1.tgz"
+      },
+      "keywords": [
+        "minecraft",
+        "websocket",
+        "minecraft bedrock",
+        "mojang"
+      ],
+      "readme": "# @kotori-bot/kotori-plugin-adapter-minecraft\r\n\r\nBase on `mcwss` package for Minecraft Bedrock Edition, support `private` and `group` scope.\r\n\r\n## Config\r\n\r\n```typescript\r\nexport const config = Tsu.Object({\r\n  nickname: Tsu.String().default('Romi').describe('Bot\\'s name'),\r\n  template: Tsu.Union(Tsu.Null(), Tsu.String()).default('<%nickname%> %msg%').describe('The template of bot sent message ')\r\n})\r\n```\r\n\r\n## Supports\r\n\r\n### Events\r\n\r\n- on_message (`MessageScope.PRIVATE` and `MessageScope.GROUP`)\r\n\r\n### Api\r\n\r\n- sendPrivateMsg\r\n\r\n### Elements\r\n\r\n- text\r\n- mention\r\n- mentionAll\r\n\r\n## TODO\r\n\r\n### Todo Events\r\n\r\n- on_group_increase\r\n- on_group_decrease\r\n- on_group_ban\r\n\r\n### Todo Api\r\n\r\n- getGroupMemberInfo\r\n- getGroupMemberList\r\n- setGroupAdmin\r\n- setGroupBan\r\n- setGroupKick\r\n\r\n### Other\r\n\r\nAdapter server [LeviLamina](https://github.com/LiteLDev/LeviLamina/) and Java Edition.\r\n\r\n## Reference\r\n\r\n- [Kotori Docs](https://kotori.js.org/)\r\n- [McWss](https://github.com/biyuehu/mcwss)\r\n"
+    },
+    {
+      "name": "@kotori-bot/adapter-mail",
+      "description": "电子邮箱适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1723122096213,
+        "modified": 1723122096860
+      },
+      "dist": {
+        "dependencies": 6,
+        "fileCount": 16,
+        "unpackedSize": 61373,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/adapter-mail/-/adapter-mail-1.0.0.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/adapter-mail\n\nSupports for email. Such as `Google Mail`, `QQ Mail`, `163 Mail` and more...\n\n## Config\n\n```typescript\nexport const config = Tsu.Object({\n  title: Tsu.String().domain().default('Love from kotori bot mailer').describe('Mail default title'),\n  commandEnable: Tsu.Boolean()\n    .default(true)\n    .describe(\"Whether to enable command, other bot's master can send mail by the command, please set at top mail bot\"),\n  forward: Tsu.Array(Tsu.String())\n    .default([])\n    .describe(\"bots' identity, will forward to the bot's master on receiving mail, please set at top mail bot\"),\n  user: Tsu.String().describe('Email address'),\n  interval: Tsu.Number().default(60).describe('Check mail interval (seconds)'),\n  password: Tsu.String().describe('Email password'),\n  imapHost: Tsu.String().describe('IMAP server host'),\n  imapPort: Tsu.Number().describe('IMAP server port'),\n  smtpHost: Tsu.String().describe('SMTP server host'),\n  smtpPort: Tsu.Number().describe('SMTP server port')\n})\n```\n\n## Supports\n\n### Events\n\n- on_message (only `MessageScope.PRIVATE`)\n\n### Api\n\n- sendPrivateMsg\n\n### Elements\n\n- text\n- mention\n- image\n- voice\n- video\n- file\n- reply\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n"
+    },
+    {
+      "name": "@kotori-bot/adapter-discord",
+      "description": "Discord 适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1723122075270,
+        "modified": 1723122075861
+      },
+      "dist": {
+        "dependencies": 1,
+        "fileCount": 11,
+        "unpackedSize": 48677,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/adapter-discord/-/adapter-discord-1.0.0.tgz"
+      },
+      "keywords": [
+        "discord"
+      ],
+      "readme": "# @kotori-bot/adapter-discord\n\nSupports for discord. Create own bot: [Discord Developer Portal](https://discord.com/developers/applications).\n\n## Config\n\n```typescript\nexport const config = Tsu.Object({\n  token: Tsu.String().describe(\"Bot's token\")\n})\n```\n\n## Supports\n\n### Events\n\n- on_message (only `MessageScope.CHANNEL`)\n- on_message_delete (only `MessageScope.CHANNEL`)\n\n### Api\n\n- sendChannelMsg\n\n### Elements\n\n- text\n\n## TODO\n\nSupport more standard api...\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n- [discord.js](https://discord.js.org/)\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-adapter-cmd",
+      "description": "基于控制台的适配器",
+      "category": [
+        "official",
+        "adapter"
+      ],
+      "version": "1.1.1",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1703848078451,
+        "modified": 1723121849869
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 11,
+        "unpackedSize": 48184,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-adapter-cmd/-/kotori-plugin-adapter-cmd-1.1.1.tgz"
+      },
+      "keywords": [],
+      "readme": "# @kotori-bot/kotori-plugin-adapter-cmd\n\nBase on console i/o, a method for quickly testing modules, only support `MessageScope.PRIVATE`.\n\n## Config\n\n```typescript\nexport const config = Tsu.Object({\n  nickname: Tsu.String().default('Kotarou').describe('User\\'s nickname'),\n  'self-nickname': Tsu.String().default('KotoriO').describe('Bot\\'s nickname'),\n  'self-id': Tsu.String().default('720').describe('Bot\\'s id'),\n})\n```\n\n## Supports\n\n### Events\n\n- on_message (only `MessageScope.PRIVATE`)\n\n### Api\n\n- sendPrivateMsg\n\n### Elements\n\n- text\n- mention\n- mentionAll\n\n## Reference\n\n- [Kotori Docs](https://kotori.js.org/)\n"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-access",
+      "description": "权限插件，用于设置多个机器人管理员",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.0.2",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708489191006,
+        "modified": 1723121844094
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 8,
+        "unpackedSize": 41009,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-access/-/kotori-plugin-access-1.0.2.tgz"
+      },
+      "keywords": [],
+      "readme": "ERROR: No README data found!"
+    },
+    {
+      "name": "@kotori-bot/kotori-plugin-status",
+      "description": "查看服务器运行状态",
+      "category": [
+        "official",
+        "plugin"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "Arimura Sena",
+        "email": "biyuehuya@gmail.com"
+      },
+      "time": {
+        "created": 1708491642556,
+        "modified": 1708491643354
+      },
+      "dist": {
+        "dependencies": 0,
+        "fileCount": 9,
+        "unpackedSize": 41389,
+        "tarball": "https://registry.npmjs.org/@kotori-bot/kotori-plugin-status/-/kotori-plugin-status-1.0.0.tgz"
+      },
+      "keywords": [],
+      "readme": ""
+    }
+  ]
+}
