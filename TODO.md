@@ -36,8 +36,8 @@
 - [ ] filter supports session events
 - [ ] jsonc developing plugins
 - [ ] new plugin workspace
-- [ ] complex building workspace (supports res)
-- [ ] modules category directorys
+- [x] complex building workspace (supports res)
+- [x] modules category directorys
 
 ## Styles
 
