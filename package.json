@@ -27,8 +27,6 @@
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@manypkg/get-packages": "^2.2.2",
-    "@rslib/core": "^0.0.18",
-    "@rspack/core": "^1.1.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.1",
     "@types/picomatch": "^2.3.3",

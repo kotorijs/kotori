@@ -158,7 +158,8 @@ let main = (ctx: context, config: config) => {
     #on_group_increase(
       async session => {
         switch session.userId {
-        | Some(userId) if userId !== session.api.adapter.selfId =>
+        | Some(userId)
+          if userId !== session.api.adapter.selfId && session.groupId === Some("317691609") =>
           await onGroupIncreaseHandler(session)
         | _ => ()
         }

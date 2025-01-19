@@ -3,7 +3,10 @@ dist
 lib
 coverage
 log
+cache
+temp
 data
+data.db
 
 *.env
 .env

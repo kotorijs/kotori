@@ -337,6 +337,19 @@ and service = {
   // identity: string,
 }
 
+module EventData = {
+  // Message events
+  type beforeCommand
+  type command
+  type beforeRegexp
+  type regexp
+  type beforeSend
+  type eventDataSend
+  // Adapter events
+  type connect
+  type status
+}
+
 module Ctx = {
   type sessionEvent = session => promise<unit>
   type moduleExport = {
@@ -352,13 +365,39 @@ module Ctx = {
   @send external mixin: (context, string, array<string>, bool) => bool = "mixin"
   @send external extends: (context, string) => context = "extends"
   // emit parallel on once off offAll
+
   @send
   external on: (
     context,
     @string
     [
+      | #ready()
+      | #dispose()
+      | #before_command(EventData.beforeCommand)
+      | #ready_module(moduleExport)
+      | #dispose_module(moduleExport)
+      | #command(EventData.command)
+      | #before_regexp(EventData.beforeRegexp)
+      | #regexp(EventData.regexp)
+      | #before_send(EventData.beforeSend)
+      | #send(EventData.eventDataSend)
+      | #connect(EventData.connect)
+      | #status(EventData.status)
+      | #on_message(sessionEvent)
+      | #on_message_delete(sessionEvent)
+      | #on_friend_increase(sessionEvent)
+      | #on_friend_decrease(sessionEvent)
       | #on_group_increase(sessionEvent)
       | #on_group_decrease(sessionEvent)
+      | #on_guild_increase(sessionEvent)
+      | #on_guild_decrease(sessionEvent)
+      | #on_channel_increase(sessionEvent)
+      | #on_channel_decrease(sessionEvent)
+      | #on_request(sessionEvent)
+      | #on_group_admin(sessionEvent)
+      | #on_group_ban(sessionEvent)
+      | #on_group_whole_ban(sessionEvent)
+      | #on_group_delete(sessionEvent)
     ],
   ) => unit = "on"
   @send external load: (context, context => unit) => unit = "load"
