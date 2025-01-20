@@ -10,19 +10,6 @@ module Utils = {
   let ignores = (_: array<'a>) => {()}
 }
 
-type rec http = {
-  // extend: Js.t<'a> => http,
-  get: string => promise<unknown>,
-  // post: httpMethod<'a>,
-  // patch: httpMethod<'a>,
-  // put: httpMethod<'a>,
-  // delete: httpMethod<'a>,
-  // head: httpMethod<'a>,
-  // options: httpMethod<'a>,
-  // ws: (string, Js.undefined<array<string>>) => 'a,
-}
-
-// and httpMethod<'a, 'b> = (string, Js.undefined<Js.Dict.t<string>>, Js.undefined<Js.t<'b>>) => promise<'a>
 type localeType = [#en | #zhCN | #zhTW]
 
 type i18n = {
@@ -323,13 +310,12 @@ type rec context = {
   baseDir: ConfigAndLoader.baseDir,
   options: ConfigAndLoader.options,
   // Extension
-  http: http,
   i18n: i18n,
-  cache: service,
-  file: service,
-  server: service,
-  db: service,
-  browser: service,
+  cache?: service,
+  file?: service,
+  server?: service,
+  db?: service,
+  browser?: service,
 }
 and service = {
   ctx: context,
@@ -358,6 +344,17 @@ module Ctx = {
     inject?: array<string>,
   }
 
+  module Http = {
+    @scope("http") @send
+    external get: (context, string, 'a) => promise<'b> = "get"
+    external post: (context, string, 'a) => promise<'b> = "post"
+    external put: (context, string, 'a) => promise<'b> = "put"
+    external delete: (context, string, 'a) => promise<'b> = "delete"
+    external head: (context, string, 'a) => promise<'b> = "head"
+    external options: (context, string, 'a) => promise<'b> = "options"
+    external ws: (context, string, 'a) => promise<'b> = "ws"
+  }
+
   // Fluoro
   @send external get: (context, string) => unknown = "get"
   @send external inject: (context, string, bool) => bool = "inject"
@@ -371,18 +368,18 @@ module Ctx = {
     context,
     @string
     [
-      | #ready()
-      | #dispose()
-      | #before_command(EventData.beforeCommand)
-      | #ready_module(moduleExport)
-      | #dispose_module(moduleExport)
-      | #command(EventData.command)
-      | #before_regexp(EventData.beforeRegexp)
-      | #regexp(EventData.regexp)
-      | #before_send(EventData.beforeSend)
-      | #send(EventData.eventDataSend)
-      | #connect(EventData.connect)
-      | #status(EventData.status)
+      | #ready(unit => unit)
+      | #dispose(unit => unit)
+      | #before_command(EventData.beforeCommand => unit)
+      | #ready_module(moduleExport => unit)
+      | #dispose_module(moduleExport => unit)
+      | #command(EventData.command => unit)
+      | #before_regexp(EventData.beforeRegexp => unit)
+      | #regexp(EventData.regexp => unit)
+      | #before_send(EventData.beforeSend => unit)
+      | #send(EventData.eventDataSend => unit)
+      | #connect(EventData.connect => unit)
+      | #status(EventData.status => unit)
       | #on_message(sessionEvent)
       | #on_message_delete(sessionEvent)
       | #on_friend_increase(sessionEvent)
@@ -400,6 +397,108 @@ module Ctx = {
       | #on_group_delete(sessionEvent)
     ],
   ) => unit = "on"
+
+  @send
+  external once: (
+    context,
+    @string
+    [
+      | #ready(unit => unit)
+      | #dispose(unit => unit)
+      | #before_command(EventData.beforeCommand => unit)
+      | #ready_module(moduleExport => unit)
+      | #dispose_module(moduleExport => unit)
+      | #command(EventData.command => unit)
+      | #before_regexp(EventData.beforeRegexp => unit)
+      | #regexp(EventData.regexp => unit)
+      | #before_send(EventData.beforeSend => unit)
+      | #send(EventData.eventDataSend => unit)
+      | #connect(EventData.connect => unit)
+      | #status(EventData.status => unit)
+      | #on_message(sessionEvent)
+      | #on_message_delete(sessionEvent)
+      | #on_friend_increase(sessionEvent)
+      | #on_friend_decrease(sessionEvent)
+      | #on_group_increase(sessionEvent)
+      | #on_group_decrease(sessionEvent)
+      | #on_guild_increase(sessionEvent)
+      | #on_guild_decrease(sessionEvent)
+      | #on_channel_increase(sessionEvent)
+      | #on_channel_decrease(sessionEvent)
+      | #on_request(sessionEvent)
+      | #on_group_admin(sessionEvent)
+      | #on_group_ban(sessionEvent)
+      | #on_group_whole_ban(sessionEvent)
+      | #on_group_delete(sessionEvent)
+    ],
+  ) => unit = "once"
+  @send
+  external off: (
+    context,
+    @string
+    [
+      | #ready(unit => unit)
+      | #dispose(unit => unit)
+      | #before_command(EventData.beforeCommand => unit)
+      | #ready_module(moduleExport => unit)
+      | #dispose_module(moduleExport => unit)
+      | #command(EventData.command => unit)
+      | #before_regexp(EventData.beforeRegexp => unit)
+      | #regexp(EventData.regexp => unit)
+      | #before_send(EventData.beforeSend => unit)
+      | #send(EventData.eventDataSend => unit)
+      | #connect(EventData.connect => unit)
+      | #status(EventData.status => unit)
+      | #on_message(sessionEvent)
+      | #on_message_delete(sessionEvent)
+      | #on_friend_increase(sessionEvent)
+      | #on_friend_decrease(sessionEvent)
+      | #on_group_increase(sessionEvent)
+      | #on_group_decrease(sessionEvent)
+      | #on_guild_increase(sessionEvent)
+      | #on_guild_decrease(sessionEvent)
+      | #on_channel_increase(sessionEvent)
+      | #on_channel_decrease(sessionEvent)
+      | #on_request(sessionEvent)
+      | #on_group_admin(sessionEvent)
+      | #on_group_ban(sessionEvent)
+      | #on_group_whole_ban(sessionEvent)
+      | #on_group_delete(sessionEvent)
+    ],
+  ) => unit = "off"
+  @send
+  external offAll: (
+    context,
+    [
+      | #ready
+      | #dispose
+      | #before_command
+      | #ready_module
+      | #dispose_module
+      | #command
+      | #before_regexp
+      | #regexp
+      | #before_send
+      | #send
+      | #connect
+      | #status
+      | #on_message
+      | #on_message_delete
+      | #on_friend_increase
+      | #on_friend_decrease
+      | #on_group_increase
+      | #on_group_decrease
+      | #on_guild_increase
+      | #on_guild_decrease
+      | #on_channel_increase
+      | #on_channel_decrease
+      | #on_request
+      | #on_group_admin
+      | #on_group_ban
+      | #on_group_whole_ban
+      | #on_group_delete
+    ],
+  ) => unit = "offAll"
   @send external load: (context, context => unit) => unit = "load"
   @send external unload: (context, context => unit) => unit = "unload"
   @send external service: (context, string, service) => unit = "service"
