@@ -38,7 +38,7 @@
 - mail plugin ([17b504d](https://github.com/ICEAGENB/kotori/commit/17b504df838ce896e7561ffc061a57ce375de997))
 - message elements encode and decode ([d2d5071](https://github.com/ICEAGENB/kotori/commit/d2d507104edf6ed17e4a9edb6aebcad2e50ebd79))
 - rescript supports ([a648928](https://github.com/ICEAGENB/kotori/commit/a648928a55bcf71e5eced3f83f4916d8829fe8a9))
-- rescript supports new design ([4805ebc](https://github.com/ICEAGENB/kotori/commit/4805ebca77abafd1d873adc409a438a0a9f142d3))
+- rescript supports new design ([4805ebc](https://github.com/ICEA GENB/kotori/commit/4805ebca77abafd1d873adc409a438a0a9f142d3))
 - Session class and new api standard base on onebot12 ([180cb10](https://github.com/ICEAGENB/kotori/commit/180cb1053ba80a4ac0d30d8cb6548d92c003bfc9))
 - some buildings with rescript ([9365f1d](https://github.com/ICEAGENB/kotori/commit/9365f1dfcdfd8b22475b4edca28d836db25bac83))
 - standard events base on onebot12 and Messages ([31d33e1](https://github.com/ICEAGENB/kotori/commit/31d33e17dfc01167c53f0146cfc5081c72f0f78c))
