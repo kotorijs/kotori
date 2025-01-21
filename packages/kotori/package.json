@@ -1,6 +1,6 @@
 {
   "name": "kotori-bot",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "license": "BAN-ZHINESE-USING",
@@ -54,15 +54,15 @@
     "@kotori-bot/loader": "workspace:^",
     "cac": "^6.7.14",
     "dotenv": "^16.4.5",
-    "tsup": "^8.1.0"
-  },
-  "devDependencies": {
+    "tsup": "^8.1.0",
     "@manypkg/get-packages": "^2.2.2",
-    "@types/picomatch": "^2.3.3",
-    "@types/shelljs": "^0.8.15",
     "picomatch": "^4.0.2",
     "shelljs": "^0.8.5",
-    "tsx": "^4.11.2",
+    "tsx": "^4.11.2"
+  },
+  "devDependencies": {
+    "@types/picomatch": "^2.3.3",
+    "@types/shelljs": "^0.8.15",
     "typescript": "^5.1.3"
   }
 }
