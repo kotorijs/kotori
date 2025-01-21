@@ -11,7 +11,7 @@
     "build": "tsx scripts/build --types --ignoreError",
     "dev:only": "tsx scripts/build ./packages/ --silent && tsx packages/kotori/src/cli --mode dev",
     "dev": "nodemon --watch",
-    "pub": "tsx scripts/pub",
+    "pub": "pnpm -r publish --no-git-checks --access public",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
