@@ -18,7 +18,7 @@
 ## Features
 
 - [x] ctx.filter()
-- [ ] Kotori cli gui and modules search,install,uninstall,update
+- [x] Kotori cli gui and modules search,install,uninstall,update
 - [x] message.schedule()
 - [x] decorator plugin form
 - [x] @kotori-bot/tools Events: protected list
@@ -35,9 +35,9 @@
 - [x] hide update url
 - [ ] filter supports session events
 - [ ] jsonc developing plugins
-- [ ] new plugin workspace
-- [ ] complex building workspace (supports res)
-- [ ] modules category directorys
+- [x] new plugin workspace
+- [x] complex building workspace (supports res)
+- [x] modules category directorys
 
 ## Styles
 
@@ -50,5 +50,5 @@
 - [x] kotori-plugin-request: onGroupMsg and onPrivateMsg
 - [x] webui load tips twice
 - [x] symbols props inject and reality context
-- [ ] project createing cli bugs
+- [x] project createing cli bugs
 - [ ] webui analyze data bugs
