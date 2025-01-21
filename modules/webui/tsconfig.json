@@ -9,7 +9,7 @@
       "path": "../../packages/kotori"
     },
     {
-      "path": "../filter"
+      "path": "../base/filter"
     }
   ]
 }

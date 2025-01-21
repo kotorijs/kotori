@@ -43,7 +43,7 @@ export class GrouperPlugin extends KotoriPlugin<Tsu.infer<(typeof GrouperPlugin)
     if (!signData[platform]) signData[platform] = []
     signData[platform].push(identity)
     this.ctx.file.save('signData.json', signData)
-    const res = await this.ctx.http.get('https://hotaru.icu/api/hitokoto/v2/')
+    const res = await this.ctx.http.get('https://api.hotaru.icu/ial/hitokoto/v2/')
     return s.quick([
       '{0} 签到成功！这是你的奖励~{1}\n一言：{2}',
       [

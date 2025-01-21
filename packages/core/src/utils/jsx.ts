@@ -1,4 +1,4 @@
-import { formatFactory } from '..'
+import { formatFactory } from '../utils/factory'
 import { MessageList, MessageSingle, Messages } from '../components/messages'
 
 declare global {
@@ -129,5 +129,5 @@ export function hRes(type: string, props: Record<string, unknown>) {
     ...('children' in props ? (Array.isArray(props.children) ? props.children : [props.children]) : [])
   )
 }
-
-;(globalThis as unknown as { hTs: typeof hTs }).hTs = hTs
+;(globalThis as unknown as { kotoriHTs: typeof hTs }).kotoriHTs = hTs
+;(globalThis as unknown as { kotoriHRes: typeof hRes }).kotoriHRes = hRes

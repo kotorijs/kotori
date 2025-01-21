@@ -20,7 +20,7 @@ interface MetaInfo {
    *
    *  @constant
    */
-  license: 'GPL-3.0'
+  license: 'BAN-ZHINESE-USING'
   /** Program author */
   author: string
 }
@@ -47,7 +47,7 @@ export class Config {
       name: pkg.name,
       description: pkg.description,
       main: pkg.main,
-      license: 'GPL-3.0',
+      license: 'BAN-ZHINESE-USING',
       author: pkg.author,
       coreVersion: pkg.version
     }
