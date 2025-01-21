@@ -31,7 +31,9 @@ jobs:
       - name: Install packages
         run: pnpm install --no-frozen-lockfile
       - name: Build packages
-        run: pnpm build:action
+        run: |
+          pnpm build ./packages
+          pnpm build ./modules
       - name: Zip packages
         run: pnpm pack
       - name: Upload artifacts

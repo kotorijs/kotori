@@ -2,11 +2,11 @@ type element = Jsx.element
 
 type component<'props> = Jsx.component<'props>
 
-@module("kotori-bot")
-external jsx: (component<'props>, 'props) => element = "hRes"
+@scope("globalThis")
+external jsx: (component<'props>, 'props) => element = "kotoriHRes"
 
-@module("kotori-bot")
-external jsxs: (component<'props>, 'props) => element = "hRes"
+@scope("globalThis")
+external jsxs: (component<'props>, 'props) => element = "kotoriHRes"
 
 external array: array<element> => element = "%identity"
 
@@ -22,8 +22,8 @@ module Elements = {
     src?: string,
   }
 
-  @module("kotori-bot")
-  external jsx: (string, props) => Jsx.element = "hRes"
+  @scope("globalThis")
+  external jsx: (string, props) => Jsx.element = "kotoriHRes"
 
   external someElement: element => option<element> = "%identity"
 }

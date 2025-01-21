@@ -1,18 +1,32 @@
 {
   "name": "kotori-plugin-bangumi",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "bangumi plugin",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Himeno <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": ["en_US", "ja_JP", "zh_TW", "zh_CN"]
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
     }
   }
 }

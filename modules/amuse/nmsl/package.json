@@ -3,16 +3,27 @@
   "version": "2.1.1",
   "description": "孙笑川在线帮你翻译成抽象话",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": ["zh_CN"]
+      "language": [
+        "zh_CN"
+      ]
     }
   }
 }
