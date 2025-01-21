@@ -3,16 +3,27 @@
   "version": "1.2.2",
   "description": "better join tips,before close manger's join welcome",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Himeno <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": ["zh_CN"]
+      "language": [
+        "zh_CN"
+      ]
     }
   }
 }

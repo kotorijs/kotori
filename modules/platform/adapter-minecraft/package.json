@@ -3,9 +3,22 @@
   "version": "2.0.1",
   "description": "Adapter For Minecraft Bedrock Edition",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin", "minecraft", "websocket", "minecraft bedrock", "mojang"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin",
+    "minecraft",
+    "websocket",
+    "minecraft bedrock",
+    "mojang"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"

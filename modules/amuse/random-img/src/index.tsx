@@ -28,7 +28,7 @@ export function main(ctx: Context) {
     .action(async (data, session) => {
       session.quick('random_img.msg.sex.tips')
       const res = sexSchema.parse(
-        await ctx.http.get('https://hotaru.icu/api/seimg/v2/', { tag: data.args[0] || '', r18: 0 })
+        await ctx.http.get('https://api.hotaru.icu/ial/seimg/v2/', { tag: data.args[0] || '', r18: 0 })
       )
       if (!res.data) return session.format('random_img.msg.sex.fail', [data.args[0]])
 

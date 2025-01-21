@@ -51,7 +51,7 @@ import type Browser from '../service/browser'
 interface BaseDir {
   root: string
   data: string
-  cache: string
+  // cache: string
   logs: string
   config: string
 }
@@ -67,7 +67,7 @@ export interface ModulePackage {
   description: string
   main: string
   keywords: string[]
-  license: 'GPL-3.0' | 'BCU'
+  license: 'GPL-3.0' | 'BAN-ZHINESE-USING' | 'BCU'
   author: string | string[]
   peerDependencies?: {
     'kotori-bot': string
@@ -153,7 +153,7 @@ function getBaseDir(filename: string, dir?: string) {
   const baseDir = {
     root,
     data: path.join(root, 'data'),
-    cache: path.join(root, 'cache'),
+    // cache: path.join(root, 'cache'),
     logs: path.join(root, 'logs'),
     config: filename
   }
@@ -244,7 +244,7 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BCU')),
+  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BAN-ZHINESE-USING'), Tsu.Literal('BCU')),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),

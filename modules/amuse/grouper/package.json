@@ -3,16 +3,27 @@
   "version": "1.3.0",
   "description": "groups activity ranking and simple games!",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": ["zh_CN"]
+      "language": [
+        "zh_CN"
+      ]
     }
   }
 }

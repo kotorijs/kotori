@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-webui",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "webui plugin",
   "main": "lib/index.js",
   "keywords": [
@@ -8,7 +8,7 @@
     "chatbot",
     "kotori-plugin"
   ],
-  "license": "GPL-3.0",
+  "license": "BAN-ZHINESE-USING",
   "files": [
     "lib",
     "dist",

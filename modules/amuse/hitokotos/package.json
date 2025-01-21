@@ -3,16 +3,28 @@
   "version": "1.2.1",
   "description": "Seventeen kind of different sentences",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "kotori": {
     "meta": {
-      "language": ["zh_CN", "zh_TW"]
+      "language": [
+        "zh_CN",
+        "zh_TW"
+      ]
     }
   }
 }

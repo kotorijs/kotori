@@ -3,9 +3,18 @@
   "version": "1.1.1",
   "description": "Adapter For Cmd",
   "main": "lib/index.js",
-  "keywords": ["kotori", "chatbot", "kotori-plugin"],
-  "license": "GPL-3.0",
-  "files": ["lib", "locales", "LICENSE", "README.md"],
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "BAN-ZHINESE-USING",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"

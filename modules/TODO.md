@@ -1,5 +1,7 @@
 # Todo
 
+- [ ] Anime and GalGame Characters identify and search
+- [ ] VNDB Search
 - [ ] [Minecraft Bedrock Identity Query](https://github.com/Teahouse-Studios/akari-bot/tree/master/modules/idlist)
 - [ ] [Tic Tac Toe](https://github.com/Teahouse-Studios/akari-bot/tree/master/modules/tic_tac_toe)
 - [ ] [Minecraft Mod Query](https://github.com/Teahouse-Studios/akari-bot/blob/master/modules/mcmod)
