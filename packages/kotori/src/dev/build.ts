@@ -59,7 +59,7 @@ function generateBanner(
     version: pkg.version ?? '',
     author: Array.isArray(pkg.author) ? pkg.author.join(', ') : pkg.author ?? '',
     license: pkg.license ?? 'BAN-ZHINESE-USING',
-    date: new Date().toLocaleTimeString()
+    date: new Date().toLocaleString()
   }).reduce((acc, [key, value]) => acc.replaceAll(`%${key}%`, value), template)
 }
 
