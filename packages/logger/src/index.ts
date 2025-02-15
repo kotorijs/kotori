@@ -23,7 +23,7 @@ export class Logger {
 
   private creator(level: LoggerLevel, args: unknown[]) {
     const { label, transports, filter } = this.options
-    const baseData = { level, time: new Date().getTime(), pid: process.pid, label }
+    const baseData = { level, time: new Date().getTime(), pid: typeof process !== 'undefined' ? process.pid : 0, label }
     if (!Array.isArray(transports)) {
       runTransport(transports, { ...baseData, msg: (transports.escaper ?? escaper)(args) }, filter)
       return
