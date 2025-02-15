@@ -51,6 +51,7 @@ import type Browser from '../service/browser'
 interface BaseDir {
   root: string
   data: string
+  // cache: string
   logs: string
   config: string
 }
@@ -66,7 +67,7 @@ export interface ModulePackage {
   description: string
   main: string
   keywords: string[]
-  license: 'GPL-3.0' | 'BCU'
+  license: 'GPL-3.0' | 'BAN-ZHINESE-USING' | 'BCU'
   author: string | string[]
   peerDependencies?: {
     'kotori-bot': string
@@ -118,6 +119,7 @@ declare module '@kotori-bot/core' {
     dirs: string[]
     port: number
     dbPrefix: string
+    dbDuration: number
     level: number
     noColor: boolean
   }
@@ -151,6 +153,7 @@ function getBaseDir(filename: string, dir?: string) {
   const baseDir = {
     root,
     data: path.join(root, 'data'),
+    // cache: path.join(root, 'cache'),
     logs: path.join(root, 'logs'),
     config: filename
   }
@@ -220,6 +223,7 @@ export const globalLoaderConfigSchema = Tsu.Object({
   level: Tsu.Number().default(DEFAULT_LOADER_CONFIG.level),
   port: Tsu.Number().default(DEFAULT_LOADER_CONFIG.port),
   dbPrefix: Tsu.String().default(DEFAULT_LOADER_CONFIG.dbPrefix),
+  dbDuration: Tsu.Number().default(DEFAULT_LOADER_CONFIG.dbDuration),
   noColor: Tsu.Boolean().default(DEFAULT_LOADER_CONFIG.noColor)
 }).default(Object.assign(DEFAULT_CORE_CONFIG.global, DEFAULT_LOADER_CONFIG))
 
@@ -240,7 +244,7 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BCU')),
+  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BAN-ZHINESE-USING'), Tsu.Literal('BCU')),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
@@ -303,7 +307,13 @@ export class Loader extends Core {
     this.inject('logger')
     this.service('server', new Server(this.extends('server'), { port: this.config.global.port }))
     this.service('file', new File(this.extends('file')))
-    this.service('db', new Database(this.extends('database'), { prefix: this.config.global.dbPrefix }))
+    this.service(
+      'db',
+      new Database(this.extends('database'), {
+        prefix: this.config.global.dbPrefix,
+        duration: this.config.global.dbDuration
+      })
+    )
     this.http.response(undefined, (err) => {
       if ('logger' in this) this.logger.label('http').error(err instanceof Error ? err.message : err)
       // return Promise.reject(err)

@@ -14,20 +14,19 @@
     "kotori-plugin",
     "rescript"
   ],
-  "license": "BCU",
+  "license": "BAN-ZHINESE-USING",
   "files": [
     "src",
     "LICENSE",
     "README.md"
   ],
   "author": "Hotaru <me@hotaru.icu>",
-  "devDependencies": {
-    "rescript-kotori": "workspace:^"
-  },
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },
   "dependencies": {
+    "rescript-kotori": "workspace:^",
+    "rescript": "11.1.4",
     "mathjs": "^13.2.1"
   }
 }

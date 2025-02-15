@@ -31,7 +31,8 @@ let main = (ctx: context, config: config) => {
   ctx
   ->Cmd.make("greet - get a greeting")
   ->Cmd.action_async(async (_, session) => {
-    let res = await "http://hotaru.icu/api/hitokoto/v2?format=text"->ctx.http.get
+    let res =
+      await ctx->Ctx.Http.get("https://api.hotaru.icu/ial/hitokoto/v2/?format=text", Js.Undefined)
     <Text>
       {switch res->Type.typeof {
       | #string => session->format("Greet: \n{0}", [res->Kotori.Utils.toAny])
@@ -158,7 +159,8 @@ let main = (ctx: context, config: config) => {
     #on_group_increase(
       async session => {
         switch session.userId {
-        | Some(userId) if userId !== session.api.adapter.selfId =>
+        | Some(userId)
+          if userId !== session.api.adapter.selfId && session.groupId === Some("317691609") =>
           await onGroupIncreaseHandler(session)
         | _ => ()
         }

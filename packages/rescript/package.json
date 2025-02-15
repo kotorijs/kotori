@@ -14,7 +14,7 @@
     "kotori-plugin",
     "rescript"
   ],
-  "license": "BCU",
+  "license": "BAN-ZHINESE-USING",
   "files": [
     "src",
     "rescript.json",
@@ -22,9 +22,10 @@
   ],
   "author": "Hatsuyuki <me@hotaru.icu>",
   "devDependencies": {
+    "rescript": "^11.1.0",
     "@rescript/core": "^1.3.0"
   },
   "peerDependencies": {
-    "kotori-bot": "workspace:^"
+    "kotori-bot": "^1.6.0"
   }
 }
