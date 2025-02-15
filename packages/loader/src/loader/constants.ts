@@ -30,6 +30,7 @@ export const DEFAULT_LOADER_CONFIG = {
   dirs: ['./node_modules/', './node_modules/@kotori-bot/'],
   port: 720,
   dbPrefix: 'romiChan',
+  dbDuration: 3600,
   level: LoggerLevel.RECORD,
   noColor: false
 }

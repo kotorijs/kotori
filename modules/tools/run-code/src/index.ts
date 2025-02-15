@@ -1,5 +1,5 @@
 import { Tsu, type Context } from 'kotori-bot'
-import JsBox from './class/jsBox'
+import JsBox from './class/jsbox'
 // import LuaBox from './class/luaBox'
 
 export const lang = [__dirname, '../locales']

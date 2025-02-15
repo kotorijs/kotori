@@ -24,3 +24,6 @@ self-id = 720
 
 [plugin.helper]
 content = "test menu"
+
+[build]
+banner = "/**\n* @Package %name%\n* @Version %version%\n* @Author %author%\n* @Copyright 2024-2025 Hotaru. All rights reserved.\n* @License %license%\n* @Link https://github.com/kotorijs/kotori\n* @Date %date%\n*/"

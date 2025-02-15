@@ -1,12 +1,12 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./lib"
   },
   "references": [
     {
-      "path": "../../packages/kotori"
+      "path": "../../../packages/kotori"
     }
   ]
 }

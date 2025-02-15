@@ -1,10 +1,13 @@
 import cac from 'cac'
-import { BUILD_MODE, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
+import { BUILD_MODE, CONFIG_NAME, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
 import { resolve } from 'node:path'
 import env from './utils/env'
-import { Container, executeCommand, supportTs, Symbols } from '@kotori-bot/core'
+import { Container, executeCommand, loadConfig, supportTs, Symbols } from '@kotori-bot/core'
 import daemon from './daemon'
 import { mainScope } from './gui'
+import build from './dev/build'
+import pub from './dev/pub'
+import { CWD } from './dev/common'
 
 const program = cac()
 
@@ -43,6 +46,7 @@ program
     }
     // Auto checkout running environment when using daemon
     if (!options.daemon && loaderOptions.mode === DEV_MODE && !supportTs()) {
+      Logger.error('You need to transform running environment to use dev mode')
       // Exec tsx child process to support typescript file dynamic import when in dev mode but no daemon
       const child = executeCommand(
         `npm exec tsx "${resolve(__filename)}"`,
@@ -70,6 +74,18 @@ program
   .action(() => {
     mainScope()
   })
+
+program
+  .command('build [filters]', 'Build the workspace')
+  .option('--silent', 'Do not output logs')
+  .option('--types', 'Build types')
+  .option('--onlyTypes', 'Build only types')
+  .option('--ignoreError', 'Ignore error when building')
+  .action((filters, options) => {
+    build(options, { ...(loadConfig(resolve(CWD, env.config ?? CONFIG_NAME), 'toml') ?? {}), ...filters })
+  })
+
+program.command('pub [filters]', 'Publish the workspace').action((filters) => pub(filters))
 
 // program.command('module search <name>').action(() => Logger.info('module search'))
 // program.command('module download <name>').action(() => Logger.info('module download'))
