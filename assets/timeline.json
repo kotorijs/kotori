@@ -1,0 +1,224 @@
+{
+  "latest": "2025/1/21 17:52:41",
+  "data": {
+    "2025/1/21 17:16:37": {
+      "@kotori-bot/kotori-plugin-core": {
+        "type": "add",
+        "version": "1.4.4"
+      },
+      "kotori-plugin-requester": {
+        "type": "add",
+        "version": "1.1.2"
+      },
+      "kotori-plugin-adapter-minecraft": {
+        "type": "add",
+        "version": "2.0.1"
+      },
+      "@kotori-bot/kotori-plugin-access": {
+        "type": "add",
+        "version": "1.0.2"
+      },
+      "@kotori-bot/kotori-plugin-filter": {
+        "type": "add",
+        "version": "1.1.0"
+      },
+      "@kotori-bot/kotori-plugin-webui": {
+        "type": "add",
+        "version": "1.4.1"
+      },
+      "@kotori-bot/adapter-slack": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "kotori-plugin-color": {
+        "type": "add",
+        "version": "1.0.3"
+      },
+      "kotori-plugin-better-join": {
+        "type": "add",
+        "version": "1.2.2"
+      },
+      "kotori-plugin-goodnight": {
+        "type": "add",
+        "version": "1.3.5"
+      },
+      "kotori-plugin-grouper": {
+        "type": "add",
+        "version": "1.3.0"
+      },
+      "@kotori-bot/adapter-mail": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "kotori-plugin-github": {
+        "type": "add",
+        "version": "1.3.0"
+      },
+      "@kotori-bot/kotori-plugin-adapter-cmd": {
+        "type": "add",
+        "version": "1.1.1"
+      },
+      "@kotori-bot/adapter-discord": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "@kotori-bot/kotori-plugin-helper": {
+        "type": "add",
+        "version": "1.3.1"
+      },
+      "kotori-plugin-run-code": {
+        "type": "add",
+        "version": "1.0.3"
+      },
+      "kotori-plugin-drift-bottle": {
+        "type": "add",
+        "version": "1.0.3"
+      },
+      "@kotori-bot/kotori-plugin-adapter-sandbox": {
+        "type": "add",
+        "version": "1.1.0"
+      },
+      "@kotori-bot/kotori-plugin-status": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "kotori-plugin-penis": {
+        "type": "add",
+        "version": "1.2.3"
+      },
+      "@kotori-bot/kotori-plugin-adapter-qq": {
+        "type": "add",
+        "version": "1.2.0"
+      },
+      "@kotori-bot/kotori-plugin-alias": {
+        "type": "add",
+        "version": "1.0.2"
+      },
+      "kotori-plugin-bangumi": {
+        "type": "add",
+        "version": "1.2.4"
+      },
+      "kotori-plugin-sed": {
+        "type": "add",
+        "version": "1.0.1"
+      },
+      "kotori-plugin-mediawiki": {
+        "type": "add",
+        "version": "1.2.5"
+      },
+      "kotori-plugin-weather": {
+        "type": "add",
+        "version": "1.1.2"
+      },
+      "kotori-plugin-randomimg": {
+        "type": "add",
+        "version": "1.2.3"
+      },
+      "kotori-plugin-manger": {
+        "type": "add",
+        "version": "1.0.5"
+      },
+      "kotori-plugin-random": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "kotori-plugin-hitokotos": {
+        "type": "add",
+        "version": "1.2.1"
+      },
+      "kotori-plugin-bilibili": {
+        "type": "add",
+        "version": "1.3.0"
+      },
+      "@kotori-bot/kotori-plugin-adapter-onebot": {
+        "type": "add",
+        "version": "2.1.0"
+      },
+      "kotori-plugin-testing": {
+        "type": "add",
+        "version": "1.3.0"
+      },
+      "kotori-plugin-music": {
+        "type": "add",
+        "version": "1.2.4"
+      },
+      "kotori-plugin-nmsl": {
+        "type": "add",
+        "version": "2.1.1"
+      },
+      "@kotori-bot/adapter-telegram": {
+        "type": "add",
+        "version": "1.0.2"
+      },
+      "kotori-plugin-minecraft": {
+        "type": "add",
+        "version": "1.0.2"
+      }
+    },
+    "2025/1/21 17:52:41": {
+      "@kotori-bot/kotori-plugin-core": {
+        "type": "update",
+        "version": "1.4.5",
+        "oldVersion": "1.4.4"
+      },
+      "kotori-plugin-manger": {
+        "type": "update",
+        "version": "1.0.6",
+        "oldVersion": "1.0.5"
+      },
+      "kotori-plugin-randomimg": {
+        "type": "update",
+        "version": "1.2.4",
+        "oldVersion": "1.2.3"
+      },
+      "kotori-plugin-bangumi": {
+        "type": "update",
+        "version": "1.2.5",
+        "oldVersion": "1.2.4"
+      },
+      "kotori-plugin-testing": {
+        "type": "update",
+        "version": "1.3.2",
+        "oldVersion": "1.3.0"
+      },
+      "kotori-plugin-color": {
+        "type": "update",
+        "version": "1.0.4",
+        "oldVersion": "1.0.3"
+      },
+      "@kotori-bot/kotori-plugin-helper": {
+        "type": "update",
+        "version": "1.4.0",
+        "oldVersion": "1.3.1"
+      },
+      "@kotori-bot/kotori-plugin-adapter-onebot": {
+        "type": "update",
+        "version": "2.1.1",
+        "oldVersion": "2.1.0"
+      },
+      "kotori-plugin-run-code": {
+        "type": "update",
+        "version": "1.0.4",
+        "oldVersion": "1.0.3"
+      },
+      "@kotori-bot/browser": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "@kotori-bot/kotori-plugin-webui": {
+        "type": "update",
+        "version": "1.4.2",
+        "oldVersion": "1.4.1"
+      },
+      "kotori-plugin-res-test": {
+        "type": "add",
+        "version": "1.0.0"
+      },
+      "@kotori-bot/kotori-plugin-alias": {
+        "type": "update",
+        "version": "1.0.3",
+        "oldVersion": "1.0.2"
+      }
+    }
+  }
+}
