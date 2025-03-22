@@ -1,0 +1,13 @@
+{
+  "kotori-bot": "^1.7.1",
+  "@kotori-bot/kotori-plugin-access": "^1.0.2",
+  "@kotori-bot/kotori-plugin-adapter-cmd": "^1.1.1",
+  "@kotori-bot/kotori-plugin-adapter-sandbox": "^1.1.0",
+  "@kotori-bot/kotori-plugin-alias": "^1.0.3",
+  "@kotori-bot/kotori-plugin-core": "^1.4.5",
+  "@kotori-bot/kotori-plugin-filter": "^1.1.0",
+  "@kotori-bot/kotori-plugin-helper": "^1.4.0",
+  "@kotori-bot/kotori-plugin-status": "^1.0.0",
+  "@kotori-bot/kotori-plugin-webui": "^1.4.2",
+  "kotori-plugin-requester": "^1.1.2"
+}
