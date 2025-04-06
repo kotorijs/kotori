@@ -127,7 +127,8 @@ declare module '@kotori-bot/core' {
 
 const GLOBAL = {
   REPO: 'https://github.com/kotorijs/kotori',
-  UPDATE: 'https://hotaru.icu/api/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/package.json'
+  // TODO: add more update urls
+  UPDATE: 'https://api.hotaru.icu/ial/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/package.json'
 }
 
 function getBaseDir(filename: string, dir?: string) {
