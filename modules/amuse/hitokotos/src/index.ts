@@ -1,12 +1,8 @@
 import { type Context, type MessageQuickReal, Tsu } from 'kotori-bot'
 
 const hitokotoSchema = Tsu.Object({
-  data: Tsu.Object({
-    msg: Tsu.String(),
-    from: Tsu.String().optional(),
-    likes: Tsu.Number(),
-    type: Tsu.String()
-  })
+  msg: Tsu.String(),
+  from: Tsu.String().optional()
 })
 
 const hitokotosSchema = Tsu.Object({
@@ -37,9 +33,9 @@ export function main(ctx: Context) {
     .command('hitokoto - hitokotos.descr.hitokoto.help')
     .shortcut('一言')
     .action(async (_, s) => {
-      const res = await ctx.http.get('https://api.hotaru.icu/ial/hitokoto/v2/')
+      const res = await ctx.http.get('https://hotaru.icu/api/hitokoto')
       if (!hitokotoSchema.check(res)) return s.format('corei18n.template.res_error', { res: res as string })
-      return s.format('hitokotos.msg.hitokoto', { ...res.data, from: res.data.from ? `——${res.data.from}` : '' })
+      return s.format('hitokotos.msg.hitokoto', { ...res, from: res.from ? `——${res.from}` : '' })
     })
 
   const hitokotoT = async (msg: number): Promise<MessageQuickReal> => {

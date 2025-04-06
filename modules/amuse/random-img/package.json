@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-randomimg",
-  "version": "1.2.4",
+  "version": "1.2.1",
   "description": "Random imgs base for Core",
   "main": "lib/index.js",
   "keywords": [
