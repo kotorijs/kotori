@@ -1,20 +1,20 @@
-import { Tsu } from 'kotori-bot'
+import { z } from 'zod'
 
 interface ActionSendPrivateMsg {
   action: 'send_private_msg'
-  message: string // 消息内容
-  userId: string // 好友 ID
+  message: string
+  userId: string
 }
 
 interface ActionSendGroupMsg {
   action: 'send_group_msg'
-  message: string // 消息内容
-  groupId: string // 群组 ID
+  message: string
+  groupId: string
 }
 
 interface ActionDeleteMsg {
   action: 'delete_msg'
-  messageId: string // 消息 ID
+  messageId: string
 }
 
 interface ActionGetSelfInfo {
@@ -52,51 +52,51 @@ interface ActionGetGroupMemberList {
 
 interface ActionSetGroupName {
   action: 'set_group_name'
-  groupId: string // 群组 ID
-  groupName: string // 群名
+  groupId: string
+  groupName: string
 }
 
 interface ActionSetGroupLeave {
   action: 'leave_group'
-  groupId: string // 群组 ID
+  groupId: string
 }
 
 interface ActionSetGroupAdmin {
   action: 'set_group_admin'
-  groupId: string // 群组 ID
-  userId: string // 用户 ID
-  enable: boolean // 是否启用
+  groupId: string
+  userId: string
+  enable: boolean
 }
 
 interface ActionSetGroupCard {
   action: 'set_group_card'
-  groupId: string // 群组 ID
-  userId: string // 用户 ID
-  card: string // 名片内容
+  groupId: string
+  userId: string
+  card: string
 }
 
 interface ActionSetGroupKick {
   action: 'set_group_kick'
-  groupId: string // 群组 ID
-  userId: string // 用户 ID
+  groupId: string
+  userId: string
 }
 
 interface ActionSetGroupBan {
   action: 'set_group_ban'
-  groupId: string // 群组 ID
-  userId: string // 用户 ID
-  time: number // 禁言时间，单位秒
+  groupId: string
+  userId: string
+  time: number
 }
 
 interface ActionSetGroupWholeBan {
   action: 'set_group_whole_ban'
-  groupId: string // 群组 ID
-  enable: boolean // 是否启用
+  groupId: string
+  enable: boolean
 }
 
 interface ActionOnDataError {
   action: 'on_data_error'
-  error: string // 错误信息（来自 `Tsukiko` 的数据解析器错误信息）
+  error: string
 }
 
 export type ActionList =
@@ -119,176 +119,174 @@ export type ActionList =
   | ActionSetGroupWholeBan
   | ActionOnDataError
 
-const eventDataPrivateMsgSchema = Tsu.Object({
-  event: Tsu.Literal('on_message'),
-  type: Tsu.Literal(0),
-  message: Tsu.String(),
-  messageAlt: Tsu.String(),
-  userId: Tsu.String(),
-  sender: Tsu.Object({
-    nickname: Tsu.String()
+const eventDataPrivateMsgSchema = z.object({
+  event: z.literal('on_message'),
+  type: z.literal(0),
+  message: z.string(),
+  messageAlt: z.string(),
+  userId: z.string(),
+  sender: z.object({
+    nickname: z.string()
   }),
-  time: Tsu.Number()
+  time: z.number()
 })
 
-const eventDataGroupMsgSchema = Tsu.Object({
-  event: Tsu.Literal('on_message'),
-  type: Tsu.Literal(1),
-  message: Tsu.String(),
-  messageAlt: Tsu.String(),
-  userId: Tsu.String(),
-  sender: Tsu.Object({
-    nickname: Tsu.String(),
-    role: Tsu.Enum(Tsu.Literal('owner'), Tsu.Literal('admin'), Tsu.Literal('member'))
+const eventDataGroupMsgSchema = z.object({
+  event: z.literal('on_message'),
+  type: z.literal(1),
+  message: z.string(),
+  messageAlt: z.string(),
+  userId: z.string(),
+  sender: z.object({
+    nickname: z.string(),
+    role: z.enum(['owner', 'admin', 'member'])
   }),
-  time: Tsu.Number(),
-  groupId: Tsu.String()
+  time: z.number(),
+  groupId: z.string()
 })
 
-const eventDataChannelMsgSchema = Tsu.Object({
-  event: Tsu.Literal('on_message'),
-  type: Tsu.Literal(2),
-  message: Tsu.String(),
-  messageAlt: Tsu.String(),
-  userId: Tsu.String(),
-  sender: Tsu.Object({
-    nickname: Tsu.String()
+const eventDataChannelMsgSchema = z.object({
+  event: z.literal('on_message'),
+  type: z.literal(2),
+  message: z.string(),
+  messageAlt: z.string(),
+  userId: z.string(),
+  sender: z.object({
+    nickname: z.string()
   }),
-  time: Tsu.Number(),
-  channelId: Tsu.String()
+  time: z.number(),
+  channelId: z.string()
 })
 
-const eventDataPrivateMsgDeleteSchema = Tsu.Object({
-  event: Tsu.Literal('on_message_delete'),
-  type: Tsu.Literal(0),
-  userId: Tsu.String(),
-  messageId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataPrivateMsgDeleteSchema = z.object({
+  event: z.literal('on_message_delete'),
+  type: z.literal(0),
+  userId: z.string(),
+  messageId: z.string(),
+  time: z.number()
 })
 
-const eventDataGroupMsgDeleteSchema = Tsu.Object({
-  event: Tsu.Literal('on_message_delete'),
-  type: Tsu.Literal(1),
-  userId: Tsu.String(),
-  messageId: Tsu.String(),
-  operatorId: Tsu.String(),
-  groupId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGroupMsgDeleteSchema = z.object({
+  event: z.literal('on_message_delete'),
+  type: z.literal(1),
+  userId: z.string(),
+  messageId: z.string(),
+  operatorId: z.string(),
+  groupId: z.string(),
+  time: z.number()
 })
 
-const eventDataChannelMsgDeleteSchema = Tsu.Object({
-  event: Tsu.Literal('on_message_delete'),
-  type: Tsu.Literal(2),
-  userId: Tsu.String(),
-  messageId: Tsu.String(),
-  operatorId: Tsu.String(),
-  channelId: Tsu.String(),
-  guildId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataChannelMsgDeleteSchema = z.object({
+  event: z.literal('on_message_delete'),
+  type: z.literal(2),
+  userId: z.string(),
+  messageId: z.string(),
+  operatorId: z.string(),
+  channelId: z.string(),
+  guildId: z.string(),
+  time: z.number()
 })
 
-const eventDataFriendIncreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_friend_increase'),
-  type: Tsu.Literal(0),
-  userId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataFriendIncreaseSchema = z.object({
+  event: z.literal('on_friend_increase'),
+  type: z.literal(0),
+  userId: z.string(),
+  time: z.number()
 })
 
-const eventDataFriendDecreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_friend_decrease'),
-  type: Tsu.Literal(0),
-  userId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataFriendDecreaseSchema = z.object({
+  event: z.literal('on_friend_decrease'),
+  type: z.literal(0),
+  userId: z.string(),
+  time: z.number()
 })
 
-const eventDataGroupIncreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_group_increase'),
-  type: Tsu.Literal(1),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  groupId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGroupIncreaseSchema = z.object({
+  event: z.literal('on_group_increase'),
+  type: z.literal(1),
+  userId: z.string(),
+  operatorId: z.string(),
+  groupId: z.string(),
+  time: z.number()
 })
 
-const eventDataGroupDecreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_group_decrease'),
-  type: Tsu.Literal(1),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  groupId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGroupDecreaseSchema = z.object({
+  event: z.literal('on_group_decrease'),
+  type: z.literal(1),
+  userId: z.string(),
+  operatorId: z.string(),
+  groupId: z.string(),
+  time: z.number()
 })
 
-const eventDataGuildIncreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_guild_increase'),
-  type: Tsu.Literal(2),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  channelId: Tsu.String(),
-  guildId: Tsu.String()
+const eventDataGuildIncreaseSchema = z.object({
+  event: z.literal('on_guild_increase'),
+  type: z.literal(2),
+  userId: z.string(),
+  operatorId: z.string(),
+  channelId: z.string(),
+  guildId: z.string()
 })
 
-const eventDataGuildDecreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_guild_decrease'),
-  type: Tsu.Literal(2),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  channelId: Tsu.String(),
-  guildId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGuildDecreaseSchema = z.object({
+  event: z.literal('on_guild_decrease'),
+  type: z.literal(2),
+  userId: z.string(),
+  operatorId: z.string(),
+  channelId: z.string(),
+  guildId: z.string(),
+  time: z.number()
 })
 
-const eventDataChannelIncreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_channel_increase'),
-  type: Tsu.Literal(2),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  channelId: Tsu.String(),
-  guildId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataChannelIncreaseSchema = z.object({
+  event: z.literal('on_channel_increase'),
+  type: z.literal(2),
+  userId: z.string(),
+  operatorId: z.string(),
+  channelId: z.string(),
+  guildId: z.string(),
+  time: z.number()
 })
 
-const eventDataChannelDecreaseSchema = Tsu.Object({
-  event: Tsu.Literal('on_channel_decrease'),
-  type: Tsu.Literal(2),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  channelId: Tsu.String(),
-  guildId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataChannelDecreaseSchema = z.object({
+  event: z.literal('on_channel_decrease'),
+  type: z.literal(2),
+  userId: z.string(),
+  operatorId: z.string(),
+  channelId: z.string(),
+  guildId: z.string(),
+  time: z.number()
 })
 
-/* Experimental */
-
-const eventDataGroupAdminSchema = Tsu.Object({
-  event: Tsu.Literal('on_group_admin'),
-  type: Tsu.Literal(1),
-  userId: Tsu.String(),
-  operation: Tsu.Union(Tsu.Literal('set'), Tsu.Literal('unset')),
-  groupId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGroupAdminSchema = z.object({
+  event: z.literal('on_group_admin'),
+  type: z.literal(1),
+  userId: z.string(),
+  operation: z.union([z.literal('set'), z.literal('unset')]),
+  groupId: z.string(),
+  time: z.number()
 })
 
-const eventDataGroupBanSchema = Tsu.Object({
-  event: Tsu.Literal('on_group_ban'),
-  type: Tsu.Literal(1),
-  userId: Tsu.String(),
-  operatorId: Tsu.String(),
-  duration: Tsu.Number(),
-  groupId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGroupBanSchema = z.object({
+  event: z.literal('on_group_ban'),
+  type: z.literal(1),
+  userId: z.string(),
+  operatorId: z.string(),
+  duration: z.number(),
+  groupId: z.string(),
+  time: z.number()
 })
 
-const eventDataGroupWholeBanSchema = Tsu.Object({
-  event: Tsu.Literal('on_group_whole_ban'),
-  type: Tsu.Literal(1),
-  operatorId: Tsu.String(),
-  operation: Tsu.Union(Tsu.Literal('set'), Tsu.Literal('unset')),
-  groupId: Tsu.String(),
-  time: Tsu.Number()
+const eventDataGroupWholeBanSchema = z.object({
+  event: z.literal('on_group_whole_ban'),
+  type: z.literal(1),
+  operatorId: z.string(),
+  operation: z.union([z.literal('set'), z.literal('unset')]),
+  groupId: z.string(),
+  time: z.number()
 })
 
-export const eventDataSchema = Tsu.Union(
+export const eventDataSchema = z.union([
   eventDataPrivateMsgSchema,
   eventDataGroupMsgSchema,
   eventDataChannelMsgSchema,
@@ -306,49 +304,49 @@ export const eventDataSchema = Tsu.Union(
   eventDataGroupAdminSchema,
   eventDataGroupBanSchema,
   eventDataGroupWholeBanSchema
-)
+])
 
-const sendMessageResponseSchema = Tsu.Object({
-  response: Tsu.Literal('send_message_response'),
-  messageId: Tsu.String(),
-  time: Tsu.Number()
+const sendMessageResponseSchema = z.object({
+  response: z.literal('send_message_response'),
+  messageId: z.string(),
+  time: z.number()
 })
 
-const selfInfoResponseSchema = Tsu.Object({
-  response: Tsu.Literal('self_info_response'),
-  userId: Tsu.String(),
-  username: Tsu.String(),
-  userDisplayname: Tsu.String()
+const selfInfoResponseSchema = z.object({
+  response: z.literal('self_info_response'),
+  userId: z.string(),
+  username: z.string(),
+  userDisplayname: z.string()
 })
 
-const userInfoResponseSchema = Tsu.Object({
-  response: Tsu.Literal('user_info_response'),
-  userId: Tsu.String(),
-  username: Tsu.String(),
-  userDisplayname: Tsu.String(),
-  userRemark: Tsu.String()
+const userInfoResponseSchema = z.object({
+  response: z.literal('user_info_response'),
+  userId: z.string(),
+  username: z.string(),
+  userDisplayname: z.string(),
+  userRemark: z.string()
 })
 
-const friendListResponseSchema = Tsu.Array(userInfoResponseSchema)
+const friendListResponseSchema = z.array(userInfoResponseSchema)
 
-const groupInfoResponseSchema = Tsu.Object({
-  response: Tsu.Literal('group_info_response'),
-  groupId: Tsu.String(),
-  groupName: Tsu.String()
+const groupInfoResponseSchema = z.object({
+  response: z.literal('group_info_response'),
+  groupId: z.string(),
+  groupName: z.string()
 })
 
-const groupListResponseSchema = Tsu.Array(groupInfoResponseSchema)
+const groupListResponseSchema = z.array(groupInfoResponseSchema)
 
-const groupMemberInfoResponseSchema = Tsu.Object({
-  response: Tsu.Literal('group_member_info_response'),
-  userId: Tsu.String(),
-  username: Tsu.String(),
-  userDisplayname: Tsu.String()
+const groupMemberInfoResponseSchema = z.object({
+  response: z.literal('group_member_info_response'),
+  userId: z.string(),
+  username: z.string(),
+  userDisplayname: z.string()
 })
 
-const groupMemberListResponseSchema = Tsu.Array(groupMemberInfoResponseSchema)
+const groupMemberListResponseSchema = z.array(groupMemberInfoResponseSchema)
 
-export const responseSchema = Tsu.Union(
+export const responseSchema = z.union([
   sendMessageResponseSchema,
   selfInfoResponseSchema,
   userInfoResponseSchema,
@@ -357,4 +355,4 @@ export const responseSchema = Tsu.Union(
   groupListResponseSchema,
   groupMemberInfoResponseSchema,
   groupMemberListResponseSchema
-)
+])
