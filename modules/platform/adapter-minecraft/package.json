@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-adapter-minecraft",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Adapter For Minecraft Bedrock Edition",
   "main": "lib/index.js",
   "keywords": [

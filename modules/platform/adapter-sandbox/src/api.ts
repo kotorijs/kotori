@@ -5,12 +5,13 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-08-05 16:56:25
  */
-import { Api, type Tsu, type Message, type UserInfoResponse, type GroupInfoResponse } from 'kotori-bot'
+import { Api, type Message, type UserInfoResponse, type GroupInfoResponse } from 'kotori-bot'
 import type SandboxAdapter from './adapter'
 import type { responseSchema } from './type'
+import type z from 'zod'
 
 export class SandboxApi extends Api {
-  private factory<T>(callback: (data: Tsu.infer<typeof responseSchema>) => null | T) {
+  private factory<T>(callback: (data: z.infer<typeof responseSchema>) => null | T) {
     return new Promise<T>((resolve) => {
       const register = () =>
         this.adapter.ctx.once('literal_sandbox_response', (data) => {

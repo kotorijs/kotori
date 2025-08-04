@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-sandbox",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Kotori modules test environment,a visual sandbox",
   "main": "lib/index.js",
   "keywords": [
@@ -18,5 +18,8 @@
   "author": "Hotaru <me@hotaru.icu>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "zod": "^4.0.14"
   }
 }

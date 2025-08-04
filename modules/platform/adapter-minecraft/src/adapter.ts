@@ -44,9 +44,6 @@ export class McAdapter extends Adapters.WebSocket<McApi, McConfig, McElements> {
   public constructor(ctx: Context, config: McConfig, identity: string) {
     super(ctx, config, identity)
     this.config = config
-  }
-
-  public start() {
     this.connection = (ws, req) => {
       const fakeServer = new WebSocket.Server({ noServer: true })
       const app = new Mcwss({ server: fakeServer as unknown as number })
@@ -59,10 +56,9 @@ export class McAdapter extends Adapters.WebSocket<McApi, McConfig, McElements> {
       app.start()
       fakeServer.emit('connection', ws, req)
     }
-    this.setup()
   }
 
-  public handle() {
+  public override handle() {
     this.handle.toString()
   }
 
@@ -102,7 +98,7 @@ export class McAdapter extends Adapters.WebSocket<McApi, McConfig, McElements> {
     this.messageId += 1
   }
 
-  public send(action: string, params: { msg: string }) {
+  public override send(action: string, params: { msg: string }) {
     const [sessionId, playerName] = action.split('@')
     const { msg } = params
     if (!(sessionId in this.clients)) return

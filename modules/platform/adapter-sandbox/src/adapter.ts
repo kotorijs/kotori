@@ -9,10 +9,11 @@ import { type AdapterConfig, type Context, Tsu, Adapters } from 'kotori-bot'
 import SandboxApi from './api'
 import SandboxElements from './elements'
 import { type ActionList, eventDataSchema, responseSchema } from './type'
+import type z from 'zod'
 
 declare module 'kotori-bot' {
   interface EventsMapping {
-    literal_sandbox_response(res: Tsu.infer<typeof responseSchema>): void
+    literal_sandbox_response(res: z.infer<typeof responseSchema>): void
   }
 }
 
@@ -33,28 +34,6 @@ export class SandboxAdapter extends Adapters.WebSocket<SandboxApi, SandboxConfig
   public constructor(ctx: Context, config: SandboxConfig, identity: string) {
     super(ctx, config, identity)
     this.config = config
-  }
-
-  public handle(data: object) {
-    if ('response' in data) {
-      const result = responseSchema.parseSafe(data)
-      if (result.value) {
-        this.ctx.emit('literal_sandbox_response', result.data)
-      } else {
-        this.send({ action: 'on_data_error', error: result.error.message })
-      }
-      return
-    }
-    const result = eventDataSchema.parseSafe(data)
-    if (result.value) {
-      // biome-ignore lint:
-      this.session(result.data.event, result.data as any)
-    } else {
-      this.send({ action: 'on_data_error', error: result.error.message })
-    }
-  }
-
-  public start() {
     this.connection = (ws) => {
       this.wsSend = ws.send.bind(ws)
       this.online()
@@ -62,7 +41,26 @@ export class SandboxAdapter extends Adapters.WebSocket<SandboxApi, SandboxConfig
     }
   }
 
-  public send(data: ActionList) {
+  public override handle(data: object) {
+    if ('response' in data) {
+      const result = responseSchema.safeParse(data)
+      if (result.success) {
+        this.ctx.emit('literal_sandbox_response', result.data)
+      } else {
+        this.send({ action: 'on_data_error', error: result.error.message })
+      }
+      return
+    }
+    const result = eventDataSchema.safeParse(data)
+    if (result.success) {
+      // biome-ignore lint:
+      this.session(result.data.event, result.data as any)
+    } else {
+      this.send({ action: 'on_data_error', error: result.error.message })
+    }
+  }
+
+  public override send(data: ActionList) {
     this.wsSend?.(JSON.stringify(data))
   }
 }
