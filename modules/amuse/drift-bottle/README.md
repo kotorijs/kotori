@@ -4,7 +4,7 @@ throw and pick bottles
 
 **Version:** 1.0.0
 **Author:** himeno
-**License:** BAN-ZHINESE-USING
+**License:** GPL-3.0
 **Front Plugin:** grouper
 
 ## List of command

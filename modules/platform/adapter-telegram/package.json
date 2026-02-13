@@ -9,7 +9,7 @@
     "kotori-plugin",
     "telegram"
   ],
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "files": [
     "lib",
     "locales",

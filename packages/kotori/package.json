@@ -3,7 +3,7 @@
   "version": "1.7.1",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "author": "Arimura Sena <me@hotaru.icu>",
   "scripts": {
     "start": "node lib/cli.js --mode build --daemon",

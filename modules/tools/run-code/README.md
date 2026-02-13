@@ -4,7 +4,7 @@ Run code with javascript and lua
 
 **Version:** 1.1.0
 **Author:** himeno
-**License:** BAN-ZHINESE-USING
+**License:** GPL-3.0
 
 ## List of command
 

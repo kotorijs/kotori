@@ -8,7 +8,7 @@
        * @Version 1.3.1
        * @Author Hotaru <biyuehuya@gmail.com>
        * @Copyright 2024 Hotaru. All rights reserved.
-       * @License BAN-ZHINESE-USING
+       * @License GPL-3.0
        * @Link https://github.com/kotorijs/kotori
        * @Date 2024/6/7 11:22:21
        */ var n = r(3741)["default"],
@@ -116,7 +116,7 @@
        * @Version 1.3.1
        * @Author Hotaru <biyuehuya@gmail.com>
        * @Copyright 2024 Hotaru. All rights reserved.
-       * @License BAN-ZHINESE-USING
+       * @License GPL-3.0
        * @Link https://github.com/kotorijs/kotori
        * @Date 2024/6/7 11:22:21
        */ var n = Object.create,
@@ -168,7 +168,7 @@
        * @Version 1.3.1
        * @Author Hotaru <biyuehuya@gmail.com>
        * @Copyright 2024 Hotaru. All rights reserved.
-       * @License BAN-ZHINESE-USING
+       * @License GPL-3.0
        * @Link https://github.com/kotorijs/kotori
        * @Date 2024/6/7 11:22:21
        */ var t = Object.defineProperty,

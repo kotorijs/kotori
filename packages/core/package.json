@@ -3,7 +3,7 @@
   "version": "1.7.0",
   "description": "Kotori Core",
   "main": "lib/index.js",
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "author": "Arimura Sena <me@hotaru.icu>",
   "keywords": [
     "kotori",

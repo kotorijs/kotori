@@ -8,7 +8,7 @@
     "chatbot",
     "kotori-plugin"
   ],
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "files": [
     "lib",
     "locales",

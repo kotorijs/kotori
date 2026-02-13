@@ -3,7 +3,7 @@
   "version": "1.3.4",
   "description": "Logger For Kotori",
   "main": "lib/index.js",
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "author": "Hotaru <me@hotaru.icu>",
   "dependencies": {
     "@kotori-bot/tools": "workspace:^",

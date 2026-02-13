@@ -4,7 +4,7 @@ Listen delete message and request event call to master
 
 **Version:** 1.0.0
 **Author:** himeno
-**License:** BAN-ZHINESE-USING
+**License:** GPL-3.0
 
 ## List of event
 

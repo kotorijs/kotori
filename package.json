@@ -3,7 +3,7 @@
   "description": "ChatBot Framework",
   "version": "1.7.1",
   "private": true,
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "author": "Arimura Sena <me@hotaru.icu>",
   "scripts": {
     "start": "node packages/kotori/bin.js --mode dev --daemon",

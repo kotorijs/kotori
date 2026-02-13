@@ -4,7 +4,7 @@
   "description": "i18n For Kotori",
   "main": "dist/index.js",
   "browser": "dist/common.js",
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "author": "Hotaru <me@hotaru.icu>",
   "keywords": [
     "kotori",

@@ -14,7 +14,7 @@
     "kotori-plugin",
     "rescript"
   ],
-  "license": "BAN-ZHINESE-USING",
+  "license": "GPL-3.0",
   "files": [
     "src",
     "LICENSE",

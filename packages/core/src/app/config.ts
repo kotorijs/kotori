@@ -1,5 +1,5 @@
-import type { CoreConfig } from '../types'
 import { DEFAULT_CORE_CONFIG } from '../global'
+import type { CoreConfig } from '../types'
 
 /** Meta information. */
 interface MetaInfo {
@@ -20,7 +20,7 @@ interface MetaInfo {
    *
    *  @constant
    */
-  license: 'BAN-ZHINESE-USING'
+  license: 'GPL-3.0'
   /** Program author */
   author: string
 }
@@ -47,10 +47,11 @@ export class Config {
       name: pkg.name,
       description: pkg.description,
       main: pkg.main,
-      license: 'BAN-ZHINESE-USING',
+      license: 'GPL-3.0
       author: pkg.author,
       coreVersion: pkg.version
     }
+    ;
     ;(globalThis as unknown as { kotori: object }).kotori = this.meta
   }
 }

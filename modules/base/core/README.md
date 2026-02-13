@@ -42,7 +42,7 @@ Status: online
 
 /about
 > Kotori Version: 1.2.0
-License: BAN-ZHINESE-USING
+License: GPL-3.0
 NodeJS Version: v18.18.1
 ```
 
