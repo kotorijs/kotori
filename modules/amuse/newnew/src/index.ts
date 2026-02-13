@@ -62,7 +62,7 @@ export function main(ctx: Context, config: Config) {
     saveStatData(stat)
   })
 
-  ctx.command('my_dick - 获取我的牛牛长度').shortcut('我的长度').action( (_, session) => {
+  ctx.command('mydick - 获取我的牛牛长度').shortcut('我的长度').action((_, session) => {
     const stat = loadStatData()
     const person = stat[`${session.api.adapter.identity}${session.userId}`]
     const params = [Messages.mention(session.userId)]
@@ -77,7 +77,7 @@ export function main(ctx: Context, config: Config) {
     ])
   })
 
-  ctx.command('avg_dick - 查看牛牛长度平均排行').shortcut(('平均排行')).action( (_, session) => {
+  ctx.command('avgdick - 查看牛牛长度平均排行').shortcut(('平均排行')).action((_, session) => {
     const stat = loadStatData()
     const statOrigin = loadStatData()
     if (Object.keys(stat).length <= 0) return 'newnew.msg.avg_ranking.fail'
@@ -107,7 +107,7 @@ export function main(ctx: Context, config: Config) {
     return session.format('newnew.msg.avg_ranking', [list])
   })
 
-  ctx.command('today_dick - 查看牛牛长度今日排行').shortcut('今日长度').action( (_, session) => {
+  ctx.command('daydick - 查看牛牛长度今日排行').shortcut('今日排行').action((_, session) => {
     const today = loadTodayData()
     if (today.length <= 0) return 'newnew.msg.today_ranking.fail'
 
