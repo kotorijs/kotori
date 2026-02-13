@@ -36,7 +36,7 @@ export function main(ctx: Context) {
       const info = await getSex(ctx)
       if (!info) return session.format('random_img.msg.sex.fail', [data.args[0]])
 
-      // session.quick(['random_img.msg.sex', [info.pid, info.title, info.author, info.tags.join(' ')]])
+      session.send(<image src={info.url} />)
       return (
         <format template={session.t`random_img.msg.sex`}>
           <text>{info.pid.toString()}</text>
@@ -87,6 +87,6 @@ export function main(ctx: Context) {
 
   ctx.command('beauty - random_img.descr.beauty').action((_, session) => {
     session.quick('random_img.msg.sex.tips')
-    return <image src="https://api.hotaru.icu/api/beautyimg" />
+    fetch('https://api.hotaru.icu/api/beautyimg').then(res => session.send(<image src={res.url} />))
   })
 }
