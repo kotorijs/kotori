@@ -6,47 +6,48 @@
  * @LastEditTime: 2024-08-16 11:13:22
  */
 // import '@kotori-bot/core/src/utils/internal'
+
+import fs, { existsSync } from 'node:fs'
+import path from 'node:path'
 import {
-  KotoriError,
-  Tsu,
+  Adapter,
   type AdapterConfig,
+  Core,
   type CoreConfig,
-  Symbols,
+  configFileType,
   DEFAULT_CORE_CONFIG,
-  loadConfig,
-  TsuError,
-  ModuleError,
+  Decorators,
+  DevError,
   formatFactory,
   Http,
-  configFileType,
-  Core,
+  KotoriError,
   type LocaleType,
+  loadConfig,
   type ModuleConfig,
-  DevError,
-  Adapter,
+  ModuleError,
   Parser,
   Service,
-  Decorators
+  Symbols,
+  Tsu,
+  TsuError
 } from '@kotori-bot/core'
-import path from 'node:path'
-import fs, { existsSync } from 'node:fs'
 import Logger, { ConsoleTransport, FileTransport, LoggerLevel } from '@kotori-bot/logger'
-import loadInfo from '../utils/log'
-import {
-  CONFIG_NAME,
-  BUILD_MODE,
-  DEFAULT_LOADER_CONFIG,
-  DEV_MODE,
-  ADAPTER_PREFIX,
-  CORE_MODULES,
-  PLUGIN_PREFIX,
-  INTERNAL_PACKAGES
-} from './constants'
-import Server from '../service/server'
+import type Browser from '../service/browser'
 import Database from '../service/database'
 import File from '../service/file'
+import Server from '../service/server'
+import loadInfo from '../utils/log'
 import KotoriLogger from '../utils/logger'
-import type Browser from '../service/browser'
+import {
+  ADAPTER_PREFIX,
+  BUILD_MODE,
+  CONFIG_NAME,
+  CORE_MODULES,
+  DEFAULT_LOADER_CONFIG,
+  DEV_MODE,
+  INTERNAL_PACKAGES,
+  PLUGIN_PREFIX
+} from './constants'
 
 interface BaseDir {
   root: string
@@ -67,7 +68,7 @@ export interface ModulePackage {
   description: string
   main: string
   keywords: string[]
-  license: 'GPL-3.0' | 'BAN-ZHINESE-USING' | 'BCU'
+  license: 'GPL-3.0' | 'GPL-3.0' | 'BCU'
   author: string | string[]
   peerDependencies?: {
     'kotori-bot': string
@@ -245,7 +246,7 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('BAN-ZHINESE-USING'), Tsu.Literal('BCU')),
+  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('GPL-3.0teral('BCU')),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
