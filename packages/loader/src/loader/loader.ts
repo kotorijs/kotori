@@ -246,7 +246,7 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('GPL-3.0teral('BCU')),
+  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('GPL-3.0'), Tsu.Literal('BCU')),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),

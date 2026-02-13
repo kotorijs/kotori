@@ -47,7 +47,7 @@ export class Config {
       name: pkg.name,
       description: pkg.description,
       main: pkg.main,
-      license: 'GPL-3.0
+      license: 'GPL-3.0',
       author: pkg.author,
       coreVersion: pkg.version
     }

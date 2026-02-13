@@ -37,5 +37,22 @@
   "core.msg.locale.invalid": "パラメータが無効です。以下の値のいずれかでなければなりません：en_US、ja_JP、zh_CN、zh_TW",
   "core.msg.module": "モジュールリスト：%list%",
   "core.msg.module.list": "\n----------\n名前：%name%\n説明：%description%\nバージョン：%version%",
-  "core.msg.module.not_found": "%name% モジュールが見つかりませんでした"
+  "core.msg.module.not_found": "%name% モジュールが見つかりませんでした",
+  "core.descr.help": "コマンドのヘルプ情報を表示",
+  "core.descr.menu": "ロボットのメニューを見る",
+  "core.msg.help": "関連コマンドが見つかりました：%content%",
+  "core.msg.descr.fail": "関連コマンドが見つかりませんでした",
+  "core.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",
+  "core.msg.descr.command2": "%root%%args%%description%%options%%help%%alias%",
+  "core.template.help": "\n %content%",
+  "core.template.alias": "\n 別名：%content%",
+  "core.template.alias.delimiter": "、",
+  "core.template.arg.required": " <%name%%type%%default%>",
+  "core.template.arg.optional": " [%name%%type%%default%]",
+  "core.template.arg.type": ":：%content%",
+  "core.template.default": " = %content%",
+  "core.template.description": " - %content%",
+  "core.template.options": "\n 引数の説明：%content%",
+  "core.template.option": "\n -%name%, --%realname%%type%%description%",
+  "core.template.option.type": " タイプ：%type%"
 }

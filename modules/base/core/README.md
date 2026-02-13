@@ -8,8 +8,10 @@ Base on tencent api.
 - `/bot` View current bot info and running status
 - `/bots` View all bots info and running status
 - `/about` View about info
+- `/help [...command]` View command help info
+- `/menu` View Bot's menu
 
-```text
+```bash
 /core
 > Global Language: en_US
 Root Directory: \usr\kotori
@@ -44,6 +46,23 @@ Status: online
 > Kotori Version: 1.2.0
 License: GPL-3.0
 NodeJS Version: v18.18.1
+
+> Found the following related commands:
+/core - View instance statistics
+/bot - View current bot info and running status
+/bots - View all bots info and running status
+/about - View about info
+/help [...command] - View command help info
+```
+
+## Config
+
+```typescript
+interface Config extends ModuleConfig {
+  alias?: string; // alias of /menu
+  keywords?: string[]; // keyowrds of /menu
+  content: string; // content of menu
+}
 ```
 
 ## Reference
