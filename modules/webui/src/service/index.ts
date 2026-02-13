@@ -52,36 +52,32 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     await this.ctx.db.get<AccountData>('account_data', { hash: '', salt: '' })
     await this.ctx.db.get<BotStats>('bot_stats', {})
     const settings = await this.ctx.db.get<CommandSettings>('command_settings', {})
-    if (Object.keys(settings).length === 0) {
-      for await (const command of this.ctx[Symbols.command].values()) {
-        const { hide, shortcut, alias, scope, access } = command.meta
-        settings[command.meta.root] = { hide, shortcut, alias, scope, access }
-      }
-    } else {
-      for await (const [root, setting] of Object.entries(settings)) {
+    for await (const command of this.ctx[Symbols.command].values()) {
+      const { hide, shortcut, alias, scope, access, root } = command.meta
+      if (root in settings) {
         const command = Array.from(this.ctx[Symbols.command]).find((command) => command.meta.root === root)
         if (command) {
-          ;(command as { meta: object }).meta = { ...command.meta, ...setting }
-        } else {
-          delete settings[root]
+          ; (command as { meta: object }).meta = { ...command.meta, ...settings[root] }
         }
+      } else {
+        settings[root] = { hide, shortcut, alias, scope, access }
       }
     }
     await this.ctx.db.put('command_settings', settings)
 
-    // Listen data change
-    ;(this.ctx as { config: object }).config = createAutoSave(
-      this.ctx.config,
-      resolve(this.ctx.baseDir.config),
-      parse(this.ctx.baseDir.config).ext.slice(1) as 'json',
-      this.ctx.config
-    )
+      // Listen data change
+      ; (this.ctx as { config: object }).config = createAutoSave(
+        this.ctx.config,
+        resolve(this.ctx.baseDir.config),
+        parse(this.ctx.baseDir.config).ext.slice(1) as 'json',
+        this.ctx.config
+      )
     for await (const bots of this.ctx[Symbols.bot].values()) {
       for await (const { adapter } of bots) {
         const { identity } = adapter
         const botStats = await this.ctx.db.get<BotStats>('bot_stats')
         if (botStats[identity]) {
-          ;(adapter as { status: object }).status = {
+          ; (adapter as { status: object }).status = {
             ...botStats[identity],
             createTime: new Date(botStats[identity].createTime),
             lastMsgTime: botStats[identity].lastMsgTime ? new Date(botStats[identity].lastMsgTime as number) : null,
@@ -95,30 +91,30 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
           }
         }
         await this.ctx.db.put('bot_stats', botStats)
-        ;(adapter as { status: object }).status = observer(adapter.status, async (_, prop) => {
-          const botStats = await this.ctx.db.get<BotStats>('bot_stats')
-          const day = getToday()
-          const botStatsToday = await this.ctx.db.get<BotStatsDay>(`bot_stats:${day}`, {})
-          const isNumberProp = ['offlineTimes', 'receivedMsg', 'sentMsg'].includes(prop)
+          ; (adapter as { status: object }).status = observer(adapter.status, async (_, prop) => {
+            const botStats = await this.ctx.db.get<BotStats>('bot_stats')
+            const day = getToday()
+            const botStatsToday = await this.ctx.db.get<BotStatsDay>(`bot_stats:${day}`, {})
+            const isNumberProp = ['offlineTimes', 'receivedMsg', 'sentMsg'].includes(prop)
 
-          if (botStats[identity] && isNumberProp) {
-            botStats[identity][prop as 'sentMsg'] += 1
-          } else {
-            botStats[identity] = {
-              ...adapter.status,
-              createTime: new Date(adapter.status.createTime).getTime(),
-              lastMsgTime: adapter.status.lastMsgTime ? new Date(adapter.status.lastMsgTime).getTime() : null
+            if (botStats[identity] && isNumberProp) {
+              botStats[identity][prop as 'sentMsg'] += 1
+            } else {
+              botStats[identity] = {
+                ...adapter.status,
+                createTime: new Date(adapter.status.createTime).getTime(),
+                lastMsgTime: adapter.status.lastMsgTime ? new Date(adapter.status.lastMsgTime).getTime() : null
+              }
             }
-          }
-          if (botStatsToday[identity] && isNumberProp) {
-            botStatsToday[identity][prop as 'sentMsg'] += 1
-          } else if (!botStatsToday[identity]) {
-            botStatsToday[identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 0 }
-          }
+            if (botStatsToday[identity] && isNumberProp) {
+              botStatsToday[identity][prop as 'sentMsg'] += 1
+            } else if (!botStatsToday[identity]) {
+              botStatsToday[identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 0 }
+            }
 
-          await this.ctx.db.put('bot_stats', botStats)
-          await this.ctx.db.put(`bot_stats:${day}`, botStatsToday)
-        })
+            await this.ctx.db.put('bot_stats', botStats)
+            await this.ctx.db.put(`bot_stats:${day}`, botStatsToday)
+          })
       }
     }
   }
