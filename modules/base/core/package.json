@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-core",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "core plugin",
   "main": "lib/index.js",
   "keywords": [
