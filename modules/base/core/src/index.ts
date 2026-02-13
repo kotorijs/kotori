@@ -14,7 +14,6 @@ import {
   TsuError,
   type LocaleType,
   Symbols,
-  FilterTestList,
   ModuleError
 } from 'kotori-bot'
 
@@ -118,11 +117,6 @@ export function main(ctx: Context) {
   })
 
   ctx
-    .filter({
-      test: FilterTestList.USER_ID,
-      operator: '==',
-      value: '114514'
-    })
     .command('core - core.descr.core')
     .action((_, session) => {
       const { config, baseDir, options } = session.api.adapter.ctx
