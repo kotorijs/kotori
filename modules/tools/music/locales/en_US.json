@@ -2,6 +2,7 @@
   "music.descr.music": "NetEase Cloud music search",
   "music.help.music": "Default order number is 1, input 0 to show song list",
   "music.option.music.order": "Order number",
+  "music.option.music.lyric": "Get lyrics",
   "music.msg.music": "Song ID: {0}\nSong title: {1}\nArtist: {2}\nDownload: {3}\nCover: {4}",
   "music.msg.music.list": "{0}.{1} - {2}\n",
   "music.msg.music.fail": "No related songs found: {0}"

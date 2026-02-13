@@ -2,6 +2,7 @@
   "music.descr.music": "網易雲點歌",
   "music.help.music": "序號默認爲1，填0顯示歌曲列表",
   "music.option.music.order": "序號",
+  "music.option.music.lyric": "下載歌曲",
   "music.msg.music": "歌曲ID：{0}\n歌曲標題：{1}\n歌曲作者：{2}\n歌曲下載：{3}\n歌曲封面：{4}",
   "music.msg.music.list": "{0}.{1} - {2}\n",
   "music.msg.music.fail": "未找到相關歌曲：{0}"
