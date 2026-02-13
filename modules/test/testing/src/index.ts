@@ -14,7 +14,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   @plugin.on({ type: 'ready' })
   public async onReady() {}
 
-  @plugin.command({ template: 'echo <...content>' })
+  @plugin.command({ template: 'echo <...content>', access: UserAccess.ADMIN })
   public echo(data: Parameters<CommandAction>[0], session: Session) {
     this.ctx.logger.debug(data)
     this.ctx.logger.debug(session)
