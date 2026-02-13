@@ -1,6 +1,6 @@
 {
   "name": "kotori-plugin-music",
-  "version": "1.2.4",
+  "version": "1.4.0",
   "description": "music plugin",
   "main": "lib/index.js",
   "keywords": [

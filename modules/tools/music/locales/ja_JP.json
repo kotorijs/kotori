@@ -2,6 +2,7 @@
   "music.descr.music": "ネットイーズ音楽検索",
   "music.help.music": "順序番号のデフォルトは1、0を入力すると曲目リストを表示",
   "music.option.music.order": "順序番号",
+  "music.option.music.lyric": "歌詞取得",
   "music.msg.music": "楽曲ID:{0}\n楽曲タイトル:{1}\nアーティスト:{2}\nダウンロード:{3}\nジャケ写:{4}",
   "music.msg.music.list": "{0}.{1} - {2}\n",
   "music.msg.music.fail": "関連楽曲が見つかりませんでした:{0}"

@@ -1,5 +1,5 @@
-import { type Context, Messages } from 'kotori-bot'
-import getData from './http'
+import { type Context } from 'kotori-bot'
+import { getMusicInfo, getMusicLyric } from './http'
 
 const MAX_LIST = 10
 
@@ -11,11 +11,12 @@ export function main(ctx: Context) {
   ctx
     .command('music <...name> - music.descr.music')
     .option('O', 'order:number music.option.music.order')
-    .action(async ({ args, options: { order } }, session) => {
+    .option('L', 'lyric:boolean music.option.music.lyric')
+    .action(async ({ args, options: { order, lyric } }, session) => {
       const name = args.join(' ')
       if (!name) return session.quick(['music.msg.music.fail', [name]])
       const res =
-        ctx.cache.get<ReturnType<typeof getData> extends Promise<infer T> ? T : never>(name) ?? (await getData(name))
+        ctx.cache.get<ReturnType<typeof getMusicInfo> extends Promise<infer T> ? T : never>(name) ?? (await getMusicInfo(name))
       ctx.cache.set(name, res)
 
       if (order === 0) {
@@ -32,13 +33,15 @@ export function main(ctx: Context) {
 
       if (session.api.adapter.platform === 'onebot') session.send(`[CQ:music,type=163,id=${song.songId}]`)
 
-      return session.format('music.msg.music', [
-        song.songId,
-        song.title,
-        song.authors[0],
-        song.url,
-        Messages.image(song.pic)
-      ])
+      if (lyric) return (await getMusicLyric(song.songId)).trim()
+
+      return <format template={session.t`music.msg.music`}>
+        <text>{song.songId}</text>
+        <text>{song.title}</text>
+        <text>{song.authors[0]}</text>
+        <text>{await fetch(`http://music.163.com/song/media/outer/url?id=${song.songId}.mp3`).then(res => res.url.endsWith('/404') ? '' : res.url)}</text>
+        <image src={song.pic} />
+      </format>
     })
     .help('music.help.music')
 }
