@@ -40,5 +40,22 @@
   "core.msg.module.not_found": "未找到模块：%name%",
   "core.descr.restart": "重启 Kotori 主程序",
   "core.msg.restart": "Kotori 正在重启中...",
-  "core.msg.restart.not_daemon": "错误，该功能仅守护进程下可用"
+  "core.msg.restart.not_daemon": "错误，该功能仅守护进程下可用",
+  "core.descr.help": "查看指令帮助信息",
+  "core.descr.menu": "查看 BOT 菜单",
+  "core.msg.help": "查询到以下相关指令：%content%",
+  "core.msg.descr.fail": "未查询到相关指令",
+  "core.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",
+  "core.msg.descr.command2": "%root%%args%%description%%options%%help%%alias%",
+  "core.template.help": "\n  %content%",
+  "core.template.alias": "\n  别名：%content%",
+  "core.template.alias.delimiter": "，",
+  "core.template.arg.required": " <%name%%type%%default%>",
+  "core.template.arg.optional": " [%name%%type%%default%]",
+  "core.template.arg.type": "：%content%",
+  "core.template.default": "=%content%",
+  "core.template.description": " - %content%",
+  "core.template.options": "\n  参数说明：%content%",
+  "core.template.option": "\n  -%name%, --%realname%%type%%description%",
+  "core.template.option.type": " 类型：%type%"
 }

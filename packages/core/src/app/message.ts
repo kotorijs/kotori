@@ -58,7 +58,7 @@ export class Message {
       .reduce(
         (first, last) => {
           const next = () => {
-            first(() => {}, session)
+            first(() => { }, session)
           }
           return () => {
             last(next, session)
@@ -69,7 +69,7 @@ export class Message {
           this.handleRegexp(session)
         }
       )
-    setup(() => {}, session)
+    setup(() => { }, session)
   }
 
   private async handleRegexp(session: SessionMsg) {
@@ -95,7 +95,7 @@ export class Message {
     /* parse command shortcuts */
     for (const cmd of this[Symbols.command]) {
       for (const shortcut of cmd.meta.shortcut) {
-        if (!session.message.startsWith(shortcut)) continue
+        if (session.message.split(' ')[0] !== shortcut) continue
         session.message = session.message.replace(shortcut, `${prefix}${cmd.meta.root}`)
       }
     }
@@ -151,7 +151,7 @@ export class Message {
       for (const bots of this.ctx[Symbols.bot].values()) {
         for (const bot of bots) {
           for (const key of ['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg'] as const) {
-            ;(bot as unknown as Record<string, unknown>)[key] = new Proxy(bot[key], {
+            ; (bot as unknown as Record<string, unknown>)[key] = new Proxy(bot[key], {
               apply: (target, thisArg, argArray) => {
                 const [message, id1, id2] = argArray
                 const cancel = cancelFactory()

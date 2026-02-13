@@ -1,26 +1,37 @@
-/*
- * @Author: hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-07-11 14:18:27
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-09 17:50:58
- */
-
 import {
   UserAccess,
   CommandError,
   type Context,
   MessageScope,
+  Tsu,
   TsuError,
   type LocaleType,
   Symbols,
-  ModuleError
+  ModuleError,
+  Command
 } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
-export function main(ctx: Context) {
+export const config = Tsu.Object({
+  alias: Tsu.String().optional().describe('Menu command alias'),
+  keywords: Tsu.Array(Tsu.String()).default(['菜单', '功能']).describe('Menu command shortcuts'),
+  content: Tsu.String().optional().describe('Custom menu command content')
+})
+
+export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   ctx.on('before_command', (data) => {
+    if (data.command.meta.options.some((val) => val.realname === 'help' || val.name === 'H')) return
+    if ([' -ihelp', ' -H', ' -h'].some((val) => data.raw.includes(val))) {
+      data.cancel()
+      ctx.emit(
+        'on_message',
+        Object.assign(data.session, {
+          message: <text>{`${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root}`}</text>
+        })
+      )
+    }
+
     const quick = data.session.quick.bind(data.session)
     if (!(data.result instanceof CommandError)) {
       const { scope, access } = data.command.meta
@@ -63,6 +74,14 @@ export function main(ctx: Context) {
       default:
     }
   })
+
+  if (cfg.content) {
+    const cmd = ctx
+      .command('menu - core.descr.menu')
+      .shortcut(cfg.keywords)
+      .action((_, session) => session.format(String(cfg.content), { at: session.userId }))
+    if (cfg.alias) cmd.alias(cfg.alias)
+  }
 
   ctx.on('command', ({ result, session }) => {
     if (!(result instanceof CommandError)) return
@@ -234,4 +253,70 @@ export function main(ctx: Context) {
       await session.quick('core.msg.restart')
       setTimeout(() => process.exit(233), 1)
     })
+
+  ctx.command('help [...command] - core.descr.help').action((data, session) => {
+    const args = data.args.join(' ')
+    const filterResult: Command['meta'][] = []
+
+    for (const command of ctx[Symbols.command]) {
+      if (command.meta.hide) continue
+      if (!command.meta.root.startsWith(args) && !command.meta.alias.some((alias) => alias.startsWith(args))) continue
+      filterResult.push(command.meta)
+    }
+
+    if (filterResult.length === 0) return 'core.msg.descr.fail'
+    let commands = ''
+    const short = filterResult.length === 1
+    for (const cmd of filterResult) {
+      const alias =
+        cmd.alias.length > 0
+          ? session.format('core.template.alias', {
+            content: cmd.alias.join(session.i18n.locale('core.template.alias.delimiter'))
+          })
+          : ''
+      let args = ''
+      let options = ''
+      const handle = (values: Command['meta']['args'] | Command['meta']['options']) => {
+        for (const value of values) {
+          let defaultValue = ''
+          if ('rest' in value) {
+            const valueType = typeof value.default
+            if (valueType === 'string' || valueType === 'number') {
+              defaultValue = session.format('core.template.default', { content: value.default as string })
+            } else if (valueType === 'boolean') {
+              defaultValue = session.format('core.template.default', { content: value.default ? 'true' : 'false' })
+            }
+            args += session.format(`core.template.arg.${value.optional ? 'optional' : 'required'}`, {
+              name: value.rest ? `...${value.name}` : value.name,
+              type: value.type === 'string' ? '' : session.format('core.template.arg.type', { content: value.type }),
+              default: defaultValue
+            })
+          }
+          if (!('realname' in value) || !('description' in value)) return
+          options += session.format('core.template.option', {
+            name: value.name,
+            realname: value.realname,
+            type: value.type === 'string' ? '' : session.format('core.template.arg.type', { content: value.type }),
+            description: value.description
+              ? session.format('core.template.description', { content: session.i18n.locale(value.description) })
+              : ''
+          })
+        }
+      }
+      handle(cmd.args)
+      if (short) handle(cmd.options)
+      if (options) options = session.format('core.template.options', { content: options })
+      commands += session.format(`core.msg.descr.command${short ? '2' : ''}`, {
+        root: `${session.api.adapter.config.commandPrefix}${cmd.root}`,
+        args,
+        description: cmd.description
+          ? session.format('core.template.description', { content: session.i18n.locale(cmd.description) })
+          : '',
+        options,
+        help: cmd.help && short ? session.format('core.template.help', { content: session.i18n.locale(cmd.help) }) : '',
+        alias: short ? alias : ''
+      })
+    }
+    return short ? commands : session.format('core.msg.help', { content: commands })
+  })
 }

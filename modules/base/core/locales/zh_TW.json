@@ -37,5 +37,22 @@
   "core.msg.locale.invalid": "參數無效，必須是以下中的壹個值：en_US、ja_JP、zh_CN、zh_TW",
   "core.msg.module": "模塊列表：%list%",
   "core.msg.module.list": "\n----------\n名稱：%name%\n描述：%description%\n版本：%version%",
-  "core.msg.module.not_found": "未找到模塊"
+  "core.msg.module.not_found": "未找到模塊",
+  "core.descr.help": "查看指令幫助信息",
+  "core.descr.menu": "查看机器人的菜單",
+  "core.msg.help": "查詢到以下相關指令：%content%",
+  "core.msg.descr.fail": "未查詢到相關指令",
+  "core.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",
+  "core.msg.descr.command2": "%root%%args%%description%%options%%help%%alias%",
+  "core.template.help": "\n  %content%",
+  "core.template.alias": "\n  別名：%content%",
+  "core.template.alias.delimiter": "，",
+  "core.template.arg.required": " <%name%%type%%default%>",
+  "core.template.arg.optional": " [%name%%type%%default%]",
+  "core.template.arg.type": "：%content%",
+  "core.template.default": "=%content%",
+  "core.template.description": " - %content%",
+  "core.template.options": "\n  參數說明：%content%",
+  "core.template.option": "\n  -%name%, --%realname%%type%%description%",
+  "core.template.option.type": " 類型：%type%"
 }

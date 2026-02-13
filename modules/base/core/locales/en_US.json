@@ -40,5 +40,22 @@
   "core.msg.module.not_found": "Module %name% not found",
   "core.descr.restart": "Restart the Kotori program",
   "core.msg.restart": "Kotori is restarting...",
-  "core.msg.restart.not_daemon": "Error, need daemon environment"
+  "core.msg.restart.not_daemon": "Error, need daemon environment",
+  "core.descr.help": "View command help info",
+  "core.descr.menu": "View Bot's menu",
+  "core.msg.help": "Found the following related commands: %content%",
+  "core.msg.descr.fail": "No related command found",
+  "core.msg.descr.command": "\n%root%%args%%description%%options%%help%%alias%",
+  "core.msg.descr.command2": "%root%%args%%description%%options%%help%%alias%",
+  "core.template.help": "\n %content%",
+  "core.template.alias": "\n Aliases: %content%",
+  "core.template.alias.delimiter": ", ",
+  "core.template.arg.required": " <%name%%type%%default%>",
+  "core.template.arg.optional": " [%name%%type%%default%]",
+  "core.template.arg.type": ": %content%",
+  "core.template.default": " = %content%",
+  "core.template.description": " - %content%",
+  "core.template.options": "\n Argument Description: %content%",
+  "core.template.option": "\n -%name%, --%realname%%type%%description%",
+  "core.template.option.type": " Type: %type%"
 }
