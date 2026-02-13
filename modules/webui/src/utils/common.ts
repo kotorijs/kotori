@@ -14,7 +14,7 @@ export function getStatusStats() {
     let rate = 0
     let speed = 0
     for (const { times, speed: spd } of cpuData) {
-      rate += (1 - times.idle / (times.idle + times.user + times.nice + times.sys + times.irq)) * 100
+      rate += (1 - times.idle / (times.idle + times.user + times.nice + times.sys + times.irq)) * 10
       speed += spd / cpuData.length
     }
     return { rate, speed }
