@@ -1,5 +1,4 @@
 import { none } from '@kotori-bot/tools'
-import type Adapter from './adapter'
 import type {
   ChannelInfoResponse,
   GetFileDataResponse,
@@ -13,8 +12,9 @@ import type {
   UploadFileResponse,
   UserInfoResponse
 } from '../types'
-import type { Session } from './session'
 import type { EventsMapping } from '../types/events'
+import type Adapter from './adapter'
+import type { Session } from './session'
 
 type ReverseList = {
   [K in keyof EventsMapping]: Parameters<EventsMapping[K]>[0] extends Session ? K : never
@@ -55,7 +55,7 @@ export abstract class Api {
    *
    * @readonly
    */
-  // biome-ignore lint:
+  // biome-ignore lint: *
   public readonly adapter: Adapter<any, any, any>
 
   /**
@@ -63,7 +63,7 @@ export abstract class Api {
    *
    * @param adapter - Current api's bot instance
    */
-  // biome-ignore lint:
+  // biome-ignore lint: *
   public constructor(adapter: Adapter<any, any, any>) {
     this.adapter = adapter
   }

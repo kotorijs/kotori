@@ -1,9 +1,9 @@
-import { type ColorsAdapterImpl, type ColorsConfig, type ColorsCustomRules, colorsIdentity } from './utils'
 import { TerminalAdapter } from './adapters'
 import BrowserAdapter from './adapters/browser'
+import { type ColorsAdapterImpl, type ColorsConfig, type ColorsCustomRules, colorsIdentity } from './utils'
 
-export * from './utils'
 export * from './adapters'
+export * from './utils'
 
 export class Colors<T extends string = ''> {
   protected readonly customRules: ColorsCustomRules<T>

@@ -1,5 +1,5 @@
-import type { colors } from './terminal'
 import { type ColorsAdapterImpl, colorsIdentity } from '../utils'
+import type { colors } from './terminal'
 
 const cssStyles = {
   reset: 'color:inherit; background-color:inherit;',

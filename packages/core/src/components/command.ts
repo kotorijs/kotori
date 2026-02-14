@@ -1,13 +1,13 @@
 import minimist from 'minimist'
 import {
-  UserAccess,
+  type ArgsOrigin,
   type CommandAction,
   type CommandArgType,
   type CommandArgTypeSign,
   type CommandConfig,
   commandArgTypeSignSchema,
-  type ArgsOrigin,
-  type OptsOrigin
+  type OptsOrigin,
+  UserAccess
 } from '../types'
 import { CommandError } from '../utils/error'
 
@@ -71,40 +71,40 @@ interface CommandData<Args = ArgsOrigin, Opts = OptsOrigin, Scope = 'all'> {
 type GetSignType<T extends string> = T extends `${string}number${string}`
   ? number
   : T extends `${string}boolean${string}`
-    ? boolean
-    : string
+  ? boolean
+  : string
 type GetArgCtn<Template extends string> = Template extends `${string}:${infer Suffix}`
   ? Suffix extends `${infer T}=${string}`
-    ? GetSignType<T>
-    : GetSignType<Suffix>
+  ? GetSignType<T>
+  : GetSignType<Suffix>
   : Template extends `${infer T}=${string}`
-    ? GetSignType<T>
-    : string
+  ? GetSignType<T>
+  : string
 type ParseArgs<Template extends string> = string extends Template
   ? ArgsOrigin
   : Template extends `${string} ${`<${infer Ctn}>`}${infer Rest}`
-    ? Ctn extends `...${infer Ctn2}`
-      ? [...GetSignType<Ctn2>[]]
-      : [GetArgCtn<Ctn>, ...ParseArgs<Rest>]
-    : Template extends `${string} [${infer Ctn}]${infer Rest}`
-      ? Ctn extends `${infer Ctn2}=${string}`
-        ? Ctn2 extends `...${infer Ctn3}`
-          ? [...GetSignType<Ctn3>[]]
-          : [GetArgCtn<Ctn2>, ...ParseArgs<Rest>]
-        : Ctn extends `...${infer Ctn2}`
-          ? [...GetSignType<Ctn2>[]]
-          : [GetArgCtn<Ctn>?, ...ParseArgs<Rest>]
-      : []
+  ? Ctn extends `...${infer Ctn2}`
+  ? [...GetSignType<Ctn2>[]]
+  : [GetArgCtn<Ctn>, ...ParseArgs<Rest>]
+  : Template extends `${string} [${infer Ctn}]${infer Rest}`
+  ? Ctn extends `${infer Ctn2}=${string}`
+  ? Ctn2 extends `...${infer Ctn3}`
+  ? [...GetSignType<Ctn3>[]]
+  : [GetArgCtn<Ctn2>, ...ParseArgs<Rest>]
+  : Ctn extends `...${infer Ctn2}`
+  ? [...GetSignType<Ctn2>[]]
+  : [GetArgCtn<Ctn>?, ...ParseArgs<Rest>]
+  : []
 
 type ParseOpts<Template extends string> = string extends Template
-  ? // biome-ignore lint:
-    {}
+  ? // biome-ignore lint: *
+  {}
   : Template extends `${infer K}:${infer V}`
-    ? GetSignType<V> extends boolean
-      ? { [C in K]: GetSignType<V> }
-      : { [C in K]?: GetSignType<V> }
-    : // biome-ignore lint:
-      {}
+  ? GetSignType<V> extends boolean
+  ? { [C in K]: GetSignType<V> }
+  : { [C in K]?: GetSignType<V> }
+  : // biome-ignore lint: *
+  {}
 
 const requiredParamMatch = /<(\.\.\.)?(.*?)(:(.*?))?(=(.*?))?>/
 

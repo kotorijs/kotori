@@ -1,7 +1,7 @@
-import { type Context, Service, Symbols, KotoriError } from '@kotori-bot/core'
-import { type Server as HttpServer, type IncomingMessage, type ServerResponse, createServer } from 'node:http'
-import { match } from 'path-to-regexp'
+import { createServer, type Server as HttpServer, type IncomingMessage, type ServerResponse } from 'node:http'
+import { type Context, KotoriError, Service, Symbols } from '@kotori-bot/core'
 import express from 'express'
+import { match } from 'path-to-regexp'
 import Ws from 'ws'
 import type { HttpRouteHandler, HttpRoutes, WsRouteHandler } from '../types/server'
 
@@ -12,7 +12,7 @@ interface ServerConfig {
 interface BodyParserOptions {
   inflate?: boolean | undefined
   limit?: number | string | undefined
-  // biome-ignore lint:
+  // biome-ignore lint: *
   type?: string | string[] | ((req: IncomingMessage) => any) | undefined
   verify?(req: IncomingMessage, res: ServerResponse, buf: Buffer, encoding: string): void
 }
@@ -34,7 +34,7 @@ interface ServeStaticOptions<R extends ServerResponse = ServerResponse> {
   lastModified?: boolean | undefined
   maxAge?: number | string | undefined
   redirect?: boolean | undefined
-  // biome-ignore lint:
+  // biome-ignore lint: *
   setHeaders?: ((res: R, path: string, stat: any) => any) | undefined
 }
 

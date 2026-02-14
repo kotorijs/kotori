@@ -1,7 +1,7 @@
 import type { Service } from '@kotori-bot/core'
 
 export interface Browser extends Service {
-  // biome-ignore lint:
+  // biome-ignore lint: *
   page: () => Promise<any>
 }
 

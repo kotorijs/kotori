@@ -1,13 +1,13 @@
-import { Http } from '@kotori-bot/tools'
 import I18n from '@kotori-bot/i18n'
-import type { Parser } from 'tsukiko'
+import { Http } from '@kotori-bot/tools'
 import FluoroContext from 'fluoro'
+import type { Parser } from 'tsukiko'
+import { type Api, Cache } from '../components'
+import { Symbols } from '../global'
+import type { AdapterClass } from '../types'
+import type { EventsMapping } from '../types/events'
 import Config from './config'
 import Message from './message'
-import type { AdapterClass } from '../types'
-import { Cache, type Api } from '../components'
-import { Symbols } from '../global'
-import type { EventsMapping } from '../types/events'
 
 export interface Context {
   /* Core */
@@ -134,7 +134,7 @@ export interface Context {
   cache: Cache
 }
 
-// biome-ignore lint:
+// biome-ignore lint: *
 export class Context extends FluoroContext<EventsMapping> implements Context {
   public readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]> = new Map()
 

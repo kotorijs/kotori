@@ -1,9 +1,9 @@
+import { type ExecException, type ExecOptions, exec } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import TOML from '@iarna/toml'
 import YAML from 'yaml'
 import type { JsonMap } from '../types'
-import { type ExecException, type ExecOptions, exec } from 'node:child_process'
 
 type ConfigFileType = 'json' | 'toml' | 'yaml' | 'yml' /* | 'xml' | 'ini'  */ | 'text'
 

@@ -1,11 +1,4 @@
-/*
- * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-09-29 14:31:09
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-06 11:12:35
- */
-import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu, type LoggerData } from 'kotori-bot'
+import { Adapter, type AdapterConfig, type Context, type LoggerData, MessageScope, Tsu } from 'kotori-bot'
 import CmdApi from './api'
 import CmdElements from './elements'
 

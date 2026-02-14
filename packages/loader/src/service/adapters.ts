@@ -1,4 +1,4 @@
-import { type Api, Adapter as OriginAdapter, KotoriError, type Elements, type AdapterConfig } from '@kotori-bot/core'
+import { type AdapterConfig, type Api, type Elements, KotoriError, Adapter as OriginAdapter } from '@kotori-bot/core'
 import type { WsRouteHandler } from '../types/server'
 
 export namespace Adapters {

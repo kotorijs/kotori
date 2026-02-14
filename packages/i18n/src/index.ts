@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { I18n as I18nCommon, type LocaleType, type localeData } from './common'
 import { DEFAULT_EXT, DEFAULT_LANG } from './const'

@@ -46,7 +46,7 @@ type ColorsAdapterReflect = {
   [K in (typeof colorsIdentity)[number]]: (content: string) => string;
 };
 
-export interface ColorsAdapterImpl extends ColorsAdapterReflect {}
+export interface ColorsAdapterImpl extends ColorsAdapterReflect { }
 
 export type ColorsCustomRules<T extends string> = Record<T, (text: string) => string>;
 

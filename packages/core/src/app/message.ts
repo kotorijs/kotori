@@ -1,14 +1,19 @@
-import type { IdentityType } from 'fluoro'
+import { randomUUID } from 'node:crypto'
 import { CronJob } from 'cron'
+import type { IdentityType } from 'fluoro'
+import { Command, Filter, type Session, type SessionMsg } from '../components'
+import Decorators from '../decorators/utils'
+import { Symbols } from '../global'
 import {
   type CommandConfig,
+  type FilterOption,
+  MessageScope,
   type MidwareCallback,
   type RegexpCallback,
   type TaskCallback,
-  type FilterOption,
-  type TaskOptions,
-  MessageScope
+  type TaskOptions
 } from '../types'
+import { CommandError } from '../utils/error'
 import {
   cancelFactory,
   getCommandMeta,
@@ -18,11 +23,6 @@ import {
   setRegExpMeta,
   setTaskMeta
 } from '../utils/internal'
-import { Filter, Command, type Session, type SessionMsg } from '../components'
-import { CommandError } from '../utils/error'
-import { Symbols } from '../global'
-import { randomUUID } from 'node:crypto'
-import Decorators from '../decorators/utils'
 import type { Context } from './core'
 
 interface MidwareData {
@@ -224,7 +224,7 @@ export class Message {
   }
 
   public command<T extends string>(template: T, config?: CommandConfig) {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const command = new Command<T, {}>(template, config)
     this[Symbols.command].add(command as unknown as Command)
     setCommandMeta(command, { identity: this.ctx.identity, ...(command as unknown as Command).meta })

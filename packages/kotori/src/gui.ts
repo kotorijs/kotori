@@ -1,5 +1,5 @@
-import { Colors, Http, TerminalAdapter, executeCommand } from '@kotori-bot/core'
 import { input, select } from '@inquirer/prompts'
+import { Colors, executeCommand, Http, TerminalAdapter } from '@kotori-bot/core'
 
 interface Module {
   name: string
@@ -13,7 +13,7 @@ const req = new Http()
 req.response(undefined, (err) => console.error(c.dye('Get modules data occurred error:', 'red'), err))
 
 async function getOnlineModules(): Promise<Module[]> {
-  // biome-ignore lint:
+  // biome-ignore lint: *
   const { list } = (await req.get('https://kotori.js.org/assets/data_details.json')) as any
   return list
 }

@@ -1,7 +1,7 @@
-import { type AdapterConfig, type Context, MessageScope, Tsu, KotoriError, Adapter } from 'kotori-bot'
+import { Client, GatewayIntentBits, type Message, REST } from 'discord.js'
+import { Adapter, type AdapterConfig, type Context, KotoriError, MessageScope, Tsu } from 'kotori-bot'
 import DiscordApi from './api'
 import DiscordElements from './elements'
-import { REST, GatewayIntentBits, Client, type Message } from 'discord.js'
 
 export const config = Tsu.Object({
   token: Tsu.String().describe("Bot's token")
@@ -31,7 +31,7 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
     this.client = new Client({ intents: [GatewayIntentBits.Guilds] })
   }
 
-  public handle() {}
+  public handle() { }
 
   public async start() {
     this.client.on('ready', () => {
@@ -87,7 +87,7 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
     this.offline()
   }
 
-  public send() {}
+  public send() { }
 }
 
 export default DiscordAdapter

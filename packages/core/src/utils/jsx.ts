@@ -1,5 +1,5 @@
-import { formatFactory } from '../utils/factory'
 import { MessageList, MessageSingle, Messages } from '../components/messages'
+import { formatFactory } from '../utils/factory'
 
 declare global {
   namespace JSX {
@@ -9,7 +9,7 @@ declare global {
       | import('../components/messages').MessageSingle<keyof import('../types/message').MessageMapping>
 
     interface ElementAttributesProperty {
-      // biome-ignore lint:
+      // biome-ignore lint: *
       props: any
     }
 
@@ -66,7 +66,7 @@ const Fragment = Symbol('Fragment')
 export function hTs(
   type: string | typeof Fragment | ((props: Record<string, unknown>) => JSX.Element),
   props: Record<string, unknown>,
-  // biome-ignore lint:
+  // biome-ignore lint: *
   ...children: any[]
 ): JSX.Element {
   if (type === Fragment) return hTs('list', props, ...children)
@@ -91,8 +91,7 @@ export function hTs(
       return Messages.video((props as JSX.IntrinsicElements['video']).src)
     case 'file':
       return Messages.file((props as JSX.IntrinsicElements['file']).src)
-    case 'location':
-      // biome-ignore lint:
+    case 'location': {
       const locationProps = props as JSX.IntrinsicElements['location']
       return Messages.location(
         locationProps.latitude,
@@ -100,6 +99,7 @@ export function hTs(
         locationProps.title,
         locationProps.content
       )
+    }
     case 'seg':
       return Messages(
         ...flattenedChildren.map((child) =>
@@ -129,5 +129,5 @@ export function hRes(type: string, props: Record<string, unknown>) {
     ...('children' in props ? (Array.isArray(props.children) ? props.children : [props.children]) : [])
   )
 }
-;(globalThis as unknown as { kotoriHTs: typeof hTs }).kotoriHTs = hTs
-;(globalThis as unknown as { kotoriHRes: typeof hRes }).kotoriHRes = hRes
+; (globalThis as unknown as { kotoriHTs: typeof hTs }).kotoriHTs = hTs
+  ; (globalThis as unknown as { kotoriHRes: typeof hRes }).kotoriHRes = hRes

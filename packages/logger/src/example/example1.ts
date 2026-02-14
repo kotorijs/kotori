@@ -32,10 +32,10 @@ logger.label('label1').info(
   new Error('a error'),
   new Date()
 );
-function a() {}
-class A {}
-const b = () => {};
+function a() { }
+class A { }
+const b = () => { };
 logger
   .label('label father')
   .label('label child')
-  .warn(`function and class`, a, A, b, () => {}, new A());
+  .warn(`function and class`, a, A, b, () => { }, new A());

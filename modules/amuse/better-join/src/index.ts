@@ -1,6 +1,6 @@
-import { Messages, type Context, type EventsList } from 'kotori-bot'
-import data from './data'
 import { randomInt } from 'node:crypto'
+import { type Context, type EventsList, Messages } from 'kotori-bot'
+import data from './data'
 
 export class Main {
   public constructor(ctx: Context) {

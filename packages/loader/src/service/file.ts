@@ -1,5 +1,5 @@
-import { type Context, type JsonMap, Service, createConfig, loadConfig, saveConfig } from '@kotori-bot/core'
 import { join } from 'node:path'
+import { type Context, createConfig, type JsonMap, loadConfig, Service, saveConfig } from '@kotori-bot/core'
 
 export class File extends Service {
   constructor(ctx: Context) {
@@ -21,8 +21,8 @@ export class File extends Service {
   ) {
     return loadConfig(this.getFile(filename), type, init) as O extends undefined
       ? T extends 'text'
-        ? string
-        : JsonMap
+      ? string
+      : JsonMap
       : O
   }
 

@@ -1,10 +1,3 @@
-/*
- * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-09-29 14:31:13
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-04 12:09:25
- */
 import { Api, type Message } from 'kotori-bot'
 import type CmdAdapter from './adapter'
 
