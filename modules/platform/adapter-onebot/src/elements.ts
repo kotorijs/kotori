@@ -1,4 +1,4 @@
-import { Elements, type Message, MessageSingle, type MessageMapping } from 'kotori-bot'
+import { Elements, type Message, type MessageMapping, MessageSingle } from 'kotori-bot'
 import type { MessageCqType } from './types'
 
 export class OnebotElements extends Elements {

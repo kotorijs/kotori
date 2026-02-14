@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/kotori-plugin-adapter-onebot",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Adapter For Onebot 11",
   "main": "lib/index.js",
   "keywords": [

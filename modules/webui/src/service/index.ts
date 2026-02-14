@@ -15,7 +15,6 @@ import {
 import type { AccountData, BotStats, BotStatsDay, CommandSettings, LoginStats } from '../types'
 import createAutoSave from '../utils/autoSave'
 import { getStatusStats } from '../utils/common'
-import observer from '../utils/observer'
 import WebuiTransport from '../utils/transport'
 
 function handlePluginName(scope: string, name?: string) {
@@ -57,7 +56,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
       if (root in settings) {
         const command = Array.from(this.ctx[Symbols.command]).find((command) => command.meta.root === root)
         if (command) {
-          ;(command as { meta: object }).meta = { ...command.meta, ...settings[root] }
+          ; (command as { meta: object }).meta = { ...command.meta, ...settings[root] }
         }
       } else {
         settings[root] = { hide, shortcut, alias, scope, access }
@@ -65,19 +64,20 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     }
     await this.ctx.db.put('command_settings', settings)
 
-    // Listen data change
-    ;(this.ctx as { config: object }).config = createAutoSave(
-      this.ctx.config,
-      resolve(this.ctx.baseDir.config),
-      parse(this.ctx.baseDir.config).ext.slice(1) as 'json',
-      this.ctx.config
-    )
+      // Listen data change
+      ; (this.ctx as { config: object }).config = createAutoSave(
+        this.ctx.config,
+        resolve(this.ctx.baseDir.config),
+        parse(this.ctx.baseDir.config).ext.slice(1) as 'json',
+        this.ctx.config
+      )
+
     for await (const bots of this.ctx[Symbols.bot].values()) {
       for await (const { adapter } of bots) {
         const { identity } = adapter
         const botStats = await this.ctx.db.get<BotStats>('bot_stats')
         if (botStats[identity]) {
-          ;(adapter as { status: object }).status = {
+          ; (adapter as { status: object }).status = {
             ...botStats[identity],
             createTime: new Date(botStats[identity].createTime),
             lastMsgTime: botStats[identity].lastMsgTime ? new Date(botStats[identity].lastMsgTime as number) : null,
@@ -91,32 +91,77 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
           }
         }
         await this.ctx.db.put('bot_stats', botStats)
-        ;(adapter as { status: object }).status = observer(adapter.status, async (_, prop) => {
-          const botStats = await this.ctx.db.get<BotStats>('bot_stats')
-          const day = getToday()
-          const botStatsToday = await this.ctx.db.get<BotStatsDay>(`bot_stats:${day}`, {})
-          const isNumberProp = ['offlineTimes', 'receivedMsg', 'sentMsg'].includes(prop)
-
-          if (botStats[identity] && isNumberProp) {
-            botStats[identity][prop as 'sentMsg'] += 1
-          } else {
-            botStats[identity] = {
-              ...adapter.status,
-              createTime: new Date(adapter.status.createTime).getTime(),
-              lastMsgTime: adapter.status.lastMsgTime ? new Date(adapter.status.lastMsgTime).getTime() : null
-            }
-          }
-          if (botStatsToday[identity] && isNumberProp) {
-            botStatsToday[identity][prop as 'sentMsg'] += 1
-          } else if (!botStatsToday[identity]) {
-            botStatsToday[identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 0 }
-          }
-
-          await this.ctx.db.put('bot_stats', botStats)
-          await this.ctx.db.put(`bot_stats:${day}`, botStatsToday)
-        })
       }
     }
+
+    const f = async (f: (botStats: BotStats, botStatsToday: BotStatsDay) => void) => {
+      const botStats = await this.ctx.db.get<BotStats>('bot_stats')
+      const todayId = `bot_stats:${getToday()}`
+      const botStatsToday = await this.ctx.db.get<BotStatsDay>(todayId, {})
+      f(botStats, botStatsToday)
+      await this.ctx.db.put('bot_stats', botStats)
+      await this.ctx.db.put(todayId, botStatsToday)
+    }
+
+    this.ctx.on('before_send', (data) =>
+      f( (botStats, botStatsToday) => {
+        if (data.api.adapter.identity in botStats) {
+          botStats[data.api.adapter.identity].sentMsg += 1
+        } else {
+          botStats[data.api.adapter.identity] = {
+            ...data.api.adapter.status,
+            createTime: new Date(data.api.adapter.status.createTime).getTime(),
+            lastMsgTime: Date.now()
+          }
+        }
+
+        if (botStatsToday[data.api.adapter.identity]) {
+          botStatsToday[data.api.adapter.identity].sentMsg += 1
+        } else if (!botStatsToday[data.api.adapter.identity]) {
+          botStatsToday[data.api.adapter.identity] = { sentMsg: 1, receivedMsg: 0, offlineTimes: 0 }
+        }
+      })
+    )
+
+    this.ctx.on('on_message', (session) => f((botStats, botStatsToday) => {
+      if (session.api.adapter.identity in botStats) {
+        botStats[session.api.adapter.identity].receivedMsg += 1
+      } else {
+        botStats[session.api.adapter.identity] = {
+          ...session.api.adapter.status,
+          createTime: new Date(session.api.adapter.status.createTime).getTime(),
+          lastMsgTime: session.api.adapter.status.lastMsgTime
+            ? new Date(session.api.adapter.status.lastMsgTime).getTime()
+            : null
+        }
+      }
+
+      if (session.api.adapter.identity in botStatsToday) {
+        botStatsToday[session.api.adapter.identity].receivedMsg += 1
+      } else if (!botStatsToday[session.api.adapter.identity]) {
+        botStatsToday[session.api.adapter.identity] = { sentMsg: 0, receivedMsg: 1, offlineTimes: 0 }
+      }
+    }))
+
+    this.ctx.on('status', async (data) => f((botStats, botStatsToday) => {
+      if (data.adapter.identity in botStats) {
+        botStats[data.adapter.identity].offlineTimes += 1
+      } else {
+        botStats[data.adapter.identity] = {
+          ...data.adapter.status,
+          createTime: new Date(data.adapter.status.createTime).getTime(),
+          lastMsgTime: data.adapter.status.lastMsgTime
+            ? new Date(data.adapter.status.lastMsgTime).getTime()
+            : null
+        }
+      }
+
+      if (data.adapter.identity in botStatsToday) {
+        botStatsToday[data.adapter.identity].offlineTimes += 1
+      } else if (!botStatsToday[data.adapter.identity]) {
+        botStatsToday[data.adapter.identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 1 }
+      }
+    }))
   }
 
   public setVerifyHash(username: string, password: string) {

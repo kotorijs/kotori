@@ -1,4 +1,4 @@
-import { Tsu, type Context } from 'kotori-bot'
+import { type Context, Tsu } from 'kotori-bot'
 
 const sexSchema = Tsu.Array(
   Tsu.Object({
@@ -36,7 +36,9 @@ export function main(ctx: Context) {
       const info = await getSex(ctx)
       if (!info) return session.format('random_img.msg.sex.fail', [data.args[0]])
 
-      session.send(<image src={info.url} />)
+      session
+        .send(<image src={info.url} />)
+        .then(({ messageId }) => setTimeout(() => session.api.deleteMsg(messageId), 1000 * 30))
       return (
         <format template={session.t`random_img.msg.sex`}>
           <text>{info.pid.toString()}</text>
@@ -85,8 +87,12 @@ export function main(ctx: Context) {
     return <image src="https://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_CHINA.jpg" />
   })
 
-  ctx.command('beauty - random_img.descr.beauty').action((_, session) => {
-    session.quick('random_img.msg.sex.tips')
-    fetch('https://api.hotaru.icu/api/beautyimg').then(res => session.send(<image src={res.url} />))
+  ctx.command('beauty - random_img.descr.beauty').action(async (_, session) => {
+    await session.quick('random_img.msg.sex.tips')
+    await fetch('https://api.hotaru.icu/api/beautyimg').then((res) =>
+      session
+        .send(<image src={res.url} />)
+        .then(({ messageId }) => setTimeout(() => session.api.deleteMsg(messageId), 1000 * 30))
+    )
   })
 }
