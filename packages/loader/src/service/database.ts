@@ -1,6 +1,7 @@
+import { resolve } from 'node:path'
 import { type Context, Service } from '@kotori-bot/core'
 import { Level } from 'level'
-import { resolve } from 'node:path'
+
 // import { spawn } from 'node:child_process'
 // import { createReadStream, createWriteStream, existsSync, rmSync } from 'node:fs'
 // import { createGunzip } from 'node:zlib'

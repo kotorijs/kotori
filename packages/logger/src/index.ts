@@ -1,16 +1,9 @@
-/*
- * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2024-02-07 13:44:38
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-08 20:53:19
- */
-import type { LoggerFilter, LoggerOptions } from './types/internal'
-import { type LoggerData, LoggerLevel } from './types/common'
-import { escaper } from './utils/escaper'
 import { DEFAULT_LOGGER_OPTIONS } from './const'
-import type Transport from './utils/transport'
 import { ConsoleTransport } from './transport'
+import { type LoggerData, LoggerLevel } from './types/common'
+import type { LoggerFilter, LoggerOptions } from './types/internal'
+import { escaper } from './utils/escaper'
+import type Transport from './utils/transport'
 
 function runTransport(transport: Transport, data: LoggerData, filter?: LoggerFilter) {
   if (filter && !filter(data)) return
@@ -23,7 +16,7 @@ export class Logger {
 
   private creator(level: LoggerLevel, args: unknown[]) {
     const { label, transports, filter } = this.options
-    const baseData = { level, time: new Date().getTime(), pid: typeof process !== 'undefined' ? process.pid : 0, label }
+    const baseData = { level, time: Date.now(), pid: typeof process !== 'undefined' ? process.pid : 0, label }
     if (!Array.isArray(transports)) {
       runTransport(transports, { ...baseData, msg: (transports.escaper ?? escaper)(args) }, filter)
       return
@@ -106,9 +99,9 @@ export namespace Logger {
   export const info = logger.info.bind(logger)
 }
 
+export * from './const'
+export * from './transport'
+export * from './types/common'
 export * from './utils/escaper'
 export * from './utils/transport'
-export * from './types/common'
-export * from './transport'
-export * from './const'
 export default Logger

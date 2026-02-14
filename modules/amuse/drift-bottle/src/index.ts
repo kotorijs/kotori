@@ -38,7 +38,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
       if (count > conf.max)
         return session.format('drift_bottle.msg.throw.fail', [Messages.mention(session.userId), conf.max])
 
-      bottles.push([data.args[0] as string, new Date().getTime(), session.groupId, session.userId])
+      bottles.push([data.args[0] as string, Date.now(), session.groupId, session.userId])
       setBottle(session.api.adapter.identity, bottles)
       return session.format('drift_bottle.msg.throw.info', [Messages.mention(session.userId)])
     })

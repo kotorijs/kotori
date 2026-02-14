@@ -1,9 +1,9 @@
-import stringify from 'fast-safe-stringify'
+import { Colors, type ColorsAdapterImpl, stringTemp, TerminalAdapter } from '@kotori-bot/tools'
 import dayjs from 'dayjs'
-import { Colors, type ColorsAdapterImpl, TerminalAdapter, stringTemp } from '@kotori-bot/tools'
-import Transport from '../utils/transport'
-import { escaperSingle } from '../utils/escaper'
+import stringify from 'fast-safe-stringify'
 import { type LoggerData, LoggerLevel, type TransportOptionsBase } from '../types/common'
+import { escaperSingle } from '../utils/escaper'
+import Transport from '../utils/transport'
 
 type Level = Exclude<keyof typeof LoggerLevel, 'SILENT'>
 type Color = keyof ColorsAdapterImpl

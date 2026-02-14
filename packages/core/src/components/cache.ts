@@ -1,5 +1,5 @@
+import { type Context, Service } from '../app'
 import { KotoriError } from '../utils/error'
-import { Service, type Context } from '../app'
 
 type CacheKey = string | symbol | number
 type CacheValue = string | number | object
@@ -31,7 +31,6 @@ export class Cache extends Service {
       for (const el of this.cache.values()) el.clear()
       this.cache.clear()
     }
-    // biome-ignore lint:
     delete this.cache
   }
 

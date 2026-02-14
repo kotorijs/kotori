@@ -1,7 +1,7 @@
-import type { CommandError } from '../utils/error'
-import type { Api, Command, MessageList, MessageSingle, SessionMsg } from '../components'
-import type { CommandAction, CommandArgType } from './command'
 import type { Context } from '../app'
+import type { Api, Command, MessageList, MessageSingle, SessionMsg } from '../components'
+import type { CommandError } from '../utils/error'
+import type { CommandAction, CommandArgType } from './command'
 
 declare module './events' {
   interface EventsMapping {
@@ -62,7 +62,7 @@ export enum MessageScope {
 export interface MessageMapping {
   text: { text: string }
   mention: { userId: string }
-  // biome-ignore lint:
+  // biome-ignore lint: *
   mentionAll: {}
   image: { content: string }
   voice: { content: string }
@@ -88,7 +88,7 @@ export type Message<T extends keyof MessageMapping = keyof MessageMapping> =
 export type MessageQuickReal =
   | [string, (Message | CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
   | Message
-  // biome-ignore lint:
+  // biome-ignore lint: *
   | void
 
 export type MessageQuick = MessageQuickReal | Promise<MessageQuickReal>
@@ -159,19 +159,19 @@ interface EventDataBeforeSend {
   message: Message
   /** Target user or group or channel */
   target:
-    | {
-        type: MessageScope.PRIVATE
-        userId: string
-      }
-    | {
-        type: MessageScope.GROUP
-        groupId: string
-      }
-    | {
-        type: MessageScope.CHANNEL
-        channelId: string
-        guildId: string
-      }
+  | {
+    type: MessageScope.PRIVATE
+    userId: string
+  }
+  | {
+    type: MessageScope.GROUP
+    groupId: string
+  }
+  | {
+    type: MessageScope.CHANNEL
+    channelId: string
+    guildId: string
+  }
   /** Cancel the message sending */
   cancel(): void
 }

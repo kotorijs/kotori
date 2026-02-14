@@ -1,4 +1,4 @@
-import { UserAccess, type Context, MessageScope } from 'kotori-bot'
+import { type Context, MessageScope, UserAccess } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 

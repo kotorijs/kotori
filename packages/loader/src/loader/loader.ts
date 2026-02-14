@@ -1,12 +1,3 @@
-/*
- * @Author: hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-06-24 15:12:55
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-16 11:13:22
- */
-// import '@kotori-bot/core/src/utils/internal'
-
 import fs, { existsSync } from 'node:fs'
 import path from 'node:path'
 import {
@@ -466,7 +457,7 @@ export class Loader extends Core {
     if (!instance.main) return
 
     const { main, pkg } = instance
-    // biome-ignore lint:
+    // biome-ignore lint: *
     let obj: Record<string, any>
     try {
       obj = require(main)
@@ -616,11 +607,11 @@ export class Loader extends Core {
           this.logger.info(this.i18n.t`loader.tips.update.workspace`)
           return
         }
-      } catch {}
+      } catch { }
     }
     const { version } = this.meta
     if (!version) return
-    const res = await new Http().get(GLOBAL.UPDATE).catch(() => {})
+    const res = await new Http().get(GLOBAL.UPDATE).catch(() => { })
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
       this.logger.warn(this.i18n.t`loader.tips.update.failed`)
     } else if (version === res.version) {

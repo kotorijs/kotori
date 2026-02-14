@@ -1,8 +1,8 @@
 import { existsSync } from 'node:fs'
 import path from 'node:path'
-import shell from 'shelljs'
-import picomatch from 'picomatch'
 import type { Package } from '@manypkg/get-packages'
+import picomatch from 'picomatch'
+import shell from 'shelljs'
 
 export const CWD = process.cwd()
 

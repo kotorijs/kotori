@@ -1,13 +1,13 @@
-import cac from 'cac'
-import { BUILD_MODE, CONFIG_NAME, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
 import { resolve } from 'node:path'
-import env from './utils/env'
-import { Container, executeCommand, loadConfig, supportTs, Symbols } from '@kotori-bot/core'
+import { Container, executeCommand, loadConfig, Symbols, supportTs } from '@kotori-bot/core'
+import { BUILD_MODE, CONFIG_NAME, DEV_MODE, Loader, Logger } from '@kotori-bot/loader'
+import cac from 'cac'
 import daemon from './daemon'
-import { mainScope } from './gui'
 import build from './dev/build'
-import pub from './dev/pub'
 import { CWD } from './dev/common'
+import pub from './dev/pub'
+import { mainScope } from './gui'
+import env from './utils/env'
 
 const program = cac()
 

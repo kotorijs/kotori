@@ -1,6 +1,6 @@
 import stringify from 'fast-safe-stringify'
-import Transport from '../utils/transport'
 import { type LoggerData, LoggerLevel } from '../types/common'
+import Transport from '../utils/transport'
 
 export class IOTransport extends Transport<{ method: 'process' | 'vanilla' }> {
   public handle(data: LoggerData) {

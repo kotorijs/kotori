@@ -1,9 +1,9 @@
 import 'reflect-metadata'
-import type { OptsOrigin, MidwareCallback, RegexpCallback, TaskOptions } from '../types'
-import { Symbols } from '../global'
-import type { Command } from '../components'
 import type { CronJob } from 'cron'
 import type { IdentityType } from 'fluoro'
+import type { Command } from '../components'
+import { Symbols } from '../global'
+import type { MidwareCallback, OptsOrigin, RegexpCallback, TaskOptions } from '../types'
 
 export function cancelFactory() {
   return {
@@ -17,7 +17,7 @@ export function cancelFactory() {
   }
 }
 
-// biome-ignore lint:
+// biome-ignore lint: *
 type CommandOriginData = Command<any, OptsOrigin>['meta']
 
 interface CommandMeta extends CommandOriginData {
@@ -40,12 +40,12 @@ interface TaskMeta {
   options: TaskOptions
 }
 
-// biome-ignore lint:
+// biome-ignore lint: *
 export function getCommandMeta(command: Command<any, any>): CommandMeta | undefined {
   return Reflect.getMetadata(Symbols.command, command)
 }
 
-// biome-ignore lint:
+// biome-ignore lint: *
 export function setCommandMeta(command: Command<any, any>, meta: CommandMeta) {
   Reflect.defineMetadata(Symbols.command, meta, command)
 }

@@ -1,13 +1,13 @@
 import 'reflect-metadata'
-import { Tokens, type EventsList, type ModuleConfig, Service } from 'fluoro'
-import Tsu, { type Constructor, Parser } from 'tsukiko'
-import { DevError, ModuleError } from '../utils/error'
-import { Symbols } from '../global'
 import { resolve } from 'node:path'
-import type { CommandConfig } from '../types'
-import type { KotoriPlugin } from './plugin'
-import type { Context } from '../app'
 import stringify from 'fast-safe-stringify'
+import { type EventsList, type ModuleConfig, Service, Tokens } from 'fluoro'
+import Tsu, { type Constructor, Parser } from 'tsukiko'
+import type { Context } from '../app'
+import { Symbols } from '../global'
+import type { CommandConfig } from '../types'
+import { DevError, ModuleError } from '../utils/error'
+import type { KotoriPlugin } from './plugin'
 
 declare module '../types/events' {
   interface EventsMapping {
@@ -35,7 +35,7 @@ interface RegexpOption {
 
 type TaskOption = Exclude<Parameters<Context['task']>[0], string>
 
-// biome-ignore lint:
+// biome-ignore lint: *
 type Fn = (...args: any[]) => any
 
 interface PluginMetaAll {
@@ -57,7 +57,7 @@ export class Decorators {
   public static getMeta(target: object | string): PluginMetaAll | undefined {
     return Reflect.getMetadata(
       Symbols.modules,
-      typeof target === 'string' ? Decorators[Symbols.decorator].get(target) ?? {} : target
+      typeof target === 'string' ? (Decorators[Symbols.decorator].get(target) ?? {}) : target
     )
   }
 

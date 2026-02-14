@@ -15,17 +15,17 @@ const clearBleed = (index: number, string: string, open: string, close: string, 
 
 const filterEmpty =
   (open: string, close: string, replace = open, at = open.length + 1) =>
-  (string: string) =>
-    string || !(string === '' || string === undefined)
-      ? clearBleed(
-          // biome-ignore lint:
+    (string: string) =>
+      string || !(string === '' || string === undefined)
+        ? clearBleed(
+          // biome-ignore lint: *
           ('' + string).indexOf(close, at),
           string,
           open,
           close,
           replace
         )
-      : ''
+        : ''
 
 const init = (open: number, close: number, replace?: string) => filterEmpty(`\x1b[${open}m`, `\x1b[${close}m`, replace)
 

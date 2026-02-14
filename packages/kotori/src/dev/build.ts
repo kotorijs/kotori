@@ -1,11 +1,11 @@
-import { type Package, getPackagesSync } from '@manypkg/get-packages'
-import type { Options } from 'tsup'
-import shell from 'shelljs'
-import path from 'node:path'
-import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { setMaxListeners } from 'node:events'
-import { CWD, ensureWorkspaceRoot, matchesFilter } from './common'
+import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { getPackagesSync, type Package } from '@manypkg/get-packages'
 import { isMatch } from 'picomatch'
+import shell from 'shelljs'
+import type { Options } from 'tsup'
+import { CWD, ensureWorkspaceRoot, matchesFilter } from './common'
 
 enum BuildType {
   Tsup = 0,
@@ -57,7 +57,7 @@ function generateBanner(
   return Object.entries({
     name: pkg.name ?? '',
     version: pkg.version ?? '',
-    author: Array.isArray(pkg.author) ? pkg.author.join(', ') : pkg.author ?? '',
+    author: Array.isArray(pkg.author) ? pkg.author.join(', ') : (pkg.author ?? ''),
     license: pkg.license ?? 'GPL-3.0',
     date: new Date().toLocaleString()
   }).reduce((acc, [key, value]) => acc.replaceAll(`%${key}%`, value), template)
@@ -91,7 +91,7 @@ function getBuildConfig(pkg: Package, config: BuildConfig): Options {
   const pkgConfig: Options = {
     outDir: tsconfig?.compilerOptions?.outDir ?? './dist',
     banner: {
-      // biome-ignore lint:
+      // biome-ignore lint: *
       js: generateBanner(config.banner, pkg.packageJson as any)
     }
   }
@@ -115,7 +115,7 @@ async function buildPackageByTsup(pkg: Package, config: BuildConfig): Promise<vo
 
     const isMainPack = pkg.packageJson.name === 'kotori-bot'
     if ((config.types || config.onlyTypes) && (!pkg.dir.includes('packages') || isMainPack)) {
-      const child = shell.exec('tsc --build', {}, () => {})
+      const child = shell.exec('tsc --build', {}, () => { })
       if (!config.silent) process.stdin.on('data', (data) => child.stdin?.write(data))
       await new Promise((resolve, reject) =>
         child.on('exit', (code) =>
@@ -160,7 +160,7 @@ export default async function build(initConfig: Partial<BuildConfig>, filters?: 
       buildOptions: { ...defaultConfig.buildOptions, ...initConfig.buildOptions }
     }
 
-    if (config.silent) globalThis.console.log = () => {}
+    if (config.silent) globalThis.console.log = () => { }
 
     const pkgs = ((pkgs) => pkgs)(getPackagesSync(CWD).packages.filter((pkg) => matchesFilter(pkg, filters)))
 
@@ -188,7 +188,7 @@ export default async function build(initConfig: Partial<BuildConfig>, filters?: 
           case BuildType.ReScript:
             if (config.onlyTypes) {
               console.log(`Skiped to build ${pkg.packageJson.name} with rescript`)
-              return
+              return Promise.resolve()
             }
             console.log(`Building ${pkg.packageJson.name} with rescript...`)
             return buildPackageByReScript(pkg, config)

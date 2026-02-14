@@ -53,7 +53,7 @@ export function main(ctx: Context, config: Config) {
     const hours = new Date().getHours()
     if (hours < config.getupTimeLess) return session.format('goodnight.msg.morning.early', [at, config.getupTimeLess])
 
-    record.morning[prop] = new Date().getTime()
+    record.morning[prop] = Date.now()
     saveTodayData(record)
     const count = Object.keys(record.morning).length
     // if (count <= 10) addExp(data.group_id!, session.userId, 15);
@@ -74,7 +74,7 @@ export function main(ctx: Context, config: Config) {
     const record2 = loadTodayData(true)
     if (!(prop in record.morning) && !(prop in record2.morning)) return session.format('goodnight.msg.night.not', [at])
 
-    const nowTime = new Date().getTime()
+    const nowTime = Date.now()
     const timecal = nowTime - (record.morning[prop] || record2.morning[prop])
     if (timecal < config.sleepTimeLess * 60 * 60 * 1000) return session.format('goodnight.msg.night.less', [at])
 

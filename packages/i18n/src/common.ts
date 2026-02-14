@@ -1,8 +1,8 @@
 import { DEFAULT_LANG, DEFAULT_SUPPORTS } from './const'
 import LocaleIdentifier from './types/locale'
 
-export * from './types/locale'
 export * from './const'
+export * from './types/locale'
 
 export type LocaleType = keyof typeof LocaleIdentifier
 

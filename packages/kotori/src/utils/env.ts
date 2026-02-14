@@ -1,5 +1,5 @@
-import env from 'dotenv'
 import { BUILD_MODE, DEV_MODE } from '@kotori-bot/loader'
+import env from 'dotenv'
 
 if (!process.env.IS_DAEMON) env.config()
 

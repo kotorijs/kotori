@@ -1,14 +1,14 @@
 import {
-  UserAccess,
+  Command,
   CommandError,
   type Context,
+  type LocaleType,
   MessageScope,
+  ModuleError,
+  Symbols,
   Tsu,
   TsuError,
-  type LocaleType,
-  Symbols,
-  ModuleError,
-  Command
+  UserAccess
 } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
@@ -135,26 +135,24 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
     }
   })
 
-  ctx
-    .command('core - core.descr.core')
-    .action((_, session) => {
-      const { config, baseDir, options } = session.api.adapter.ctx
-      const botsLength = Array.from(ctx[Symbols.bot].values())
-        .map((set) => Array.from(set.values()).length)
-        .reduce((a, b) => a + b, 0)
+  ctx.command('core - core.descr.core').action((_, session) => {
+    const { config, baseDir, options } = session.api.adapter.ctx
+    const botsLength = Array.from(ctx[Symbols.bot].values())
+      .map((set) => Array.from(set.values()).length)
+      .reduce((a, b) => a + b, 0)
 
-      return session.format('core.msg.core', {
-        lang: config.global.lang,
-        root: baseDir.root,
-        mode: options.mode,
-        modules: ctx[Symbols.modules] ? ctx[Symbols.modules].size : 0,
-        services: ctx[Symbols.adapter].size,
-        bots: botsLength,
-        midwares: ctx[Symbols.midware].size,
-        commands: ctx[Symbols.command].size,
-        regexps: ctx[Symbols.regexp].size
-      })
+    return session.format('core.msg.core', {
+      lang: config.global.lang,
+      root: baseDir.root,
+      mode: options.mode,
+      modules: ctx[Symbols.modules] ? ctx[Symbols.modules].size : 0,
+      services: ctx[Symbols.adapter].size,
+      bots: botsLength,
+      midwares: ctx[Symbols.midware].size,
+      commands: ctx[Symbols.command].size,
+      regexps: ctx[Symbols.regexp].size
     })
+  })
 
   ctx.command('bot - core.descr.bot').action((_, session) => {
     const { identity, platform, selfId, config, status } = session.api.adapter

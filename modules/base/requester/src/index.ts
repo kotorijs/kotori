@@ -1,11 +1,11 @@
 import {
   type CommandArgType,
   type Context,
+  type Message,
   MessageScope,
   type Session,
-  Tsu,
   stringFormat,
-  type Message
+  Tsu
 } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']

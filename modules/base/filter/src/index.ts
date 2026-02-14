@@ -1,14 +1,14 @@
 import {
-  Tsu,
+  CORE_MODULES,
   type Context,
+  Filter,
+  type FilterOption,
+  filterOptionSchema,
+  KotoriError,
+  KotoriPlugin,
   plugins,
   Symbols,
-  CORE_MODULES,
-  KotoriPlugin,
-  type FilterOption,
-  Filter,
-  KotoriError,
-  filterOptionSchema
+  Tsu
 } from 'kotori-bot'
 import pm from 'picomatch'
 
@@ -48,7 +48,7 @@ export class FilterPlugin extends KotoriPlugin<Tsu.infer<typeof FilterPlugin.sch
       const result = list.some((pattern) => pm(pattern)(key).valueOf())
       if ((result && mode === 'exclude') || (!result && mode === 'include')) {
         this.ctx[Symbols.modules].delete(key)
-        ;(ModuleMeta as { main?: unknown }).main = undefined
+          ; (ModuleMeta as { main?: unknown }).main = undefined
       }
     }
   }

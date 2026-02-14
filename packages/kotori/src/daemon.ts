@@ -1,10 +1,10 @@
-import { resolve } from 'node:path'
-import { DEV_MODE, Logger } from '@kotori-bot/loader'
 import { existsSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { executeCommand } from '@kotori-bot/core'
+import { DEV_MODE, Logger } from '@kotori-bot/loader'
 
 function daemon(virtualEnv: Record<string, string | undefined>) {
-  const startTime = new Date().getTime()
+  const startTime = Date.now()
   const isDev = virtualEnv.ROMI_MODE === DEV_MODE
   Logger.info('[Daemon] Starting...')
   const isSource = existsSync(resolve(__dirname, 'cli.ts'))
@@ -27,7 +27,7 @@ function daemon(virtualEnv: Record<string, string | undefined>) {
       process.exit(0)
     }
     if (code !== 233) {
-      const endTime = new Date().getTime()
+      const endTime = Date.now()
       const timeTaken = (endTime - startTime) / 1000
       Logger.error(`[Daemon] Exited with code ${code} in ${timeTaken} seconds.`)
       if (timeTaken <= 5) return
