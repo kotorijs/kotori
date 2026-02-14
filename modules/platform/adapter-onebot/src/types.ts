@@ -1,11 +1,3 @@
-/*
- * @Author: hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-07-12 15:42:18
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-04 14:28:40
- */
-
 export interface BotInfo {
   self_id: number
   connect: number

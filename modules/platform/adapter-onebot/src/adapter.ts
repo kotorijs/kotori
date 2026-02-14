@@ -1,23 +1,17 @@
-/*
- * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-09-29 14:31:09
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-07 19:07:03
- */
 import {
-  Adapters,
   type AdapterConfig,
+  Adapters,
   type Context,
   type EventDataApiBase,
+  KotoriError,
   MessageScope,
-  Tsu,
-  type Session
+  type Session,
+  Tsu
 } from 'kotori-bot'
 import WebSocket from 'ws'
 import OnebotApi from './api'
-import type { EventDataType } from './types'
 import OnebotElements from './elements'
+import type { EventDataType } from './types'
 
 interface EventDataPoke extends EventDataApiBase {
   targetId: string
@@ -64,6 +58,15 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
 
   public readonly platform = 'onebot'
 
+  public pendingRequests = new Map<
+    string,
+    {
+      resolve: (data: unknown) => void
+      reject: (err: unknown) => void
+      timer: NodeJS.Timeout
+    }
+  >()
+
   public constructor(ctx: Context, config: OnebotConfig, identity: string) {
     super(ctx, config, identity)
     this.config = config
@@ -78,11 +81,20 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     }
   }
 
-  public handle(data: EventDataType) {
-    if (!('post_type' in data) && data.data) {
-      this.ctx.emit('literal_onebot_raw_data', data.data)
+  public handle(data: EventDataType | { echo: string; status: 'ok' | 'failed'; data: unknown }) {
+    if ('echo' in data) {
+      if (!this.pendingRequests.has(data.echo)) return
+      const { resolve, reject, timer } = this.pendingRequests.get(data.echo)!
+      clearTimeout(timer)
+      this.pendingRequests.delete(data.echo)
+      if (data.status === 'ok') {
+        resolve(data.data)
+      } else {
+        reject(data)
+      }
       return
     }
+
     if (data.post_type === 'message' && data.message_type === 'private') {
       this.session('on_message', {
         type: MessageScope.PRIVATE,
@@ -133,7 +145,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         comment: String(data.comment),
         time: data.time,
         approve: (approve = true, remark = '') =>
-          this.send('set_friend_add_request', { flag: data.flag, approve, remark })
+          this.call('set_friend_add_request', { flag: data.flag, approve, remark })
       })
     } else if (data.post_type === 'request' && data.request_type === 'group') {
       this.session('on_request', {
@@ -143,7 +155,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         operatorId: String(data.operator_id) || String(data.user_id),
         comment: String(data.comment),
         approve: (approve = true, reason = '') =>
-          this.send('set_friend_add_request', { flag: data.flag, approve, reason, type: data.sub_type }),
+          this.call('set_friend_add_request', { flag: data.flag, approve, reason, type: data.sub_type }),
         time: data.time
       })
     } else if (data.post_type === 'notice' && data.notice_type === 'group_increase') {
@@ -246,14 +258,23 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     this.socket?.close()
   }
 
-  public send(action: string, params?: object): void
-  public send(content: EventDataType, operation: object): void
-  public send(arg1: string | EventDataType, arg2?: object) {
-    if (typeof arg1 === 'string') {
-      this.socket?.send(JSON.stringify({ action: arg1, params: arg2 }))
-      return
-    }
-    this.socket?.send(JSON.stringify({ content: arg1, operation: arg2 }))
+  public send(content: EventDataType, operation?: object) {
+    this.socket?.send(JSON.stringify({ content, operation }))
+  }
+
+  public call<T = void>(action: string, params?: unknown): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const echo = `${Date.now()}_${Math.random().toString(36)}`
+
+      const timer = setTimeout(() => {
+        this.pendingRequests.delete(echo)
+        reject(new KotoriError(`Request timeout: ${action}`))
+      }, 60 * 1000)
+
+      this.pendingRequests.set(echo, { resolve: resolve as (data: unknown) => void, reject, timer })
+
+      this.socket?.send(JSON.stringify({ action, params, echo }))
+    })
   }
 
   private socket: WebSocket | null = null

@@ -58,7 +58,7 @@ export class Message {
       .reduce(
         (first, last) => {
           const next = () => {
-            first(() => { }, session)
+            first(() => {}, session)
           }
           return () => {
             last(next, session)
@@ -69,7 +69,7 @@ export class Message {
           this.handleRegexp(session)
         }
       )
-    setup(() => { }, session)
+    setup(() => {}, session)
   }
 
   private async handleRegexp(session: SessionMsg) {
@@ -120,7 +120,7 @@ export class Message {
 
       try {
         const executed = await cmd.meta.action({ args: result.args, options: result.options }, session)
-        if (executed !== undefined) session.quick(executed)
+        if (executed !== undefined) await session.quick(executed)
         this.ctx.emit('command', {
           command: cmd,
           result: executed,
@@ -151,7 +151,7 @@ export class Message {
       for (const bots of this.ctx[Symbols.bot].values()) {
         for (const bot of bots) {
           for (const key of ['sendPrivateMsg', 'sendGroupMsg', 'sendChannelMsg'] as const) {
-            ; (bot as unknown as Record<string, unknown>)[key] = new Proxy(bot[key], {
+            ;(bot as unknown as Record<string, unknown>)[key] = new Proxy(bot[key], {
               apply: (target, thisArg, argArray) => {
                 const [message, id1, id2] = argArray
                 const cancel = cancelFactory()
