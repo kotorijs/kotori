@@ -72,10 +72,10 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   if (cfg.onBotGroupDecrease) {
     ctx.on('on_group_decrease', (session) => {
       if (session.userId !== session.api.adapter.selfId) return
-      const equaled = session.operatorId === session.userId
+      const isLeave = session.operatorId === session.userId || session.operatorId.toString() === '0'
       send(session)([
-        `requester.msg.decrease.${equaled ? 'leave' : 'kick'}`,
-        equaled ? [session.groupId] : [session.operatorId, session.groupId]
+        `requester.msg.decrease.${isLeave ? 'leave' : 'kick'}`,
+        isLeave ? [session.groupId] : [session.operatorId, session.groupId]
       ])
     })
   }
