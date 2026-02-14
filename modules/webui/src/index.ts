@@ -1,9 +1,9 @@
-import type { Tsu, Context } from 'kotori-bot'
 import { resolve } from 'node:path'
-import { Webui, type config } from './service'
-import routers from './routers'
-import wsHandler from './ws'
+import type { Context, Tsu } from 'kotori-bot'
 import plugin from './plugin'
+import routers from './routers'
+import { type config, Webui } from './service'
+import wsHandler from './ws'
 
 export const inject = ['server', 'cache', 'database']
 

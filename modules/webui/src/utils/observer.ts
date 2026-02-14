@@ -1,6 +1,6 @@
 export function observer<T extends object>(
   target: T,
-  // biome-ignore lint:
+  // biome-ignore lint: *
   callback: (target: T, prop: keyof T, newValue: any) => void
 ): T {
   return new Proxy(target, {

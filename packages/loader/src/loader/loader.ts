@@ -59,7 +59,7 @@ export interface ModulePackage {
   description: string
   main: string
   keywords: string[]
-  license: 'GPL-3.0' | 'GPL-3.0' | 'BCU'
+  license: 'GPL-3.0' | 'GPL-3.0-or-later' | 'GPL-3.0-only'
   author: string | string[]
   peerDependencies?: {
     'kotori-bot': string
@@ -237,7 +237,11 @@ export const modulePackageSchema = Tsu.Object({
   version: Tsu.String(),
   description: Tsu.String(),
   main: Tsu.String(),
-  license: Tsu.Union(Tsu.Literal('GPL-3.0'), Tsu.Literal('GPL-3.0'), Tsu.Literal('BCU')),
+  license: Tsu.Custom<ModulePackage['license']>(
+    (val) =>
+      typeof val === 'string' &&
+      (['GPL-3.0', 'GPL-3.0-or-later', 'GPL-3.0-only', 'BCU'].includes(val) || val.includes('USING'))
+  ),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
   ),
@@ -607,11 +611,11 @@ export class Loader extends Core {
           this.logger.info(this.i18n.t`loader.tips.update.workspace`)
           return
         }
-      } catch { }
+      } catch {}
     }
     const { version } = this.meta
     if (!version) return
-    const res = await new Http().get(GLOBAL.UPDATE).catch(() => { })
+    const res = await new Http().get(GLOBAL.UPDATE).catch(() => {})
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
       this.logger.warn(this.i18n.t`loader.tips.update.failed`)
     } else if (version === res.version) {

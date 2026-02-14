@@ -1,6 +1,6 @@
-import type Context from './core'
-import { Service as FluoroService, type EventsList as FluoroEventsList } from 'fluoro'
+import { type EventsList as FluoroEventsList, Service as FluoroService } from 'fluoro'
 import type { EventsMapping } from '../types/events'
+import type Context from './core'
 
 export type EventsList = FluoroEventsList<EventsMapping>
 

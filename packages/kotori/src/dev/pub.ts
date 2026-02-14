@@ -1,6 +1,19 @@
+import { confirm } from '@inquirer/prompts'
 import { getPackagesSync } from '@manypkg/get-packages'
 import { cd, exec } from 'shelljs'
 import { CWD, ensureWorkspaceRoot, matchesFilter } from './common'
+
+export async function pub2() {
+  if (
+    await confirm({
+      default: false,
+      message:
+        'Are you sure you have built all packages in workspace (includes types for main packages) before publishing?'
+    })
+  ) {
+    exec('pnpm -r publish --no-git-checks --access public')
+  }
+}
 
 export default function pub(filters?: string) {
   const start = Date.now()
