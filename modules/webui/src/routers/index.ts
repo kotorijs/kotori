@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import type { Context } from 'kotori-bot'
 import RouterConfig from './router'
@@ -20,8 +20,9 @@ export default (ctx: Context, app: Context['server']) => {
     ctx.logger.label(req.method).debug(req.path)
 
     if (!RouterConfig.find((item) => item.path === req.path || req.path.startsWith(item.path))) {
-      if (existsSync(FRONTEND_ENTRY)) return res.sendFile(FRONTEND_ENTRY)
-      return res.sendStatus(404)
+      if (!existsSync(FRONTEND_ENTRY)) return res.sendStatus(404)
+      res.header('Content-Type', 'text/html;charset=utf-8')
+      return res.send(readFileSync(FRONTEND_ENTRY, 'utf-8'))
     }
     if (NO_VERIFY.some((item) => req.path.startsWith(item)) || ctx.webui.checkToken(req.headers.authorization)) {
       return next()
