@@ -13,7 +13,7 @@
     "dev": "nodemon --watch",
     "pub": "tsx scripts/pub",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "files": [
     "{packages,modules}/**/*/locales/**/*",
