@@ -1,3 +1,12 @@
+## [1.7.3](https://github.com/kotorijs/kotori/compare/v1.7.2...v1.7.3) (2026-02-14)
+
+
+### Bug Fixes
+
+* loader checking modules packagejson file ([3810d72](https://github.com/kotorijs/kotori/commit/3810d724e770bda6d4cdd18f6f80c2447341a4ca))
+
+
+
 ## [1.7.2](https://github.com/kotorijs/kotori/compare/v1.7.0...v1.7.2) (2026-02-13)
 
 
