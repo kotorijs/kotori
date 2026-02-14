@@ -1,6 +1,6 @@
-import type { Adapter } from './adapter'
-import type { Message, MessageMapping } from '../types'
 import { none } from '@kotori-bot/tools'
+import type { Message, MessageMapping } from '../types'
+import type { Adapter } from './adapter'
 import { Messages } from './messages'
 
 /**
@@ -14,7 +14,7 @@ export abstract class Elements {
    *
    * @readonly
    */
-  // biome-ignore lint:
+  // biome-ignore lint: *
   public readonly adapter: Adapter<any, any, any>
 
   /**
@@ -22,7 +22,7 @@ export abstract class Elements {
    *
    * @param adapter - Adapter instance
    */
-  // biome-ignore lint:
+  // biome-ignore lint: *
   public constructor(adapter: Adapter<any, any, any>) {
     this.adapter = adapter
   }

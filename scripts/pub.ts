@@ -1,3 +1,3 @@
-import pub from 'packages/kotori/src/dev/pub'
+import { pub2 } from 'packages/kotori/src/dev/pub'
 
-pub(process.argv[2])
+pub2(/* process.argv[2] */)
