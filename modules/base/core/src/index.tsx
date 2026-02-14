@@ -22,7 +22,7 @@ export const config = Tsu.Object({
 export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   ctx.on('before_command', (data) => {
     if (data.command.meta.options.some((val) => val.realname === 'help' || val.name === 'H')) return
-    if ([' -ihelp', ' -H', ' -h'].some((val) => data.raw.includes(val))) {
+    if ([' --help', ' -H', ' -h'].some((val) => data.raw.includes(val))) {
       data.cancel()
       ctx.emit(
         'on_message',
@@ -30,6 +30,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
           message: <text>{`${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root}`}</text>
         })
       )
+      return
     }
 
     const quick = data.session.quick.bind(data.session)
@@ -312,7 +313,8 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
           : '',
         options,
         help: cmd.help && short ? session.format('core.template.help', { content: session.i18n.locale(cmd.help) }) : '',
-        alias: short ? alias : ''
+        alias: short ? alias : '',
+        shortcuts: cmd.shortcut.length > 0 ? session.format('core.template.shortcuts', { content: cmd.shortcut.join(session.i18n.locale('core.template.alias.delimiter')) }) : ''
       })
     }
     return short ? commands : session.format('core.msg.help', { content: commands })
