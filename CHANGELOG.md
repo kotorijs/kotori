@@ -6,6 +6,11 @@
 * loader checking modules packagejson file ([3810d72](https://github.com/kotorijs/kotori/commit/3810d724e770bda6d4cdd18f6f80c2447341a4ca))
 
 
+### Features
+
+* webui server route frontend pages ([6c7316e](https://github.com/kotorijs/kotori/commit/6c7316e78b7081c26aa24fc8c089079fe7cbf2dc))
+
+
 
 ## [1.7.2](https://github.com/kotorijs/kotori/compare/v1.7.0...v1.7.2) (2026-02-13)
 
