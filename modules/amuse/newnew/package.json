@@ -1,7 +1,7 @@
 {
   "name": "kotori-plugin-penis",
-  "version": "1.2.5",
-  "description": "查看今日牛牛的长度和排行",
+  "version": "1.3.0",
+  "description": "查看今日牛牛的长度和排行和寸止",
   "main": "lib/index.js",
   "keywords": [
     "kotori",
