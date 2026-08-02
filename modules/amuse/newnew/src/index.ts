@@ -39,11 +39,7 @@ interface CumData {
 export function main(ctx: Context, config: Config) {
   const getNewLength = () => config.min + Math.floor(Math.random() * (config.max - config.min + 1))
   const getNewThickness = () =>
-    Number(
-      (config.minThickness * 10 + (Math.random() * (config.maxThickness * 10 - config.minThickness * 10)) / 10).toFixed(
-        2
-      )
-    )
+    Number((config.minThickness * 10 + (Math.random() * (config.maxThickness * 10 - config.minThickness * 10)) / 10).toFixed(2))
   const getTodayPath = () => `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay()}.json`
   const loadTodayData = () => ctx.file.load<TodayData>(getTodayPath(), 'json', {})
   const saveTodayData = (data: TodayData) => ctx.file.save(getTodayPath(), data)
@@ -152,11 +148,7 @@ export function main(ctx: Context, config: Config) {
       let num = 1
       for (const entry of entries) {
         if (num > 20) continue
-        list += session.format('newnew.msg.today_ranking.list', [
-          num,
-          entry[0].slice(session.api.adapter.identity.length),
-          entry[1][0]
-        ])
+        list += session.format('newnew.msg.today_ranking.list', [num, entry[0].slice(session.api.adapter.identity.length), entry[1][0]])
         num += 1
       }
       return session.format('newnew.msg.today_ranking', [list])
@@ -198,8 +190,7 @@ export function main(ctx: Context, config: Config) {
       if (senderLength === 0) return session.quick(['{1} 你没有武器啊！想什么了！', params])
       if (targetId === session.userId) {
         const cutFailed = Math.random() < config.cutProbability
-        if (targetLength > 0 && cut)
-          session.quick([cutFailed ? '{1} 你没忍住！社保了！' : '{1} 你成功寸止了！', params])
+        if (targetLength > 0 && cut) session.quick([cutFailed ? '{1} 你没忍住！社保了！' : '{1} 你成功寸止了！', params])
         else if (targetLength > 0) session.quick(['{1} 起飞成功！状态良好！', params])
         else session.quick(['{1} 挖坑成功！感觉良好！', params])
         if (!cut || cutFailed) {
@@ -211,13 +202,11 @@ export function main(ctx: Context, config: Config) {
         return
       }
       if (targetLength === 0) return session.quick(['{0} 是平的啊！你干什么了！', params])
-      if (targetLength * senderLength < 0)
+      if (targetLength < 0 && senderLength < 0)
         return session.quick(['群友 {0} 和 {1} 你都是可爱的女孩子噢( •̀ ω •́ )✧，无法进行社保！', params])
-      if (targetLength > 0 && senderLength < 0)
-        return session.quick(['你在想什么？？{1} 你是可爱的女孩子啊( •̀ ω •́ )✧', params])
-      if (targetLength * senderLength > 0) return session.quick(['？？楠楠？？绝对不行！{1}', params])
-      if (targetThickness < senderThickness)
-        return session.quick(['群友 {0} 的OO太小了，{1} 你的社保无法进入！', params])
+      if (targetLength > 0 && senderLength < 0) return session.quick(['你在想什么？？{1} 你是可爱的女孩子啊( •̀ ω •́ )✧', params])
+      if (targetLength > 0 && senderLength > 0) return session.quick(['？？楠楠？？绝对不行！{1}', params])
+      if (targetThickness < senderThickness) return session.quick(['群友 {0} 的OO太小了，{1} 你的社保无法进入！', params])
 
       const targetRecord = data[targetFullId] || { given: 0, received: 0, lastTime: 0 }
       if (targetRecord.lastTime < todayStart) {
