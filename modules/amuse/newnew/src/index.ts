@@ -14,6 +14,8 @@ export const inject = ['file', 'server']
 export const config = Tsu.Object({
   max: Tsu.Number().default(30).describe('The maximum length of the dick'),
   min: Tsu.Number().default(-30).describe('The minimum length of the dick'),
+  maxThickness: Tsu.Number().default(10).describe('The maximum thickness of the dick'),
+  minThickness: Tsu.Number().default(0.1).describe('The minimum thickness of the dick'),
   joke: Tsu.Number().default(10).describe('Send a joke when the length is less than value'),
   avgMinNum: Tsu.Number().default(5).describe('The minimum at avg rank'),
   probability: Tsu.Number().default(0.45).describe('不怀孕的概率 (0-1)'),
@@ -23,7 +25,7 @@ export const config = Tsu.Object({
 })
 
 type Config = Tsu.infer<typeof config>
-type TodayData = Record<string | number, number>
+type TodayData = Record<string | number, [number, number]>
 type StatData = Record<string, [number, number, number, number]>
 
 interface CumData {
@@ -36,6 +38,12 @@ interface CumData {
 
 export function main(ctx: Context, config: Config) {
   const getNewLength = () => config.min + Math.floor(Math.random() * (config.max - config.min + 1))
+  const getNewThickness = () =>
+    Number(
+      (config.minThickness * 10 + (Math.random() * (config.maxThickness * 10 - config.minThickness * 10)) / 10).toFixed(
+        2
+      )
+    )
   const getTodayPath = () => `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDay()}.json`
   const loadTodayData = () => ctx.file.load<TodayData>(getTodayPath(), 'json', {})
   const saveTodayData = (data: TodayData) => ctx.file.save(getTodayPath(), data)
@@ -51,24 +59,20 @@ export function main(ctx: Context, config: Config) {
     .command('dick - 获取今日牛牛长度')
     .shortcut('今日长度')
     .action((_, session) => {
-      /* 加载数据 */
       const id = `${session.api.adapter.identity}${session.userId}`
       const today = loadTodayData()
-      const todayLength = typeof today[id] === 'number' ? today[id] : getNewLength()
+      const [todayLength, todayThickness] = Array.isArray(today[id]) ? today[id] : [getNewLength(), getNewThickness()]
 
-      /* 发送消息 */
-      const params = [Messages.mention(session.userId), todayLength]
+      const params = [Messages.mention(session.userId), todayLength, todayThickness]
       if (todayLength <= 0) session.quick(['newnew.msg.today_length.info.2', params])
       else if (todayLength > 0 && todayLength <= config.joke) session.quick(['newnew.msg.today_length.info.1', params])
+      else if (todayThickness > 7) session.quick(['newnew.msg.today_length.info.3', params])
+      else if (todayThickness < 1) session.quick(['newnew.msg.today_length.info.4', params])
       else session.quick(['newnew.msg.today_length.info.0', params])
 
-      /* 如果数据中不存在则更新数据 */
-      if (typeof today[id] === 'number') return
-      // const result = parseInt((((todayLength + 20) / 10) * 2).toFixed(), 10);
-      // addExp(session.groupId!, session.userId, result < 0 ? 0 : result); custom service
-      today[id] = todayLength
+      if (Array.isArray(today[id])) return
+      today[id] = [todayLength, todayThickness]
       saveTodayData(today)
-      /* 更新stat */
       const stat = loadStatData()
       const person = stat[id]
       if (Array.isArray(person) /* && person.length === 4 */) {
@@ -138,10 +142,11 @@ export function main(ctx: Context, config: Config) {
     .shortcut('今日排行')
     .action((_, session) => {
       const today = loadTodayData()
-      if (today.length <= 0) return 'newnew.msg.today_ranking.fail'
 
-      const entries = Object.entries(today).filter((val) => val[0].startsWith(session.api.adapter.identity))
-      entries.sort((a, b) => b[1] - a[1])
+      const entries = Object.entries(today)
+        .filter((val) => val[0].startsWith(session.api.adapter.identity))
+        .sort((a, b) => b[1][0] - a[1][0])
+      if (entries.length <= 0) return 'newnew.msg.today_ranking.fail'
 
       let list = ''
       let num = 1
@@ -150,17 +155,16 @@ export function main(ctx: Context, config: Config) {
         list += session.format('newnew.msg.today_ranking.list', [
           num,
           entry[0].slice(session.api.adapter.identity.length),
-          entry[1]
+          entry[1][0]
         ])
         num += 1
       }
       return session.format('newnew.msg.today_ranking', [list])
     })
 
-  // 核心命令：cum
   ctx
     .command('cum [user:string] - 社保你的群友')
-    .alias('社保')
+    .shortcut('社保')
     .option('C', 'cut:boolean 寸止模式')
     .action(async ({ args, options: { cut } }, session) => {
       const data = loadData()
@@ -174,12 +178,47 @@ export function main(ctx: Context, config: Config) {
         senderRecord.lastTime = Date.now()
       }
 
+      const targetId = args[0] ?? session.userId
+      const params = [Messages.mention(targetId), Messages.mention(session.userId)]
       if (senderRecord.given >= config.maxCount) {
-        return session.quick(['杂鱼欧尼酱，你今天已经社了 {0} 次了，身体要被掏空了哦！休息下吧。', [config.maxCount]])
+        return session.quick(['{1} 你今天已经 {0} 次了，身体要被掏空了哦！休息下吧。', [config.maxCount, params[1]]])
       }
 
-      const targetId = args[0] ?? session.userId
+      const lengthData = loadTodayData()
       const targetFullId = `${session.api.adapter.identity}${targetId}`
+      const [[targetLength, targetThickness], [senderLength, senderThickness]] = [targetFullId, senderId].map((id) =>
+        Array.isArray(lengthData[id])
+          ? lengthData[id]
+          : (() => {
+              lengthData[id] = [getNewLength(), getNewThickness()]
+              saveTodayData(lengthData)
+              return lengthData[id]
+            })()
+      )
+      if (senderLength === 0) return session.quick(['{1} 你没有武器啊！想什么了！', params])
+      if (targetId === session.userId) {
+        const cutFailed = Math.random() < config.cutProbability
+        if (targetLength > 0 && cut)
+          session.quick([cutFailed ? '{1} 你没忍住！社保了！' : '{1} 你成功寸止了！', params])
+        else if (targetLength > 0) session.quick(['{1} 起飞成功！状态良好！', params])
+        else session.quick(['{1} 挖坑成功！感觉良好！', params])
+        if (!cut || cutFailed) {
+          senderRecord.given += 1
+          senderRecord.lastTime = Date.now()
+          data[senderId] = senderRecord
+          saveData(data)
+        }
+        return
+      }
+      if (targetLength === 0) return session.quick(['{0} 是平的啊！你干什么了！', params])
+      if (targetLength * senderLength < 0)
+        return session.quick(['群友 {0} 和 {1} 你都是可爱的女孩子噢( •̀ ω •́ )✧，无法进行社保！', params])
+      if (targetLength > 0 && senderLength < 0)
+        return session.quick(['你在想什么？？{1} 你是可爱的女孩子啊( •̀ ω •́ )✧', params])
+      if (targetLength * senderLength > 0) return session.quick(['？？楠楠？？绝对不行！{1}', params])
+      if (targetThickness < senderThickness)
+        return session.quick(['群友 {0} 的OO太小了，{1} 你的社保无法进入！', params])
+
       const targetRecord = data[targetFullId] || { given: 0, received: 0, lastTime: 0 }
       if (targetRecord.lastTime < todayStart) {
         targetRecord.given = 0
@@ -188,10 +227,9 @@ export function main(ctx: Context, config: Config) {
       }
 
       if (targetRecord.received >= config.maxCount2) {
-        return session.quick(['群友 {0} 的小肚肚已经装不下了，请不要再社了！', [Messages.mention(targetId)]])
+        return session.quick(['群友 {0} 的小肚肚已经装不下了，{1} 请不要再社了！', params])
       }
 
-      const cutFailed = Math.random() < config.cutProbability
       const noPregnancy = Math.random() < config.probability
       const babyTypes = [
         '一只男娃',
@@ -201,27 +239,29 @@ export function main(ctx: Context, config: Config) {
         '三胞胎！',
         '一个大胖小子',
         '一对龙凤双胞胎',
-        '一只小巧小女儿'
+        '一只小巧小女儿',
+        '一只异形！',
+        '一对异形！',
+        '一群异形！'
       ]
       const pickBaby = () => babyTypes[Math.floor(Math.random() * babyTypes.length)]
 
       if (cut) {
-        if (cutFailed) {
+        if (Math.random() < config.cutProbability) {
           senderRecord.given++
           targetRecord.received++
           const babyStr = noPregnancy ? '庆幸的是没有怀孕' : `群友诞下了 ${pickBaby()}`
-          session.quick([`你在 cum 群友 {0} 的过程中使用了寸止，但你没忍住！${babyStr}`, [Messages.mention(targetId)]])
+          session.quick([`{1} 你在 cum 群友 {0} 的过程中使用了寸止，但你没忍住！${babyStr}`, params])
         } else {
-          // 寸止成功：不计数，不怀孕
-          session.quick(['你在 cum 群友 {0} 的过程中成功寸止！(好腰力！)', [Messages.mention(targetId)]])
+          session.quick(['{1} 你在 cum 群友 {0} 的过程中成功寸止！(好腰力！)', params])
         }
       } else {
         senderRecord.given++
         targetRecord.received++
         if (noPregnancy) {
-          session.quick(['你社保了群友 {0}，但她并没有怀孕……', [Messages.mention(targetId)]])
+          session.quick(['{1} 你社保了群友 {0}，但她并没有怀孕……', params])
         } else {
-          session.quick([`你社保了群友 {0} 并诞下了 ${pickBaby()}`, [Messages.mention(targetId)]])
+          session.quick([`{1} 你社保了群友 {0} 并诞下了 ${pickBaby()}`, params])
         }
       }
 
@@ -235,7 +275,7 @@ export function main(ctx: Context, config: Config) {
 
   ctx
     .command('cum-check [user:string] - 查看社保统计')
-    .alias('社保查询')
+    .shortcut('社保查询')
     .action(({ args }, session) => {
       const data = loadData()
       const targetId = args[0] ?? session.userId
@@ -258,7 +298,7 @@ export function main(ctx: Context, config: Config) {
 
   ctx
     .command('cum-reset [user:string] - 重置次数')
-    .alias('社保重置')
+    .shortcut('社保重置')
     .access(UserAccess.MANGER)
     .action(({ args }, session) => {
       const data = loadData()
