@@ -1,8 +1,10 @@
 {
   "newnew.descr.today_length": "获取今日的牛~牛长度",
-  "newnew.msg.today_length.info.0": "{0}今日的牛~牛长度是{1} cm...真的有那么长吗(＃°Д°)",
-  "newnew.msg.today_length.info.1": "{0}今日的牛~牛长度是{1} cm",
-  "newnew.msg.today_length.info.2": "{0}今日的牛~牛长度是...今天是可爱的女孩子噢( •̀ ω •́ )✧({1}cm)",
+  "newnew.msg.today_length.info.0": "{0}今日的牛~牛长度是{1} cm，粗度是{2} cm，...真的有那么长吗(＃°Д°)",
+  "newnew.msg.today_length.info.1": "{0}今日的牛~牛长度是{1} cm，粗度是{2} cm",
+  "newnew.msg.today_length.info.2": "{0}今日的牛~牛长度是...今天是可爱的女孩子噢( •̀ ω •́ )✧({1}cm)，粗度是{2} cm",
+  "newnew.msg.today_length.info.3": "{0}今日的牛~牛长度是{1} cm，粗度是{2} cm，...真的有那么粗吗(＃°Д°)",
+  "newnew.msg.today_length.info.4": "{0}今日的牛~牛长度是{1} cm，粗度是{2} cm，...真的有那么细吗(＃°Д°)",
   "newnew.descr.my_length": "获取自己的牛牛信息",
   "newnew.msg.my_length": "{0}\n最大长度：{1} cm 最深长度：{2} cm\n使用次数：{3} 次 累计长度：{4} cm\n平均长度：{5} cm",
   "newnew.msg.my_length.fail": "{0}你的牛牛丢了...找不到你的牛牛数据呢/(ㄒoㄒ)/~~对不起",
