@@ -20,14 +20,14 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       if (!ctx.webui.checkToken(token)) return ws.close(1002)
       wsHandler(ctx, ws)
     })
-  })
 
-  // Sets up routes
-  const app = ctx.server
-  app.use(app.static(resolve(__dirname, '../dist')))
-  app.use(app.json())
-  app.use(app.urlencoded({ extended: true }))
-  app.use('/', routers(ctx, app))
+    // Sets up routes
+    const app = ctx.server
+    app.use(app.static(resolve(__dirname, '../dist')))
+    app.use(app.json())
+    app.use(app.urlencoded({ extended: true }))
+    app.use('/', routers(ctx, app))
+  })
 
   // Register plugin
   ctx.load({
