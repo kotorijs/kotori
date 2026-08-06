@@ -1,4 +1,4 @@
-import { Tsu, type CommandAction, plugins, type Session, KotoriPlugin, UserAccess } from 'kotori-bot'
+import { type CommandAction, KotoriPlugin, plugins, type Session, Tsu, UserAccess } from 'kotori-bot'
 
 const plugin = plugins([__dirname, '../'])
 

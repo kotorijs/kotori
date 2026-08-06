@@ -1,4 +1,4 @@
-import { UserAccess, type Context, MessageScope, Tsu, Messages } from 'kotori-bot'
+import { type Context, MessageScope, Messages, Tsu, UserAccess } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
@@ -6,9 +6,7 @@ export const inject = ['file']
 
 export const config = Tsu.Object({
   exitGroupAddBlack: Tsu.Boolean().default(true).describe('Auto add to blacklist when someone exits the group'),
-  exitGroupAddBlackTips: Tsu.Boolean()
-    .default(false)
-    .describe('Send tips that auto add to blacklist when someone exits the group'),
+  exitGroupAddBlackTips: Tsu.Boolean().default(false).describe('Send tips that auto add to blacklist when someone exits the group'),
   blackJoinGroupTips: Tsu.Boolean().default(true).describe('Send tips when newer had existed on blacklist'),
   banTime: Tsu.Number().default(10).describe('Default time of ban (minute)')
 })

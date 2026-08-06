@@ -71,9 +71,7 @@ export function hTs(
 ): JSX.Element {
   if (type === Fragment) return hTs('list', props, ...children)
   if (typeof type === 'function') return type(Object.assign({}, props, { children }))
-  const flattenedChildren = children
-    .flat(Number.MAX_SAFE_INTEGER)
-    .filter((child) => child != null && child !== false && child !== true)
+  const flattenedChildren = children.flat(Number.MAX_SAFE_INTEGER).filter((child) => child != null && child !== false && child !== true)
   switch (type) {
     case 'text':
       return Messages.text(flattenedChildren.map((child) => String(child)).join(''))
@@ -93,12 +91,7 @@ export function hTs(
       return Messages.file((props as JSX.IntrinsicElements['file']).src)
     case 'location': {
       const locationProps = props as JSX.IntrinsicElements['location']
-      return Messages.location(
-        locationProps.latitude,
-        locationProps.longitude,
-        locationProps.title,
-        locationProps.content
-      )
+      return Messages.location(locationProps.latitude, locationProps.longitude, locationProps.title, locationProps.content)
     }
     case 'seg':
       return Messages(
@@ -113,21 +106,14 @@ export function hTs(
     case 'br':
       return hTs('text', {}, '\n')
     case 'format':
-      return formatFactory()(
-        (props as JSX.IntrinsicElements['format']).template,
-        flattenedChildren
-      ) as unknown as JSX.Element
+      return formatFactory()((props as JSX.IntrinsicElements['format']).template, flattenedChildren) as unknown as JSX.Element
     default:
       throw new Error(`Unknown element type: ${type}`)
   }
 }
 
 export function hRes(type: string, props: Record<string, unknown>) {
-  return hTs(
-    type,
-    props,
-    ...('children' in props ? (Array.isArray(props.children) ? props.children : [props.children]) : [])
-  )
+  return hTs(type, props, ...('children' in props ? (Array.isArray(props.children) ? props.children : [props.children]) : []))
 }
-; (globalThis as unknown as { kotoriHTs: typeof hTs }).kotoriHTs = hTs
-  ; (globalThis as unknown as { kotoriHRes: typeof hRes }).kotoriHRes = hRes
+;(globalThis as unknown as { kotoriHTs: typeof hTs }).kotoriHTs = hTs
+;(globalThis as unknown as { kotoriHRes: typeof hRes }).kotoriHRes = hRes

@@ -51,7 +51,6 @@ export class Config {
       author: pkg.author,
       coreVersion: pkg.version
     }
-    ;
     ;(globalThis as unknown as { kotori: object }).kotori = this.meta
   }
 }

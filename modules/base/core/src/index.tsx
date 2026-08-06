@@ -1,5 +1,5 @@
 import {
-  Command,
+  type Command,
   CommandError,
   type Context,
   type LocaleType,
@@ -270,8 +270,8 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       const alias =
         cmd.alias.length > 0
           ? session.format('core.template.alias', {
-            content: cmd.alias.join(session.i18n.locale('core.template.alias.delimiter'))
-          })
+              content: cmd.alias.join(session.i18n.locale('core.template.alias.delimiter'))
+            })
           : ''
       let args = ''
       let options = ''
@@ -308,13 +308,16 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       commands += session.format(`core.msg.descr.command${short ? '2' : ''}`, {
         root: `${session.api.adapter.config.commandPrefix}${cmd.root}`,
         args,
-        description: cmd.description
-          ? session.format('core.template.description', { content: session.i18n.locale(cmd.description) })
-          : '',
+        description: cmd.description ? session.format('core.template.description', { content: session.i18n.locale(cmd.description) }) : '',
         options,
         help: cmd.help && short ? session.format('core.template.help', { content: session.i18n.locale(cmd.help) }) : '',
         alias: short ? alias : '',
-        shortcuts: cmd.shortcut.length > 0 ? session.format('core.template.shortcuts', { content: cmd.shortcut.join(session.i18n.locale('core.template.alias.delimiter')) }) : ''
+        shortcuts:
+          cmd.shortcut.length > 0
+            ? session.format('core.template.shortcuts', {
+                content: cmd.shortcut.join(session.i18n.locale('core.template.alias.delimiter'))
+              })
+            : ''
       })
     }
     return short ? commands : session.format('core.msg.help', { content: commands })

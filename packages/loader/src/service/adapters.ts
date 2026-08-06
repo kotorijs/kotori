@@ -32,10 +32,7 @@ export namespace Adapters {
           try {
             data = JSON.parse(raw.toString())
           } catch (e) {
-            throw new KotoriError(
-              `Data parse error: ${e instanceof Error ? e.message : e}`,
-              this.ctx.identity?.toString()
-            )
+            throw new KotoriError(`Data parse error: ${e instanceof Error ? e.message : e}`, this.ctx.identity?.toString())
           }
           if (data) this.handle(data)
         })

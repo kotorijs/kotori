@@ -1,5 +1,5 @@
-import { loadConfig } from 'kotori-bot'
 import { resolve } from 'node:path'
+import { loadConfig } from 'kotori-bot'
 import colorMap from './color'
 
 type RGBTuple = [number, number, number]
@@ -32,11 +32,7 @@ export function colorToRGB(color: string): RGBTuple | null {
   // Hex Color
   if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color)) {
     const hex = color.replace('#', '')
-    return [
-      Number.parseInt(hex.slice(0, 2), 16),
-      Number.parseInt(hex.slice(2, 4), 16),
-      Number.parseInt(hex.slice(4, 6), 16)
-    ]
+    return [Number.parseInt(hex.slice(0, 2), 16), Number.parseInt(hex.slice(2, 4), 16), Number.parseInt(hex.slice(4, 6), 16)]
   }
 
   // Rgb Color

@@ -31,7 +31,7 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
     this.client = new Client({ intents: [GatewayIntentBits.Guilds] })
   }
 
-  public handle() { }
+  public handle() {}
 
   public async start() {
     this.client.on('ready', () => {
@@ -87,7 +87,7 @@ export class DiscordAdapter extends Adapter<DiscordApi, DiscordConfig, DiscordEl
     this.offline()
   }
 
-  public send() { }
+  public send() {}
 }
 
 export default DiscordAdapter

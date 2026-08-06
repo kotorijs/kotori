@@ -5,11 +5,11 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-08-07 14:45:14
  */
-import { type AdapterConfig, type Context, Tsu, Adapters } from 'kotori-bot'
+import { type AdapterConfig, Adapters, type Context, Tsu } from 'kotori-bot'
+import type z from 'zod'
 import SandboxApi from './api'
 import SandboxElements from './elements'
 import { type ActionList, eventDataSchema, responseSchema } from './type'
-import type z from 'zod'
 
 declare module 'kotori-bot' {
   interface EventsMapping {

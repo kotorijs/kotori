@@ -43,4 +43,4 @@ export enum LocaleIdentifier {
   common = 'COMMON'
 }
 
-export default LocaleIdentifier;
+export default LocaleIdentifier

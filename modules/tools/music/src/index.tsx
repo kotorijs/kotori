@@ -1,4 +1,4 @@
-import { type Context } from 'kotori-bot'
+import type { Context } from 'kotori-bot'
 import { getMusicInfo, getMusicLyric } from './http'
 
 const MAX_LIST = 10
@@ -15,8 +15,7 @@ export function main(ctx: Context) {
     .action(async ({ args, options: { order, lyric } }, session) => {
       const name = args.join(' ')
       if (!name) return session.quick(['music.msg.music.fail', [name]])
-      const res =
-        ctx.cache.get<ReturnType<typeof getMusicInfo> extends Promise<infer T> ? T : never>(name) ?? (await getMusicInfo(name))
+      const res = ctx.cache.get<ReturnType<typeof getMusicInfo> extends Promise<infer T> ? T : never>(name) ?? (await getMusicInfo(name))
       ctx.cache.set(name, res)
 
       if (order === 0) {
@@ -35,13 +34,21 @@ export function main(ctx: Context) {
 
       if (lyric) return (await getMusicLyric(song.songId)).trim()
 
-      return <format template={session.t`music.msg.music`}>
-        <text>{song.songId}</text>
-        <text>{song.title}</text>
-        <text>{song.authors[0]}</text>
-        <text>{await fetch(`http://music.163.com/song/media/outer/url?id=${song.songId}.mp3`).then(res => res.url.endsWith('/404') ? '' : res.url)}</text>
-        <image src={song.pic} />
-      </format>
+      return (
+        <format template={session.t`music.msg.music`}>
+          <text>{song.songId}</text>
+          <text>{song.title}</text>
+          <text>{song.authors[0]}</text>
+          <text>
+            {
+              await fetch(`http://music.163.com/song/media/outer/url?id=${song.songId}.mp3`).then((res) =>
+                res.url.endsWith('/404') ? '' : res.url
+              )
+            }
+          </text>
+          <image src={song.pic} />
+        </format>
+      )
     })
     .help('music.help.music')
 }

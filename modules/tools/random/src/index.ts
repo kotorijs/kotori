@@ -1,5 +1,5 @@
-import { plugins, type Session, KotoriPlugin, Tsu, random } from 'kotori-bot'
 import { DiceRoll } from '@dice-roller/rpg-dice-roller'
+import { KotoriPlugin, plugins, random, type Session, Tsu } from 'kotori-bot'
 import Mexp from 'math-expression-evaluator'
 
 const plugin = plugins(require('../package.json'))

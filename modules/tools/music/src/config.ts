@@ -7,4 +7,4 @@ export default {
     Referer: 'http://music.163.com/',
     'X-Requested-With': 'XMLHttpRequest'
   }
-};
+}

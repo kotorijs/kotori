@@ -1,13 +1,4 @@
-import {
-  type AdapterConfig,
-  Adapters,
-  type Context,
-  type EventDataApiBase,
-  KotoriError,
-  MessageScope,
-  type Session,
-  Tsu
-} from 'kotori-bot'
+import { type AdapterConfig, Adapters, type Context, type EventDataApiBase, KotoriError, MessageScope, type Session, Tsu } from 'kotori-bot'
 import WebSocket from 'ws'
 import OnebotApi from './api'
 import OnebotElements from './elements'
@@ -144,8 +135,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         userId: String(data.user_id),
         comment: String(data.comment),
         time: data.time,
-        approve: (approve = true, remark = '') =>
-          this.call('set_friend_add_request', { flag: data.flag, approve, remark })
+        approve: (approve = true, remark = '') => this.call('set_friend_add_request', { flag: data.flag, approve, remark })
       })
     } else if (data.post_type === 'request' && data.request_type === 'group') {
       this.session('on_request', {
@@ -200,12 +190,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         this.selfId = String(data.self_id)
         // this.avatar = `https://q.qlogo.cn/g?b=qq&s=640&nk=${this.selfId}`;
       }
-    } else if (
-      data.post_type === 'notice' &&
-      data.notice_type === 'notify' &&
-      data.sub_type === 'poke' &&
-      data.target_id
-    ) {
+    } else if (data.post_type === 'notice' && data.notice_type === 'notify' && data.sub_type === 'poke' && data.target_id) {
       this.session('onebot_poke', {
         type: data.message_type === 'private' ? MessageScope.PRIVATE : MessageScope.GROUP,
         userId: String(data.user_id),

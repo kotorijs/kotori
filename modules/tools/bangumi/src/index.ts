@@ -1,4 +1,4 @@
-import { type Context, Tsu, Messages } from 'kotori-bot'
+import { type Context, Messages, Tsu } from 'kotori-bot'
 import http from './http'
 
 const bgm1Schema = Tsu.Union(
@@ -67,8 +67,7 @@ export function main(ctx: Context) {
     .action(async (data, session) => {
       const name = data.args.join('')
       const order = data.options.order ?? 1
-      const res =
-        ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(name) ?? bgm1Schema.parse(await http(`search/subject/${name}`))
+      const res = ctx.cache.get<Tsu.infer<typeof bgm1Schema>>(name) ?? bgm1Schema.parse(await http(`search/subject/${name}`))
       if (!res || 'code' in res || !Array.isArray(res.list)) return session.format('bangumi.msg.bgm.fail', [name])
       ctx.cache.set(name, res)
 
@@ -87,13 +86,7 @@ export function main(ctx: Context) {
       if ('title' in res2) return session.format('bangumi.msg.bgm.fail', [name])
       session.quick([
         'bangumi.msg.bgm',
-        [
-          res2.name,
-          res2.name_cn,
-          res2.summary,
-          res2.tags.map((el) => el.name).join(' '),
-          `https://bgm.tv/subject/${result.id}`
-        ]
+        [res2.name, res2.name_cn, res2.summary, res2.tags.map((el) => el.name).join(' '), `https://bgm.tv/subject/${result.id}`]
       ])
       return Messages.image(res2.images.large)
     })
@@ -107,14 +100,7 @@ export function main(ctx: Context) {
     const list = Messages()
     for (let init = 0; init < 3; init += 1) {
       const item = items[init]
-      list.push(
-        ...session.format('bangumi.msg.bgmc.list', [
-          item.name,
-          item.name_cn,
-          item.air_date,
-          Messages.image(item.images.large)
-        ])
-      )
+      list.push(...session.format('bangumi.msg.bgmc.list', [item.name, item.name_cn, item.air_date, Messages.image(item.images.large)]))
     }
     const weekday = session.api.adapter.ctx.i18n.get().includes('en') ? res[dayNum].weekday.en : res[dayNum].weekday.ja
     return session.format('bangumi.msg.bgmc', [weekday, list])

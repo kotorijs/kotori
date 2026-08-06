@@ -55,10 +55,7 @@ export class Decorators {
   public static [Symbols.decorator] = new Map<string, KotoriPluginChild>()
 
   public static getMeta(target: object | string): PluginMetaAll | undefined {
-    return Reflect.getMetadata(
-      Symbols.modules,
-      typeof target === 'string' ? (Decorators[Symbols.decorator].get(target) ?? {}) : target
-    )
+    return Reflect.getMetadata(Symbols.modules, typeof target === 'string' ? (Decorators[Symbols.decorator].get(target) ?? {}) : target)
   }
 
   public static setup(ctx: Context) {

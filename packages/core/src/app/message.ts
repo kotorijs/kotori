@@ -14,15 +14,7 @@ import {
   type TaskOptions
 } from '../types'
 import { CommandError } from '../utils/error'
-import {
-  cancelFactory,
-  getCommandMeta,
-  getRegExpMeta,
-  setCommandMeta,
-  setMidwareMeta,
-  setRegExpMeta,
-  setTaskMeta
-} from '../utils/internal'
+import { cancelFactory, getCommandMeta, getRegExpMeta, setCommandMeta, setMidwareMeta, setRegExpMeta, setTaskMeta } from '../utils/internal'
 import type { Context } from './core'
 
 interface MidwareData {
@@ -264,13 +256,7 @@ export class Message {
 
   public task(options: TaskOptions, callback: TaskCallback) {
     const [baseOption, extraOptions] = typeof options === 'string' ? [options, {}] : [options.cron, options]
-    const task = new CronJob(
-      baseOption,
-      () => callback(this.ctx),
-      null,
-      extraOptions.start ?? true,
-      extraOptions.timeZone
-    )
+    const task = new CronJob(baseOption, () => callback(this.ctx), null, extraOptions.start ?? true, extraOptions.timeZone)
     setTaskMeta(task, { identity: this.ctx.identity, task, options })
     this[Symbols.task].add(task)
     return () => this[Symbols.task].delete(task)

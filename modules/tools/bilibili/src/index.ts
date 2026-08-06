@@ -1,4 +1,4 @@
-import { type Context, Tsu, Messages, type SessionMsg } from 'kotori-bot'
+import { type Context, Messages, type SessionMsg, Tsu } from 'kotori-bot'
 
 const biliSchema = Tsu.Object({
   data: Tsu.Object({
@@ -65,9 +65,7 @@ export const lang = [__dirname, '../locales']
 export function main(ctx: Context) {
   async function getVideo(id: string, session: SessionMsg) {
     const params = id.startsWith('av') ? { avid: id } : { bvid: id }
-    const res = biliSchema.parse(
-      await ctx.http.get('https://api.bilibili.com/x/web-interface/view/detail', params as { bvid: string })
-    )
+    const res = biliSchema.parse(await ctx.http.get('https://api.bilibili.com/x/web-interface/view/detail', params as { bvid: string }))
     if (!res.data) return '没有找到相关视频'
     const { View: v } = res.data
     session.quick([
@@ -92,9 +90,7 @@ export function main(ctx: Context) {
     return Messages.image(v.pic)
   }
 
-  ctx.command('bili <id> - 查询 B站 视频信息').action(async ({ args: [id] }, session) => {
-    return getVideo(id, session)
-  })
+  ctx.command('bili <id> - 查询 B站 视频信息').action(async ({ args: [id] }, session) => getVideo(id, session))
 
   ctx.command('bili-ar <cid> - 查询 B站 专栏信息').action(async ({ args: [id] }, session) => {
     const params = { id: id.startsWith('cv') ? id.slice(2) : id }
@@ -103,17 +99,7 @@ export function main(ctx: Context) {
     const { data: d } = res
     session.quick([
       'CV 号：{0}\n专栏标题：{1}\nUP 主名字：{2}\n播放量：{3}\n点赞量：{4}\n收藏量：{5}\n投币量：{6}\n评论量：{7}\n分享量：{8}',
-      [
-        d.mid,
-        d.title,
-        d.author_name,
-        d.stats.view,
-        d.stats.like,
-        d.stats.favorite,
-        d.stats.coin,
-        d.stats.reply,
-        d.stats.share
-      ]
+      [d.mid, d.title, d.author_name, d.stats.view, d.stats.like, d.stats.favorite, d.stats.coin, d.stats.reply, d.stats.share]
     ])
     return d.origin_image_urls ? Messages.image(d.origin_image_urls) : ''
   })

@@ -1,8 +1,8 @@
-import { type AdapterConfig, type Context, MessageScope, Tsu, KotoriError, Adapter } from 'kotori-bot'
+import { randomInt } from 'node:crypto'
+import { App, type SayFn } from '@slack/bolt'
+import { Adapter, type AdapterConfig, type Context, KotoriError, MessageScope, Tsu } from 'kotori-bot'
 import SlackApi from './api'
 import SlackElements from './elements'
-import { App, type SayFn } from '@slack/bolt'
-import { randomInt } from 'node:crypto'
 
 export const config = Tsu.Object({
   token: Tsu.String().describe("Bot's token"),

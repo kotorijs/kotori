@@ -1,4 +1,4 @@
-import { UserAccess, type Context, type JsonMap } from 'kotori-bot'
+import { type Context, type JsonMap, UserAccess } from 'kotori-bot'
 import type wikiData from './type'
 
 export const lang = [__dirname, '../locales']
@@ -34,12 +34,7 @@ export function main(ctx: Context) {
       srsearch: keyword
       // biome-ignore lint:
     })) as any
-    if (
-      !result ||
-      !result.query ||
-      !result.query.search ||
-      (Array.isArray(result.query.search) && result.query.search.length < 1)
-    )
+    if (!result || !result.query || !result.query.search || (Array.isArray(result.query.search) && result.query.search.length < 1))
       return null
 
     let searchData = result.query.search

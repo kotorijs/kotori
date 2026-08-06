@@ -5,7 +5,7 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-08-07 19:07:55
  */
-import { type AdapterConfig, Adapters, type Context, MessageScope, Tsu, stringTemp, KotoriError } from 'kotori-bot'
+import { type AdapterConfig, Adapters, type Context, KotoriError, MessageScope, stringTemp, Tsu } from 'kotori-bot'
 import Mcwss from 'mcwss'
 import WebSocket from 'ws'
 import McApi from './api'
@@ -13,20 +13,19 @@ import McElements from './elements'
 
 export const config = Tsu.Object({
   nickname: Tsu.String().default('Romi').describe("Bot's name"),
-  template: Tsu.Union(Tsu.Null(), Tsu.String())
-    .default('<%nickname%> %msg%')
-    .describe('The template of bot sent message ')
+  template: Tsu.Union(Tsu.Null(), Tsu.String()).default('<%nickname%> %msg%').describe('The template of bot sent message ')
 })
 
 type McConfig = Tsu.infer<typeof config> & AdapterConfig
 
-type MessageData = Parameters<Mcwss['on']> extends [unknown, infer F]
-  ? F extends (data: infer D) => void
-    ? D extends { header: { eventName: 'PlayerMessage' } }
-      ? D
+type MessageData =
+  Parameters<Mcwss['on']> extends [unknown, infer F]
+    ? F extends (data: infer D) => void
+      ? D extends { header: { eventName: 'PlayerMessage' } }
+        ? D
+        : never
       : never
     : never
-  : never
 
 export class McAdapter extends Adapters.WebSocket<McApi, McConfig, McElements> {
   private clients: Record<string, MessageData['client']> = {}

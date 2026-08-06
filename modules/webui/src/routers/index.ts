@@ -20,6 +20,7 @@ export default (ctx: Context, app: Context['server']) => {
     ctx.logger.label(req.method).debug(req.path)
 
     if (!RouterConfig.find((item) => item.path === req.path || req.path.startsWith(item.path))) {
+      console.log('not')
       if (!existsSync(FRONTEND_ENTRY)) return res.sendStatus(404)
       res.header('Content-Type', 'text/html;charset=utf-8')
       return res.send(readFileSync(FRONTEND_ENTRY, 'utf-8'))

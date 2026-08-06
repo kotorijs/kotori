@@ -36,9 +36,7 @@ export function main(ctx: Context) {
       const info = await getSex(ctx)
       if (!info) return session.format('random_img.msg.sex.fail', [data.args[0]])
 
-      session
-        .send(<image src={info.url} />)
-        .then(({ messageId }) => setTimeout(() => session.api.deleteMsg(messageId), 1000 * 30))
+      session.send(<image src={info.url} />).then(({ messageId }) => setTimeout(() => session.api.deleteMsg(messageId), 1000 * 30))
       return (
         <format template={session.t`random_img.msg.sex`}>
           <text>{info.pid.toString()}</text>
@@ -90,9 +88,7 @@ export function main(ctx: Context) {
   ctx.command('beauty - random_img.descr.beauty').action(async (_, session) => {
     await session.quick('random_img.msg.sex.tips')
     await fetch('https://api.hotaru.icu/api/beautyimg').then((res) =>
-      session
-        .send(<image src={res.url} />)
-        .then(({ messageId }) => setTimeout(() => session.api.deleteMsg(messageId), 1000 * 30))
+      session.send(<image src={res.url} />).then(({ messageId }) => setTimeout(() => session.api.deleteMsg(messageId), 1000 * 30))
     )
   })
 }

@@ -1,6 +1,6 @@
-import { type Context, Service, KotoriError } from 'kotori-bot'
-import puppeteer from 'puppeteer'
+import { type Context, KotoriError, Service } from 'kotori-bot'
 import type { Browser as PuppeteerBrowser } from 'puppeteer'
+import puppeteer from 'puppeteer'
 
 type BrowserImpl = Context['browser']
 

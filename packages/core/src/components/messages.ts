@@ -105,9 +105,7 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
    * @returns Message list
    */
   public pick<T extends keyof MessageMapping>(...keys: T[]): MessageList<T> {
-    return Messages(
-      ...this.filter((value) => (keys as string[]).includes(value.data.type))
-    ) as unknown as MessageList<T>
+    return Messages(...this.filter((value) => (keys as string[]).includes(value.data.type))) as unknown as MessageList<T>
   }
 
   /**
@@ -117,9 +115,7 @@ class MessageListOrigin<T extends keyof MessageMapping> extends Array<MessageSin
    * @returns Message list
    */
   public omit<T extends keyof MessageMapping>(...keys: T[]): MessageList<T> {
-    return Messages(
-      ...this.filter((value) => !(keys as string[]).includes(value.data.type))
-    ) as unknown as MessageList<T>
+    return Messages(...this.filter((value) => !(keys as string[]).includes(value.data.type))) as unknown as MessageList<T>
   }
 }
 

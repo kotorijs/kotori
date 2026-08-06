@@ -9,9 +9,7 @@ declare module './events' {
      *
      * @param session - Session instance
      */
-    on_message_delete(
-      session: Session<EventDataPrivateMsgDelete | EventDataGroupMsgDelete | EventDataChannelMsgDelete>
-    ): void
+    on_message_delete(session: Session<EventDataPrivateMsgDelete | EventDataGroupMsgDelete | EventDataChannelMsgDelete>): void
 
     /**
      * Session event when friend increase.

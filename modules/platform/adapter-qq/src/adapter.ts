@@ -1,8 +1,8 @@
-import { Adapter, type AdapterConfig, type Context, MessageScope, Tsu, KotoriError } from 'kotori-bot'
+import { Adapter, type AdapterConfig, type Context, KotoriError, MessageScope, Tsu } from 'kotori-bot'
 import WebSocket from 'ws'
 import QQApi from './api'
-import type { ParamsMapping, PayloadData } from './types'
 import QQElements from './elements'
+import type { ParamsMapping, PayloadData } from './types'
 
 const WS_ADDRESS = 'wss://api.sgroup.qq.com/websocket'
 const API_ADDRESS = 'https://api.sgroup.qq.com/v2'
@@ -190,9 +190,7 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
         msg_type: media ? 7 : 0,
         msg_id: this.msgIdList.get(groupId) ?? null,
         msg_seq: this.getMsgSeq(),
-        media: media
-          ? await this.req(`groups/${groupId}/files`, { file_type: media.type, url: media.value, srv_send_msg: false })
-          : null
+        media: media ? await this.req(`groups/${groupId}/files`, { file_type: media.type, url: media.value, srv_send_msg: false }) : null
       }
       const res = await this.req(`groups/${groupId}/messages`, params2)
       return res

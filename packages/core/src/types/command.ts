@@ -1,7 +1,7 @@
-import Tsu from 'tsukiko'
 import type { TsuError } from 'tsukiko'
-import type { MessageQuick, MessageScope, UserAccess } from './message'
+import Tsu from 'tsukiko'
 import type { SessionMsg, SessionMsgChannel, SessionMsgGroup, SessionMsgPrivate } from '../components'
+import type { MessageQuick, MessageScope, UserAccess } from './message'
 
 export type ArgsOrigin = CommandArgType[]
 export type OptsOrigin = Record<string, CommandArgType>

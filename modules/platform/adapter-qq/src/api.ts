@@ -1,4 +1,4 @@
-import { Api, MessageList, type Message, MessageSingle } from 'kotori-bot'
+import { Api, type Message, MessageList, MessageSingle } from 'kotori-bot'
 import type QQAdapter from './adapter'
 import { MEDIA_KEY } from './constants'
 
@@ -16,7 +16,7 @@ export default class QQApi extends Api {
 
   public async sendGroupMsg(message: Message, groupId: string) {
     const handle = this.adapter.elements.decode(message)
-    const media = typeof message === 'string' ? [] : Reflect.getMetadata(MEDIA_KEY, message) ?? []
+    const media = typeof message === 'string' ? [] : (Reflect.getMetadata(MEDIA_KEY, message) ?? [])
     const { id, timestamp } = await this.adapter.send('sendGroupMsg', { message: handle, groupId, media })
     this.adapter.ctx.emit('send', { api: this as unknown as Api, messageId: id })
     return { messageId: id, time: new Date(timestamp).getTime() }

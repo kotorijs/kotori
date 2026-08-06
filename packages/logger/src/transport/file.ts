@@ -2,7 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import dayjs from 'dayjs'
 import stringify from 'fast-safe-stringify'
-import { LoggerData, TransportOptionsBase } from '../types/common'
+import type { LoggerData, TransportOptionsBase } from '../types/common'
 import Transport from '../utils/transport'
 
 type FileTransportConfig = {

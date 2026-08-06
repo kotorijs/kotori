@@ -40,17 +40,17 @@ export const colorsIdentity = [
   'bgMagentaBright',
   'bgCyanBright',
   'bgWhiteBright'
-] as const;
+] as const
 
 type ColorsAdapterReflect = {
-  [K in (typeof colorsIdentity)[number]]: (content: string) => string;
-};
+  [K in (typeof colorsIdentity)[number]]: (content: string) => string
+}
 
-export interface ColorsAdapterImpl extends ColorsAdapterReflect { }
+export interface ColorsAdapterImpl extends ColorsAdapterReflect {}
 
-export type ColorsCustomRules<T extends string> = Record<T, (text: string) => string>;
+export type ColorsCustomRules<T extends string> = Record<T, (text: string) => string>
 
 export interface ColorsConfig<T extends string> {
-  adapter: ColorsAdapterImpl;
-  rules?: ColorsCustomRules<T>;
+  adapter: ColorsAdapterImpl
+  rules?: ColorsCustomRules<T>
 }

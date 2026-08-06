@@ -19,22 +19,14 @@ export class File extends Service {
     type?: T,
     init?: T extends 'text' ? string : object
   ) {
-    return loadConfig(this.getFile(filename), type, init) as O extends undefined
-      ? T extends 'text'
-      ? string
-      : JsonMap
-      : O
+    return loadConfig(this.getFile(filename), type, init) as O extends undefined ? (T extends 'text' ? string : JsonMap) : O
   }
 
   public save(filename: string, data: Parameters<typeof saveConfig>[1], type?: Parameters<typeof saveConfig>[2]) {
     saveConfig(this.getFile(filename), data, type)
   }
 
-  public create(
-    filename: string,
-    data?: Parameters<typeof createConfig>[1],
-    type?: Parameters<typeof createConfig>[2]
-  ) {
+  public create(filename: string, data?: Parameters<typeof createConfig>[1], type?: Parameters<typeof createConfig>[2]) {
     createConfig(this.getFile(filename), data, type)
   }
 }

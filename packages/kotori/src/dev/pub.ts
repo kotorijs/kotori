@@ -7,8 +7,7 @@ export async function pub2() {
   if (
     await confirm({
       default: false,
-      message:
-        'Are you sure you have built all packages in workspace (includes types for main packages) before publishing?'
+      message: 'Are you sure you have built all packages in workspace (includes types for main packages) before publishing?'
     })
   ) {
     exec('pnpm -r publish --no-git-checks --access public')
@@ -36,9 +35,7 @@ export default function pub(filters?: string) {
         console.error(err)
       }
     }
-    console.log(
-      `Publish summary: ${pkgs.length === failed} succeed, ${failed} failed, in ${(Date.now() - start) / 1000}s.`
-    )
+    console.log(`Publish summary: ${pkgs.length === failed} succeed, ${failed} failed, in ${(Date.now() - start) / 1000}s.`)
   } catch (err) {
     console.error('Publish failed.', err)
     process.exit(1)

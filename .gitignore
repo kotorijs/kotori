@@ -17,3 +17,5 @@ test.http
 
 kotori.dev.*
 *.res.js
+
+agent

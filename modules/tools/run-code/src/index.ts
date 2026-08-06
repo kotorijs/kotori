@@ -1,4 +1,4 @@
-import { Tsu, type Context } from 'kotori-bot'
+import { type Context, Tsu } from 'kotori-bot'
 import JsBox from './class/jsbox'
 // import LuaBox from './class/luaBox'
 

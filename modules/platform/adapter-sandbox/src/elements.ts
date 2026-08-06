@@ -1,4 +1,4 @@
-import { Elements, MessageSingle, type MessageMapping, type Message } from 'kotori-bot'
+import { Elements, type Message, type MessageMapping, MessageSingle } from 'kotori-bot'
 
 export class SandboxElements extends Elements {
   public getSupportsElements(): (keyof MessageMapping)[] {

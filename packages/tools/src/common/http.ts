@@ -14,12 +14,8 @@ export class Http {
 
   private config: AxiosRequestConfig
 
-  private method = async (
-    url: string,
-    params?: Parameters<HttpMethod>[1],
-    config?: AxiosRequestConfig,
-    method: Method = 'get'
-  ) => (await this.instance[method](url, Object.assign(this.config, config || {}, { params }))).data
+  private method = async (url: string, params?: Parameters<HttpMethod>[1], config?: AxiosRequestConfig, method: Method = 'get') =>
+    (await this.instance[method](url, Object.assign(this.config, config || {}, { params }))).data
 
   public constructor(config?: AxiosRequestConfig) {
     this.config = config || {}
@@ -35,14 +31,12 @@ export class Http {
 
   public readonly get: HttpMethod = (url, params, config) => this.method(url, params, config, 'get')
 
-  public readonly post: HttpMethod = async (url, params, config) =>
-    (await axios.post(url, params, Object.assign(this.config, config))).data
+  public readonly post: HttpMethod = async (url, params, config) => (await axios.post(url, params, Object.assign(this.config, config))).data
 
   public readonly patch: HttpMethod = async (url, params, config) =>
     (await axios.patch(url, params, Object.assign(this.config, config))).data
 
-  public readonly put: HttpMethod = async (url, params, config) =>
-    (await axios.put(url, params, Object.assign(this.config, config))).data
+  public readonly put: HttpMethod = async (url, params, config) => (await axios.put(url, params, Object.assign(this.config, config))).data
 
   public readonly delete: HttpMethod = (url, params, config) => this.method(url, params, config, 'delete')
 

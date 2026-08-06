@@ -1,7 +1,7 @@
 import { I18n } from '@kotori-bot/i18n'
 import { stringTemp } from '@kotori-bot/tools'
-import type { CommandArgType, Message, MessageMapping } from '../types'
 import { MessageList, MessageSingle, Messages } from '../components'
+import type { CommandArgType, Message, MessageMapping } from '../types'
 
 /**
  * Create a format function base on i18n instance
@@ -9,10 +9,7 @@ import { MessageList, MessageSingle, Messages } from '../components'
  * @returns - format function
  */
 export function formatFactory(i18n: I18n = new I18n()) {
-  function format(
-    template: string,
-    data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]
-  ): string
+  function format(template: string, data: Record<string, CommandArgType | undefined> | (CommandArgType | undefined)[]): string
 
   function format<T extends keyof MessageMapping>(
     template: string,

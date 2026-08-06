@@ -1,3 +1,3 @@
-export { Service, EventsList } from './common'
 export * from 'fluoro'
+export { EventsList, Service } from './common'
 export { Context, Core } from './core'

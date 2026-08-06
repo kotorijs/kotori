@@ -1,5 +1,5 @@
 import '../types'
-import { UserAccess, type Context, MessageScope, formatFactory, FilterTestList } from 'kotori-bot'
+import { type Context, FilterTestList, formatFactory, MessageScope, UserAccess } from 'kotori-bot'
 import type { AccountData } from '../types'
 
 export default (ctx: Context) => {
