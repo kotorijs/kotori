@@ -1,22 +1,22 @@
+import type { I18n } from '@kotori-bot/i18n'
+import stringify from 'fast-safe-stringify'
+import { Symbols } from '../global'
 import {
-  type EventDataApiBase,
-  type Message,
-  MessageScope,
-  type MessageQuick,
   type CommandResult,
-  type EventDataPrivateMsg,
+  type EventDataApiBase,
+  type EventDataChannelMsg,
   type EventDataGroupMsg,
-  type EventDataChannelMsg
+  type EventDataPrivateMsg,
+  type Message,
+  type MessageQuick,
+  MessageScope
 } from '../types'
-import type { Adapter } from './adapter'
-import { formatFactory } from '../utils/factory'
 import { CommandError } from '../utils/error'
+import { formatFactory } from '../utils/factory'
+import type { Adapter } from './adapter'
 import type { Api } from './api'
 import type { Elements } from './elements'
-import type { I18n } from '@kotori-bot/i18n'
-import { Symbols } from '../global'
 import { MessageList } from './messages'
-import stringify from 'fast-safe-stringify'
 
 class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements EventDataApiBase {
   /**
@@ -110,9 +110,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
       return this.send(result === '{}' ? String(message) : result)
     }
     if (typeof message === 'function') {
-      return this.send(
-        `[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`
-      )
+      return this.send(`[${message.toString().slice(0, 5) === 'class' ? 'class' : 'Function'} ${message.name || '(anonymous)'}]`)
     }
     return this.send(String(message))
   }
@@ -127,10 +125,7 @@ class SessionOrigin<T extends EventDataApiBase = EventDataApiBase> implements Ev
    */
   public prompt(message?: Message): Promise<Message> {
     return new Promise<Message>((resolve) => {
-      this.api.adapter.ctx[Symbols.promise].set(this.id, [
-        ...(this.api.adapter.ctx[Symbols.promise].get(this.id) ?? []),
-        resolve
-      ])
+      this.api.adapter.ctx[Symbols.promise].set(this.id, [...(this.api.adapter.ctx[Symbols.promise].get(this.id) ?? []), resolve])
       this.quick(message ?? 'corei18n.template.prompt').then(() => {})
     }).finally(() => this.api.adapter.ctx[Symbols.promise].delete(this.id)) as Promise<Message>
   }

@@ -109,12 +109,7 @@ export abstract class Api {
    *
    * @async
    */
-  public async sendChannelMsg(
-    message: Message,
-    guildId: string,
-    channelId: string,
-    meta: object = {}
-  ): Promise<SendMessageResponse> {
+  public async sendChannelMsg(message: Message, guildId: string, channelId: string, meta: object = {}): Promise<SendMessageResponse> {
     none(this, message, guildId, channelId, meta)
     return { messageId: '', time: 0 }
   }
@@ -381,12 +376,7 @@ export abstract class Api {
    *
    * @async
    */
-  public async getChannelMemberInfo(
-    guildId: string,
-    channelId: string,
-    userId: string,
-    meta: object = {}
-  ): Promise<UserInfoResponse> {
+  public async getChannelMemberInfo(guildId: string, channelId: string, userId: string, meta: object = {}): Promise<UserInfoResponse> {
     none(this, guildId, channelId, userId, meta)
     return { userId: '', username: '', userDisplayname: '', userRemark: '' }
   }
@@ -401,11 +391,7 @@ export abstract class Api {
    *
    * @async
    */
-  public async getChannelMemberList(
-    guildId: string,
-    channelId: string,
-    meta: object = {}
-  ): Promise<UserInfoResponse[]> {
+  public async getChannelMemberList(guildId: string, channelId: string, meta: object = {}): Promise<UserInfoResponse[]> {
     none(this, guildId, channelId, meta)
     return []
   }

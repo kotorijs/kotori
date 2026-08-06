@@ -238,9 +238,7 @@ export const modulePackageSchema = Tsu.Object({
   description: Tsu.String(),
   main: Tsu.String(),
   license: Tsu.Custom<ModulePackage['license']>(
-    (val) =>
-      typeof val === 'string' &&
-      (['GPL-3.0', 'GPL-3.0-or-later', 'GPL-3.0-only', 'BCU'].includes(val) || val.includes('USING'))
+    (val) => typeof val === 'string' && (['GPL-3.0', 'GPL-3.0-or-later', 'GPL-3.0-only', 'BCU'].includes(val) || val.includes('USING'))
   ),
   keywords: Tsu.Custom<string[]>(
     (val) => Array.isArray(val) && val.includes('kotori') && val.includes('chatbot') && val.includes('kotori-plugin')
@@ -394,12 +392,11 @@ export class Loader extends Core {
       if (this.loadRecord.has(name)) return
       this.loadRecord.add(name)
       this.logger.info(
-        this.format(
-          data.instance.default && 'isRescript' in data.instance.default
-            ? 'loader.modules.loadRes'
-            : 'loader.modules.load',
-          [name, version, Array.isArray(author) ? author.join(',') : author]
-        )
+        this.format(data.instance.default && 'isRescript' in data.instance.default ? 'loader.modules.loadRes' : 'loader.modules.load', [
+          name,
+          version,
+          Array.isArray(author) ? author.join(',') : author
+        ])
       )
     })
   }
@@ -424,9 +421,7 @@ export class Loader extends Core {
       throw new DevError(`illegal package.json ${pkgPath}`)
     }
 
-    const loadTsFile = this.isDev
-      ? ['src/index.ts', 'src/index.tsx'].find((el) => fs.existsSync(path.join(dir, el)))
-      : undefined
+    const loadTsFile = this.isDev ? ['src/index.ts', 'src/index.tsx'].find((el) => fs.existsSync(path.join(dir, el))) : undefined
     const main = path.resolve(dir, loadTsFile ?? pkg.main)
     if (!fs.existsSync(main)) throw new DevError(`cannot find main file ${main}`)
 
@@ -561,9 +556,7 @@ export class Loader extends Core {
     }
 
     const failLoadCount = this[Symbols.modules].size - this.loadRecord.size
-    this.logger.info(
-      this.format(`loader.modules.all${failLoadCount > 0 ? '.failed' : ''}`, [this.loadRecord.size, failLoadCount])
-    )
+    this.logger.info(this.format(`loader.modules.all${failLoadCount > 0 ? '.failed' : ''}`, [this.loadRecord.size, failLoadCount]))
     this.loadAllAdapter()
     this.start()
   }

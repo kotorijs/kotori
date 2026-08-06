@@ -1,8 +1,8 @@
-import { type AdapterConfig, type Context, MessageScope, Tsu, KotoriError, Adapter } from 'kotori-bot'
-import TelegramApi from './api'
-import TelegramElements from './elements'
+import { Adapter, type AdapterConfig, type Context, KotoriError, MessageScope, Tsu } from 'kotori-bot'
 import TelegramBot from 'node-telegram-bot-api'
 import { SocksProxyAgent } from 'socks-proxy-agent'
+import TelegramApi from './api'
+import TelegramElements from './elements'
 
 export const config = Tsu.Object({
   token: Tsu.String().describe("Bot's token"),
@@ -64,15 +64,9 @@ export class TelegramAdapter extends Adapter<TelegramApi, TelegramConfig, Telegr
           })
       }
     })
-    this.bot.on('webhook_error', (error) =>
-      this.ctx.emit('error', KotoriError.from(error, this.ctx.identity?.toString()))
-    )
-    this.bot.on('polling_error', (error) =>
-      this.ctx.emit('error', KotoriError.from(error, this.ctx.identity?.toString()))
-    )
-    this.bot.on('error', (error) =>
-      this.ctx.emit('error', KotoriError.from(error.message, this.ctx.identity?.toString()))
-    )
+    this.bot.on('webhook_error', (error) => this.ctx.emit('error', KotoriError.from(error, this.ctx.identity?.toString())))
+    this.bot.on('polling_error', (error) => this.ctx.emit('error', KotoriError.from(error, this.ctx.identity?.toString())))
+    this.bot.on('error', (error) => this.ctx.emit('error', KotoriError.from(error.message, this.ctx.identity?.toString())))
     /* ws mode handle */
     this.ctx.emit('connect', {
       type: 'connect',

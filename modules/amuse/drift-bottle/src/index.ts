@@ -35,8 +35,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
         if (Element[1] < zero) return count
         return count + 1
       }, 0)
-      if (count > conf.max)
-        return session.format('drift_bottle.msg.throw.fail', [Messages.mention(session.userId), conf.max])
+      if (count > conf.max) return session.format('drift_bottle.msg.throw.fail', [Messages.mention(session.userId), conf.max])
 
       bottles.push([data.args[0] as string, Date.now(), session.groupId, session.userId])
       setBottle(session.api.adapter.identity, bottles)
@@ -50,11 +49,7 @@ export function main(ctx: Context, conf: Tsu.infer<typeof config>) {
       if (!data || data.length <= 0) return 'drift_bottle.msg.pick.none'
 
       const bottle = data[randomInt(0, data.length)]
-      return session.format('drift_bottle.msg.pick.info', [
-        bottle[0],
-        session.i18n.time(new Date(bottle[1])),
-        bottle[2]
-      ])
+      return session.format('drift_bottle.msg.pick.info', [bottle[0], session.i18n.time(new Date(bottle[1])), bottle[2]])
     })
     .scope(MessageScope.GROUP)
 }

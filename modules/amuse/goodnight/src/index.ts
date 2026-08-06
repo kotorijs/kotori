@@ -17,9 +17,7 @@ export const config = Tsu.Object({
   getupTimeLate: hourSchema.default(18).describe('The late time of getting up'),
   sleepTimeLess: hourSchema.default(3).describe('The less time of sleeping'),
   sleepTimeLater: Tsu.Tuple([hourSchema, hourSchema]).default([1, 7]).describe('The late time of sleeping'),
-  sleepTimeLate: Tsu.Tuple([hourSchema, hourSchema])
-    .default([23, 1])
-    .describe('The abnormal time of sleeping (consider stay up)'),
+  sleepTimeLate: Tsu.Tuple([hourSchema, hourSchema]).default([23, 1]).describe('The abnormal time of sleeping (consider stay up)'),
   sleepTimeNormal: Tsu.Tuple([hourSchema, hourSchema]).default([20, 23]).describe('The normal time of sleeping')
 })
 
@@ -40,8 +38,7 @@ export function main(ctx: Context, config: Config) {
   const getTodayPath = (yesterday = false) =>
     `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${yesterday ? new Date().getDate() - 1 : new Date().getDate()}.json`
   const defaultData: Good = { morning: {}, night: {} }
-  const loadTodayData = (yesterday = false) =>
-    ctx.file.load<Good>(getTodayPath(yesterday), 'json', defaultData) || defaultData
+  const loadTodayData = (yesterday = false) => ctx.file.load<Good>(getTodayPath(yesterday), 'json', defaultData) || defaultData
   const saveTodayData = (data: Good) => ctx.file.save(getTodayPath(), data)
 
   ctx.regexp(/^(早|早安|早上好)$/, (_, session) => {
@@ -60,8 +57,7 @@ export function main(ctx: Context, config: Config) {
     // if (count > 10 && count <= 20) addExp(data.group_id!, session.userId, 5);
     const sex = session.i18n.locale(getSex())
     if (hours < 12) return session.format('goodnight.msg.morning.morning', [at, count, sex])
-    if (hours >= 12 && hours < config.getupTimeLate)
-      return session.format('goodnight.msg.morning.afternoon', [at, count, sex])
+    if (hours >= 12 && hours < config.getupTimeLate) return session.format('goodnight.msg.morning.afternoon', [at, count, sex])
     return session.format('goodnight.msg.morning.late', [at, count, sex])
   })
 

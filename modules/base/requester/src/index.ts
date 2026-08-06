@@ -1,12 +1,4 @@
-import {
-  type CommandArgType,
-  type Context,
-  type Message,
-  MessageScope,
-  type Session,
-  stringFormat,
-  Tsu
-} from 'kotori-bot'
+import { type CommandArgType, type Context, type Message, MessageScope, type Session, stringFormat, Tsu } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']
 
@@ -18,8 +10,7 @@ export const config = Tsu.Object({
     Tsu.Boolean(),
     Tsu.Custom<('get' | 'post' | 'put' | 'delete' | 'patch' | 'head' | 'options' | 'ws')[]>(
       (input) =>
-        Array.isArray(input) &&
-        input.every((el) => ['get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'ws'].includes(String(el)))
+        Array.isArray(input) && input.every((el) => ['get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'ws'].includes(String(el)))
     )
   )
     .default(['get', 'post', 'put', 'delete', 'patch'])
@@ -50,15 +41,10 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   const send = (session: Session) => (msg: string | [string, (Message | CommandArgType | undefined)[]]) => {
     if (cfg.filterCmd && session.api.adapter.platform === 'cmd') return
     const isString = typeof msg === 'string'
-    session.api.sendPrivateMsg(
-      isString ? session.i18n.locale(msg) : session.format(msg[0], msg[1]),
-      session.api.adapter.config.master
-    )
+    session.api.sendPrivateMsg(isString ? session.i18n.locale(msg) : session.format(msg[0], msg[1]), session.api.adapter.config.master)
     log(
       `${session.api.adapter.platform}/${session.api.adapter.identity}`,
-      isString
-        ? session.i18n.locale(msg.replace('.msg.', '.log.'))
-        : session.format(msg[0].replace('.msg.', '.log.'), msg[1]).toString()
+      isString ? session.i18n.locale(msg.replace('.msg.', '.log.')) : session.format(msg[0].replace('.msg.', '.log.'), msg[1]).toString()
     )
   }
 

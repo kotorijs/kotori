@@ -63,15 +63,11 @@ export class GrouperPlugin extends KotoriPlugin<Tsu.infer<(typeof GrouperPlugin)
       let reply: Message = ''
       if (count === 0 || guess === null) {
         s.quick('游戏开始！如果想要结束游戏可以发送“放弃”')
-        reply = await s.prompt(
-          s.format('{0} 这是一个 {1} 到 {2} 之间的神秘数字哦( •̀ ω •́ )✧，直接发送你要猜的数字吧~', [at, min, max])
-        )
+        reply = await s.prompt(s.format('{0} 这是一个 {1} 到 {2} 之间的神秘数字哦( •̀ ω •́ )✧，直接发送你要猜的数字吧~', [at, min, max]))
       } else if (Number.isNaN(guess)) {
         reply = await s.prompt(s.format('{0} 你输入的真的是个数字吗！不要逗我哦[○･｀Д´･ ○]~请重新发送', [at]))
       } else if (count > 10) {
-        reply = await s.prompt(
-          s.format('{0} 啊哈哈，这次你没有猜对我的数字哦(。・∀・)ノ,不行的话可以发送"放弃"结束本次游戏', [at])
-        )
+        reply = await s.prompt(s.format('{0} 啊哈哈，这次你没有猜对我的数字哦(。・∀・)ノ,不行的话可以发送"放弃"结束本次游戏', [at]))
       } else if (guess > answer) {
         reply = await s.prompt(
           s.format(
@@ -108,11 +104,7 @@ export class GrouperPlugin extends KotoriPlugin<Tsu.infer<(typeof GrouperPlugin)
     const answer = list[randomInt(0, 3)]
     if (!list.includes(reply.toString())) return s.format('{0} 哦豁，你输入的应该是石头剪刀布中的一个才对哦( ́▽`)', [at])
     if (answer === reply) return s.format('{0} 哎呀，我们果然默契无比同时出了 {1}，结局是平局啦 Σ(▼□▼〃)', [at, answer])
-    if (
-      (reply === '石头' && answer === '剪刀') ||
-      (reply === '剪刀' && answer === '布') ||
-      (reply === '布' && answer === '石头')
-    ) {
+    if ((reply === '石头' && answer === '剪刀') || (reply === '剪刀' && answer === '布') || (reply === '布' && answer === '石头')) {
       return s.format('{0} 可恶！你完美地打败我的 {1} 😭😭', [at, answer])
     }
     return s.format('{0} 哈哈,这次我的 {1} 打败了你！不过不要灰心，再接再厉哦 (•ө•)♡', [at, answer])

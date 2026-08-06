@@ -50,10 +50,7 @@ const defaultConfig: BuildConfig = {
   silent: false
 }
 
-function generateBanner(
-  template: string,
-  pkg: Package['packageJson'] & { author: string | string[]; license: string }
-): string {
+function generateBanner(template: string, pkg: Package['packageJson'] & { author: string | string[]; license: string }): string {
   return Object.entries({
     name: pkg.name ?? '',
     version: pkg.version ?? '',
@@ -67,9 +64,7 @@ function getBuildType(pkg: Package, config: BuildConfig): BuildType {
   const hasRescript = existsSync(path.join(pkg.dir, 'rescript.json'))
 
   if (hasRescript) {
-    return config.include.some((pattern) => isMatch(pattern, pkg.packageJson.name))
-      ? BuildType.Tsup
-      : BuildType.ReScript
+    return config.include.some((pattern) => isMatch(pattern, pkg.packageJson.name)) ? BuildType.Tsup : BuildType.ReScript
   }
 
   return config.exclude.some((pattern) => isMatch(pattern, pkg.packageJson.name)) ? BuildType.None : BuildType.Tsup
@@ -115,12 +110,10 @@ async function buildPackageByTsup(pkg: Package, config: BuildConfig): Promise<vo
 
     const isMainPack = pkg.packageJson.name === 'kotori-bot'
     if ((config.types || config.onlyTypes) && (!pkg.dir.includes('packages') || isMainPack)) {
-      const child = shell.exec('tsc --build', {}, () => { })
+      const child = shell.exec('tsc --build', {}, () => {})
       if (!config.silent) process.stdin.on('data', (data) => child.stdin?.write(data))
       await new Promise((resolve, reject) =>
-        child.on('exit', (code) =>
-          code === 0 ? resolve(null) : reject(new Error(`Failed to build ${pkg.packageJson.name} types`))
-        )
+        child.on('exit', (code) => (code === 0 ? resolve(null) : reject(new Error(`Failed to build ${pkg.packageJson.name} types`))))
       )
     }
     state.succeed += 1
@@ -160,7 +153,7 @@ export default async function build(initConfig: Partial<BuildConfig>, filters?: 
       buildOptions: { ...defaultConfig.buildOptions, ...initConfig.buildOptions }
     }
 
-    if (config.silent) globalThis.console.log = () => { }
+    if (config.silent) globalThis.console.log = () => {}
 
     const pkgs = ((pkgs) => pkgs)(getPackagesSync(CWD).packages.filter((pkg) => matchesFilter(pkg, filters)))
 

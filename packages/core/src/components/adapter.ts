@@ -1,8 +1,8 @@
-import type Api from './api'
+import type { Context, EventsList } from '../app'
 import type { AdapterConfig, EventDataApiBase } from '../types'
+import type Api from './api'
 import type Elements from './elements'
 import { Session } from './session'
-import type { EventsList, Context } from '../app'
 
 type EventApiType = {
   [K in keyof EventsList]: EventsList[K] extends EventDataApiBase ? EventsList[K] : never
@@ -34,11 +34,7 @@ interface AdapterStatus {
  * @class
  * @abstract
  */
-export interface AdapterImpl<
-  A extends Api = Api,
-  C extends AdapterConfig = AdapterConfig,
-  E extends Elements = Elements
-> {
+export interface AdapterImpl<A extends Api = Api, C extends AdapterConfig = AdapterConfig, E extends Elements = Elements> {
   /**
    * Context instance.
    *
@@ -109,11 +105,8 @@ export interface AdapterImpl<
   send(...data: unknown[]): void
 }
 
-export abstract class Adapter<
-  A extends Api = Api,
-  C extends AdapterConfig = AdapterConfig,
-  E extends Elements = Elements
-> implements AdapterImpl<A, C, E>
+export abstract class Adapter<A extends Api = Api, C extends AdapterConfig = AdapterConfig, E extends Elements = Elements>
+  implements AdapterImpl<A, C, E>
 {
   public constructor(ctx: Context, config: C, identity: string) {
     this.ctx = ctx

@@ -1,4 +1,4 @@
-import { Elements, MessageSingle, type Message, type MessageMapping } from 'kotori-bot'
+import { Elements, type Message, type MessageMapping, MessageSingle } from 'kotori-bot'
 
 export class McElements extends Elements {
   public getSupportsElements(): (keyof MessageMapping)[] {

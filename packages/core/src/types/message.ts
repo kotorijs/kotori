@@ -80,10 +80,7 @@ export interface MessageMapping {
   }
 }
 
-export type Message<T extends keyof MessageMapping = keyof MessageMapping> =
-  | MessageSingle<T | 'text'>
-  | MessageList<T | 'text'>
-  | string
+export type Message<T extends keyof MessageMapping = keyof MessageMapping> = MessageSingle<T | 'text'> | MessageList<T | 'text'> | string
 
 export type MessageQuickReal =
   | [string, (Message | CommandArgType | undefined)[] | Record<string, CommandArgType | undefined>]
@@ -159,19 +156,19 @@ interface EventDataBeforeSend {
   message: Message
   /** Target user or group or channel */
   target:
-  | {
-    type: MessageScope.PRIVATE
-    userId: string
-  }
-  | {
-    type: MessageScope.GROUP
-    groupId: string
-  }
-  | {
-    type: MessageScope.CHANNEL
-    channelId: string
-    guildId: string
-  }
+    | {
+        type: MessageScope.PRIVATE
+        userId: string
+      }
+    | {
+        type: MessageScope.GROUP
+        groupId: string
+      }
+    | {
+        type: MessageScope.CHANNEL
+        channelId: string
+        guildId: string
+      }
   /** Cancel the message sending */
   cancel(): void
 }

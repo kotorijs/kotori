@@ -10,9 +10,7 @@ function daemon(virtualEnv: Record<string, string | undefined>) {
   const isSource = existsSync(resolve(__dirname, 'cli.ts'))
 
   const child = executeCommand(
-    isDev || isSource
-      ? `tsx "${resolve(__dirname, isSource ? 'cli.ts' : 'cli.js')}"`
-      : `node "${resolve(__dirname, 'cli.js')}"`,
+    isDev || isSource ? `tsx "${resolve(__dirname, isSource ? 'cli.ts' : 'cli.js')}"` : `node "${resolve(__dirname, 'cli.js')}"`,
     { cwd: process.cwd(), env: virtualEnv },
     (err, stdout, stderr) => {
       if (err && isDev) Logger.error('[Daemon] Child process error: ', err)

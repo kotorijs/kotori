@@ -279,10 +279,9 @@ export function main(ctx: Context, config: Config) {
         received = record.received
       }
 
-      return session.format(
-        `群友 {0} 今日统计：\n主动社了：${given}/${config.maxCount} 次\n被动受孕：${received}/${config.maxCount2} 次`,
-        [Messages.mention(targetId)]
-      )
+      return session.format(`群友 {0} 今日统计：\n主动社了：${given}/${config.maxCount} 次\n被动受孕：${received}/${config.maxCount2} 次`, [
+        Messages.mention(targetId)
+      ])
     })
 
   ctx

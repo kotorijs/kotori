@@ -5,10 +5,10 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-08-05 16:56:25
  */
-import { Api, type Message, type UserInfoResponse, type GroupInfoResponse } from 'kotori-bot'
+import { Api, type GroupInfoResponse, type Message, type UserInfoResponse } from 'kotori-bot'
+import type z from 'zod'
 import type SandboxAdapter from './adapter'
 import type { responseSchema } from './type'
-import type z from 'zod'
 
 export class SandboxApi extends Api {
   private factory<T>(callback: (data: z.infer<typeof responseSchema>) => null | T) {
@@ -73,9 +73,7 @@ export class SandboxApi extends Api {
   public async getFriendList() {
     this.adapter.send({ action: 'get_friend_list' })
     return this.factory((data) =>
-      Array.isArray(data) && (data.length === 0 || data[0].response === 'user_info_response')
-        ? (data as UserInfoResponse[])
-        : null
+      Array.isArray(data) && (data.length === 0 || data[0].response === 'user_info_response') ? (data as UserInfoResponse[]) : null
     )
   }
 
@@ -87,25 +85,19 @@ export class SandboxApi extends Api {
   public async getGroupList() {
     this.adapter.send({ action: 'get_group_list' })
     return this.factory((data) =>
-      Array.isArray(data) && (data.length === 0 || data[0].response === 'group_info_response')
-        ? (data as GroupInfoResponse[])
-        : null
+      Array.isArray(data) && (data.length === 0 || data[0].response === 'group_info_response') ? (data as GroupInfoResponse[]) : null
     )
   }
 
   public async getGroupMemberInfo(groupId: string, userId: string) {
     this.adapter.send({ action: 'get_group_member_info', groupId, userId })
-    return this.factory((data) =>
-      !Array.isArray(data) && data.response === 'group_member_info_response' ? data : null
-    )
+    return this.factory((data) => (!Array.isArray(data) && data.response === 'group_member_info_response' ? data : null))
   }
 
   public async getGroupMemberList(groupId: string) {
     this.adapter.send({ action: 'get_group_member_list', groupId })
     return this.factory((data) =>
-      Array.isArray(data) && (data.length === 0 || data[0].response === 'group_member_info_response')
-        ? (data as UserInfoResponse[])
-        : null
+      Array.isArray(data) && (data.length === 0 || data[0].response === 'group_member_info_response') ? (data as UserInfoResponse[]) : null
     )
   }
 

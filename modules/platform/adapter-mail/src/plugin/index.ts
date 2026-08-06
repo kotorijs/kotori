@@ -1,6 +1,6 @@
-import { UserAccess, type Context, Symbols, Tsu } from 'kotori-bot'
-import type MailAdapter from '../adapter'
 import { resolve } from 'node:path'
+import { type Context, Symbols, Tsu, UserAccess } from 'kotori-bot'
+import type MailAdapter from '../adapter'
 
 export const name = require('../../package.json').name
 
@@ -26,9 +26,7 @@ export function main(ctx: Context, config: { forward: string[]; enable: boolean 
       const instances = Array.from(ctx[Symbols.bot].get('mail') ?? []).map((bot) => bot.adapter as MailAdapter)
       if (list) {
         return session.format('adapter_mail.msg.mail.list', [
-          instances
-            .map((instance) => session.format('adapter_mail.msg.mail.item', [instance.identity, instance.config.user]))
-            .join('')
+          instances.map((instance) => session.format('adapter_mail.msg.mail.item', [instance.identity, instance.config.user])).join('')
         ])
       }
 

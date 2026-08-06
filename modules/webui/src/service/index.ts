@@ -56,7 +56,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
       if (root in settings) {
         const command = Array.from(this.ctx[Symbols.command]).find((command) => command.meta.root === root)
         if (command) {
-          ; (command as { meta: object }).meta = { ...command.meta, ...settings[root] }
+          ;(command as { meta: object }).meta = { ...command.meta, ...settings[root] }
         }
       } else {
         settings[root] = { hide, shortcut, alias, scope, access }
@@ -64,20 +64,20 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     }
     await this.ctx.db.put('command_settings', settings)
 
-      // Listen data change
-      ; (this.ctx as { config: object }).config = createAutoSave(
-        this.ctx.config,
-        resolve(this.ctx.baseDir.config),
-        parse(this.ctx.baseDir.config).ext.slice(1) as 'json',
-        this.ctx.config
-      )
+    // Listen data change
+    ;(this.ctx as { config: object }).config = createAutoSave(
+      this.ctx.config,
+      resolve(this.ctx.baseDir.config),
+      parse(this.ctx.baseDir.config).ext.slice(1) as 'json',
+      this.ctx.config
+    )
 
     for await (const bots of this.ctx[Symbols.bot].values()) {
       for await (const { adapter } of bots) {
         const { identity } = adapter
         const botStats = await this.ctx.db.get<BotStats>('bot_stats')
         if (botStats[identity]) {
-          ; (adapter as { status: object }).status = {
+          ;(adapter as { status: object }).status = {
             ...botStats[identity],
             createTime: new Date(botStats[identity].createTime),
             lastMsgTime: botStats[identity].lastMsgTime ? new Date(botStats[identity].lastMsgTime as number) : null,
@@ -104,7 +104,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
     }
 
     this.ctx.on('before_send', (data) =>
-      f( (botStats, botStatsToday) => {
+      f((botStats, botStatsToday) => {
         if (data.api.adapter.identity in botStats) {
           botStats[data.api.adapter.identity].sentMsg += 1
         } else {
@@ -123,45 +123,45 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
       })
     )
 
-    this.ctx.on('on_message', (session) => f((botStats, botStatsToday) => {
-      if (session.api.adapter.identity in botStats) {
-        botStats[session.api.adapter.identity].receivedMsg += 1
-      } else {
-        botStats[session.api.adapter.identity] = {
-          ...session.api.adapter.status,
-          createTime: new Date(session.api.adapter.status.createTime).getTime(),
-          lastMsgTime: session.api.adapter.status.lastMsgTime
-            ? new Date(session.api.adapter.status.lastMsgTime).getTime()
-            : null
+    this.ctx.on('on_message', (session) =>
+      f((botStats, botStatsToday) => {
+        if (session.api.adapter.identity in botStats) {
+          botStats[session.api.adapter.identity].receivedMsg += 1
+        } else {
+          botStats[session.api.adapter.identity] = {
+            ...session.api.adapter.status,
+            createTime: new Date(session.api.adapter.status.createTime).getTime(),
+            lastMsgTime: session.api.adapter.status.lastMsgTime ? new Date(session.api.adapter.status.lastMsgTime).getTime() : null
+          }
         }
-      }
 
-      if (session.api.adapter.identity in botStatsToday) {
-        botStatsToday[session.api.adapter.identity].receivedMsg += 1
-      } else if (!botStatsToday[session.api.adapter.identity]) {
-        botStatsToday[session.api.adapter.identity] = { sentMsg: 0, receivedMsg: 1, offlineTimes: 0 }
-      }
-    }))
-
-    this.ctx.on('status', async (data) => f((botStats, botStatsToday) => {
-      if (data.adapter.identity in botStats) {
-        botStats[data.adapter.identity].offlineTimes += 1
-      } else {
-        botStats[data.adapter.identity] = {
-          ...data.adapter.status,
-          createTime: new Date(data.adapter.status.createTime).getTime(),
-          lastMsgTime: data.adapter.status.lastMsgTime
-            ? new Date(data.adapter.status.lastMsgTime).getTime()
-            : null
+        if (session.api.adapter.identity in botStatsToday) {
+          botStatsToday[session.api.adapter.identity].receivedMsg += 1
+        } else if (!botStatsToday[session.api.adapter.identity]) {
+          botStatsToday[session.api.adapter.identity] = { sentMsg: 0, receivedMsg: 1, offlineTimes: 0 }
         }
-      }
+      })
+    )
 
-      if (data.adapter.identity in botStatsToday) {
-        botStatsToday[data.adapter.identity].offlineTimes += 1
-      } else if (!botStatsToday[data.adapter.identity]) {
-        botStatsToday[data.adapter.identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 1 }
-      }
-    }))
+    this.ctx.on('status', async (data) =>
+      f((botStats, botStatsToday) => {
+        if (data.adapter.identity in botStats) {
+          botStats[data.adapter.identity].offlineTimes += 1
+        } else {
+          botStats[data.adapter.identity] = {
+            ...data.adapter.status,
+            createTime: new Date(data.adapter.status.createTime).getTime(),
+            lastMsgTime: data.adapter.status.lastMsgTime ? new Date(data.adapter.status.lastMsgTime).getTime() : null
+          }
+        }
+
+        if (data.adapter.identity in botStatsToday) {
+          botStatsToday[data.adapter.identity].offlineTimes += 1
+        } else if (!botStatsToday[data.adapter.identity]) {
+          botStatsToday[data.adapter.identity] = { sentMsg: 0, receivedMsg: 0, offlineTimes: 1 }
+        }
+      })
+    )
   }
 
   public setVerifyHash(username: string, password: string) {
@@ -177,9 +177,7 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
   }
 
   public checkToken(authorization?: string) {
-    return (
-      !!authorization && (this.ctx.cache.get<string[]>('tokens') ?? []).includes(authorization.replace('Bearer ', ''))
-    )
+    return !!authorization && (this.ctx.cache.get<string[]>('tokens') ?? []).includes(authorization.replace('Bearer ', ''))
   }
 
   public async accountLogin(username: string, password: string) {
@@ -389,15 +387,15 @@ export class Webui extends Service<Tsu.infer<typeof config>> {
 
   public configGlobalUpdate(data: object) {
     for (const key in data) {
-      if (key in this.ctx.config.global)
-        this.ctx.config.global[key as keyof typeof this.ctx.config.global] = data[key as keyof typeof data]
+      if (key in this.ctx.config.global) this.ctx.config.global[key as keyof typeof this.ctx.config.global] = data[key as keyof typeof data]
     }
   }
 
   public async configCommandsGet(name?: string) {
-    const CommandSettings = Object.entries(await this.ctx.db.get<CommandSettings>('command_settings')).map(
-      ([name, data]) => ({ name, data })
-    ) as { name: string }[]
+    const CommandSettings = Object.entries(await this.ctx.db.get<CommandSettings>('command_settings')).map(([name, data]) => ({
+      name,
+      data
+    })) as { name: string }[]
     if (!name) return CommandSettings
     return CommandSettings.find(({ name: targetName }) => name === targetName)
   }

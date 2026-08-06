@@ -28,11 +28,7 @@ export class I18n<T extends LocaleType = LocaleType> {
   }
 
   public locale(locale: string, lang: T = this.lang) {
-    return (
-      this.localesData.get(lang)?.get(locale.toLowerCase()) ??
-      this.localesData.get('common' as T)?.get(locale.toLowerCase()) ??
-      locale
-    )
+    return this.localesData.get(lang)?.get(locale.toLowerCase()) ?? this.localesData.get('common' as T)?.get(locale.toLowerCase()) ?? locale
   }
 
   public t(raw: TemplateStringsArray) {
@@ -53,27 +49,15 @@ export class I18n<T extends LocaleType = LocaleType> {
     return sonInstance
   }
 
-  public date(
-    date: Date | number = new Date(),
-    style: Intl.DateTimeFormatOptions['dateStyle'] = undefined,
-    lang: T = this.lang
-  ) {
+  public date(date: Date | number = new Date(), style: Intl.DateTimeFormatOptions['dateStyle'] = undefined, lang: T = this.lang) {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { dateStyle: style }).format(date)
   }
 
-  public time(
-    time: Date | number = new Date(),
-    style: Intl.DateTimeFormatOptions['timeStyle'] = undefined,
-    lang: T = this.lang
-  ) {
+  public time(time: Date | number = new Date(), style: Intl.DateTimeFormatOptions['timeStyle'] = undefined, lang: T = this.lang) {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { timeStyle: style }).format(time)
   }
 
-  public period(
-    time: Date | number = new Date(),
-    style: Intl.DateTimeFormatOptions['dayPeriod'] = undefined,
-    lang: T = this.lang
-  ) {
+  public period(time: Date | number = new Date(), style: Intl.DateTimeFormatOptions['dayPeriod'] = undefined, lang: T = this.lang) {
     return new Intl.DateTimeFormat(LocaleIdentifier[lang], { dayPeriod: style }).format(time)
   }
 
@@ -85,12 +69,7 @@ export class I18n<T extends LocaleType = LocaleType> {
     return new Intl.ListFormat(LocaleIdentifier[lang], options).format(list)
   }
 
-  public rtime(
-    value: number,
-    unit: Intl.RelativeTimeFormatUnit,
-    options?: Intl.RelativeTimeFormatOptions,
-    lang: T = this.lang
-  ) {
+  public rtime(value: number, unit: Intl.RelativeTimeFormatUnit, options?: Intl.RelativeTimeFormatOptions, lang: T = this.lang) {
     return new Intl.RelativeTimeFormat(LocaleIdentifier[lang], options).format(value, unit)
   }
 

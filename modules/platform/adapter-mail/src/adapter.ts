@@ -1,20 +1,20 @@
+import * as imap from 'imap-simple'
 import {
-  type AdapterConfig,
-  type Context,
-  MessageScope,
-  Tsu,
-  KotoriError,
   Adapter,
-  Symbols,
+  type AdapterConfig,
+  type Api,
+  type Context,
   formatFactory,
+  KotoriError,
+  MessageScope,
+  Symbols,
   sleep,
-  type Api
+  Tsu
 } from 'kotori-bot'
+import { simpleParser } from 'mailparser'
+import * as nodemailer from 'nodemailer'
 import MailApi from './api'
 import MailElements from './elements'
-import * as nodemailer from 'nodemailer'
-import * as imap from 'imap-simple'
-import { simpleParser } from 'mailparser'
 
 export const config = Tsu.Object({
   title: Tsu.String().default('Love from kotori bot mailer').describe('Mail default title'),

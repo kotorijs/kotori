@@ -1,5 +1,5 @@
-import { plugins, type Session, KotoriPlugin, Messages } from 'kotori-bot'
-import { colorToRGB, loadJapaneseColor, loadChinaColor, randomFromArray } from './utils'
+import { KotoriPlugin, Messages, plugins, type Session } from 'kotori-bot'
+import { colorToRGB, loadChinaColor, loadJapaneseColor, randomFromArray } from './utils'
 
 const plugin = plugins([__dirname, '../'])
 
@@ -30,9 +30,7 @@ export class ColorPlugin extends KotoriPlugin {
     if (color) {
       const rgb = colorToRGB(color)
       const handle = color.toUpperCase()
-      data = colorData.find(
-        (item) => item.name === handle || item.romaji === handle || item.rgb.join(',') === rgb?.join(',')
-      )
+      data = colorData.find((item) => item.name === handle || item.romaji === handle || item.rgb.join(',') === rgb?.join(','))
     } else {
       data = randomFromArray(colorData)
     }
@@ -52,9 +50,7 @@ export class ColorPlugin extends KotoriPlugin {
 
     if (color) {
       const rgb = colorToRGB(color)
-      data = colorData.find(
-        (item) => item.name === color || item.traName === color || item.rgb.join(',') === rgb?.join(',')
-      )
+      data = colorData.find((item) => item.name === color || item.traName === color || item.rgb.join(',') === rgb?.join(','))
     } else {
       data = randomFromArray(colorData)
     }

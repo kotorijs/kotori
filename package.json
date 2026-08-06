@@ -13,7 +13,8 @@
     "dev": "nodemon --watch",
     "pub": "tsx scripts/pub",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
-    "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+    "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "ro": "bun agent/bin"
   },
   "files": [
     "{packages,modules}/**/*/locales/**/*",
@@ -25,7 +26,7 @@
     "kotori.*"
   ],
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
+    "@biomejs/biome": "2.5.4",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.1",
     "conventional-changelog-cli": "^4.1.0",

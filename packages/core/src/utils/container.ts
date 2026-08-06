@@ -1,6 +1,6 @@
-import { KotoriError } from './error'
-import { Symbols } from '../global'
 import type { Context } from '../app'
+import { Symbols } from '../global'
+import { KotoriError } from './error'
 
 export class Container {
   private constructor() {}

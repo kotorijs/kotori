@@ -17,12 +17,7 @@ export async function wikiSearch(api: string, keyword: string) {
     srsearch: keyword
     // biome-ignore lint:
   })) as any
-  if (
-    !result ||
-    !result.query ||
-    !result.query.search ||
-    (Array.isArray(result.query.search) && result.query.search.length < 1)
-  )
+  if (!result || !result.query || !result.query.search || (Array.isArray(result.query.search) && result.query.search.length < 1))
     return null
 
   let searchData = result.query.search

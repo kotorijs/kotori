@@ -104,12 +104,9 @@ export class OnebotApi extends Api {
   }
 
   public async getGroupInfo(groupId: string) {
-    const data = await this.adapter.call<{ group_id: number; group_name: string; group_memo: string }>(
-      'get_group_info',
-      {
-        group_id: Number(groupId)
-      }
-    )
+    const data = await this.adapter.call<{ group_id: number; group_name: string; group_memo: string }>('get_group_info', {
+      group_id: Number(groupId)
+    })
     return {
       groupId: String(data.group_id),
       groupName: data.group_name,
@@ -118,8 +115,7 @@ export class OnebotApi extends Api {
   }
 
   public async getGroupList() {
-    const data =
-      await this.adapter.call<{ group_id: number; group_name: string; group_memo: string }[]>('get_group_list')
+    const data = await this.adapter.call<{ group_id: number; group_name: string; group_memo: string }[]>('get_group_list')
     return data.map((item) => ({
       groupId: String(item.group_id),
       groupName: item.group_name,

@@ -148,10 +148,7 @@ export class Server extends Service<ServerConfig> implements HttpRoutes {
     this.app.all(path, ...callback)
   }
 
-  public use<P extends string>(
-    path: P | HttpRouteHandler | HttpRoutes,
-    ...callback: (HttpRouteHandler<P> | HttpRoutes)[]
-  ) {
+  public use<P extends string>(path: P | HttpRouteHandler | HttpRoutes, ...callback: (HttpRouteHandler<P> | HttpRoutes)[]) {
     if (typeof path === 'string') this.app.use(path, ...(callback as HttpRouteHandler<P>[]))
     else this.app.use('/', path as HttpRouteHandler<'/'>, ...(callback as HttpRouteHandler<P>[]))
   }

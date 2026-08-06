@@ -21,9 +21,7 @@ export class I18n<T extends LocaleType = LocaleType> extends I18nCommon<T> {
     }
   }
 
-  public constructor(
-    config: ConstructorParameters<typeof I18nCommon<T>>[0] & { ext?: string } = { lang: DEFAULT_LANG as T }
-  ) {
+  public constructor(config: ConstructorParameters<typeof I18nCommon<T>>[0] & { ext?: string } = { lang: DEFAULT_LANG as T }) {
     super(config)
     this.ext = config.ext ?? DEFAULT_EXT
   }

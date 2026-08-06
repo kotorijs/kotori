@@ -111,10 +111,7 @@ class Database extends Service<DatabaseConfig> {
     // if (this.timer) clearInterval(Number(this.timer))
   }
 
-  public async get<T extends DatabaseValue | null = DatabaseValue | null>(
-    key: string,
-    init?: Exclude<T, null>
-  ): Promise<T> {
+  public async get<T extends DatabaseValue | null = DatabaseValue | null>(key: string, init?: Exclude<T, null>): Promise<T> {
     try {
       const value = await this.level.get(this.prefixKey(key))
       return JSON.parse(value)

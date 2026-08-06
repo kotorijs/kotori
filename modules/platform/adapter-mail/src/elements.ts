@@ -1,4 +1,4 @@
-import { Elements, type Message, MessageSingle, type MessageMapping } from 'kotori-bot'
+import { Elements, type Message, type MessageMapping, MessageSingle } from 'kotori-bot'
 
 export class MailElements extends Elements {
   public getSupportsElements(): (keyof MessageMapping)[] {
@@ -37,12 +37,7 @@ export class MailElements extends Elements {
   }
 
   private escapeHtml(unsafe: string): string {
-    return unsafe
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;')
+    return unsafe.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;')
   }
 }
 

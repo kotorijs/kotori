@@ -30,11 +30,7 @@ export class KotoriError extends Error implements KotoriErrorImpl {
   public extend() {
     return new Proxy(KotoriError, {
       construct: (target, args, newTarget) =>
-        Reflect.construct(
-          target,
-          [`${this.message ? `${this.message} ` : ''}${args[0]}`, args[1] ?? this.label],
-          newTarget
-        )
+        Reflect.construct(target, [`${this.message ? `${this.message} ` : ''}${args[0]}`, args[1] ?? this.label], newTarget)
     })
   }
 

@@ -1,4 +1,4 @@
-import { type Context, Tsu, regExpExecAll } from 'kotori-bot'
+import { type Context, regExpExecAll, Tsu } from 'kotori-bot'
 
 const cityResponseSchema = Tsu.Object({
   city_list: Tsu.Array(

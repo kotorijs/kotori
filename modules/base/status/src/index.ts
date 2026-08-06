@@ -5,8 +5,9 @@
  * @LastEditors: Hotaru biyuehuya@gmail.com
  * @LastEditTime: 2024-02-15 17:21:28
  */
-import { type Context, Tsu } from 'kotori-bot'
+
 import os from 'node:os'
+import { type Context, Tsu } from 'kotori-bot'
 
 function dealTime() {
   const seconds = Math.floor(os.uptime())
