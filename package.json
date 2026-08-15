@@ -13,8 +13,7 @@
     "dev": "nodemon --watch",
     "pub": "tsx scripts/pub",
     "test": "pnpm -r exec jest --preset ts-jest --coverageDirectory coverage --testEnvironment node --passWithNoTests",
-    "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
-    "ro": "bun agent/bin"
+    "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "files": [
     "{packages,modules}/**/*/locales/**/*",
@@ -36,7 +35,8 @@
     "ts-jest": "^29.2.4",
     "tsup": "^8.1.0",
     "tsx": "^4.11.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "webagentx": "^1.1.0"
   },
   "packageManager": "pnpm@8.7.4+",
   "engines": {

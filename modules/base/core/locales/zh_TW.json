@@ -55,5 +55,6 @@
   "core.template.description": " - %content%",
   "core.template.options": "\n  參數說明：%content%",
   "core.template.option": "\n  -%name%, --%realname%%type%%description%",
-  "core.template.option.type": " 類型：%type%"
+  "core.template.option.type": " 類型：%type%",
+  "core.option.help.exact": "精確查找"
 }

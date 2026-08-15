@@ -17,7 +17,9 @@ export class Main {
 
   protected groupDecrease(session: EventsList['on_group_decrease']) {
     session.quick([
-      String(session.userId) === String(session.operatorId) ? '{0} 默默地退出了群聊' : '{0} 被 {1} 制裁了...',
+      String(session.userId) === String(session.operatorId) || !Number(session.operatorId)
+        ? '{0} 默默地退出了群聊'
+        : '{0} 被 {1} 制裁了...',
       [session.userId, session.operatorId]
     ])
   }
