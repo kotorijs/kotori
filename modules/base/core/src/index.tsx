@@ -27,7 +27,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       ctx.emit(
         'on_message',
         Object.assign(data.session, {
-          message: <text>{`${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root}`}</text>
+          message: <text>{`${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root} --exact`}</text>
         })
       )
       return
@@ -253,19 +253,23 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       setTimeout(() => process.exit(233), 1)
     })
 
-  ctx.command('help [...command] - core.descr.help').action((data, session) => {
-    const args = data.args.join(' ')
-    const filterResult: Command['meta'][] = []
+  ctx
+    .command('help [...command] - core.descr.help')
+    .option('E', 'exact:boolean core.option.help.exact')
+    .action(({ args: [args], options: { exact } }, session) => {
+      const filterResult: Command['meta'][] = []
 
-    for (const command of ctx[Symbols.command]) {
-      if (command.meta.hide) continue
-      if (!command.meta.root.startsWith(args) && !command.meta.alias.some((alias) => alias.startsWith(args))) continue
-      filterResult.push(command.meta)
-    }
+      for (const command of ctx[Symbols.command]) {
+        if (command.meta.hide) continue
+        const matched = exact
+          ? command.meta.root === args || command.meta.alias.some((alias) => alias === args)
+          : command.meta.root.startsWith(args) || command.meta.alias.some((alias) => alias.startsWith(args))
+        if (matched) filterResult.push(command.meta)
+      }
 
-    if (filterResult.length === 0) return 'core.msg.descr.fail'
-    let commands = ''
-    const short = filterResult.length === 1
+      if (filterResult.length === 0) return 'core.msg.descr.fail'
+      let commands = ''
+      const short = filterResult.length === 1
     for (const cmd of filterResult) {
       const alias =
         cmd.alias.length > 0

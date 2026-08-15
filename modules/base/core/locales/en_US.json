@@ -58,5 +58,6 @@
   "core.template.description": " - %content%",
   "core.template.options": "\n Argument Description: %content%",
   "core.template.option": "\n -%name%, --%realname%%type%%description%",
-  "core.template.option.type": " Type: %type%"
+  "core.template.option.type": " Type: %type%",
+  "core.option.help.exact": "Exact search"
 }

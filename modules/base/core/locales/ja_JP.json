@@ -55,5 +55,6 @@
   "core.template.description": " - %content%",
   "core.template.options": "\n 引数の説明：%content%",
   "core.template.option": "\n -%name%, --%realname%%type%%description%",
-  "core.template.option.type": " タイプ：%type%"
+  "core.template.option.type": " タイプ：%type%",
+  "core.option.help.exact": "完全一致検索"
 }

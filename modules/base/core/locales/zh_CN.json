@@ -58,5 +58,6 @@
   "core.template.description": " - %content%",
   "core.template.options": "\n  参数说明：%content%",
   "core.template.option": "\n  -%name%, --%realname%%type%%description%",
-  "core.template.option.type": " 类型：%type%"
+  "core.template.option.type": " 类型：%type%",
+  "core.option.help.exact": "精确查找"
 }
