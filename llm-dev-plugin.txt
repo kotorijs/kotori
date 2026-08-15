@@ -1,0 +1,734 @@
+# Kotori 插件开发指南（面向 LLM）
+
+本文档旨在指导 LLM 如何为 Kotori 聊天机器人框架开发插件（模块）。Kotori 是一个跨平台、解耦合、现代化的聊天机器人框架，运行于 Node.js 环境，使用 TypeScript 开发，基于控制反转（IOC）与面向切面编程（AOP）思想。
+
+---
+
+## 一、模块基本结构
+
+### 1.1 package.json 规范
+
+一个合法的 Kotori 模块的 `package.json` 必须满足以下要求：
+
+- `name` 必须匹配正则 `/kotori-plugin-[a-z]([a-z,0-9]{2,13})\b/`，即以 `kotori-plugin-` 开头，后接小写字母加 2~13 个小写字母或数字
+- `keywords` 中必须包含 `"kotori"`、`"chatbot"`、`"kotori-plugin"`
+- `peerDependencies` 中必须包含 `"kotori-bot"`
+- `main` 字段指向编译产物入口文件（一般为 `lib/index.js`）
+
+特殊命名约定：
+- 适配器模块：`kotori-plugin-adapter-xxx`
+- 数据库模块：`kotori-plugin-database-xxx`
+
+可选元数据字段 `kotori`：
+```json
+{
+  "kotori": {
+    "enforce": "pre" | "post",  // 加载顺序：数据库 > 适配器 > 核心 > pre > 默认 > post
+    "meta": {
+      "languages": ["en_US", "zh_CN", "ja_JP", "zh_TW"]
+    }
+  }
+}
+```
+
+### 1.2 入口文件
+
+入口文件默认为 `src/index.tsx`（或 `src/index.ts`），编译后为 `lib/index.js`。入口文件需导出一个 `main` 函数（或默认导出函数/类），接收 `Context` 实例和可选的配置数据作为参数。
+
+最小入口文件示例：
+```typescript
+import { Context, ModuleConfig } from 'kotori-bot';
+
+export function main(ctx: Context, config: ModuleConfig) {
+  ctx.on('on_message', (session) => {
+    session.send('Hello, Kotori!');
+  });
+}
+```
+
+### 1.3 模块范式
+
+Kotori 支持以下几种模块范式，优先级从高到低：
+
+1. **默认导出类**：`export default class { constructor(ctx, config) {} }`
+2. **默认导出函数**：`export default function(ctx, config) {}`
+3. **命名导出函数**：`export function main(ctx, config) {}`
+4. **命名导出类**：`export class Main { constructor(ctx, config) {} }`
+5. **直接调用式**：通过 `import Kotori from 'kotori-bot'` 直接操作（不推荐用于插件开发）
+6. **装饰器式**：使用 `@plugin.import` 等装饰器（推荐）
+
+模块还可导出以下可选属性：
+- `inject: string[]` — 声明依赖的服务
+- `config: Tsu.Object(...)` — 模块配置项的 Schema
+- `lang: string | string[]` — 国际化文件目录路径
+
+---
+
+## 二、事件系统（Events）
+
+事件系统是 Kotori 的基础通信机制，通过 `ctx.on()` 订阅事件。
+
+### 2.1 订阅事件
+
+```typescript
+ctx.on('on_message', (session) => {
+  if (session.content === '你是谁') {
+    session.send('是 Kotori！');
+  }
+});
+```
+
+### 2.2 取消订阅
+
+- `ctx.off(eventName, callback)` — 取消特定回调
+- `ctx.once(eventName, callback)` — 只触发一次的订阅
+- `ctx.offAll(eventName)` — 取消某事件下所有回调
+
+### 2.3 发出事件
+
+```typescript
+ctx.emit('custom_event', data);
+```
+
+### 2.4 事件类型
+
+- **系统事件**：`ready`（所有模块加载完成）、`dispose`（关闭时）、`status`（Bot 在线状态改变）
+- **会话事件**：`on_message`、`on_recall`、`on_group_increase` 等
+- **自定义事件**：通过 TypeScript 声明合并扩展 `EventsMapping` 接口定义
+
+### 2.5 Session 对象
+
+会话事件回调接收 `session` 对象，常用属性和方法：
+- `session.type` — 消息类型（`MessageScope.PRIVATE` / `MessageScope.GROUP` / `MessageScope.CHANNEL`）
+- `session.userId` — 发送者 ID
+- `session.groupId` — 群组 ID（群聊时）
+- `session.content` — 消息文本内容
+- `session.api` — `Api` 实例，提供与平台交互的方法
+- `session.el` — `Elements` 实例，用于构造消息元素（如 `session.el.at(userId)`、`session.el.image(url)`）
+- `session.send(message)` — 自动判断消息类型并发送
+- `session.quick(data)` — 更高级的消息发送（支持国际化、格式化等）
+- `session.format(template, args)` — 模板字符串替换
+- `session.prompt(message?)` — 等待用户输入，返回 `Promise<string>`
+- `session.confirm({ message, sure })` — 确认对话框，返回 `Promise<boolean>`
+- `session.error(type, target?)` — 抛出运行时指令错误
+
+---
+
+## 三、指令系统（Command）
+
+指令是对 `on_message` 事件的再封装，是最常用的交互方式。
+
+### 3.1 注册指令
+
+```typescript
+ctx.command('echo <content:string> - 回声指令')
+  .action((args, session) => {
+    return args.content;  // 返回值自动发送
+  });
+```
+
+### 3.2 指令模板语法
+
+- `<>` 必要参数，`[]` 可选参数
+- 格式：`参数名:类型`，类型可选（默认 `string`），支持 `string`、`number`、`boolean`
+- 可选参数可设默认值：`[times:number=1]`
+- 剩余参数：`...items:string`（必须放在最后）
+- 指令描述：末尾加 `- 描述文本`
+
+### 3.3 指令方法（链式调用）
+
+| 方法 | 说明 |
+|------|------|
+| `.action(callback)` | 设置回调函数，接收 `(args, session)`，args 包含所有参数值 |
+| `.option(alias, template)` | 设置选项，如 `.option('t', '-t --time <time:string>')` |
+| `.scope(MessageScope)` | 设置作用域（PRIVATE/GROUP/CHANNEL） |
+| `.alias(name | names[])` | 设置别名 |
+| `.access(UserAccess)` | 设置权限（MEMBER/MANAGER/ADMIN） |
+| `.help(text)` | 设置帮助信息 |
+
+### 3.4 子指令
+
+```typescript
+const listCmd = ctx.command('list - 列表操作');
+listCmd.subcommand('query - 查询')
+  .action((args, session) => { /* ... */ });
+listCmd.subcommand('add <item:string> - 添加')
+  .action((args, session) => { /* ... */ });
+listCmd.subcommand('remove <item:string> - 删除')
+  .action((args, session) => { /* ... */ });
+```
+
+### 3.5 指令错误处理
+
+使用 `session.error()` 抛出运行时错误，类型包括：
+- `data_error` — 参数数据错误
+- `res_error` — 资源获取错误（如 API 返回异常）
+- `num_error` — 序号错误
+- `exists` — 目标已存在
+- `no_exists` — 目标不存在
+
+```typescript
+session.error('data_error', '期望数字，实际收到字符串');
+```
+
+---
+
+## 四、中间件（Middleware）
+
+中间件用于在消息处理前进行过滤，位于指令和正则匹配之前执行。
+
+### 4.1 注册中间件
+
+```typescript
+ctx.midware((next, session) => {
+  if (session.content === 'hello') {
+    next();  // 通过，继续处理
+  }
+  // 不调用 next() 则拦截消息
+}, priority?);  // 优先级，默认 50，越小越优先
+```
+
+### 4.2 移除中间件
+
+```typescript
+const dispose = ctx.midware((next, session) => { next(); });
+dispose();  // 移除
+```
+
+---
+
+## 五、正则匹配（RegExp）
+
+正则匹配位于消息处理最后一环（中间件和指令之后执行）。
+
+### 5.1 注册正则匹配
+
+```typescript
+ctx.regexp(/^echo\s+(.+)$/, (match, session) => {
+  return match[1];  // 返回第一个捕获组
+});
+```
+
+### 5.2 移除正则匹配
+
+```typescript
+const dispose = ctx.regexp(/pattern/, callback);
+dispose();
+```
+
+---
+
+## 六、计划任务（Task）
+
+基于 cron 表达式实现定时任务。
+
+### 6.1 注册任务
+
+```typescript
+// 简单方式
+ctx.task('0 0 * * *', () => {
+  // 每天零点执行
+});
+
+// 配置方式
+ctx.task({
+  cron: '0 8 * * 1-5',
+  timeZone: 'Asia/Shanghai',
+  start: true
+}, () => {
+  // 工作日早上 8 点执行
+});
+```
+
+### 6.2 移除任务
+
+```typescript
+const dispose = ctx.task('* * * * *', callback);
+dispose();
+```
+
+### 6.3 Cron 表达式格式
+
+```
+秒(可选) 分 时 日 月 周
+```
+
+常用示例：
+- `* * * * *` — 每分钟
+- `0 * * * *` — 每小时
+- `0 0 * * *` — 每天零点
+- `0 8 * * *` — 每天 8 点
+- `0 0 * * 0` — 每周日零点
+- `0 0 1 * *` — 每月 1 号零点
+
+---
+
+## 七、上下文（Context）
+
+上下文是 Kotori 的核心机制，实现依赖注入和面向切面编程。
+
+### 7.1 核心方法
+
+| 方法 | 说明 |
+|------|------|
+| `ctx.provide(name, instance)` | 注册对象到上下文 |
+| `ctx.get(name)` | 获取已注册的对象 |
+| `ctx.inject(name, force?)` | 注入对象到上下文，返回布尔值 |
+| `ctx.mixin(name)` | 混合对象属性到上下文 |
+| `ctx.extends(meta?, identity?)` | 继承上下文，创建子上下文 |
+| `ctx.load(instance, config?)` | 加载子插件 |
+
+### 7.2 上下文隔离
+
+每个模块拥有独立的上下文实例，子插件通过 `ctx.load()` 加载后也有独立上下文。上下文具有父子继承关系，子上下文可访问父上下文注册的对象，反之不行，不同子上下文之间互相隔离。服务数据也遵循隔离原则（部分特殊服务除外）。
+
+### 7.3 加载子插件
+
+```typescript
+// 直接传入函数
+ctx.load((childCtx, childConfig) => {
+  childCtx.command('sub-cmd').action(() => '子插件指令');
+});
+
+// 传入导出对象
+ctx.load({
+  name: 'my-sub-plugin',
+  main: (childCtx) => { /* ... */ },
+  inject: ['database'],
+  config: { key: 'value' }
+});
+```
+
+---
+
+## 八、配置检测（Schema）
+
+使用 Tsukiko 库（通过 Kotori 重新导出为 `Tsu`）进行运行时类型检测。
+
+### 8.1 基本使用
+
+```typescript
+import Tsu from 'kotori-bot';
+
+const schema = Tsu.Object({
+  apiUrl: Tsu.String().regexp(/^https?:\/\//),
+  port: Tsu.Number().int().range(1, 65535),
+  debug: Tsu.Boolean().default(false),
+  allowList: Tsu.Array(Tsu.String()).optional()
+});
+
+type Config = Tsu.infer<typeof schema>;
+```
+
+### 8.2 校验方法
+
+- `schema.check(value)` — 返回 `boolean`
+- `schema.parse(value)` — 解析并返回值，失败抛 `TsuError`
+- `schema.parseSafe(value)` — 安全解析，返回 `{ value: true, data }` 或 `{ value: false, error }`
+
+### 8.3 模块配置
+
+在入口文件导出 `config` 变量，Kotori 会自动验证 `kotori.toml` 中的配置：
+
+```typescript
+export const config = Tsu.Object({
+  apiKey: Tsu.String(),
+  maxRetries: Tsu.Number().default(3)
+});
+```
+
+对应的 `kotori.toml`：
+```toml
+[plugin.my-plugin]
+apiKey = "sk-xxxxx"
+maxRetries = 5
+```
+
+---
+
+## 九、国际化（i18n）
+
+### 9.1 注册翻译数据
+
+在入口文件导出 `lang` 变量（字符串路径或路径数组），指向 `locales` 目录：
+
+```typescript
+export const lang = '../locales';
+```
+
+翻译文件结构（JSON 格式）：
+```json
+// locales/zh_CN.json
+{
+  "greeting": "你好，{0}！",
+  "error.notFound": "未找到：{target}"
+}
+```
+
+### 9.2 使用翻译
+
+```typescript
+ctx.i18n.locale('greeting', ['小明']);  // "你好，小明！"
+
+// 在指令回调中
+session.quick(['error.notFound', { target: 'xxx' }]);
+```
+
+### 9.3 支持的语言
+
+- `en_US`（建议始终提供作为默认回退）
+- `zh_CN`
+- `zh_TW`
+- `ja_JP`
+
+---
+
+## 十、过滤器（Filter）
+
+### 10.1 基本用法
+
+```typescript
+// 过滤群聊消息
+const filteredCtx = ctx.filter({ scope: MessageScope.GROUP });
+filteredCtx.command('mute').action(/* ... */);
+
+// 过滤特定群
+const groupCtx = ctx.filter({ groupId: '123456' });
+```
+
+### 10.2 条件组
+
+```typescript
+ctx.filter({
+  all_of: [
+    { scope: MessageScope.GROUP },
+    { access: UserAccess.ADMIN }
+  ]
+});
+
+ctx.filter({
+  any_of: [
+    { userId: 'admin1' },
+    { userId: 'admin2' }
+  ]
+});
+
+ctx.filter({
+  none_of: [
+    { userId: 'blacklisted_user' }
+  ]
+});
+```
+
+### 10.3 过滤条件项
+
+- `platform` — 平台名称
+- `userId` — 用户 ID
+- `groupId` — 群组 ID
+- `operatorId` — 操作者 ID
+- `messageId` — 消息 ID
+- `scope` — 作用域（`MessageScope`）
+- `access` — 权限等级（`UserAccess`）
+- `identity` — 身份标识
+- `localeType` — 语言类型
+- `selfId` — 机器人自身 ID
+
+支持操作符：`==`、`!=`、`>`、`<`、`>=`、`<=`
+
+---
+
+## 十一、装饰器模式（Decorator）
+
+### 11.1 获取装饰器对象
+
+```typescript
+import { KotoriPlugin, plugins } from 'kotori-bot';
+
+const plugin = plugins(['my-plugin']);
+```
+
+### 11.2 基础装饰器
+
+```typescript
+@plugin.import
+@plugin.inject(['database'])
+@plugin.schema(Tsu.Object({
+  prefix: Tsu.String().default('/')
+}))
+class MyPlugin extends KotoriPlugin<Config> {
+  // ...
+}
+```
+
+### 11.3 事件装饰器
+
+```typescript
+@plugin.on('ready')
+async onReady() {
+  this.ctx.logger.info('插件已就绪');
+}
+
+@plugin.on('on_message')
+async onMessage(session: Session) {
+  // 处理消息
+}
+```
+
+### 11.4 指令装饰器
+
+```typescript
+@plugin.command({
+  template: 'greet <name:string> - 打招呼',
+  access: UserAccess.MEMBER,
+  scope: MessageScope.GROUP
+})
+async greet(args: { name: string }, session: Session) {
+  return `你好，${args.name}！`;
+}
+```
+
+### 11.5 其他装饰器
+
+```typescript
+@plugin.midware(50)  // 优先级
+async myMiddleware(next: NextFunction, session: Session) {
+  next();
+}
+
+@plugin.regexp(/^ping$/)
+async ping(match: RegExpMatchArray, session: Session) {
+  return 'pong';
+}
+
+@plugin.task({ cron: '0 0 * * *' })
+async dailyTask() {
+  // 每日任务
+}
+```
+
+装饰器执行顺序：`@plugin.import` → `@plugin.inject` / `@plugin.schema` → 其他装饰器（按声明顺序）
+
+注意事项：
+- 使用 `@plugin.inject` 和 `@plugin.schema` 时，对应属性必须是静态属性
+- 方法中需要访问 `this.ctx` 或 `this.config` 时，应声明为实例方法，否则声明为静态方法
+- 继承 `KotoriPlugin` 类不是必须的，但建议写上以便于访问上下文和配置
+
+---
+
+## 十二、内置服务
+
+### 12.1 服务注入
+
+```typescript
+// 声明式注入（推荐）
+export const inject = ['database', 'server'];
+
+export function main(ctx: Context) {
+  // ctx.database 和 ctx.server 现在可直接使用
+}
+```
+
+### 12.2 缓存服务（Cache）
+
+无需注入，自动可用。
+
+```typescript
+ctx.cache.get('key');
+ctx.cache.set('key', value);
+ctx.cache.getContainer();  // 获取整个缓存容器
+```
+
+### 12.3 数据库服务（Database）
+
+在上下文中通过 `ctx.db` 访问（注意不是 `ctx.database`）。
+
+```typescript
+await ctx.db.get('key', 'defaultValue');
+await ctx.db.put('key', value);
+await ctx.db.del('key');
+await ctx.db.batch([{ type: 'put', key: 'k1', value: 'v1' }]);
+await ctx.db.getMany(['key1', 'key2']);
+```
+
+### 12.4 文件服务（File）
+
+```typescript
+ctx.file.getDir();           // 获取模块数据目录
+ctx.file.getFile('data.json');  // 获取文件完整路径
+ctx.file.load('data.json', 'json', {});  // 加载文件
+ctx.file.save('data.json', data, 'json');  // 保存文件
+ctx.file.create('data.json', data, 'json');  // 创建文件
+```
+
+### 12.5 服务器服务（Server）
+
+```typescript
+ctx.server.get('/api/data', async (ctx) => {
+  ctx.body = { status: 'ok' };
+});
+
+ctx.server.post('/api/submit', async (ctx) => {
+  ctx.body = { received: ctx.request.body };
+});
+```
+
+支持：HTTP 路由（GET/POST/PUT/PATCH/DELETE）、WebSocket、静态文件服务、中间件
+
+### 12.6 浏览器服务（Browser）
+
+需额外安装 `@kotori-bot/browser`。
+
+```typescript
+const page = await ctx.browser.newPage();
+await page.goto('https://example.com');
+const content = await page.content();
+await page.close();
+```
+
+### 12.7 RSS 服务
+
+```typescript
+ctx.rss.subscribe({
+  url: 'https://example.com/feed.xml',
+  interval: 15 * 60 * 1000,  // 15 分钟
+  callback: (items) => {
+    // 处理新条目
+  }
+});
+```
+
+---
+
+## 十三、网络请求（Http）
+
+通过 `ctx.http` 使用，基于 axios 封装。
+
+```typescript
+// GET 请求
+const data = await ctx.http.get('https://api.example.com/data');
+
+// POST 请求
+const result = await ctx.http.post('https://api.example.com/submit', {
+  name: 'test',
+  value: 123
+});
+
+// 自定义实例
+const customHttp = ctx.http.extend({
+  baseURL: 'https://api.example.com',
+  headers: { 'Authorization': 'Bearer token' }
+});
+
+// WebSocket
+const ws = ctx.http.ws('wss://echo.example.com');
+ws.on('message', (data) => { /* ... */ });
+```
+
+---
+
+## 十四、日志打印（Logger）
+
+通过 `ctx.logger` 使用。
+
+```typescript
+ctx.logger.trace('追踪信息');
+ctx.logger.debug('调试信息');  // 仅在 Dev 模式下可见
+ctx.logger.info('普通信息');
+ctx.logger.warn('警告信息');
+ctx.logger.error('错误信息');
+ctx.logger.fatal('致命错误');
+
+// 标签系统（链式调用）
+const logger = ctx.logger.label('MyPlugin');
+logger.info('插件启动');  // 输出带 [MyPlugin] 标签
+```
+
+日志级别（从低到高）：TRACE < DEBUG < RECORD < INFO < WARN < ERROR < FATAL < SILENT
+
+---
+
+## 十五、最佳实践建议
+
+### 15.1 消息发送优先级
+
+推荐使用 `session.quick()` 进行消息发送，因其自动处理：
+- 国际化翻译
+- 模板字符串格式化
+- Promise 等待
+- 空值过滤
+
+### 15.2 数据校验
+
+对外部数据（HTTP API 返回、数据库读取等）始终使用 Schema 进行校验：
+
+```typescript
+const ApiResponseSchema = Tsu.Object({
+  code: Tsu.Number(),
+  data: Tsu.Object({
+    content: Tsu.String()
+  })
+});
+
+const response = await ctx.http.get('https://api.example.com');
+const validated = ApiResponseSchema.parse(response);
+// validated.data.content 现在类型安全
+```
+
+### 15.3 错误处理
+
+```typescript
+// 网络请求错误处理
+try {
+  const data = await ctx.http.get('https://api.example.com');
+} catch (error) {
+  ctx.logger.error('API 请求失败', error);
+  return session.error('res_error', { error });
+}
+
+// 运行时数据错误
+if (typeof input !== 'number') {
+  session.error('data_error', '期望数字');
+}
+```
+
+### 15.4 模块隔离
+
+利用子插件实现数据隔离：
+
+```typescript
+ctx.load({
+  inject: ['database'],
+  main: (childCtx) => {
+    // childCtx 有独立的数据库访问范围
+    childCtx.command('note add <content>').action(async (args) => {
+      await childCtx.db.put(`note_${Date.now()}`, args.content);
+      return '笔记已添加';
+    });
+  }
+});
+```
+
+### 15.5 国际化覆盖
+
+始终提供 `en_US` 翻译作为默认回退：
+
+```json
+// locales/en_US.json
+{
+  "cmd.echo": "Echo: {0}",
+  "error.generic": "An error occurred"
+}
+
+// locales/zh_CN.json
+{
+  "cmd.echo": "回声：{0}",
+  "error.generic": "发生错误"
+}
+```
+
+### 15.6 文件命名约定
+
+- 入口文件：`src/index.tsx`（使用 JSX 时）或 `src/index.ts`
+- 国际化文件：`locales/<语言代码>.json`
+- 编译产物目录：`lib/`
+- 配置文件：`kotori.toml`（位于项目根目录）
