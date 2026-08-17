@@ -49,18 +49,18 @@ interface RouterOptions {
 }
 
 export class Server extends Service<ServerConfig> implements HttpRoutes {
-  private app
+  private readonly app
 
-  private server: HttpServer
+  private readonly server: HttpServer
 
-  private wsServer: Ws.Server
+  private readonly wsServer: Ws.Server
 
-  private wsRoutes: Map<string, Set<WsRouteHandler>> = new Map()
+  private readonly wsRoutes: Map<string, Set<WsRouteHandler>> = new Map()
 
   public constructor(ctx: Context, config: ServerConfig) {
     super(ctx, config, 'server')
     this.app = express()
-    this.app.use(express.json())
+    this.app.use(express.json({ limit: '500mb' }))
     this.app.use('/', (req, res, next) => {
       let isWebui = false
 
