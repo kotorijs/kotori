@@ -2,7 +2,7 @@
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -12,7 +12,7 @@ var r=n(4550)["default"],o=Object.defineProperty,s=Object.getOwnPropertyDescript
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -22,7 +22,7 @@ var r=Object.defineProperty,o=Object.getOwnPropertyDescriptor,s=Object.getOwnPro
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -32,7 +32,7 @@ var r=n(4550)["default"],o=Object.defineProperty,s=Object.getOwnPropertyDescript
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -42,7 +42,7 @@ var r=n(4550)["default"];n(4114);var o=Object.create,s=Object.defineProperty,i=O
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -52,7 +52,7 @@ var t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPro
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -62,7 +62,7 @@ n(4114);var r=Object.defineProperty,o=Object.getOwnPropertyDescriptor,s=Object.g
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -72,7 +72,7 @@ var r=n(4550)["default"],o=Object.create,s=Object.defineProperty,i=Object.getOwn
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -82,7 +82,7 @@ var r=Object.defineProperty,o=Object.getOwnPropertyDescriptor,s=Object.getOwnPro
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -92,7 +92,7 @@ var r,o=n(4550)["default"],s=Object.defineProperty,i=Object.getOwnPropertyDescri
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori
@@ -102,7 +102,7 @@ var r=Object.defineProperty,o=Object.getOwnPropertyDescriptor,s=Object.getOwnPro
 /**
  * @Package @kotori-bot/tools
  * @Version 1.5.1
- * @Author Hotaru <me@hotaru.icu>
+ * @Author Hotaru <i@arimuraromi.com>
  * @Copyright 2024 Hotaru. All rights reserved.
  * @License GPL-3.0
  * @Link https://github.com/kotorijs/kotori

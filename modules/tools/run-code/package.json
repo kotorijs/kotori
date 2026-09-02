@@ -15,7 +15,7 @@
     "LICENSE",
     "README.md"
   ],
-  "author": "Himeno <me@hotaru.icu>",
+  "author": "Himeno <i@arimuraromi.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },

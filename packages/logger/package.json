@@ -4,7 +4,7 @@
   "description": "Logger For Kotori",
   "main": "lib/index.js",
   "license": "GPL-3.0",
-  "author": "Hotaru <me@hotaru.icu>",
+  "author": "Hotaru <i@arimuraromi.com>",
   "dependencies": {
     "@kotori-bot/tools": "workspace:^",
     "dayjs": "^1.11.10",

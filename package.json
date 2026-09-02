@@ -4,7 +4,7 @@
   "version": "1.7.3",
   "private": true,
   "license": "GPL-3.0",
-  "author": "Arimura Sena <me@hotaru.icu>",
+  "author": "Arimura Sena <i@arimuraromi.com>",
   "scripts": {
     "start": "node packages/kotori/bin.js --mode dev --daemon",
     "cli": "tsx packages/kotori/src/cli",

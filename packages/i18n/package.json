@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "browser": "dist/common.js",
   "license": "GPL-3.0",
-  "author": "Hotaru <me@hotaru.icu>",
+  "author": "Hotaru <i@arimuraromi.com>",
   "keywords": [
     "kotori",
     "chatbot",

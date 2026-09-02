@@ -40,7 +40,7 @@ export class Config {
             name: '@kotori-bot/core',
             version: 'BROWSER',
             description: '',
-            author: 'Arimura Sena <me@hotaru.icu>',
+            author: 'Arimura Sena <i@arimuraromi.com>',
             main: 'lib/index.js'
           }
     this.meta = {

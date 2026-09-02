@@ -15,7 +15,7 @@
     "LICENSE",
     "README.md"
   ],
-  "author": "Arimura Sena <me@hotaru.icu>",
+  "author": "Arimura Sena <i@arimuraromi.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   },

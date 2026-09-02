@@ -1,10 +1,3 @@
-/*
- * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-09-29 14:31:09
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-07 14:45:14
- */
 import { type AdapterConfig, Adapters, type Context, Tsu } from 'kotori-bot'
 import type z from 'zod'
 import SandboxApi from './api'

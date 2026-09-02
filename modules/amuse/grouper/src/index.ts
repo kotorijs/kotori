@@ -7,7 +7,8 @@ interface SignData {
 
 const hitokotoSchema = Tsu.Object({
   msg: Tsu.String(),
-  from: Tsu.String().optional()
+  from: Tsu.String().optional(),
+  fromWho: Tsu.String().optional()
 })
 
 const plugin = plugins([__dirname, '../'])
@@ -39,13 +40,15 @@ export class GrouperPlugin extends KotoriPlugin<Tsu.infer<(typeof GrouperPlugin)
     if (!signData[platform]) signData[platform] = []
     signData[platform].push(identity)
     this.ctx.file.save('signData.json', signData)
-    const res = await this.ctx.http.get('https://hotaru.icu/api/hitokoto')
+    const res = await this.ctx.http.get('https://i.arimuraromi.com/api/hitokoto')
     return s.quick([
       '{0} 签到成功！这是你的奖励~{1}\n一言：{2}',
       [
         at,
-        Messages.image('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'),
-        hitokotoSchema.check(res) ? `${res.msg}${res.from ? `——${res.from}` : ''}` : '接口走丢了呜呜呜'
+        Messages.image('https://cg.huoshen80.top/random_cf'),
+        hitokotoSchema.check(res)
+          ? `${res.msg}${res.from || res.fromWho ? `——${res.fromWho ?? ''}${res.from ? `「${res.from}」` : ''}` : ''}`
+          : '接口走丢了呜呜呜'
       ]
     ])
   }

@@ -16,7 +16,7 @@
     "database",
     "README.md"
   ],
-  "author": "Hotaru <me@hotaru.icu>",
+  "author": "Hotaru <i@arimuraromi.com>",
   "peerDependencies": {
     "kotori-bot": "workspace:^"
   }

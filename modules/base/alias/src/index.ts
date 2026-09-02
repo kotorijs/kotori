@@ -1,10 +1,3 @@
-/*
- * @Author: hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-07-11 14:18:27
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-07-29 18:03:20
- */
 import { type Context, Symbols } from 'kotori-bot'
 
 export const lang = [__dirname, '../locales']

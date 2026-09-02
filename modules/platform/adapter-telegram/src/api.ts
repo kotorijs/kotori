@@ -1,10 +1,3 @@
-/*
- * @Author: Hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-09-29 14:31:13
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-08-09 17:54:50
- */
 import { Api, type Message, MessageSingle } from 'kotori-bot'
 import type TelegramAdapter from './adapter'
 
