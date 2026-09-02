@@ -1,11 +1,3 @@
-/*
- * @Author: hotaru biyuehuya@gmail.com
- * @Blog: https://hotaru.icu
- * @Date: 2023-07-11 14:18:27
- * @LastEditors: Hotaru biyuehuya@gmail.com
- * @LastEditTime: 2024-02-15 17:21:28
- */
-
 import os from 'node:os'
 import { type Context, Tsu } from 'kotori-bot'
 
