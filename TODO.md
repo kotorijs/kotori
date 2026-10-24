@@ -1,5 +1,9 @@
 # Todo
 
+## Meta
+
+- [ ] tests and coverage
+
 ## Packages
 
 - [x] @kotori-bot/webui
