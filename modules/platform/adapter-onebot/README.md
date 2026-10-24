@@ -19,10 +19,12 @@ export const config = Tsu.Union(
       .regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/)
       .default('ws://127.0.0.1')
       .describe('WebSocket address'),
+    accessToken: Tsu.String().optional().describe('Access token for authentication'),
     retry: Tsu.Number().int().min(1).default(10).describe('try reconnect times when disconnected')
   }),
   Tsu.Object({
-    mode: Tsu.Literal('ws-reverse').describe('Connect mode: WebSocket Reverse')
+    mode: Tsu.Literal('ws-reverse').describe('Connect mode: WebSocket Reverse'),
+    accessToken: Tsu.String().optional().describe('Access token for reverse websocket authentication')
   })
 )
 ```
@@ -45,6 +47,7 @@ export const config = Tsu.Union(
 - sendPrivateMsg
 - sendGroupMsg
 - deleteMsg
+- getSelfInfo
 - getUserInfo
 - getFriendList
 - getGroupInfo
@@ -60,6 +63,12 @@ export const config = Tsu.Union(
 - setGroupWholeBan
 - setGroupNotice
 - setGroupKick
+- getMsg
+- getForwardMsg
+- sendLike
+- canSendImage
+- canSendRecord
+- cleanCache
 
 ### Elements
 
@@ -67,12 +76,12 @@ export const config = Tsu.Union(
 - mention
 - mentionAll
 - image
-- voice
+- voice / audio
 - video
 - reply
 
 ## Reference
 
 - [Kotori Docs](https://kotori.js.org/)
-- [go-cqhttp 帮助中心](https://docs.go-cqhttp.org/)
-- [OneBot](https://onebot.dev/)
+- [OneBot v11 Documentation](https://283375.github.io/onebot_v11_vitepress/)
+- [OneBot Standard](https://github.com/botuniverse/onebot-11)

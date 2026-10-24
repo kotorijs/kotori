@@ -29,7 +29,8 @@ export const config = Tsu.Union(
     retry: Tsu.Number().int().min(1).default(10).describe('try reconnect times when disconnected')
   }),
   Tsu.Object({
-    mode: Tsu.Literal('ws-reverse').describe('Connect mode: WebSocket Reverse')
+    mode: Tsu.Literal('ws-reverse').describe('Connect mode: WebSocket Reverse'),
+    accessToken: Tsu.String().optional().describe('Access token for reverse websocket authentication')
   })
 )
 
@@ -67,7 +68,16 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     this.address = this.config.mode === 'ws' ? `${this.config.address ?? 'ws://127.0.0.1'}:${this.config.port}` : ''
     this.isReverse = !this.address
     if (!this.isReverse) return
-    this.connection = (ws) => {
+    this.connection = (ws, req) => {
+      if (this.config.accessToken) {
+        const auth = req?.headers.authorization
+        const tokenFromHeader = auth?.startsWith('Bearer ') ? auth.slice(7) : auth?.startsWith('Token ') ? auth.slice(6) : auth
+        const tokenFromUrl = req?.url ? new URL(req.url, 'http://127.0.0.1').searchParams.get('access_token') : null
+        if ((tokenFromHeader ?? tokenFromUrl) !== this.config.accessToken) {
+          ws.close(4001, 'Unauthorized')
+          return
+        }
+      }
       this.socket = ws
       this.online()
     }

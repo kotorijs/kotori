@@ -25,7 +25,7 @@ describe('OneBot Elements', () => {
     const msg = elements.encode('hi [CQ:at,qq=123456] look [CQ:image,file=http://ex.com/p.jpg]')
     expect(Array.isArray(msg)).toBe(true)
     // biome-ignore lint: *
-    const list = Array.from(msg as any)
+    const list = Array.from(msg) as any[]
     expect(list).toHaveLength(4)
     expect(list[0].data).toEqual({ type: 'text', text: 'hi ' })
     expect(list[1].data).toEqual({ type: 'mention', userId: '123456' })
