@@ -3,6 +3,7 @@
   "version": "1.0.4",
   "description": "Plugin Of For Minecraft!",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

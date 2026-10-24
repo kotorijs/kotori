@@ -19,7 +19,7 @@ declare global {
 
     interface IntrinsicElements {
       text: {
-        children: string
+        children: Node
       }
       br: never
       image: {

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "math calc, random, rolling dice and throwing a coin!",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

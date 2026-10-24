@@ -1,8 +1,9 @@
 {
   "name": "kotori-bot",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "license": "GPL-3.0",
   "author": "Arimura Sena <i@arimuraromi.com>",
   "scripts": {

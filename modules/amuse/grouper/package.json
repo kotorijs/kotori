@@ -3,6 +3,7 @@
   "version": "1.3.2",
   "description": "groups activity ranking and simple games!",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

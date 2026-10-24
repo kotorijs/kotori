@@ -3,6 +3,7 @@
   "version": "2.0.2",
   "description": "Adapter For Minecraft Bedrock Edition",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

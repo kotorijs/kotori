@@ -3,6 +3,7 @@
   "version": "1.5.4",
   "description": "webui plugin",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

@@ -3,6 +3,7 @@
   "version": "1.0.4",
   "description": "Run code with javascript and lua",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

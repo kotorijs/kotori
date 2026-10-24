@@ -10,6 +10,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "composite": true,
+    "skipLibCheck": true,
     /* Custom */
     "emitDeclarationOnly": true,
     "jsx": "preserve",

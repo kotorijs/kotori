@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "browser service supports for kotori-bot",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

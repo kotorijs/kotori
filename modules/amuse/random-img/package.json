@@ -3,6 +3,7 @@
   "version": "1.2.8",
   "description": "Random imgs base for Core",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

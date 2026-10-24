@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "supports rescript for kotori-bot",
   "main": "src/Kotori.res.js",
+  "types": "src/Kotori.res.d.ts",
   "scripts": {
     "res:build": "rescript",
     "res:clean": "rescript clean",

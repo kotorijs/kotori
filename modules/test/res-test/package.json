@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "a kotori project",
   "main": "src/Main.res.js",
+  "types": "src/Main.res.d.ts",
   "scripts": {
     "res:build": "rescript",
     "res:clean": "rescript clean",

@@ -3,6 +3,7 @@
   "version": "1.6.0",
   "description": "core plugin",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

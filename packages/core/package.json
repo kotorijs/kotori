@@ -3,6 +3,7 @@
   "version": "1.7.2",
   "description": "Kotori Core",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "license": "GPL-3.0",
   "author": "Arimura Sena <i@arimuraromi.com>",
   "keywords": [

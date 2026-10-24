@@ -1,9 +1,10 @@
 {
   "name": "@kotori-bot/loader",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Loader For KotoriBot",
   "license": "GPL-3.0",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "author": "Arimura Sena <i@arimuraromi.com>",
   "keywords": [
     "kotori",

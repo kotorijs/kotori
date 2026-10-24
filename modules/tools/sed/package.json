@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "sed plugin",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

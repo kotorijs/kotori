@@ -3,6 +3,7 @@
   "version": "1.5.2",
   "description": "查看今日牛牛的长度和排行和寸止",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",

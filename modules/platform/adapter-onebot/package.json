@@ -3,6 +3,7 @@
   "version": "2.1.2",
   "description": "Adapter For Onebot 11",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "keywords": [
     "kotori",
     "chatbot",
