@@ -21,7 +21,7 @@ type MessageData =
     : never
 
 export class McAdapter extends Adapters.WebSocket<McApi, McConfig, McElements> {
-  private clients: Record<string, MessageData['client']> = {}
+  private readonly clients: Record<string, MessageData['client']> = {}
 
   public messageId = 1
 

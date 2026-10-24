@@ -3,8 +3,8 @@ import { Logger } from '@kotori-bot/logger'
 
 export class KotoriLogger extends Logger {
   public constructor(
-    private optionsSelf: Logger['options'],
-    private ctx: Context
+    private readonly optionsSelf: Logger['options'],
+    private readonly ctx: Context
   ) {
     super(optionsSelf)
   }

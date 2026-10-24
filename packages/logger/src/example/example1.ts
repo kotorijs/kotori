@@ -6,7 +6,7 @@ const logger = new Logger({
   transports: new ConsoleTransport()
 })
 
-logger.info(`base type:`, 'string', 233, null, undefined, true, false, 2.7182818284)
+logger.info(`base type:`, 'string', 233, null, undefined, true, false, Math.E)
 logger.fatal(`normal object (json):`, { value: 1, content: 'content', extends: { value: 2 } }, [1, null, { value: false }, 'string'])
 const obj: { value: object } = { value: {} }
 obj.value = obj

@@ -132,7 +132,7 @@ export class Command<
       if (value === true) return 1
       if (value === false) return 0
       const float = Number.parseFloat(value)
-      const int = Number.parseInt(value)
+      const int = Number.parseInt(value, 10)
       return float === int ? int : float
     }
     return value.toString()
@@ -253,7 +253,7 @@ export class Command<
     }
   }
 
-  private template: Template
+  private readonly template: Template
 
   /**
    * Command meta data.
@@ -318,7 +318,7 @@ export class Command<
         })
       }
       result = requiredParamMatch.exec(arg)
-      if (!result || !result[2]) continue
+      if (!result?.[2]) continue
       if (!result[6] && current?.optional) continue
 
       this.meta.args.push({

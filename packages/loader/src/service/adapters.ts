@@ -11,9 +11,9 @@ export namespace Adapters {
 
     private destroyFn?: () => void
 
-    private wssPath = `/adapter/${this.identity}`
+    private readonly wssPath = `/adapter/${this.identity}`
 
-    private wssAddress = `ws://127.0.0.1:${this.ctx.config.global.port}${this.wssPath}`
+    private readonly wssAddress = `ws://127.0.0.1:${this.ctx.config.global.port}${this.wssPath}`
 
     protected destroy() {
       if (!this.destroyFn) return

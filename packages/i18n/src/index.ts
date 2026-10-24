@@ -6,7 +6,7 @@ import { DEFAULT_EXT, DEFAULT_LANG } from './const'
 export * from './common'
 
 export class I18n<T extends LocaleType = LocaleType> extends I18nCommon<T> {
-  private ext: string
+  private readonly ext: string
 
   private loader(dir: string) {
     for (const lang of this.supports) {

@@ -17,8 +17,8 @@ interface ServerStatus {
 }
 
 class MinecraftServerQuery {
-  private host: string
-  private port: number
+  private readonly host: string
+  private readonly port: number
 
   constructor(host: string, port = 25565) {
     this.host = host

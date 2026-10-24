@@ -95,7 +95,7 @@ export class GrouperPlugin extends KotoriPlugin<Tsu.infer<(typeof GrouperPlugin)
 
       if (reply === '放弃') return s.format('{0} 放弃也没关系的，一起开心地玩游戏才最重要~(∩_∩)', [at])
       count += 1
-      guess = Number.parseInt(reply.toString())
+      guess = Number.parseInt(reply.toString(), 10)
     }
   }
 

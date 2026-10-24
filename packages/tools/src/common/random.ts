@@ -1,5 +1,5 @@
 class Random {
-  private seed: () => number
+  private readonly seed: () => number
 
   public constructor(seed = Math.random) {
     this.seed = seed
@@ -19,7 +19,7 @@ class Random {
     return this.seed() < offset
   }
 
-  public choice<T>(list: Array<T>): T {
+  public choice<T>(list: T[]): T {
     if (list.length === 0) {
       throw new Error('Cannot choose from an empty list')
     }
@@ -27,7 +27,7 @@ class Random {
     return list[index]
   }
 
-  public shuffle<T>(list: Array<T>): Array<T> {
+  public shuffle<T>(list: T[]): T[] {
     const shuffled = [...list]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = this.int(0, i + 1)

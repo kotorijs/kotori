@@ -37,7 +37,7 @@ const DEFAULT_OPTIONS = {
 } as const
 
 export class ConsoleTransport extends Transport<ConsoleTransportConfig> {
-  private cs: Colors
+  private readonly cs: Colors
 
   private readonly print = typeof process === 'undefined' ? console.log : process.stdout.write.bind(process.stdout)
 
