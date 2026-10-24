@@ -8,7 +8,7 @@ export class Sed {
   }
 
   public async qqToPhone() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqapi?qq=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
@@ -18,7 +18,7 @@ export class Sed {
   }
 
   public async qqToLol() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqlol?qq=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
@@ -28,14 +28,14 @@ export class Sed {
   }
 
   public async qqToOldPass() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqlm?qq=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return data.qqlm
   }
 
   public async phoneToQq() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/qqphone?phone=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
@@ -45,7 +45,7 @@ export class Sed {
   }
 
   public async phoneToWeibo() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/wbphone?phone=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
@@ -55,7 +55,7 @@ export class Sed {
   }
 
   public async weiboToPhone() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/wbapi?id=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {
@@ -65,7 +65,7 @@ export class Sed {
   }
 
   public async lolToQq() {
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await Kotori.http.get(`https://zy.xywlapi.cc/lolname?id=${this.message}`)) as Record<string, any>
     if (data.status !== 200) return null
     return {

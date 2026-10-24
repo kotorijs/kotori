@@ -17,7 +17,10 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "style": {
         "useReadonlyClassProperties": "warn",
         "useConsistentArrayType": "warn",

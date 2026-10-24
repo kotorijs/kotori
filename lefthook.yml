@@ -1,0 +1,7 @@
+pre-commit:
+  parallel: false
+  commands:
+    fix:
+      glob: "*.{js,ts,cjs,mjs,d.ts,json,jsonc}"
+      run: pnpm fix {staged_files}
+      stage_fixed: true
