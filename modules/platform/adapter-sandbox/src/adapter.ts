@@ -46,7 +46,7 @@ export class SandboxAdapter extends Adapters.WebSocket<SandboxApi, SandboxConfig
     }
     const result = eventDataSchema.safeParse(data)
     if (result.success) {
-      // biome-ignore lint:
+      // biome-ignore lint: *
       this.session(result.data.event, result.data as any)
     } else {
       this.send({ action: 'on_data_error', error: result.error.message })

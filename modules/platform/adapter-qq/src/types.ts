@@ -24,7 +24,6 @@ export interface ParamsMapping {
   ]
 }
 
-// biome-ignore lint:
 export enum OpCode {
   DISPATCH,
   HEARTBEAT,

@@ -25,7 +25,7 @@ export class TestingPlugin extends KotoriPlugin<Tsu.infer<typeof TestingPlugin.s
   public async eval({ args, options: { interactive } }: Parameters<CommandAction>[0], session: Session) {
     const run = async (code: string) => {
       try {
-        // biome-ignore lint:
+        // biome-ignore lint: *
         const result = eval(code)
         session.json(result)
       } catch (error) {

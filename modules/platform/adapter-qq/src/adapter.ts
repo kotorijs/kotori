@@ -49,7 +49,7 @@ export class QQAdapter extends Adapter<QQApi, QQConfig, QQElements> {
     this.config = config
   }
 
-  // biome-ignore lint:
+  // biome-ignore lint: *
   public req(address: string, req: Record<string, any>) {
     return this.ctx.http.post(`${API_ADDRESS}/${address}`, req, {
       headers: {

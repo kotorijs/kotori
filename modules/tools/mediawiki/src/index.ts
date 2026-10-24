@@ -32,7 +32,7 @@ export function main(ctx: Context) {
     const result = (await fetchWiki(api, 'query', {
       list: 'search',
       srsearch: keyword
-      // biome-ignore lint:
+      // biome-ignore lint: *
     })) as any
     if (!result || !result.query || !result.query.search || (Array.isArray(result.query.search) && result.query.search.length < 1))
       return null
@@ -42,7 +42,7 @@ export function main(ctx: Context) {
       const [temp] = searchData
       searchData = temp
     }
-    // biome-ignore lint:
+    // biome-ignore lint: *
     const data = (await fetchWiki(api, 'query', { pageids: searchData.pageid })) as any
     if (!data || !data.query || !data.query.pages || !data.query.pages[searchData.pageid]) return null
     return data.query.pages[searchData.pageid]

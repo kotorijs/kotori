@@ -1,5 +1,5 @@
-import { setMaxListeners } from 'node:events'
 import { exec } from 'node:child_process'
+import { setMaxListeners } from 'node:events'
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { getPackagesSync, type Package } from '@manypkg/get-packages'
@@ -233,7 +233,11 @@ export default async function build(initConfig: Partial<BuildConfig>, filters?: 
         }
 
         // Force compile all packages types via tsc in correct dependency order
-        await execAsync('pnpm exec tsc --build --force packages/fluoro/tsconfig.json packages/i18n/tsconfig.json packages/tools/tsconfig.json packages/logger/tsconfig.json packages/core/tsconfig.json packages/loader/tsconfig.json packages/kotori/tsconfig.json', CWD, config.silent)
+        await execAsync(
+          'pnpm exec tsc --build --force packages/fluoro/tsconfig.json packages/i18n/tsconfig.json packages/tools/tsconfig.json packages/logger/tsconfig.json packages/core/tsconfig.json packages/loader/tsconfig.json packages/kotori/tsconfig.json',
+          CWD,
+          config.silent
+        )
       } else {
         await Promise.all(corePkgs.map(buildPkg))
       }
