@@ -25,6 +25,7 @@ export const config = Tsu.Union(
       .regexp(/^ws(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/)
       .default('ws://127.0.0.1')
       .describe('WebSocket address'),
+    accessToken: Tsu.String().optional().describe('Access token for authentication'),
     retry: Tsu.Number().int().min(1).default(10).describe('try reconnect times when disconnected')
   }),
   Tsu.Object({
@@ -126,7 +127,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         userId: String(data.user_id),
         messageId: String(data.message_id),
         groupId: String(data.group_id),
-        operatorId: String(data.user_id),
+        operatorId: String(data.operator_id ?? data.user_id),
         time: data.time
       })
     } else if (data.post_type === 'request' && data.request_type === 'private') {
@@ -142,10 +143,10 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         type: MessageScope.GROUP,
         userId: String(data.user_id),
         groupId: String(data.group_id),
-        operatorId: String(data.operator_id) || String(data.user_id),
+        operatorId: String(data.operator_id ?? data.user_id),
         comment: String(data.comment),
         approve: (approve = true, reason = '') =>
-          this.call('set_friend_add_request', { flag: data.flag, approve, reason, type: data.sub_type }),
+          this.call('set_group_add_request', { flag: data.flag, approve, reason, sub_type: data.sub_type }),
         time: data.time
       })
     } else if (data.post_type === 'notice' && data.notice_type === 'group_increase') {
@@ -202,12 +203,28 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     if (!this.onlineTimerId) this.onlineTimerId = setTimeout(() => this.offline(), 50 * 1000)
   }
 
+  private socket: WebSocket | null = null
+
+  private onlineTimerId: NodeJS.Timeout | null = null
+
+  private retryCount = 0
+
+  private reconnectTimer: NodeJS.Timeout | null = null
+
+  private isManualStop = false
+
   public start() {
     if (this.isReverse) {
       this.setup()
       return
     }
-    /* ws mode handle */
+    this.isManualStop = false
+    this.connectWs()
+  }
+
+  private connectWs() {
+    const headers =
+      'accessToken' in this.config && this.config.accessToken ? { Authorization: `Bearer ${this.config.accessToken}` } : undefined
     this.ctx.emit('connect', {
       type: 'connect',
       mode: 'ws',
@@ -215,20 +232,31 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
       normal: true,
       address: this.address
     })
-    this.socket = new WebSocket(`${this.address}`)
+    this.socket = new WebSocket(this.address, { headers })
+    this.socket.on('open', () => {
+      this.retryCount = 0
+      this.online()
+    })
     this.socket.on('close', () => {
+      this.offline()
       this.ctx.emit('connect', {
         type: 'disconnect',
         adapter: this,
-        normal: false,
+        normal: this.isManualStop,
         mode: 'ws',
         address: this.address
       })
+      if (!this.isManualStop && 'retry' in this.config && this.retryCount < (this.config.retry ?? 10)) {
+        this.retryCount += 1
+        this.reconnectTimer = setTimeout(() => this.connectWs(), Math.min(this.retryCount * 2000, 30000))
+      }
     })
     this.socket.on('message', (raw) => this.handle(JSON.parse(raw.toString())))
   }
 
   public stop() {
+    this.isManualStop = true
+    if (this.reconnectTimer) clearTimeout(this.reconnectTimer)
     if (this.isReverse) {
       super.stop()
       return
@@ -242,7 +270,6 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     })
     this.socket?.close()
   }
-
   public send(content: EventDataType, operation?: object) {
     this.socket?.send(JSON.stringify({ content, operation }))
   }
@@ -250,22 +277,15 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
   public call<T = void>(action: string, params?: unknown): Promise<T> {
     return new Promise((resolve, reject) => {
       const echo = `${Date.now()}_${Math.random().toString(36)}`
-
       const timer = setTimeout(() => {
         this.pendingRequests.delete(echo)
         reject(new KotoriError(`Request timeout: ${action}`))
       }, 60 * 1000)
 
       this.pendingRequests.set(echo, { resolve: resolve as (data: unknown) => void, reject, timer })
-
       this.socket?.send(JSON.stringify({ action, params, echo }))
     })
   }
-
-  private socket: WebSocket | null = null
-
-  /* global NodeJS */
-  private onlineTimerId: NodeJS.Timeout | null = null
 }
 
 export default OnebotAdapter

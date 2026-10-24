@@ -17,5 +17,5 @@
     "jsxFactory": "kotoriHTs"
   },
   /* Custom */
-  "exclude": ["**/*/*.test.ts", "*.d.ts", "**/*/lib/*", "**/*/dist/*"]
+  "exclude": ["**/*.test.ts", "**/*.test.tsx", "*.d.ts", "**/lib/*", "**/dist/*", "test/**/*"]
 }

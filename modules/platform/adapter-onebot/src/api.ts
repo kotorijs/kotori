@@ -202,11 +202,13 @@ export class OnebotApi extends Api {
   /**
    * @description: 群禁言
    * @param groupId 群号
-   * @param userId 要禁言的QQ号,不填则为群禁言
+   * @param userId 要禁言的QQ号,不填则为全员禁言
    * @param time 禁言时长,单位秒,0表示取消禁言
    */
   public setGroupBan(groupId: string, userId?: string, time = 0) {
-    return this.adapter.call('set_group_ban', { group_id: Number(groupId), user_id: Number(userId), duration: time })
+    return userId
+      ? this.adapter.call('set_group_ban', { group_id: Number(groupId), user_id: Number(userId), duration: time })
+      : this.setGroupWholeBan(groupId, time > 0)
   }
 
   public setGroupWholeBan(groupId: string, enable = true) {
@@ -234,6 +236,37 @@ export class OnebotApi extends Api {
       user_id: Number(userId),
       reject_add_request: false
     })
+  }
+
+  public getMsg(messageId: string) {
+    return this.adapter.call<{
+      time: number
+      message_type: 'private' | 'group'
+      message_id: number
+      real_id: number
+      sender: { user_id: number; nickname: string; card?: string }
+      message: unknown
+    }>('get_msg', { message_id: Number(messageId) })
+  }
+
+  public getForwardMsg(id: string) {
+    return this.adapter.call<{ message: unknown[] }>('get_forward_msg', { id })
+  }
+
+  public sendLike(userId: string, times = 1) {
+    return this.adapter.call('send_like', { user_id: Number(userId), times })
+  }
+
+  public canSendImage() {
+    return this.adapter.call<{ yes: boolean }>('can_send_image')
+  }
+
+  public canSendRecord() {
+    return this.adapter.call<{ yes: boolean }>('can_send_record')
+  }
+
+  public cleanCache() {
+    return this.adapter.call('clean_cache')
   }
 }
 
