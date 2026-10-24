@@ -1,4 +1,5 @@
 import { setMaxListeners } from 'node:events'
+import { exec } from 'node:child_process'
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { getPackagesSync, type Package } from '@manypkg/get-packages'
@@ -27,6 +28,35 @@ interface BuildConfig {
 const state = {
   succeed: 0,
   failed: 0
+}
+
+function execAsync(cmd: string, cwd: string, silent: boolean): Promise<void> {
+  return new Promise((resolve, reject) => {
+    exec(cmd, { cwd }, (error, stdout, stderr) => {
+      if (!silent) {
+        if (stdout) process.stdout.write(stdout)
+        if (stderr) process.stderr.write(stderr)
+      }
+      if (error) {
+        reject(error)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
+
+async function mapConcurrent<T, R>(items: T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
+  const results: R[] = new Array(items.length)
+  let currentIndex = 0
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (currentIndex < items.length) {
+      const idx = currentIndex++
+      results[idx] = await fn(items[idx])
+    }
+  })
+  await Promise.all(workers)
+  return results
 }
 
 const defaultConfig: BuildConfig = {
@@ -98,48 +128,39 @@ function getBuildConfig(pkg: Package, config: BuildConfig): Options {
 }
 
 async function buildPackageByTsup(pkg: Package, config: BuildConfig): Promise<void> {
-  shell.cd(pkg.dir)
-  const tsupFile = path.resolve(CWD, 'tsup.config.json')
+  const tsupFile = path.resolve(pkg.dir, 'tsup.config.json')
   try {
     const cfg = getBuildConfig(pkg, config)
-    if (cfg.outDir && existsSync(cfg.outDir)) rmSync(cfg.outDir, { recursive: true })
+    if (cfg.outDir && existsSync(path.resolve(pkg.dir, cfg.outDir))) {
+      rmSync(path.resolve(pkg.dir, cfg.outDir), { recursive: true })
+    }
     writeFileSync(tsupFile, JSON.stringify(cfg, null, 2))
-    if (!config.onlyTypes && shell.exec('pnpm exec tsup', { silent: config.silent }).code !== 0) {
-      throw new Error(`Failed to build ${pkg.packageJson.name}`)
+    if (!config.onlyTypes) {
+      await execAsync('pnpm exec tsup', pkg.dir, config.silent)
     }
 
-    const isMainPack = pkg.packageJson.name === 'kotori-bot'
-    if ((config.types || config.onlyTypes) && (!pkg.dir.includes('packages') || isMainPack)) {
-      const child = shell.exec('tsc --build', {}, () => {})
-      if (!config.silent) process.stdin.on('data', (data) => child.stdin?.write(data))
-      await new Promise((resolve, reject) =>
-        child.on('exit', (code) => (code === 0 ? resolve(null) : reject(new Error(`Failed to build ${pkg.packageJson.name} types`))))
-      )
+    const isCorePackage = pkg.dir.replace(/\\/g, '/').includes('/packages/')
+    if ((config.types || config.onlyTypes) && !isCorePackage) {
+      await execAsync('pnpm exec tsc --build', pkg.dir, config.silent)
     }
     state.succeed += 1
   } catch (err) {
     state.failed += 1
-    console.error(err)
-    if (!config.ignoreError) shell.exit(1)
+    console.error(`Failed to build ${pkg.packageJson.name}:`, err)
+    if (!config.ignoreError) process.exit(1)
   } finally {
     if (existsSync(tsupFile)) rmSync(tsupFile)
-    shell.cd(CWD)
   }
 }
 
 async function buildPackageByReScript(pkg: Package, config: BuildConfig): Promise<void> {
-  shell.cd(pkg.dir)
   try {
-    if (shell.exec('pnpm exec rescript', { silent: config.silent }).code !== 0) {
-      throw new Error(`Failed to build ${pkg.packageJson.name} with rescript`)
-    }
+    await execAsync('pnpm exec rescript', pkg.dir, config.silent)
     state.succeed += 1
   } catch (err) {
     state.failed += 1
-    console.error(err)
-    if (!config.ignoreError) shell.exit(1)
-  } finally {
-    shell.cd(CWD)
+    console.error(`Failed to build ${pkg.packageJson.name} with rescript:`, err)
+    if (!config.ignoreError) process.exit(1)
   }
 }
 
@@ -171,27 +192,55 @@ export default async function build(initConfig: Partial<BuildConfig>, filters?: 
 
     console.log(`Building ${pkgs.length} packages...`)
     setMaxListeners(Number.POSITIVE_INFINITY)
-    await Promise.all(
-      pkgs.map((pkg) => {
-        switch (getBuildType(pkg, config)) {
-          case BuildType.Tsup:
-            console.log(`Building ${pkg.packageJson.name} ...`)
-            return buildPackageByTsup(pkg, config)
-          // return Promise.resolve()
-          case BuildType.ReScript:
-            if (config.onlyTypes) {
-              console.log(`Skiped to build ${pkg.packageJson.name} with rescript`)
-              return Promise.resolve()
-            }
-            console.log(`Building ${pkg.packageJson.name} with rescript...`)
-            return buildPackageByReScript(pkg, config)
-          // return Promise.resolve()
-          default:
-            console.log(`Skipping ${pkg.packageJson.name}...`)
+
+    const isCorePackage = (pkg: Package) => pkg.dir.replace(/\\/g, '/').includes('/packages/')
+    const corePkgs = pkgs.filter(isCorePackage)
+    const modulePkgs = pkgs.filter((pkg) => !isCorePackage(pkg))
+
+    const buildPkg = (pkg: Package) => {
+      switch (getBuildType(pkg, config)) {
+        case BuildType.Tsup:
+          console.log(`Building ${pkg.packageJson.name} ...`)
+          return buildPackageByTsup(pkg, config)
+        case BuildType.ReScript:
+          if (config.onlyTypes) {
+            console.log(`Skiped to build ${pkg.packageJson.name} with rescript`)
             return Promise.resolve()
+          }
+          console.log(`Building ${pkg.packageJson.name} with rescript...`)
+          return buildPackageByReScript(pkg, config)
+        default:
+          console.log(`Skipping ${pkg.packageJson.name}...`)
+          return Promise.resolve()
+      }
+    }
+
+    // Build packages/* first
+    if (corePkgs.length > 0) {
+      if (config.types || config.onlyTypes) {
+        // Build packages JS in layered topological concurrency
+        const layer0 = ['fluoro', '@kotori-bot/i18n', '@kotori-bot/tools']
+        const layer1 = ['@kotori-bot/logger']
+        const layer2 = ['@kotori-bot/core']
+        const layer3 = ['@kotori-bot/loader']
+        const layer4 = ['kotori-bot']
+
+        const findPkg = (name: string) => corePkgs.find((p) => p.packageJson.name === name)
+
+        for (const layer of [layer0, layer1, layer2, layer3, layer4]) {
+          const currentPkgs = layer.map(findPkg).filter(Boolean) as Package[]
+          await Promise.all(currentPkgs.map(buildPkg))
         }
-      })
-    )
+
+        // Force compile all packages types via tsc in correct dependency order
+        await execAsync('pnpm exec tsc --build --force packages/fluoro/tsconfig.json packages/i18n/tsconfig.json packages/tools/tsconfig.json packages/logger/tsconfig.json packages/core/tsconfig.json packages/loader/tsconfig.json packages/kotori/tsconfig.json', CWD, config.silent)
+      } else {
+        await Promise.all(corePkgs.map(buildPkg))
+      }
+    }
+
+    // Then build modules/* with concurrency pool (16 parallel workers)
+    await mapConcurrent(modulePkgs, 16, buildPkg)
 
     console.log(
       `Build summary: ${state.succeed} succeed, ${state.failed} failed, ${pkgs.length - state.succeed - state.failed} skipped, in ${(Date.now() - start) / 1000}s.`
