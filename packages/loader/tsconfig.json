@@ -4,6 +4,8 @@
     "rootDir": "./src",
     "outDir": "./lib"
   },
+  "include": ["src/**/*"],
+  "exclude": ["test"],
   "references": [
     {
       "path": "../core"
