@@ -4,6 +4,13 @@
   "description": "i18n For Kotori",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "browser": "dist/common.js",
   "license": "GPL-3.0",
   "author": "Hotaru <i@arimuraromi.com>",

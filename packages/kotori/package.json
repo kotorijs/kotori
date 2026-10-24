@@ -4,6 +4,13 @@
   "description": "Cross-platform chatbot framework base on Node.js and TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
+    }
+  },
   "license": "GPL-3.0",
   "author": "Arimura Sena <i@arimuraromi.com>",
   "scripts": {
