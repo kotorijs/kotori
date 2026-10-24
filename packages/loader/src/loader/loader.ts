@@ -119,8 +119,8 @@ declare module '@kotori-bot/core' {
 
 const GLOBAL = {
   REPO: 'https://github.com/kotorijs/kotori',
-  // TODO: add more update urls
-  UPDATE: 'https://api.hotaru.icu/ial/agent/?url=https://raw.githubusercontent.com/kotorijs/kotori/master/package.json'
+  UPDATE: 'https://cdn.jsdelivr.net/gh/kotorijs/kotori@master/package.json',
+  UPDATE_FALLBACK: 'https://raw.githubusercontent.com/kotorijs/kotori/master/package.json'
 }
 
 function getBaseDir(filename: string, dir?: string) {
@@ -608,7 +608,7 @@ export class Loader extends Core {
     }
     const { version } = this.meta
     if (!version) return
-    const res = await new Http().get(GLOBAL.UPDATE).catch(() => {})
+    const res = await new Http().get(GLOBAL.UPDATE).catch(() => new Http().get(GLOBAL.UPDATE_FALLBACK).catch(() => {}))
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
       this.logger.warn(this.i18n.t`loader.tips.update.failed`)
     } else if (version === res.version) {

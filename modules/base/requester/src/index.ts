@@ -4,6 +4,7 @@ export const lang = [__dirname, '../locales']
 
 export const config = Tsu.Object({
   print: Tsu.Boolean().default(true).describe('Whether to print the log'),
+  // TODO: custom recevier target
   notify: Tsu.Boolean().default(true).describe('Whether to send message to master'),
   filterCmd: Tsu.Boolean().default(true).describe('Filter message about command'),
   onHttpRequest: Tsu.Union(
