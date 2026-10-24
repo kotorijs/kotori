@@ -34,8 +34,7 @@ export function main(ctx: Context) {
       srsearch: keyword
       // biome-ignore lint: *
     })) as any
-    if (!result || !result.query || !result.query.search || (Array.isArray(result.query.search) && result.query.search.length < 1))
-      return null
+    if (!result?.query?.search || (Array.isArray(result.query.search) && result.query.search.length < 1)) return null
 
     let searchData = result.query.search
     if (Array.isArray(searchData)) {
@@ -44,7 +43,7 @@ export function main(ctx: Context) {
     }
     // biome-ignore lint: *
     const data = (await fetchWiki(api, 'query', { pageids: searchData.pageid })) as any
-    if (!data || !data.query || !data.query.pages || !data.query.pages[searchData.pageid]) return null
+    if (!data?.query?.pages?.[searchData.pageid]) return null
     return data.query.pages[searchData.pageid]
   }
 
@@ -60,7 +59,7 @@ export function main(ctx: Context) {
     const num = data.args[1] ?? 0
     if (num) {
       wiki = dataList[num - 1]
-      if (!wiki || !wiki.api) return 'mediawiki.msg.wiki.error'
+      if (!wiki?.api) return 'mediawiki.msg.wiki.error'
       res = await wikiSearch(wiki.api, data.args[0] as string)
     } else {
       let init = 0

@@ -14,8 +14,8 @@ interface BedrockServerStatus {
 }
 
 class MinecraftBedrockQuery {
-  private host: string
-  private port: number
+  private readonly host: string
+  private readonly port: number
 
   constructor(host: string, port = 19132) {
     this.host = host

@@ -10,11 +10,11 @@ type HttpMethod<T = unknown> = (
 type Method = 'get' | 'delete' | 'head' | 'options'
 
 export class Http {
-  private instance: AxiosInstance
+  private readonly instance: AxiosInstance
 
-  private config: AxiosRequestConfig
+  private readonly config: AxiosRequestConfig
 
-  private method = async (url: string, params?: Parameters<HttpMethod>[1], config?: AxiosRequestConfig, method: Method = 'get') =>
+  private readonly method = async (url: string, params?: Parameters<HttpMethod>[1], config?: AxiosRequestConfig, method: Method = 'get') =>
     (await this.instance[method](url, Object.assign(this.config, config || {}, { params }))).data
 
   public constructor(config?: AxiosRequestConfig) {

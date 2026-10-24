@@ -259,9 +259,9 @@ export const modulePackageSchema = Tsu.Object({
 })
 
 export class Loader extends Core {
-  private loadRecord = new Set<string>()
+  private readonly loadRecord = new Set<string>()
 
-  private isDev: boolean
+  private readonly isDev: boolean
 
   private format(template: string, args: (string | number)[]) {
     return formatFactory(this.i18n)(template, args)

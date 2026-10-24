@@ -11,7 +11,7 @@ export class Translate {
 
   public score = 0
 
-  private emoticons: EmoticonMap
+  private readonly emoticons: EmoticonMap
 
   public constructor(text: string, emoticons: EmoticonMap = nmsl) {
     this.emoticons = emoticons

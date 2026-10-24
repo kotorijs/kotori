@@ -17,8 +17,7 @@ export async function wikiSearch(api: string, keyword: string) {
     srsearch: keyword
     // biome-ignore lint: *
   })) as any
-  if (!result || !result.query || !result.query.search || (Array.isArray(result.query.search) && result.query.search.length < 1))
-    return null
+  if (!result?.query?.search || (Array.isArray(result.query.search) && result.query.search.length < 1)) return null
 
   let searchData = result.query.search
   if (Array.isArray(searchData)) {
@@ -27,6 +26,6 @@ export async function wikiSearch(api: string, keyword: string) {
   }
   // biome-ignore lint: *
   const data = (await fetchWiki(api, 'query', { pageids: searchData.pageid })) as any
-  if (!data || !data.query || !data.query.pages || !data.query.pages[searchData.pageid]) return null
+  if (!data?.query?.pages?.[searchData.pageid]) return null
   return data.query.pages[searchData.pageid]
 }

@@ -28,8 +28,8 @@ program
     const loaderOptions = Object.assign(env, { mode: (options.mode ?? env.mode) === DEV_MODE ? DEV_MODE : BUILD_MODE })
     if (options.dir !== undefined) loaderOptions.dir = options.dir
     if (options.config) loaderOptions.config = options.config
-    if (options.level !== undefined) loaderOptions.level = Number.parseInt(options.level)
-    if (options.port !== undefined) loaderOptions.port = Number.parseInt(options.port)
+    if (options.level !== undefined) loaderOptions.level = Number.parseInt(options.level, 10)
+    if (options.port !== undefined) loaderOptions.port = Number.parseInt(options.port, 10)
     if (options.dbPrefix) loaderOptions.dbPrefix = options.dbPrefix
     if (options.noColor) loaderOptions.noColor = true
     if (options.daemon || loaderOptions.mode === BUILD_MODE) loaderOptions.daemon = true

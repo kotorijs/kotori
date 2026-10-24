@@ -3,6 +3,7 @@ export type ObjectValue<T extends Record<string, any>> = T extends Record<string
 export type ArrayValue<T extends unknown[]> = T extends (infer E)[] ? E : never
 // biome-ignore lint: *
 export type ObjectArrayValue<T extends Record<string, any> | unknown[]> =
+  // biome-ignore lint: *
   T extends Record<string, any> ? ObjectValue<T> : T extends unknown[] ? ArrayValue<T> : never
 
 type JsonArray = boolean[] | number[] | string[] | JsonMap[] | Date[]
