@@ -78,7 +78,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
 
         if (receivedToken !== this.config.accessToken) {
           this.ctx.logger.warn(
-            `[onebot/${this.identity}] Unauthorized reverse WebSocket connection from ${clientIp}. ` +
+            `Unauthorized reverse WebSocket connection from ${clientIp}. ` +
               `Token mismatched or missing (expected: configured token, got: ${receivedToken ? '***' : 'none'}).`
           )
           ws.close(4001, 'Unauthorized')
@@ -87,7 +87,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
       }
       this.socket = ws
       this.online()
-      this.ctx.logger.info(`[onebot/${this.identity}] Reverse WebSocket client connected successfully from ${clientIp}.`)
+      this.ctx.logger.info(`Reverse WebSocket client connected successfully from ${clientIp}.`)
     }
   }
 
@@ -268,22 +268,20 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
       normal: true,
       address: this.address
     })
-    this.ctx.logger.info(
-      `[onebot/${this.identity}] Connecting to WebSocket server at ${this.address}${hasToken ? ' (with token auth)' : ''}...`
-    )
+    this.ctx.logger.info(`Connecting to WebSocket server at ${this.address}${hasToken ? ' (with token auth)' : ''}...`)
     this.socket = new WebSocket(this.address, { headers })
     this.socket.on('open', () => {
       this.retryCount = 0
       this.online()
-      this.ctx.logger.info(`[onebot/${this.identity}] WebSocket connected successfully to ${this.address}.`)
+      this.ctx.logger.info(`WebSocket connected successfully to ${this.address}.`)
     })
     this.socket.on('error', (err) => {
-      this.ctx.logger.warn(`[onebot/${this.identity}] WebSocket error on ${this.address}: ${err.message}`)
+      this.ctx.logger.warn(`WebSocket error on ${this.address}: ${err.message}`)
     })
     this.socket.on('close', (code, reason) => {
       this.offline()
       const reasonStr = reason?.toString() ? ` (reason: ${reason.toString()})` : ''
-      this.ctx.logger.warn(`[onebot/${this.identity}] WebSocket closed with code ${code}${reasonStr}.`)
+      this.ctx.logger.warn(`WebSocket closed with code ${code}${reasonStr}.`)
       this.ctx.emit('connect', {
         type: 'disconnect',
         adapter: this,
@@ -295,7 +293,7 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         this.retryCount += 1
         const delay = Math.min(this.retryCount * 2000, 30000)
         this.ctx.logger.info(
-          `[onebot/${this.identity}] Reconnecting to ${this.address} in ${delay / 1000}s (attempt ${this.retryCount}/${this.config.retry ?? 10})...`
+          `Reconnecting to ${this.address} in ${delay / 1000}s (attempt ${this.retryCount}/${this.config.retry ?? 10})...`
         )
         this.reconnectTimer = setTimeout(() => this.connectWs(), delay)
       }
