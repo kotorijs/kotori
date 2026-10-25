@@ -345,16 +345,15 @@ export class Loader extends Core {
     // process.on('uncaughtExceptionMonitor', (err) => handleError(err, 'sync'))
     process.on('unhandledRejection', (err) => handleError(err, 'async'))
     process.on('uncaughtException', (err) => handleError(err, 'sync'))
-    const shutdown = () => {
+    process.once('SIGINT', () => {
       this.stop()
       if (process.stdin.isTTY) {
         process.stdin.pause()
-        if (typeof process.stdin.setRawMode === 'function') process.stdin.setRawMode(false)
+        try {
+          if (process.stdin.setRawMode) process.stdin.setRawMode(false)
+        } catch {}
       }
-      process.exit(0)
-    }
-    process.once('SIGINT', shutdown)
-    process.once('SIGTERM', shutdown)
+    })
     this.on('error', (err) => {
       handleError(err, 'async')
     })
@@ -489,10 +488,21 @@ export class Loader extends Core {
       return result.data
     }
 
+    const isSubclassOf = (target: unknown, baseName: string, baseClass: unknown) => {
+      if (typeof target !== 'function') return false
+      if (typeof baseClass === 'function' && Object.prototype.isPrototypeOf.call(baseClass, target)) return true
+      let proto = target
+      while (proto && proto !== Function.prototype && proto !== Object.prototype) {
+        if ((proto as { name?: string }).name === baseName) return true
+        proto = Object.getPrototypeOf(proto)
+      }
+      return false
+    }
+
     if (obj.config instanceof Parser) {
       /* Adapter Class */
       // Adapter don't directly parse reality config, save config parser
-      if (obj.default && Adapter.isPrototypeOf.call(Adapter, obj.default) && adapterName) {
+      if (obj.default && isSubclassOf(obj.default, 'Adapter', Adapter) && adapterName) {
         this[Symbols.adapter].set(adapterName, [obj.default, obj.config])
         obj = {}
       } else {
@@ -510,7 +520,7 @@ export class Loader extends Core {
 
     /* Service Class */
     // Service need parse reality config and load lang files
-    if (Service.isPrototypeOf.call(Service, obj.default)) {
+    if (isSubclassOf(obj.default, 'Service', Service)) {
       const serviceName = (pkg.name.split('/')[1] ?? pkg.name).replace(PLUGIN_PREFIX, '')
       this.service(serviceName, new obj.default(this.extends(serviceName), config))
       // but it is different with normal plugin: need not load immediately so reset obj
