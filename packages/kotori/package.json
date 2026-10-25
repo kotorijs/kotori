@@ -9,7 +9,9 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
       "require": "./lib/index.js"
-    }
+    },
+    "./lib/*": "./lib/*",
+    "./*": "./*"
   },
   "license": "GPL-3.0",
   "author": "Arimura Sena <i@arimuraromi.com>",
