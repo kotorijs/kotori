@@ -1,4 +1,4 @@
-import build from 'packages/kotori/src/dev/build'
+import build from '../packages/kotori/src/dev/build'
 
 build(
   {
