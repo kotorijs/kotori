@@ -24,12 +24,14 @@ export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
 
   public readonly elements: CmdElements
 
+  private readonly onData = (data: Buffer) => this.handle(data)
+
   public constructor(ctx: Context, config: CmdConfig, identity: string) {
     super(ctx, config, identity)
     this.api = new CmdApi(this)
     this.elements = new CmdElements(this)
     this.selfId = config['self-id']
-    process.stdin.on('data', (data) => this.handle(data))
+    process.stdin.on('data', this.onData)
   }
 
   public handle(data: Buffer) {
@@ -63,6 +65,8 @@ export class CmdAdapter extends Adapter<CmdApi, CmdConfig, CmdElements> {
   }
 
   public stop() {
+    process.stdin.off('data', this.onData)
+    process.stdin.pause()
     this.ctx.emit('connect', {
       type: 'disconnect',
       adapter: this,

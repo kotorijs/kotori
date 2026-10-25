@@ -345,7 +345,16 @@ export class Loader extends Core {
     // process.on('uncaughtExceptionMonitor', (err) => handleError(err, 'sync'))
     process.on('unhandledRejection', (err) => handleError(err, 'async'))
     process.on('uncaughtException', (err) => handleError(err, 'sync'))
-    // process.on('SIGINT', () => process.exit())
+    const shutdown = () => {
+      this.stop()
+      if (process.stdin.isTTY) {
+        process.stdin.pause()
+        if (typeof process.stdin.setRawMode === 'function') process.stdin.setRawMode(false)
+      }
+      process.exit(0)
+    }
+    process.once('SIGINT', shutdown)
+    process.once('SIGTERM', shutdown)
     this.on('error', (err) => {
       handleError(err, 'async')
     })
