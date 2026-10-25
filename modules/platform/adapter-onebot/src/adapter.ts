@@ -69,17 +69,25 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
     this.isReverse = !this.address
     if (!this.isReverse) return
     this.connection = (ws, req) => {
+      const clientIp = req?.socket?.remoteAddress ?? 'unknown'
       if (this.config.accessToken) {
         const auth = req?.headers.authorization
         const tokenFromHeader = auth?.startsWith('Bearer ') ? auth.slice(7) : auth?.startsWith('Token ') ? auth.slice(6) : auth
         const tokenFromUrl = req?.url ? new URL(req.url, 'http://127.0.0.1').searchParams.get('access_token') : null
-        if ((tokenFromHeader ?? tokenFromUrl) !== this.config.accessToken) {
+        const receivedToken = tokenFromHeader ?? tokenFromUrl
+
+        if (receivedToken !== this.config.accessToken) {
+          this.ctx.logger.warn(
+            `[onebot/${this.identity}] Unauthorized reverse WebSocket connection from ${clientIp}. ` +
+              `Token mismatched or missing (expected: configured token, got: ${receivedToken ? '***' : 'none'}).`
+          )
           ws.close(4001, 'Unauthorized')
           return
         }
       }
       this.socket = ws
       this.online()
+      this.ctx.logger.info(`[onebot/${this.identity}] Reverse WebSocket client connected successfully from ${clientIp}.`)
     }
   }
 
@@ -251,8 +259,8 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
   }
 
   private connectWs() {
-    const headers =
-      'accessToken' in this.config && this.config.accessToken ? { Authorization: `Bearer ${this.config.accessToken}` } : undefined
+    const hasToken = 'accessToken' in this.config && Boolean(this.config.accessToken)
+    const headers = hasToken ? { Authorization: `Bearer ${this.config.accessToken}` } : undefined
     this.ctx.emit('connect', {
       type: 'connect',
       mode: 'ws',
@@ -260,13 +268,22 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
       normal: true,
       address: this.address
     })
+    this.ctx.logger.info(
+      `[onebot/${this.identity}] Connecting to WebSocket server at ${this.address}${hasToken ? ' (with token auth)' : ''}...`
+    )
     this.socket = new WebSocket(this.address, { headers })
     this.socket.on('open', () => {
       this.retryCount = 0
       this.online()
+      this.ctx.logger.info(`[onebot/${this.identity}] WebSocket connected successfully to ${this.address}.`)
     })
-    this.socket.on('close', () => {
+    this.socket.on('error', (err) => {
+      this.ctx.logger.warn(`[onebot/${this.identity}] WebSocket error on ${this.address}: ${err.message}`)
+    })
+    this.socket.on('close', (code, reason) => {
       this.offline()
+      const reasonStr = reason?.toString() ? ` (reason: ${reason.toString()})` : ''
+      this.ctx.logger.warn(`[onebot/${this.identity}] WebSocket closed with code ${code}${reasonStr}.`)
       this.ctx.emit('connect', {
         type: 'disconnect',
         adapter: this,
@@ -276,7 +293,11 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
       })
       if (!this.isManualStop && 'retry' in this.config && this.retryCount < (this.config.retry ?? 10)) {
         this.retryCount += 1
-        this.reconnectTimer = setTimeout(() => this.connectWs(), Math.min(this.retryCount * 2000, 30000))
+        const delay = Math.min(this.retryCount * 2000, 30000)
+        this.ctx.logger.info(
+          `[onebot/${this.identity}] Reconnecting to ${this.address} in ${delay / 1000}s (attempt ${this.retryCount}/${this.config.retry ?? 10})...`
+        )
+        this.reconnectTimer = setTimeout(() => this.connectWs(), delay)
       }
     })
     this.socket.on('message', (raw) => this.handle(JSON.parse(raw.toString())))
