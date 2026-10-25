@@ -36,7 +36,7 @@ export const config = Tsu.Union(
 
 type OnebotConfig = Tsu.infer<typeof config> & AdapterConfig
 
-const handleMsg = (msg: string) => msg.replace(/\[CQ:at,qq=(.*?)\]/g, '$1')
+const handleMsg = (msg?: unknown) => (typeof msg === 'string' ? msg.replace(/\[CQ:at,qq=(.*?)\]/g, '$1') : '')
 
 export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, OnebotElements> {
   private readonly address: string
@@ -97,17 +97,35 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
       return
     }
 
+    if (this.selfId === '' && typeof data.self_id === 'number') this.selfId = String(data.self_id)
+
+    const rawMsg =
+      data.raw_message ??
+      (typeof data.message === 'string'
+        ? data.message
+        : Array.isArray(data.message)
+          ? (data.message as unknown as { type: string; data?: Record<string, unknown> }[])
+              .map((seg) =>
+                seg.type === 'text'
+                  ? String(seg.data?.text ?? '')
+                  : `[CQ:${seg.type}${Object.entries(seg.data ?? {})
+                      .map(([k, v]) => `,${k}=${v}`)
+                      .join('')}]`
+              )
+              .join('')
+          : '')
+
     if (data.post_type === 'message' && data.message_type === 'private') {
       this.session('on_message', {
         type: MessageScope.PRIVATE,
         userId: String(data.user_id),
         messageId: String(data.message_id),
-        message: handleMsg(data.raw_message),
-        messageAlt: data.raw_message,
+        message: handleMsg(rawMsg),
+        messageAlt: rawMsg,
         sender: {
-          nickname: data.sender.nickname
+          nickname: data.sender?.nickname ?? String(data.user_id)
         },
-        groupId: String(data.group_id),
+        groupId: data.group_id ? String(data.group_id) : undefined,
         time: data.time
       })
     } else if (data.post_type === 'message' && data.message_type === 'group') {
@@ -115,11 +133,11 @@ export class OnebotAdapter extends Adapters.WebSocket<OnebotApi, OnebotConfig, O
         type: MessageScope.GROUP,
         userId: String(data.user_id),
         messageId: String(data.message_id),
-        message: handleMsg(data.raw_message),
-        messageAlt: data.raw_message,
+        message: handleMsg(rawMsg),
+        messageAlt: rawMsg,
         sender: {
-          nickname: data.sender.nickname,
-          role: data.sender.role ?? 'member'
+          nickname: data.sender?.nickname ?? String(data.user_id),
+          role: data.sender?.role ?? 'member'
         },
         groupId: String(data.group_id),
         time: data.time

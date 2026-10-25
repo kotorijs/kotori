@@ -14,7 +14,8 @@
     /* Custom */
     "emitDeclarationOnly": true,
     "jsx": "preserve",
-    "jsxFactory": "kotoriHTs"
+    "jsxFactory": "kotoriHTs",
+    "types": ["@types/node"]
   },
   /* Custom */
   "exclude": ["**/*.test.ts", "**/*.test.tsx", "*.d.ts", "**/lib/*", "**/dist/*", "test/**/*"]
