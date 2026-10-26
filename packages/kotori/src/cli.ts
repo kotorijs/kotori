@@ -66,6 +66,22 @@ program
     loader.meta.version = require(resolve(__dirname, '../package.json')).version
     Container[Symbols.setInstance](loader)
     loader.run()
+
+    if (process.stdin.isTTY) {
+      process.stdin.setEncoding('utf-8')
+      process.stdin.on('data', (chunk: Buffer | string) => {
+        const input = (typeof chunk === 'string' ? chunk : chunk.toString()).trim()
+        if (input.toLowerCase() === 'exit' || input.toLowerCase() === 'quit') {
+          Logger.info('Exiting Kotori Bot...')
+          loader.stop()
+          process.stdin.pause()
+          try {
+            if (process.stdin.setRawMode) process.stdin.setRawMode(false)
+          } catch {}
+          setTimeout(() => process.exit(0), 100)
+        }
+      })
+    }
   })
 
 program
