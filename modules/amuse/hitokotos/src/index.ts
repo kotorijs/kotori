@@ -33,13 +33,13 @@ export function main(ctx: Context) {
     .command('hitokoto - hitokotos.descr.hitokoto.help')
     .shortcut('一言')
     .action(async (_, s) => {
-      const res = await ctx.http.get('https://hotaru.icu/api/hitokoto')
+      const res = await ctx.http.get('https://i.arimuraromi.com/api/hitokoto')
       if (!hitokotoSchema.check(res)) return s.format('corei18n.template.res_error', { res: res as string })
       return s.format('hitokotos.msg.hitokoto', { ...res, from: res.from ? `——${res.from}` : '' })
     })
 
   const hitokotoT = async (msg: number): Promise<MessageQuickReal> => {
-    const res = await ctx.http.get('https://api.hotaru.icu/api/words', { msg })
+    const res = await ctx.http.get('https://i.arimuraromi.com/api/words', { msg })
     if (!hitokotosSchema.check(res)) return ['corei18n.template.res_error', { res: res as string }]
     return ['hitokotos.msg.list', { content: res.data.msg }]
   }
