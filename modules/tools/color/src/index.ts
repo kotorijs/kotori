@@ -14,12 +14,12 @@ export class ColorPlugin extends KotoriPlugin {
   })
   public color({ args: [color], options: { help } }: { args: [string]; options: { help: boolean } }, session: Session) {
     if (help) return session.format('color.msg.help', [session.api.adapter.config.commandPrefix])
-    if (!color) return Messages.image('https://api.hotaru.icu/api/color')
+    if (!color) return Messages.image('https://i.arimuraromi.com/api/utils/color')
 
     const rgb = colorToRGB(color.toLocaleLowerCase())
     if (!rgb) return session.format('color.msg.color.error', [session.api.adapter.config.commandPrefix])
 
-    return Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
+    return Messages.image(`https://i.arimuraromi.com/api/utils/color/${rgb[0]}/${rgb[1]}/${rgb[2]}`)
   }
 
   @plugin.command({ template: 'color-jp [value] - color.descr.color_jp' })
@@ -39,7 +39,7 @@ export class ColorPlugin extends KotoriPlugin {
     const { rgb } = data
     return Messages(
       session.format('color.msg.color_jp', [data.name, data.romaji]),
-      Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
+      Messages.image(`https://i.arimuraromi.com/api/utils/color/${rgb[0]}/${rgb[1]}/${rgb[2]}`)
     )
   }
 
@@ -59,7 +59,7 @@ export class ColorPlugin extends KotoriPlugin {
     const { rgb } = data
     return Messages(
       session.format('color.msg.color_cn', [data.name, data.pinyin, data.description ?? '']),
-      Messages.image(`https://api.hotaru.icu/api/color?r=${rgb[0]}&g=${rgb[1]}&b=${rgb[2]}`)
+      Messages.image(`https://i.arimuraromi.com/api/utils/color/${rgb[0]}/${rgb[1]}/${rgb[2]}`)
     )
   }
 }
