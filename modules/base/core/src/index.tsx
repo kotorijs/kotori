@@ -192,7 +192,7 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   ctx
     .command('about - core.descr.about')
     .alias('version')
-    .shortcut(['小鸟', '小鳥', 'ことり', 'kotori', 'Kotori'])
+    .shortcut(['小鸟', '小鳥', 'ことり', 'kotoribot', 'Kotoribot', 'KotoriBot'])
     .hide()
     .action((_, session) => {
       const { version, license, coreVersion, loaderVersion } = session.api.adapter.ctx.meta
