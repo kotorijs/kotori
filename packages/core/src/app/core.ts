@@ -16,13 +16,13 @@ export interface Context {
    *
    * @readonly
    */
-  readonly [Symbols.adapter]: Context[typeof Symbols.adapter]
+  readonly [Symbols.adapter]: Map<string, [AdapterClass, Parser<unknown>?]>
   /**
    * Bot instances list.
    *
    * @readonly
    */
-  readonly [Symbols.bot]: Context[typeof Symbols.bot]
+  readonly [Symbols.bot]: Map<string, Set<Api>>
   /* Config */
   /**
    * Core config.
