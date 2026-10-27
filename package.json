@@ -12,6 +12,8 @@
     "dev:only": "tsx scripts/build ./packages/ --silent && tsx packages/kotori/src/cli --mode dev",
     "dev": "nodemon --watch",
     "fix": "biome check --write",
+    "check": "biome check",
+    "check:types": "tsx scripts/check-types.ts",
     "pub": "tsx scripts/pub",
     "test": "vitest run",
     "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"

@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - dev
+      - master
   pull_request:
     branches:
       - dev
+      - master
 
 jobs:
   build:
@@ -15,27 +17,39 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: 18
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-      - name: Clone submodules
-        run: |
-          cd ./packages
-          git clone https://github.com/biyuehu/fluoro
-          cd ../
+
       - name: Install packages
         run: pnpm install --no-frozen-lockfile
+
+      - name: Lint and Format Check (Biome)
+        run: pnpm check
+
+      - name: Type Check (TypeScript)
+        run: pnpm check:types
+
+      - name: Run Tests
+        run: pnpm test
+
       - name: Build packages
         run: |
           pnpm build ./packages
           pnpm build ./modules
+
       - name: Zip packages
         run: pnpm pack
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
