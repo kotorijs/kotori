@@ -1,0 +1,27 @@
+{
+  "name": "@kotori-bot/adapter-discord",
+  "version": "1.0.0",
+  "description": "Adapter For Discord",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin",
+    "discord"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Arimura Sena <i@arimuraromi.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "kotori-plugin-better-join",
+  "version": "1.2.4",
+  "description": "better join tips,before close manger's join welcome",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Himeno <i@arimuraromi.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "meta": {
+      "language": [
+        "zh_CN"
+      ]
+    }
+  }
+}

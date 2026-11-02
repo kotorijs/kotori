@@ -1,0 +1,34 @@
+{
+  "name": "kotori-plugin-manger",
+  "version": "1.0.6",
+  "description": "Groups Mange tools",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Himeno <i@arimuraromi.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "kotori": {
+    "enforce": "pre",
+    "meta": {
+      "language": [
+        "en_US",
+        "ja_JP",
+        "zh_TW",
+        "zh_CN"
+      ]
+    }
+  }
+}

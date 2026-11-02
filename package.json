@@ -1,0 +1,65 @@
+{
+  "name": "@kotori-bot/root",
+  "description": "ChatBot Framework",
+  "version": "1.7.3",
+  "private": true,
+  "license": "GPL-3.0",
+  "author": "Arimura Sena <i@arimuraromi.com>",
+  "scripts": {
+    "start": "node packages/kotori/bin.js --mode dev --daemon",
+    "cli": "tsx packages/kotori/src/cli",
+    "build": "tsx scripts/build --types --ignoreError",
+    "dev:only": "tsx scripts/build ./packages/ --silent && tsx packages/kotori/src/cli --mode dev",
+    "dev": "nodemon --watch",
+    "fix": "biome check --write",
+    "check": "biome check",
+    "check:types": "tsx scripts/check-types.ts",
+    "pub": "tsx scripts/pub",
+    "test": "vitest run",
+    "ver": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+  },
+  "files": [
+    "{packages,modules}/**/*/locales/**/*",
+    "{packages,modules}/**/*/{src,lib,dist}/**/*.js",
+    "{packages,modules}/**/*/{package.json,LICENSE,README.md}",
+    "README.md",
+    "LICENSE",
+    "pnpm-workspace.yaml",
+    "kotori.*"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "2.5.4",
+    "@types/node": "^20.14.1",
+    "conventional-changelog-cli": "^4.1.0",
+    "lefthook": "^2.2.2",
+    "nodemon": "^3.1.3",
+    "rescript": "^11.1.0",
+    "tsup": "^8.1.0",
+    "tsx": "^4.11.2",
+    "typescript": "^5.4.5",
+    "vitest": "^5.0.5",
+    "webagentx": "^1.1.0"
+  },
+  "packageManager": "pnpm@8.7.4+",
+  "engines": {
+    "node": ">=17.9.0"
+  },
+  "nodemonConfig": {
+    "exec": "pnpm dev:only",
+    "ext": "ts,tsx",
+    "ignore": [
+      "dist",
+      "lib",
+      "data",
+      "log",
+      "tsup.config.*",
+      "scripts",
+      "tests",
+      "*.dts",
+      "*.test.ts"
+    ]
+  },
+  "kotoriBuild": {
+    "banner": "/**\n* @Package %name%\n* @Version %version%\n* @Author %author%\n* @Copyright 2024-2025 Hotaru. All rights reserved.\n* @License %license%\n* @Link https://github.com/kotorijs/kotori\n* @Date %date%\n*/"
+  }
+}

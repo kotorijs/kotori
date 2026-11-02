@@ -1,0 +1,27 @@
+{
+  "name": "@kotori-bot/kotori-plugin-filter",
+  "version": "1.1.0",
+  "description": "filter plugin for kotori-bot loader",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <i@arimuraromi.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  },
+  "dependencies": {
+    "@types/picomatch": "^2.3.3",
+    "picomatch": "^4.0.2"
+  }
+}

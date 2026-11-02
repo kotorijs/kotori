@@ -1,0 +1,23 @@
+{
+  "name": "@kotori-bot/kotori-plugin-adapter-cmd",
+  "version": "1.1.1",
+  "description": "Adapter For Cmd",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "kotori-plugin"
+  ],
+  "license": "GPL-3.0",
+  "files": [
+    "lib",
+    "locales",
+    "LICENSE",
+    "README.md"
+  ],
+  "author": "Hotaru <i@arimuraromi.com>",
+  "peerDependencies": {
+    "kotori-bot": "workspace:^"
+  }
+}

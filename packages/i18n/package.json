@@ -1,0 +1,36 @@
+{
+  "name": "@kotori-bot/i18n",
+  "version": "1.3.3",
+  "description": "i18n For Kotori",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "browser": "dist/common.js",
+  "license": "GPL-3.0",
+  "author": "Hotaru <i@arimuraromi.com>",
+  "keywords": [
+    "kotori",
+    "chatbot",
+    "i18n",
+    "tools"
+  ],
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "bugs": {
+    "url": "https://github.com/kotorijs/kotori/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kotorijs/kotori.git"
+  },
+  "homepage": "https://kotori.js.org"
+}
