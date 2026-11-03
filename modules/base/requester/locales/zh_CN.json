@@ -6,11 +6,21 @@
   "requester.msg.admin.unset": "BOT 被取消了群 {0} 的管理员",
   "requester.msg.ban.ban": "BOT 被管理员 {0} 禁言了 {2} 分钟在群 {1}",
   "requester.msg.ban.lift_ban": "BOT 被管理员 {0} 取消了禁言在群 {1}",
+  "requester.msg.group.whole_ban.ban": "群 {1} 被管理员 {0} 开启了全员禁言",
+  "requester.msg.group.whole_ban.lift_ban": "群 {1} 被管理员 {0} 解除了全员禁言",
+  "requester.msg.guild.increase": "BOT 加入了频道 {0}",
+  "requester.msg.guild.decrease": "BOT 退出了频道 {0}",
+  "requester.msg.channel.increase": "BOT 加入了子频道 {0}",
+  "requester.msg.channel.decrease": "BOT 退出了子频道 {0}",
+  "requester.msg.friend.increase": "用户 {0} 添加了 BOT 为好友",
+  "requester.msg.friend.decrease": "用户 {0} 删除了与 BOT 的好友关系",
   "requester.msg.recall.group.other": "用户 {0} 被管理员 {1} 在群 {2} 撤回了消息：{3}",
   "requester.msg.recall.group.self": "用户 {0} 在群 {1} 撤回了消息：{2}",
   "requester.msg.recall.private": "用户 {0} 撤回了消息：{1}",
+  "requester.msg.recall.channel": "用户 {0} 在子频道 {1} 撤回了消息：{2}",
   "requester.msg.request.group": "BOT 收到了来自用户 {0} 的群请求在群 {1}",
   "requester.msg.request.private": "BOT 收到了来自用户 {0} 的加好友请求",
   "requester.msg.msg.group": "用户 {0} 在群 {1} 艾特了BOT：{2}",
-  "requester.msg.msg.private": "用户 {0} 向BOT发来消息：{1}"
+  "requester.msg.msg.private": "用户 {0} 向BOT发来消息：{1}",
+  "requester.msg.msg.channel": "用户 {0} 在子频道 {1} 发来消息：{2}"
 }
