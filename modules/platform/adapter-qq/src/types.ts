@@ -1,7 +1,8 @@
 export enum FileType {
   IMAGE = 1,
   VIDEO = 2,
-  VOICE = 3
+  VOICE = 3,
+  FILE = 4
 }
 
 export interface ParamsMapping {
@@ -10,8 +11,18 @@ export interface ParamsMapping {
       groupId: string
       message: string
       media: { type: FileType; value: string }[]
+      msgId?: string
     },
-    { id: string; timestamp: number }
+    { id: string; timestamp: number | string }
+  ]
+  sendPrivateMsg: [
+    {
+      userId: string
+      message: string
+      media: { type: FileType; value: string }[]
+      msgId?: string
+    },
+    { id: string; timestamp: number | string }
   ]
   sendChannelMsg: [
     {
@@ -19,21 +30,32 @@ export interface ParamsMapping {
       guildId: string
       content?: string
       image?: string
+      msgId?: string
     },
     Message
+  ]
+  deleteMsg: [
+    {
+      messageId: string
+      groupId?: string
+      userId?: string
+      channelId?: string
+      guildId?: string
+    },
+    undefined
   ]
 }
 
 export enum OpCode {
-  DISPATCH,
-  HEARTBEAT,
-  IDENTIFY,
+  DISPATCH = 0,
+  HEARTBEAT = 1,
+  IDENTIFY = 2,
   RESUME = 6,
-  RECONNECT,
+  RECONNECT = 7,
   INVALID_SESSION = 9,
-  HELLO,
-  HEARTBEAT_ACK,
-  HTTP_CALLBACK_ACK
+  HELLO = 10,
+  HEARTBEAT_ACK = 11,
+  HTTP_CALLBACK_ACK = 12
 }
 
 export interface EventDataList {
@@ -45,6 +67,7 @@ export interface EventDataList {
   GUILD_CREATE: GUILD_CREATE
   GUILD_UPDATE: GUILD_UPDATE
   GUILD_DELETE: GUILD_DELETE
+  CHANNEL_CREATE: CHANNEL_CREATE
   CHANNEL_UPDATE: CHANNEL_UPDATE
   CHANNEL_DELETE: CHANNEL_DELETE
   GUILD_MEMBER_ADD: GUILD_MEMBER_ADD
@@ -76,7 +99,7 @@ export type PayloadData = PayloadList[keyof PayloadList]
 
 /* Object */
 
-interface Message {
+export interface Message {
   id: string
   channel_id: string
   guild: string
@@ -92,83 +115,60 @@ interface Message {
   ark: MessageArk
   seq: number
   seq_in_channel: string
-  message_reference: string
+  message_reference: MessageReference
 }
 
-interface MessageEmbed {
+export interface MessageEmbed {
   title: string
   prompt: string
   thumbnail: MessageEmbedThumbnail
   fields: MessageEmbedField[]
 }
 
-interface MessageEmbedThumbnail {
+export interface MessageEmbedThumbnail {
   url: string
 }
 
-interface MessageEmbedField {
+export interface MessageEmbedField {
   name: string
 }
 
-type MessageAttachment = MessageEmbedThumbnail
+export interface MessageAttachment {
+  url?: string
+  content_type?: string
+  filename?: string
+  height?: number
+  width?: number
+  size?: number
+  id?: string
+}
 
-interface MessageArk {
+export interface MessageArk {
   template_id: number
   kv: MessageArkKv[]
 }
 
-interface MessageArkKv {
+export interface MessageArkKv {
   key: string
   value: string
   obj: MessageArkObj[]
 }
 
-interface MessageArkObj {
+export interface MessageArkObj {
   obj_kv: MessageArkObjKv[]
 }
 
-interface MessageArkObjKv {
+export interface MessageArkObjKv {
   key: string
   value: string
 }
 
 export interface MessageReference {
   message_id: string
-  ignore_get_message_error: boolean
-}
-/* 
-interface MessageMarkdownParams {
-	key: string;
-	values: string[];
+  ignore_get_message_error?: boolean
 }
 
-interface MessageDelete {
-	message: Message;
-	op_user: User;
-}
-
-interface MessageAudited {
-	audit_id: string;
-	message_id: string;
-	guild_id: string;
-	channel_id: string;
-	audit_time: number;
-	create_time: number;
-	seq_in_channel: string;
-}
-
-interface Member {
-	user: User;
-	nick: string;
-	roles: string[];
-	joined_at: number;
-}
-
-interface MemberWithGuildID extends Member {
-	guild_id: string;
-} */
-
-interface User {
+export interface User {
   id: string
   username: string
   avatar: string
@@ -179,7 +179,7 @@ interface User {
 
 /* Events */
 
-interface Ready {
+export interface Ready {
   version: number
   session_id: string
   user: {
@@ -190,16 +190,18 @@ interface Ready {
   shard: number[]
 }
 
-interface C2C_MESSAGE_CREATE {
+export interface C2C_MESSAGE_CREATE {
   author: {
     user_openid: string
   }
   content: string
   id: string
   timestamp: string
+  attachments?: MessageAttachment[]
+  message_reference?: MessageReference
 }
 
-interface GROUP_AT_MESSAGE_CREATE {
+export interface GROUP_AT_MESSAGE_CREATE {
   author: {
     member_openid: string
   }
@@ -207,30 +209,11 @@ interface GROUP_AT_MESSAGE_CREATE {
   group_openid: string
   id: string
   timestamp: string
+  attachments?: MessageAttachment[]
+  message_reference?: MessageReference
 }
 
-/* 
-{
-    "author": {
-        "avatar": "http://thirdqq.qlogo.cn/0",
-        "bot": false,
-        "id": "1234",
-        "username": "abc"
-    },
-    "channel_id": "100010",
-    "content": "ndnnd",
-    "guild_id": "18700000000001",
-    "id": "0812345677890abcdef",
-    "member": {
-        "joined_at": "2021-04-12T16:34:42+08:00",
-        "roles": [
-            "1"
-        ]
-    },
-    "timestamp": "2021-05-20T15:14:58+08:00"
-}
-*/
-interface DIRECT_MESSAGE_CREATE {
+export interface DIRECT_MESSAGE_CREATE {
   author: {
     avatar: string
     bot: boolean
@@ -242,16 +225,18 @@ interface DIRECT_MESSAGE_CREATE {
   id: string
   guild_id: string
   timestamp: string
-  member: {
+  attachments?: MessageAttachment[]
+  message_reference?: MessageReference
+  member?: {
     joined_at: string
     roles: string[]
   }
 }
 
-type AT_MESSAGE_CREATE = DIRECT_MESSAGE_CREATE
-type MESSAGE_CREATE = Message
+export type AT_MESSAGE_CREATE = DIRECT_MESSAGE_CREATE
+export type MESSAGE_CREATE = Message
 
-interface GUILD_CREATE {
+export interface GUILD_CREATE {
   description: string
   icon: string
   id: string
@@ -263,10 +248,10 @@ interface GUILD_CREATE {
   owner_id: string
 }
 
-type GUILD_UPDATE = GUILD_CREATE
-type GUILD_DELETE = GUILD_CREATE
+export type GUILD_UPDATE = GUILD_CREATE
+export type GUILD_DELETE = GUILD_CREATE
 
-interface CHANNEL_CREATE {
+export interface CHANNEL_CREATE {
   guild_id: string
   id: string
   name: string
@@ -276,10 +261,10 @@ interface CHANNEL_CREATE {
   type: number
 }
 
-type CHANNEL_UPDATE = CHANNEL_CREATE
-type CHANNEL_DELETE = CHANNEL_CREATE
+export type CHANNEL_UPDATE = CHANNEL_CREATE
+export type CHANNEL_DELETE = CHANNEL_CREATE
 
-interface GUILD_MEMBER_ADD {
+export interface GUILD_MEMBER_ADD {
   guild_id: string
   joined_at: string
   nick: string
@@ -288,24 +273,24 @@ interface GUILD_MEMBER_ADD {
   user: User
 }
 
-type GUILD_MEMBER_UPDATE = GUILD_MEMBER_ADD
-type GUILD_MEMBER_REMOVE = GUILD_MEMBER_ADD
+export type GUILD_MEMBER_UPDATE = GUILD_MEMBER_ADD
+export type GUILD_MEMBER_REMOVE = GUILD_MEMBER_ADD
 
-interface GROUP_ADD_ROBOT {
+export interface GROUP_ADD_ROBOT {
   group_openid: string
   op_member_openid: string
   timestamp: number
 }
 
-type GROUP_DEL_ROBOT = GROUP_ADD_ROBOT
-type on_message_REJECT = GROUP_ADD_ROBOT
-type on_message_RECEIVE = GROUP_ADD_ROBOT
+export type GROUP_DEL_ROBOT = GROUP_ADD_ROBOT
+export type on_message_REJECT = GROUP_ADD_ROBOT
+export type on_message_RECEIVE = GROUP_ADD_ROBOT
 
-interface FRIEND_ADD {
+export interface FRIEND_ADD {
   openid: string
   timestamp: number
 }
 
-type FRIEND_DEL = FRIEND_ADD
-type C2C_MSG_REJECT = FRIEND_ADD
-type C2C_MSG_RECEIVE = FRIEND_ADD
+export type FRIEND_DEL = FRIEND_ADD
+export type C2C_MSG_REJECT = FRIEND_ADD
+export type C2C_MSG_RECEIVE = FRIEND_ADD
