@@ -1,6 +1,6 @@
 {
   "name": "@kotori-bot/core",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Kotori Core",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -4,6 +4,7 @@
   "loader.tips.update.workspace": "<bold>the current is in <cyanBright>workspace development</cyanBright></bold>",
   "loader.tips.update.failed": "get update failed, please check your network",
   "loader.tips.update.latest": "kotori is currently the latest version",
+  "loader.tips.update.ahead": "the current version of Kotori is {0}, which is newer than the remote latest version {1}",
   "loader.tips.update.available": "the current version of Kotori is {0}, and the latest version is {1}. please go to <blueBright>{2}</blueBright> to update",
   "loader.bots.connect": "connecting server to <blueBright>{0}</blueBright>",
   "loader.bots.reconnect": "<red>re</red>connecting server to <blueBright>{0}</blueBright>",

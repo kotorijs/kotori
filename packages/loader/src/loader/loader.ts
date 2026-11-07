@@ -29,6 +29,7 @@ import File from '../service/file'
 import Server from '../service/server'
 import loadInfo from '../utils/log'
 import KotoriLogger from '../utils/logger'
+import { compareVersions } from '../utils/version'
 import {
   ADAPTER_PREFIX,
   BUILD_MODE,
@@ -630,10 +631,15 @@ export class Loader extends Core {
     const res = await new Http().get(GLOBAL.UPDATE).catch(() => new Http().get(GLOBAL.UPDATE_FALLBACK).catch(() => {}))
     if (!res || !Tsu.Object({ version: Tsu.String() }).check(res)) {
       this.logger.warn(this.i18n.t`loader.tips.update.failed`)
-    } else if (version === res.version) {
-      this.logger.info(this.i18n.t`loader.tips.update.latest`)
     } else {
-      this.logger.warn(this.format('loader.tips.update.available', [version, res.version, GLOBAL.REPO]))
+      const cmp = compareVersions(version, res.version)
+      if (cmp < 0) {
+        this.logger.warn(this.format('loader.tips.update.available', [version, res.version, GLOBAL.REPO]))
+      } else if (cmp > 0) {
+        this.logger.info(this.format('loader.tips.update.ahead', [version, res.version]))
+      } else {
+        this.logger.info(this.i18n.t`loader.tips.update.latest`)
+      }
     }
   }
 }
