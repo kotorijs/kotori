@@ -4,6 +4,7 @@ import {
   type Context,
   type LocaleType,
   MessageScope,
+  MessageSingle,
   ModuleError,
   Symbols,
   Tsu,
@@ -27,7 +28,9 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
       ctx.emit(
         'on_message',
         Object.assign(data.session, {
-          message: <text>{`${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root} --exact`}</text>
+          message: new MessageSingle('text', {
+            text: `${data.session.api.adapter.config.commandPrefix}help ${data.command.meta.root} --exact`
+          })
         })
       )
       return
@@ -256,20 +259,25 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
   ctx
     .command('help [...command] - core.descr.help')
     .option('E', 'exact:boolean core.option.help.exact')
-    .action(({ args: [args], options: { exact } }, session) => {
+    .action(({ args, options: { exact } }, session) => {
+      const target = (Array.isArray(args) ? args.join(' ') : String(args ?? '')).trim()
       const filterResult: Command['meta'][] = []
 
       for (const command of ctx[Symbols.command]) {
         if (command.meta.hide) continue
+        if (!target) {
+          filterResult.push(command.meta)
+          continue
+        }
         const matched = exact
-          ? command.meta.root === args || command.meta.alias.some((alias) => alias === args)
-          : command.meta.root.startsWith(args) || command.meta.alias.some((alias) => alias.startsWith(args))
+          ? command.meta.root === target || command.meta.alias.some((alias) => alias === target)
+          : command.meta.root.startsWith(target) || command.meta.alias.some((alias) => alias.startsWith(target))
         if (matched) filterResult.push(command.meta)
       }
 
       if (filterResult.length === 0) return 'core.msg.descr.fail'
       let commands = ''
-      const short = filterResult.length === 1
+      const short = Boolean(target) && filterResult.length === 1
       for (const cmd of filterResult) {
         const alias =
           cmd.alias.length > 0
@@ -277,25 +285,26 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
                 content: cmd.alias.join(session.i18n.locale('core.template.alias.delimiter'))
               })
             : ''
-        let args = ''
+        let cmdArgs = ''
         let options = ''
-        const handle = (values: Command['meta']['args'] | Command['meta']['options']) => {
-          for (const value of values) {
-            let defaultValue = ''
-            if ('rest' in value) {
-              const valueType = typeof value.default
-              if (valueType === 'string' || valueType === 'number') {
-                defaultValue = session.format('core.template.default', { content: value.default as string })
-              } else if (valueType === 'boolean') {
-                defaultValue = session.format('core.template.default', { content: value.default ? 'true' : 'false' })
-              }
-              args += session.format(`core.template.arg.${value.optional ? 'optional' : 'required'}`, {
-                name: value.rest ? `...${value.name}` : value.name,
-                type: value.type === 'string' ? '' : session.format('core.template.arg.type', { content: value.type }),
-                default: defaultValue
-              })
-            }
-            if (!('realname' in value) || !('description' in value)) return
+
+        for (const value of cmd.args) {
+          let defaultValue = ''
+          const valueType = typeof value.default
+          if (valueType === 'string' || valueType === 'number') {
+            defaultValue = session.format('core.template.default', { content: String(value.default) })
+          } else if (valueType === 'boolean') {
+            defaultValue = session.format('core.template.default', { content: value.default ? 'true' : 'false' })
+          }
+          cmdArgs += session.format(`core.template.arg.${value.optional ? 'optional' : 'required'}`, {
+            name: value.rest ? `...${value.name}` : value.name,
+            type: value.type === 'string' ? '' : session.format('core.template.arg.type', { content: value.type }),
+            default: defaultValue
+          })
+        }
+
+        if (short) {
+          for (const value of cmd.options) {
             options += session.format('core.template.option', {
               name: value.name,
               realname: value.realname,
@@ -305,13 +314,14 @@ export function main(ctx: Context, cfg: Tsu.infer<typeof config>) {
                 : ''
             })
           }
+          if (options) {
+            options = session.format('core.template.options', { content: options })
+          }
         }
-        handle(cmd.args)
-        if (short) handle(cmd.options)
-        if (options) options = session.format('core.template.options', { content: options })
+
         commands += session.format(`core.msg.descr.command${short ? '2' : ''}`, {
           root: `${session.api.adapter.config.commandPrefix}${cmd.root}`,
-          args,
+          args: cmdArgs,
           description: cmd.description
             ? session.format('core.template.description', { content: session.i18n.locale(cmd.description) })
             : '',
